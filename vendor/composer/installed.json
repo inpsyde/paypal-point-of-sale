@@ -904,11 +904,11 @@
         },
         {
             "name": "inpsyde\/inpsyde-debug",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/inpsyde-debug",
+                "url": ".\/modules.local\/inpsyde-debug",
                 "reference": "6c6c1dcd820e64f6b8c520222488ada1219d55ae"
             },
             "require": {
@@ -941,11 +941,11 @@
         },
         {
             "name": "inpsyde\/inpsyde-http-client",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/inpsyde-http-client",
+                "url": ".\/modules.local\/inpsyde-http-client",
                 "reference": "25ed6ee4221aad7bc19151cf8221826b43c1877a"
             },
             "require": {
@@ -971,11 +971,11 @@
         },
         {
             "name": "inpsyde\/inpsyde-queue",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/inpsyde-queue",
+                "url": ".\/modules.local\/inpsyde-queue",
                 "reference": "e10798d476e938dfef648ecdff5e9ed6bbd47d45"
             },
             "require": {
@@ -1008,11 +1008,11 @@
         },
         {
             "name": "inpsyde\/inpsyde-state-machine",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/inpsyde-state-machine",
+                "url": ".\/modules.local\/inpsyde-state-machine",
                 "reference": "ac8ef0ed78812cb7b0d4f6d7d586ee576b396ca0"
             },
             "require": {
@@ -1044,11 +1044,11 @@
         },
         {
             "name": "inpsyde\/inpsyde-woocommerce-lifecycle-events",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/inpsyde-woocommerce-lifecycle-events",
+                "url": ".\/modules.local\/inpsyde-woocommerce-lifecycle-events",
                 "reference": "0cdd3bdec20383bbb1a1f88873e2098475c677be"
             },
             "require": {
@@ -1151,11 +1151,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-assets",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-assets",
+                "url": ".\/modules.local\/paypal-pos-assets",
                 "reference": "0127135a53bf83c79fcc0df0c000ad94b4db6a8c"
             },
             "require": {
@@ -1176,11 +1176,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-auth",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-auth",
+                "url": ".\/modules.local\/paypal-pos-auth",
                 "reference": "32539ddfa93a977f686e0fb3bcc37d688ffe2c31"
             },
             "require": {
@@ -1206,11 +1206,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-logging",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-logging",
+                "url": ".\/modules.local\/paypal-pos-logging",
                 "reference": "a5a26b642f03cfecdc91ff479f6e4a78abcd1e82"
             },
             "require": {
@@ -1245,11 +1245,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-notices",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-notices",
+                "url": ".\/modules.local\/paypal-pos-notices",
                 "reference": "536ac74227cbce1ad2561fd83748e5ae949597cb"
             },
             "require": {
@@ -1269,11 +1269,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-onboarding",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-onboarding",
+                "url": ".\/modules.local\/paypal-pos-onboarding",
                 "reference": "6fbc77de162bb873fa68ac353118e7b5b7dd553e"
             },
             "require": {
@@ -1307,11 +1307,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-php-sdk",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-php-sdk",
+                "url": ".\/modules.local\/paypal-pos-php-sdk",
                 "reference": "0add7017f943ba2fa4e2639b4887cc3e95e46818"
             },
             "require": {
@@ -1349,11 +1349,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-debug",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-product-debug",
+                "url": ".\/modules.local\/paypal-pos-product-debug",
                 "reference": "02041da607a8ba0dd4c3c6314598315ddca9d05b"
             },
             "require": {
@@ -1373,11 +1373,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-settings",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-product-settings",
+                "url": ".\/modules.local\/paypal-pos-product-settings",
                 "reference": "35cfcad968f625739316903af206bcdb62fb8dfb"
             },
             "require": {
@@ -1398,11 +1398,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-queue",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-queue",
+                "url": ".\/modules.local\/paypal-pos-queue",
                 "reference": "135d0566af13cef91138dbb0d928c920869ad4ee"
             },
             "require": {
@@ -1423,11 +1423,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-settings",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-settings",
+                "url": ".\/modules.local\/paypal-pos-settings",
                 "reference": "80c2303e1e262772d5000b228b260c2f0f5c1c64"
             },
             "require": {
@@ -1447,11 +1447,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-sync",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-sync",
+                "url": ".\/modules.local\/paypal-pos-sync",
                 "reference": "4f7acff8f318e9f5a010e8679eed54ef20ba75be"
             },
             "require": {
@@ -1472,11 +1472,11 @@
         },
         {
             "name": "inpsyde\/paypal-pos-webhooks",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/paypal-pos-webhooks",
+                "url": ".\/modules.local\/paypal-pos-webhooks",
                 "reference": "800ef55eb1cf0f4ed41bb27b3decb648fefeaf2f"
             },
             "require": {
@@ -1588,11 +1588,11 @@
         },
         {
             "name": "inpsyde\/wc-product-contracts",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "packages.local\/wc-product-contracts",
+                "url": ".\/packages.local\/wc-product-contracts",
                 "reference": "3bea09d60683fb67224ae1e6571d36b101a87536"
             },
             "require": {
@@ -1622,11 +1622,11 @@
         },
         {
             "name": "inpsyde\/wc-status-report",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
-                "url": "modules.local\/inpsyde-wc-status-report",
+                "url": ".\/modules.local\/inpsyde-wc-status-report",
                 "reference": "22bd64c5aef17fc0a560025e051bd2286232fd2b"
             },
             "require": {

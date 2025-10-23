@@ -2,7 +2,7 @@
     "name": "inpsyde\/paypal-point-of-sale",
     "type": "wordpress-plugin",
     "description": "",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Inpsyde GmbH",
@@ -134,5 +134,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "0.0.0+main.139ff29"
+    "version": "0.0.0+main.0015799"
 }
