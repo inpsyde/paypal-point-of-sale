@@ -24,7 +24,7 @@
     "devDependencies": {
         "@babel/core": "^7.21.0",
         "@babel/preset-env": "^7.20.2",
-        "@symfony/webpack-encore": "^4",
+        "@symfony/webpack-encore": "^5",
         "@wordpress/dependency-extraction-webpack-plugin": "^4",
         "autoprefixer": "^10",
         "postcss-loader": "^7",
