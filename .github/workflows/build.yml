@@ -2,6 +2,15 @@ name: Build
 on:
   push:
     branches: [ 'dev/**' ]
+    paths:
+        - './*.php'
+        - 'src/**'
+        - 'modules.local/**'
+        - 'packages.local/**'
+        - 'composer.*'
+        - 'package.*'
+        - 'webpack.config.js'
+
   workflow_dispatch:
     inputs:
       PACKAGE_VERSION:
@@ -16,7 +25,6 @@ jobs:
   build-push:
     uses: inpsyde/reusable-workflows/.github/workflows/build-and-distribute.yml@main
     secrets:
-      COMPOSER_AUTH_JSON: ${{ secrets.PACKAGIST_AUTH_JSON }}
       GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
       GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
       GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
