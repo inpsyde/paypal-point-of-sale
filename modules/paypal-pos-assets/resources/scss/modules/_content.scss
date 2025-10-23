@@ -1,0 +1,22 @@
+.zettle-settings-onboarding {
+    &-header {
+        padding: 0;
+        margin-bottom: $spacer;
+    }
+
+    &-content {
+        margin-bottom: $spacing-large;
+        padding: 0;
+
+        p:not(:last-of-type) {
+            padding-bottom: $spacer;
+        }
+
+        .sync-progress:not(:first-child) {
+            margin-top: $spacer;
+        }
+        .sync-progress:not(:last-child) {
+            margin-bottom: $spacer;
+        }
+    }
+}

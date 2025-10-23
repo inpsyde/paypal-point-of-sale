@@ -1,0 +1,131 @@
+.zettle-settings-onboarding-content {
+    .form-choice-selection {
+        display: block;
+        width: 100%;
+        padding: 0;
+
+        &:not(:only-child) {
+            margin-top: $spacing-default;
+        }
+
+        .form-choice-selector {
+            border-radius: $border-radius;
+            border: $border-width solid $input-border-color;
+            padding: 20px $spacing-large;
+            margin-bottom: $spacing-small;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+
+            &:hover {
+                border-color: $primary-color;
+            }
+
+            &:focus {
+                border-color: $primary-color;
+                box-shadow: 0 0 0 1px $primary-color;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &-input {
+                width: 10%;
+
+                @media screen and (min-width: 576px) and (max-width: 782px) {
+                    width: 7.5%;
+                }
+
+                @media screen and (min-width: 783px) {
+                    width: 5%;
+                }
+
+                input[type="radio"] {
+                    border-width: $border-width;
+                    border-color: $input-border-color;
+                    box-shadow: none;
+
+                    &:before {
+                        margin: 0.125rem;
+                    }
+
+                    &:focus {
+                        border-color: $primary-color;
+                        box-shadow: 0 0 0 1px $primary-color;
+                    }
+
+                    &:checked {
+                        border-color: $primary-color;
+                        box-shadow: none;
+
+                        &:before {
+                            background-color: $primary-color;
+                        }
+                    }
+
+                    @media screen and (max-width: 782px) {
+                        width: 1rem;
+                        height: 1rem;
+
+                        &:before {
+                            width: 0.5rem;
+                            height: 0.5rem;
+                        }
+                    }
+                }
+            }
+
+            &-content {
+                width: 90%;
+
+                @media screen and (min-width: 576px) and (max-width: 782px) {
+                    width: 92.5%;
+                }
+
+                @media screen and (min-width: 783px) {
+                    width: 95%;
+                }
+
+                label {
+                    @include font-size($h5-font-size);
+                    font-weight: $font-weight-light-bold;
+                }
+
+                &-description {
+                    font-weight: $font-weight-light-bold;
+                }
+            }
+
+            &.active {
+                border-color: $primary-color;
+                background: $grey-lighter;
+            }
+
+            &.disabled {
+                background: $disabled-background;
+                color: $disabled-color;
+                border-color: $input-border-color;
+
+                &:hover {
+                    border-color: $input-border-color;
+                }
+
+                &:focus {
+                    border-color: $primary-color;
+                    box-shadow: 0 0 0 1px $primary-color;
+                }
+
+                label, p {
+                    color: $disabled-color;
+                }
+
+                input {
+                    border-color: $disabled-color;
+                    background: $disabled-background;
+                }
+            }
+        }
+    }
+}

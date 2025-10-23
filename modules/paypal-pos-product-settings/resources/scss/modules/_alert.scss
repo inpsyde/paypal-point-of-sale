@@ -1,0 +1,18 @@
+.alert {
+    position: relative;
+    padding: $alert-padding-y $alert-padding-x;
+    border: $alert-border-width solid transparent;
+    @include border-radius($alert-border-radius);
+    font-family: $btn-font-family;
+    font-weight: $btn-font-weight;
+    line-height: $btn-line-height;
+
+    margin-bottom: 20px;
+    font-size: 0.75rem;
+
+    &-warning {
+        color: $warning-color;
+        background: $warning-background-color;
+        border-color: $warning-border-color;
+    }
+}

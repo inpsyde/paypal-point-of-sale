@@ -1,0 +1,12 @@
+.zettle-settings-onboarding {
+    &-actions {
+        display: flex;
+
+        .btn {
+            &[name="back"] {
+                margin-right: $btn-offset-y;
+                order: -1;
+            }
+        }
+    }
+}

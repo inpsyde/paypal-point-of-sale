@@ -1,0 +1,39 @@
+.zettle-barcode-input {
+  span {
+    display: inline-flex;
+    width: 100%;
+
+    input {
+      width: auto;
+      flex-grow: 1;
+    }
+
+    button {
+      font-size: large;
+      margin-left: 15px;
+    }
+  }
+}
+
+.zettle-barcode-scan {
+  padding: 5px;
+
+  & > div {
+    margin: 5px;
+  }
+
+  label, select {
+    float: none;
+    margin-left: 0;
+  }
+
+  select {
+    min-width: 200px;
+  }
+}
+
+.zettle-barcode-scanner-viewport {
+  width: 640px;
+  height: 480px;
+  background-color: black;
+}

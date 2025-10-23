@@ -1,0 +1,277 @@
+// Variables
+//
+
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by modifying these
+// variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you need more variation.
+$spacer: 1rem !default;
+$spacer-factor: .875;
+$spacer-factor-small: .75;
+$spacer-factor-small-half: .5;
+$spacer-factor-extra-small: .25;
+$spacer-factor-large: 1.5;
+$spacer-factor-extra-large: 1.875;
+
+// 14px
+$spacing-default: $spacer * $spacer-factor !default;
+// 12px
+$spacing-small: $spacer * $spacer-factor-small !default;
+// 8px
+$spacing-small-half: $spacer * $spacer-factor-small-half !default;
+// 4px
+$spacing-extra-small: $spacer * $spacer-factor-extra-small !default;
+// 24px
+$spacing-large: $spacer * $spacer-factor-large !default;
+// 30px
+$spacing-extra-large: $spacer * $spacer-factor-extra-large !default;
+
+// Content Width
+$width-default: 900px;
+
+// Default Colors
+//
+$black: #000;
+$black-lighter: #141416;
+$white: #fff;
+$grey: #ececee;
+$grey-lighter: #f4f3ff;
+$grey-dark: #d2d3d7;
+$dark-blue: #192550;
+
+$primary: #785ddc;
+$secondary: #fefeff;
+
+$primary-color: $primary;
+$primary-color-hover: #6C4FD4;
+
+// disabled
+$disabled-color: #A6A6A6 !default;
+$disabled-background: #ebebeb !default;
+
+// green colors
+$green: #008656;
+$green-lighter: #dbfae6;
+$green-darker: #006442;
+$green-border: #33ca87;
+
+// Body
+$body-background: $white;
+$body-color: $black;
+$body-border-color: $grey;
+
+// Stepper
+$step-color: #63646b;
+
+// Text Color
+$text-color: $dark-blue !default;
+
+// Alert Color
+// Warning Colors
+$warning-color: #7E4B0A !default;
+$warning-background-color: #FFF6DF !default;
+$warning-border-color: #E9B33E !default;
+// Error Colors
+$error-color:  #932e0e !default;
+$error-background-color: #ffdeda !default;
+$error-border-color: #ffcdc5 !default;
+
+// Components
+//
+// Define common padding and border radius sizes and more.
+$component-active-bg: $primary-color !default;
+$border-radius: 8px !default;
+$border-width: 2px !default;
+
+// Heading Color
+$headings-color: $text-color !default;
+$headings-margin-bottom: $spacer / 2 !default;
+$headings-font-family: null !default;
+$headings-font-style: null !default;
+$headings-font-weight: 500 !default;
+$headings-line-height: 1.2 !default;
+$headings-color: null !default;
+
+// Paragraphs
+//
+// Style p element.
+$paragraph-color: #283663 !default;
+$paragraph-margin-bottom: 1rem !default;
+
+// Links
+//
+// Style anchor elements.
+$link-color: #5538BA !default;
+$link-decoration: underline !default;
+$link-hover-color: #5538BA !default;
+$link-hover-decoration: null !default;
+$link-hover-background-color: #E5E1FD !default;
+$link-hover-box-shadow: 0px 0px 0px 2px $link-hover-background-color, 0px 0px 0px 3px $link-hover-background-color !default;
+
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+// stylelint-disable value-keyword-case
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-base: $font-family-sans-serif !default;
+
+// $font-size-root effects the value of `rem`, which is used for as well font sizes, paddings and margins
+// $font-size-base effects the font size of the body text
+$font-size-root: null !default;
+$font-size-sm: $font-size-base * .875 !default;
+$font-size-lg: $font-size-base * 1.25 !default;
+
+$font-weight-lighter: lighter !default;
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-light-bold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: bolder !default;
+
+$font-weight-base: $font-weight-normal !default;
+
+$line-height-base: 1.5 !default;
+$line-height-sm: 22px !default;
+$line-height-lg: 2 !default;
+
+$h1-font-size: $font-size-base * 2.5 !default;
+$h2-font-size: $font-size-base * 2 !default;
+$h3-font-size: $font-size-base * 1.5 !default;
+$h4-font-size: $font-size-base * 1.25 !default;
+$h5-font-size: $font-size-base * 1.125 !default;
+$font-size-factor: .85;
+
+// Button
+$btn-offset-y: .650rem !default;
+$btn-padding-y: .5rem !default;
+$btn-padding-x: 1.25rem !default;
+
+$btn-font-family: null !default;
+$btn-font-size: $font-size-base !default;
+$btn-line-height: $line-height-base !default;
+$btn-font-weight: $font-weight-normal !default;
+$btn-white-space: null !default; // Set to `nowrap` to prevent text wrapping
+
+$btn-border-radius: $border-radius !default;
+$btn-border-width: $border-width !default;
+
+$btn-transition: all .1s ease-in-out;
+
+$btn-focus-box-shadow: .2rem !default;
+$btn-active-box-shadow: inset 0 3px 5px rgba($black, .125) !default;
+
+$btn-disabled-opacity: .65 !default;
+
+// Primary Button
+$btn-primary-text: $white !default;
+$btn-primary-background: $primary-color !default;
+$btn-primary-border-color: $primary-color !default;
+
+// Hover Color
+$btn-primary-hover-text: $white !default;
+$btn-primary-hover-background: $primary-color-hover !default;
+$btn-primary-hover-border-color: $primary-color-hover !default;
+
+// Secondary Button
+$btn-secondary-text: #5538BA !default;
+$btn-secondary-background: #F0EEFF !default;
+$btn-secondary-border-color: #E5E1FD !default;
+// Hover
+$btn-secondary-hover-text: #5538BA !default;
+$btn-secondary-hover-background: #E5E1FD !default;
+$btn-secondary-hover-border-color: #D4CCFB !default;
+
+// Delete Button
+$btn-delete-text: $error-color !default;
+$btn-delete-background: $error-background-color !default;
+$btn-delete-border-color: $error-border-color!default;
+// Hover
+$btn-delete-hover-text: #932e0e !default;
+$btn-delete-hover-background: #ffcdc5 !default;
+$btn-delete-hover-border-color: #fdab9d !default;
+
+// Delete Link Button
+$btn-delete-link-text: #BC3C17 !default;
+$btn-delete-link-background: null !default;
+$btn-delete-link-border-color: null !default;
+// Hover
+$btn-delete-link-hover-text: #E55430 !default;
+$btn-delete-link-hover-background: null !default;
+$btn-delete-link-hover-border-color: null !default;
+
+// Input
+//
+// Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
+
+$label-margin-bottom: .5rem !default;
+
+$input-padding-y: 9px !default;
+$input-padding-x: 12px !default;
+$input-font-family: null !default;
+$input-font-size: $font-size-base !default;
+$input-font-weight: $font-weight-base !default;
+$input-line-height: $line-height-base !default;
+
+$input-bg: $white !default;
+$input-disabled-bg: #F8F8FA !default;
+$input-disabled-border-color: null !default;
+
+$input-color: #141416 !default;
+$input-border-color: #D2D3D6 !default;
+$input-border-width: 1px !default;
+$input-box-shadow: null !default;
+
+$input-border-radius: $border-radius !default;
+
+// Focus
+$input-focus-bg: $input-bg !default;
+$input-focus-border-color: #BCB0F7 !default;
+$input-focus-color: $input-color !default;
+$input-focus-width: 2px !default;
+$input-focus-box-shadow: 0 0 0 $input-focus-width $input-focus-border-color !default;
+
+// Hover
+$input-border-color-hover: #D4CCFB;
+
+$input-placeholder-color: #62646A !default;
+$input-plaintext-color: $body-color !default;
+
+$input-height-border: $input-border-width * 2 !default;
+
+$input-height-inner: add($input-line-height * 1em, $input-padding-y * 2) !default;
+$input-height-inner-half: add($input-line-height * .5em, $input-padding-y) !default;
+$input-height-inner-quarter: add($input-line-height * .25em, $input-padding-y / 2) !default;
+
+$input-height: add($input-line-height * 1em, add($input-padding-y * 2, $input-height-border, false)) !default;
+
+$input-transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+
+
+// Alerts
+//
+// Define alert colors, border radius, and padding.
+
+$alert-padding-y: $spacer !default;
+$alert-padding-x: $spacer !default;
+$alert-margin-y: 1rem !default;
+$alert-border-radius: $border-radius !default;
+$alert-link-font-weight: $font-weight-bold !default;
+$alert-border-width: $border-width !default;
+
+$alert-bg-level: -10 !default;
+$alert-border-level: -9 !default;
+$alert-color-level: 6 !default;
+
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+$enable-rounded: true !default;
+$enable-pointer-cursor-for-buttons: true !default;
+$enable-transitions: true !default;
+$enable-prefers-reduced-motion-media-query: true !default;
+$enable-shadows: false !default;
+$enable-gradients: false !default;

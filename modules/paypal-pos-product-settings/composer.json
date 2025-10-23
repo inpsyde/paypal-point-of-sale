@@ -1,0 +1,21 @@
+{
+    "name": "inpsyde\/paypal-pos-product-settings",
+    "type": "inpsyde-module",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "..\/..\/packages.local\/wc-product-contracts"
+        }
+    ],
+    "require": {
+        "dhii\/module-interface": "^0.2 || ^0.3",
+        "inpsyde\/wc-product-contracts": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\": "src\/"
+        }
+    }
+}

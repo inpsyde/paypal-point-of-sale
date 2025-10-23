@@ -1,0 +1,39 @@
+{
+    "name": "werkspot\/enum",
+    "description": "Werkspot's Enum Library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Werkspot Team",
+            "email": "technology@werkspot.nl"
+        },
+        {
+            "name": "Laurens Laman",
+            "email": "laurens.laman@werkspot.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Werkspot\\Enum\\": [
+                "src\/"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Werkspot\\Enum\\Tests\\": [
+                "tests\/"
+            ]
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "doctrine\/inflector": "^1.2"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^6.3"
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

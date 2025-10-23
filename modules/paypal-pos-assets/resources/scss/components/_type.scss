@@ -1,0 +1,101 @@
+// Typography
+//
+// 1. Remove top margins from headings
+//    By default, `<h1>`-`<h6>` all receive top and bottom margins. We nuke the top
+//    margin for easier control within type scales as it avoids margin collapsing.
+
+%heading {
+    margin-top: 0; // 1
+    margin-bottom: $headings-margin-bottom;
+    font-family: $headings-font-family;
+    font-style: $headings-font-style;
+    font-weight: $headings-font-weight;
+    line-height: $headings-line-height;
+    color: $headings-color;
+    word-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    letter-spacing: .5;
+}
+
+.zettle-settings {
+    h1, h2, h3, h4 {
+        @media (min-width: 620px) {
+            line-height: 34px;
+        }
+
+        @media (min-width: 1280px) {
+            line-height: 40px;
+        }
+    }
+
+    h1 {
+        @extend %heading;
+        @include font-size($h1-font-size * $font-size-factor);
+
+        @media (min-width: 620px) {
+            @include font-size($h1-font-size);
+        }
+    }
+
+    h2 {
+        @extend %heading;
+        @include font-size($h2-font-size * $font-size-factor);
+
+        @media (min-width: 620px) {
+            @include font-size($h2-font-size);
+        }
+    }
+
+    h3 {
+        @extend %heading;
+        @include font-size($h3-font-size * $font-size-factor);
+
+        @media (min-width: 620px) {
+            @include font-size($h3-font-size);
+        }
+    }
+
+    h4 {
+        @extend %heading;
+        @include font-size($h4-font-size * $font-size-factor);
+
+        @media (min-width: 620px) {
+            @include font-size($h4-font-size);
+        }
+    }
+
+    h4, p {
+        margin-top: 0;
+    }
+
+    p, li {
+        color: $paragraph-color;
+    }
+
+    p {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-size: $font-size-base;
+        line-height: 22px;
+        font-weight: 400;
+    }
+
+    strong {
+        font-weight: $font-weight-light-bold;
+    }
+
+    sup {
+        font-size: .6em;
+    }
+
+    a:not(.btn) {
+        color: $link-color;
+        text-decoration: $link-decoration;
+
+        &:hover {
+            color: $link-hover-color;
+            text-decoration: $link-hover-decoration;
+        }
+    }
+}

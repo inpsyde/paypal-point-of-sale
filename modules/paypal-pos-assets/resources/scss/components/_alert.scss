@@ -1,0 +1,49 @@
+.zettle-settings {
+    .alert {
+        position: relative;
+        padding: $alert-padding-y $alert-padding-x;
+        margin: $alert-margin-y 0;
+        border: $alert-border-width solid transparent;
+        @include border-radius($alert-border-radius);
+        font-family: $btn-font-family;
+        font-weight: $btn-font-weight;
+        line-height: $btn-line-height;
+
+        &-warning {
+            color: $warning-color;
+            background: $warning-background-color;
+            border-color: $warning-border-color;
+        }
+
+        &-error {
+            color: $error-color;
+            background: $error-background-color;
+            border-color: $error-border-color;
+        }
+
+        ul {
+            margin: 0;
+            padding: $spacing-small-half 0 0 0;
+            list-style-type: none;
+
+            li {
+                padding: 0;
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                &:before {
+                    content: "-";
+                    text-indent: -5px;
+                }
+            }
+        }
+    }
+
+    &.is--completed {
+        .alert {
+            margin-bottom: $spacing-default;
+        }
+    }
+}
