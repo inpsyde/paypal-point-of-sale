@@ -1,0 +1,75 @@
+.zettle-settings-onboarding {
+    &-fields {
+        .field-row {
+            display: block;
+            width: 100%;
+            margin-bottom: $spacer;
+
+            @media (min-width: 620px) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            label {
+                width: 100%;
+                display: block;
+                padding-bottom: $spacing-small;
+
+                @media (min-width: 620px) {
+                    width: 25%;
+                    display: unset;
+                    padding: 0;
+                }
+
+                @media (min-width: 850px) {
+                    width: 20%;
+                }
+
+                @media (min-width: 1280px) {
+                    width: 15%;
+                }
+            }
+
+            fieldset {
+                width: 100%;
+                display: block;
+                margin-top: 0 !important;
+
+                @media (min-width: 620px) {
+                    width: 75%;
+                    display: unset;
+                }
+
+                @media (min-width: 850px) {
+                    width: 80%;
+                }
+
+                @media (min-width: 1280px) {
+                    width: 85%;
+                }
+
+                input {
+                    width: 100% !important;
+
+                    @media (min-width: 620px) {
+                        width: 90% !important;
+                    }
+                }
+            }
+
+            &:last-child {
+                margin-bottom: $spacing-default;
+
+                @media (min-width: 620px) {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .validation-error {
+        color: red;
+        padding: 0 !important;
+    }
+}

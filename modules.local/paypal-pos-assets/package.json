@@ -1,0 +1,38 @@
+{
+    "name": "zettle-assets",
+    "version": "0.1.0",
+    "description": "PayPal Point of Sale Assets",
+    "repository": "https://github.com/inpsyde/PayPal-Zettle-POS",
+    "license": "GPL-2.0",
+    "author": "Inpsyde GmbH",
+    "main": "resources/js/admin.js",
+    "browserslist": [
+        "> 0.5%",
+        "last 4 versions"
+    ],
+    "eslintConfig": {
+        "env": {
+            "browser": true,
+            "node": true
+        }
+    },
+    "dependencies": {
+        "micromodal": "^0.4.6"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.21.0",
+        "@babel/preset-env": "^7.20.2",
+        "@symfony/webpack-encore": "^4",
+        "@wordpress/dependency-extraction-webpack-plugin": "^4",
+        "autoprefixer": "^10",
+        "postcss-loader": "^7",
+        "sass": "^1.50",
+        "sass-loader": "^13",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^5.0.1"
+    },
+    "scripts": {
+        "build": "encore production",
+        "watch": "encore dev --watch"
+    }
+}

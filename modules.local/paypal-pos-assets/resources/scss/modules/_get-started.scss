@@ -1,0 +1,33 @@
+.zettle-settings-onboarding-content {
+    &-get-started {
+        margin-top: $spacing-large;
+
+        &-container {
+            align-items: start;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 2rem;
+
+            @media screen and (min-width: 900px) {
+                grid-gap: 3.5rem;
+            }
+
+            .column {
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    padding-bottom: $spacing-small-half;
+                }
+
+                h4 {
+                    line-height: 1.25rem;
+                    min-height: 45px;
+
+                    @media screen and (min-width: 1071px) {
+                        min-height: auto;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,2319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.9.2@00c062267d6e3229d91a1939992987e2d46f2393">
+  <file src="modules.local/inpsyde-debug/src/DebugProxyFactory.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>new MethodSignature(new ReflectionMethod($subject, $name))</code>
+    </ImplicitToStringCast>
+    <InvalidNullableReturnType occurrences="1">
+      <code>array</code>
+    </InvalidNullableReturnType>
+    <InvalidStringClass occurrences="1">
+      <code>new $proxyClassName($subject, $this-&gt;handler)</code>
+    </InvalidStringClass>
+    <MissingReturnType occurrences="2">
+      <code>renderDebugMethodBody</code>
+      <code>renderDecoratorMethodBody</code>
+    </MissingReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$classMethods</code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument occurrences="2">
+      <code>$classMethods</code>
+      <code>get_class_methods($subject)</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="modules.local/inpsyde-debug/src/LogExceptionHandler.php">
+    <PossiblyFalseArgument occurrences="2">
+      <code>class_implements($exception)</code>
+      <code>class_parents($exception)</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="modules.local/inpsyde-debug/src/TypeDelegatingFormatter.php">
+    <PossiblyFalseIterator occurrences="2">
+      <code>class_implements($exception)</code>
+      <code>class_parents($exception)</code>
+    </PossiblyFalseIterator>
+  </file>
+  <file src="modules.local/inpsyde-queue/services.php">
+    <InvalidArgument occurrences="1">
+      <code>$jobRecord</code>
+    </InvalidArgument>
+    <InvalidOperand occurrences="1">
+      <code>$time</code>
+    </InvalidOperand>
+    <InvalidStringClass occurrences="1"/>
+    <MissingClosureParamType occurrences="1">
+      <code>$thing</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function () use ($thing) {</code>
+      <code>static function (string $key) use ($container) {</code>
+    </MissingClosureReturnType>
+    <PossiblyFalseOperand occurrences="1">
+      <code>$time</code>
+    </PossiblyFalseOperand>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(string) get_temp_dir()</code>
+    </RedundantCastGivenDocblockType>
+    <UndefinedClass occurrences="1"/>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Bootstrap.php">
+    <MissingFile occurrences="1">
+      <code>require_once ABSPATH . 'wp-admin/includes/upgrade.php'</code>
+    </MissingFile>
+    <MissingReturnType occurrences="2">
+      <code>activate</code>
+      <code>deactivate</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Cli/QueueCommand.php">
+    <MissingReturnType occurrences="2">
+      <code>live</code>
+      <code>process</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Db/QueueTable.php">
+    <InvalidOperand occurrences="1">
+      <code>self::MAX_INDEX_LENGTH</code>
+    </InvalidOperand>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/ExceptionLoggingTrait.php">
+    <MissingReturnType occurrences="1">
+      <code>logException</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Log/WpCliLogger.php">
+    <UndefinedClass occurrences="9">
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/NetworkState.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$siteId</code>
+      <code>$stack</code>
+    </PropertyNotSetInConstructor>
+    <UnsafeInstantiation occurrences="1">
+      <code>new static()</code>
+    </UnsafeInstantiation>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Processor/BasicQueueProcessor.php">
+    <InvalidArgument occurrences="1">
+      <code>$newRecord</code>
+    </InvalidArgument>
+    <InvalidScalarArgument occurrences="2">
+      <code>$exception-&gt;getCode()</code>
+      <code>$exception-&gt;getCode()</code>
+    </InvalidScalarArgument>
+    <MissingClosureReturnType occurrences="1">
+      <code>static function () {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Processor/DecoratingLoggingProviderTrait.php">
+    <MissingReturnType occurrences="1">
+      <code>setLogger</code>
+    </MissingReturnType>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>logger</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Processor/ProcessorBuilder.php">
+    <PropertyNotSetInConstructor occurrences="4">
+      <code>$exceptionHandler</code>
+      <code>$locker</code>
+      <code>$logger</code>
+      <code>$stopper</code>
+    </PropertyNotSetInConstructor>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$repository</code>
+    </PropertyTypeCoercion>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>$this-&gt;locker</code>
+      <code>$this-&gt;stopper</code>
+    </RedundantConditionGivenDocblockType>
+    <RedundantPropertyInitializationCheck occurrences="4">
+      <code>$this-&gt;exceptionHandler</code>
+      <code>$this-&gt;logger</code>
+      <code>new NullLogger()</code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/EphemeralLocker.php">
+    <MissingPropertyType occurrences="1">
+      <code>$isLocked</code>
+    </MissingPropertyType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/Job/EphemeralJobRepository.php">
+    <ImplementedParamTypeMismatch occurrences="1">
+      <code>$jobRecords</code>
+    </ImplementedParamTypeMismatch>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$this-&gt;repository</code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/Job/JobIterator.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$current</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;current !== null</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/Job/WpDbJobRepository.php">
+    <ImplementedParamTypeMismatch occurrences="1">
+      <code>$jobRecords</code>
+    </ImplementedParamTypeMismatch>
+    <InvalidArgument occurrences="1">
+      <code>$jobRecords</code>
+    </InvalidArgument>
+    <InvalidScalarArgument occurrences="2">
+      <code>$result</code>
+      <code>$result</code>
+    </InvalidScalarArgument>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$result</code>
+    </PossiblyInvalidArgument>
+    <PossiblyInvalidArrayAccess occurrences="1">
+      <code>$result</code>
+    </PossiblyInvalidArrayAccess>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/Runner/AsyncRequestRunner.php">
+    <UndefinedConstant occurrences="4">
+      <code>AUTH_COOKIE</code>
+      <code>LOGGED_IN_COOKIE</code>
+      <code>SECURE_AUTH_COOKIE</code>
+      <code>TEST_COOKIE</code>
+    </UndefinedConstant>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/Runner/WpHeartbeatRunner.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$response</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function ($response) use ($queueProcessor) {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/Runner/WpShutdownRunner.php">
+    <MissingPropertyType occurrences="1">
+      <code>$called</code>
+    </MissingPropertyType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/SiteOptionLocker.php">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>$optionKey</code>
+      <code>$optionOperator</code>
+      <code>$timeout</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedClass occurrences="1">
+      <code>OptionOperatorInterface</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="4">
+      <code>$this-&gt;optionOperator</code>
+      <code>$this-&gt;optionOperator</code>
+      <code>$this-&gt;optionOperator</code>
+      <code>OptionOperatorInterface</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Queue/TimeStopper.php">
+    <InvalidOperand occurrences="3">
+      <code>$seconds * 1000</code>
+      <code>$this-&gt;timestamp() - $this-&gt;startedAt</code>
+      <code>microtime(true) * 1000</code>
+    </InvalidOperand>
+    <InvalidPropertyAssignmentValue occurrences="2">
+      <code>$seconds * 1000</code>
+      <code>$this-&gt;timestamp()</code>
+    </InvalidPropertyAssignmentValue>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$startedAt</code>
+    </PropertyNotSetInConstructor>
+    <RedundantCondition occurrences="1">
+      <code>$this-&gt;startedAt !== null</code>
+    </RedundantCondition>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/QueueLibrary.php">
+    <MissingReturnType occurrences="1">
+      <code>initialize</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/QueueModule.php">
+    <UndefinedClass occurrences="1">
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/inpsyde-queue/src/Rest/V1/ProcessEndpoint.php">
+    <MissingClosureParamType occurrences="6">
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>static function ($value) {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/services.php">
+    <InvalidStringClass occurrences="1"/>
+    <MissingClosureParamType occurrences="1">
+      <code>$thing</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function () use ($thing) {</code>
+      <code>static function (string $key) use ($container) {</code>
+    </MissingClosureReturnType>
+    <UndefinedClass occurrences="1"/>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Event/GenericStateChange.php">
+    <MissingConstructor occurrences="6">
+      <code>$newState</code>
+      <code>$newState</code>
+      <code>$newState</code>
+      <code>$sourceState</code>
+      <code>$sourceState</code>
+      <code>$sourceState</code>
+    </MissingConstructor>
+    <MissingReturnType occurrences="1">
+      <code>prepare</code>
+    </MissingReturnType>
+    <RedundantPropertyInitializationCheck occurrences="2">
+      <code>$this-&gt;currentState()</code>
+      <code>$this-&gt;newState</code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Event/ListenerProvider.php">
+    <MissingReturnType occurrences="1">
+      <code>addListener</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Event/ParameterDeriverTrait.php">
+    <InvalidArgument occurrences="2">
+      <code>$callable</code>
+      <code>$callable</code>
+    </InvalidArgument>
+    <InvalidArrayAccess occurrences="4">
+      <code>$callable[0]</code>
+      <code>$callable[0]</code>
+      <code>$callable[1]</code>
+      <code>$callable[1]</code>
+    </InvalidArrayAccess>
+    <InvalidReturnType occurrences="5">
+      <code>True</code>
+      <code>True</code>
+      <code>True</code>
+      <code>True</code>
+      <code>True</code>
+    </InvalidReturnType>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;isFunctionCallable($callable)</code>
+    </RedundantConditionGivenDocblockType>
+    <UndefinedMethod occurrences="1">
+      <code>getName</code>
+    </UndefinedMethod>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Event/StateAwareListenerProvider.php">
+    <MissingReturnType occurrences="1">
+      <code>listen</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Event/StateChange.php">
+    <MissingReturnType occurrences="1">
+      <code>prepare</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Event/TransitionAwareListenerProvider.php">
+    <MissingReturnType occurrences="1">
+      <code>listen</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Event/WebRequest.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>WebRequest</code>
+      <code>WebRequest</code>
+    </PropertyNotSetInConstructor>
+    <UnsafeInstantiation occurrences="1">
+      <code>new static($data)</code>
+    </UnsafeInstantiation>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Guard/Guard.php">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$callables</code>
+    </InvalidPropertyAssignmentValue>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$fromState</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Initializer/StateQueryInitializer.php">
+    <PossiblyUndefinedVariable occurrences="1">
+      <code>$state</code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Loader/ContainerLoader.php">
+    <MissingReturnType occurrences="3">
+      <code>loadGuards</code>
+      <code>loadStates</code>
+      <code>loadTransitions</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/State/State.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>array</code>
+    </LessSpecificImplementedReturnType>
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$transition</code>
+    </MoreSpecificImplementedParamType>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$transition instanceof TransitionInterface</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/StateMachine.php">
+    <InvalidArgument occurrences="1">
+      <code>current($transition)</code>
+    </InvalidArgument>
+    <InvalidMethodCall occurrences="1">
+      <code>addTransition</code>
+    </InvalidMethodCall>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$state</code>
+    </InvalidPropertyAssignmentValue>
+    <LessSpecificImplementedReturnType occurrences="2">
+      <code>mixed</code>
+      <code>mixed</code>
+    </LessSpecificImplementedReturnType>
+    <MissingReturnType occurrences="1">
+      <code>initialize</code>
+    </MissingReturnType>
+    <PossiblyInvalidArrayOffset occurrences="1">
+      <code>$this-&gt;states[$state]</code>
+    </PossiblyInvalidArrayOffset>
+    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+      <code>$state</code>
+    </PossiblyInvalidPropertyAssignmentValue>
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$currentState</code>
+      <code>$dispatcher</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>assert($transition instanceof TransitionInterface)</code>
+      <code>is_string($transition)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/StateMachineInterface.php">
+    <MissingReturnType occurrences="1">
+      <code>initialize</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/StateMachineLibrary.php">
+    <MissingReturnType occurrences="1">
+      <code>initialize</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-state-machine/src/Transition/Transition.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>array</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="modules.local/inpsyde-wc-status-report/src/StatusReportRenderer.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/extensions.php">
+    <InvalidArgument occurrences="10"/>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/src/DispatchDecider.php">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$this-&gt;deciders</code>
+    </InvalidPropertyAssignmentValue>
+    <MissingReturnType occurrences="1">
+      <code>addDecider</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/src/Event/EventDispatcher.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$decider</code>
+      <code>$switch</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/src/Event/ProductEventListenerRegistry.php">
+    <InvalidArgument occurrences="5">
+      <code>$callable</code>
+      <code>$callable</code>
+      <code>$callable</code>
+      <code>$callable</code>
+      <code>$callable</code>
+    </InvalidArgument>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$this-&gt;listeners</code>
+    </InvalidPropertyAssignmentValue>
+    <MissingClosureReturnType occurrences="3">
+      <code>function (ProductChangeEvent $event) use ($listener) {</code>
+      <code>function (WC_Product $new, WC_Product $old) use ($callable) {</code>
+      <code>function (WC_Product $new, WC_Product $old) use ($callable) {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/src/Hooks/ProductHooks.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>true</code>
+    </InvalidScalarArgument>
+    <MissingClosureParamType occurrences="1">
+      <code>$args</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function ($args) {</code>
+      <code>static function () use ($callable, $argPosition) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="1">
+      <code>registerAfterHooks</code>
+    </MissingReturnType>
+    <PossiblyFalseArgument occurrences="1">
+      <code>wc_get_product($parentId)</code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument occurrences="1">
+      <code>wc_get_product($parentId)</code>
+    </PossiblyNullArgument>
+    <UndefinedMethod occurrences="2">
+      <code>$this-&gt;snapshots[$id]</code>
+      <code>$this-&gt;snapshots[$id]</code>
+    </UndefinedMethod>
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;changes</code>
+    </UndefinedThisPropertyAssignment>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/src/ParameterDeriver.php">
+    <InvalidArgument occurrences="2">
+      <code>$callable</code>
+      <code>$callable</code>
+    </InvalidArgument>
+    <InvalidArrayAccess occurrences="4">
+      <code>$callable[0]</code>
+      <code>$callable[0]</code>
+      <code>$callable[1]</code>
+      <code>$callable[1]</code>
+    </InvalidArrayAccess>
+    <InvalidReturnStatement occurrences="5">
+      <code>$callable instanceof Closure</code>
+      <code>is_array($callable) &amp;&amp; is_object($callable[0])</code>
+      <code>is_array($callable) &amp;&amp; is_string($callable[0]) &amp;&amp; class_exists($callable[0])</code>
+      <code>is_object($callable)</code>
+      <code>is_string($callable)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="5">
+      <code>True</code>
+      <code>True</code>
+      <code>True</code>
+      <code>True</code>
+      <code>True</code>
+    </InvalidReturnType>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;isFunctionCallable($callable)</code>
+    </RedundantConditionGivenDocblockType>
+    <UndefinedMethod occurrences="1">
+      <code>getName</code>
+    </UndefinedMethod>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/src/Toggle.php">
+    <MissingPropertyType occurrences="1">
+      <code>$state</code>
+    </MissingPropertyType>
+  </file>
+  <file src="modules.local/inpsyde-woocommerce-lifecycle-events/src/WcEventsLibrary.php">
+    <MissingReturnType occurrences="1">
+      <code>initialize</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-auth-php8/services.php">
+    <UndefinedClass occurrences="3">
+      <code>Decoder</code>
+      <code>JoseEncoder</code>
+      <code>NewParserFactory</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-auth-php8/src/Jwt/NewParser.php">
+    <UndefinedClass occurrences="1">
+      <code>UnencryptedToken</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-auth-php8/src/Jwt/NewParserFactory.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$decoder</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedClass occurrences="2">
+      <code>Decoder</code>
+      <code>Parser</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="1">
+      <code>Decoder</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="modules.local/paypal-pos-auth-php8/src/Jwt/NewToken.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$token</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedClass occurrences="1">
+      <code>UnencryptedToken</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="5">
+      <code>$this-&gt;token</code>
+      <code>$this-&gt;token</code>
+      <code>$this-&gt;token</code>
+      <code>$this-&gt;token</code>
+      <code>UnencryptedToken</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="modules.local/paypal-pos-auth/services.php">
+    <InvalidStringClass occurrences="1"/>
+    <MissingClosureReturnType occurrences="1">
+      <code>static function (string $key) use ($container) {</code>
+    </MissingClosureReturnType>
+    <UndefinedClass occurrences="1"/>
+  </file>
+  <file src="modules.local/paypal-pos-auth/src/AuthModule.php">
+    <PossiblyUndefinedMethod occurrences="1">
+      <code>persist</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="modules.local/paypal-pos-auth/src/AuthenticatedClientFactory.php">
+    <InvalidArgument occurrences="2">
+      <code>$this-&gt;jwtParser</code>
+      <code>$this-&gt;jwtParser</code>
+    </InvalidArgument>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$jwtParser</code>
+    </InvalidPropertyAssignmentValue>
+    <MissingReturnType occurrences="1">
+      <code>handle</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-auth/src/HTTPlug/ChaosMonkeyPlugin.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>$error</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>int</code>
+    </InvalidFalsableReturnType>
+    <InvalidScalarArgument occurrences="2">
+      <code>$status</code>
+      <code>$status</code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="modules.local/paypal-pos-auth/src/OAuth/AuthSuccessHandler.php">
+    <MissingReturnType occurrences="1">
+      <code>handle</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-auth/src/OAuth/Grant/JwtGrant.php">
+    <InvalidCatch occurrences="1"/>
+  </file>
+  <file src="modules.local/paypal-pos-auth/src/OAuth/TokenPersistingAuthSuccessHandler.php">
+    <MissingReturnType occurrences="1">
+      <code>handle</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-auth/src/Rest/V1/ValidationEndpoint.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$value</code>
+      <code>$value</code>
+    </MissingClosureParamType>
+  </file>
+  <file src="modules.local/paypal-pos-logging/src/Logger/FiFoLogger.php">
+    <MissingPropertyType occurrences="1">
+      <code>$pool</code>
+    </MissingPropertyType>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$optionKey</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-logging/src/Logger/WooCommerceLogger.php">
+    <PossiblyInvalidCast occurrences="1">
+      <code>$val</code>
+    </PossiblyInvalidCast>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_string($message)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-notices/src/Notice/Admin/CompleteOnboardingNotice.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-notices/src/Notice/Admin/GlobalConnectionFailedNotice.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-notices/src/Notice/Admin/IntegrationConnectionFailedNotice.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Cli/ResetOnboardingCommand.php">
+    <MissingReturnType occurrences="2">
+      <code>complete</code>
+      <code>site</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/DataProvider/Store/WooCommerceStoreDataProvider.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(bool) wc_prices_include_tax()</code>
+      <code>(bool) wc_tax_enabled()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/DataProvider/Store/ZettleStoreDataProvider.php">
+    <InvalidNullableReturnType occurrences="2">
+      <code>Vat</code>
+      <code>string</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement occurrences="2">
+      <code>$this-&gt;organization()-&gt;country()</code>
+      <code>$this-&gt;organization()-&gt;vat()</code>
+    </NullableReturnStatement>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Event/BackButtonPressed.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>BackButtonPressed</code>
+      <code>BackButtonPressed</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Event/CancelButtonPressed.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>CancelButtonPressed</code>
+      <code>CancelButtonPressed</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Event/DeleteButtonPressed.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>DeleteButtonPressed</code>
+      <code>DeleteButtonPressed</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Event/ProceedButtonPressed.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>ProceedButtonPressed</code>
+      <code>ProceedButtonPressed</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Event/UnhandledError.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>UnhandledError</code>
+      <code>UnhandledError</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Provider/ResetCommandProvider.php">
+    <UndefinedClass occurrences="1">
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/FieldRenderer/HiddenFieldRenderer.php">
+    <PossiblyFalseArgument occurrences="1">
+      <code>ob_get_clean()</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/FieldRenderer/OnboardingFieldRenderer.php">
+    <FalsableReturnStatement occurrences="3">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="3">
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/Filter/OnboardingProcessFilter.php">
+    <LessSpecificReturnType occurrences="1">
+      <code>?array</code>
+    </LessSpecificReturnType>
+    <MissingPropertyType occurrences="3">
+      <code>$authFieldKeys</code>
+      <code>$disabled</code>
+      <code>$knownStates</code>
+    </MissingPropertyType>
+    <PossiblyNullArgument occurrences="1">
+      <code>$whitelist</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/OnboardingStepper.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+    <InvalidOperand occurrences="1">
+      <code>$index</code>
+    </InvalidOperand>
+    <InvalidReturnStatement occurrences="1">
+      <code>$position</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>int</code>
+    </InvalidReturnType>
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$currentPosition</code>
+      <code>$steppableMap</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/ApiCredentialsView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidArgument occurrences="1">
+      <code>$this-&gt;allowedFieldTags</code>
+    </InvalidArgument>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/ButtonRendererTrait.php">
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/ContainerAwareView.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$view</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;view instanceof OnboardingView</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/OnboardingCompletedView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/ProductSyncParamView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/SettingsFieldView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidArgument occurrences="1">
+      <code>$this-&gt;allowedFieldTags</code>
+    </InvalidArgument>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+    <InvalidPropertyAssignmentValue occurrences="1"/>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/SimpleView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/SyncFinishedView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/SyncProgressView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/SyncVatParamView.php">
+    <FalsableReturnStatement occurrences="3">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_contents()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="3">
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/UnhandledErrorView.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="2">
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-onboarding/src/Settings/View/WelcomeView.php">
+    <FalsableReturnStatement occurrences="3">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="3">
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/builders.array.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$payload</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="7">
+      <code>static function ($imagePayload) use ($builder) {</code>
+      <code>static function (array $state) use ($builder) {</code>
+      <code>static function (array $state) use ($builder) {</code>
+      <code>static function (array $state) use ($builder) {</code>
+      <code>static function (array $state) use ($builder) {</code>
+      <code>static function (callable $callable) {</code>
+      <code>static function (string $className, $payload, B $builder) use ($callable, $container) {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/builders.woocommerce.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$payload</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function (callable $callable) {</code>
+      <code>static function (string $className, $payload, B $builder) use ($callable, $container) {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/serializers.php">
+    <MissingClosureReturnType occurrences="1">
+      <code>static function (callable $callable) {</code>
+    </MissingClosureReturnType>
+    <PossiblyNullIterator occurrences="2">
+      <code>$properties-&gt;all()</code>
+      <code>$variantOptionCollection-&gt;all()</code>
+    </PossiblyNullIterator>
+    <PossiblyNullReference occurrences="5">
+      <code>all</code>
+      <code>format</code>
+      <code>format</code>
+      <code>percentage</code>
+      <code>percentage</code>
+    </PossiblyNullReference>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>defaultQuantity</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/services.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$payload</code>
+      <code>$payload</code>
+    </MissingClosureParamType>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(string) $envUrl</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/API/Image/Images.php">
+    <PossiblyFalseArgument occurrences="1">
+      <code>current($imageUrls)</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/API/Inventory/Inventory.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$locations</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/API/Products/Products.php">
+    <PossiblyUndefinedVariable occurrences="2">
+      <code>$result</code>
+      <code>$result</code>
+    </PossiblyUndefinedVariable>
+    <RedundantCast occurrences="2">
+      <code>(string) $product-&gt;uuid()</code>
+      <code>(string) $product-&gt;uuid()</code>
+    </RedundantCast>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>setEtag</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/API/Webhooks/Subscriptions.php">
+    <InvalidMethodCall occurrences="1">
+      <code>toString</code>
+    </InvalidMethodCall>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$hooks</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>ZettleWebhook[]</code>
+    </MoreSpecificReturnType>
+    <RedundantCast occurrences="1">
+      <code>(string) $webhook-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Bootstrap.php">
+    <MissingFile occurrences="1">
+      <code>require_once ABSPATH . 'wp-admin/includes/upgrade.php'</code>
+    </MissingFile>
+    <MissingReturnType occurrences="3">
+      <code>activate</code>
+      <code>createTables</code>
+      <code>deactivate</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/AttributeFormatterTrait.php">
+    <PossiblyFalseArgument occurrences="1">
+      <code>get_taxonomy($attribute-&gt;get_taxonomy())</code>
+    </PossiblyFalseArgument>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>get_term($termId)</code>
+    </PossiblyInvalidArgument>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(string) $attribute-&gt;get_name()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/AttributeSetBuilder.php">
+    <RedundantCastGivenDocblockType occurrences="5">
+      <code>(array) $parentProduct-&gt;get_attributes()</code>
+      <code>(array) $product-&gt;get_attributes()</code>
+      <code>(array) $variation-&gt;get_attributes()</code>
+      <code>(array) $wcProduct-&gt;get_visible_children()</code>
+      <code>(bool) $variation-&gt;is_purchasable()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/ImageBuilder.php">
+    <InvalidReturnStatement occurrences="2">
+      <code>$matches[1]</code>
+      <code>$this-&gt;lookupKeyFromZettleUrl((string) $payload['imageUrl'])</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>ConcreteImage</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/PriceBuilder.php">
+    <InvalidOperand occurrences="1">
+      <code>$price * 100</code>
+    </InvalidOperand>
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(float) wc_get_price_excluding_tax($payload)</code>
+      <code>(float) wc_get_price_including_tax($payload)</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/TypeDelegatingBuilder.php">
+    <MissingReturnType occurrences="1">
+      <code>inferType</code>
+    </MissingReturnType>
+    <RedundantCondition occurrences="1">
+      <code>$className</code>
+    </RedundantCondition>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/VariantBuilder.php">
+    <PossiblyFalseReference occurrences="1">
+      <code>is_purchasable</code>
+    </PossiblyFalseReference>
+    <PossiblyNullReference occurrences="4">
+      <code>build</code>
+      <code>build</code>
+      <code>build</code>
+      <code>build</code>
+    </PossiblyNullReference>
+    <RedundantCast occurrences="1">
+      <code>(bool) !$product-&gt;managing_stock()</code>
+    </RedundantCast>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(array) $wcProduct-&gt;get_attributes()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/VariantOptionCollectionBuilder.php">
+    <InvalidIterator occurrences="1">
+      <code>$attributes</code>
+    </InvalidIterator>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Builder/VariantOptionDefinitionsBuilder.php">
+    <InvalidIterator occurrences="1">
+      <code>$attributes</code>
+    </InvalidIterator>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Balance/BalanceBuilder.php">
+    <RedundantCast occurrences="2">
+      <code>(string) $balance-&gt;productUuid()</code>
+      <code>(string) $balance-&gt;variantUuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Balance/LocationBalanceBuilder.php">
+    <RedundantCast occurrences="3">
+      <code>(string) $locationBalance-&gt;locationUuid()</code>
+      <code>(string) $locationBalance-&gt;productUuid()</code>
+      <code>(string) $locationBalance-&gt;variantUuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Balance/LocationBalanceCollectionBuilder.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$locationBalanceBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Balance/ProductBalanceBuilder.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$locationBalanceCollectionBuilder</code>
+    </PropertyTypeCoercion>
+    <RedundantCast occurrences="1">
+      <code>(string) $productBalance-&gt;locationUuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Category/CategoryBuilder.php">
+    <InvalidArgument occurrences="2">
+      <code>$createdAt</code>
+      <code>$updatedAt</code>
+    </InvalidArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Category/CategoryCollectionBuilder.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$categoryBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Discount/DiscountBuilder.php">
+    <PossiblyNullReference occurrences="2">
+      <code>format</code>
+      <code>format</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>$discountFactory</code>
+      <code>$imageCollectionBuilder</code>
+      <code>$priceBuilder</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedClass occurrences="2">
+      <code>ImageCollectionBuilderInterface</code>
+      <code>PriceBuilderInterface</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="6">
+      <code>$this-&gt;imageCollectionBuilder</code>
+      <code>$this-&gt;imageCollectionBuilder</code>
+      <code>$this-&gt;priceBuilder</code>
+      <code>$this-&gt;priceBuilder</code>
+      <code>ImageCollectionBuilderInterface</code>
+      <code>PriceBuilderInterface</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Discount/DiscountCollectionBuilder.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$discountBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Finance/AccountTransactionBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $accountTransaction-&gt;originatingTransactionUuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Library/LibraryBuilder.php">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>$discountCollectionBuilder</code>
+      <code>$libraryFactory</code>
+      <code>$productCollectionBuilder</code>
+    </PropertyNotSetInConstructor>
+    <RedundantCast occurrences="1">
+      <code>(string) $library-&gt;untilEventLogUuid()</code>
+    </RedundantCast>
+    <UndefinedClass occurrences="1">
+      <code>ProductCollectionBuilderInterface</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="5">
+      <code>$this-&gt;productCollectionBuilder</code>
+      <code>$this-&gt;productCollectionBuilder</code>
+      <code>$this-&gt;productCollectionBuilder</code>
+      <code>$this-&gt;productCollectionBuilder</code>
+      <code>ProductCollectionBuilder</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/CardOnlinePaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $cardOnlinePayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/CardPaymentBuilder.php">
+    <InvalidArgument occurrences="1">
+      <code>(int) $this-&gt;getDataFromKey('nrOfInstallments', $data['attributes'])</code>
+    </InvalidArgument>
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getDataFromKey('applicationName', $data['attributes'])</code>
+    </PossiblyNullArgument>
+    <RedundantCast occurrences="1">
+      <code>(string) $cardPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/CashPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $cashPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/CustomPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $customPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/GiftcardPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $giftCardPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/InvoicePaymentBuilder.php">
+    <RedundantCast occurrences="2">
+      <code>(string) $invoicePayment-&gt;orderUuid()</code>
+      <code>(string) $invoicePayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/KlarnaPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $klarnaPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/MobilePaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $mobilePayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaymentBuilder.php">
+    <InvalidReturnType occurrences="2">
+      <code>AbstractPaymentMethod</code>
+      <code>array</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaypalPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $paypalPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/StoreCreditPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $storeCreditPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/SwishPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $swishPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Payment/VippsPaymentBuilder.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $vippsPayment-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Purchase/PurchaseBuilder.php">
+    <PropertyTypeCoercion occurrences="2">
+      <code>$coordinatesBuilder</code>
+      <code>$userBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Purchase/PurchaseCollectionBuilder.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$purchaseBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Builder/Purchase/PurchaseHistoryBuilder.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$purchaseCollectionBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Balance/LocationBalanceCollection.php">
+    <PossiblyNullIterator occurrences="1">
+      <code>$locationBalances</code>
+    </PossiblyNullIterator>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Category/Category.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="5">
+      <code>$createdAt</code>
+      <code>$etag</code>
+      <code>$updatedAt</code>
+      <code>$updatedBy</code>
+      <code>$uuid</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Category/CategoryCollection.php">
+    <PossiblyNullArrayOffset occurrences="2">
+      <code>$this-&gt;collection</code>
+      <code>$this-&gt;collection</code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullIterator occurrences="1">
+      <code>$categories</code>
+    </PossiblyNullIterator>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Category/CategoryCollectionFactory.php">
+    <PossibleRawObjectIteration occurrences="1">
+      <code>$terms</code>
+    </PossibleRawObjectIteration>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$terms</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Category/CategoryFactory.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$createdAt</code>
+      <code>$updatedAt</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Coordinates/CoordinatesFactory.php">
+    <UndefinedDocblockClass occurrences="1">
+      <code>ValidatorException</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Discount/DiscountCollection.php">
+    <PossiblyNullIterator occurrences="1">
+      <code>$discounts</code>
+    </PossiblyNullIterator>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Discount/DiscountFactory.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$createdAt</code>
+      <code>$updatedAt</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Image/ImageCollection.php">
+    <InvalidReturnType occurrences="1">
+      <code>ImageInterface</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Image/LazyImage.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$image</code>
+      <code>$localUrl</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>createRecord</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Inventory/InventoryFactory.php">
+    <UndefinedClass occurrences="1">
+      <code>VariantInventoryState</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Organization/Organization.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$timeZone</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Payment/CardPayment.php">
+    <InvalidNullableReturnType occurrences="4">
+      <code>int</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement occurrences="4">
+      <code>$this-&gt;applicationIdentifier</code>
+      <code>$this-&gt;applicationName</code>
+      <code>$this-&gt;numberOfInstallments</code>
+      <code>$this-&gt;terminalVerificationResults</code>
+    </NullableReturnStatement>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Payment/PaymentCollection.php">
+    <PossiblyNullIterator occurrences="1">
+      <code>$payments</code>
+    </PossiblyNullIterator>
+    <RedundantCast occurrences="3">
+      <code>(string) $payment-&gt;uuid()</code>
+      <code>(string) $payment-&gt;uuid()</code>
+      <code>(string) $uuid</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Payment/PaymentFactory.php">
+    <InvalidClass occurrences="4">
+      <code>GiftcardPayment</code>
+      <code>GiftcardPayment</code>
+      <code>GiftcardPayment</code>
+      <code>GiftcardPayment</code>
+    </InvalidClass>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Presentation/Presentation.php">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$image</code>
+    </InvalidPropertyAssignmentValue>
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>$backgroundColor</code>
+      <code>$textColor</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Price/Price.php">
+    <InvalidOperand occurrences="1">
+      <code>((float) $this-&gt;amount) / 100</code>
+    </InvalidOperand>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Product/LazyProduct.php">
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>createRecord</code>
+      <code>remoteId</code>
+    </PossiblyUndefinedMethod>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$syncedUuid</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Product/Product.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$variantOptionDefinitions</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Product/ProductCollection.php">
+    <InvalidReturnType occurrences="1">
+      <code>ProductInterface</code>
+    </InvalidReturnType>
+    <RedundantCast occurrences="1">
+      <code>(string) $uuid</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Product/ProductGetterDecoratorTrait.php">
+    <InvalidNullableReturnType occurrences="1">
+      <code>Metadata</code>
+    </InvalidNullableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Purchase/PurchaseCollection.php">
+    <PossiblyNullIterator occurrences="1">
+      <code>$purchases</code>
+    </PossiblyNullIterator>
+    <RedundantCast occurrences="3">
+      <code>(string) $purchase-&gt;uuid()</code>
+      <code>(string) $purchase-&gt;uuid()</code>
+      <code>(string) $uuid</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Purchase/PurchaseFactory.php">
+    <InvalidArgument occurrences="1">
+      <code>Uuid::v1()</code>
+    </InvalidArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Variant/LazyVariant.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$persisted</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedInterfaceMethod occurrences="3">
+      <code>defaultQuantity</code>
+      <code>remoteId</code>
+      <code>setDefaultQuantity</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Variant/Variant.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>$options</code>
+      <code>$presentation</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Variant/VariantCollection.php">
+    <InvalidReturnType occurrences="1">
+      <code>VariantInterface</code>
+    </InvalidReturnType>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$this-&gt;collection</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Variant[]</code>
+    </MoreSpecificReturnType>
+    <RedundantCast occurrences="1">
+      <code>(string) $item-&gt;uuid()</code>
+    </RedundantCast>
+    <RedundantCondition occurrences="1">
+      <code>$variant instanceof VariantInterface</code>
+    </RedundantCondition>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/Variant/WcVariationIterator.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(array) $variation-&gt;get_attributes()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/VariantInventoryState/VariantInventoryStateCollection.php">
+    <InvalidReturnStatement occurrences="3">
+      <code>$this</code>
+      <code>$this</code>
+      <code>$this</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="3">
+      <code>VariantInventoryState</code>
+      <code>VariantInventoryState</code>
+      <code>VariantInventoryState</code>
+    </InvalidReturnType>
+    <PossiblyNullIterator occurrences="1">
+      <code>$inventoryStates</code>
+    </PossiblyNullIterator>
+    <RedundantCast occurrences="3">
+      <code>(string) $uuid</code>
+      <code>(string) $variantInventoryState-&gt;variantUuid()</code>
+      <code>(string) $variantInventoryState-&gt;variantUuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/VariantOption/AttributeSet.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>$this-&gt;set</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>array&lt;string, string&gt;</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/VariantOption/VariantOption.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$image</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Entity/VariantOption/VariantOptionCollection.php">
+    <MissingReturnType occurrences="1">
+      <code>set</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/CardOnlinePaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$cardOnlinePaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/CardPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$cardPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/CashPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$cashPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/CustomPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$customPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/GiftcardPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$giftcardPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/InvoicePaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$invoicePaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/KlarnaPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$klarnaPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/MobilePaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$mobilePaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/PaypalPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$paypalPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/StoreCreditPayment.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$storeCreditPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/SwishPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$swishPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Handler/Payment/VippsPaymentHandler.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$payment</code>
+    </ArgumentTypeCoercion>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$vippsPaymentBuilder</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Provider/Image/WordPressFilePathProvider.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$imageId</code>
+    </InvalidScalarArgument>
+    <PossiblyFalseArgument occurrences="1">
+      <code>get_attached_file($imageId)</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Provider/Image/WordpressUrlProvider.php">
+    <PossiblyFalseArgument occurrences="1">
+      <code>wp_get_attachment_image_url((int) $attachmentId, 'full')</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/DAL/Provider/Organization/TransientCachingOrganizationProvider.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$cache</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;cache</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Exception/InvalidBuilderPayloadException.php">
+    <MissingPropertyType occurrences="1">
+      <code>$payload</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="1">
+      <code>payload</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Filter/DescriptionLengthFilter.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>mb_strimwidth($description, $start, $max, $trimMaker)</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Filter/ProductConnectionFilter.php">
+    <MissingPropertyType occurrences="1">
+      <code>$lazyPool</code>
+    </MissingPropertyType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Filter/VariantConnectionFilter.php">
+    <MissingPropertyType occurrences="1">
+      <code>$lazyPool</code>
+    </MissingPropertyType>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$this-&gt;idMap</code>
+    </PossiblyInvalidArgument>
+    <PossiblyUndefinedMethod occurrences="1">
+      <code>remoteId</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $wcProduct-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Iterator/Attachment/ChildrenImageIterator.php">
+    <PossiblyFalseReference occurrences="1">
+      <code>get_image_id</code>
+    </PossiblyFalseReference>
+    <PossiblyNullReference occurrences="1">
+      <code>get_image_id</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Iterator/Attachment/FeaturedImageIterator.php">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$this-&gt;product-&gt;get_image_id()</code>
+    </InvalidPropertyAssignmentValue>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$attachmentId</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;product</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Iterator/Attachment/GalleryImageIterator.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$galleryIds</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Iterator/WcProductIteratorAggregate.php">
+    <MissingReturnType occurrences="1">
+      <code>advanceIterator</code>
+    </MissingReturnType>
+    <PossiblyFalsePropertyAssignmentValue occurrences="2">
+      <code>next($this-&gt;iterators)</code>
+      <code>reset($this-&gt;iterators)</code>
+    </PossiblyFalsePropertyAssignmentValue>
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$currentIterator</code>
+      <code>$currentProduct</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>$this-&gt;currentProduct</code>
+      <code>$this-&gt;currentProduct and $this-&gt;currentIterator</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Map/CachedIdMap.php">
+    <MissingPropertyType occurrences="2">
+      <code>$localIdCache</code>
+      <code>$remoteIdCache</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="1">
+      <code>assertBaseInstance</code>
+    </MissingReturnType>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$base</code>
+    </PropertyTypeCoercion>
+    <RedundantCast occurrences="1">
+      <code>(int) $this-&gt;base-&gt;localId($remoteId)</code>
+    </RedundantCast>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>remoteIds</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Map/InMemoryMap.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>current($this-&gt;map[$localId])</code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Map/RecordEntity/Variant.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>static</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Map/WpdbMap.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$result</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Psr18RestClient.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$exception-&gt;getCode()</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Repository/WooCommerce/Product/ArrayProductRepository.php">
+    <InvalidReturnStatement occurrences="2">
+      <code>$products</code>
+      <code>$products</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>array</code>
+    </InvalidReturnType>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>assert($product instanceof WC_Product)</code>
+    </RedundantConditionGivenDocblockType>
+    <TypeDoesNotContainNull occurrences="1">
+      <code>$variation === null</code>
+    </TypeDoesNotContainNull>
+    <TypeDoesNotContainType occurrences="2">
+      <code>!$limit === -1</code>
+      <code>$product</code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Repository/WooCommerce/Product/ProductRepository.php">
+    <InvalidReturnStatement occurrences="1"/>
+    <InvalidReturnType occurrences="1">
+      <code>array</code>
+    </InvalidReturnType>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $variation-&gt;get_parent_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Repository/Zettle/Product/ProductRepository.php">
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>localId</code>
+      <code>remoteId</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Serializer/ContainerAwareEntitySerializer.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$interface</code>
+    </MissingClosureParamType>
+    <PossiblyFalseArgument occurrences="1">
+      <code>$interfaces</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Uuid/Uuid.php">
+    <InvalidOperand occurrences="4">
+      <code>$carry &amp; 0xFF</code>
+      <code>$carry &gt;&gt; 8</code>
+      <code>$digits[$i] + $remainder * 10</code>
+      <code>$remainder * 10</code>
+    </InvalidOperand>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$remainder</code>
+    </PossiblyInvalidArgument>
+    <PossiblyInvalidOperand occurrences="1">
+      <code>$digits[$i]</code>
+    </PossiblyInvalidOperand>
+    <PossiblyNullReference occurrences="1">
+      <code>format</code>
+    </PossiblyNullReference>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $product-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Validator/LocalImageValidator.php">
+    <PossiblyFalseArgument occurrences="2">
+      <code>$type</code>
+      <code>$type</code>
+    </PossiblyFalseArgument>
+    <PossiblyInvalidArrayAccess occurrences="2">
+      <code>$height</code>
+      <code>$width</code>
+    </PossiblyInvalidArrayAccess>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Validator/PresentationValidator.php">
+    <MissingReturnType occurrences="1">
+      <code>assertValidLongHexValue</code>
+    </MissingReturnType>
+    <PossiblyNullArgument occurrences="2">
+      <code>$entity-&gt;backgroundColor()</code>
+      <code>$entity-&gt;textColor()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Validator/ProductValidator.php">
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>assert($product instanceof ProductInterface)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Validator/ProductVariantOptionDefinitionsValidator.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$options</code>
+    </PossiblyNullArgument>
+    <PossiblyNullIterator occurrences="1">
+      <code>$currentOptions</code>
+    </PossiblyNullIterator>
+    <PossiblyNullReference occurrences="3">
+      <code>all</code>
+      <code>all</code>
+      <code>definitions</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/Validator/VariableProductVatValidator.php">
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>assert($product instanceof ProductInterface)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-php-sdk/src/ZettlePhpSdkLibrary.php">
+    <MissingReturnType occurrences="1">
+      <code>initialize</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-product-debug/services.php">
+    <TooManyArguments occurrences="1"/>
+  </file>
+  <file src="modules.local/paypal-pos-product-debug/src/Cli/ProductsCommand.php">
+    <PossiblyFalseReference occurrences="1">
+      <code>get_name</code>
+    </PossiblyFalseReference>
+    <PossiblyNullReference occurrences="1">
+      <code>get_name</code>
+    </PossiblyNullReference>
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(int) $wcProduct-&gt;get_id()</code>
+      <code>(string) $product-&gt;get_name()</code>
+    </RedundantCastGivenDocblockType>
+    <UndefinedClass occurrences="1">
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-product-debug/src/ProductDebugModule.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$columnName</code>
+      <code>$columns</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>static function ($columns) use ($customColumn) {</code>
+    </MissingClosureReturnType>
+    <UndefinedClass occurrences="1">
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-product-debug/src/Rest/V1/ProductValidationEndpoint.php">
+    <MissingClosureParamType occurrences="4">
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MissingClosureParamType>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(string) sanitize_text_field($value)</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/extensions.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $product-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Barcode/BarcodeInputField.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+    <PossiblyInvalidOperand occurrences="1">
+      <code>$index !== null ? $index : ''</code>
+    </PossiblyInvalidOperand>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Barcode/Repository/BarcodeRepository.php">
+    <TooManyArguments occurrences="1">
+      <code>apply_filters($this-&gt;filterName, $barcode, $owner)</code>
+    </TooManyArguments>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Barcode/VariantBarcodeSaveHandler.php">
+    <MissingReturnType occurrences="1">
+      <code>save</code>
+    </MissingReturnType>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>wp_unslash($text)</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Components/ProductSettingsTab.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>wp_unslash($text)</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument occurrences="1">
+      <code>$product</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Components/TermManager.php">
+    <MissingReturnType occurrences="1">
+      <code>removeTerm</code>
+    </MissingReturnType>
+    <PossiblyNullArgument occurrences="1">
+      <code>$args</code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedMethod occurrences="1">
+      <code>$term</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Metabox/ZettleProductLibraryLink.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $post-&gt;ID</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Metabox/ZettleProductLibraryLinkView.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/ProductSettingsModule.php">
+    <MissingReturnType occurrences="1">
+      <code>addVariationBarcodeHandlers</code>
+    </MissingReturnType>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $variationPost-&gt;ID</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-product-settings/src/Taxonomy/ZettleSyncVisibilityTaxonomy.php">
+    <MissingReturnType occurrences="1">
+      <code>create</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-settings/src/Provider/SettingsPageProvider.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$settings</code>
+    </MissingClosureParamType>
+  </file>
+  <file src="modules.local/paypal-pos-settings/src/WC/ZettleIntegrationHeader.php">
+    <FalsableReturnStatement occurrences="10">
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+      <code>ob_get_clean()</code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType occurrences="9">
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </InvalidFalsableReturnType>
+    <InvalidFunctionCall occurrences="2">
+      <code>($this-&gt;authCheck)()</code>
+      <code>($this-&gt;authCheck)()</code>
+    </InvalidFunctionCall>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$authCheck</code>
+    </InvalidPropertyAssignmentValue>
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;organizationProvider-&gt;provide()-&gt;contactEmail()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Cli/ExcludeCommand.php">
+    <MissingReturnType occurrences="1">
+      <code>product</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Cli/ExportCommand.php">
+    <MissingReturnType occurrences="1">
+      <code>products</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Cli/ResetCommand.php">
+    <MissingReturnType occurrences="1">
+      <code>products</code>
+    </MissingReturnType>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$productsClient</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedClass occurrences="1">
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Cli/SyncCommand.php">
+    <MissingReturnType occurrences="1">
+      <code>product</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Cli/UnlinkCommand.php">
+    <MissingReturnType occurrences="4">
+      <code>image</code>
+      <code>images</code>
+      <code>product</code>
+      <code>variant</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Job/EnqueueProductSyncJob.php">
+    <PossibleRawObjectIteration occurrences="1">
+      <code>$products</code>
+    </PossibleRawObjectIteration>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Job/ExportProductJob.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(bool) $product-&gt;managing_stock()</code>
+      <code>(bool) $product-&gt;managing_stock()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Job/ReExportProductJob.php">
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>deleteRecord</code>
+      <code>remoteId</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCastGivenDocblockType occurrences="3">
+      <code>(bool) $product-&gt;managing_stock()</code>
+      <code>(int) $product-&gt;get_id()</code>
+      <code>(int) $product-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Job/SyncStockJob.php">
+    <InvalidArgument occurrences="1">
+      <code>new BasicJobRecord(clone $this, $context-&gt;withIncrementedRetryCount())</code>
+    </InvalidArgument>
+    <InvalidReturnStatement occurrences="3">
+      <code>$result</code>
+      <code>$result</code>
+      <code>$result</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>string[]</code>
+    </InvalidReturnType>
+    <PossiblyFalseReference occurrences="1">
+      <code>get_stock_quantity</code>
+    </PossiblyFalseReference>
+    <PossiblyNullArgument occurrences="2">
+      <code>$wcProduct</code>
+      <code>$wcProduct</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>get_stock_quantity</code>
+    </PossiblyNullReference>
+    <RedundantCast occurrences="1">
+      <code>(string) $product-&gt;uuid()</code>
+    </RedundantCast>
+    <RedundantCastGivenDocblockType occurrences="3">
+      <code>(int) $product-&gt;get_id()</code>
+      <code>(int) $wcProduct-&gt;get_id()</code>
+      <code>(int) $wcProduct-&gt;get_parent_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Job/UnlinkImages.php">
+    <PossiblyUndefinedMethod occurrences="1">
+      <code>deleteRecord</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(array) $product-&gt;get_visible_children()</code>
+    </RedundantCastGivenDocblockType>
+    <TypeDoesNotContainNull occurrences="1">
+      <code>$attachmentId === null</code>
+    </TypeDoesNotContainNull>
+    <UndefinedInterfaceMethod occurrences="4">
+      <code>remoteId</code>
+      <code>remoteId</code>
+      <code>remoteId</code>
+      <code>remoteId</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Job/UnlinkProductJob.php">
+    <MissingReturnType occurrences="1">
+      <code>logSuccess</code>
+    </MissingReturnType>
+    <PossiblyUndefinedMethod occurrences="6">
+      <code>deleteRecord</code>
+      <code>deleteRecord</code>
+      <code>deleteRecord</code>
+      <code>localId</code>
+      <code>remoteId</code>
+      <code>remoteIds</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(array) $product-&gt;get_visible_children()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Job/UnlinkVariantJob.php">
+    <PossiblyUndefinedMethod occurrences="3">
+      <code>deleteRecord</code>
+      <code>localId</code>
+      <code>remoteId</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/AllPropsListener.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/DePublishListener.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $product-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/DeleteVariableWithoutVariationsListener.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$exception</code>
+    </ImplicitToStringCast>
+    <PossiblyNullArgument occurrences="1">
+      <code>$uuid</code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedMethod occurrences="4">
+      <code>deleteRecord</code>
+      <code>deleteRecord</code>
+      <code>localId</code>
+      <code>remoteId</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCast occurrences="1">
+      <code>(string) $variant-&gt;uuid()</code>
+    </RedundantCast>
+    <RedundantCastGivenDocblockType occurrences="3">
+      <code>(array) $new-&gt;get_available_variations()</code>
+      <code>(int) $new-&gt;get_id()</code>
+      <code>(int) $product-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/NotSyncableListener.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/ParentStockVariationListener.php">
+    <RedundantCastGivenDocblockType occurrences="6">
+      <code>(int) $new-&gt;get_id()</code>
+      <code>(int) $new-&gt;get_parent_id()</code>
+      <code>(int) $parentProduct-&gt;get_id()</code>
+      <code>(int) $variation-&gt;get_id()</code>
+      <code>(int) $variation-&gt;get_parent_id()</code>
+      <code>(int) $variation-&gt;get_stock_managed_by_id()</code>
+    </RedundantCastGivenDocblockType>
+    <TypeDoesNotContainNull occurrences="1">
+      <code>$parentProduct === null</code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/SimpleManageStockListener.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(bool) $new-&gt;managing_stock()</code>
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/SimpleToVariableTypeChangeListener.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/StockQuantityListener.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/StockSyncOnVariationPublishListener.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/VariableManageStockListener.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(bool) $new-&gt;managing_stock()</code>
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/VariableToSimpleTypeChangeListener.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(array) $old-&gt;get_visible_children()</code>
+      <code>(int) $new-&gt;get_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/VariationDeleteListener.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(int) $product-&gt;get_id()</code>
+      <code>(int) $product-&gt;get_parent_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Listener/VariationManageStockListener.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(bool) $new-&gt;is_purchasable()</code>
+      <code>(int) $new-&gt;get_parent_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/SyncModule.php">
+    <UndefinedClass occurrences="1">
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-sync/src/Validator/ProductValidator.php">
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(int) $product-&gt;get_id()</code>
+      <code>(string) $product-&gt;get_type()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Bootstrap.php">
+    <MissingReturnType occurrences="2">
+      <code>activate</code>
+      <code>deactivate</code>
+    </MissingReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Cli/WebhookCommand.php">
+    <InvalidMethodCall occurrences="1">
+      <code>fetch</code>
+    </InvalidMethodCall>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$webhookStorage</code>
+    </InvalidPropertyAssignmentValue>
+    <MissingReturnType occurrences="3">
+      <code>delete</code>
+      <code>list</code>
+      <code>register</code>
+    </MissingReturnType>
+    <UndefinedClass occurrences="3">
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+      <code>WP_CLI</code>
+    </UndefinedClass>
+    <UndefinedFunction occurrences="1">
+      <code>format_items('table', $table, ['uuid', 'eventNames', 'status', 'destination'])</code>
+    </UndefinedFunction>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Handler/InventoryBalanceChangedHandler.php">
+    <InvalidReturnType occurrences="1">
+      <code>handle</code>
+    </InvalidReturnType>
+    <RedundantCast occurrences="1">
+      <code>(string) $payload-&gt;messageId()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Handler/InventoryTrackingStartedHandler.php">
+    <InvalidReturnType occurrences="1">
+      <code>handle</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Handler/InventoryTrackingStoppedHandler.php">
+    <InvalidReturnType occurrences="1">
+      <code>handle</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Handler/LogHandler.php">
+    <InvalidReturnType occurrences="1">
+      <code>handle</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Handler/ProductDeletedHandler.php">
+    <InvalidReturnType occurrences="1">
+      <code>handle</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Handler/ProductUpdateHandler.php">
+    <InvalidReturnType occurrences="1">
+      <code>handle</code>
+    </InvalidReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Job/InventoryBalanceChangedJob.php">
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $wcProduct-&gt;get_stock_managed_by_id()</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/Rest/SignatureVerifier.php">
+    <FalsableReturnStatement occurrences="1"/>
+    <InvalidFalsableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidFalsableReturnType>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/WebhookDeletion.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $webhook-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/WebhookModule.php">
+    <MissingReturnType occurrences="2">
+      <code>registerCliCommand</code>
+      <code>registerRestRoute</code>
+    </MissingReturnType>
+    <UndefinedClass occurrences="1">
+      <code>WP_CLI</code>
+    </UndefinedClass>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/WebhookRegistration.php">
+    <InvalidMethodCall occurrences="1">
+      <code>execute</code>
+    </InvalidMethodCall>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$webhookDeletion</code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="modules.local/paypal-pos-webhooks/src/WebhookStorage.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $webhook-&gt;uuid()</code>
+    </RedundantCast>
+  </file>
+</files>

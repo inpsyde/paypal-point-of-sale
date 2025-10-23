@@ -1,0 +1,13 @@
+{
+    "name": "inpsyde/paypal-pos-assets",
+    "type": "inpsyde-module",
+    "require": {
+        "dhii/module-interface": "^0.2 || ^0.3",
+        "inpsyde/assets": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\PayPal\\PointOfSale\\Assets\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,77 @@
+.zettle-settings-onboarding {
+	.sync-navigation-note{
+		strong{
+			padding-top: $spacing-default;
+			display: block;
+			color: $dark-blue;
+		}
+		.woocommerce-help-tip{
+			margin: -4px 0 0 7px!important;
+		}
+
+	}
+    .sync-progress {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background: $green-lighter;
+        border: 1px solid $green-border;
+        border-radius: $border-radius;
+        color: $green;
+        padding: $spacing-small $spacing-large;
+        box-sizing: border-box;
+
+        &-icon {
+            width: 5%;
+            height: 20px;
+
+            svg {
+                fill: $green-darker;
+                height: 20px;
+                width: 20px;
+            }
+
+            &.animate {
+                svg {
+                    animation-name: spin;
+                    animation-duration: 4000ms;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: linear;
+                }
+            }
+        }
+
+        &-text {
+            width: 65%;
+        }
+
+        &-action {
+            width: 30%;
+            text-align: right;
+
+            &-cancel {
+                margin: 0;
+                background: transparent;
+                color: $black-lighter;
+                border-color: $grey-dark;
+                font-size: 0.85rem;
+
+                &:hover {
+                    background: $grey-dark;
+                    color: $black;
+                    border-color: $grey-dark;
+                }
+            }
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform:rotate(0deg);
+        }
+        to {
+            transform:rotate(360deg);
+        }
+    }
+}

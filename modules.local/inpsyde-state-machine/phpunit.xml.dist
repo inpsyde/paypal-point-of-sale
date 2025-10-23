@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/PHPUnit/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    >
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+    <testsuites>
+        <testsuite name="PayPal Point of Sale Webhook module PHP unit tests">
+            <directory suffix="Test.php">./tests/PHPUnit/Unit</directory>
+        </testsuite>
+        <testsuite name="PayPal Point of Sale Webhook module integration tests">
+            <directory suffix="Test.php">./tests/PHPUnit/Integration</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

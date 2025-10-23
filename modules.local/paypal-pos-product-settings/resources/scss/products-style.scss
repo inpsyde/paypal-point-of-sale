@@ -1,0 +1,76 @@
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+
+$border-radius: 8px !default;
+$border-width: 2px !default;
+
+$font-weight-lighter: lighter !default;
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-light-bold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: bolder !default;
+
+$line-height-base: 1.5 !default;
+$line-height-sm: 22px !default;
+$line-height-lg: 2 !default;
+
+$spacer: 1rem !default;
+
+// Default Colors
+//
+$black: #000;
+
+// Alert Color
+// Warning Colors
+$warning-color: #7E4B0A !default;
+$warning-background-color: #FFF6DF !default;
+$warning-border-color: #E9B33E !default;
+// Error Colors
+$error-color:  #932e0e !default;
+$error-background-color: #ffdeda !default;
+$error-border-color: #ffcdc5 !default;
+
+// Button
+$btn-offset-y: .650rem !default;
+$btn-padding-y: .5rem !default;
+$btn-padding-x: 1.25rem !default;
+
+$btn-font-family: null !default;
+$btn-font-size: $font-size-base !default;
+$btn-line-height: $line-height-base !default;
+$btn-font-weight: $font-weight-normal !default;
+$btn-white-space: null !default; // Set to `nowrap` to prevent text wrapping
+
+$btn-border-radius: $border-radius !default;
+$btn-border-width: $border-width !default;
+
+$btn-transition: all .1s ease-in-out;
+
+$btn-focus-box-shadow: .2rem !default;
+$btn-active-box-shadow: inset 0 3px 5px rgba($black, .125) !default;
+
+$btn-disabled-opacity: .65 !default;
+
+// Alerts
+//
+// Define alert colors, border radius, and padding.
+
+$alert-padding-y: $spacer !default;
+$alert-padding-x: $spacer !default;
+$alert-margin-bottom: 1rem !default;
+$alert-border-radius: $border-radius !default;
+$alert-link-font-weight: $font-weight-bold !default;
+$alert-border-width: $border-width !default;
+
+$alert-bg-level: -10 !default;
+$alert-border-level: -9 !default;
+$alert-color-level: 6 !default;
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+$enable-rounded: true !default;
+
+@import "_mixins/border-radius";
+@import "modules/alert";
+@import "modules/barcode";

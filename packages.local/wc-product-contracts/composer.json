@@ -1,0 +1,22 @@
+{
+    "name": "inpsyde/wc-product-contracts",
+    "description": "description",
+    "type": "package",
+    "license": "gpl-v2-or-later",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "brianvarskonst",
+            "email": "email@example.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 | ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Inpsyde\\WcProductContracts\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,59 @@
+name: Testing
+
+on:
+  push:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['8.2', '8.3', '8.4']
+    env:
+      IZETTLE_API_KEY: ${{ secrets.IZETTLE_API_KEY }}
+      IZETTLE_PLACEHOLDER_IMAGES_ENABLED: 1
+
+    steps:
+      # Ubuntu will already ship composer 2 which currently breaks our tools. Remove this when it's no longer needed
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      # Save the current branch name in an environment variable, to be used for conditional logic below
+      - name: Extract branch name into env
+        id: git
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF##*/})"
+
+      - uses: actions/checkout@v1
+
+      - name: Packagist.com Auth
+        run: composer config --global --auth http-basic.repo.packagist.com token ${{ secrets.PACKAGIST_TOKEN }}
+
+      - name: Validate composer.json
+        run: composer validate
+
+      - name: Remove Psalm for PHP 8.4
+        run: composer remove --dev vimeo/psalm
+        if: ${{ matrix.php-versions == '8.4' }}
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: "--prefer-dist"
+
+      - name: Run PHPUnit
+        run: ./phpunit.sh --no-sync
+
+      - name: Psalm
+        run: ./vendor/bin/psalm --diff --long-progress --stats
+        if: ${{ matrix.php-versions != '8.4' }}
+
+      - name: Run Codesniffer
+        run: composer cs
+
+      - uses: 8398a7/action-slack@v2
+        with:
+          status: ${{ job.status }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: failure() && ( steps.git.outputs.branch == 'master' || steps.git.outputs.branch == 'development' )

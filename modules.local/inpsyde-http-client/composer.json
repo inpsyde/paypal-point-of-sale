@@ -1,0 +1,29 @@
+{
+  "name": "inpsyde/inpsyde-http-client",
+  "type": "inpsyde-module",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://repo.packagist.com/inpsyde"
+    },
+    {
+      "packagist.org": false
+    }
+  ],
+  "require": {
+    "dhii/module-interface": "^0.2 || ^0.3",
+    "php-http/curl-client": "^2.1",
+    "php-http/message": "^1.8",
+    "nyholm/psr7": "^1.2",
+    "php-http/message-factory": "^1.1",
+    "inpsyde/psr-18-wp-http-client": "^0.1",
+    "php-http/client-common": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Inpsyde\\Http\\": "src/"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+// Gradients
+
+@mixin gradient-bg($color, $foreground: null) {
+  @if $enable-gradients {
+    @if $foreground {
+      background-image: $foreground, linear-gradient(180deg, mix($body-bg, $color, 15%), $color);
+    } @else {
+      background-image: linear-gradient(180deg, mix($body-bg, $color, 15%), $color);
+    }
+  } @else {
+    background-color: $color;
+  }
+}

@@ -1,0 +1,73 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Syde\PayPal\PointOfSale\PhpSdk\API\OAuth;
+
+use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
+use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
+use Psr\Http\Message\UriInterface;
+
+class Organizations
+{
+
+    private $uri;
+
+    /**
+     * @var RestClientInterface
+     */
+    private $restClient;
+
+    /**
+     * @var BuilderInterface
+     */
+    private $builder;
+
+    /**
+     * Organizations constructor.
+     *
+     * @param UriInterface $uri
+     * @param RestClientInterface $restClient
+     * @param BuilderInterface $builder
+     */
+    public function __construct(
+        UriInterface $uri,
+        RestClientInterface $restClient,
+        BuilderInterface $builder
+    ) {
+
+        $this->uri = $uri;
+        $this->restClient = $restClient;
+        $this->builder = $builder;
+    }
+
+    /**
+     * @return Organization
+     *
+     * @throws ZettleRestException
+     */
+    public function account(): Organization
+    {
+        $url = (string) $this->uri->withPath('/api/resources/organizations/self');
+
+        $result = $this->restClient->get($url, []);
+
+        try {
+            return $this->builder->build(
+                Organization::class,
+                $result
+            );
+        } catch (BuilderException $exception) {
+            throw new ZettleRestException(
+                sprintf('Failed to build Organization entity after fetching'),
+                0,
+                [],
+                [],
+                $exception
+            );
+        }
+    }
+}

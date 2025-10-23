@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="Syde\PayPal\PointOfSale\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/PHPUnit/Helper" isTestSource="true" packagePrefix="Syde\PayPal\PointOfSale\Test\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-debug/src" isTestSource="false" packagePrefix="Inpsyde\Debug\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-debug/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-debug/tests/PHPUnit" isTestSource="true" packagePrefix="Inpsyde\Debug\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-http-client/src" isTestSource="false" packagePrefix="Inpsyde\Http\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-queue/src" isTestSource="false" packagePrefix="Inpsyde\Queue\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-queue/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-queue/tests/PHPUnit/Helper" isTestSource="true" packagePrefix="Inpsyde\Queue\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-state-machine/src" isTestSource="false" packagePrefix="Inpsyde\StateMachine\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-state-machine/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-state-machine/tests/PHPUnit/Helper" isTestSource="true" packagePrefix="Inpsyde\StateMachine\Test\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-wc-status-report/src" isTestSource="false" packagePrefix="Inpsyde\WcStatusReport\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-wc-status-report/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-wc-status-report/tests/PHPUnit" isTestSource="true" packagePrefix="Inpsyde\WcStatusReport\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-woocommerce-lifecycle-events/src" isTestSource="false" packagePrefix="Inpsyde\WcEvents\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-woocommerce-lifecycle-events/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/inpsyde-woocommerce-lifecycle-events/tests/PHPUnit" isTestSource="true" packagePrefix="Inpsyde\WcEvents\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/zettle-auth/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/zettle-logging/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/zettle-onboarding/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/zettle-php-sdk/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/modules.local/zettle-webhooks/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/packages.local/wc-product-contracts/src" isTestSource="false" packagePrefix="Inpsyde\WcProductContracts\" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/event-dispatcher-interface" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/clue/stream-filter" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/validation-interface" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/collections-interface" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/containers" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/validator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/byte-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/module-interface" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/brain/monkey" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/amp" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/brain/nonces" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nyholm/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/vimeo/psalm" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dnoegel/php-xdg-base-dir" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/vlucas/phpdotenv" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/inpsyde/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/inpsyde/php-coding-standards" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/inpsyde/metabox-orchestra" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/inpsyde/wp-context" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/inpsyde/module-ide-helper" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/inpsyde/psr-18-wp-http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mockery/mockery" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/version" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/openlss/lib-array2xml" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/prophecy" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-file-iterator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-text-template" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-code-coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/options-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/deprecation-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/var-dumper" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-grapheme" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-normalizer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/service-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/uid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/string" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/console" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/brianium/habitat" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/brianium/paratest" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/inflector" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/oomphinc/composer-installers-extender" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/httplug" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/discovery" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/message" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/message-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/curl-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/werkspot/enum" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/client-common" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-stubs/woocommerce-stubs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hanneskod/classtools" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpoption/phpoption" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-stubs/wordpress-stubs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/recursion-context" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/resource-operations" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/object-enumerator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/comparator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/environment" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/global-state" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/object-reflector" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/squizlabs/php_codesniffer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/version" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/automattic/phpcs-neutron-standard" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/antecedent/patchwork" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/automattic/vipwpcs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/netresearch/jsonmapper" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sirbrillig/phpcs-variable-analysis" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dealerdirect/phpcodesniffer-composer-installer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/brainmaestro/composer-git-hooks" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/felixfbecker/language-server-protocol" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/felixfbecker/advanced-json-rpc" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpcompatibility/php-compatibility" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/wp-coding-standards/wpcs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/container-interop/service-provider" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/type" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fakerphp/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/modules" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fidry/cpu-core-counter" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/inpsyde/wc-product-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpstan/phpdoc-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-invoker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/cli-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/code-unit" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/complexity" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/lines-of-code" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sniccowp/php-scoper-wordpress-excludes" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/array-to-xml" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/filesystem" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

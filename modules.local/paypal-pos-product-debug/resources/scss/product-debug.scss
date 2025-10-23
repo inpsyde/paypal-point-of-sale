@@ -1,0 +1,21 @@
+@import "variables";
+@import "components";
+
+#zettle_synced {
+    width: $column-width;
+    text-align: left !important;
+
+    @media only screen and (min-width: 1200px) {
+        width: $column-width-full;
+    }
+}
+
+.zettle_synced {
+    .is-synced {
+        color: $status-synced;
+    }
+
+    .not-synced {
+        color: $status-not-synced;
+    }
+}

@@ -1,0 +1,60 @@
+.zettle-settings {
+    &-onboarding {
+        background: $body-background;
+        color: $body-color;
+        border: 1px solid $body-border-color;
+
+        tr {
+            th,
+            td {
+                display: block;
+                width: auto;
+            }
+
+            th {
+                padding: $spacing-small $spacing-large;
+
+                label {
+                    display: inline-block !important;
+                }
+            }
+        }
+
+        ul {
+            margin-top: $spacing-small-half;
+        }
+
+        .forminp {
+            margin: 0;
+            padding: 0;
+        }
+
+        &-container {
+            padding: 0 $spacing-large $spacing-large;
+            max-width: $width-default;
+        }
+    }
+	span.separator {
+		display: inline-block;
+		padding: 0 $spacing-extra-small;
+	}
+}
+
+/**
+ * WooCommerce Default Overwrites
+ */
+
+.woocommerce table.form-table .woocommerce-help-tip,
+.woocommerce table.form-table img.help_tip {
+    margin: -4px 0 0 0;
+}
+
+/**
+ * Hide Saving Message at the zettle integration page
+ */
+
+.wrap.woocommerce {
+    .updated {
+        display: none !important;
+    }
+}

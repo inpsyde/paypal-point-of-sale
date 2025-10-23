@@ -1,0 +1,164 @@
+.zettle-settings-header {
+    background: $body-background;
+    color: $body-color;
+    border: 1px solid $body-border-color;
+    padding: $spacing-large $spacing-large;
+    margin: $spacer 0 0;
+
+    &-container {
+        display: grid;
+        grid-gap: 14px;
+        grid-template-columns: 50% auto;
+        max-width: $width-default;
+    }
+
+    &-logo,
+    &-integration,
+    &-meta {
+        display: inline-block;
+    }
+
+    &-logo {
+        width: 120px;
+        margin: 0;
+        padding: 0;
+    }
+
+    &-details {
+        h2 {
+            margin-bottom: $spacing-extra-small/2;
+            font-weight: $font-weight-bold;
+
+            @media (min-width: 620px) {
+                @include font-size($h3-font-size);
+            }
+        }
+
+        &-links {
+            padding: $spacing-extra-small 0 0;
+            margin: 0;
+
+            a.link {
+                display: inline-block;
+                text-decoration: none;
+                transition: all 0.3s linear;
+                border-radius: $spacing-extra-small;
+                background: transparent;
+                box-shadow: 0 0 0 2px transparent, 0 0 0 3px transparent;
+
+                &:hover {
+                    background-color: $link-hover-background-color;
+                    background: $link-hover-background-color;
+                    box-shadow: $link-hover-box-shadow;
+                }
+
+                .link-label,
+                .link-icon {
+                    display: inline-block;
+                }
+
+                .link-label {
+                    text-decoration: underline;
+                }
+
+                .link-icon {
+                    text-decoration: none;
+
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        vertical-align: middle;
+
+                        g {
+                            path {
+                                fill: $link-color;
+
+                                &:hover {
+                                    fill: $link-hover-color;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        p {
+            font-size: .9rem;
+            line-height: 1.25rem;
+            padding: $spacing-extra-small 0 0;
+            margin: 0;
+        }
+    }
+
+    &-meta {
+        text-align: right;
+
+        @media screen and (max-width: 581px) {
+            .btn {
+                font-size: .75rem;
+            }
+        }
+
+        p {
+            font-size: 0.9rem;
+            line-height: 1.25rem;
+            padding: $spacing-extra-small 0 0;
+            margin: 0;
+        }
+
+        .zettle-settings-header-merchant-email {
+            padding: 0;
+            margin: 0;
+
+            p {
+                padding: 0 0 $spacing-extra-small 0;
+            }
+        }
+
+        .btn {
+            &.btn-delete-link {
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+
+        a.btn {
+            .btn-label,
+            .btn-icon {
+                display: inline-block;
+            }
+
+            .btn-label {
+                margin-right: $spacing-extra-small;
+            }
+
+            .btn-icon {
+                svg {
+                    width: 18px;
+                    height: 18px;
+                    vertical-align: middle;
+
+                    g {
+                        path {
+                            fill: $link-color;
+
+                            &:hover {
+                                fill: $link-hover-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        a.btn + button.btn:not(.btn-delete-link) {
+            margin-top: $spacing-default;
+            margin-left: $spacing-default;
+
+            @media screen and (min-width: 859px) {
+                margin-top: 0;
+            }
+        }
+    }
+}
