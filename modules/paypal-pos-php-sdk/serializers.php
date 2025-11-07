@@ -25,7 +25,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Serializer\CallbackSeriali
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Serializer\SerializerInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 $key = static function (string $className): string {
-    return "zettle.sdk.serializer.{$className}";
+    return "paypal-pos.sdk.serializer.{$className}";
 };
 $serializer = static function (callable $callable) {
     return static function (ContainerInterface $container) use ($callable): SerializerInterface {
