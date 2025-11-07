@@ -41,7 +41,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Uuid\Uuid;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 $key = static function (string $className): string {
-    return "zettle.sdk.builder.woocommerce.{$className}";
+    return "paypal-pos.sdk.builder.woocommerce.{$className}";
 };
 $builder = static function (callable $callable) {
     return static function (C $container) use ($callable): B {
