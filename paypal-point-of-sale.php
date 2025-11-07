@@ -53,7 +53,7 @@ use Psr\Container\ContainerInterface;
         );
     }
 
-    $requiresAtLeast = '7.4';
+    $requiresAtLeast = '8.2';
     if (version_compare(PHP_VERSION, $requiresAtLeast, '<')) {
         errorNotice(
             sprintf(
