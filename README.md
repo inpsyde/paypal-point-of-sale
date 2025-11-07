@@ -86,7 +86,7 @@ The team at [Syde](https://syde.com) is engineering the Web since 2006.
 
 ## License
 
-Copyright (c) 2020 Moritz Meißelbach, Syde
+Copyright (c) 2025 Syde
 
 Good news, this plugin is free for everyone! Since it's released under the [GPL-2.0 License](LICENSE) you can use it free of charge on your personal or commercial website.
 
