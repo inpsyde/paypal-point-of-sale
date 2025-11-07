@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Assets;
 
 use Inpsyde\Assets\Asset;
+use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
@@ -13,8 +14,8 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['inpsyde.assets.registry' => static function (C $container, array $previous): array {
     $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
     if ($container->get('paypal-pos.assets.should-enqueue.all')()) {
-        $previous[] = new Style('zettle-admin-style', "{$assetUri}/admin.css", Asset::BACKEND);
-        $previous[] = (new Script('zettle-admin-scripts', "{$assetUri}/admin-scripts.js", Asset::BACKEND))->withLocalize('zettleAPIKeyCreation', static function () use ($container): array {
+        $previous[] = new Style('zettle-admin-style', "{$assetUri}/admin.css", BaseAsset::BACKEND);
+        $previous[] = (new Script('zettle-admin-scripts', "{$assetUri}/admin-scripts.js", BaseAsset::BACKEND))->withLocalize('zettleAPIKeyCreation', static function () use ($container): array {
             $url = $container->get('paypal-pos.settings.account.link.api-key-creation-url');
             return ['url' => $url];
         })->withLocalize('zettleOnboardingValidationRules', static function () use ($container): array {
@@ -24,7 +25,7 @@ return ['inpsyde.assets.registry' => static function (C $container, array $previ
         });
     }
     if ($container->get('paypal-pos.assets.should-enqueue.sync-module')()) {
-        $previous[] = (new Script('zettle-sync-scripts', "{$assetUri}/sync-scripts.js", Asset::BACKEND))->withLocalize('zettleQueueProcessEndpoint', static function () use ($container): array {
+        $previous[] = (new Script('zettle-sync-scripts', "{$assetUri}/sync-scripts.js", BaseAsset::BACKEND))->withLocalize('zettleQueueProcessEndpoint', static function () use ($container): array {
             $jobTypes = $container->get('paypal-pos.assets.sync-job-types');
             $jobRepo = $container->get('inpsyde.queue.repository');
             assert($jobRepo instanceof JobRepository);
