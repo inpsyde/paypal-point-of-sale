@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a8ee7933133f22fb265793254fa7603",
+    "content-hash": "87a5eed659416a160d97dc624a55b8b6",
     "packages": [
         {
             "name": "brain/nonces",
@@ -796,16 +796,16 @@
         },
         {
             "name": "inpsyde/assets",
-            "version": "2.10.0",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inpsyde/assets.git",
-                "reference": "b328f2f357e147f662779d20d6642329b1db7307"
+                "reference": "a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inpsyde/assets/zipball/b328f2f357e147f662779d20d6642329b1db7307",
-                "reference": "b328f2f357e147f662779d20d6642329b1db7307",
+                "url": "https://api.github.com/repos/inpsyde/assets/zipball/a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af",
+                "reference": "a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -868,9 +868,9 @@
             "description": "Package to manage assets in WordPress.",
             "support": {
                 "issues": "https://github.com/inpsyde/assets/issues",
-                "source": "https://github.com/inpsyde/assets/tree/2.10.0"
+                "source": "https://github.com/inpsyde/assets/tree/2.11.0"
             },
-            "time": "2025-09-03T07:45:07+00:00"
+            "time": "2025-10-30T14:02:36+00:00"
         },
         {
             "name": "inpsyde/inpsyde-debug",
@@ -4303,102 +4303,6 @@
             "time": "2025-04-30T06:54:44+00:00"
         },
         {
-            "name": "hanneskod/classtools",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hanneskod/classtools.git",
-                "reference": "d365ddac0e602027c0471ea292f4ba2afcb49394"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hanneskod/classtools/zipball/d365ddac0e602027c0471ea292f4ba2afcb49394",
-                "reference": "d365ddac0e602027c0471ea292f4ba2afcb49394",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "nikic/php-parser": "^4",
-                "php": ">=7.1",
-                "symfony/finder": "^4|^5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "hanneskod\\classtools\\": "src/"
-                }
-            },
-            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
-            "license": [
-                "WTFPL"
-            ],
-            "authors": [
-                {
-                    "name": "Hannes Forsgård",
-                    "email": "hannes.forsgard@fripost.org"
-                }
-            ],
-            "description": "Find, extract and process classes from file system",
-            "homepage": "https://github.com/hanneskod/classtools",
-            "keywords": [
-                "class finder",
-                "code generator",
-                "metaprogramming",
-                "minimizer"
-            ],
-            "time": "2020-03-05T20:41:28+00:00"
-        },
-        {
-            "name": "inpsyde/module-ide-helper",
-            "version": "0.1.1",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:inpsyde/module-ide-helper.git",
-                "reference": "e181fcc8c0c1ab09d0b957762402a2d0d237fd85"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/inpsyde/module-ide-helper/zipball/e181fcc8c0c1ab09d0b957762402a2d0d237fd85",
-                "reference": "e181fcc8c0c1ab09d0b957762402a2d0d237fd85",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "composer-plugin-api": "^2.0",
-                "hanneskod/classtools": "^1.2"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Inpsyde\\ComposerModuleIdeHelper\\Plugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Inpsyde\\ComposerModuleIdeHelper\\": "src/"
-                }
-            },
-            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Provides IDE support and autoloading for Dhii modules",
-            "support": {
-                "source": "https://github.com/inpsyde/module-ide-helper/tree/0.1.1",
-                "issues": "https://github.com/inpsyde/module-ide-helper/issues"
-            },
-            "abandoned": true,
-            "time": "2022-05-16T13:52:19+00:00"
-        },
-        {
             "name": "inpsyde/php-coding-standards",
             "version": "1.0.0-RC.1",
             "source": {
@@ -7165,16 +7069,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.3.4",
+            "version": "v7.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "2b9c5fafbac0399a20a2e82429e2bd735dcfb7db"
+                "reference": "c28ad91448f86c5f6d9d2c70f0cf68bf135f252a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/2b9c5fafbac0399a20a2e82429e2bd735dcfb7db",
-                "reference": "2b9c5fafbac0399a20a2e82429e2bd735dcfb7db",
+                "url": "https://api.github.com/repos/symfony/console/zipball/c28ad91448f86c5f6d9d2c70f0cf68bf135f252a",
+                "reference": "c28ad91448f86c5f6d9d2c70f0cf68bf135f252a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7245,7 +7149,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.3.4"
+                "source": "https://github.com/symfony/console/tree/v7.3.6"
             },
             "funding": [
                 {
@@ -7265,20 +7169,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-22T15:31:00+00:00"
+            "time": "2025-11-04T01:21:42+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v7.3.2",
+            "version": "v7.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "edcbb768a186b5c3f25d0643159a787d3e63b7fd"
+                "reference": "e9bcfd7837928ab656276fe00464092cc9e1826a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/edcbb768a186b5c3f25d0643159a787d3e63b7fd",
-                "reference": "edcbb768a186b5c3f25d0643159a787d3e63b7fd",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/e9bcfd7837928ab656276fe00464092cc9e1826a",
+                "reference": "e9bcfd7837928ab656276fe00464092cc9e1826a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7321,7 +7225,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v7.3.2"
+                "source": "https://github.com/symfony/filesystem/tree/v7.3.6"
             },
             "funding": [
                 {
@@ -7341,76 +7245,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-07-07T08:17:47+00:00"
-        },
-        {
-            "name": "symfony/finder",
-            "version": "v5.4.45",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/finder.git",
-                "reference": "63741784cd7b9967975eec610b256eed3ede022b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/63741784cd7b9967975eec610b256eed3ede022b",
-                "reference": "63741784cd7b9967975eec610b256eed3ede022b",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1|^3",
-                "symfony/polyfill-php80": "^1.16"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Finder\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Finds files and directories via an intuitive fluent interface",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/finder/tree/v5.4.45"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-28T13:32:08+00:00"
+            "time": "2025-11-05T09:52:27+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -8313,16 +8148,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.12.0",
+            "version": "1.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "541057574806f942c94662b817a50f63f7345360"
+                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/541057574806f942c94662b817a50f63f7345360",
-                "reference": "541057574806f942c94662b817a50f63f7345360",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9be6926d8b485f55b9229203f962b51ed377ba68",
+                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -8371,9 +8206,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.12.0"
+                "source": "https://github.com/webmozarts/assert/tree/1.12.1"
             },
-            "time": "2025-10-20T12:43:39+00:00"
+            "time": "2025-10-29T15:56:20+00:00"
         },
         {
             "name": "webmozart/path-util",
