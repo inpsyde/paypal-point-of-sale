@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Assets;
 
 use Inpsyde\Assets\Asset;
+use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Inpsyde\Queue\Queue\Job\JobRepository;
@@ -20,13 +21,13 @@ return [
             $previous[] = (new Style(
                 'zettle-admin-style',
                 "{$assetUri}/admin.css",
-                Asset::BACKEND
+                BaseAsset::BACKEND
             ));
 
             $previous[] = (new Script(
                 'zettle-admin-scripts',
                 "{$assetUri}/admin-scripts.js",
-                Asset::BACKEND
+                BaseAsset::BACKEND
             ))
                 ->withLocalize(
                     'zettleAPIKeyCreation',
@@ -78,7 +79,7 @@ return [
             $previous[] = (new Script(
                 'zettle-sync-scripts',
                 "{$assetUri}/sync-scripts.js",
-                Asset::BACKEND
+                BaseAsset::BACKEND
             ))
                 ->withLocalize(
                     'zettleQueueProcessEndpoint',

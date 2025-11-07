@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductDebug;
 
-use Inpsyde\Assets\Asset;
+use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
@@ -28,14 +28,14 @@ return [
             $previous[] = new Style(
                 'zettle-product-debug-style',
                 "{$assetUri}/product-debug.css",
-                Asset::BACKEND
+                BaseAsset::BACKEND
             );
 
             $previous[] = (
             new Script(
                 'zettle-product-debug-modules',
                 "{$assetUri}/product-debug-modules.js",
-                Asset::BACKEND
+                BaseAsset::BACKEND
             )
             )->withLocalize(
                 'zettleProductValidation',

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductSettings;
 
-use Inpsyde\Assets\Asset;
+use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
@@ -43,7 +43,7 @@ return [
             $productEditorStyle = (new Style(
                 'zettle-product-editor-style',
                 "{$assetUri}/products-style.css",
-                Asset::BACKEND
+                BaseAsset::BACKEND
             ))
                 ->canEnqueue($isProductsEditor());
 
@@ -51,7 +51,7 @@ return [
             $productEditorScript = (new Script(
                 'zettle-products-script',
                 "{$assetUri}/products-editor.js",
-                Asset::BACKEND
+                BaseAsset::BACKEND
             ))
                 ->canEnqueue($isProductsEditor())
                 ->withLocalize(
