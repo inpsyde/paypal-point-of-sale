@@ -107,6 +107,7 @@ return array(
     'Composer\\Installers\\ZendInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/ZendInstaller.php',
     'Composer\\Installers\\ZikulaInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
     'Inpsyde\\Assets\\Asset' => $vendorDir . '/inpsyde/assets/src/Asset.php',
+    'Inpsyde\\Assets\\AssetCollection' => $vendorDir . '/inpsyde/assets/src/AssetCollection.php',
     'Inpsyde\\Assets\\AssetFactory' => $vendorDir . '/inpsyde/assets/src/AssetFactory.php',
     'Inpsyde\\Assets\\AssetManager' => $vendorDir . '/inpsyde/assets/src/AssetManager.php',
     'Inpsyde\\Assets\\BaseAsset' => $vendorDir . '/inpsyde/assets/src/BaseAsset.php',

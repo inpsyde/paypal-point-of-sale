@@ -823,17 +823,17 @@
         },
         {
             "name": "inpsyde\/assets",
-            "version": "2.10.0",
-            "version_normalized": "2.10.0.0",
+            "version": "2.11.0",
+            "version_normalized": "2.11.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/inpsyde\/assets.git",
-                "reference": "b328f2f357e147f662779d20d6642329b1db7307"
+                "reference": "a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/inpsyde\/assets\/zipball\/b328f2f357e147f662779d20d6642329b1db7307",
-                "reference": "b328f2f357e147f662779d20d6642329b1db7307",
+                "url": "https:\/\/api.github.com\/repos\/inpsyde\/assets\/zipball\/a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af",
+                "reference": "a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -862,7 +862,7 @@
                 "syde\/phpcs": "^1.0.0",
                 "szepeviktor\/phpstan-wordpress": "^2"
             },
-            "time": "2025-09-03T07:45:07+00:00",
+            "time": "2025-10-30T14:02:36+00:00",
             "type": "library",
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress"
@@ -898,7 +898,7 @@
             "description": "Package to manage assets in WordPress.",
             "support": {
                 "issues": "https:\/\/github.com\/inpsyde\/assets\/issues",
-                "source": "https:\/\/github.com\/inpsyde\/assets\/tree\/2.10.0"
+                "source": "https:\/\/github.com\/inpsyde\/assets\/tree\/2.11.0"
             },
             "install-path": "..\/inpsyde\/assets"
         },

@@ -9,6 +9,9 @@ use Inpsyde\Assets\Handler\ScriptHandler;
 use Inpsyde\Assets\Handler\ScriptModuleHandler;
 use Inpsyde\Assets\Handler\StyleHandler;
 use Inpsyde\Assets\Util\AssetHookResolver;
+/**
+ * @phpstan-import-type AssetExtensionConfig from AssetFactory
+ */
 final class AssetManager
 {
     public const ACTION_SETUP = 'inpsyde.assets.setup';
@@ -20,9 +23,17 @@ final class AssetManager
      */
     private array $hooksAdded = [];
     /**
-     * @var \SplObjectStorage<Asset, array{string, string}>
+     * @var array<
+     *      Style::class|Script::class|ScriptModule::class,
+     *      array<string, AssetExtensionConfig>
+     * >
      */
-    private \SplObjectStorage $assets;
+    private array $extensions = [];
+    /**
+     * @var array<Style::class|Script::class|ScriptModule::class, array<string, bool>>
+     */
+    private array $processedAssets = [];
+    private \Inpsyde\Assets\AssetCollection $assets;
     /**
      * @var array<AssetHandler>
      */
@@ -35,7 +46,7 @@ final class AssetManager
     public function __construct(?AssetHookResolver $hookResolver = null)
     {
         $this->hookResolver = $hookResolver ?? new AssetHookResolver();
-        $this->assets = new \SplObjectStorage();
+        $this->assets = new \Inpsyde\Assets\AssetCollection();
     }
     /**
      * @return static
@@ -75,10 +86,7 @@ final class AssetManager
     {
         array_unshift($assets, $asset);
         foreach ($assets as $asset) {
-            $handle = $asset->handle();
-            if ($handle) {
-                $this->assets->attach($asset, [$handle, get_class($asset)]);
-            }
+            $this->extendAndRegisterAsset($asset);
         }
         return $this;
     }
@@ -88,51 +96,69 @@ final class AssetManager
     public function assets(): array
     {
         $this->ensureSetup();
-        $found = [];
-        $this->assets->rewind();
-        while ($this->assets->valid()) {
-            $asset = $this->assets->current();
-            [$handle, $class] = $this->assets->getInfo();
-            if (!isset($found[$class])) {
-                $found[$class] = [];
-            }
-            $found[$class][$handle] = $asset;
-            $this->assets->next();
-        }
-        return $found;
+        return $this->assets->all();
     }
     /**
      * Retrieve an `Asset` instance by a given asset handle and type (class).
      *
-     * If the handle is unique by type, type can be omitted.
-     * It is possible to use a parent class as type.
-     * E.g an asset of a type `MyScript` that extends `Script` can be also retrieved passing
-     * either `MyScript or `Script` as type.
-     *
      * @param string $handle
-     * @param class-string|null $type
+     * @param class-string|null $type   Deprecated, will be in future not nullable.
      *
      * @return Asset|null
      */
     public function asset(string $handle, ?string $type = null): ?\Inpsyde\Assets\Asset
     {
         $this->ensureSetup();
-        /** @var Asset|null $found */
-        $found = null;
-        $this->assets->rewind();
-        while ($this->assets->valid()) {
-            $asset = $this->assets->current();
-            $this->assets->next();
-            if ($asset->handle() !== $handle || $type && !is_a($asset, $type)) {
-                continue;
-            }
-            if ($found) {
-                // only one asset can match
-                return null;
-            }
-            $found = $asset;
+        if ($type === null) {
+            return $this->assets->getFirst($handle);
         }
-        return $found;
+        return $this->assets->get($handle, $type);
+    }
+    /**
+     * @param string $handle
+     * @param string $type
+     * @param AssetExtensionConfig $extensions
+     *
+     * @return $this
+     */
+    public function extendAsset(string $handle, string $type, array $extensions): \Inpsyde\Assets\AssetManager
+    {
+        $existingExtension = $this->extensions[$type][$handle] ?? [];
+        $extensions = array_merge_recursive($existingExtension, $extensions);
+        $this->extensions[$type][$handle] = $extensions;
+        // In case, the asset is already registered,
+        // but not yet processed, extend it.
+        $asset = $this->assets->get($handle, $type);
+        if ($asset !== null && !$this->isAssetProcessed($asset)) {
+            $this->extendAndRegisterAsset($asset);
+        }
+        return $this;
+    }
+    /**
+     * @param string $handle
+     * @param string $type
+     *
+     * @return AssetExtensionConfig
+     */
+    public function assetExtensions(string $handle, string $type): array
+    {
+        return $this->extensions[$type][$handle] ?? [];
+    }
+    /**
+     * @param Asset $asset
+     *
+     * @return $this
+     */
+    protected function extendAndRegisterAsset(\Inpsyde\Assets\Asset $asset): \Inpsyde\Assets\AssetManager
+    {
+        $handle = $asset->handle();
+        $type = get_class($asset);
+        $extensions = $this->assetExtensions($handle, $type);
+        if (count($extensions) > 0 && !$this->isAssetProcessed($asset)) {
+            $asset = \Inpsyde\Assets\AssetFactory::configureAsset($asset, $extensions);
+        }
+        $this->assets->add($asset);
+        return $this;
     }
     /**
      * @return bool
@@ -188,12 +214,12 @@ final class AssetManager
      *
      * @return array<Asset>
      *
-     * phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     private function loopCurrentHookAssets(string $currentHook, bool $process): array
     {
         $this->ensureSetup();
-        if (!$this->assets->count()) {
+        if (count($this->assets->all()) < 1) {
             return [];
         }
         /** @var int|null $locationId */
@@ -202,29 +228,33 @@ final class AssetManager
             return [];
         }
         $found = [];
-        $this->assets->rewind();
-        while ($this->assets->valid()) {
-            $asset = $this->assets->current();
-            $this->assets->next();
-            $handlerName = $asset->handler();
-            $handler = $this->handlers[$handlerName] ?? null;
-            if (!$handler) {
-                continue;
-            }
-            $location = $asset->location();
-            if (($location & $locationId) !== $locationId) {
-                continue;
-            }
-            $found[] = $asset;
-            if (!$process) {
-                continue;
-            }
-            $done = $asset->enqueue() ? $handler->enqueue($asset) : $handler->register($asset);
-            if ($done && $handler instanceof OutputFilterAwareAssetHandler) {
-                $handler->filter($asset);
+        foreach ($this->assets->all() as $type => $assets) {
+            foreach ($assets as $asset) {
+                $handlerName = $asset->handler();
+                $handler = $this->handlers[$handlerName] ?? null;
+                if (!$handler) {
+                    continue;
+                }
+                $location = $asset->location();
+                if (($location & $locationId) !== $locationId) {
+                    continue;
+                }
+                $found[] = $asset;
+                if (!$process) {
+                    continue;
+                }
+                $done = $asset->enqueue() ? $handler->enqueue($asset) : $handler->register($asset);
+                if ($done && $handler instanceof OutputFilterAwareAssetHandler) {
+                    $handler->filter($asset);
+                }
+                $this->processedAssets[$type . '_' . $handlerName] = $done;
             }
         }
         return $found;
+    }
+    protected function isAssetProcessed(\Inpsyde\Assets\Asset $asset): bool
+    {
+        return (bool) ($this->processedAssets[get_class($asset) . '_' . $asset->handle()] ?? \false);
     }
     /**
      * @return void
@@ -242,7 +272,7 @@ final class AssetManager
          * @psalm-suppress PossiblyNullArgument
          */
         if (!$lastHook && did_action($lastHook) && !doing_action($lastHook)) {
-            $this->assets = new \SplObjectStorage();
+            $this->assets = new \Inpsyde\Assets\AssetCollection();
             return;
         }
         $this->useDefaultHandlers();

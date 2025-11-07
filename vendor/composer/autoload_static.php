@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1a8ee7933133f22fb265793254fa7603
+class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
 {
     public static $files = array (
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -404,6 +404,7 @@ class ComposerStaticInit1a8ee7933133f22fb265793254fa7603
         'Composer\\Installers\\ZendInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZendInstaller.php',
         'Composer\\Installers\\ZikulaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
         'Inpsyde\\Assets\\Asset' => __DIR__ . '/..' . '/inpsyde/assets/src/Asset.php',
+        'Inpsyde\\Assets\\AssetCollection' => __DIR__ . '/..' . '/inpsyde/assets/src/AssetCollection.php',
         'Inpsyde\\Assets\\AssetFactory' => __DIR__ . '/..' . '/inpsyde/assets/src/AssetFactory.php',
         'Inpsyde\\Assets\\AssetManager' => __DIR__ . '/..' . '/inpsyde/assets/src/AssetManager.php',
         'Inpsyde\\Assets\\BaseAsset' => __DIR__ . '/..' . '/inpsyde/assets/src/BaseAsset.php',
@@ -1448,9 +1449,9 @@ class ComposerStaticInit1a8ee7933133f22fb265793254fa7603
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1a8ee7933133f22fb265793254fa7603::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1a8ee7933133f22fb265793254fa7603::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1a8ee7933133f22fb265793254fa7603::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit87a5eed659416a160d97dc624a55b8b6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit87a5eed659416a160d97dc624a55b8b6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit87a5eed659416a160d97dc624a55b8b6::$classMap;
 
         }, null, ClassLoader::class);
     }

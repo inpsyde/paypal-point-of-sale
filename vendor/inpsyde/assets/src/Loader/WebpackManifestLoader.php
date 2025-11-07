@@ -17,8 +17,7 @@ class WebpackManifestLoader extends \Inpsyde\Assets\Loader\AbstractWebpackLoader
         $directory = trailingslashit(dirname($resource));
         $assets = [];
         foreach ($data as $handle => $file) {
-            // It can be possible, that the "handle"-key is a filepath.
-            $handle = pathinfo($handle, \PATHINFO_FILENAME);
+            $handle = $this->sanitizeHandle($handle);
             $sanitizedFile = $this->sanitizeFileName($file);
             $fileUrl = !$this->directoryUrl ? $file : $this->directoryUrl . $sanitizedFile;
             $filePath = $directory . $sanitizedFile;

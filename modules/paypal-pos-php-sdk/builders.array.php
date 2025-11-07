@@ -34,7 +34,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\V
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 $key = static function (string $className): string {
-    return "zettle.sdk.builder.array.{$className}";
+    return "paypal-pos.sdk.builder.array.{$className}";
 };
 $builder = static function (callable $callable) {
     return static function (C $container) use ($callable): B {
