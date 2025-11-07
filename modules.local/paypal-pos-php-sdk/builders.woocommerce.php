@@ -41,7 +41,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Uuid\Uuid;
 use Psr\Container\ContainerInterface as C;
 
 $key = static function (string $className): string {
-    return "zettle.sdk.builder.woocommerce.{$className}";
+    return "paypal-pos.sdk.builder.woocommerce.{$className}";
 };
 
 $builder = static function (callable $callable) {
