@@ -20,13 +20,13 @@
     "devDependencies": {
         "@babel/core": "^7.21.0",
         "@babel/preset-env": "^7.20.2",
-        "@symfony/webpack-encore": "^4",
+        "@symfony/webpack-encore": "^5",
         "@wordpress/dependency-extraction-webpack-plugin": "^4",
         "autoprefixer": "^10",
         "postcss-loader": "^7",
         "sass": "^1.50",
         "sass-loader": "^13",
-        "webpack": "^5.75.0",
+        "webpack": "^5.105.2",
         "webpack-cli": "^5.0.1"
     },
     "scripts": {
