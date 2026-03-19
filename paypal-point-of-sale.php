@@ -1,13 +1,12 @@
 <?php
 
 //phpcs:disable PSR12.Files.FileHeader.IncorrectOrder
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Plugin Name: PayPal Point of Sale
  * Plugin URI:  https://zettle.inpsyde.com/
  * Description: PayPal Point of Sale Integration for WooCommerce
- * Version:     {VERSION}
+ * Version: 0.0.0+izet-534-resolve-dependabot-alerts.7907b8d
  * Requires at least: 6.8
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
@@ -19,17 +18,14 @@ declare(strict_types=1);
  * Text Domain: paypal-point-of-sale
  * Domain Path: /languages
  */
-
 /**
  * phpcs:disable PSR1.Files.SideEffects
  * phpcs:disable Squiz.PHP.CommentedOutCode.Found
  */
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
-namespace Syde\PayPal\PointOfSale;
-
-use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
-use Psr\Container\ContainerInterface;
-
+use Syde\Vendor\Zettle\Dhii\Validation\Exception\ValidationFailedExceptionInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 (static function () {
     /**
      * Display an error message in the WP admin
@@ -40,57 +36,34 @@ use Psr\Container\ContainerInterface;
      */
     function errorNotice(string $message)
     {
-        add_action(
-            'all_admin_notices',
-            static function () use ($message) {
-                $class = 'notice notice-error';
-                printf(
-                    '<div class="%1$s"><p>%2$s</p></div>',
-                    esc_attr($class),
-                    wp_kses_post($message)
-                );
-            }
-        );
+        add_action('all_admin_notices', static function () use ($message) {
+            $class = 'notice notice-error';
+            printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), wp_kses_post($message));
+        });
     }
-
     $requiresAtLeast = '8.2';
-    if (version_compare(PHP_VERSION, $requiresAtLeast, '<')) {
-        errorNotice(
-            sprintf(
+    if (version_compare(\PHP_VERSION, $requiresAtLeast, '<')) {
+        errorNotice(sprintf(
             /* translators: required PHP version */
-                esc_html__(
-                    'PayPal Point of Sale requires at least PHP version %s.',
-                    'paypal-point-of-sale'
-                ),
-                $requiresAtLeast
-            )
-            . '<br>' .
-            sprintf(
+            esc_html__('PayPal Point of Sale requires at least PHP version %s.', 'paypal-point-of-sale'),
+            $requiresAtLeast
+        ) . '<br>' . sprintf(
             /* translators: required PHP version */
-                esc_html__(
-                    'Please ask your server administrator to update your environment to PHP version %s.',
-                    'paypal-point-of-sale'
-                ),
-                $requiresAtLeast
-            )
-        );
+            esc_html__('Please ask your server administrator to update your environment to PHP version %s.', 'paypal-point-of-sale'),
+            $requiresAtLeast
+        ));
         return;
     }
-
-    if (
-        !class_exists(PluginModule::class)
-        && file_exists(__DIR__ . '/vendor/autoload.php')
-    ) {
+    if (!class_exists(PluginModule::class) && file_exists(__DIR__ . '/vendor/autoload.php')) {
         include_once __DIR__ . '/vendor/autoload.php';
     }
-
     function init(): ?ContainerInterface
     {
         static $initialized;
         static $container;
         if (!$initialized) {
             try {
-                $container = (require __DIR__ . '/bootstrap.php')(__DIR__, true);
+                $container = (require __DIR__ . '/bootstrap.php')(__DIR__, \true);
             } catch (ValidationFailedExceptionInterface $exc) {
                 $messages = array_map(static function ($error): string {
                     if ($error instanceof ValidationFailedExceptionInterface) {
@@ -98,60 +71,39 @@ use Psr\Container\ContainerInterface;
                     }
                     return (string) $error;
                 }, $exc->getValidationErrors());
-
                 foreach ($messages as $message) {
                     errorNotice($message);
                 }
-
                 return null;
             }
-
-            $initialized = true;
+            $initialized = \true;
         }
-
         return $container;
     }
-
-    add_action(
-        'plugins_loaded',
-        static function () {
-            $container = init();
-
-            if (!$container) {
-                return;
-            }
-
-            // IZET-356, looks like there is no good built-in hook in WP for plugin upgrades
-            $version = $container->get('paypal-pos.plugin.properties')->version();
-            $versionOptionName = $container->get('paypal-pos.version-option-key');
-            if (get_option($versionOptionName) !== $version) {
-                do_action('paypal-point-of-sale.migrate');
-
-                update_option($versionOptionName, $version);
-            }
+    add_action('plugins_loaded', static function () {
+        $container = init();
+        if (!$container) {
+            return;
         }
-    );
-    register_activation_hook(
-        __FILE__,
-        static function () {
-            init();
-            do_action('paypal-point-of-sale.activate');
+        // IZET-356, looks like there is no good built-in hook in WP for plugin upgrades
+        $version = $container->get('paypal-pos.plugin.properties')->version();
+        $versionOptionName = $container->get('paypal-pos.version-option-key');
+        if (get_option($versionOptionName) !== $version) {
+            do_action('paypal-point-of-sale.migrate');
+            update_option($versionOptionName, $version);
         }
-    );
-    register_deactivation_hook(
-        __FILE__,
-        static function () {
-            init();
-            do_action('paypal-point-of-sale.deactivate');
+    });
+    register_activation_hook(__FILE__, static function () {
+        init();
+        do_action('paypal-point-of-sale.activate');
+    });
+    register_deactivation_hook(__FILE__, static function () {
+        init();
+        do_action('paypal-point-of-sale.deactivate');
+    });
+    add_action('before_woocommerce_init', static function () {
+        if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, \true);
         }
-    );
-
-    add_action(
-        'before_woocommerce_init',
-        static function () {
-            if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
-                \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
-            }
-        }
-    );
+    });
 })();

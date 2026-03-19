@@ -1,0 +1,8 @@
+version: "3.2"
+
+services:
+  php:
+      image: php:7.0
+      container_name: "${PROJECT_NAME}_php"
+      volumes:
+          - ${BASE_DIR}:/srv

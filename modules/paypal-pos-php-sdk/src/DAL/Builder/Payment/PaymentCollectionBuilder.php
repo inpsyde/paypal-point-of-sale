@@ -1,0 +1,51 @@
+<?php
+
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Payment;
+
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\PaymentCollection;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\PaymentCollectionFactory;
+class PaymentCollectionBuilder implements PaymentCollectionBuilderInterface
+{
+    /**
+     * @var PaymentCollectionFactory
+     */
+    private $paymentCollectionFactory;
+    /**
+     * @var PaymentBuilderInterface
+     */
+    private $paymentBuilder;
+    /**
+     * PaymentCollectionBuilder constructor.
+     *
+     * @param PaymentCollectionFactory $paymentCollectionFactory
+     * @param PaymentBuilderInterface $paymentBuilder
+     */
+    public function __construct(PaymentCollectionFactory $paymentCollectionFactory, PaymentBuilderInterface $paymentBuilder)
+    {
+        $this->paymentCollectionFactory = $paymentCollectionFactory;
+        $this->paymentBuilder = $paymentBuilder;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function createDataArray(PaymentCollection $paymentCollection): array
+    {
+        $data = [];
+        foreach ($paymentCollection->all() as $payment) {
+            $data[][] = $this->paymentBuilder->createDataArray($payment);
+        }
+        return $data;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function buildFromArray(array $data): PaymentCollection
+    {
+        $paymentCollection = $this->paymentCollectionFactory->create();
+        foreach ($data as $payment) {
+            $paymentCollection->add($this->paymentBuilder->buildFromArray($payment));
+        }
+        return $paymentCollection;
+    }
+}

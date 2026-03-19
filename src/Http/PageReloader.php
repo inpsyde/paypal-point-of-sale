@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Syde\PayPal\PointOfSale\Http;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Http;
 
 use UnexpectedValueException;
-
 class PageReloader implements PageReloaderInterface
 {
     /**
@@ -14,11 +12,10 @@ class PageReloader implements PageReloaderInterface
     public function reload(): void
     {
         $key = 'REQUEST_URI';
-        if (!is_string($requestUrl = filter_input(INPUT_SERVER, $key, FILTER_SANITIZE_URL))) {
+        if (!is_string($requestUrl = filter_input(\INPUT_SERVER, $key, \FILTER_SANITIZE_URL))) {
             throw new UnexpectedValueException(sprintf('Could not retrieve server variable "%1$s"', $key));
         }
-
         wp_safe_redirect($requestUrl);
-        exit();
+        exit;
     }
 }

@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Syde\PayPal\PointOfSale;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
 use Error;
-
 /**
  * @method string name()
  * @method string pluginUri()
@@ -21,51 +19,31 @@ use Error;
  */
 class PluginProperties
 {
-
-    private const HEADER_PROPERTIES = [
-        'name' => 'Name',
-        'pluginUri' => 'PluginURI',
-        'version' => 'Version',
-        'description' => 'Description',
-        'author' => 'Author',
-        'authorUri' => 'AuthorURI',
-        'textDomain' => 'TextDomain',
-        'domainPath' => 'DomainPath',
-        'network' => 'Network',
-        'requiresWp' => 'RequiresWP',
-        'requiresPhp' => 'RequiresPHP',
-    ];
-
+    private const HEADER_PROPERTIES = ['name' => 'Name', 'pluginUri' => 'PluginURI', 'version' => 'Version', 'description' => 'Description', 'author' => 'Author', 'authorUri' => 'AuthorURI', 'textDomain' => 'TextDomain', 'domainPath' => 'DomainPath', 'network' => 'Network', 'requiresWp' => 'RequiresWP', 'requiresPhp' => 'RequiresPHP'];
     /**
      * @var string
      */
     private $basePath;
-
     /**
      * @var string
      */
     private $baseUrl;
-
     /**
      * @var string
      */
     private $basename;
-
     /**
      * @var array
      */
     private $data;
-
     /**
      * @var bool
      */
     private $debug;
-
     /**
      * @var int|null
      */
     private $lastUpdateTimestamp;
-
     /**
      * @param string $pluginFile
      */
@@ -74,18 +52,14 @@ class PluginProperties
         $this->basePath = plugin_dir_path($pluginFile);
         $this->baseUrl = plugins_url('/', $pluginFile);
         $this->basename = plugin_basename($pluginFile);
-
         if (!function_exists('get_plugin_data')) {
             /** @psalm-suppress MissingFile */
-            require_once  ABSPATH . 'wp-admin/includes/plugin.php';
+            require_once \ABSPATH . 'wp-admin/includes/plugin.php';
         }
-
-        $this->data = get_plugin_data($pluginFile, false, false);
-        $this->debug = defined('WP_DEBUG') && WP_DEBUG;
-
+        $this->data = get_plugin_data($pluginFile, \false, \false);
+        $this->debug = defined('WP_DEBUG') && \WP_DEBUG;
         $this->lastUpdateTimestamp = filemtime($pluginFile) ?: null;
     }
-
     /**
      * @param string $name
      * @param array $arguments
@@ -95,14 +69,11 @@ class PluginProperties
     public function __call(string $name, array $arguments): string
     {
         $key = self::HEADER_PROPERTIES[$name] ?? null;
-
         if (!$key) {
             throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, $name));
         }
-
-        return (string)($this->data[$key] ?? '');
+        return (string) ($this->data[$key] ?? '');
     }
-
     /**
      * @return string
      */
@@ -110,7 +81,6 @@ class PluginProperties
     {
         return $this->basePath;
     }
-
     /**
      * @return string
      */
@@ -118,7 +88,6 @@ class PluginProperties
     {
         return $this->baseUrl;
     }
-
     /**
      * @return string
      */
@@ -126,7 +95,6 @@ class PluginProperties
     {
         return $this->basename;
     }
-
     /**
      * @return bool
      */
@@ -134,23 +102,20 @@ class PluginProperties
     {
         return $this->debug;
     }
-
     /**
      * @return void
      */
     public function forceDebug(): void
     {
-        $this->debug = true;
+        $this->debug = \true;
     }
-
     /**
      * @return void
      */
     public function forceNoDebug(): void
     {
-        $this->debug = false;
+        $this->debug = \false;
     }
-
     public function lastUpdateTimestamp(): ?int
     {
         return $this->lastUpdateTimestamp;

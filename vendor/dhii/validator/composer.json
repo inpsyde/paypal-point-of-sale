@@ -1,0 +1,38 @@
+{
+    "name": "dhii\/validator",
+    "description": "A thin, standards-compliant validator implementation.",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anton Ukhanev",
+            "email": "xedin.unknown@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1 | ^8.0",
+        "dhii\/validation-interface": "^0.3.0-alpha3"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^7.1 | ^8.0 | ^9.0",
+        "vimeo\/psalm": "^3.11.7 | ^4.0",
+        "slevomat\/coding-standard": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Dhii\\Validator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Dhii\\Validator\\Test\\Func\\": "tests\/functional",
+            "Syde\\Vendor\\Zettle\\Dhii\\Validator\\Test\\Unit\\": "tests\/unit"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-initial": "0.1.x-dev"
+        }
+    }
+}

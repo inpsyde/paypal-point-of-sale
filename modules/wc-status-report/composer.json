@@ -1,0 +1,23 @@
+{
+    "name": "inpsyde\/wc-status-report",
+    "type": "inpsyde-module",
+    "minimum-stability": "dev",
+    "require": {
+        "dhii\/module-interface": "^0.2 || ^0.3"
+    },
+    "require-dev": {
+        "brianium\/paratest": "^4.0 || ^6.0",
+        "inpsyde\/monkery-test-case": "^6.0.1",
+        "phpunit\/phpunit": "^8.0 || ^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\WcStatusReport\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\WcStatusReport\\Tests\\": "tests\/PHPUnit"
+        }
+    }
+}
