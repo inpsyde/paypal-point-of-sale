@@ -15,7 +15,7 @@ Encore
     .enableForkedTypeScriptTypesChecking()
     .enableSourceMaps(!Encore.isProduction())
 
-    .cleanupOutputBeforeBuild(['*.js', '*.css'])
+    .cleanupOutputBeforeBuild()
     .disableSingleRuntimeChunk()
     .addPlugin(new DependencyExtractionWebpackPlugin())
 ;
