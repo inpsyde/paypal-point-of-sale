@@ -12,8 +12,8 @@ use WC_Product_Variable;
 
 return [
     'inpsyde.wc-lifecycle-events.products.listener-provider' => static function (
-        ContainerInterface $container,
-        ProductEventListenerRegistry $provider
+        ProductEventListenerRegistry $provider,
+        ContainerInterface $container
     ): ProductEventListenerRegistry {
         /**
          * The following hooks are temporarily left here for testing and
