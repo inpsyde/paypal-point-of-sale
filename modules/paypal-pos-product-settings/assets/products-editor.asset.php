@@ -2,4 +2,4 @@
 
 namespace Syde\Vendor\Zettle;
 
-return array('dependencies' => array(), 'version' => 'c1616e4206236d2954da');
+return array('dependencies' => array(), 'version' => '4d66d25d28593da0c53e');

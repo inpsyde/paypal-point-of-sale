@@ -18,7 +18,7 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
     );
 
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Uuid\\' => 22,
             'Syde\\Vendor\\Zettle\\Werkspot\\Enum\\' => 33,
@@ -71,232 +71,232 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
             'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\' => 37,
             'Syde\\Vendor\\Zettle\\Brain\\Nonces\\' => 32,
         ),
-        'O' => 
+        'O' =>
         array (
             'OomphInc\\ComposerInstallersExtender\\' => 36,
         ),
-        'I' => 
+        'I' =>
         array (
             'Inpsyde\\Assets\\' => 15,
         ),
-        'C' => 
+        'C' =>
         array (
             'Composer\\Installers\\' => 20,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Polyfill\\Uuid\\' => 
+        'Symfony\\Polyfill\\Uuid\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-uuid',
         ),
-        'Syde\\Vendor\\Zettle\\Werkspot\\Enum\\' => 
+        'Syde\\Vendor\\Zettle\\Werkspot\\Enum\\' =>
         array (
             0 => __DIR__ . '/..' . '/werkspot/enum/src',
         ),
-        'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\' => 
+        'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
-        'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\' => 
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/uid',
         ),
-        'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\' => 
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-sync/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-settings/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-queue/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-product-settings/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductDebug\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductDebug\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-product-debug/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Onboarding\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Onboarding\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-onboarding/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Notices\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Notices\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-notices/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-auth/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Assets\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Assets\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-assets/src',
         ),
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\' => 
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'Syde\\Vendor\\Zettle\\Psr\\Log\\' => 
+        'Syde\\Vendor\\Zettle\\Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Syde\\Vendor\\Zettle\\Psr\\Http\\Message\\' => 
+        'Syde\\Vendor\\Zettle\\Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Syde\\Vendor\\Zettle\\Psr\\Http\\Client\\' => 
+        'Syde\\Vendor\\Zettle\\Psr\\Http\\Client\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'Syde\\Vendor\\Zettle\\Psr\\Container\\' => 
+        'Syde\\Vendor\\Zettle\\Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Syde\\Vendor\\Zettle\\Nyholm\\Psr7\\' => 
+        'Syde\\Vendor\\Zettle\\Nyholm\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/nyholm/psr7/src',
         ),
-        'Syde\\Vendor\\Zettle\\MetaboxOrchestra\\' => 
+        'Syde\\Vendor\\Zettle\\MetaboxOrchestra\\' =>
         array (
             0 => __DIR__ . '/..' . '/inpsyde/metabox-orchestra/src',
         ),
-        'Syde\\Vendor\\Zettle\\Interop\\Container\\' => 
+        'Syde\\Vendor\\Zettle\\Interop\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/container-interop/service-provider/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\Wp\\HttpClient\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Wp\\HttpClient\\' =>
         array (
             0 => __DIR__ . '/..' . '/inpsyde/psr-18-wp-http-client/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\WcStatusReport\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\WcStatusReport\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/wc-status-report/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\WcProductContracts\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\WcProductContracts\\' =>
         array (
             0 => __DIR__ . '/..' . '/inpsyde/wc-product-contracts/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\WcEvents\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\WcEvents\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/inpsyde-woocommerce-lifecycle-events/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\StateMachine\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\StateMachine\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/inpsyde-state-machine/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/inpsyde-queue/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/inpsyde-http-client/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/inpsyde-debug/src',
         ),
-        'Syde\\Vendor\\Zettle\\Inpsyde\\' => 
+        'Syde\\Vendor\\Zettle\\Inpsyde\\' =>
         array (
             0 => __DIR__ . '/..' . '/inpsyde/wp-context/src',
         ),
-        'Syde\\Vendor\\Zettle\\Http\\Promise\\' => 
+        'Syde\\Vendor\\Zettle\\Http\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/promise/src',
         ),
-        'Syde\\Vendor\\Zettle\\Http\\Message\\' => 
+        'Syde\\Vendor\\Zettle\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/message-factory/src',
             1 => __DIR__ . '/..' . '/php-http/message/src',
         ),
-        'Syde\\Vendor\\Zettle\\Http\\Discovery\\' => 
+        'Syde\\Vendor\\Zettle\\Http\\Discovery\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/discovery/src',
         ),
-        'Syde\\Vendor\\Zettle\\Http\\Client\\Curl\\' => 
+        'Syde\\Vendor\\Zettle\\Http\\Client\\Curl\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/curl-client/src',
         ),
-        'Syde\\Vendor\\Zettle\\Http\\Client\\Common\\' => 
+        'Syde\\Vendor\\Zettle\\Http\\Client\\Common\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/client-common/src',
         ),
-        'Syde\\Vendor\\Zettle\\Http\\Client\\' => 
+        'Syde\\Vendor\\Zettle\\Http\\Client\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/httplug/src',
         ),
-        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\' => 
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
-        'Syde\\Vendor\\Zettle\\Doctrine\\Common\\Inflector\\' => 
+        'Syde\\Vendor\\Zettle\\Doctrine\\Common\\Inflector\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
         ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Validator\\' => 
+        'Syde\\Vendor\\Zettle\\Dhii\\Validator\\' =>
         array (
             0 => __DIR__ . '/..' . '/dhii/validator/src',
         ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Validation\\' => 
+        'Syde\\Vendor\\Zettle\\Dhii\\Validation\\' =>
         array (
             0 => __DIR__ . '/..' . '/dhii/validation-interface/src',
         ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\' => 
+        'Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\' =>
         array (
             0 => __DIR__ . '/..' . '/dhii/module-interface/src',
         ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Events\\' => 
+        'Syde\\Vendor\\Zettle\\Dhii\\Events\\' =>
         array (
             0 => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src',
         ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\' => 
+        'Syde\\Vendor\\Zettle\\Dhii\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/dhii/containers/src',
         ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\' => 
+        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\' =>
         array (
             0 => __DIR__ . '/..' . '/dhii/collections-interface/src',
         ),
-        'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\' => 
+        'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\' =>
         array (
             0 => __DIR__ . '/..' . '/clue/stream-filter/src',
         ),
-        'Syde\\Vendor\\Zettle\\Brain\\Nonces\\' => 
+        'Syde\\Vendor\\Zettle\\Brain\\Nonces\\' =>
         array (
             0 => __DIR__ . '/..' . '/brain/nonces/src',
         ),
-        'OomphInc\\ComposerInstallersExtender\\' => 
+        'OomphInc\\ComposerInstallersExtender\\' =>
         array (
             0 => __DIR__ . '/..' . '/oomphinc/composer-installers-extender/src',
         ),
-        'Inpsyde\\Assets\\' => 
+        'Inpsyde\\Assets\\' =>
         array (
             0 => __DIR__ . '/..' . '/inpsyde/assets/src',
         ),
-        'Composer\\Installers\\' => 
+        'Composer\\Installers\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
         ),

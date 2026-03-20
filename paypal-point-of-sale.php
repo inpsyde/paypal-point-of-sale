@@ -6,7 +6,7 @@ declare (strict_types=1);
  * Plugin Name: PayPal Point of Sale
  * Plugin URI:  https://zettle.inpsyde.com/
  * Description: PayPal Point of Sale Integration for WooCommerce
- * Version: 0.0.0+main.4cf753b
+ * Version: 0.0.0+main.6483937
  * Requires at least: 6.8
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
@@ -41,7 +41,7 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
             printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), wp_kses_post($message));
         });
     }
-    $requiresAtLeast = '7.4';
+    $requiresAtLeast = '8.2';
     if (version_compare(\PHP_VERSION, $requiresAtLeast, '<')) {
         errorNotice(sprintf(
             /* translators: required PHP version */
