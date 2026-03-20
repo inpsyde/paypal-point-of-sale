@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale;
 
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
-use Psr\Container\ContainerInterface;
+use Inpsyde\Modularity\Package;
 
 (static function () {
     /**
@@ -84,13 +84,13 @@ use Psr\Container\ContainerInterface;
         include_once __DIR__ . '/vendor/autoload.php';
     }
 
-    function init(): ?ContainerInterface
+    function init(): ?Package
     {
         static $initialized;
-        static $container;
+        static $package;
         if (!$initialized) {
             try {
-                $container = (require __DIR__ . '/bootstrap.php')(__DIR__, true);
+                $package = (require __DIR__ . '/bootstrap.php')(__DIR__, true);
             } catch (ValidationFailedExceptionInterface $exc) {
                 $messages = array_map(static function ($error): string {
                     if ($error instanceof ValidationFailedExceptionInterface) {
@@ -109,17 +109,19 @@ use Psr\Container\ContainerInterface;
             $initialized = true;
         }
 
-        return $container;
+        return $package;
     }
 
     add_action(
         'plugins_loaded',
         static function () {
-            $container = init();
+            $package = init();
 
-            if (!$container) {
+            if (!$package) {
                 return;
             }
+
+            $container = $package->container();
 
             // IZET-356, looks like there is no good built-in hook in WP for plugin upgrades
             $version = $container->get('paypal-pos.plugin.properties')->version();

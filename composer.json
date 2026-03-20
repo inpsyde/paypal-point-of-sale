@@ -50,6 +50,7 @@
         "inpsyde/inpsyde-state-machine": "*",
         "inpsyde/inpsyde-woocommerce-lifecycle-events": "*",
         "inpsyde/metabox-orchestra": "^0.4.3",
+        "inpsyde/modularity": "^1.7",
         "inpsyde/wc-product-contracts": "*",
         "inpsyde/wc-status-report": "*",
         "inpsyde/paypal-pos-assets": "*",

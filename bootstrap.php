@@ -4,46 +4,28 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Dhii\Container\CachingContainer;
-use Dhii\Container\CompositeCachingServiceProvider;
-use Dhii\Container\DelegatingContainer;
-use Dhii\Container\ProxyContainer;
-use Dhii\Modular\Module\ModuleInterface;
 use Dhii\Validation\ValidatorInterface;
-use Psr\Container\ContainerInterface;
+use Inpsyde\Modularity\Package;
+use Inpsyde\Modularity\Properties\PluginProperties;
 
-return static function (string $appDir, bool $validate = false): ContainerInterface {
-    $modules = [];
-    $classNames = require $appDir . '/modules.php';
-    array_walk(
-        $classNames,
-        static function (string $className) use (&$modules): void {
-            $modules[] = new $className();
-        }
-    );
+return static function (string $pluginFile, bool $validate = false): Package {
+    $properties = PluginProperties::new($pluginFile);
+    $package = Package::new($properties);
 
-    $providers = [];
-    foreach ($modules as $module) {
-        assert($module instanceof ModuleInterface);
-        $providers[] = $module->setup();
+    $classNames = require dirname($pluginFile) . '/modules.php';
+    foreach ($classNames as $className) {
+        $package->addModule(new $className());
     }
 
-    $proxy = new ProxyContainer();
-    $provider = new CompositeCachingServiceProvider($providers);
-    $container = new CachingContainer(new DelegatingContainer($provider, $proxy));
-    $proxy->setInnerContainer($container);
+    $package->build();
 
     if ($validate) {
-        $requirementsValidator = $container->get('paypal-pos.requirements.validator');
+        $requirementsValidator = $package->container()->get('paypal-pos.requirements.validator');
         assert($requirementsValidator instanceof ValidatorInterface);
-
         $requirementsValidator->validate(null);
     }
 
-    foreach ($modules as $module) {
-        assert($module instanceof ModuleInterface);
-        $module->run($proxy);
-    }
+    $package->boot();
 
-    return $proxy;
+    return $package;
 };

@@ -15,20 +15,20 @@ use Throwable;
 
 return [
     'inpsyde.debug.logger' => static function (
-        C $container,
-        LoggerInterface $previous
+        LoggerInterface $previous,
+        C $container
     ): LoggerInterface {
         return $container->get('paypal-pos.logger')->addLogger($previous);
     },
     'inpsyde.queue.logger' => static function (
-        C $container,
-        LoggerInterface $previous
+        LoggerInterface $previous,
+        C $container
     ): LoggerInterface {
         return $container->get('paypal-pos.logger')->addLogger($previous);
     },
     'paypal-pos.webhook.logger' => static function (
-        C $container,
-        LoggerInterface $previous
+        LoggerInterface $previous,
+        C $container
     ): LoggerInterface {
         return $container->get('paypal-pos.logger')->addLogger($previous);
     },
@@ -37,26 +37,27 @@ return [
      * by passing the SettingsContainer into the CredentialsContainer
      */
     'paypal-pos.oauth.credentials.parent' => static function (
+        C $previous,
         C $container
     ): C {
         return $container->get('paypal-pos.settings');
     },
     'paypal-pos.sdk.rest-client' =>
-        static function (C $container, Psr18RestClient $client): Psr18RestClient {
+        static function (Psr18RestClient $client, C $container): Psr18RestClient {
             $proxyFactory = $container->get('inpsyde.debug.proxy-factory');
             assert($proxyFactory instanceof DebugProxyFactory);
 
             return $proxyFactory->forInstanceMethods($client);
         },
     'inpsyde.queue.exception-handler' =>
-        static function (C $container, callable $previous): callable {
+        static function (callable $previous, C $container): callable {
             return static function (Throwable $exception) use ($previous, $container) {
                 $previous($exception);
                 $container->get('inpsyde.debug.exception-handler')->handle($exception);
             };
         },
 
-    'inpsyde.wc-status-report.items' => static function (C $container, array $items): array {
+    'inpsyde.wc-status-report.items' => static function (array $items, C $container): array {
         $factory = $container->get('inpsyde.wc-status-report.item-factory');
         assert($factory instanceof ReportItemFactoryInterface);
 
