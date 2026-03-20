@@ -20,7 +20,7 @@ $ composer require inpsyde/paypal-point-of-sale
 1. Get your [packagist token](https://packagist.com/orgs/inpsyde),
 copy/hardlink your Composer `auth.json` (from `~/.config/composer/auth.json` or `~/.composer/auth.json`)
 to `~/.ddev/homeadditions/.composer/auth.json`
-2. Run `make setup` to setup DDEV and install dependencies. Go to https://zettle.ddev.site
+2. Run `make setup` to setup DDEV and install dependencies. Go to https://paypal-point-of-sale.ddev.site
 3. Run `make lint test` to run linter and tests.
 
 Use `make reset` for reinstallation (will destroy all site data).
