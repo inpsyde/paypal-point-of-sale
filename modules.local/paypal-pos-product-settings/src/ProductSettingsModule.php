@@ -4,44 +4,38 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductSettings;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
-use Syde\PayPal\PointOfSale\BootableProviderAwareTrait;
-use Syde\PayPal\PointOfSale\BootableProviderModuleInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\VariantBarcodeSaveHandler;
-use Interop\Container\ServiceProviderInterface;
 use Psr\Container\ContainerInterface as C;
 use WP_Post;
 
-class ProductSettingsModule implements ModuleInterface, BootableProviderModuleInterface
+class ProductSettingsModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
-    use BootableProviderAwareTrait;
+    use ModuleClassNameIdTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
+        return require __DIR__ . '/../services.php';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function run(C $container): void
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
+    }
+
+    public function run(C $container): bool
     {
         // do this a bit later to make the filter adding more flexible
         // and avoid loading translations too early (WP 6.7)
         add_action('init', function () use ($container) {
-            $this->bootProviders(
-                $container,
-                ...$container->get('paypal-pos.product-settings.provider')
-            );
+            foreach ($container->get('paypal-pos.product-settings.provider') as $provider) {
+                $provider->boot($container);
+            }
 
             if ($container->get('paypal-pos.product-settings.barcode.standard-ui-enabled')) {
                 $this->addVariationBarcodeHandlers(
@@ -51,6 +45,8 @@ class ProductSettingsModule implements ModuleInterface, BootableProviderModuleIn
                 );
             }
         });
+
+        return true;
     }
 
     private function addVariationBarcodeHandlers(
