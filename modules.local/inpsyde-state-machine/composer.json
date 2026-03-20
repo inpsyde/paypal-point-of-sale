@@ -4,8 +4,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "dhii/containers": "^0.1",
-        "dhii/module-interface": "^0.2 || ^0.3",
+        "inpsyde/modularity": "^1.7",
         "dhii/event-dispatcher-interface": "0.1.0-alpha1"
     },
     "require-dev": {
