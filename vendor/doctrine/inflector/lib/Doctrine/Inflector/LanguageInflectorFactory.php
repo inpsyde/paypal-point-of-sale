@@ -1,9 +1,11 @@
 <?php
 
-declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Doctrine\Inflector;
+declare(strict_types=1);
 
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Ruleset;
+namespace Doctrine\Inflector;
+
+use Doctrine\Inflector\Rules\Ruleset;
+
 interface LanguageInflectorFactory
 {
     /**
@@ -13,7 +15,8 @@ interface LanguageInflectorFactory
      *
      * @return $this
      */
-    public function withSingularRules(?Ruleset $singularRules, bool $reset = \false): self;
+    public function withSingularRules(?Ruleset $singularRules, bool $reset = false): self;
+
     /**
      * Applies custom rules for pluralisation
      *
@@ -21,7 +24,8 @@ interface LanguageInflectorFactory
      *
      * @return $this
      */
-    public function withPluralRules(?Ruleset $pluralRules, bool $reset = \false): self;
+    public function withPluralRules(?Ruleset $pluralRules, bool $reset = false): self;
+
     /**
      * Builds the inflector instance with all applicable rules
      */

@@ -6,7 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\WonoLogger;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\WooCommerceLogger;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Operator\Option\OptionOperatorInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Psr\Log\NullLogger;
 use WC_Logger;

@@ -31,7 +31,7 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Stopper;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\TimeStopper;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Rest\V1\EndpointInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Rest\V1\ProcessEndpoint;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Psr\Log\NullLogger;
 use Throwable;

@@ -8,7 +8,7 @@ use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Components\TermManager;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.sync.product.sync-active-for-id' => static function (callable $previous, C $container): callable {
     return static function (int $productId) use ($container, $previous): bool {
         if (!$previous($productId)) {

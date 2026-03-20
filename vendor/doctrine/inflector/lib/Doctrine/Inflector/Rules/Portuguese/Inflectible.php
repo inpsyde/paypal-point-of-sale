@@ -1,12 +1,14 @@
 <?php
 
-declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Portuguese;
+declare(strict_types=1);
 
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Pattern;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Substitution;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Transformation;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Word;
+namespace Doctrine\Inflector\Rules\Portuguese;
+
+use Doctrine\Inflector\Rules\Pattern;
+use Doctrine\Inflector\Rules\Substitution;
+use Doctrine\Inflector\Rules\Transformation;
+use Doctrine\Inflector\Rules\Word;
+
 class Inflectible
 {
     /**
@@ -31,6 +33,7 @@ class Inflectible
         yield new Transformation(new Pattern('/^(á|gá)s$/i'), '\1s');
         yield new Transformation(new Pattern('/([^ê])s$/i'), '\1');
     }
+
     /**
      * @return Transformation[]
      */
@@ -54,6 +57,7 @@ class Inflectible
         yield new Transformation(new Pattern('/(s)$/i'), '\1');
         yield new Transformation(new Pattern('/$/'), 's');
     }
+
     /**
      * @return Substitution[]
      */

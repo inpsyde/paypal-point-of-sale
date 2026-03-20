@@ -1,7 +1,8 @@
 <?php
 
-declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Doctrine\Inflector;
+declare(strict_types=1);
+
+namespace Doctrine\Inflector;
 
 interface WordInflector
 {

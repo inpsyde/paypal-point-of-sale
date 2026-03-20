@@ -6,8 +6,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use InvalidArgumentException;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
 class JwtGrant implements GrantType
 {

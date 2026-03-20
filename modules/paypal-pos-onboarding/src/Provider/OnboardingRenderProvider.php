@@ -6,7 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Provider;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Event\AuthCheck;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 class OnboardingRenderProvider implements Provider
 {
     /**

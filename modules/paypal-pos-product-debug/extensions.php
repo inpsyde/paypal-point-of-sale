@@ -7,7 +7,7 @@ use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['inpsyde.assets.registry' => static function (array $previous, C $container): array {
     // see https://bugs.php.net/bug.php?id=49184
     // phpcs:ignore WordPress.Security, using only to compare value, not storing anywhere.

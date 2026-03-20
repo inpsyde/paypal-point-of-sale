@@ -7,8 +7,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth;
 
 use Exception;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 use Throwable;
 class CredentialsContainer implements ContainerInterface
 {
@@ -46,7 +46,7 @@ class CredentialsContainer implements ContainerInterface
      *
      * @throws Exception
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (array_key_exists($id, $this->data)) {
             return $this->data[$id];
@@ -68,7 +68,7 @@ class CredentialsContainer implements ContainerInterface
      *
      * @return bool
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         if (array_key_exists($id, $this->data)) {
             return \true;

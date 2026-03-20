@@ -6,14 +6,14 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
 use Inpsyde\Assets\Asset;
 use Inpsyde\Assets\AssetManager;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\MetaboxOrchestra\Bootstrap;
 use Syde\Vendor\Zettle\MetaboxOrchestra\Boxes;
 use Syde\Vendor\Zettle\MetaboxOrchestra\Metabox;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 class PluginModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;

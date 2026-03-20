@@ -6,7 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenPropertyException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\Token;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * Class TokenContainer
  *
@@ -40,7 +40,7 @@ class TokenDataContainer implements ContainerInterface
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (!$this->has($key)) {
             throw new InvalidTokenPropertyException("Property '{$key}' not found on Token");
@@ -52,7 +52,7 @@ class TokenDataContainer implements ContainerInterface
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return array_key_exists($key, $this->accessors);
     }

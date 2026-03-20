@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * Class NamespacedContainer
  * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
@@ -29,14 +29,14 @@ class NamespacedContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function get($id)
+    public function get(string $id)
     {
         return $this->base->get("{$this->namespace}.{$id}");
     }
     /**
      * @inheritDoc
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return $this->base->has("{$this->namespace}.{$id}");
     }

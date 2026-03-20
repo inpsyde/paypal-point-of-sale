@@ -1,12 +1,14 @@
 <?php
 
-declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Spanish;
+declare(strict_types=1);
 
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Pattern;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Substitution;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Transformation;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Word;
+namespace Doctrine\Inflector\Rules\Spanish;
+
+use Doctrine\Inflector\Rules\Pattern;
+use Doctrine\Inflector\Rules\Substitution;
+use Doctrine\Inflector\Rules\Transformation;
+use Doctrine\Inflector\Rules\Word;
+
 class Inflectible
 {
     /**
@@ -20,21 +22,23 @@ class Inflectible
         yield new Transformation(new Pattern('/es$/'), '');
         yield new Transformation(new Pattern('/s$/'), '');
     }
+
     /**
      * @return Transformation[]
      */
     public static function getPlural(): iterable
     {
-        yield new Transformation(new Pattern('/ú([sn])$/i'), 'Syde\Vendor\Zettle\u\1es');
-        yield new Transformation(new Pattern('/ó([sn])$/i'), 'Syde\Vendor\Zettle\o\1es');
-        yield new Transformation(new Pattern('/í([sn])$/i'), 'Syde\Vendor\Zettle\i\1es');
-        yield new Transformation(new Pattern('/é([sn])$/i'), 'Syde\Vendor\Zettle\e\1es');
-        yield new Transformation(new Pattern('/á([sn])$/i'), 'Syde\Vendor\Zettle\a\1es');
+        yield new Transformation(new Pattern('/ú([sn])$/i'), 'u\1es');
+        yield new Transformation(new Pattern('/ó([sn])$/i'), 'o\1es');
+        yield new Transformation(new Pattern('/í([sn])$/i'), 'i\1es');
+        yield new Transformation(new Pattern('/é([sn])$/i'), 'e\1es');
+        yield new Transformation(new Pattern('/á([sn])$/i'), 'a\1es');
         yield new Transformation(new Pattern('/z$/i'), 'ces');
         yield new Transformation(new Pattern('/([aeiou]s)$/i'), '\1');
         yield new Transformation(new Pattern('/([^aeéiou])$/i'), '\1es');
         yield new Transformation(new Pattern('/$/'), 's');
     }
+
     /**
      * @return Substitution[]
      */

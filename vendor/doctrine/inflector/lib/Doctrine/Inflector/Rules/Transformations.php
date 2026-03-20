@@ -1,17 +1,21 @@
 <?php
 
-declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules;
+declare(strict_types=1);
 
-use Syde\Vendor\Zettle\Doctrine\Inflector\WordInflector;
+namespace Doctrine\Inflector\Rules;
+
+use Doctrine\Inflector\WordInflector;
+
 class Transformations implements WordInflector
 {
     /** @var Transformation[] */
     private $transformations;
+
     public function __construct(Transformation ...$transformations)
     {
         $this->transformations = $transformations;
     }
+
     public function inflect(string $word): string
     {
         foreach ($this->transformations as $transformation) {
@@ -19,6 +23,7 @@ class Transformations implements WordInflector
                 return $transformation->inflect($word);
             }
         }
+
         return $word;
     }
 }

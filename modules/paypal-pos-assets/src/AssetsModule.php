@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Assets;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 class AssetsModule implements ServiceModule, ExtendingModule
 {
     use ModuleClassNameIdTrait;

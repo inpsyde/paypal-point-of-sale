@@ -5,7 +5,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer;
 
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * Class ContainerInitializer
  *

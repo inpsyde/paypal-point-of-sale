@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container;
 
 use Exception;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 class ArrayContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
     /**
@@ -19,7 +19,7 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
     /**
      * @inheritDoc
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (!$this->has($id)) {
             $exceptionMessage = sprintf('Could not find entry %s in the options array', $id);
@@ -32,7 +32,7 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
     /**
      * @inheritDoc
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return array_key_exists($id, $this->options);
     }

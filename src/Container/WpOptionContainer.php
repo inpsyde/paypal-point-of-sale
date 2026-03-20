@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container;
 
 use Exception;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 class WpOptionContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
     /**
@@ -25,7 +25,7 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
     {
         update_option($this->optionKey, []);
     }
-    public function get($id)
+    public function get(string $id)
     {
         if ($this->has($id)) {
             return $this->options[$id];
@@ -35,7 +35,7 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
         {
         };
     }
-    public function has($id)
+    public function has(string $id): bool
     {
         return isset($this->options[$id]);
     }

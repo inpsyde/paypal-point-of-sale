@@ -3,12 +3,12 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Properties\LibraryProperties;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Properties\LibraryProperties;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
  */

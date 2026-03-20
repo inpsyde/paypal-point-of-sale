@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -17,19 +16,20 @@
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
-namespace Syde\Vendor\Zettle\Doctrine\Common\Inflector;
 
-use Syde\Vendor\Zettle\Doctrine\Inflector\Inflector as InflectorObject;
-use Syde\Vendor\Zettle\Doctrine\Inflector\InflectorFactory;
-use Syde\Vendor\Zettle\Doctrine\Inflector\LanguageInflectorFactory;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Pattern;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Patterns;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Ruleset;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Substitution;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Substitutions;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Transformation;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Transformations;
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Word;
+namespace Doctrine\Common\Inflector;
+
+use Doctrine\Inflector\Inflector as InflectorObject;
+use Doctrine\Inflector\InflectorFactory;
+use Doctrine\Inflector\LanguageInflectorFactory;
+use Doctrine\Inflector\Rules\Pattern;
+use Doctrine\Inflector\Rules\Patterns;
+use Doctrine\Inflector\Rules\Ruleset;
+use Doctrine\Inflector\Rules\Substitution;
+use Doctrine\Inflector\Rules\Substitutions;
+use Doctrine\Inflector\Rules\Transformation;
+use Doctrine\Inflector\Rules\Transformations;
+use Doctrine\Inflector\Rules\Word;
 use InvalidArgumentException;
 use function array_keys;
 use function array_map;
@@ -38,6 +38,7 @@ use function array_values;
 use function sprintf;
 use function trigger_error;
 use const E_USER_DEPRECATED;
+
 /**
  * @deprecated
  */
@@ -47,50 +48,62 @@ class Inflector
      * @var LanguageInflectorFactory|null
      */
     private static $factory;
+
     /** @var InflectorObject|null */
     private static $instance;
-    private static function getInstance(): InflectorObject
+
+    private static function getInstance() : InflectorObject
     {
         if (self::$factory === null) {
             self::$factory = self::createFactory();
         }
+
         if (self::$instance === null) {
             self::$instance = self::$factory->build();
         }
+
         return self::$instance;
     }
-    private static function createFactory(): LanguageInflectorFactory
+
+    private static function createFactory() : LanguageInflectorFactory
     {
         return InflectorFactory::create();
     }
+
     /**
      * Converts a word into the format for a Doctrine table name. Converts 'ModelName' to 'model_name'.
      *
      * @deprecated
      */
-    public static function tableize(string $word): string
+    public static function tableize(string $word) : string
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please update to the new Inflector API.', __METHOD__), E_USER_DEPRECATED);
+
         return self::getInstance()->tableize($word);
     }
+
     /**
      * Converts a word into the format for a Doctrine class name. Converts 'table_name' to 'TableName'.
      */
-    public static function classify(string $word): string
+    public static function classify(string $word) : string
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please update to the new Inflector API.', __METHOD__), E_USER_DEPRECATED);
+
         return self::getInstance()->classify($word);
     }
+
     /**
      * Camelizes a word. This uses the classify() method and turns the first character to lowercase.
      *
      * @deprecated
      */
-    public static function camelize(string $word): string
+    public static function camelize(string $word) : string
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please update to the new Inflector API.', __METHOD__), E_USER_DEPRECATED);
+
         return self::getInstance()->camelize($word);
     }
+
     /**
      * Uppercases words with configurable delimiters between words.
      *
@@ -118,23 +131,27 @@ class Inflector
      *
      * @deprecated
      */
-    public static function ucwords(string $string, string $delimiters = " \n\t\r\x00\v-"): string
+    public static function ucwords(string $string, string $delimiters = " \n\t\r\0\x0B-") : string
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please use the "ucwords" function instead.', __METHOD__), E_USER_DEPRECATED);
+
         return ucwords($string, $delimiters);
     }
+
     /**
      * Clears Inflectors inflected value caches, and resets the inflection
      * rules to the initial values.
      *
      * @deprecated
      */
-    public static function reset(): void
+    public static function reset() : void
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please update to the new Inflector API.', __METHOD__), E_USER_DEPRECATED);
+
         self::$factory = null;
         self::$instance = null;
     }
+
     /**
      * Adds custom inflection $rules, of either 'plural' or 'singular' $type.
      *
@@ -158,13 +175,16 @@ class Inflector
      *
      * @deprecated
      */
-    public static function rules(string $type, iterable $rules, bool $reset = \false): void
+    public static function rules(string $type, iterable $rules, bool $reset = false) : void
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please update to the new Inflector API.', __METHOD__), E_USER_DEPRECATED);
+
         if (self::$factory === null) {
             self::$factory = self::createFactory();
         }
+
         self::$instance = null;
+
         switch ($type) {
             case 'singular':
                 self::$factory->withSingularRules(self::buildRuleset($rules), $reset);
@@ -176,19 +196,23 @@ class Inflector
                 throw new InvalidArgumentException(sprintf('Cannot define custom inflection rules for type "%s".', $type));
         }
     }
+
     /**
-     * @param array<string,mixed>|iterable<string,mixed> $rules An array of rules to be added.
-     */
-    private static function buildRuleset(iterable $rules): Ruleset
+      * @param array<string,mixed>|iterable<string,mixed> $rules An array of rules to be added.
+      */
+    private static function buildRuleset(iterable $rules) : Ruleset
     {
         $regular = [];
         $irregular = [];
         $uninflected = [];
+
         foreach ($rules as $rule => $pattern) {
-            if (!is_array($pattern)) {
+            if ( ! is_array($pattern)) {
                 $regular[$rule] = $pattern;
+
                 continue;
             }
+
             switch ($rule) {
                 case 'uninflected':
                     $uninflected = $pattern;
@@ -201,14 +225,31 @@ class Inflector
                     break;
             }
         }
-        return new Ruleset(new Transformations(...array_map(static function (string $pattern, string $replacement): Transformation {
-            return new Transformation(new Pattern($pattern), $replacement);
-        }, array_keys($regular), array_values($regular))), new Patterns(...array_map(static function (string $pattern): Pattern {
-            return new Pattern($pattern);
-        }, $uninflected)), new Substitutions(...array_map(static function (string $word, string $to): Substitution {
-            return new Substitution(new Word($word), new Word($to));
-        }, array_keys($irregular), array_values($irregular))));
+
+        return new Ruleset(
+            new Transformations(...array_map(
+                static function (string $pattern, string $replacement) : Transformation {
+                    return new Transformation(new Pattern($pattern), $replacement);
+                },
+                array_keys($regular),
+                array_values($regular)
+            )),
+            new Patterns(...array_map(
+                static function (string $pattern) : Pattern {
+                    return new Pattern($pattern);
+                },
+                $uninflected
+            )),
+            new Substitutions(...array_map(
+                static function (string $word, string $to) : Substitution {
+                    return new Substitution(new Word($word), new Word($to));
+                },
+                array_keys($irregular),
+                array_values($irregular)
+            ))
+        );
     }
+
     /**
      * Returns a word in plural form.
      *
@@ -218,11 +259,13 @@ class Inflector
      *
      * @deprecated
      */
-    public static function pluralize(string $word): string
+    public static function pluralize(string $word) : string
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please update to the new Inflector API.', __METHOD__), E_USER_DEPRECATED);
+
         return self::getInstance()->pluralize($word);
     }
+
     /**
      * Returns a word in singular form.
      *
@@ -232,9 +275,10 @@ class Inflector
      *
      * @deprecated
      */
-    public static function singularize(string $word): string
+    public static function singularize(string $word) : string
     {
         @trigger_error(sprintf('The "%s" method is deprecated and will be dropped in doctrine/inflector 2.0. Please update to the new Inflector API.', __METHOD__), E_USER_DEPRECATED);
+
         return self::getInstance()->singularize($word);
     }
 }

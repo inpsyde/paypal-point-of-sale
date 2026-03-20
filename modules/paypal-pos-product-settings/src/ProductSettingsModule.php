@@ -3,14 +3,14 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\VariantBarcodeSaveHandler;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use WP_Post;
 class ProductSettingsModule implements ServiceModule, ExtendingModule, ExecutableModule
 {

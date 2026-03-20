@@ -481,8 +481,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-debug",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-debug",
@@ -518,8 +518,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-http-client",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-http-client",
@@ -548,8 +548,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-queue",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-queue",
@@ -584,8 +584,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-state-machine",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-state-machine",
@@ -619,8 +619,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-woocommerce-lifecycle-events",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-woocommerce-lifecycle-events",
@@ -795,8 +795,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-assets",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-assets",
@@ -820,8 +820,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-auth",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-auth",
@@ -850,8 +850,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-logging",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-logging",
@@ -889,8 +889,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-notices",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-notices",
@@ -913,8 +913,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-onboarding",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-onboarding",
@@ -951,8 +951,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-php-sdk",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-php-sdk",
@@ -992,8 +992,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-debug",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-debug",
@@ -1016,8 +1016,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-settings",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-settings",
@@ -1041,8 +1041,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-queue",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-queue",
@@ -1066,8 +1066,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-settings",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-settings",
@@ -1090,8 +1090,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-sync",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-sync",
@@ -1115,8 +1115,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-webhooks",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-webhooks",
@@ -1232,8 +1232,8 @@
         },
         {
             "name": "inpsyde\/wc-product-contracts",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/packages.local\/wc-product-contracts",
@@ -1266,8 +1266,8 @@
         },
         {
             "name": "inpsyde\/wc-status-report",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-wc-status-report",
@@ -2057,17 +2057,17 @@
         },
         {
             "name": "psr\/container",
-            "version": "1.1.2",
-            "version_normalized": "1.1.2.0",
+            "version": "2.0.2",
+            "version_normalized": "2.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/php-fig\/container.git",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/php-fig\/container\/zipball\/513e0666f7216c7459170d56df27dfcefe1689ea",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
+                "url": "https:\/\/api.github.com\/repos\/php-fig\/container\/zipball\/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2079,8 +2079,13 @@
             "require": {
                 "php": ">=7.4.0"
             },
-            "time": "2021-11-05T16:50:12+00:00",
+            "time": "2021-11-05T16:47:00+00:00",
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
@@ -2108,7 +2113,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/php-fig\/container\/issues",
-                "source": "https:\/\/github.com\/php-fig\/container\/tree\/1.1.2"
+                "source": "https:\/\/github.com\/php-fig\/container\/tree\/2.0.2"
             },
             "install-path": "..\/psr\/container"
         },

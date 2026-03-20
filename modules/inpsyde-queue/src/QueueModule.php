@@ -3,13 +3,13 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Queue;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Cli\QueueCommand;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner\Runner;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\WP_CLI;
 use WP_REST_Server;
 class QueueModule implements ServiceModule, ExecutableModule

@@ -1,9 +1,11 @@
 <?php
 
-declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules\English;
+declare(strict_types=1);
 
-use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Pattern;
+namespace Doctrine\Inflector\Rules\English;
+
+use Doctrine\Inflector\Rules\Pattern;
+
 final class Uninflected
 {
     /**
@@ -12,6 +14,7 @@ final class Uninflected
     public static function getSingular(): iterable
     {
         yield from self::getDefault();
+
         yield new Pattern('.*ss');
         yield new Pattern('clothes');
         yield new Pattern('data');
@@ -26,17 +29,20 @@ final class Uninflected
         yield new Pattern('trivia');
         yield new Pattern('utopia');
     }
+
     /**
      * @return Pattern[]
      */
     public static function getPlural(): iterable
     {
         yield from self::getDefault();
+
         yield new Pattern('people');
         yield new Pattern('trivia');
         yield new Pattern('\w+ware$');
         yield new Pattern('media');
     }
+
     /**
      * @return Pattern[]
      */

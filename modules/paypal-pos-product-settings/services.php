@@ -20,7 +20,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Taxonomy\ZettleSy
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
 use Syde\Vendor\Zettle\MetaboxOrchestra\BoxAction;
 use Syde\Vendor\Zettle\MetaboxOrchestra\BoxView;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.product-settings.taxonomy.sync-visibility.key' => static function (C $container): string {
     return 'zettle_sync_visibility';
 }, 'paypal-pos.product-settings.taxonomy.sync-visibility.post-type' => static function (C $container): string {
