@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "dhii/module-interface": "^0.2 || ^0.3",
+        "inpsyde/modularity": "^1.7",
         "inpsyde/inpsyde-state-machine": "*",
         "inpsyde/paypal-pos-auth": "*",
         "inpsyde/paypal-pos-php-sdk": "*",
