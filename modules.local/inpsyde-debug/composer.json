@@ -5,7 +5,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4 | ^8.0",
-        "dhii/module-interface": "^0.2 || ^0.3",
+        "inpsyde/modularity": "^1.7",
         "psr/log": "^1.1",
         "ext-json": "*"
     },
