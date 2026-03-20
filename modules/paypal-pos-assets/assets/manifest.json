@@ -1,0 +1,7 @@
+{
+  "./admin-scripts.js": "./admin-scripts.js",
+  "./admin-scripts.php": "./admin-scripts.asset.php",
+  "./sync-scripts.js": "./sync-scripts.js",
+  "./sync-scripts.php": "./sync-scripts.asset.php",
+  "./admin.css": "./admin.css"
+}
