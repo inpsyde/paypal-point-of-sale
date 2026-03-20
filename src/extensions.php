@@ -37,7 +37,7 @@ return [
      * by passing the SettingsContainer into the CredentialsContainer
      */
     'paypal-pos.oauth.credentials.parent' => static function (
-        C $previous,
+        ?C $previous,
         C $container
     ): C {
         return $container->get('paypal-pos.settings');

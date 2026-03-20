@@ -69,7 +69,7 @@ class AuthenticatedRestRequestTestCase extends ModuleContainerAwareTestCase
         );
         $this->injectExtension(
             'paypal-pos.oauth.credentials.parent',
-            function (ContainerInterface $container) {
+            function ($previous, ContainerInterface $container) {
                 return new EnvMapCredentialsContainer();
             }
         );

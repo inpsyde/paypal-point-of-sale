@@ -29,7 +29,7 @@ class CredentialsTest extends AuthenticatedRestRequestTestCase
     {
         $this->injectExtension(
             'paypal-pos.oauth.credentials.parent',
-            static function (ContainerInterface $container, ContainerInterface $settings) {
+            static function (?ContainerInterface $previous, ContainerInterface $container) {
                 return Mockery::spy(new EnvMapCredentialsContainer());
             }
         );
