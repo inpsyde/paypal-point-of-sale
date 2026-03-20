@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Dhii\Validation\ValidatorInterface;
+use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use Inpsyde\Modularity\Package;
 use Inpsyde\Modularity\Properties\PluginProperties;
 

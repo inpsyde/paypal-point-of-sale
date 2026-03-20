@@ -22,7 +22,7 @@ class OnboardingStateMachineTest extends ModuleContainerAwareTestCase
     private const STATE_OPTION_NAME = 'onboarding.current-state';
 
     /**
-     * @var \Dhii\Collection\MutableContainerInterface
+     * @var \Syde\PayPal\PointOfSale\Container\WritableContainerInterface
      */
     private $optionsContainer;
 

@@ -7,14 +7,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Test;
 
-use Dhii\Container\CachingContainer;
-use Dhii\Container\CompositeCachingServiceProvider;
-use Dhii\Container\DelegatingContainer;
-use Dhii\Container\ProxyContainer;
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
+use Inpsyde\Modularity\Package;
+use Inpsyde\Modularity\Properties\LibraryProperties;
+use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\PluginModule;
-use Interop\Container\ServiceProviderInterface;
 
 class ModuleContainerAwareTestCase extends MonkeryTestCase
 {
@@ -22,11 +21,11 @@ class ModuleContainerAwareTestCase extends MonkeryTestCase
     private $delayedModuleContainerSetup = false;
 
     /**
-     * @var DelegatingContainer
+     * @var ContainerInterface
      */
     private $container;
 
-    private static $providers = [];
+    private static $modules = [];
 
     private $currentFactories = [];
 
@@ -35,13 +34,13 @@ class ModuleContainerAwareTestCase extends MonkeryTestCase
     public static function setUpBeforeClass(): void
     {
         $rootDir = dirname(__DIR__, 3);
-        $modules = [new PluginModule($rootDir)];
+        self::$modules = [new PluginModule()];
         foreach (glob($rootDir.'/modules/*/module.php') as $moduleFile) {
-            $modules[] = (@require $moduleFile)();
+            $module = (@require $moduleFile)();
+            if ($module !== null) {
+                self::$modules[] = $module;
+            }
         }
-        self::$providers = array_map(function (ModuleInterface $module): ServiceProviderInterface {
-            return $module->setup();
-        }, $modules);
     }
 
     protected function setUp(): void
@@ -65,13 +64,52 @@ class ModuleContainerAwareTestCase extends MonkeryTestCase
 
     protected function setupModuleContainer()
     {
-        $providers = self::$providers;
-        $providers[] = new ServiceProvider($this->currentFactories, $this->currentExtensions);
-        $provider = new CompositeCachingServiceProvider($providers);
-        $proxy = new ProxyContainer();
-        $container = new CachingContainer(new DelegatingContainer($provider, $proxy));
-        $proxy->setInnerContainer($container);
-        $this->container = $proxy;
+        $rootDir = dirname(__DIR__, 3);
+        $properties = LibraryProperties::new($rootDir.'/composer.json');
+        $package = Package::new($properties);
+
+        foreach (self::$modules as $module) {
+            $package->addModule($module);
+        }
+
+        $factories = $this->currentFactories;
+        $extensions = $this->currentExtensions;
+        if (!empty($factories) || !empty($extensions)) {
+            $package->addModule(
+                new class ($factories, $extensions) implements ServiceModule, ExtendingModule {
+                    use ModuleClassNameIdTrait;
+
+                    /**
+                     * @var array
+                     */
+                    private $factories;
+
+                    /**
+                     * @var array
+                     */
+                    private $extensions;
+
+                    public function __construct(array $factories, array $extensions)
+                    {
+                        $this->factories = $factories;
+                        $this->extensions = $extensions;
+                    }
+
+                    public function services(): array
+                    {
+                        return $this->factories;
+                    }
+
+                    public function extensions(): array
+                    {
+                        return $this->extensions;
+                    }
+                }
+            );
+        }
+
+        $package->build();
+        $this->container = $package->container();
     }
 
     protected function tearDown(): void

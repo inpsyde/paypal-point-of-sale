@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine;
 
-use Dhii\Events\Dispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Inpsyde\StateMachine\Event\GenericPostTransition;
 use Inpsyde\StateMachine\Event\GenericPreTransition;
 use Inpsyde\StateMachine\Event\StateChange;
