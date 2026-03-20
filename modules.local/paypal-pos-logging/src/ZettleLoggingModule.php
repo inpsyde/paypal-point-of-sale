@@ -4,29 +4,18 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Logging;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
-use Interop\Container\ServiceProviderInterface;
-use Psr\Container\ContainerInterface;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 
-class ZettleLoggingModule implements ModuleInterface
+class ZettleLoggingModule implements ServiceModule
 {
+    use ModuleClassNameIdTrait;
 
     /**
      * @inheritDoc
      */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function run(ContainerInterface $container): void
-    {
+        return require __DIR__ . '/../services.php';
     }
 }
