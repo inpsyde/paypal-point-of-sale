@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Test;
 
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use RuntimeException;
 
 class WooCommerceConfigContainerFaker implements ContainerInterface
@@ -36,7 +36,7 @@ class WooCommerceConfigContainerFaker implements ContainerInterface
      *
      * @throws \Exception
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (!$this->has($id)) {
             throw new RuntimeException("Given {$id} WooCommerce Setting doesnt exist.");
@@ -50,7 +50,7 @@ class WooCommerceConfigContainerFaker implements ContainerInterface
      *
      * @return bool
      */
-    public function has($id): bool
+    public function has(string $id): bool
     {
         return array_key_exists($id, $this->configMap);
     }

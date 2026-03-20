@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 /**
  * Class NamespacedContainer
@@ -35,7 +35,7 @@ class NamespacedContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function get($id)
+    public function get(string $id)
     {
         return $this->base->get("{$this->namespace}.$id");
     }
@@ -43,7 +43,7 @@ class NamespacedContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return $this->base->has("{$this->namespace}.$id");
     }

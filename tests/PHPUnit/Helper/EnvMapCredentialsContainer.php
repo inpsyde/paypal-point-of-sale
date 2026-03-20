@@ -2,8 +2,8 @@
 
 namespace Syde\PayPal\PointOfSale\Test;
 
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 
 class EnvMapCredentialsContainer implements ContainerInterface
 {
@@ -21,7 +21,7 @@ class EnvMapCredentialsContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (!$this->has($id)) {
             throw new class extends \Exception implements NotFoundExceptionInterface {
@@ -35,7 +35,7 @@ class EnvMapCredentialsContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return array_key_exists($id, $this->envMap);
     }

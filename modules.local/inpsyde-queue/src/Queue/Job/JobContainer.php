@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\Queue\Queue\Job;
 
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 class JobContainer implements ContainerInterface
 {
@@ -28,7 +28,7 @@ class JobContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function get($id)
+    public function get(string $id)
     {
         return $this->parent->get("{$this->prefix}.$id");
     }
@@ -36,7 +36,7 @@ class JobContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return $this->parent->has("{$this->prefix}.$id");
     }
