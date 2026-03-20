@@ -14,7 +14,7 @@ use Syde\PayPal\PointOfSale\Onboarding\Counter\ProductSyncJobsCounter;
 use Psr\Container\ContainerInterface as C;
 
 return [
-    'inpsyde.assets.registry' => static function (C $container, array $previous): array {
+    'inpsyde.assets.registry' => static function (array $previous, C $container): array {
         $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
 
         if ($container->get('paypal-pos.assets.should-enqueue.all')()) {
