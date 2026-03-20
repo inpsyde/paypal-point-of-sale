@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine;
 
-use Dhii\Events\Listener\ListenerProviderInterface;
 use Inpsyde\StateMachine\Event\AggregateProvider;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Inpsyde\StateMachine\Event\EventDispatcher;
 use Inpsyde\StateMachine\Event\ListenerProvider;
 use Inpsyde\StateMachine\Event\StateAwareListenerProvider;

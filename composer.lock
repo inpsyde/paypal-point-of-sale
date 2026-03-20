@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1fd681e8b62fad203fc87f8d149c0a9",
+    "content-hash": "5c4fc621490888d763af3853f400fe9e",
     "packages": [
         {
             "name": "brain/nonces",
@@ -459,66 +459,6 @@
             "time": "2024-04-27T01:55:40+00:00"
         },
         {
-            "name": "dhii/event-dispatcher-interface",
-            "version": "v0.1.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Dhii/event-dispatcher-interface.git",
-                "reference": "fbcd6f1ae1c6646670c8c9a2055002ce96ea137f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/event-dispatcher-interface/zipball/fbcd6f1ae1c6646670c8c9a2055002ce96ea137f",
-                "reference": "fbcd6f1ae1c6646670c8c9a2055002ce96ea137f",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dhii\\Events\\": "src/"
-                }
-            },
-            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                },
-                {
-                    "name": "Anton Ukhanev",
-                    "email": "xedin.unknown@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Standard interfaces for event handling.",
-            "keywords": [
-                "events",
-                "psr",
-                "psr-14"
-            ],
-            "time": "2020-04-10T16:32:51+00:00"
-        },
-        {
             "name": "dhii/module-interface",
             "version": "v0.3.0-alpha2",
             "source": {
@@ -575,122 +515,6 @@
                 "source": "https://github.com/Dhii/module-interface/tree/v0.3.0-alpha2"
             },
             "time": "2021-08-23T08:23:01+00:00"
-        },
-        {
-            "name": "dhii/validation-interface",
-            "version": "v0.3.0-alpha3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Dhii/validation-interface.git",
-                "reference": "0e73c7bf3d2421ceb79331c60a9bc1b1d5eb65a6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/validation-interface/zipball/0e73c7bf3d2421ceb79331c60a9bc1b1d5eb65a6",
-                "reference": "0e73c7bf3d2421ceb79331c60a9bc1b1d5eb65a6",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": "^7.1 | ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0 | ^8.0 | ^9.0",
-                "slevomat/coding-standard": "^6.0",
-                "symfony/polyfill-mbstring": "1.20",
-                "symfony/polyfill-php80": "^1.19",
-                "vimeo/psalm": "^3.11.7 | ^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dhii\\Validation\\": "src/"
-                }
-            },
-            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Ukhanev",
-                    "email": "xedin.unknown@gmail.com"
-                }
-            ],
-            "description": "A base interface for validators",
-            "support": {
-                "issues": "https://github.com/Dhii/validation-interface/issues",
-                "source": "https://github.com/Dhii/validation-interface/tree/v0.3.0-alpha3"
-            },
-            "time": "2021-01-14T16:19:20+00:00"
-        },
-        {
-            "name": "dhii/validator",
-            "version": "v0.1.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Dhii/validator.git",
-                "reference": "e10fba08398e33e123ada3d5fe0d147a72525cc2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/validator/zipball/e10fba08398e33e123ada3d5fe0d147a72525cc2",
-                "reference": "e10fba08398e33e123ada3d5fe0d147a72525cc2",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "dhii/validation-interface": "^0.3.0-alpha3",
-                "php": "^7.1 | ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.1 | ^8.0 | ^9.0",
-                "slevomat/coding-standard": "^6.0",
-                "vimeo/psalm": "^3.11.7 | ^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-initial": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dhii\\Validator\\": "src"
-                }
-            },
-            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Ukhanev",
-                    "email": "xedin.unknown@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A thin, standards-compliant validator implementation.",
-            "support": {
-                "issues": "https://github.com/Dhii/validator/issues",
-                "source": "https://github.com/Dhii/validator/tree/v0.1.0-alpha1"
-            },
-            "time": "2021-01-14T22:19:45+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -878,11 +702,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-debug",
-                "reference": "6c6c1dcd820e64f6b8c520222488ada1219d55ae"
+                "reference": "73db0e3208790609b1ede943a0bde8401f259a5f"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
                 "ext-json": "*",
+                "inpsyde/modularity": "^1.7",
                 "php": "^7.4 | ^8.0",
                 "psr/log": "^1.1"
             },
@@ -912,10 +736,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-http-client",
-                "reference": "25ed6ee4221aad7bc19151cf8221826b43c1877a"
+                "reference": "7ba42da9ec128fa1e47eaf46185b3a48dd4d260b"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
+                "inpsyde/modularity": "^1.7",
                 "inpsyde/psr-18-wp-http-client": "^0.1",
                 "nyholm/psr7": "^1.2",
                 "php-http/client-common": "^2.1",
@@ -939,12 +763,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-queue",
-                "reference": "e10798d476e938dfef648ecdff5e9ed6bbd47d45"
+                "reference": "c8ea8634e16d5402f0c11567918cae4360a0e52b"
             },
             "require": {
-                "dhii/containers": "^0.1",
-                "dhii/module-interface": "^0.2 || ^0.3",
                 "ext-json": "*",
+                "inpsyde/modularity": "^1.7",
                 "psr/log": "^1.1"
             },
             "require-dev": {
@@ -973,12 +796,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-state-machine",
-                "reference": "ac8ef0ed78812cb7b0d4f6d7d586ee576b396ca0"
+                "reference": "b98f04177e7548173f054971920f52549edf2e48"
             },
             "require": {
-                "dhii/containers": "^0.1",
-                "dhii/event-dispatcher-interface": "0.1.0-alpha1",
-                "dhii/module-interface": "^0.2 || ^0.3"
+                "inpsyde/modularity": "^1.7",
+                "psr/event-dispatcher": "^1.0"
             },
             "require-dev": {
                 "brianium/paratest": "^4.0 || ^6.0",
@@ -1006,11 +828,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-woocommerce-lifecycle-events",
-                "reference": "0cdd3bdec20383bbb1a1f88873e2098475c677be"
+                "reference": "b31984830117eb89fc656d776987b031e71c7f2c"
             },
             "require": {
-                "dhii/containers": "^0.1",
-                "dhii/module-interface": "^0.2 || ^0.3"
+                "inpsyde/modularity": "^1.7"
             },
             "require-dev": {
                 "brianium/paratest": "^4.0 || ^6.0",
@@ -1174,11 +995,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-assets",
-                "reference": "0127135a53bf83c79fcc0df0c000ad94b4db6a8c"
+                "reference": "13c18e8e18d3ef1ffbe87f41e64de4888b82001f"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
-                "inpsyde/assets": "^2.1"
+                "inpsyde/assets": "^2.1",
+                "inpsyde/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "autoload": {
@@ -1196,11 +1017,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-auth",
-                "reference": "32539ddfa93a977f686e0fb3bcc37d688ffe2c31"
+                "reference": "33728826e28464a8508724513afd126d7b086a74"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
                 "ext-openssl": "*",
+                "inpsyde/modularity": "^1.7",
                 "psr/http-client": "^1.0"
             },
             "require-dev": {
@@ -1223,11 +1044,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-logging",
-                "reference": "a5a26b642f03cfecdc91ff479f6e4a78abcd1e82"
+                "reference": "b19d1f4680e00526a7f260dfc87e29a8aad5876b"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
                 "ext-json": "*",
+                "inpsyde/modularity": "^1.7",
                 "psr/log": "^1.1"
             },
             "require-dev": {
@@ -1259,10 +1080,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-notices",
-                "reference": "536ac74227cbce1ad2561fd83748e5ae949597cb"
+                "reference": "36c8dc5fde59de92b144cb072ede22637d777d84"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3"
+                "inpsyde/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "autoload": {
@@ -1280,11 +1101,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-onboarding",
-                "reference": "6fbc77de162bb873fa68ac353118e7b5b7dd553e"
+                "reference": "aeb2def3e0f21d8a24297da944ef47e66dafbe72"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
                 "inpsyde/inpsyde-state-machine": "*",
+                "inpsyde/modularity": "^1.7",
                 "inpsyde/paypal-pos-auth": "*",
                 "inpsyde/paypal-pos-php-sdk": "*",
                 "inpsyde/wc-product-contracts": "*"
@@ -1315,11 +1136,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-php-sdk",
-                "reference": "0add7017f943ba2fa4e2639b4887cc3e95e46818"
+                "reference": "0641ff71e15cf789822a33909ddf399605245bcf"
             },
             "require": {
-                "dhii/containers": "^0.1",
-                "dhii/module-interface": "^0.2 || ^0.3",
+                "inpsyde/modularity": "^1.7",
                 "inpsyde/wc-product-contracts": "*",
                 "psr/log": "^1.1",
                 "symfony/uid": "^5.1",
@@ -1354,10 +1174,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-product-debug",
-                "reference": "02041da607a8ba0dd4c3c6314598315ddca9d05b"
+                "reference": "fdbd217f7357e7b84e609e5330ff38543a97a424"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3"
+                "inpsyde/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "autoload": {
@@ -1375,10 +1195,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-product-settings",
-                "reference": "35cfcad968f625739316903af206bcdb62fb8dfb"
+                "reference": "f66a39835529733bfc973851b22639a72af4c88d"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
+                "inpsyde/modularity": "^1.7",
                 "inpsyde/wc-product-contracts": "*"
             },
             "type": "inpsyde-module",
@@ -1397,11 +1217,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-queue",
-                "reference": "135d0566af13cef91138dbb0d928c920869ad4ee"
+                "reference": "d7d3bbc954f81f1cfc7eb669fb3bbfb5f23fbb8d"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
-                "ext-json": "*"
+                "ext-json": "*",
+                "inpsyde/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "autoload": {
@@ -1419,10 +1239,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-settings",
-                "reference": "80c2303e1e262772d5000b228b260c2f0f5c1c64"
+                "reference": "c0cd45f64613f4c76b10ba0349cfc7abebc78671"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3"
+                "inpsyde/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "autoload": {
@@ -1440,10 +1260,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-sync",
-                "reference": "4f7acff8f318e9f5a010e8679eed54ef20ba75be"
+                "reference": "1988ccc1f7fad401c9478577b2ff24a0732b59ca"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
+                "inpsyde/modularity": "^1.7",
                 "inpsyde/wc-product-contracts": "*"
             },
             "type": "inpsyde-module",
@@ -1462,11 +1282,11 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-webhooks",
-                "reference": "800ef55eb1cf0f4ed41bb27b3decb648fefeaf2f"
+                "reference": "6496b12f39f637e9dacc1707e099602c9a88b01d"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3",
                 "inpsyde/inpsyde-queue": "*",
+                "inpsyde/modularity": "^1.7",
                 "inpsyde/paypal-pos-php-sdk": "*"
             },
             "require-dev": {
@@ -1603,10 +1423,10 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-wc-status-report",
-                "reference": "22bd64c5aef17fc0a560025e051bd2286232fd2b"
+                "reference": "efb4a7ddfed998d204b265b6c5cebe8cf1bcc433"
             },
             "require": {
-                "dhii/module-interface": "^0.2 || ^0.3"
+                "inpsyde/modularity": "^1.7"
             },
             "require-dev": {
                 "brianium/paratest": "^4.0 || ^6.0",
@@ -2410,6 +2230,58 @@
                 "source": "https://github.com/php-fig/container/tree/1.1.2"
             },
             "time": "2021-11-05T16:50:12+00:00"
+        },
+        {
+            "name": "psr/event-dispatcher",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/event-dispatcher.git",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\EventDispatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Standard interfaces for event handling.",
+            "keywords": [
+                "events",
+                "psr",
+                "psr-14"
+            ],
+            "time": "2019-01-08T18:20:26+00:00"
         },
         {
             "name": "psr/http-client",

@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Container;
 
-use Dhii\Collection\ClearableContainerInterface;
-use Dhii\Collection\MutableContainerInterface;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class WpOptionContainer implements ContainerInterface, MutableContainerInterface, ClearableContainerInterface
+class WpOptionContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
 
     /**
@@ -54,7 +52,7 @@ class WpOptionContainer implements ContainerInterface, MutableContainerInterface
         return isset($this->options[$id]);
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->options[$key] = $value;
         update_option($this->optionKey, $this->options);

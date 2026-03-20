@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Container;
 
-use Dhii\Collection\ClearableContainerInterface;
-use Dhii\Collection\MutableContainerInterface;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ArrayContainer implements ContainerInterface, MutableContainerInterface, ClearableContainerInterface
+class ArrayContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
     /**
      * @var array
@@ -50,7 +48,7 @@ class ArrayContainer implements ContainerInterface, MutableContainerInterface, C
     /**
      * @inheritDoc
      */
-    public function set($key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->options[$key] = $value;
     }

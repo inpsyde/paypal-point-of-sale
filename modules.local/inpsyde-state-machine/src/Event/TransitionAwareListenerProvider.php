@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine\Event;
 
-use Dhii\Events\Listener\ListenerProviderInterface;
-use Traversable;
+use Psr\EventDispatcher\ListenerProviderInterface;
 
 class TransitionAwareListenerProvider implements ListenerProviderInterface
 {
@@ -29,13 +28,10 @@ class TransitionAwareListenerProvider implements ListenerProviderInterface
     }
 
     /**
-     * @param object $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.InvalidGeneratorManyReturns
-     * @return Traversable
      */
-    public function getListenersForEvent($event): Traversable
+    public function getListenersForEvent(object $event): iterable
     {
         if (!($event instanceof PostTransition || $event instanceof PreTransition)) {
             return yield from [];

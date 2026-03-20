@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Onboarding\Job;
 
-use Dhii\Collection\ClearableContainerInterface;
 use Exception;
+use Syde\PayPal\PointOfSale\Container\ClearableContainerInterface;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine\Event;
 
-use Dhii\Events\Event\IsPropagationStoppedCapableInterface;
 use Inpsyde\StateMachine\StateMachineInterface;
+use Psr\EventDispatcher\StoppableEventInterface;
 
-interface StateChange extends IsPropagationStoppedCapableInterface
+interface StateChange extends StoppableEventInterface
 {
 
     public function prepare(StateMachineInterface $stateMachine);

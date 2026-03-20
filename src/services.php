@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Dhii\Collection\MutableContainerInterface;
-use Dhii\Validation\ValidatorInterface;
-use Dhii\Validator\CompositeValidator;
 use Syde\PayPal\PointOfSale\Container\WpOptionContainer;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
+use Syde\PayPal\PointOfSale\Validation\CompositeValidator;
+use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use Syde\PayPal\PointOfSale\Http\PageReloader;
 use Syde\PayPal\PointOfSale\Http\PageReloaderInterface;
 use Syde\PayPal\PointOfSale\Logging\Logger\CompoundLogger;
@@ -97,22 +97,22 @@ return [
     'paypal-pos.http.page-reloader' => static function (C $container): PageReloaderInterface {
         return new PageReloader();
     },
-    'paypal-pos.settings' => static function (): MutableContainerInterface {
+    'paypal-pos.settings' => static function (): WritableContainerInterface {
         return new WpOptionContainer('woocommerce_zettle_settings');
     },
-    'paypal-pos.setup-info' => static function (): MutableContainerInterface {
+    'paypal-pos.setup-info' => static function (): WritableContainerInterface {
         return new WpOptionContainer('woocommerce_zettle_info');
     },
     'paypal-pos.sdk.integration-id.container' =>
-        static function (C $container): MutableContainerInterface {
+        static function (C $container): WritableContainerInterface {
             return $container->get('paypal-pos.settings');
         },
     'paypal-pos.oauth.token-storage.container' =>
-        static function (C $container): MutableContainerInterface {
+        static function (C $container): WritableContainerInterface {
             return $container->get('paypal-pos.settings');
         },
     'paypal-pos.webhook.storage.container' =>
-        static function (C $container): MutableContainerInterface {
+        static function (C $container): WritableContainerInterface {
             return $container->get('paypal-pos.settings');
         },
     'paypal-pos.logger' => static function (C $container): CompoundLogger {
