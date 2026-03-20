@@ -7,7 +7,7 @@ namespace Syde\PayPal\PointOfSale\Queue;
 use Psr\Container\ContainerInterface as C;
 
 return [
-    'inpsyde.queue.namespace' => static function (C $container, string $previous): string {
+    'inpsyde.queue.namespace' => static function (string $previous, C $container): string {
         return "zettle";
     },
 ];
