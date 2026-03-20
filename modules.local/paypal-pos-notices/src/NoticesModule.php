@@ -4,34 +4,32 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Notices;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Inpsyde\StateMachine\StateMachineInterface;
 use Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
-use Interop\Container\ServiceProviderInterface;
 use Psr\Container\ContainerInterface as C;
 
-class NoticesModule implements ModuleInterface
+class NoticesModule implements ServiceModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
 
     /**
      * @inheritDoc
      */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
+        return require __DIR__ . '/../services.php';
     }
 
     /**
      * @inheritDoc
      */
-    public function run(C $container): void
+    public function run(C $container): bool
     {
         if (!is_admin()) {
-            return;
+            return true;
         }
 
         $noticeDelegator = $container->get('paypal-pos.notices.notification.delegator');
@@ -43,5 +41,7 @@ class NoticesModule implements ModuleInterface
         $noticeDelegator->delegate(
             $stateMachine->currentState()->name()
         );
+
+        return true;
     }
 }
