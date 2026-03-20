@@ -12,7 +12,7 @@ use Syde\PayPal\PointOfSale\Settings\Provider\SettingsPageProvider;
 use Syde\PayPal\PointOfSale\Settings\WC\SettingsPage;
 use Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegration;
 use Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegrationHeader;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.settings.url' => static function (C $container): string {

@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Tests\Traits;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Connection\ConnectionType;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\InMemoryMap;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 trait SetUpIdMapTrait
 {

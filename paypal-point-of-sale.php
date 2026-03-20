@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Inpsyde\Modularity\Package;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
 use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
 
 (static function () {
@@ -90,7 +90,7 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
         static $package;
         if (!$initialized) {
             try {
-                $package = (require __DIR__ . '/bootstrap.php')(__DIR__, true);
+                $package = (require __DIR__ . '/bootstrap.php')(__FILE__, true);
             } catch (ValidationFailedException $exc) {
                 $messages = array_map(static function ($error): string {
                     if ($error instanceof ValidationFailedException) {

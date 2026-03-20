@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Inpsyde\Debug\ExceptionFormatter;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 return [
     'inpsyde.debug.exception-formatters' => static function (array $previous, C $ctr): array {

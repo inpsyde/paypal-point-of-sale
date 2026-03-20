@@ -11,7 +11,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Tests;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationType;
 use Syde\PayPal\PointOfSale\PhpSdk\ZettlePhpSdkLibrary;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 class ZettlePhpSdkStandaloneTestCase extends BrainMonkeyWpTestCase
 {

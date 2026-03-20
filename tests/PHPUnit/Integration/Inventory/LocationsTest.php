@@ -7,7 +7,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location\Location;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\InMemoryMap;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\PayPal\PointOfSale\Test\AuthenticatedRestRequestTestCase;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 /**
  * Class LocationsTest

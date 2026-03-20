@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Settings\Provider;
 
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 class SettingsPageProvider implements Provider
 {

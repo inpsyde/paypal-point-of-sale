@@ -13,7 +13,7 @@ use Inpsyde\Queue\Queue\Job\JobRepository;
 use Inpsyde\Queue\Queue\Locker;
 use Inpsyde\Queue\Queue\QueueWalker;
 use Inpsyde\Queue\Queue\UnstoppableQueueWalker;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 class EphemeralQueueTestCase extends QueueStandaloneTestCase
 {

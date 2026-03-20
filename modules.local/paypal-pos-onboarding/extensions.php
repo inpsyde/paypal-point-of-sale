@@ -14,7 +14,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\OrganizationProvide
 use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.init-possible' => static function (bool $previous, C $ctr): bool {

@@ -7,7 +7,7 @@ namespace Syde\PayPal\PointOfSale\Logging;
 use Syde\PayPal\PointOfSale\Logging\Logger\WonoLogger;
 use Syde\PayPal\PointOfSale\Logging\Logger\WooCommerceLogger;
 use Syde\PayPal\PointOfSale\Operator\Option\OptionOperatorInterface;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use WC_Logger;

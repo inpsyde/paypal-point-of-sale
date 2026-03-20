@@ -32,7 +32,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantInventoryState\VariantInven
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOption;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOptionCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 $key = static function (string $className): string {
     return "paypal-pos.sdk.builder.array.{$className}";

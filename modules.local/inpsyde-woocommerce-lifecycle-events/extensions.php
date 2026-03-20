@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Inpsyde\WcEvents;
 
 use Inpsyde\WcEvents\Event\ProductEventListenerRegistry;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use WC_Product;
 use WC_Product_Simple;
 use WC_Product_Variable;

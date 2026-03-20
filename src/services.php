@@ -13,7 +13,7 @@ use Syde\PayPal\PointOfSale\Http\PageReloaderInterface;
 use Syde\PayPal\PointOfSale\Logging\Logger\CompoundLogger;
 use Syde\PayPal\PointOfSale\Validation\RequiredExtensionsValidator;
 use Syde\PayPal\PointOfSale\Validation\RequiredPluginsValidator;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use UnexpectedValueException;
 use WC_Tax;
 

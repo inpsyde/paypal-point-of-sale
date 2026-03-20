@@ -10,7 +10,7 @@ use Syde\PayPal\PointOfSale\Container\ArrayContainer;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Connection\ConnectionType;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\InMemoryMap;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
 
 class AuthenticatedRestRequestTestCase extends ModuleContainerAwareTestCase

@@ -9,7 +9,7 @@ namespace Inpsyde\StateMachine\Test;
 
 use Inpsyde\StateMachine\StateMachineLibrary;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 class StateMachineStandaloneTestCase extends BrainMonkeyWpTestCase
 {

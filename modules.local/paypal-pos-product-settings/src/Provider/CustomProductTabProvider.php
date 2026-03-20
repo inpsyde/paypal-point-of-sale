@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\ProductSettings\Provider;
 
 use Syde\PayPal\PointOfSale\ProductSettings\Components\ProductSettingsTab;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 class CustomProductTabProvider implements Provider
 {

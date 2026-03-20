@@ -46,7 +46,7 @@ use Syde\PayPal\PointOfSale\Sync\Listener\VariationManageStockListener;
 use Syde\PayPal\PointOfSale\Sync\Status\StatusCodeMatcher;
 use Syde\PayPal\PointOfSale\Sync\Status\SyncStatusCodes;
 use Syde\PayPal\PointOfSale\Sync\Validator\ProductValidator;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Throwable;
 use WC_Product_Variation;
 

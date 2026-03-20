@@ -7,7 +7,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Provider;
 use Inpsyde\StateMachine\StateMachineInterface;
 use Syde\PayPal\PointOfSale\Onboarding\Event\AuthCheck;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 class OnboardingRenderProvider implements Provider
 {

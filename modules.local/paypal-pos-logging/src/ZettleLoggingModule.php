@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Logging;
 
-use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 
 class ZettleLoggingModule implements ServiceModule
 {

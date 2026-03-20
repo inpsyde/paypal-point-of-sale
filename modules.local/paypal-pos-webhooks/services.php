@@ -18,7 +18,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Uid\Uuid;

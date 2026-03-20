@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine;
 
-use Inpsyde\Modularity\Module\ExecutableModule;
-use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Inpsyde\Modularity\Module\ServiceModule;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 class StateMachineModule implements ServiceModule, ExecutableModule
 {

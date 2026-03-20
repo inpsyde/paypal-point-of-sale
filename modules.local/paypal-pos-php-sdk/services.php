@@ -75,8 +75,8 @@ use Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionDefinitionsValidator;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionValidator;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\WordPressImageValidator;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Symfony\Component\Uid\Uuid;
 use wpdb;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Inpsyde\Debug;
 
-use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 
 class InpsydeDebugModule implements ServiceModule
 {

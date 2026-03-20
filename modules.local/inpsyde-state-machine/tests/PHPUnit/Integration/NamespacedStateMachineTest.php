@@ -8,7 +8,7 @@ use Inpsyde\StateMachine\State\State;
 use Inpsyde\StateMachine\StateMachine;
 use Inpsyde\StateMachine\Test\StateMachineStandaloneTestCase;
 use Inpsyde\StateMachine\Transition\Transition;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 class NamespacedStateMachineTest extends StateMachineStandaloneTestCase
 {

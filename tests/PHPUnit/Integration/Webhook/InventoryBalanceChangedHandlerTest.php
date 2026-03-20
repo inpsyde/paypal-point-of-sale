@@ -11,7 +11,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
 use Mockery\MockInterface;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**

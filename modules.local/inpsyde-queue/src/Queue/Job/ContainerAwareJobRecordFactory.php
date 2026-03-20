@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Inpsyde\Queue\Queue\Job;
 
 use Inpsyde\Queue\Exception\InvalidJobException;
-use Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 
 /**
  * Class QueueJobFactory

@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\ProductSettings\Provider;
 
 use Syde\PayPal\PointOfSale\ProductSettings\Handler\ProductExcludeHandler;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 
 class ProductExcludeProvider implements Provider
 {

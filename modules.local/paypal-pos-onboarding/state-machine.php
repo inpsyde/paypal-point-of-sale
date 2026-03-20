@@ -27,7 +27,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
 use Syde\PayPal\PointOfSale\Sync\PriceSyncMode;
-use Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
