@@ -7,7 +7,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Psr\Container\ContainerInterface as C;
 
 return [
-    'inpsyde.debug.exception-formatters' => static function (C $ctr, array $previous): array {
+    'inpsyde.debug.exception-formatters' => static function (array $previous, C $ctr): array {
         $previous[ZettleRestException::class] = new class implements ExceptionFormatter {
 
             public function format(Throwable $exception): string

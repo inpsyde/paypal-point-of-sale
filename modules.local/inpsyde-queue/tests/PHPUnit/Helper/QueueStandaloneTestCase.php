@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Inpsyde\Queue\Tests;
 
-use Dhii\Modular\Module\Exception\ModuleExceptionInterface;
 use Inpsyde\Queue\QueueLibrary;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use Psr\Container\ContainerInterface;
@@ -24,9 +23,6 @@ class QueueStandaloneTestCase extends BrainMonkeyWpTestCase
 
     private $currentExtensions = [];
 
-    /**
-     * @throws ModuleExceptionInterface
-     */
     protected function setUp(): void
     {
         $standalone = new QueueLibrary($this->currentFactories, $this->currentExtensions);
