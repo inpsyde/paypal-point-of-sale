@@ -17,23 +17,37 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-runTest() {
-  dir=$(dirname $1)
-  if [ ! -d "$dir/vendor" ]; then
-    echo "Running 'composer install' in $dir"
-    (cd $dir && composer install --prefer-dist --no-progress --no-suggest)
+runRootTest() {
+  if [ ! -d "$DIR/vendor" ]; then
+    echo "Running 'composer install' in $DIR"
+    (cd "$DIR" && composer install --prefer-dist --no-progress --no-suggest)
   fi
 
-  echo "Running PHPUnit in $dir"
-  cd $dir
+  echo "Running PHPUnit in $DIR"
+  cd "$DIR"
   vendor/bin/phpunit --stop-on-failure --exclude-group sync
   if [ "$NO_SYNC" == false ]; then
     vendor/bin/phpunit --stop-on-failure --group sync
   fi
 }
 
-runTest $DIR/phpunit.xml.dist
+runModuleTest() {
+  dir=$(dirname "$1")
+  if [ ! -d "$dir/vendor" ]; then
+    echo "Running 'composer install' in $dir"
+    (cd "$dir" && composer install --prefer-dist --no-progress --no-suggest)
+  fi
+
+  echo "Running PHPUnit in $dir"
+  cd "$dir"
+  vendor/bin/phpunit --stop-on-failure --exclude-group sync --bootstrap "$DIR/tests/module-bootstrap.php"
+  if [ "$NO_SYNC" == false ]; then
+    vendor/bin/phpunit --stop-on-failure --group sync --bootstrap "$DIR/tests/module-bootstrap.php"
+  fi
+}
+
+runRootTest
 
 for config in $DIR/modules/*/phpunit.xml.dist; do
-  runTest $config
+  runModuleTest "$config"
 done
