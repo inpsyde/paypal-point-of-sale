@@ -8,7 +8,7 @@ use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
 use Syde\PayPal\PointOfSale\Onboarding\Job\ResetOnboardingJob;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     die('Direct access not allowed.');

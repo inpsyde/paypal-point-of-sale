@@ -34,7 +34,6 @@ $finders = [
             '.github',
             '.ddev',
             '.idea',
-            'lib',
             'modules.local',
             'tests',
         ])

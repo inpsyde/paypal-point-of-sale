@@ -8,7 +8,7 @@ use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 return [
     'inpsyde.assets.registry' => static function (array $previous, C $container): array {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Inpsyde\WcEvents;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Inpsyde\WcEvents\Hooks\ProductHooks;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Contains service definitions and bootstrapping logic of this module

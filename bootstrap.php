@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale;
 
 use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Properties\PluginProperties;
+use Inpsyde\Modularity\Package;
+use Inpsyde\Modularity\Properties\PluginProperties;
 
 return static function (string $pluginFile, bool $validate = false): Package {
     $properties = PluginProperties::new($pluginFile);

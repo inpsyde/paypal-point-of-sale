@@ -42,7 +42,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\Provider;
 use Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 use WC_Admin_Settings;
 use wpdb;
 

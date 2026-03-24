@@ -7,12 +7,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Test;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Properties\LibraryProperties;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
+use Inpsyde\Modularity\Package;
+use Inpsyde\Modularity\Properties\LibraryProperties;
+use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\PluginModule;
 
 class ModuleContainerAwareTestCase extends MonkeryTestCase

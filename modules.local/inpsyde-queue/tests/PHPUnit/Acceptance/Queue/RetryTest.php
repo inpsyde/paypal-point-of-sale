@@ -13,7 +13,7 @@ use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Mockery;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class RetryTest extends EphemeralQueueTestCase

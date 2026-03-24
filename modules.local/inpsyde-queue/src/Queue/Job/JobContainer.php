@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\Queue\Queue\Job;
 
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class JobContainer implements ContainerInterface
 {

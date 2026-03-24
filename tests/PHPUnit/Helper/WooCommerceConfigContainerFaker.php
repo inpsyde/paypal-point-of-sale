@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Test;
 
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 
 class WooCommerceConfigContainerFaker implements ContainerInterface

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
+use Psr\Container\ContainerInterface;
 
 class PhpSdkModule implements ServiceModule, ExtendingModule, ExecutableModule
 {

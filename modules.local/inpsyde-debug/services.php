@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\Debug;
 
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

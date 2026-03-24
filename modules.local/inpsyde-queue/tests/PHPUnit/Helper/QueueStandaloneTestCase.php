@@ -9,7 +9,7 @@ namespace Inpsyde\Queue\Tests;
 
 use Inpsyde\Queue\QueueLibrary;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class QueueStandaloneTestCase extends BrainMonkeyWpTestCase
 {

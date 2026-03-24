@@ -6,7 +6,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\Test\AuthenticatedRestRequestTestCase;
 use Syde\PayPal\PointOfSale\Test\EnvMapCredentialsContainer;
 use Mockery\MockInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use function Brain\Monkey\Functions\when;
 
 class CredentialsTest extends AuthenticatedRestRequestTestCase

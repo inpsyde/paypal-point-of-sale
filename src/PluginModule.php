@@ -8,14 +8,14 @@ namespace Syde\PayPal\PointOfSale;
 
 use Inpsyde\Assets\Asset;
 use Inpsyde\Assets\AssetManager;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use MetaboxOrchestra\Bootstrap;
 use MetaboxOrchestra\Boxes;
 use MetaboxOrchestra\Metabox;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 class PluginModule implements ServiceModule, ExtendingModule, ExecutableModule
 {

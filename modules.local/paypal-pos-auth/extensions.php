@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\Auth;
 
 use Http\Client\Common\Plugin\HeaderSetPlugin;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 return [
     'inpsyde.http-client.plugins' =>

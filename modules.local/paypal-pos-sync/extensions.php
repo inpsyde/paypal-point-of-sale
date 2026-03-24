@@ -8,7 +8,7 @@ use Syde\PayPal\PointOfSale\Onboarding\SyncCollisionStrategy;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\PriceFilter;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\VatFilter;
 use Inpsyde\WcEvents\Event\ProductEventListenerRegistry;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 return [
     'paypal-pos.settings.fields.registry' =>

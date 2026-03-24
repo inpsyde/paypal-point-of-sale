@@ -10,7 +10,7 @@ use Inpsyde\WcStatusReport\StatusReport;
 use Inpsyde\WcStatusReport\StatusReportInterface;
 use Inpsyde\WcStatusReport\StatusReportRenderer;
 use Inpsyde\WcStatusReport\StatusReportRendererInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 return [
     'inpsyde.wc-status-report.item-factory' => static function (C $container): ReportItemFactoryInterface {

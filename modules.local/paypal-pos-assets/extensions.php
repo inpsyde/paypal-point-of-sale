@@ -11,7 +11,7 @@ use Inpsyde\Assets\Style;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\PayPal\PointOfSale\Onboarding\Counter\ProductSyncJobsCounter;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 return [
     'inpsyde.assets.registry' => static function (array $previous, C $container): array {

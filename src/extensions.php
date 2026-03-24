@@ -9,7 +9,7 @@ use Inpsyde\Debug\DebugProxyFactory;
 use Inpsyde\WcStatusReport\ReportItemFactoryInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
 use Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Throwable;
 

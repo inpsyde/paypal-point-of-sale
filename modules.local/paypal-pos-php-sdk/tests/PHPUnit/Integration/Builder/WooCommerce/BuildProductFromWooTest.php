@@ -25,7 +25,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Tests\ZettlePhpSdkStandaloneTestCase;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\ValidatorInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeRetrieverInterface;
 use Mockery\LegacyMockInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Uid\Uuid;
 use function Brain\Monkey\Functions\expect;

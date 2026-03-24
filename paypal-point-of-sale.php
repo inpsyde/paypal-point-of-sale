@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
+use Inpsyde\Modularity\Package;
 use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
 
 (static function () {

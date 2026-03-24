@@ -8,7 +8,7 @@ use Syde\PayPal\PointOfSale\ProductDebug\Cli\ProductsCommand;
 use Syde\PayPal\PointOfSale\ProductDebug\Listing\CustomColumn;
 use Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\EndpointInterface;
 use Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.product.debug.listing.custom-column' =>

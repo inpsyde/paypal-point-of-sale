@@ -32,7 +32,7 @@ use Inpsyde\Queue\Queue\Stopper;
 use Inpsyde\Queue\Queue\TimeStopper;
 use Inpsyde\Queue\Rest\V1\EndpointInterface;
 use Inpsyde\Queue\Rest\V1\ProcessEndpoint;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Throwable;

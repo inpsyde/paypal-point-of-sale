@@ -9,8 +9,8 @@ namespace Syde\PayPal\PointOfSale\Auth;
 
 use Exception;
 use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Throwable;
 
 class CredentialsContainer implements ContainerInterface

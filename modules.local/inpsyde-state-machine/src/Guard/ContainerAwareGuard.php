@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine\Guard;
 
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class ContainerAwareGuard implements GuardInterface
 {

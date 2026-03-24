@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Provider;
 
 use Syde\PayPal\PointOfSale\Onboarding\Listener\UnhandledErrorListener;
 use Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 class ErrorListenerProvider implements Provider
 {

@@ -21,7 +21,7 @@ use Syde\PayPal\PointOfSale\ProductSettings\Taxonomy\ZettleSyncVisibilityTaxonom
 use Syde\PayPal\PointOfSale\Provider;
 use MetaboxOrchestra\BoxAction;
 use MetaboxOrchestra\BoxView;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.product-settings.taxonomy.sync-visibility.key' =>

@@ -2,8 +2,8 @@
 
 namespace Syde\PayPal\PointOfSale\Test;
 
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class EnvMapCredentialsContainer implements ContainerInterface
 {

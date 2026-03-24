@@ -21,9 +21,9 @@ use Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
 use Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\PayPal\PointOfSale\Auth\Validator\Validator;
 use Syde\PayPal\PointOfSale\Auth\Validator\ValidatorInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);

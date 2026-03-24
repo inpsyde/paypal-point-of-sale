@@ -17,7 +17,7 @@ use Inpsyde\StateMachine\Initializer\InitializerInterface;
 use Inpsyde\StateMachine\Initializer\StateQueryInitializer;
 use Inpsyde\StateMachine\Loader\ContainerLoader;
 use Inpsyde\StateMachine\Loader\LoaderInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Notices;
 
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Inpsyde\StateMachine\StateMachineInterface;
 use Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 class NoticesModule implements ServiceModule, ExecutableModule
 {

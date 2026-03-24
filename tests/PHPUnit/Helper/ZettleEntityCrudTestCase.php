@@ -13,7 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\LocalImageValidator;
 use Syde\PayPal\PointOfSale\Test\DataProvider\WcProductSampleData;
 use Mockery;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv

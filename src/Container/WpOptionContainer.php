@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Container;
 
 use Exception;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class WpOptionContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {

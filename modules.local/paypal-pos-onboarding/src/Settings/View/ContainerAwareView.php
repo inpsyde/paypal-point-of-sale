@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 use Inpsyde\StateMachine\StateMachineInterface;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class ContainerAwareView implements OnboardingView
 {

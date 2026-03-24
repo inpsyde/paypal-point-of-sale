@@ -7,7 +7,7 @@ namespace Syde\PayPal\PointOfSale\Auth\OAuth;
 use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenPropertyException;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\Token;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class TokenContainer

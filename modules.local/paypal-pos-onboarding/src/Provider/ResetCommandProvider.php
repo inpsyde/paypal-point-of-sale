@@ -7,7 +7,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Provider;
 use Exception;
 use Syde\PayPal\PointOfSale\Onboarding\Cli\ResetOnboardingCommand;
 use Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 use WP_CLI;
 
 class ResetCommandProvider implements Provider

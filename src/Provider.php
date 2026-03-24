@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 /**
  * Interface for bootable Provider

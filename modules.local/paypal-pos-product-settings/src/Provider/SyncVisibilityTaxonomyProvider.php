@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\ProductSettings\Provider;
 
 use Syde\PayPal\PointOfSale\ProductSettings\Taxonomy\ZettleSyncVisibilityTaxonomy;
 use Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 class SyncVisibilityTaxonomyProvider implements Provider
 {

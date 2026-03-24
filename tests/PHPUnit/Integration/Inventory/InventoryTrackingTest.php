@@ -11,7 +11,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\InMemoryMap;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\PayPal\PointOfSale\Test\DataProvider\ProductSampleData;
 use Syde\PayPal\PointOfSale\Test\ZettleEntityCrudTestCase;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Uid\Uuid;
 
 /**

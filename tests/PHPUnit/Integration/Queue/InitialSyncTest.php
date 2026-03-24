@@ -19,7 +19,7 @@ use Syde\PayPal\PointOfSale\Sync\Job\SyncStockJob;
 use Syde\PayPal\PointOfSale\Test\DataProvider\WcProductSampleData;
 use Syde\PayPal\PointOfSale\Test\StubLoader;
 use Syde\PayPal\PointOfSale\Test\ZettleEntityCrudTestCase;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use function Brain\Monkey\Functions\expect;

@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Builder;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationMode;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use WC_Product;
 
 class PriceBuilder implements BuilderInterface

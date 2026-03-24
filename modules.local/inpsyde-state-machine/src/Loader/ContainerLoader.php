@@ -9,7 +9,7 @@ use Inpsyde\StateMachine\Initializer\InitializerInterface;
 use Inpsyde\StateMachine\State\StateInterface;
 use Inpsyde\StateMachine\StateMachineInterface;
 use Inpsyde\StateMachine\Transition\TransitionInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class ContainerLoader implements LoaderInterface
 {

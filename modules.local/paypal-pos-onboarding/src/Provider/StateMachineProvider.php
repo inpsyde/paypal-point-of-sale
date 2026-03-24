@@ -11,7 +11,7 @@ use Syde\PayPal\PointOfSale\Onboarding\Event\DeleteButtonPressed;
 use Syde\PayPal\PointOfSale\Onboarding\Event\ProceedButtonPressed;
 use Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 use Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 class StateMachineProvider implements Provider
 {

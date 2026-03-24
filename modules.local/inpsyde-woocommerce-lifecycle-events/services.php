@@ -7,7 +7,7 @@ namespace Inpsyde\WcEvents;
 use Inpsyde\WcEvents\Event\EventDispatcher;
 use Inpsyde\WcEvents\Event\ProductEventListenerRegistry;
 use Inpsyde\WcEvents\Hooks\ProductHooks;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Psr\Container\ContainerInterface as C;
 
 return [
     'inpsyde.wc-lifecycle-events.products.hooks' => static function (C $container): ProductHooks {
