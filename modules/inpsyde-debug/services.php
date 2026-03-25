@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Psr\Log\NullLogger;
 return ['inpsyde.debug.proxy-factory' => static function (C $ctr): DebugProxyFactory {

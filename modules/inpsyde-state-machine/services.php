@@ -16,7 +16,7 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer\InitializerInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer\StateQueryInitializer;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Loader\ContainerLoader;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Loader\LoaderInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
     //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType

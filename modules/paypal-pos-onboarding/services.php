@@ -41,7 +41,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use WC_Admin_Settings;
 use wpdb;
 // phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong

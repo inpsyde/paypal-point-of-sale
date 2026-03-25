@@ -20,9 +20,9 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Validator\Validator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Validator\ValidatorInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
     //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType

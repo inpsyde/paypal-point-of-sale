@@ -10,7 +10,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Event\DeleteButtonPres
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Event\ProceedButtonPressed;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 class StateMachineProvider implements Provider
 {
     /**

@@ -13,7 +13,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return [
     'paypal-pos.init-possible' => static function (bool $previous, C $ctr): bool {
         $initableStates = [OnboardingState::SYNC_PARAM_PRODUCTS, OnboardingState::SYNC_PARAM_VAT, OnboardingState::SYNC_PROGRESS, OnboardingState::SYNC_FINISHED, OnboardingState::ONBOARDING_COMPLETED];

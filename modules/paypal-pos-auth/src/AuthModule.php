@@ -3,15 +3,15 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth;
 
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenProviderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;

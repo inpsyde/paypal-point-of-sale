@@ -7,7 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\SyncCollisionStrategy;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\PriceFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\VatFilter;
 use Syde\Vendor\Zettle\Inpsyde\WcEvents\Event\ProductEventListenerRegistry;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 return ['paypal-pos.settings.fields.registry' => static function (array $previous, ContainerInterface $container): array {
     return array_merge($previous, ['sync_params' => ['title' => __('Sync Parameters', 'paypal-point-of-sale'), 'type' => 'title', 'description' => __('Sets up how and what to synchronize to your PayPal Point of Sale store', 'paypal-point-of-sale')], 'sync_price_strategy' => ['title' => __('Price synchronization', 'paypal-point-of-sale'), 'type' => 'select', 'default' => PriceSyncMode::ENABLED, 'description' => __('Whether or not to sync prices to PayPal Point of Sale', 'paypal-point-of-sale'), 'options' => [PriceSyncMode::ENABLED => __('Sync prices', 'paypal-point-of-sale'), PriceSyncMode::DISABLED => __('Don\'t sync prices', 'paypal-point-of-sale')]], 'sync_collision_strategy' => [
         'title' => __('Existing products', 'paypal-point-of-sale'),

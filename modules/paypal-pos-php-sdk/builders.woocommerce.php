@@ -39,7 +39,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Iterator\WcProductAttachmentIterator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Uuid\Uuid;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 $key = static function (string $className): string {
     return "paypal-pos.sdk.builder.woocommerce.{$className}";
 };

@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules\French;
 
-namespace Doctrine\Inflector\Rules\French;
-
-use Doctrine\Inflector\Rules\Pattern;
-use Doctrine\Inflector\Rules\Substitution;
-use Doctrine\Inflector\Rules\Transformation;
-use Doctrine\Inflector\Rules\Word;
-
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Pattern;
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Substitution;
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Transformation;
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Word;
 class Inflectible
 {
     /**
@@ -22,7 +20,6 @@ class Inflectible
         yield new Transformation(new Pattern('/(bijou|caillou|chou|genou|hibou|joujou|pou|au|eu|eau)x$/'), '\1');
         yield new Transformation(new Pattern('/s$/'), '');
     }
-
     /**
      * @return Transformation[]
      */
@@ -36,7 +33,6 @@ class Inflectible
         yield new Transformation(new Pattern('/(bijou|caillou|chou|genou|hibou|joujou|pou|au|eu|eau)$/'), '\1x');
         yield new Transformation(new Pattern('/$/'), 's');
     }
-
     /**
      * @return Substitution[]
      */

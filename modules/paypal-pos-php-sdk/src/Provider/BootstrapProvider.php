@@ -5,7 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Provider;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Bootstrap;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 class BootstrapProvider implements Provider
 {
     /**

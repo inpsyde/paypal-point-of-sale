@@ -7,7 +7,7 @@ use Syde\Vendor\Zettle\Http\Discovery\Exception\NotFoundException;
 use Syde\Vendor\Zettle\Http\Discovery\Psr17FactoryDiscovery;
 use Syde\Vendor\Zettle\Http\Discovery\Psr18ClientDiscovery;
 use Syde\Vendor\Zettle\Inpsyde\Wp\HttpClient\Client as WpHttpClient;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\RequestFactoryInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\ResponseFactoryInterface;

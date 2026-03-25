@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container;
 
 use Exception;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 class ArrayContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
     /**

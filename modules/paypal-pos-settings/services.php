@@ -11,7 +11,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\Provider\SettingsPagePro
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\WC\SettingsPage;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegration;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegrationHeader;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.settings.url' => static function (C $container): string {
     return admin_url('admin.php?page=wc-settings&tab=zettle');
 }, 'paypal-pos.settings.is-integration-page' => static function (C $container): callable {

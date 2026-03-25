@@ -1,19 +1,16 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules\French;
 
-namespace Doctrine\Inflector\Rules\French;
-
-use Doctrine\Inflector\GenericLanguageInflectorFactory;
-use Doctrine\Inflector\Rules\Ruleset;
-
+use Syde\Vendor\Zettle\Doctrine\Inflector\GenericLanguageInflectorFactory;
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Ruleset;
 final class InflectorFactory extends GenericLanguageInflectorFactory
 {
     protected function getSingularRuleset(): Ruleset
     {
         return Rules::getSingularRuleset();
     }
-
     protected function getPluralRuleset(): Ruleset
     {
         return Rules::getPluralRuleset();

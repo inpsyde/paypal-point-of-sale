@@ -6,7 +6,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\WcEvents;
 use Syde\Vendor\Zettle\Inpsyde\WcEvents\Event\EventDispatcher;
 use Syde\Vendor\Zettle\Inpsyde\WcEvents\Event\ProductEventListenerRegistry;
 use Syde\Vendor\Zettle\Inpsyde\WcEvents\Hooks\ProductHooks;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['inpsyde.wc-lifecycle-events.products.hooks' => static function (C $container): ProductHooks {
     return new ProductHooks($container->get('inpsyde.wc-lifecycle-events.event-dispatcher'), $container->get('inpsyde.wc-lifecycle-events.products.toggle'), $container->get('inpsyde.wc-lifecycle-events.dispatch-decider'));
 }, 'inpsyde.wc-lifecycle-events.products.listener-provider' => static function (C $container): ProductEventListenerRegistry {

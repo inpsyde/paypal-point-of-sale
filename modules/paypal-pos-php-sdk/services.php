@@ -74,8 +74,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionDef
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator\WordPressImageValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Symfony\Component\Uid\Uuid;
 use wpdb;
 return array_merge([

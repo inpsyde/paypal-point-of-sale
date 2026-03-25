@@ -23,7 +23,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\DescriptionLengthFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Serializer\CallbackSerializer;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Serializer\SerializerInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 $key = static function (string $className): string {
     return "paypal-pos.sdk.serializer.{$className}";
 };

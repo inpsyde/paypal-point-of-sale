@@ -4,12 +4,12 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks;
 
 use Exception;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\WP_CLI;
 class WebhookModule implements ServiceModule, ExecutableModule
 {

@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * Class NamespacedContainer
  * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType

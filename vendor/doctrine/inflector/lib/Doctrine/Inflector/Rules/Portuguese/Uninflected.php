@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Portuguese;
 
-namespace Doctrine\Inflector\Rules\Portuguese;
-
-use Doctrine\Inflector\Rules\Pattern;
-
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Pattern;
 final class Uninflected
 {
     /**
@@ -15,7 +13,6 @@ final class Uninflected
     {
         yield from self::getDefault();
     }
-
     /**
      * @return Pattern[]
      */
@@ -23,7 +20,6 @@ final class Uninflected
     {
         yield from self::getDefault();
     }
-
     /**
      * @return Pattern[]
      */

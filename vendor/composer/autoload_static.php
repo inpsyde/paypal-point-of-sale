@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit007fb5802ca0adba44222990795cb9ef
+class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
 {
     public static $files = array (
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -25,7 +25,6 @@ class ComposerStaticInit007fb5802ca0adba44222990795cb9ef
             'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\' => 42,
             'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\' => 41,
             'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\' => 53,
-            'Syde\\Vendor\\Zettle\\Syde\\Vendor\\Zettle\\' => 38,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\' => 52,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\' => 48,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\' => 52,
@@ -101,10 +100,6 @@ class ComposerStaticInit007fb5802ca0adba44222990795cb9ef
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
-        ),
-        'Syde\\Vendor\\Zettle\\Syde\\Vendor\\Zettle\\' =>
-        array (
-            0 => __DIR__ . '/../..' . '/lib/packages',
         ),
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\' =>
         array (
@@ -432,6 +427,48 @@ class ComposerStaticInit007fb5802ca0adba44222990795cb9ef
         'Syde\\Vendor\\Zettle\\Brain\\Nonces\\RequestGlobalsContext' => __DIR__ . '/..' . '/brain/nonces/src/RequestGlobalsContext.php',
         'Syde\\Vendor\\Zettle\\Brain\\Nonces\\WpNonce' => __DIR__ . '/..' . '/brain/nonces/src/WpNonce.php',
         'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\CallbackFilter' => __DIR__ . '/..' . '/clue/stream-filter/src/CallbackFilter.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Common\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\CachedWordInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/CachedWordInflector.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\GenericLanguageInflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/GenericLanguageInflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Inflector.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\InflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/InflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Language' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Language.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\LanguageInflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/LanguageInflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\NoopWordInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/NoopWordInflector.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\English\\Inflectible' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Inflectible.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\English\\InflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/InflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\English\\Rules' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Rules.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\English\\Uninflected' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Uninflected.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\French\\Inflectible' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Inflectible.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\French\\InflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/InflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\French\\Rules' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Rules.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\French\\Uninflected' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Uninflected.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\NorwegianBokmal\\Inflectible' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Inflectible.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\NorwegianBokmal\\InflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/InflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\NorwegianBokmal\\Rules' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Rules.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\NorwegianBokmal\\Uninflected' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Uninflected.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Pattern' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Pattern.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Patterns' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Patterns.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Portuguese\\Inflectible' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Inflectible.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Portuguese\\InflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/InflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Portuguese\\Rules' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Rules.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Portuguese\\Uninflected' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Uninflected.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Ruleset' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Ruleset.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Spanish\\Inflectible' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Inflectible.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Spanish\\InflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/InflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Spanish\\Rules' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Rules.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Spanish\\Uninflected' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Uninflected.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Substitution' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Substitution.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Substitutions' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Substitutions.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Transformation' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Transformation.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Transformations' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Transformations.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Turkish\\Inflectible' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Inflectible.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Turkish\\InflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/InflectorFactory.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Turkish\\Rules' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Rules.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Turkish\\Uninflected' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Uninflected.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\Rules\\Word' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/Rules/Word.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\RulesetInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/RulesetInflector.php',
+        'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\WordInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/WordInflector.php',
         'Syde\\Vendor\\Zettle\\Http\\Client\\Common\\BatchClient' => __DIR__ . '/..' . '/php-http/client-common/src/BatchClient.php',
         'Syde\\Vendor\\Zettle\\Http\\Client\\Common\\BatchClientInterface' => __DIR__ . '/..' . '/php-http/client-common/src/BatchClientInterface.php',
         'Syde\\Vendor\\Zettle\\Http\\Client\\Common\\BatchResult' => __DIR__ . '/..' . '/php-http/client-common/src/BatchResult.php',
@@ -1351,9 +1388,9 @@ class ComposerStaticInit007fb5802ca0adba44222990795cb9ef
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit007fb5802ca0adba44222990795cb9ef::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit007fb5802ca0adba44222990795cb9ef::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit007fb5802ca0adba44222990795cb9ef::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$classMap;
 
         }, null, ClassLoader::class);
     }

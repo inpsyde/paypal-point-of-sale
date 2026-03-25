@@ -11,7 +11,6 @@ return array(
     'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\' => array($vendorDir . '/symfony/uid'),
     'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
-    'Syde\\Vendor\\Zettle\\Syde\\Vendor\\Zettle\\' => array($baseDir . '/lib/packages'),
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\' => array($baseDir . '/modules/paypal-pos-webhooks/src'),
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\' => array($baseDir . '/modules/paypal-pos-sync/src'),
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\' => array($baseDir . '/modules/paypal-pos-settings/src'),

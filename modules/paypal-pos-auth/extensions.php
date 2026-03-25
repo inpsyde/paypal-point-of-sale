@@ -5,7 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth;
 
 use Syde\Vendor\Zettle\Http\Client\Common\Plugin\HeaderSetPlugin;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 return ['inpsyde.http-client.plugins' => static function (array $previous, ContainerInterface $container): array {
     $previous[] = $container->get('paypal-pos.http-plug.plugin');
     if (getenv('IZETTLE_CHAOS_MONKEY_ENABLED') === '1') {

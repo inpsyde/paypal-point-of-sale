@@ -45,7 +45,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Listener\VariationManageStoc
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Status\StatusCodeMatcher;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Status\SyncStatusCodes;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Validator\ProductValidator;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Throwable;
 use WC_Product_Variation;
 $job = static function (string $type): string {

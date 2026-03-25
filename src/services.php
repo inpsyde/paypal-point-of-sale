@@ -12,7 +12,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Http\PageReloaderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\CompoundLogger;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\RequiredExtensionsValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\RequiredPluginsValidator;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use UnexpectedValueException;
 use WC_Tax;
 return ['paypal-pos.is-debug' => static function (C $container): bool {

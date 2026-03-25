@@ -8,7 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\Admin\GlobalConnec
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\Admin\IntegrationConnectionFailedNotice;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeInterface;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.notices.notification.notice.info.complete-onboarding' => static function (C $container): NoticeInterface {
     return new CompleteOnboardingNotice($container->get('paypal-pos.settings.is-integration-page'), $container->get('paypal-pos.settings.url'));
 }, 'paypal-pos.notices.notification.notice.error.global.auth-failed' => static function (C $container): NoticeInterface {

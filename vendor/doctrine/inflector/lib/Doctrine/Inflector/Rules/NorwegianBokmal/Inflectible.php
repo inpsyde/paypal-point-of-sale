@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Doctrine\Inflector\Rules\NorwegianBokmal;
 
-namespace Doctrine\Inflector\Rules\NorwegianBokmal;
-
-use Doctrine\Inflector\Rules\Pattern;
-use Doctrine\Inflector\Rules\Substitution;
-use Doctrine\Inflector\Rules\Transformation;
-use Doctrine\Inflector\Rules\Word;
-
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Pattern;
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Substitution;
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Transformation;
+use Syde\Vendor\Zettle\Doctrine\Inflector\Rules\Word;
 class Inflectible
 {
     /**
@@ -19,7 +17,6 @@ class Inflectible
         yield new Transformation(new Pattern('/re$/i'), 'r');
         yield new Transformation(new Pattern('/er$/i'), '');
     }
-
     /**
      * @return Transformation[]
      */
@@ -29,7 +26,6 @@ class Inflectible
         yield new Transformation(new Pattern('/r$/i'), 're');
         yield new Transformation(new Pattern('/$/'), 'er');
     }
-
     /**
      * @return Substitution[]
      */

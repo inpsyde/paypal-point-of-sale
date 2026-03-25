@@ -8,7 +8,7 @@ use Syde\Vendor\Zettle\Inpsyde\Debug\DebugProxyFactory;
 use Syde\Vendor\Zettle\Inpsyde\WcStatusReport\ReportItemFactoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
-use Syde\Vendor\Zettle\Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Throwable;
 return [
