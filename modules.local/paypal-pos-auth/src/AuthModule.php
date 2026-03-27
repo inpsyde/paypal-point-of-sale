@@ -4,27 +4,34 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Auth;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\TokenProviderInterface;
 use Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
-use Interop\Container\ServiceProviderInterface;
 use Psr\Container\ContainerInterface;
 
-class AuthModule implements ModuleInterface
+class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
 
     /**
      * @inheritDoc
      */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
+        return require __DIR__ . '/../services.php';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
     }
 
     /**
@@ -32,7 +39,7 @@ class AuthModule implements ModuleInterface
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
      */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
         /**
          * @var TokenProviderInterface|TokenPersistorInterface $tokenStorage
@@ -110,5 +117,7 @@ class AuthModule implements ModuleInterface
                 );
             }
         );
+
+        return true;
     }
 }

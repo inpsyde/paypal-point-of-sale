@@ -11,8 +11,6 @@ if (!file_exists($vendor.'autoload.php')) {
 require_once $vendor.'brain/monkey/inc/patchwork-loader.php';
 require_once $vendor.'autoload.php';
 
-require_once $root . '/../../src/BootableProviderModuleInterface.php';
-require_once $root . '/../../src/BootableProviderAwareTrait.php';
 require_once $root . '/../../packages.local/wc-product-contracts/src/ProductType.php';
 require_once $root . '/../../packages.local/wc-product-contracts/src/ProductState.php';
 

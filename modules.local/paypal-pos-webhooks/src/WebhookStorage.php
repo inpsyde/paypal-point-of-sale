@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Webhooks;
 
-use Dhii\Collection\MutableContainerInterface;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Webhook;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\WebhookFactory;
@@ -19,7 +19,7 @@ class WebhookStorage implements WebhookStorageInterface
     private $webhookFactory;
 
     /**
-     * @var MutableContainerInterface
+     * @var WritableContainerInterface
      */
     private $optionContainer;
 
@@ -37,13 +37,13 @@ class WebhookStorage implements WebhookStorageInterface
      * WpOptionWebhookStorage constructor.
      *
      * @param WebhookFactory $webhookFactory
-     * @param MutableContainerInterface $optionContainer
+     * @param WritableContainerInterface $optionContainer
      * @param string $optionKey
      * @param array $defaultConfig
      */
     public function __construct(
         WebhookFactory $webhookFactory,
-        MutableContainerInterface $optionContainer,
+        WritableContainerInterface $optionContainer,
         string $optionKey,
         array $defaultConfig
     ) {

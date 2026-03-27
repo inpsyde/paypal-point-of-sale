@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "dhii/module-interface": "^0.2 || ^0.3",
+        "inpsyde/modularity": "^1.7",
         "inpsyde/wc-product-contracts": "*"
     },
     "autoload": {

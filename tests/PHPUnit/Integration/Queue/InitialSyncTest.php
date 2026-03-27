@@ -58,25 +58,25 @@ class InitialSyncTest extends ZettleEntityCrudTestCase
 
         $this->injectExtension(
             'paypal-pos.job.'.EnqueueProductSyncJob::TYPE,
-            function (ContainerInterface $container, Job $previous): Job {
+            function (Job $previous, ContainerInterface $container): Job {
                 return Mockery::spy($previous);
             }
         );
         $this->injectExtension(
             'paypal-pos.job.'.ExportProductJob::TYPE,
-            function (ContainerInterface $container, Job $previous): Job {
+            function (Job $previous, ContainerInterface $container): Job {
                 return Mockery::spy($previous);
             }
         );
         $this->injectExtension(
             'paypal-pos.job.'.SyncStockJob::TYPE,
-            function (ContainerInterface $container, Job $previous): Job {
+            function (Job $previous, ContainerInterface $container): Job {
                 return Mockery::spy($previous);
             }
         );
         $this->injectExtension(
             'paypal-pos.job.'.SetInventoryTrackingJob::TYPE,
-            function (ContainerInterface $container, Job $previous): Job {
+            function (Job $previous, ContainerInterface $container): Job {
                 return Mockery::spy($previous);
             }
         );

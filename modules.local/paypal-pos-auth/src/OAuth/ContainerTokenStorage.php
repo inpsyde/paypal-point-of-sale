@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Auth\OAuth;
 
-use Dhii\Collection\MutableContainerInterface;
 use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenFactoryInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 
@@ -17,7 +17,7 @@ class ContainerTokenStorage implements TokenPersistorInterface, TokenProviderInt
 {
 
     /**
-     * @var MutableContainerInterface
+     * @var WritableContainerInterface
      */
     private $container;
 
@@ -34,12 +34,12 @@ class ContainerTokenStorage implements TokenPersistorInterface, TokenProviderInt
     /**
      * SiteOptionTokenStorage constructor.
      *
-     * @param MutableContainerInterface $container
+     * @param WritableContainerInterface $container
      * @param string $key
      * @param TokenFactoryInterface $tokenFactory
      */
     public function __construct(
-        MutableContainerInterface $container,
+        WritableContainerInterface $container,
         string $key,
         TokenFactoryInterface $tokenFactory
     ) {

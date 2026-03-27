@@ -6,34 +6,32 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
 use Inpsyde\Assets\Asset;
 use Inpsyde\Assets\AssetManager;
-use Interop\Container\ServiceProviderInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use MetaboxOrchestra\Bootstrap;
 use MetaboxOrchestra\Boxes;
 use MetaboxOrchestra\Metabox;
 use Psr\Container\ContainerInterface as C;
 
-class PluginModule implements ModuleInterface
+class PluginModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/services.php',
-            require __DIR__ . '/extensions.php'
-        );
+        return require __DIR__ . '/services.php';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function run(C $container): void
+    public function extensions(): array
+    {
+        return require __DIR__ . '/extensions.php';
+    }
+
+    public function run(C $container): bool
     {
         add_action(
             'init',
@@ -53,6 +51,8 @@ class PluginModule implements ModuleInterface
         );
 
         add_action('paypal-point-of-sale.migrate', $container->get('paypal-pos.clear-cache'));
+
+        return true;
     }
 
     /**

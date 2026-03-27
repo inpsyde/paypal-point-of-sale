@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Onboarding;
 
-use Dhii\Data\Container\WritableContainerInterface;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;

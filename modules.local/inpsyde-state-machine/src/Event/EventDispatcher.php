@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine\Event;
 
-use Dhii\Events\Dispatcher\EventDispatcherInterface;
-use Dhii\Events\Listener\ListenerProviderInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 
 class EventDispatcher implements EventDispatcherInterface
 {
@@ -20,14 +20,7 @@ class EventDispatcher implements EventDispatcherInterface
         $this->listenerProviders = $listenerProviders;
     }
 
-    /**
-     * @param object $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     *
-     * @return object
-     */
-    public function dispatch($event)
+    public function dispatch(object $event): object
     {
         foreach ($this->listenerProviders as $listenerProvider) {
             $listeners = $listenerProvider->getListenersForEvent($event);

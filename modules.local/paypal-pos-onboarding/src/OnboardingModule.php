@@ -4,42 +4,37 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Onboarding;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
-use Syde\PayPal\PointOfSale\BootableProviderAwareTrait;
-use Syde\PayPal\PointOfSale\BootableProviderModuleInterface;
-use Interop\Container\ServiceProviderInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface as C;
 
-class OnboardingModule implements ModuleInterface, BootableProviderModuleInterface
+class OnboardingModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
-    use BootableProviderAwareTrait;
+    use ModuleClassNameIdTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            array_merge(
-                require __DIR__ . '/../services.php',
-                require __DIR__ . '/../state-machine.php'
-            ),
-            require __DIR__ . '/../extensions.php'
+        return array_merge(
+            require __DIR__ . '/../services.php',
+            require __DIR__ . '/../state-machine.php'
         );
     }
 
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
+    }
+
     /**
-     * @inheritDoc
-     *
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      */
-    public function run(C $container): void
+    public function run(C $container): bool
     {
-        $this->bootProviders(
-            $container,
-            ...$container->get('paypal-pos.onboarding.provider')
-        );
+        foreach ($container->get('paypal-pos.onboarding.provider') as $provider) {
+            $provider->boot($container);
+        }
 
         add_filter(
             'woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'),
@@ -63,5 +58,7 @@ class OnboardingModule implements ModuleInterface, BootableProviderModuleInterfa
                 );
             }
         );
+
+        return true;
     }
 }

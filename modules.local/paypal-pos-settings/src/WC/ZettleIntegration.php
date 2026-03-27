@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Settings\WC;
 
-use Dhii\Collection\MutableContainerInterface;
 use Exception;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState as S;
 use Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
 use RuntimeException;
@@ -34,7 +34,7 @@ class ZettleIntegration extends WC_Settings_API
     private $readonlyFieldTypes = ['title', 'zettle-onboarding'];
 
     /**
-     * @var MutableContainerInterface
+     * @var WritableContainerInterface
      */
     private $container;
 
@@ -44,7 +44,7 @@ class ZettleIntegration extends WC_Settings_API
         string $currentState,
         array $formFields,
         callable $isIntegrationPage,
-        MutableContainerInterface $container,
+        WritableContainerInterface $container,
         FieldRendererInterface ...$renderers
     ) {
 

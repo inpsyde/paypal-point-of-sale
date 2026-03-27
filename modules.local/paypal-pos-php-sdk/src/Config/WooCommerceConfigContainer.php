@@ -19,7 +19,7 @@ class WooCommerceConfigContainer implements ContainerInterface
      *
      * @throws RuntimeException
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (!$this->has($id)) {
             throw new class (
@@ -37,7 +37,7 @@ class WooCommerceConfigContainer implements ContainerInterface
      *
      * @return bool
      */
-    public function has($id): bool
+    public function has(string $id): bool
     {
         return !!get_option($this->key($id));
     }

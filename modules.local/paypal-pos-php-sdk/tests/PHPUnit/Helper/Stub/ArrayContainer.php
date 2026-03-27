@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Tests\Stub;
 
-use Dhii\Collection\ClearableContainerInterface;
-use Dhii\Collection\MutableContainerInterface;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ArrayContainer implements ContainerInterface, MutableContainerInterface, ClearableContainerInterface
+class ArrayContainer implements ContainerInterface
 {
     /**
      * @var array
@@ -25,7 +23,7 @@ class ArrayContainer implements ContainerInterface, MutableContainerInterface, C
     /**
      * @inheritDoc
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (!$this->has($id)) {
             $exceptionMessage = sprintf(
@@ -42,14 +40,11 @@ class ArrayContainer implements ContainerInterface, MutableContainerInterface, C
     /**
      * @inheritDoc
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return array_key_exists($id, $this->options);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function set($key, $value): void
     {
         $this->options[$key] = $value;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Validation;
 
-use Dhii\Validation\ValidatorInterface;
-use Dhii\Validator\CallbackValidator;
+use Syde\PayPal\PointOfSale\Validation\CallbackValidator;
+use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 
 /**
  * Checks that PHP extensions (functions) are available.

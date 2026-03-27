@@ -11,7 +11,7 @@ use Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
 use Psr\Container\ContainerInterface as C;
 
 return [
-    'inpsyde.assets.registry' => static function (C $container, array $previous): array {
+    'inpsyde.assets.registry' => static function (array $previous, C $container): array {
         // see https://bugs.php.net/bug.php?id=49184
         // phpcs:ignore WordPress.Security, using only to compare value, not storing anywhere.
         $scriptFileName = $_SERVER['SCRIPT_FILENAME'] ?? '';

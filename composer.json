@@ -39,10 +39,6 @@
         "php": "^8.2",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "container-interop/service-provider": "^0.4.0",
-        "dhii/containers": "^0.1",
-        "dhii/module-interface": "^0.2 || ^0.3",
-        "dhii/validator": "^0.1",
         "inpsyde/assets": "^2.1",
         "inpsyde/inpsyde-debug": "*",
         "inpsyde/inpsyde-http-client": "*",
@@ -64,8 +60,10 @@
         "inpsyde/paypal-pos-settings": "*",
         "inpsyde/paypal-pos-sync": "*",
         "inpsyde/paypal-pos-webhooks": "*",
+        "inpsyde/modularity": "^1.7",
         "oomphinc/composer-installers-extender": "^2.0",
-        "psr/container": "^1.0",
+        "psr/container": "^1.1 || ^2.0",
+        "psr/event-dispatcher": "^1.0",
         "sniccowp/php-scoper-wordpress-excludes": "^6.8"
     },
     "require-dev": {

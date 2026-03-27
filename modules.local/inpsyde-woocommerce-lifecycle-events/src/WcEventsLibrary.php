@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Inpsyde\WcEvents;
 
-use Dhii\Container\CompositeCachingServiceProvider;
-use Dhii\Container\DelegatingContainer;
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\Exception\ModuleExceptionInterface;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
+use Inpsyde\Modularity\Package;
+use Inpsyde\Modularity\Properties\LibraryProperties;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -17,14 +18,9 @@ class WcEventsLibrary
 {
 
     /**
-     * @var DelegatingContainer
+     * @var ContainerInterface
      */
     private $container;
-
-    /**
-     * @var CompositeCachingServiceProvider
-     */
-    private $provider;
 
     /**
      * @var WcEventsModule
@@ -32,25 +28,55 @@ class WcEventsLibrary
     private $module;
 
     /**
-     * QueueLibrary constructor.
+     * WcEventsLibrary constructor.
      *
      * @param array $factories
      * @param array $extensions
-     *
-     * @throws ModuleExceptionInterface
      */
     public function __construct(array $factories = [], array $extensions = [])
     {
         $this->module = new WcEventsModule();
-        $providers = [$this->module->setup()];
-        $providers[] = new ServiceProvider($factories, $extensions);
-        $this->provider = new CompositeCachingServiceProvider($providers);
-        $this->container = new DelegatingContainer($this->provider);
+        $package = Package::new(LibraryProperties::new(__DIR__ . '/../composer.json'));
+        $package->addModule($this->module);
+
+        if ($factories !== [] || $extensions !== []) {
+            $package->addModule(
+                new class ($factories, $extensions) implements ServiceModule, ExtendingModule {
+                    use ModuleClassNameIdTrait;
+
+                    /**
+                     * @var array
+                     */
+                    private $factories;
+
+                    /**
+                     * @var array
+                     */
+                    private $extensions;
+
+                    public function __construct(array $factories, array $extensions)
+                    {
+                        $this->factories = $factories;
+                        $this->extensions = $extensions;
+                    }
+
+                    public function services(): array
+                    {
+                        return $this->factories;
+                    }
+
+                    public function extensions(): array
+                    {
+                        return $this->extensions;
+                    }
+                }
+            );
+        }
+
+        $package->build();
+        $this->container = $package->container();
     }
 
-    /**
-     * @throws ModuleExceptionInterface
-     */
     public function initialize()
     {
         $this->module->run($this->container());

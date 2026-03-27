@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
-use Interop\Container\ServiceProviderInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
 
-class StateMachineModule implements ModuleInterface
+class StateMachineModule implements ServiceModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
+        return require __DIR__ . '/../services.php';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
+        return true;
     }
 }

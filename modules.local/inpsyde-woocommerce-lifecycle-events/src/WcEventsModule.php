@@ -4,36 +4,36 @@ declare(strict_types=1);
 
 namespace Inpsyde\WcEvents;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Inpsyde\WcEvents\Hooks\ProductHooks;
-use Interop\Container\ServiceProviderInterface;
 use Psr\Container\ContainerInterface;
 
 /**
  * Contains service definitions and bootstrapping logic of this module
  */
-class WcEventsModule implements ModuleInterface
+class WcEventsModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
+        return require __DIR__ . '/../services.php';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function run(ContainerInterface $container): void
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
+    }
+
+    public function run(ContainerInterface $container): bool
     {
         $eventDispatcher = $container->get('inpsyde.wc-lifecycle-events.products.hooks');
         assert($eventDispatcher instanceof ProductHooks);
         $eventDispatcher->register();
+
+        return true;
     }
 }

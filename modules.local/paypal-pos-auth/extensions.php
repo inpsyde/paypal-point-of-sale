@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;
 
 return [
     'inpsyde.http-client.plugins' =>
-        static function (ContainerInterface $container, array $previous): array {
+        static function (array $previous, ContainerInterface $container): array {
             $previous[] = $container->get('paypal-pos.http-plug.plugin');
 
             if (getenv('IZETTLE_CHAOS_MONKEY_ENABLED') === '1') {
@@ -24,7 +24,7 @@ return [
             return $previous;
         },
     'paypal-pos.settings.fields.registry' =>
-        static function (ContainerInterface $container, array $previous): array {
+        static function (array $previous, ContainerInterface $container): array {
             return array_merge(
                 $previous,
                 [

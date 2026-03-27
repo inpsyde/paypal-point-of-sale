@@ -2,7 +2,7 @@
     "name": "inpsyde/paypal-pos-notices",
     "type": "inpsyde-module",
     "require": {
-        "dhii/module-interface": "^0.2 || ^0.3"
+        "inpsyde/modularity": "^1.7"
     },
     "autoload": {
         "psr-4": {

@@ -104,7 +104,7 @@ class InventoryBalanceChangedHandlerTest extends AuthenticatedRestRequestTestCas
 
         $this->injectExtension(
             'paypal-pos.webhook.handlers.inventory-balance-changed',
-            function (ContainerInterface $container, WebhookHandler $previous): InventoryBalanceChangedHandler {
+            function (WebhookHandler $previous, ContainerInterface $container): InventoryBalanceChangedHandler {
                 return Mockery::spy($previous);
             }
         );

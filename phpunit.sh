@@ -18,22 +18,22 @@ while [[ $# -gt 0 ]]; do
 done
 
 runTest() {
-  dir=$(dirname $1)
+  dir=$(dirname "$1")
   if [ ! -d "$dir/vendor" ]; then
     echo "Running 'composer install' in $dir"
-    (cd $dir && composer install --prefer-dist --no-progress --no-suggest)
+    (cd "$dir" && composer install --prefer-dist --no-progress --no-suggest)
   fi
 
   echo "Running PHPUnit in $dir"
-  cd $dir
+  cd "$dir"
   vendor/bin/phpunit --stop-on-failure --exclude-group sync
   if [ "$NO_SYNC" == false ]; then
     vendor/bin/phpunit --stop-on-failure --group sync
   fi
 }
 
-runTest $DIR/phpunit.xml.dist
+runTest "$DIR/phpunit.xml.dist"
 
 for config in $DIR/modules/*/phpunit.xml.dist; do
-  runTest $config
+  runTest "$config"
 done

@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;
 
 return [
     'paypal-pos.settings.fields.registry' =>
-        static function (ContainerInterface $container, array $previous): array {
+        static function (array $previous, ContainerInterface $container): array {
             return array_merge(
                 $previous,
                 [
@@ -61,7 +61,7 @@ return [
             );
         },
     'paypal-pos.sdk.filters' =>
-        static function (ContainerInterface $container, array $previous): array {
+        static function (array $previous, ContainerInterface $container): array {
             $settings = $container->get('paypal-pos.settings');
             if (!$settings->has('sync_price_strategy')) {
                 return $previous;
@@ -77,8 +77,8 @@ return [
         },
     'inpsyde.wc-lifecycle-events.products.listener-provider' =>
         static function (
-            ContainerInterface $container,
-            ProductEventListenerRegistry $registry
+            ProductEventListenerRegistry $registry,
+            ContainerInterface $container
         ): ProductEventListenerRegistry {
             $registry->onPropertyChange(
                 'stock_quantity',

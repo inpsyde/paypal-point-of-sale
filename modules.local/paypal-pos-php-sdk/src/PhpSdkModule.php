@@ -4,33 +4,32 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
-use Syde\PayPal\PointOfSale\BootableProviderAwareTrait;
-use Syde\PayPal\PointOfSale\BootableProviderModuleInterface;
-use Interop\Container\ServiceProviderInterface;
+use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
+use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
 
-class PhpSdkModule implements ModuleInterface, BootableProviderModuleInterface
+class PhpSdkModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
-    use BootableProviderAwareTrait;
+    use ModuleClassNameIdTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
+        return require __DIR__ . '/../services.php';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function run(ContainerInterface $container): void
+    public function extensions(): array
     {
-        $this->bootProviders($container, ...$container->get('paypal-pos.sdk.provider'));
+        return require __DIR__ . '/../extensions.php';
+    }
+
+    public function run(ContainerInterface $container): bool
+    {
+        foreach ($container->get('paypal-pos.sdk.provider') as $provider) {
+            $provider->boot($container);
+        }
+
+        return true;
     }
 }

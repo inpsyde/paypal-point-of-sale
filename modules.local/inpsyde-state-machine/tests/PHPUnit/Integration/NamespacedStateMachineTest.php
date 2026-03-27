@@ -57,8 +57,8 @@ class NamespacedStateMachineTest extends StateMachineStandaloneTestCase
             "inpsyde.state-machine.events.listener-provider.transition-aware",
             $this->single(
                 function (
-                    ContainerInterface $container,
-                    TransitionAwareListenerProvider $listenerProvider
+                    TransitionAwareListenerProvider $listenerProvider,
+                    ContainerInterface $container
                 ): TransitionAwareListenerProvider {
                     $listenerProvider->listen('baz', function (PreTransition $event): void {
                         $this->preTransitionEvent = $event;

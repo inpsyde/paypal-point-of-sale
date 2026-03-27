@@ -10,8 +10,7 @@
         }
     ],
     "require": {
-        "dhii/module-interface": "^0.2 || ^0.3",
-        "dhii/containers": "^0.1",
+        "inpsyde/modularity": "^1.7",
         "werkspot/enum": "^2.1",
         "psr/log": "^1.1",
         "inpsyde/wc-product-contracts": "*",

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
-use Dhii\Collection\MutableContainerInterface;
 use Http\Message\UriFactory;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Locations;
@@ -103,7 +103,7 @@ return array_merge(
                 return (string) Uuid::v1();
             }
             $idContainer = $container->get('paypal-pos.sdk.integration-id.container');
-            assert($idContainer instanceof MutableContainerInterface);
+            assert($idContainer instanceof WritableContainerInterface);
             $key = $container->get('paypal-pos.sdk.option.integration');
 
             if (!$idContainer->has($key)) {

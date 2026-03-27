@@ -13,7 +13,7 @@ use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.sync.product.sync-active-for-id' =>
-        static function (C $container, callable $previous): callable {
+        static function (callable $previous, C $container): callable {
             return static function (int $productId) use ($container, $previous): bool {
                 if (!$previous($productId)) {
                     return false;
@@ -34,7 +34,7 @@ return [
             };
         },
     'inpsyde.assets.registry' =>
-        static function (C $container, array $previous): array {
+        static function (array $previous, C $container): array {
             $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
 
             $isProductsEditor = $container->get('paypal-pos.product-settings.is-product-editor');
@@ -69,7 +69,7 @@ return [
                 $previous
             );
         },
-    'inpsyde.metabox.registry' => static function (C $container, array $previous): array {
+    'inpsyde.metabox.registry' => static function (array $previous, C $container): array {
         $previous[] = $container->get(
             'paypal-pos.product-settings.metabox.product.library.link'
         );

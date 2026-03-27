@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine\Test;
 
-use Dhii\Modular\Module\Exception\ModuleExceptionInterface;
 use Inpsyde\StateMachine\StateMachineLibrary;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use Psr\Container\ContainerInterface;
@@ -24,9 +23,6 @@ class StateMachineStandaloneTestCase extends BrainMonkeyWpTestCase
 
     private $currentExtensions = [];
 
-    /**
-     * @throws ModuleExceptionInterface
-     */
     protected function setUp(): void
     {
         $standalone = new StateMachineLibrary($this->currentFactories, $this->currentExtensions);
