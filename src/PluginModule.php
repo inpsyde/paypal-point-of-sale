@@ -4,28 +4,28 @@ declare (strict_types=1);
 // phpcs:disable Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
 use Inpsyde\Assets\Asset;
 use Inpsyde\Assets\AssetManager;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\MetaboxOrchestra\Bootstrap;
 use Syde\Vendor\Zettle\MetaboxOrchestra\Boxes;
 use Syde\Vendor\Zettle\MetaboxOrchestra\Metabox;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
-class PluginModule implements ModuleInterface
+class PluginModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    use ModuleClassNameIdTrait;
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/services.php', require __DIR__ . '/extensions.php');
+        return require __DIR__ . '/services.php';
     }
-    /**
-     * @inheritDoc
-     */
-    public function run(C $container): void
+    public function extensions(): array
+    {
+        return require __DIR__ . '/extensions.php';
+    }
+    public function run(C $container): bool
     {
         add_action('init', function () use ($container) {
             $this->registerAssets($container);
@@ -40,6 +40,7 @@ class PluginModule implements ModuleInterface
             }
         }, \PHP_INT_MAX);
         add_action('paypal-point-of-sale.migrate', $container->get('paypal-pos.clear-cache'));
+        return \true;
     }
     /**
      * @param C $container

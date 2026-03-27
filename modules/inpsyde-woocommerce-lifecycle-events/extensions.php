@@ -8,7 +8,7 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use WC_Product;
 use WC_Product_Simple;
 use WC_Product_Variable;
-return ['inpsyde.wc-lifecycle-events.products.listener-provider' => static function (ContainerInterface $container, ProductEventListenerRegistry $provider): ProductEventListenerRegistry {
+return ['inpsyde.wc-lifecycle-events.products.listener-provider' => static function (ProductEventListenerRegistry $provider, ContainerInterface $container): ProductEventListenerRegistry {
     /**
      * The following hooks are temporarily left here for testing and
      * debugging purposes. They should be removed later.

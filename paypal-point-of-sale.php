@@ -6,7 +6,7 @@ declare (strict_types=1);
  * Plugin Name: PayPal Point of Sale
  * Plugin URI:  https://zettle.inpsyde.com/
  * Description: PayPal Point of Sale Integration for WooCommerce
- * Version: 0.0.0+main.6483937
+ * Version: 0.0.0+main.098b707
  * Requires at least: 6.8
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
@@ -24,8 +24,8 @@ declare (strict_types=1);
  */
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
-use Syde\Vendor\Zettle\Dhii\Validation\Exception\ValidationFailedExceptionInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
 (static function () {
     /**
      * Display an error message in the WP admin
@@ -57,16 +57,16 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
     if (!class_exists(PluginModule::class) && file_exists(__DIR__ . '/vendor/autoload.php')) {
         include_once __DIR__ . '/vendor/autoload.php';
     }
-    function init(): ?ContainerInterface
+    function init(): ?Package
     {
         static $initialized;
-        static $container;
+        static $package;
         if (!$initialized) {
             try {
-                $container = (require __DIR__ . '/bootstrap.php')(__DIR__, \true);
-            } catch (ValidationFailedExceptionInterface $exc) {
+                $package = (require __DIR__ . '/bootstrap.php')(__FILE__, \true);
+            } catch (ValidationFailedException $exc) {
                 $messages = array_map(static function ($error): string {
-                    if ($error instanceof ValidationFailedExceptionInterface) {
+                    if ($error instanceof ValidationFailedException) {
                         return $error->getMessage();
                     }
                     return (string) $error;
@@ -78,13 +78,14 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
             }
             $initialized = \true;
         }
-        return $container;
+        return $package;
     }
     add_action('plugins_loaded', static function () {
-        $container = init();
-        if (!$container) {
+        $package = init();
+        if (!$package) {
             return;
         }
+        $container = $package->container();
         // IZET-356, looks like there is no good built-in hook in WP for plugin upgrades
         $version = $container->get('paypal-pos.plugin.properties')->version();
         $versionOptionName = $container->get('paypal-pos.version-option-key');

@@ -29,14 +29,14 @@ class NamespacedContainer implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function get($id)
+    public function get(string $id)
     {
         return $this->base->get("{$this->namespace}.{$id}");
     }
     /**
      * @inheritDoc
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return $this->base->has("{$this->namespace}.{$id}");
     }

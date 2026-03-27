@@ -3,10 +3,11 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\WcEvents;
 
-use Syde\Vendor\Zettle\Dhii\Container\CompositeCachingServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Container\DelegatingContainer;
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\Exception\ModuleExceptionInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Properties\LibraryProperties;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * Enables standalone usage of the WcEventsModule as a library
@@ -14,36 +15,54 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 class WcEventsLibrary
 {
     /**
-     * @var DelegatingContainer
+     * @var ContainerInterface
      */
     private $container;
-    /**
-     * @var CompositeCachingServiceProvider
-     */
-    private $provider;
     /**
      * @var WcEventsModule
      */
     private $module;
     /**
-     * QueueLibrary constructor.
+     * WcEventsLibrary constructor.
      *
      * @param array $factories
      * @param array $extensions
-     *
-     * @throws ModuleExceptionInterface
      */
     public function __construct(array $factories = [], array $extensions = [])
     {
         $this->module = new WcEventsModule();
-        $providers = [$this->module->setup()];
-        $providers[] = new ServiceProvider($factories, $extensions);
-        $this->provider = new CompositeCachingServiceProvider($providers);
-        $this->container = new DelegatingContainer($this->provider);
+        $package = Package::new(LibraryProperties::new(__DIR__ . '/../composer.json'));
+        $package->addModule($this->module);
+        if ($factories !== [] || $extensions !== []) {
+            $package->addModule(new class($factories, $extensions) implements ServiceModule, ExtendingModule
+            {
+                use ModuleClassNameIdTrait;
+                /**
+                 * @var array
+                 */
+                private $factories;
+                /**
+                 * @var array
+                 */
+                private $extensions;
+                public function __construct(array $factories, array $extensions)
+                {
+                    $this->factories = $factories;
+                    $this->extensions = $extensions;
+                }
+                public function services(): array
+                {
+                    return $this->factories;
+                }
+                public function extensions(): array
+                {
+                    return $this->extensions;
+                }
+            });
+        }
+        $package->build();
+        $this->container = $package->container();
     }
-    /**
-     * @throws ModuleExceptionInterface
-     */
     public function initialize()
     {
         $this->module->run($this->container());

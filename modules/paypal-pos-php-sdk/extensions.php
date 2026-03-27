@@ -6,7 +6,7 @@ namespace Syde\Vendor\Zettle;
 use Syde\Vendor\Zettle\Inpsyde\Debug\ExceptionFormatter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
-return ['inpsyde.debug.exception-formatters' => static function (C $ctr, array $previous): array {
+return ['inpsyde.debug.exception-formatters' => static function (array $previous, C $ctr): array {
     $previous[ZettleRestException::class] = new class implements ExceptionFormatter
     {
         public function format(\Throwable $exception): string

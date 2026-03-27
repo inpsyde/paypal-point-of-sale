@@ -3,8 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
-use Syde\Vendor\Zettle\Dhii\Events\Listener\ListenerProviderInterface;
-use Traversable;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 class TransitionAwareListenerProvider implements ListenerProviderInterface
 {
     /**
@@ -24,13 +23,10 @@ class TransitionAwareListenerProvider implements ListenerProviderInterface
         $this->listeners[$state]->addListener($listener);
     }
     /**
-     * @param object $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.InvalidGeneratorManyReturns
-     * @return Traversable
      */
-    public function getListenersForEvent($event): Traversable
+    public function getListenersForEvent(object $event): iterable
     {
         if (!($event instanceof PostTransition || $event instanceof PreTransition)) {
             return yield from [];

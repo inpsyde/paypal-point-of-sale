@@ -4,7 +4,6 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding;
 
-use Syde\Vendor\Zettle\Dhii\Data\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;

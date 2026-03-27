@@ -4,9 +4,6 @@ declare (strict_types=1);
 namespace Inpsyde\Assets;
 
 use Inpsyde\Assets\Handler\AssetHandler;
-/**
- * @internal use BaseAsset to start your custom implementation.
- */
 interface Asset
 {
     // Location types

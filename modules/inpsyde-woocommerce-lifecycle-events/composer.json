@@ -4,8 +4,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "dhii\/containers": "^0.1",
-        "dhii\/module-interface": "^0.2 || ^0.3"
+        "inpsyde\/modularity": "^1.7"
     },
     "autoload": {
         "psr-4": {

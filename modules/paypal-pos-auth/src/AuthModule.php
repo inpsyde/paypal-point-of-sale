@@ -3,29 +3,38 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenProviderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-class AuthModule implements ModuleInterface
+class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
     /**
      * @inheritDoc
      */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/../services.php', require __DIR__ . '/../extensions.php');
+        return require __DIR__ . '/../services.php';
+    }
+    /**
+     * @inheritDoc
+     */
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
     }
     /**
      * @inheritDoc
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
      */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
         /**
          * @var TokenProviderInterface|TokenPersistorInterface $tokenStorage
@@ -62,5 +71,6 @@ class AuthModule implements ModuleInterface
             assert($endpoint instanceof EndpointInterface);
             register_rest_route($container->get('paypal-pos.oauth.jwt.rest.namespace'), $endpoint->route(), ['methods' => $endpoint->methods(), 'callback' => [$endpoint, 'handleRequest'], 'permission_callback' => [$endpoint, 'permissionCallback'], 'args' => $endpoint->args()]);
         });
+        return \true;
     }
 }

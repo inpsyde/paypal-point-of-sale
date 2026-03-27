@@ -3,7 +3,7 @@
     "type": "inpsyde-module",
     "minimum-stability": "dev",
     "require": {
-        "dhii\/module-interface": "^0.2 || ^0.3"
+        "inpsyde\/modularity": "^1.7"
     },
     "require-dev": {
         "brianium\/paratest": "^4.0 || ^6.0",

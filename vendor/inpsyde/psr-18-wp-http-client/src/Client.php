@@ -24,26 +24,12 @@ use function wp_remote_retrieve_response_message;
  */
 class Client implements ClientInterface
 {
-    /**
-     * @var WP_Http
-     */
-    protected $wpHttp;
-    /**
-     * @var RequestFactoryInterface
-     */
-    protected $requestFactory;
-    /**
-     * @var ResponseFactoryInterface
-     */
-    protected $responseFactory;
-    /**
-     * @var StreamFactoryInterface
-     */
-    protected $streamFactory;
-    /**
-     * @var array
-     */
-    protected $clientOptions;
+    protected WP_Http $wpHttp;
+    protected RequestFactoryInterface $requestFactory;
+    protected ResponseFactoryInterface $responseFactory;
+    protected StreamFactoryInterface $streamFactory;
+    /** @var array<string, mixed> */
+    protected array $clientOptions;
     /**
      * @param WP_Http $wpHttp WordPress class instance to make actual requests
      * @param RequestFactoryInterface $requestFactory The factory that creates requests
@@ -67,10 +53,12 @@ class Client implements ClientInterface
         $target = (string) $request->getUri();
         $target = trim($target);
         if (strlen($target) === 0) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             throw new RequestException('URI is empty', 0, null, $request);
         }
         $result = $this->wpHttp->request($target, $this->getRequestArgs($request));
         if (is_wp_error($result)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             throw new NetworkException($result->get_error_message(), 0, null, $request);
         }
         return $this->prepareResponse($result);

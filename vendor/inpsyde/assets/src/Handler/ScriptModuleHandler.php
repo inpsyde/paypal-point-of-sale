@@ -4,10 +4,14 @@ declare (strict_types=1);
 namespace Inpsyde\Assets\Handler;
 
 use Inpsyde\Assets\Asset;
+use Inpsyde\Assets\ScriptModule;
 class ScriptModuleHandler implements \Inpsyde\Assets\Handler\AssetHandler
 {
     public function enqueue(Asset $asset): bool
     {
+        if (!$asset instanceof ScriptModule) {
+            return \false;
+        }
         if (!static::scriptModulesSupported()) {
             return \false;
         }
@@ -20,10 +24,14 @@ class ScriptModuleHandler implements \Inpsyde\Assets\Handler\AssetHandler
     }
     public function register(Asset $asset): bool
     {
+        if (!$asset instanceof ScriptModule) {
+            return \false;
+        }
         if (!static::scriptModulesSupported()) {
             return \false;
         }
         $handle = $asset->handle();
+        $this->shareData($asset);
         wp_register_script_module(
             $handle,
             $asset->url(),
@@ -33,8 +41,18 @@ class ScriptModuleHandler implements \Inpsyde\Assets\Handler\AssetHandler
         );
         return \true;
     }
-    public static function scriptModulesSupported(): bool
+    protected static function scriptModulesSupported(): bool
     {
-        return function_exists('wp_register_script_module') && function_exists('wp_enqueue_script_module') && function_exists('wp_deregister_script_module') && function_exists('wp_dequeue_script_module');
+        return class_exists('WP_Script_Modules');
+    }
+    protected function shareData(ScriptModule $asset): void
+    {
+        $handle = $asset->handle();
+        if (!$asset->data()) {
+            return;
+        }
+        add_filter("script_module_data_{$handle}", static function () use ($asset): array {
+            return $asset->data();
+        }, \PHP_INT_MAX - 10);
     }
 }

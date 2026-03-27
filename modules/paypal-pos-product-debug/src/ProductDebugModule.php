@@ -3,27 +3,28 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
 use Exception;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\WP_CLI;
-class ProductDebugModule implements ModuleInterface
+class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    use ModuleClassNameIdTrait;
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/../services.php', require __DIR__ . '/../extensions.php');
+        return require __DIR__ . '/../services.php';
+    }
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
     }
     /**
-     * @inheritDoc
-     *
      * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
      */
-    public function run(C $container): void
+    public function run(C $container): bool
     {
         add_action('rest_api_init', static function () use ($container) {
             $validateEndpoint = $container->get('paypal-pos.product.debug.rest.v1.endpoint.validate');
@@ -51,5 +52,6 @@ class ProductDebugModule implements ModuleInterface
             } catch (Exception $exception) {
             }
         }
+        return \true;
     }
 }

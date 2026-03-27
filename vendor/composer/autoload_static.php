@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
+class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
 {
     public static $files = array (
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -41,16 +41,17 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
             'Syde\\Vendor\\Zettle\\Psr\\Log\\' => 27,
             'Syde\\Vendor\\Zettle\\Psr\\Http\\Message\\' => 36,
             'Syde\\Vendor\\Zettle\\Psr\\Http\\Client\\' => 35,
+            'Syde\\Vendor\\Zettle\\Psr\\EventDispatcher\\' => 39,
             'Syde\\Vendor\\Zettle\\Psr\\Container\\' => 33,
             'Syde\\Vendor\\Zettle\\Nyholm\\Psr7\\' => 31,
             'Syde\\Vendor\\Zettle\\MetaboxOrchestra\\' => 36,
-            'Syde\\Vendor\\Zettle\\Interop\\Container\\' => 37,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Wp\\HttpClient\\' => 41,
             'Syde\\Vendor\\Zettle\\Inpsyde\\WcStatusReport\\' => 42,
             'Syde\\Vendor\\Zettle\\Inpsyde\\WcProductContracts\\' => 46,
             'Syde\\Vendor\\Zettle\\Inpsyde\\WcEvents\\' => 36,
             'Syde\\Vendor\\Zettle\\Inpsyde\\StateMachine\\' => 40,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\' => 33,
+            'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\' => 38,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\' => 32,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\' => 33,
             'Syde\\Vendor\\Zettle\\Inpsyde\\' => 27,
@@ -62,12 +63,6 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
             'Syde\\Vendor\\Zettle\\Http\\Client\\' => 31,
             'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\' => 38,
             'Syde\\Vendor\\Zettle\\Doctrine\\Common\\Inflector\\' => 45,
-            'Syde\\Vendor\\Zettle\\Dhii\\Validator\\' => 34,
-            'Syde\\Vendor\\Zettle\\Dhii\\Validation\\' => 35,
-            'Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\' => 39,
-            'Syde\\Vendor\\Zettle\\Dhii\\Events\\' => 31,
-            'Syde\\Vendor\\Zettle\\Dhii\\Container\\' => 34,
-            'Syde\\Vendor\\Zettle\\Dhii\\Collection\\' => 35,
             'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\' => 37,
             'Syde\\Vendor\\Zettle\\Brain\\Nonces\\' => 32,
         ),
@@ -171,6 +166,10 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
+        'Syde\\Vendor\\Zettle\\Psr\\EventDispatcher\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
+        ),
         'Syde\\Vendor\\Zettle\\Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
@@ -182,10 +181,6 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\MetaboxOrchestra\\' =>
         array (
             0 => __DIR__ . '/..' . '/inpsyde/metabox-orchestra/src',
-        ),
-        'Syde\\Vendor\\Zettle\\Interop\\Container\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/container-interop/service-provider/src',
         ),
         'Syde\\Vendor\\Zettle\\Inpsyde\\Wp\\HttpClient\\' =>
         array (
@@ -210,6 +205,10 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/inpsyde-queue/src',
+        ),
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/inpsyde/modularity/src',
         ),
         'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\' =>
         array (
@@ -255,30 +254,6 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Doctrine\\Common\\Inflector\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
-        ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Validator\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/dhii/validator/src',
-        ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Validation\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/dhii/validation-interface/src',
-        ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/dhii/module-interface/src',
-        ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Events\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src',
-        ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/dhii/containers/src',
-        ),
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/dhii/collections-interface/src',
         ),
         'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\' =>
         array (
@@ -452,64 +427,6 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Brain\\Nonces\\RequestGlobalsContext' => __DIR__ . '/..' . '/brain/nonces/src/RequestGlobalsContext.php',
         'Syde\\Vendor\\Zettle\\Brain\\Nonces\\WpNonce' => __DIR__ . '/..' . '/brain/nonces/src/WpNonce.php',
         'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\CallbackFilter' => __DIR__ . '/..' . '/clue/stream-filter/src/CallbackFilter.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\ClearableContainerInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/ClearableContainerInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\ContainerFactoryInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/ContainerFactoryInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\ContainerInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/ContainerInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\CountableListInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/CountableListInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\CountableMapInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/CountableMapInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\CountableSetInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/CountableSetInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\HasCapableInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/HasCapableInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\HasItemCapableInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/HasItemCapableInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\MapFactoryInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/MapFactoryInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\MapInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/MapInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\MutableContainerInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/MutableContainerInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\SetFactoryInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/SetFactoryInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\SetInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/SetInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\WritableContainerFactoryInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/WritableContainerFactoryInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\WritableContainerInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/WritableContainerInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\WritableMapFactoryInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/WritableMapFactoryInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\WritableMapInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/WritableMapInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\WritableSetFactoryInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/WritableSetFactoryInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Collection\\WritableSetInterface' => __DIR__ . '/..' . '/dhii/collections-interface/src/WritableSetInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\AliasingContainer' => __DIR__ . '/..' . '/dhii/containers/src/AliasingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\CachingContainer' => __DIR__ . '/..' . '/dhii/containers/src/CachingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\CompositeCachingServiceProvider' => __DIR__ . '/..' . '/dhii/containers/src/CompositeCachingServiceProvider.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\CompositeContainer' => __DIR__ . '/..' . '/dhii/containers/src/CompositeContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\DataStructureBasedFactory' => __DIR__ . '/..' . '/dhii/containers/src/DataStructureBasedFactory.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\DataStructureBasedFactoryInterface' => __DIR__ . '/..' . '/dhii/containers/src/DataStructureBasedFactoryInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\DelegatingContainer' => __DIR__ . '/..' . '/dhii/containers/src/DelegatingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\DeprefixingContainer' => __DIR__ . '/..' . '/dhii/containers/src/DeprefixingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\Dictionary' => __DIR__ . '/..' . '/dhii/containers/src/Dictionary.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\DictionaryFactory' => __DIR__ . '/..' . '/dhii/containers/src/DictionaryFactory.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\Exception\\ContainerException' => __DIR__ . '/..' . '/dhii/containers/src/Exception/ContainerException.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\Exception\\NotFoundException' => __DIR__ . '/..' . '/dhii/containers/src/Exception/NotFoundException.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\FlashContainer' => __DIR__ . '/..' . '/dhii/containers/src/FlashContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\HierarchyContainer' => __DIR__ . '/..' . '/dhii/containers/src/HierarchyContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\MappingContainer' => __DIR__ . '/..' . '/dhii/containers/src/MappingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\MaskingContainer' => __DIR__ . '/..' . '/dhii/containers/src/MaskingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\NoOpContainer' => __DIR__ . '/..' . '/dhii/containers/src/NoOpContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\PathContainer' => __DIR__ . '/..' . '/dhii/containers/src/PathContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\PrefixingContainer' => __DIR__ . '/..' . '/dhii/containers/src/PrefixingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\ProxyContainer' => __DIR__ . '/..' . '/dhii/containers/src/ProxyContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\SegmentingContainer' => __DIR__ . '/..' . '/dhii/containers/src/SegmentingContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\ServiceProvider' => __DIR__ . '/..' . '/dhii/containers/src/ServiceProvider.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\SimpleCacheContainer' => __DIR__ . '/..' . '/dhii/containers/src/SimpleCacheContainer.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\TaggingServiceProvider' => __DIR__ . '/..' . '/dhii/containers/src/TaggingServiceProvider.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Container\\Util\\StringTranslatingTrait' => __DIR__ . '/..' . '/dhii/containers/src/Util/StringTranslatingTrait.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Events\\Dispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src/Dispatcher/EventDispatcherInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Events\\Event\\IsPropagationStoppedCapableInterface' => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src/Event/IsPropagationStoppedCapableInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Events\\Listener\\AddListenerCapableInterface' => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src/Listener/AddListenerCapableInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Events\\Listener\\ListenerProviderInterface' => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src/Listener/ListenerProviderInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Events\\Listener\\RemoveListenerCapableInterface' => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src/Listener/RemoveListenerCapableInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\Exception\\ModuleExceptionInterface' => __DIR__ . '/..' . '/dhii/module-interface/src/Exception/ModuleExceptionInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\ModuleAwareInterface' => __DIR__ . '/..' . '/dhii/module-interface/src/ModuleAwareInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\ModuleInterface' => __DIR__ . '/..' . '/dhii/module-interface/src/ModuleInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Validation\\Exception\\ValidationFailedExceptionInterface' => __DIR__ . '/..' . '/dhii/validation-interface/src/Exception/ValidationFailedExceptionInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Validation\\ValidatorInterface' => __DIR__ . '/..' . '/dhii/validation-interface/src/ValidatorInterface.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Validator\\CallbackValidator' => __DIR__ . '/..' . '/dhii/validator/src/CallbackValidator.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Validator\\CompositeValidator' => __DIR__ . '/..' . '/dhii/validator/src/CompositeValidator.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Validator\\Exception\\ValidationFailedException' => __DIR__ . '/..' . '/dhii/validator/src/Exception/ValidationFailedException.php',
-        'Syde\\Vendor\\Zettle\\Dhii\\Validator\\VarDumpTrait' => __DIR__ . '/..' . '/dhii/validator/src/VarDumpTrait.php',
         'Syde\\Vendor\\Zettle\\Doctrine\\Common\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
         'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\CachedWordInflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/CachedWordInflector.php',
         'Syde\\Vendor\\Zettle\\Doctrine\\Inflector\\GenericLanguageInflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector/GenericLanguageInflectorFactory.php',
@@ -715,6 +632,22 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\TypeDelegatingFormatter' => __DIR__ . '/../..' . '/modules/inpsyde-debug/src/TypeDelegatingFormatter.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\HttpClientFactory' => __DIR__ . '/../..' . '/modules/inpsyde-http-client/src/HttpClientFactory.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\HttpClientModule' => __DIR__ . '/../..' . '/modules/inpsyde-http-client/src/HttpClientModule.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Container\\ContainerConfigurator' => __DIR__ . '/..' . '/inpsyde/modularity/src/Container/ContainerConfigurator.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Container\\PackageProxyContainer' => __DIR__ . '/..' . '/inpsyde/modularity/src/Container/PackageProxyContainer.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Container\\ReadOnlyContainer' => __DIR__ . '/..' . '/inpsyde/modularity/src/Container/ReadOnlyContainer.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Container\\ServiceExtensions' => __DIR__ . '/..' . '/inpsyde/modularity/src/Container/ServiceExtensions.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Module\\ExecutableModule' => __DIR__ . '/..' . '/inpsyde/modularity/src/Module/ExecutableModule.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Module\\ExtendingModule' => __DIR__ . '/..' . '/inpsyde/modularity/src/Module/ExtendingModule.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Module\\FactoryModule' => __DIR__ . '/..' . '/inpsyde/modularity/src/Module/FactoryModule.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Module\\Module' => __DIR__ . '/..' . '/inpsyde/modularity/src/Module/Module.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Module\\ModuleClassNameIdTrait' => __DIR__ . '/..' . '/inpsyde/modularity/src/Module/ModuleClassNameIdTrait.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Module\\ServiceModule' => __DIR__ . '/..' . '/inpsyde/modularity/src/Module/ServiceModule.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Package' => __DIR__ . '/..' . '/inpsyde/modularity/src/Package.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Properties\\BaseProperties' => __DIR__ . '/..' . '/inpsyde/modularity/src/Properties/BaseProperties.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Properties\\LibraryProperties' => __DIR__ . '/..' . '/inpsyde/modularity/src/Properties/LibraryProperties.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Properties\\PluginProperties' => __DIR__ . '/..' . '/inpsyde/modularity/src/Properties/PluginProperties.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Properties\\Properties' => __DIR__ . '/..' . '/inpsyde/modularity/src/Properties/Properties.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Properties\\ThemeProperties' => __DIR__ . '/..' . '/inpsyde/modularity/src/Properties/ThemeProperties.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Bootstrap' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Bootstrap.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Cli\\QueueCommand' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Cli/QueueCommand.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Db\\QueueTable' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Db/QueueTable.php',
@@ -828,7 +761,6 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Inpsyde\\Wp\\HttpClient\\Exception\\NetworkException' => __DIR__ . '/..' . '/inpsyde/psr-18-wp-http-client/src/Exception/NetworkException.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Wp\\HttpClient\\Exception\\RequestException' => __DIR__ . '/..' . '/inpsyde/psr-18-wp-http-client/src/Exception/RequestException.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Wp\\HttpClient\\Exception\\WpHttpClientException' => __DIR__ . '/..' . '/inpsyde/psr-18-wp-http-client/src/Exception/WpHttpClientException.php',
-        'Syde\\Vendor\\Zettle\\Interop\\Container\\ServiceProviderInterface' => __DIR__ . '/..' . '/container-interop/service-provider/src/ServiceProviderInterface.php',
         'Syde\\Vendor\\Zettle\\MetaboxOrchestra\\AdminNotices' => __DIR__ . '/..' . '/inpsyde/metabox-orchestra/src/AdminNotices.php',
         'Syde\\Vendor\\Zettle\\MetaboxOrchestra\\Bootstrap' => __DIR__ . '/..' . '/inpsyde/metabox-orchestra/src/Bootstrap.php',
         'Syde\\Vendor\\Zettle\\MetaboxOrchestra\\BoxAction' => __DIR__ . '/..' . '/inpsyde/metabox-orchestra/src/BoxAction.php',
@@ -859,6 +791,9 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Syde\\Vendor\\Zettle\\Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
         'Syde\\Vendor\\Zettle\\Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
+        'Syde\\Vendor\\Zettle\\Psr\\EventDispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/psr/event-dispatcher/src/EventDispatcherInterface.php',
+        'Syde\\Vendor\\Zettle\\Psr\\EventDispatcher\\ListenerProviderInterface' => __DIR__ . '/..' . '/psr/event-dispatcher/src/ListenerProviderInterface.php',
+        'Syde\\Vendor\\Zettle\\Psr\\EventDispatcher\\StoppableEventInterface' => __DIR__ . '/..' . '/psr/event-dispatcher/src/StoppableEventInterface.php',
         'Syde\\Vendor\\Zettle\\Psr\\Http\\Client\\ClientExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientExceptionInterface.php',
         'Syde\\Vendor\\Zettle\\Psr\\Http\\Client\\ClientInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientInterface.php',
         'Syde\\Vendor\\Zettle\\Psr\\Http\\Client\\NetworkExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/NetworkExceptionInterface.php',
@@ -921,10 +856,10 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\Rest\\V1\\ValidationEndpoint' => __DIR__ . '/../..' . '/modules/paypal-pos-auth/src/Rest/V1/ValidationEndpoint.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\Validator\\Validator' => __DIR__ . '/../..' . '/modules/paypal-pos-auth/src/Validator/Validator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\Validator\\ValidatorInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-auth/src/Validator/ValidatorInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\BootableProviderAwareTrait' => __DIR__ . '/../..' . '/src/BootableProviderAwareTrait.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\BootableProviderModuleInterface' => __DIR__ . '/../..' . '/src/BootableProviderModuleInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Container\\ArrayContainer' => __DIR__ . '/../..' . '/src/Container/ArrayContainer.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Container\\ClearableContainerInterface' => __DIR__ . '/../..' . '/src/Container/ClearableContainerInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Container\\WpOptionContainer' => __DIR__ . '/../..' . '/src/Container/WpOptionContainer.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Container\\WritableContainerInterface' => __DIR__ . '/../..' . '/src/Container/WritableContainerInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloader' => __DIR__ . '/../..' . '/src/Http/PageReloader.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloaderInterface' => __DIR__ . '/../..' . '/src/Http/PageReloaderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\CompoundLogger' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/Logger/CompoundLogger.php',
@@ -1382,8 +1317,12 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\SyncModule' => __DIR__ . '/../..' . '/modules/paypal-pos-sync/src/SyncModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\Validator\\ProductValidator' => __DIR__ . '/../..' . '/modules/paypal-pos-sync/src/Validator/ProductValidator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\VariableInventoryChecker' => __DIR__ . '/../..' . '/modules/paypal-pos-sync/src/VariableInventoryChecker.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Validation\\CallbackValidator' => __DIR__ . '/../..' . '/src/Validation/CallbackValidator.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Validation\\CompositeValidator' => __DIR__ . '/../..' . '/src/Validation/CompositeValidator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Validation\\RequiredExtensionsValidator' => __DIR__ . '/../..' . '/src/Validation/RequiredExtensionsValidator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Validation\\RequiredPluginsValidator' => __DIR__ . '/../..' . '/src/Validation/RequiredPluginsValidator.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Validation\\ValidationFailedException' => __DIR__ . '/../..' . '/src/Validation/ValidationFailedException.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Validation\\ValidatorInterface' => __DIR__ . '/../..' . '/src/Validation/ValidatorInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Bootstrap' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Bootstrap.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Cli\\WebhookCommand' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Cli/WebhookCommand.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\EventName' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/EventName.php',
@@ -1449,9 +1388,9 @@ class ComposerStaticInit87a5eed659416a160d97dc624a55b8b6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit87a5eed659416a160d97dc624a55b8b6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit87a5eed659416a160d97dc624a55b8b6::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit87a5eed659416a160d97dc624a55b8b6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$classMap;
 
         }, null, ClassLoader::class);
     }

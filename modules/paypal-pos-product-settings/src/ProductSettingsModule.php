@@ -3,39 +3,39 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\BootableProviderAwareTrait;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\BootableProviderModuleInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\VariantBarcodeSaveHandler;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use WP_Post;
-class ProductSettingsModule implements ModuleInterface, BootableProviderModuleInterface
+class ProductSettingsModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
-    use BootableProviderAwareTrait;
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    use ModuleClassNameIdTrait;
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/../services.php', require __DIR__ . '/../extensions.php');
+        return require __DIR__ . '/../services.php';
     }
-    /**
-     * @inheritDoc
-     */
-    public function run(C $container): void
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
+    }
+    public function run(C $container): bool
     {
         // do this a bit later to make the filter adding more flexible
         // and avoid loading translations too early (WP 6.7)
         add_action('init', function () use ($container) {
-            $this->bootProviders($container, ...$container->get('paypal-pos.product-settings.provider'));
+            foreach ($container->get('paypal-pos.product-settings.provider') as $provider) {
+                $provider->boot($container);
+            }
             if ($container->get('paypal-pos.product-settings.barcode.standard-ui-enabled')) {
                 $this->addVariationBarcodeHandlers($container->get('paypal-pos.product-settings.barcode.input-field.variation'), $container->get('paypal-pos.sdk.repository.woocommerce.product'), $container->get('paypal-pos.product-settings.barcode.save-handler.variation'));
             }
         });
+        return \true;
     }
     private function addVariationBarcodeHandlers(BarcodeInputField $barcodeField, ProductRepositoryInterface $wcProductRepository, VariantBarcodeSaveHandler $saveHandler)
     {

@@ -3,30 +3,26 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Queue;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Cli\QueueCommand;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner\Runner;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\WP_CLI;
 use WP_REST_Server;
-class QueueModule implements ModuleInterface
+class QueueModule implements ServiceModule, ExecutableModule
 {
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    use ModuleClassNameIdTrait;
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/../services.php', []);
+        return require __DIR__ . '/../services.php';
     }
     /**
-     * @inheritDoc
-     *
      * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
      */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
         $namespace = $container->get('inpsyde.queue.namespace');
         add_action("{$namespace}.queue.add-job-record", $container->get('inpsyde.queue.add-job-record'));
@@ -50,5 +46,6 @@ class QueueModule implements ModuleInterface
             $processEndpoint = $container->get('inpsyde.queue.rest.v1.endpoint.process');
             register_rest_route($container->get('inpsyde.queue.rest.namespace'), $processEndpoint->route(), ['methods' => WP_REST_Server::READABLE, 'callback' => [$processEndpoint, 'handleRequest'], 'permission_callback' => [$processEndpoint, 'permissionCallback'], 'args' => $processEndpoint->args()]);
         });
+        return \true;
     }
 }

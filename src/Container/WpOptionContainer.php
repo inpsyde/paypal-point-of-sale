@@ -3,12 +3,10 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container;
 
-use Syde\Vendor\Zettle\Dhii\Collection\ClearableContainerInterface;
-use Syde\Vendor\Zettle\Dhii\Collection\MutableContainerInterface;
 use Exception;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
-class WpOptionContainer implements ContainerInterface, MutableContainerInterface, ClearableContainerInterface
+class WpOptionContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
     /**
      * @var array
@@ -27,7 +25,7 @@ class WpOptionContainer implements ContainerInterface, MutableContainerInterface
     {
         update_option($this->optionKey, []);
     }
-    public function get($id)
+    public function get(string $id)
     {
         if ($this->has($id)) {
             return $this->options[$id];
@@ -37,11 +35,11 @@ class WpOptionContainer implements ContainerInterface, MutableContainerInterface
         {
         };
     }
-    public function has($id)
+    public function has(string $id): bool
     {
         return isset($this->options[$id]);
     }
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->options[$key] = $value;
         update_option($this->optionKey, $this->options);

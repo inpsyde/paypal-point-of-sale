@@ -3,30 +3,25 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\BootableProviderAwareTrait;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\BootableProviderModuleInterface;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-class SettingsModule implements ModuleInterface, BootableProviderModuleInterface
+class SettingsModule implements ServiceModule, ExecutableModule
 {
-    use BootableProviderAwareTrait;
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    use ModuleClassNameIdTrait;
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/../services.php', require __DIR__ . '/../extensions.php');
+        return require __DIR__ . '/../services.php';
     }
-    /**
-     * @inheritDoc
-     */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
         if (!is_admin()) {
-            return;
+            return \true;
         }
-        $this->bootProviders($container, ...$container->get('paypal-pos.settings.provider'));
+        foreach ($container->get('paypal-pos.settings.provider') as $provider) {
+            $provider->boot($container);
+        }
+        return \true;
     }
 }

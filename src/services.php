@@ -3,10 +3,10 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
-use Syde\Vendor\Zettle\Dhii\Collection\MutableContainerInterface;
-use Syde\Vendor\Zettle\Dhii\Validation\ValidatorInterface;
-use Syde\Vendor\Zettle\Dhii\Validator\CompositeValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WpOptionContainer;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\CompositeValidator;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Http\PageReloader;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Http\PageReloaderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\CompoundLogger;
@@ -60,15 +60,15 @@ return ['paypal-pos.is-debug' => static function (C $container): bool {
     return [];
 }, 'paypal-pos.http.page-reloader' => static function (C $container): PageReloaderInterface {
     return new PageReloader();
-}, 'paypal-pos.settings' => static function (): MutableContainerInterface {
+}, 'paypal-pos.settings' => static function (): WritableContainerInterface {
     return new WpOptionContainer('woocommerce_zettle_settings');
-}, 'paypal-pos.setup-info' => static function (): MutableContainerInterface {
+}, 'paypal-pos.setup-info' => static function (): WritableContainerInterface {
     return new WpOptionContainer('woocommerce_zettle_info');
-}, 'paypal-pos.sdk.integration-id.container' => static function (C $container): MutableContainerInterface {
+}, 'paypal-pos.sdk.integration-id.container' => static function (C $container): WritableContainerInterface {
     return $container->get('paypal-pos.settings');
-}, 'paypal-pos.oauth.token-storage.container' => static function (C $container): MutableContainerInterface {
+}, 'paypal-pos.oauth.token-storage.container' => static function (C $container): WritableContainerInterface {
     return $container->get('paypal-pos.settings');
-}, 'paypal-pos.webhook.storage.container' => static function (C $container): MutableContainerInterface {
+}, 'paypal-pos.webhook.storage.container' => static function (C $container): WritableContainerInterface {
     return $container->get('paypal-pos.settings');
 }, 'paypal-pos.logger' => static function (C $container): CompoundLogger {
     return new CompoundLogger($container->get('paypal-pos.logger.woocommerce'), $container->get('paypal-pos.logger.wonolog'));

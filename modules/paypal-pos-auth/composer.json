@@ -4,7 +4,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "dhii\/module-interface": "^0.2 || ^0.3",
+        "inpsyde\/modularity": "^1.7",
         "psr\/http-client": "^1.0",
         "ext-openssl": "*"
     },

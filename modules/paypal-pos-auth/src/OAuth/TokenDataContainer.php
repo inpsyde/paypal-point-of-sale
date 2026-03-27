@@ -40,7 +40,7 @@ class TokenDataContainer implements ContainerInterface
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (!$this->has($key)) {
             throw new InvalidTokenPropertyException("Property '{$key}' not found on Token");
@@ -52,7 +52,7 @@ class TokenDataContainer implements ContainerInterface
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return array_key_exists($key, $this->accessors);
     }

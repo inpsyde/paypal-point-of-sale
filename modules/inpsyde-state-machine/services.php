@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\StateMachine;
 
-use Syde\Vendor\Zettle\Dhii\Events\Listener\ListenerProviderInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\AggregateProvider;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\EventDispatcher;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\ListenerProvider;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\StateAwareListenerProvider;

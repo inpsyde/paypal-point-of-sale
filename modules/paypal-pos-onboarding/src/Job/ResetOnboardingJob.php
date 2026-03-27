@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Job;
 
-use Syde\Vendor\Zettle\Dhii\Collection\ClearableContainerInterface;
 use Exception;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\ClearableContainerInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;

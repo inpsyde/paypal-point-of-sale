@@ -42,7 +42,7 @@ function withAssetSuffix(string $file): string
  */
 function symlinkedAssetFolder(string $originDir, string $name): ?string
 {
-    // we're using realpath here, otherwise the comparisment with
+    // we're using realpath here, otherwise the comparison with
     // readlink will not work.
     $originDir = realpath($originDir);
     $folderName = '/~inpsyde-assets/';
@@ -58,6 +58,9 @@ function symlinkedAssetFolder(string $originDir, string $name): ?string
             return $targetUrl;
         }
         unlink($targetDir);
+    }
+    if (!function_exists('symlink')) {
+        return null;
     }
     if (!symlink($originDir, $targetDir)) {
         return null;

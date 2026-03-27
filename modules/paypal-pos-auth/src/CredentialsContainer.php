@@ -46,7 +46,7 @@ class CredentialsContainer implements ContainerInterface
      *
      * @throws Exception
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (array_key_exists($id, $this->data)) {
             return $this->data[$id];
@@ -68,7 +68,7 @@ class CredentialsContainer implements ContainerInterface
      *
      * @return bool
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         if (array_key_exists($id, $this->data)) {
             return \true;

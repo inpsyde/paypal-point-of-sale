@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 
-use Syde\Vendor\Zettle\Dhii\Collection\MutableContainerInterface;
 use Syde\Vendor\Zettle\Http\Message\UriFactory;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Locations;
@@ -100,7 +100,7 @@ return array_merge([
             return (string) Uuid::v1();
         }
         $idContainer = $container->get('paypal-pos.sdk.integration-id.container');
-        assert($idContainer instanceof MutableContainerInterface);
+        assert($idContainer instanceof WritableContainerInterface);
         $key = $container->get('paypal-pos.sdk.option.integration');
         if (!$idContainer->has($key)) {
             $idContainer->set($key, (string) Uuid::v1());

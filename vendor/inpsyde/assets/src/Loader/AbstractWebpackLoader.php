@@ -87,19 +87,13 @@ abstract class AbstractWebpackLoader implements \Inpsyde\Assets\Loader\LoaderInt
      */
     protected function buildAsset(string $handle, string $fileUrl, string $filePath): ?Asset
     {
-        $extensionsToClass = ['css' => Style::class, 'js' => Script::class, 'mjs' => ScriptModule::class, 'module.js' => ScriptModule::class];
         /** @var array{filename?:string, extension?:string} $pathInfo */
         $pathInfo = pathinfo($filePath);
-        $baseName = $pathInfo['basename'] ?? '';
         $filename = $pathInfo['filename'] ?? '';
-        $extension = $pathInfo['extension'] ?? '';
-        if (self::isModule($baseName)) {
-            $extension = 'module.js';
-        }
-        if (!in_array($extension, array_keys($extensionsToClass), \true)) {
+        $class = $this->resolveClassByExtension($filePath);
+        if (!$class) {
             return null;
         }
-        $class = $extensionsToClass[$extension];
         /** @var Style|Script|ScriptModule $asset */
         $asset = new $class($handle, $fileUrl, $this->resolveLocation($filename));
         $asset->withFilePath($filePath);
@@ -108,6 +102,23 @@ abstract class AbstractWebpackLoader implements \Inpsyde\Assets\Loader\LoaderInt
             $this->autodiscoverVersion ? $asset->enableAutodiscoverVersion() : $asset->disableAutodiscoverVersion();
         }
         return $asset;
+    }
+    protected function resolveClassByExtension(string $filePath): ?string
+    {
+        $extensionsToClass = ['css' => Style::class, 'js' => Script::class, 'mjs' => ScriptModule::class, 'module.js' => ScriptModule::class];
+        // TODO Maybe make use of \SplFileInfo since it's typed and we can share it
+        //      we have to just make a factory method and that's it.
+        /** @var array{filename?:string, extension?:string} $pathInfo */
+        $pathInfo = pathinfo($filePath);
+        $baseName = $pathInfo['basename'] ?? '';
+        $extension = $pathInfo['extension'] ?? '';
+        if (self::isModule($baseName)) {
+            $extension = 'module.js';
+        }
+        if (!in_array($extension, array_keys($extensionsToClass), \true)) {
+            return null;
+        }
+        return $extensionsToClass[$extension];
     }
     protected static function isModule(string $fileName): bool
     {
@@ -131,7 +142,7 @@ abstract class AbstractWebpackLoader implements \Inpsyde\Assets\Loader\LoaderInt
      */
     protected function sanitizeFileName(string $file): string
     {
-        // Check, if the given "file"-value is an URL
+        // Check if the given "file"-value is a URL
         $parsedUrl = parse_url($file);
         // the "file"-value can contain "./file.css" or "/file.css".
         return ltrim($parsedUrl['path'] ?? $file, './');
@@ -148,7 +159,7 @@ abstract class AbstractWebpackLoader implements \Inpsyde\Assets\Loader\LoaderInt
      * @example /path/to/script.js                  -> script
      * @example @vendor/script.module.js            -> @vendor/script.module
      */
-    protected function sanitizeHandle(string $file): string
+    protected function normalizeHandle(string $file): string
     {
         $pathInfo = pathinfo($file);
         $dirName = $pathInfo['dirname'] ?? '';

@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
-use Syde\Vendor\Zettle\Dhii\Events\Dispatcher\EventDispatcherInterface;
-use Syde\Vendor\Zettle\Dhii\Events\Listener\ListenerProviderInterface;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\EventDispatcherInterface;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 class EventDispatcher implements EventDispatcherInterface
 {
     /**
@@ -15,14 +15,7 @@ class EventDispatcher implements EventDispatcherInterface
     {
         $this->listenerProviders = $listenerProviders;
     }
-    /**
-     * @param object $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     *
-     * @return object
-     */
-    public function dispatch($event)
+    public function dispatch(object $event): object
     {
         foreach ($this->listenerProviders as $listenerProvider) {
             $listeners = $listenerProvider->getListenersForEvent($event);

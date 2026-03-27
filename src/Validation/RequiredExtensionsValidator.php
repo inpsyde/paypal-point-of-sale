@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation;
 
-use Syde\Vendor\Zettle\Dhii\Validation\ValidatorInterface;
-use Syde\Vendor\Zettle\Dhii\Validator\CallbackValidator;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\CallbackValidator;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 /**
  * Checks that PHP extensions (functions) are available.
  */

@@ -3,27 +3,28 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
 use Exception;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\WP_CLI;
-class WebhookModule implements ModuleInterface
+class WebhookModule implements ServiceModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
     /**
      * @inheritDoc
      */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/../services.php', require __DIR__ . '/../extensions.php');
+        return require __DIR__ . '/../services.php';
     }
     /**
      * @inheritDoc
      */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
         add_action('init', function () use ($container) {
             $this->registerRestRoute($container);
@@ -37,6 +38,7 @@ class WebhookModule implements ModuleInterface
         add_action('paypal-point-of-sale.deactivate', static function () use ($bootstrap) {
             $bootstrap->deactivate();
         });
+        return \true;
     }
     private function registerCliCommand(ContainerInterface $container)
     {

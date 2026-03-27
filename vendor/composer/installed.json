@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "brain\/nonces",
-            "version": "1.0.5",
-            "version_normalized": "1.0.5.0",
+            "version": "1.0.6",
+            "version_normalized": "1.0.6.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/Brain-WP\/Nonces.git",
-                "reference": "81a1f2f8f8cd8288c5c920ce7b0c98e9c6e2ba88"
+                "reference": "0122a39077fb6fe7512891dfe9a4facc951e7e04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/Brain-WP\/Nonces\/zipball\/81a1f2f8f8cd8288c5c920ce7b0c98e9c6e2ba88",
-                "reference": "81a1f2f8f8cd8288c5c920ce7b0c98e9c6e2ba88",
+                "url": "https:\/\/api.github.com\/repos\/Brain-WP\/Nonces\/zipball\/0122a39077fb6fe7512891dfe9a4facc951e7e04",
+                "reference": "0122a39077fb6fe7512891dfe9a4facc951e7e04",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -22,13 +22,13 @@
                 ]
             },
             "require": {
-                "php": ">=5.5.0"
+                "php": ">=7.1"
             },
             "require-dev": {
                 "brain\/monkey": "~1.4",
                 "phpunit\/phpunit": "~4.8"
             },
-            "time": "2024-08-24T14:07:37+00:00",
+            "time": "2025-06-17T22:35:33+00:00",
             "type": "package",
             "installation-source": "dist",
             "autoload": {
@@ -59,7 +59,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/Brain-WP\/Nonces\/issues",
-                "source": "https:\/\/github.com\/Brain-WP\/Nonces\/tree\/1.0.5"
+                "source": "https:\/\/github.com\/Brain-WP\/Nonces\/tree\/1.0.6"
             },
             "install-path": "..\/brain\/nonces"
         },
@@ -294,429 +294,6 @@
             "install-path": ".\/installers"
         },
         {
-            "name": "container-interop\/service-provider",
-            "version": "v0.4.1",
-            "version_normalized": "0.4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/container-interop\/service-provider.git",
-                "reference": "e04441ca21ef03e10dce70b0af29269281eec6dc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/container-interop\/service-provider\/zipball\/e04441ca21ef03e10dce70b0af29269281eec6dc",
-                "reference": "e04441ca21ef03e10dce70b0af29269281eec6dc",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "psr\/container": "^1.0 || ^2.0"
-            },
-            "time": "2023-12-14T14:50:12+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Syde\\Vendor\\Zettle\\Interop\\Container\\": "src\/"
-                }
-            },
-            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Promoting container interoperability through standard service providers",
-            "homepage": "https:\/\/github.com\/container-interop\/service-provider",
-            "support": {
-                "issues": "https:\/\/github.com\/container-interop\/service-provider\/issues",
-                "source": "https:\/\/github.com\/container-interop\/service-provider\/tree\/v0.4.1"
-            },
-            "install-path": "..\/container-interop\/service-provider"
-        },
-        {
-            "name": "dhii\/collections-interface",
-            "version": "v0.3.0",
-            "version_normalized": "0.3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Dhii\/collections-interface.git",
-                "reference": "74464a969b340d16889eacd9eadc9817f7e7f47a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/Dhii\/collections-interface\/zipball\/74464a969b340d16889eacd9eadc9817f7e7f47a",
-                "reference": "74464a969b340d16889eacd9eadc9817f7e7f47a",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": "^7.1 | ^8.0",
-                "psr\/container": "^1.0"
-            },
-            "require-dev": {
-                "phpunit\/phpunit": "^7.0 | ^8.0 | ^9.0",
-                "slevomat\/coding-standard": "^6.0",
-                "vimeo\/psalm": "^4.0"
-            },
-            "time": "2021-10-06T10:56:09+00:00",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.3.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Syde\\Vendor\\Zettle\\Dhii\\Collection\\": "src"
-                }
-            },
-            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dhii Team",
-                    "email": "development@dhii.co"
-                },
-                {
-                    "name": "Anton Ukhanev",
-                    "email": "xedin.unknown@gmail.com"
-                }
-            ],
-            "description": "A highly ISP-compliant collection of interfaces that represent maps and lists.",
-            "support": {
-                "issues": "https:\/\/github.com\/Dhii\/collections-interface\/issues",
-                "source": "https:\/\/github.com\/Dhii\/collections-interface\/tree\/v0.3.0"
-            },
-            "install-path": "..\/dhii\/collections-interface"
-        },
-        {
-            "name": "dhii\/containers",
-            "version": "v0.1.5",
-            "version_normalized": "0.1.5.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Dhii\/containers.git",
-                "reference": "1568cb2def9dee213c5846c4618f9d6b2cebbdef"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/Dhii\/containers\/zipball\/1568cb2def9dee213c5846c4618f9d6b2cebbdef",
-                "reference": "1568cb2def9dee213c5846c4618f9d6b2cebbdef",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "container-interop\/service-provider": "^0.4",
-                "dhii\/collections-interface": "^0.3.0-alpha4",
-                "php": "^7.4 | ^8.0"
-            },
-            "require-dev": {
-                "gmazzap\/andrew": "^1.1",
-                "phpunit\/phpunit": "^9.0",
-                "psr\/container": "^1.0",
-                "psr\/simple-cache": "^1.0",
-                "slevomat\/coding-standard": "^6.0",
-                "vimeo\/psalm": "^5.0",
-                "wildwolf\/psr-memory-cache": "^1.0"
-            },
-            "time": "2024-04-27T01:55:40+00:00",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.1.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Syde\\Vendor\\Zettle\\Dhii\\Container\\": "src\/"
-                }
-            },
-            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dhii Team",
-                    "email": "development@dhii.co"
-                }
-            ],
-            "description": "A selection of PSR-11 containers for utility, simplicity, and ease.",
-            "keywords": [
-                "PSR-11",
-                "container"
-            ],
-            "support": {
-                "issues": "https:\/\/github.com\/Dhii\/containers\/issues",
-                "source": "https:\/\/github.com\/Dhii\/containers\/tree\/v0.1.5"
-            },
-            "install-path": "..\/dhii\/containers"
-        },
-        {
-            "name": "dhii\/event-dispatcher-interface",
-            "version": "v0.1.0-alpha1",
-            "version_normalized": "0.1.0.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Dhii\/event-dispatcher-interface.git",
-                "reference": "fbcd6f1ae1c6646670c8c9a2055002ce96ea137f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/Dhii\/event-dispatcher-interface\/zipball\/fbcd6f1ae1c6646670c8c9a2055002ce96ea137f",
-                "reference": "fbcd6f1ae1c6646670c8c9a2055002ce96ea137f",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit\/phpunit": "^6.0"
-            },
-            "time": "2020-04-10T16:32:51+00:00",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.1.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Syde\\Vendor\\Zettle\\Dhii\\Events\\": "src\/"
-                }
-            },
-            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http:\/\/www.php-fig.org\/"
-                },
-                {
-                    "name": "Anton Ukhanev",
-                    "email": "xedin.unknown@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Standard interfaces for event handling.",
-            "keywords": [
-                "events",
-                "psr",
-                "psr-14"
-            ],
-            "install-path": "..\/dhii\/event-dispatcher-interface"
-        },
-        {
-            "name": "dhii\/module-interface",
-            "version": "v0.3.0-alpha2",
-            "version_normalized": "0.3.0.0-alpha2",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Dhii\/module-interface.git",
-                "reference": "0e39f167d7ed8990c82f5d2e6084159d1a502a5b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/Dhii\/module-interface\/zipball\/0e39f167d7ed8990c82f5d2e6084159d1a502a5b",
-                "reference": "0e39f167d7ed8990c82f5d2e6084159d1a502a5b",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "container-interop\/service-provider": "^0.4",
-                "php": "^7.1 | ^8.0",
-                "psr\/container": "^1.0"
-            },
-            "require-dev": {
-                "phpunit\/phpunit": "^7.0 | ^8.0 | ^9.0",
-                "slevomat\/coding-standard": "^6.0",
-                "vimeo\/psalm": "^3.11.7 | ^4.0"
-            },
-            "time": "2021-08-23T08:23:01+00:00",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.3.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Syde\\Vendor\\Zettle\\Dhii\\Modular\\Module\\": "src"
-                }
-            },
-            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dhii Team",
-                    "email": "development@dhii.co"
-                }
-            ],
-            "description": "Interfaces for modules",
-            "support": {
-                "issues": "https:\/\/github.com\/Dhii\/module-interface\/issues",
-                "source": "https:\/\/github.com\/Dhii\/module-interface\/tree\/v0.3.0-alpha2"
-            },
-            "install-path": "..\/dhii\/module-interface"
-        },
-        {
-            "name": "dhii\/validation-interface",
-            "version": "v0.3.0-alpha3",
-            "version_normalized": "0.3.0.0-alpha3",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Dhii\/validation-interface.git",
-                "reference": "0e73c7bf3d2421ceb79331c60a9bc1b1d5eb65a6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/Dhii\/validation-interface\/zipball\/0e73c7bf3d2421ceb79331c60a9bc1b1d5eb65a6",
-                "reference": "0e73c7bf3d2421ceb79331c60a9bc1b1d5eb65a6",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": "^7.1 | ^8.0"
-            },
-            "require-dev": {
-                "phpunit\/phpunit": "^7.0 | ^8.0 | ^9.0",
-                "slevomat\/coding-standard": "^6.0",
-                "symfony\/polyfill-mbstring": "1.20",
-                "symfony\/polyfill-php80": "^1.19",
-                "vimeo\/psalm": "^3.11.7 | ^4.0"
-            },
-            "time": "2021-01-14T16:19:20+00:00",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.3.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Syde\\Vendor\\Zettle\\Dhii\\Validation\\": "src\/"
-                }
-            },
-            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Ukhanev",
-                    "email": "xedin.unknown@gmail.com"
-                }
-            ],
-            "description": "A base interface for validators",
-            "support": {
-                "issues": "https:\/\/github.com\/Dhii\/validation-interface\/issues",
-                "source": "https:\/\/github.com\/Dhii\/validation-interface\/tree\/v0.3.0-alpha3"
-            },
-            "install-path": "..\/dhii\/validation-interface"
-        },
-        {
-            "name": "dhii\/validator",
-            "version": "v0.1.0-alpha1",
-            "version_normalized": "0.1.0.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Dhii\/validator.git",
-                "reference": "e10fba08398e33e123ada3d5fe0d147a72525cc2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/Dhii\/validator\/zipball\/e10fba08398e33e123ada3d5fe0d147a72525cc2",
-                "reference": "e10fba08398e33e123ada3d5fe0d147a72525cc2",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "dhii\/validation-interface": "^0.3.0-alpha3",
-                "php": "^7.1 | ^8.0"
-            },
-            "require-dev": {
-                "phpunit\/phpunit": "^7.1 | ^8.0 | ^9.0",
-                "slevomat\/coding-standard": "^6.0",
-                "vimeo\/psalm": "^3.11.7 | ^4.0"
-            },
-            "time": "2021-01-14T22:19:45+00:00",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-initial": "0.1.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Syde\\Vendor\\Zettle\\Dhii\\Validator\\": "src"
-                }
-            },
-            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Ukhanev",
-                    "email": "xedin.unknown@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A thin, standards-compliant validator implementation.",
-            "support": {
-                "issues": "https:\/\/github.com\/Dhii\/validator\/issues",
-                "source": "https:\/\/github.com\/Dhii\/validator\/tree\/v0.1.0-alpha1"
-            },
-            "install-path": "..\/dhii\/validator"
-        },
-        {
             "name": "doctrine\/inflector",
             "version": "1.4.4",
             "version_normalized": "1.4.4.0",
@@ -823,17 +400,17 @@
         },
         {
             "name": "inpsyde\/assets",
-            "version": "2.11.0",
-            "version_normalized": "2.11.0.0",
+            "version": "2.13",
+            "version_normalized": "2.13.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/inpsyde\/assets.git",
-                "reference": "a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af"
+                "reference": "3b30fb2ec910d834f19a4010bebfdb17423fb21a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/inpsyde\/assets\/zipball\/a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af",
-                "reference": "a8a8ba88ebc10e54e4044dc6d5b0a4b0272923af",
+                "url": "https:\/\/api.github.com\/repos\/inpsyde\/assets\/zipball\/3b30fb2ec910d834f19a4010bebfdb17423fb21a",
+                "reference": "3b30fb2ec910d834f19a4010bebfdb17423fb21a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -862,7 +439,7 @@
                 "syde\/phpcs": "^1.0.0",
                 "szepeviktor\/phpstan-wordpress": "^2"
             },
-            "time": "2025-10-30T14:02:36+00:00",
+            "time": "2026-02-20T17:51:50+00:00",
             "type": "library",
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress"
@@ -898,22 +475,22 @@
             "description": "Package to manage assets in WordPress.",
             "support": {
                 "issues": "https:\/\/github.com\/inpsyde\/assets\/issues",
-                "source": "https:\/\/github.com\/inpsyde\/assets\/tree\/2.11.0"
+                "source": "https:\/\/github.com\/inpsyde\/assets\/tree\/2.13"
             },
             "install-path": "..\/inpsyde\/assets"
         },
         {
             "name": "inpsyde\/inpsyde-debug",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-debug",
-                "reference": "6c6c1dcd820e64f6b8c520222488ada1219d55ae"
+                "reference": "73db0e3208790609b1ede943a0bde8401f259a5f"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
                 "ext-json": "*",
+                "inpsyde\/modularity": "^1.7",
                 "php": "^7.4 | ^8.0",
                 "psr\/log": "^1.1"
             },
@@ -941,15 +518,15 @@
         },
         {
             "name": "inpsyde\/inpsyde-http-client",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-http-client",
-                "reference": "25ed6ee4221aad7bc19151cf8221826b43c1877a"
+                "reference": "7ba42da9ec128fa1e47eaf46185b3a48dd4d260b"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
+                "inpsyde\/modularity": "^1.7",
                 "inpsyde\/psr-18-wp-http-client": "^0.1",
                 "nyholm\/psr7": "^1.2",
                 "php-http\/client-common": "^2.1",
@@ -971,17 +548,16 @@
         },
         {
             "name": "inpsyde\/inpsyde-queue",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-queue",
-                "reference": "e10798d476e938dfef648ecdff5e9ed6bbd47d45"
+                "reference": "c8ea8634e16d5402f0c11567918cae4360a0e52b"
             },
             "require": {
-                "dhii\/containers": "^0.1",
-                "dhii\/module-interface": "^0.2 || ^0.3",
                 "ext-json": "*",
+                "inpsyde\/modularity": "^1.7",
                 "psr\/log": "^1.1"
             },
             "require-dev": {
@@ -1008,17 +584,16 @@
         },
         {
             "name": "inpsyde\/inpsyde-state-machine",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-state-machine",
-                "reference": "ac8ef0ed78812cb7b0d4f6d7d586ee576b396ca0"
+                "reference": "b98f04177e7548173f054971920f52549edf2e48"
             },
             "require": {
-                "dhii\/containers": "^0.1",
-                "dhii\/event-dispatcher-interface": "0.1.0-alpha1",
-                "dhii\/module-interface": "^0.2 || ^0.3"
+                "inpsyde\/modularity": "^1.7",
+                "psr\/event-dispatcher": "^1.0"
             },
             "require-dev": {
                 "brianium\/paratest": "^4.0 || ^6.0",
@@ -1044,16 +619,15 @@
         },
         {
             "name": "inpsyde\/inpsyde-woocommerce-lifecycle-events",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-woocommerce-lifecycle-events",
-                "reference": "0cdd3bdec20383bbb1a1f88873e2098475c677be"
+                "reference": "b31984830117eb89fc656d776987b031e71c7f2c"
             },
             "require": {
-                "dhii\/containers": "^0.1",
-                "dhii\/module-interface": "^0.2 || ^0.3"
+                "inpsyde\/modularity": "^1.7"
             },
             "require-dev": {
                 "brianium\/paratest": "^4.0 || ^6.0",
@@ -1150,17 +724,87 @@
             "install-path": "..\/inpsyde\/metabox-orchestra"
         },
         {
+            "name": "inpsyde\/modularity",
+            "version": "1.12.0",
+            "version_normalized": "1.12.0.0",
+            "source": {
+                "type": "git",
+                "url": "https:\/\/github.com\/inpsyde\/modularity.git",
+                "reference": "e1ca1c81b7b663355906b586525d21ac5d46bc65"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https:\/\/api.github.com\/repos\/inpsyde\/modularity\/zipball\/e1ca1c81b7b663355906b586525d21ac5d46bc65",
+                "reference": "e1ca1c81b7b663355906b586525d21ac5d46bc65",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.4",
+                "psr\/container": "^1.1.0 || ^2"
+            },
+            "require-dev": {
+                "brain\/monkey": "^2.6.1",
+                "inpsyde\/wp-stubs-versions": "6.7",
+                "mikey179\/vfsstream": "^v1.6.11",
+                "phpstan\/phpstan": "^2.1.1",
+                "phpstan\/phpstan-deprecation-rules": "^2.0.1",
+                "phpstan\/phpstan-mockery": "^2.0.0",
+                "phpstan\/phpstan-phpunit": "^2.0.4",
+                "phpunit\/phpunit": "^9.6.19",
+                "swissspidy\/phpstan-no-private": "^v1.0.0",
+                "syde\/phpcs": "^1.0.0"
+            },
+            "time": "2025-05-09T12:13:17+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\": "src\/"
+                }
+            },
+            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Syde GmbH",
+                    "email": "hello@syde.com",
+                    "homepage": "https:\/\/syde.com\/",
+                    "role": "Company"
+                }
+            ],
+            "description": "Modular PSR-11 implementation for WordPress plugins, themes or libraries.",
+            "support": {
+                "issues": "https:\/\/github.com\/inpsyde\/modularity\/issues",
+                "source": "https:\/\/github.com\/inpsyde\/modularity\/tree\/1.12.0"
+            },
+            "install-path": "..\/inpsyde\/modularity"
+        },
+        {
             "name": "inpsyde\/paypal-pos-assets",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-assets",
-                "reference": "0127135a53bf83c79fcc0df0c000ad94b4db6a8c"
+                "reference": "13c18e8e18d3ef1ffbe87f41e64de4888b82001f"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
-                "inpsyde\/assets": "^2.1"
+                "inpsyde\/assets": "^2.1",
+                "inpsyde\/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "installation-source": "dist",
@@ -1176,16 +820,16 @@
         },
         {
             "name": "inpsyde\/paypal-pos-auth",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-auth",
-                "reference": "32539ddfa93a977f686e0fb3bcc37d688ffe2c31"
+                "reference": "33728826e28464a8508724513afd126d7b086a74"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
                 "ext-openssl": "*",
+                "inpsyde\/modularity": "^1.7",
                 "psr\/http-client": "^1.0"
             },
             "require-dev": {
@@ -1206,16 +850,16 @@
         },
         {
             "name": "inpsyde\/paypal-pos-logging",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-logging",
-                "reference": "a5a26b642f03cfecdc91ff479f6e4a78abcd1e82"
+                "reference": "b19d1f4680e00526a7f260dfc87e29a8aad5876b"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
                 "ext-json": "*",
+                "inpsyde\/modularity": "^1.7",
                 "psr\/log": "^1.1"
             },
             "require-dev": {
@@ -1245,15 +889,15 @@
         },
         {
             "name": "inpsyde\/paypal-pos-notices",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-notices",
-                "reference": "536ac74227cbce1ad2561fd83748e5ae949597cb"
+                "reference": "36c8dc5fde59de92b144cb072ede22637d777d84"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3"
+                "inpsyde\/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "installation-source": "dist",
@@ -1269,16 +913,16 @@
         },
         {
             "name": "inpsyde\/paypal-pos-onboarding",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-onboarding",
-                "reference": "6fbc77de162bb873fa68ac353118e7b5b7dd553e"
+                "reference": "aeb2def3e0f21d8a24297da944ef47e66dafbe72"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
                 "inpsyde\/inpsyde-state-machine": "*",
+                "inpsyde\/modularity": "^1.7",
                 "inpsyde\/paypal-pos-auth": "*",
                 "inpsyde\/paypal-pos-php-sdk": "*",
                 "inpsyde\/wc-product-contracts": "*"
@@ -1307,16 +951,15 @@
         },
         {
             "name": "inpsyde\/paypal-pos-php-sdk",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-php-sdk",
-                "reference": "0add7017f943ba2fa4e2639b4887cc3e95e46818"
+                "reference": "0641ff71e15cf789822a33909ddf399605245bcf"
             },
             "require": {
-                "dhii\/containers": "^0.1",
-                "dhii\/module-interface": "^0.2 || ^0.3",
+                "inpsyde\/modularity": "^1.7",
                 "inpsyde\/wc-product-contracts": "*",
                 "psr\/log": "^1.1",
                 "symfony\/uid": "^5.1",
@@ -1349,15 +992,15 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-debug",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-debug",
-                "reference": "02041da607a8ba0dd4c3c6314598315ddca9d05b"
+                "reference": "fdbd217f7357e7b84e609e5330ff38543a97a424"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3"
+                "inpsyde\/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "installation-source": "dist",
@@ -1373,15 +1016,15 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-settings",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-settings",
-                "reference": "35cfcad968f625739316903af206bcdb62fb8dfb"
+                "reference": "f66a39835529733bfc973851b22639a72af4c88d"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
+                "inpsyde\/modularity": "^1.7",
                 "inpsyde\/wc-product-contracts": "*"
             },
             "type": "inpsyde-module",
@@ -1398,16 +1041,16 @@
         },
         {
             "name": "inpsyde\/paypal-pos-queue",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-queue",
-                "reference": "135d0566af13cef91138dbb0d928c920869ad4ee"
+                "reference": "d7d3bbc954f81f1cfc7eb669fb3bbfb5f23fbb8d"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
-                "ext-json": "*"
+                "ext-json": "*",
+                "inpsyde\/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "installation-source": "dist",
@@ -1423,15 +1066,15 @@
         },
         {
             "name": "inpsyde\/paypal-pos-settings",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-settings",
-                "reference": "80c2303e1e262772d5000b228b260c2f0f5c1c64"
+                "reference": "c0cd45f64613f4c76b10ba0349cfc7abebc78671"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3"
+                "inpsyde\/modularity": "^1.7"
             },
             "type": "inpsyde-module",
             "installation-source": "dist",
@@ -1447,15 +1090,15 @@
         },
         {
             "name": "inpsyde\/paypal-pos-sync",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-sync",
-                "reference": "4f7acff8f318e9f5a010e8679eed54ef20ba75be"
+                "reference": "1988ccc1f7fad401c9478577b2ff24a0732b59ca"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
+                "inpsyde\/modularity": "^1.7",
                 "inpsyde\/wc-product-contracts": "*"
             },
             "type": "inpsyde-module",
@@ -1472,16 +1115,16 @@
         },
         {
             "name": "inpsyde\/paypal-pos-webhooks",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-webhooks",
-                "reference": "800ef55eb1cf0f4ed41bb27b3decb648fefeaf2f"
+                "reference": "6496b12f39f637e9dacc1707e099602c9a88b01d"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3",
                 "inpsyde\/inpsyde-queue": "*",
+                "inpsyde\/modularity": "^1.7",
                 "inpsyde\/paypal-pos-php-sdk": "*"
             },
             "require-dev": {
@@ -1509,17 +1152,17 @@
         },
         {
             "name": "inpsyde\/psr-18-wp-http-client",
-            "version": "v0.1.0-alpha4",
-            "version_normalized": "0.1.0.0-alpha4",
+            "version": "0.1.0-alpha5",
+            "version_normalized": "0.1.0.0-alpha5",
             "source": {
                 "type": "git",
                 "url": "git@github.com:inpsyde\/psr-18-wp-http-client.git",
-                "reference": "8dd172262c95fc3fb4716b14a54c9406254ba441"
+                "reference": "56c12fe3cfafbc7a8643cb9a8e6e0fbab5c3661b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/inpsyde\/psr-18-wp-http-client\/zipball\/8dd172262c95fc3fb4716b14a54c9406254ba441",
-                "reference": "8dd172262c95fc3fb4716b14a54c9406254ba441",
+                "url": "https:\/\/api.github.com\/repos\/inpsyde\/psr-18-wp-http-client\/zipball\/56c12fe3cfafbc7a8643cb9a8e6e0fbab5c3661b",
+                "reference": "56c12fe3cfafbc7a8643cb9a8e6e0fbab5c3661b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1529,7 +1172,7 @@
                 ]
             },
             "require": {
-                "php": "^7.0 | ^8.0",
+                "php": "^7.4 | ^8.0",
                 "psr\/http-client": "^1.0",
                 "psr\/http-factory": "^1.0",
                 "psr\/http-message": "^1.0"
@@ -1539,13 +1182,13 @@
             },
             "require-dev": {
                 "brain\/monkey": "2.*",
-                "inpsyde\/php-coding-standards": "^1.0.0-beta1",
-                "johnpbloch\/wordpress-core": "^5.0",
-                "phpunit\/phpunit": "^6.0 | ^7.0 | ^8.0 | ^9.0",
+                "inpsyde\/php-coding-standards": "@stable",
+                "johnpbloch\/wordpress-core": "^6.0",
+                "phpunit\/phpunit": "^8.5 | ^9.0",
                 "squizlabs\/php_codesniffer": "^3.4",
                 "voku\/httpful": "^2.4"
             },
-            "time": "2021-10-01T10:22:17+00:00",
+            "time": "2026-03-05T12:55:36+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1569,8 +1212,9 @@
             ],
             "authors": [
                 {
-                    "name": "Inpsyde GmbH",
-                    "email": "hello@inpsyde.com",
+                    "name": "Syde GmbH",
+                    "homepage": "https:\/\/syde.com\/",
+                    "email": "hello@syde.com",
                     "role": "Company"
                 },
                 {
@@ -1581,15 +1225,15 @@
             ],
             "description": "A PSR-18 compatible wrapper for WordPress HTTP requests",
             "support": {
-                "source": "https:\/\/github.com\/inpsyde\/psr-18-wp-http-client\/tree\/v0.1.0-alpha4",
+                "source": "https:\/\/github.com\/inpsyde\/psr-18-wp-http-client\/tree\/0.1.0-alpha5",
                 "issues": "https:\/\/github.com\/inpsyde\/psr-18-wp-http-client\/issues"
             },
             "install-path": "..\/inpsyde\/psr-18-wp-http-client"
         },
         {
             "name": "inpsyde\/wc-product-contracts",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/packages.local\/wc-product-contracts",
@@ -1622,15 +1266,15 @@
         },
         {
             "name": "inpsyde\/wc-status-report",
-            "version": "dev-dev\/main",
-            "version_normalized": "dev-dev\/main",
+            "version": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
+            "version_normalized": "dev-dev\/IZET-510-migrate-pos-to-inpsyde-modularity",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-wc-status-report",
-                "reference": "22bd64c5aef17fc0a560025e051bd2286232fd2b"
+                "reference": "efb4a7ddfed998d204b265b6c5cebe8cf1bcc433"
             },
             "require": {
-                "dhii\/module-interface": "^0.2 || ^0.3"
+                "inpsyde\/modularity": "^1.7"
             },
             "require-dev": {
                 "brianium\/paratest": "^4.0 || ^6.0",
@@ -1906,17 +1550,17 @@
         },
         {
             "name": "php-http\/client-common",
-            "version": "2.7.2",
-            "version_normalized": "2.7.2.0",
+            "version": "2.7.3",
+            "version_normalized": "2.7.3.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/php-http\/client-common.git",
-                "reference": "0cfe9858ab9d3b213041b947c881d5b19ceeca46"
+                "reference": "dcc6de29c90dd74faab55f71b79d89409c4bf0c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/php-http\/client-common\/zipball\/0cfe9858ab9d3b213041b947c881d5b19ceeca46",
-                "reference": "0cfe9858ab9d3b213041b947c881d5b19ceeca46",
+                "url": "https:\/\/api.github.com\/repos\/php-http\/client-common\/zipball\/dcc6de29c90dd74faab55f71b79d89409c4bf0c1",
+                "reference": "dcc6de29c90dd74faab55f71b79d89409c4bf0c1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1932,15 +1576,13 @@
                 "psr\/http-client": "^1.0",
                 "psr\/http-factory": "^1.0",
                 "psr\/http-message": "^1.0 || ^2.0",
-                "symfony\/options-resolver": "~4.0.15 || ~4.1.9 || ^4.2.1 || ^5.0 || ^6.0 || ^7.0",
+                "symfony\/options-resolver": "~4.0.15 || ~4.1.9 || ^4.2.1 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
                 "symfony\/polyfill-php80": "^1.17"
             },
             "require-dev": {
                 "doctrine\/instantiator": "^1.1",
                 "guzzlehttp\/psr7": "^1.4",
                 "nyholm\/psr7": "^1.2",
-                "phpspec\/phpspec": "^5.1 || ^6.3 || ^7.1",
-                "phpspec\/prophecy": "^1.10.2",
                 "phpunit\/phpunit": "^7.5.20 || ^8.5.33 || ^9.6.7"
             },
             "suggest": {
@@ -1950,7 +1592,7 @@
                 "php-http\/logger-plugin": "PSR-3 Logger plugin",
                 "php-http\/stopwatch-plugin": "Symfony Stopwatch plugin"
             },
-            "time": "2024-09-24T06:21:48+00:00",
+            "time": "2025-11-29T19:12:34+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1978,23 +1620,23 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/php-http\/client-common\/issues",
-                "source": "https:\/\/github.com\/php-http\/client-common\/tree\/2.7.2"
+                "source": "https:\/\/github.com\/php-http\/client-common\/tree\/2.7.3"
             },
             "install-path": "..\/php-http\/client-common"
         },
         {
             "name": "php-http\/curl-client",
-            "version": "2.3.3",
-            "version_normalized": "2.3.3.0",
+            "version": "2.4.0",
+            "version_normalized": "2.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/php-http\/curl-client.git",
-                "reference": "f3eb48d266341afec0229a7a37a03521d3646b81"
+                "reference": "f59d6992065f44be8b8fb484dd678a919c27dbf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/php-http\/curl-client\/zipball\/f3eb48d266341afec0229a7a37a03521d3646b81",
-                "reference": "f3eb48d266341afec0229a7a37a03521d3646b81",
+                "url": "https:\/\/api.github.com\/repos\/php-http\/curl-client\/zipball\/f59d6992065f44be8b8fb484dd678a919c27dbf2",
+                "reference": "f59d6992065f44be8b8fb484dd678a919c27dbf2",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2005,13 +1647,13 @@
             },
             "require": {
                 "ext-curl": "*",
-                "php": "^7.4 || ^8.0",
+                "php": "^8.1",
                 "php-http\/discovery": "^1.6",
                 "php-http\/httplug": "^2.0",
                 "php-http\/message": "^1.2",
                 "psr\/http-client": "^1.0",
                 "psr\/http-factory-implementation": "^1.0",
-                "symfony\/options-resolver": "^3.4 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
+                "symfony\/options-resolver": "^3.4 || ^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0"
             },
             "provide": {
                 "php-http\/async-client-implementation": "1.0",
@@ -2021,11 +1663,11 @@
             "require-dev": {
                 "guzzlehttp\/psr7": "^2.0",
                 "laminas\/laminas-diactoros": "^2.0 || ^3.0",
-                "php-http\/client-integration-tests": "^3.0",
+                "php-http\/client-integration-tests": "^4.0",
                 "php-http\/message-factory": "^1.1",
-                "phpunit\/phpunit": "^7.5 || ^9.4"
+                "phpunit\/phpunit": "^9.6.17 || ^10.0 || ^11.0 || ^12.0"
             },
-            "time": "2024-10-31T07:36:58+00:00",
+            "time": "2025-12-09T12:02:56+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2052,7 +1694,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/php-http\/curl-client\/issues",
-                "source": "https:\/\/github.com\/php-http\/curl-client\/tree\/2.3.3"
+                "source": "https:\/\/github.com\/php-http\/curl-client\/tree\/2.4.0"
             },
             "install-path": "..\/php-http\/curl-client"
         },
@@ -2415,17 +2057,17 @@
         },
         {
             "name": "psr\/container",
-            "version": "1.1.2",
-            "version_normalized": "1.1.2.0",
+            "version": "2.0.2",
+            "version_normalized": "2.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/php-fig\/container.git",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/php-fig\/container\/zipball\/513e0666f7216c7459170d56df27dfcefe1689ea",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
+                "url": "https:\/\/api.github.com\/repos\/php-fig\/container\/zipball\/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2437,8 +2079,13 @@
             "require": {
                 "php": ">=7.4.0"
             },
-            "time": "2021-11-05T16:50:12+00:00",
+            "time": "2021-11-05T16:47:00+00:00",
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
@@ -2466,9 +2113,64 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/php-fig\/container\/issues",
-                "source": "https:\/\/github.com\/php-fig\/container\/tree\/1.1.2"
+                "source": "https:\/\/github.com\/php-fig\/container\/tree\/2.0.2"
             },
             "install-path": "..\/psr\/container"
+        },
+        {
+            "name": "psr\/event-dispatcher",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https:\/\/github.com\/php-fig\/event-dispatcher.git",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https:\/\/api.github.com\/repos\/php-fig\/event-dispatcher\/zipball\/dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https:\/\/repo.packagist.com\/inpsyde\/dists\/%package%\/%version%\/r%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "time": "2019-01-08T18:20:26+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Syde\\Vendor\\Zettle\\Psr\\EventDispatcher\\": "src\/"
+                }
+            },
+            "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http:\/\/www.php-fig.org\/"
+                }
+            ],
+            "description": "Standard interfaces for event handling.",
+            "keywords": [
+                "events",
+                "psr",
+                "psr-14"
+            ],
+            "install-path": "..\/psr\/event-dispatcher"
         },
         {
             "name": "psr\/http-client",
@@ -2718,17 +2420,17 @@
         },
         {
             "name": "sniccowp\/php-scoper-wordpress-excludes",
-            "version": "6.8.1",
-            "version_normalized": "6.8.1.0",
+            "version": "6.9.1",
+            "version_normalized": "6.9.1.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/snicco\/php-scoper-wordpress-excludes.git",
-                "reference": "c2c18f89a9aa2d7ef1998d233b9ed00d0deff5dd"
+                "reference": "94867711087d0efc3d361dbe068044e0124f4c0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/snicco\/php-scoper-wordpress-excludes\/zipball\/c2c18f89a9aa2d7ef1998d233b9ed00d0deff5dd",
-                "reference": "c2c18f89a9aa2d7ef1998d233b9ed00d0deff5dd",
+                "url": "https:\/\/api.github.com\/repos\/snicco\/php-scoper-wordpress-excludes\/zipball\/94867711087d0efc3d361dbe068044e0124f4c0b",
+                "reference": "94867711087d0efc3d361dbe068044e0124f4c0b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2740,10 +2442,10 @@
             "require-dev": {
                 "php": "^7.4",
                 "php-stubs\/wordpress-globals": "0.2.0",
-                "php-stubs\/wordpress-stubs": "6.8.1",
+                "php-stubs\/wordpress-stubs": "6.9.1",
                 "sniccowp\/php-scoper-excludes": "dev-master"
             },
-            "time": "2025-05-03T00:01:53+00:00",
+            "time": "2026-02-04T00:34:47+00:00",
             "type": "library",
             "installation-source": "dist",
             "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",
@@ -2768,7 +2470,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/snicco\/php-scoper-wordpress-excludes\/issues",
-                "source": "https:\/\/github.com\/snicco\/php-scoper-wordpress-excludes\/tree\/6.8.1"
+                "source": "https:\/\/github.com\/snicco\/php-scoper-wordpress-excludes\/tree\/6.9.1"
             },
             "install-path": "..\/sniccowp\/php-scoper-wordpress-excludes"
         },
@@ -2850,17 +2552,17 @@
         },
         {
             "name": "symfony\/options-resolver",
-            "version": "v7.3.3",
-            "version_normalized": "7.3.3.0",
+            "version": "v7.4.0",
+            "version_normalized": "7.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/symfony\/options-resolver.git",
-                "reference": "0ff2f5c3df08a395232bbc3c2eb7e84912df911d"
+                "reference": "b38026df55197f9e39a44f3215788edf83187b80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/symfony\/options-resolver\/zipball\/0ff2f5c3df08a395232bbc3c2eb7e84912df911d",
-                "reference": "0ff2f5c3df08a395232bbc3c2eb7e84912df911d",
+                "url": "https:\/\/api.github.com\/repos\/symfony\/options-resolver\/zipball\/b38026df55197f9e39a44f3215788edf83187b80",
+                "reference": "b38026df55197f9e39a44f3215788edf83187b80",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2873,7 +2575,7 @@
                 "php": ">=8.2",
                 "symfony\/deprecation-contracts": "^2.5|^3"
             },
-            "time": "2025-08-05T10:16:07+00:00",
+            "time": "2025-11-12T15:39:26+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2906,7 +2608,7 @@
                 "options"
             ],
             "support": {
-                "source": "https:\/\/github.com\/symfony\/options-resolver\/tree\/v7.3.3"
+                "source": "https:\/\/github.com\/symfony\/options-resolver\/tree\/v7.4.0"
             },
             "funding": [
                 {

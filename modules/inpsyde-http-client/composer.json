@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "dhii\/module-interface": "^0.2 || ^0.3",
+        "inpsyde\/modularity": "^1.7",
         "php-http\/curl-client": "^2.1",
         "php-http\/message": "^1.8",
         "nyholm\/psr7": "^1.2",

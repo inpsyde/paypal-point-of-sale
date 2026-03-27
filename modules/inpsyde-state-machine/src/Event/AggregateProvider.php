@@ -3,12 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
-use Syde\Vendor\Zettle\Dhii\Events\Listener\ListenerProviderInterface;
-use Traversable;
-/**
- * This can be removed and replaced by fig/event-dispatcher-util's
- * implementation once the switch to PHP7.2 allows using PSR-14
- */
+use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 class AggregateProvider implements ListenerProviderInterface
 {
     /**
@@ -16,13 +11,9 @@ class AggregateProvider implements ListenerProviderInterface
      */
     protected $providers = [];
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * @param object $event
-     *
-     * @return Traversable
      */
-    public function getListenersForEvent($event): Traversable
+    public function getListenersForEvent(object $event): iterable
     {
         /** @var ListenerProviderInterface $provider */
         foreach ($this->providers as $provider) {

@@ -3,23 +3,24 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\WcStatusReport;
 
-use Syde\Vendor\Zettle\Dhii\Container\ServiceProvider;
-use Syde\Vendor\Zettle\Dhii\Modular\Module\ModuleInterface;
-use Syde\Vendor\Zettle\Interop\Container\ServiceProviderInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-class WcStatusReportModule implements ModuleInterface
+class WcStatusReportModule implements ServiceModule, ExecutableModule
 {
+    use ModuleClassNameIdTrait;
     /**
      * @inheritDoc
      */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(require __DIR__ . '/../services.php', require __DIR__ . '/../extensions.php');
+        return require __DIR__ . '/../services.php';
     }
     /**
      * @inheritDoc
      */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
         $renderer = $container->get('inpsyde.wc-status-report.renderer');
         assert($renderer instanceof StatusReportRendererInterface);
@@ -27,5 +28,6 @@ class WcStatusReportModule implements ModuleInterface
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo $renderer->render($container->get('inpsyde.wc-status-report.report'));
         }, 20);
+        return \true;
     }
 }

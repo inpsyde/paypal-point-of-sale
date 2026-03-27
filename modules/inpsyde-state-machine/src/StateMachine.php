@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\StateMachine;
 
-use Syde\Vendor\Zettle\Dhii\Events\Dispatcher\EventDispatcherInterface;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\EventDispatcherInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\GenericPostTransition;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\GenericPreTransition;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\StateChange;

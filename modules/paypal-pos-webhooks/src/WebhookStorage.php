@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks;
 
-use Syde\Vendor\Zettle\Dhii\Collection\MutableContainerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Webhook;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\WebhookFactory;
@@ -15,7 +15,7 @@ class WebhookStorage implements WebhookStorageInterface
      */
     private $webhookFactory;
     /**
-     * @var MutableContainerInterface
+     * @var WritableContainerInterface
      */
     private $optionContainer;
     /**
@@ -30,11 +30,11 @@ class WebhookStorage implements WebhookStorageInterface
      * WpOptionWebhookStorage constructor.
      *
      * @param WebhookFactory $webhookFactory
-     * @param MutableContainerInterface $optionContainer
+     * @param WritableContainerInterface $optionContainer
      * @param string $optionKey
      * @param array $defaultConfig
      */
-    public function __construct(WebhookFactory $webhookFactory, MutableContainerInterface $optionContainer, string $optionKey, array $defaultConfig)
+    public function __construct(WebhookFactory $webhookFactory, WritableContainerInterface $optionContainer, string $optionKey, array $defaultConfig)
     {
         $this->optionKey = $optionKey;
         $this->optionContainer = $optionContainer;

@@ -22,6 +22,12 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      * @var array{domain:string, path:string|null}
      */
     protected array $translation = ['domain' => '', 'path' => null];
+    protected bool $dependencyExtractionEnabled = \false;
+    public function __construct(string $handle, string $url, int $location = \Inpsyde\Assets\Asset::FRONTEND | \Inpsyde\Assets\Asset::ACTIVATE, bool $dependencyExtractionEnabled = \true)
+    {
+        parent::__construct($handle, $url, $location);
+        $this->dependencyExtractionEnabled = $dependencyExtractionEnabled;
+    }
     /**
      * @return array<string, mixed>
      */
@@ -160,7 +166,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      */
     public function version(): ?string
     {
-        $this->resolveDependencyExtractionPlugin();
+        $this->dependencyExtractionEnabled and $this->resolveDependencyExtractionPlugin();
         return parent::version();
     }
     /**
@@ -168,7 +174,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      */
     public function dependencies(): array
     {
-        $this->resolveDependencyExtractionPlugin();
+        $this->dependencyExtractionEnabled and $this->resolveDependencyExtractionPlugin();
         return parent::dependencies();
     }
 }

@@ -15,12 +15,12 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return [
-    'paypal-pos.init-possible' => static function (C $ctr, bool $previous): bool {
+    'paypal-pos.init-possible' => static function (bool $previous, C $ctr): bool {
         $initableStates = [OnboardingState::SYNC_PARAM_PRODUCTS, OnboardingState::SYNC_PARAM_VAT, OnboardingState::SYNC_PROGRESS, OnboardingState::SYNC_FINISHED, OnboardingState::ONBOARDING_COMPLETED];
         $stateMachine = $ctr->get('inpsyde.state-machine');
         return in_array($stateMachine->currentState()->name(), $initableStates, \true);
     },
-    'paypal-pos.sdk.dal.provider.organization' => static function (C $container, OrganizationProvider $previous): OrganizationProvider {
+    'paypal-pos.sdk.dal.provider.organization' => static function (OrganizationProvider $previous, C $container): OrganizationProvider {
         $preSyncStates = $container->get('paypal-pos.onboarding.settings-states');
         $stateMachine = $container->get('inpsyde.state-machine');
         // clear cache, to always use the current account settings during setup steps
@@ -29,21 +29,21 @@ return [
         }
         return $previous;
     },
-    'inpsyde.state-machine.namespace' => static function (C $container, string $previous): string {
+    'inpsyde.state-machine.namespace' => static function (string $previous, C $container): string {
         return 'paypal-pos.onboarding';
     },
-    'paypal-pos.settings.fields' => static function (C $container, array $previous): array {
+    'paypal-pos.settings.fields' => static function (array $previous, C $container): array {
         $filter = $container->get('paypal-pos.onboarding.settings.filter');
         return ['onboarding' => ['title' => __('Installation', 'paypal-point-of-sale'), 'type' => 'zettle-onboarding', 'description' => __('We will guide you through the initial configuration of the PayPal Point of Sale integration', 'paypal-point-of-sale'), 'desc_tip' => \true, 'default' => '']] + $filter->filter($previous);
     },
-    'paypal-pos.settings.field-renderers' => static function (C $container, array $previous): array {
+    'paypal-pos.settings.field-renderers' => static function (array $previous, C $container): array {
         $previous[] = $container->get('paypal-pos.onboarding.settings.renderer.removed');
         $previous[] = $container->get('paypal-pos.onboarding.settings.renderer.hidden');
         $previous[] = $container->get('paypal-pos.onboarding.settings.renderer.password');
         $previous[] = $container->get('paypal-pos.onboarding.settings.renderer.onboarding');
         return $previous;
     },
-    'inpsyde.queue.rest.v1.endpoint.meta-callback' => static function (C $container, callable $previous): callable {
+    'inpsyde.queue.rest.v1.endpoint.meta-callback' => static function (callable $previous, C $container): callable {
         return static function (array $meta, array $types = []) use ($container, $previous): array {
             $previous = $previous();
             if (!isset($meta['zettle-onboarding'])) {
@@ -56,7 +56,7 @@ return [
             return array_merge(['isFinished' => empty($result)], $previous);
         };
     },
-    'inpsyde.state-machine.events.listener-provider.state-aware' => static function (C $container, StateAwareListenerProvider $listenerProvider): StateAwareListenerProvider {
+    'inpsyde.state-machine.events.listener-provider.state-aware' => static function (StateAwareListenerProvider $listenerProvider, C $container): StateAwareListenerProvider {
         foreach ($container->get('paypal-pos.onboarding.state-machine.actions') as $sourceState => $listeners) {
             foreach ((array) $listeners as $listener) {
                 $listenerProvider->listen($sourceState, $listener);
@@ -64,7 +64,7 @@ return [
         }
         return $listenerProvider;
     },
-    'inpsyde.state-machine.events.listener-provider.transition-aware' => static function (C $container, TransitionAwareListenerProvider $listenerProvider): TransitionAwareListenerProvider {
+    'inpsyde.state-machine.events.listener-provider.transition-aware' => static function (TransitionAwareListenerProvider $listenerProvider, C $container): TransitionAwareListenerProvider {
         foreach ($container->get('paypal-pos.onboarding.state-machine.transition-events') as $transitionName => $listeners) {
             foreach ((array) $listeners as $listener) {
                 $listenerProvider->listen($transitionName, $listener);
@@ -72,7 +72,7 @@ return [
         }
         return $listenerProvider;
     },
-    'inpsyde.state-machine.events.listener-provider.internal' => static function (C $container, ListenerProvider $listenerProvider): ListenerProvider {
+    'inpsyde.state-machine.events.listener-provider.internal' => static function (ListenerProvider $listenerProvider, C $container): ListenerProvider {
         $setState = $container->get('paypal-pos.onboarding.set-state');
         assert(is_callable($setState));
         $listenerProvider->addListener(static function (PostTransition $event) use ($setState) {
@@ -87,19 +87,19 @@ return [
      * We don't want the queue to process anything if onboarding has not yet completed.
      * In that case, we simply pass an empty array as the available queue runners
      */
-    'inpsyde.queue.runners' => static function (C $container, array $previous): array {
+    'inpsyde.queue.runners' => static function (array $previous, C $container): array {
         $currentState = $container->get('inpsyde.state-machine')->currentState()->name();
         if ($currentState === OnboardingState::ONBOARDING_COMPLETED) {
             return $previous;
         }
         return [];
     },
-    'paypal-pos.assets.should-enqueue.all' => static function (C $container, callable $previous): callable {
+    'paypal-pos.assets.should-enqueue.all' => static function (callable $previous, C $container): callable {
         return static function () use ($previous, $container): bool {
             return $previous() and $container->get('paypal-pos.settings.is-integration-page')();
         };
     },
-    'paypal-pos.assets.should-enqueue.sync-module' => static function (C $container, callable $previous): callable {
+    'paypal-pos.assets.should-enqueue.sync-module' => static function (callable $previous, C $container): callable {
         return static function () use ($previous, $container): bool {
             if (!$previous()) {
                 return \false;
@@ -109,7 +109,7 @@ return [
             return $stateMachine->currentState()->name() === OnboardingState::SYNC_PROGRESS;
         };
     },
-    'inpsyde.wc-lifecycle-events.products.toggle' => static function (C $container, Toggle $toggle): Toggle {
+    'inpsyde.wc-lifecycle-events.products.toggle' => static function (Toggle $toggle, C $container): Toggle {
         $currentState = $container->get('inpsyde.state-machine')->currentState()->name();
         if ($currentState === OnboardingState::ONBOARDING_COMPLETED) {
             return $toggle;
