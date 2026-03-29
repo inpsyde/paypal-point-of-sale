@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\Validation;
 
 class CallbackValidator implements ValidatorInterface
 {
-
     /**
      * @var callable
      */

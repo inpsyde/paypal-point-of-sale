@@ -8,11 +8,10 @@ use Throwable;
 
 class CompositeExceptionHandler implements ExceptionHandler
 {
-
     /**
      * @var ExceptionHandler[]
      */
-    private $exceptionHandlers;
+    private array $exceptionHandlers;
 
     public function __construct(ExceptionHandler ...$exceptionHandlers)
     {

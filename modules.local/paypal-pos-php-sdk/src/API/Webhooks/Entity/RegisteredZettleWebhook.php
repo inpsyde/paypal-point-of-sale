@@ -8,16 +8,9 @@ use Psr\Http\Message\UriInterface;
 
 class RegisteredZettleWebhook extends ZettleWebhook implements RegisteredWebhook
 {
+    private string $status;
 
-    /**
-     * @var string
-     */
-    private $status;
-
-    /**
-     * @var string
-     */
-    private $signingKey;
+    private string $signingKey;
 
     public function __construct(
         string $uuid,
@@ -27,6 +20,7 @@ class RegisteredZettleWebhook extends ZettleWebhook implements RegisteredWebhook
         string $status,
         string $signingKey
     ) {
+
         parent::__construct($uuid, $eventNames, $destination, $contactEmail);
         $this->status = $status;
         $this->signingKey = $signingKey;

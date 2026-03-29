@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image;
 
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Connection\ConnectionInterface;
-
 /**
  * Class Image
  *
@@ -15,17 +13,14 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Connection\ConnectionInterface;
  */
 class ConcreteImage implements ImageInterface
 {
-
     public const BASE_URL = 'https://image.izettle.com/productimage/';
 
-    /**
-     * @var string
-     */
-    private $identifier;
+    private string $identifier;
 
     public function __construct(
         string $imageLookupKey
     ) {
+
         $this->identifier = $imageLookupKey;
     }
 

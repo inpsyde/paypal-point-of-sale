@@ -9,11 +9,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image;
  */
 class PlaceholderUrlProvider implements UrlProviderInterface
 {
-
-    /**
-     * @var string
-     */
-    private $url;
+    private string $url;
 
     public function __construct(string $url)
     {

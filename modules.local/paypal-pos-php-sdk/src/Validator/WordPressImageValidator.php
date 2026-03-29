@@ -25,37 +25,19 @@ class WordPressImageValidator implements ValidatorInterface
     /**
      * @var string[]
      */
-    protected $supportedImageTypes;
+    protected array $supportedImageTypes;
 
-    /**
-     * @var int
-     */
-    protected $minFileSize;
+    protected int $minFileSize;
 
-    /**
-     * @var int
-     */
-    protected $maxFileSize;
+    protected int $maxFileSize;
 
-    /**
-     * @var int
-     */
-    protected $minWidth;
+    protected int $minWidth;
 
-    /**
-     * @var int
-     */
-    protected $minHeight;
+    protected int $minHeight;
 
-    /**
-     * @var int
-     */
-    protected $maxWidth;
+    protected int $maxWidth;
 
-    /**
-     * @var int
-     */
-    protected $maxHeight;
+    protected int $maxHeight;
 
     /**
      * @param string[] $supportedImageTypes MIME subtypes like 'jpeg', 'png'
@@ -69,6 +51,7 @@ class WordPressImageValidator implements ValidatorInterface
         int $maxWidth,
         int $maxHeight
     ) {
+
         $this->supportedImageTypes = $supportedImageTypes;
         $this->minFileSize = $minFileSize;
         $this->maxFileSize = $maxFileSize;

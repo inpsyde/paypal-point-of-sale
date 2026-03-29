@@ -9,7 +9,6 @@ use Inpsyde\StateMachine\StateMachineInterface;
 
 interface InitializerInterface
 {
-
     public function initialize(
         StateMachineInterface $stateMachine,
         StateInterface ...$states

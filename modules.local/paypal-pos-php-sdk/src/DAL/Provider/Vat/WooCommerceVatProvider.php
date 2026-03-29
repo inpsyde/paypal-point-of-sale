@@ -11,11 +11,7 @@ use WC_Tax;
 
 class WooCommerceVatProvider implements VatProvider
 {
-
-    /**
-     * @var array
-     */
-    private $location;
+    private array $location;
 
     /**
      * @param array $location An array with keys country, state, etc., used for looking up taxes.

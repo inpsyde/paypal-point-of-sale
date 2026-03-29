@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Onboarding\Provider;
 
 use Inpsyde\StateMachine\StateMachineInterface;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\Event\AuthCheck;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
 
 class OnboardingRenderProvider implements Provider
 {
-
-    /**
-     * @var StateMachineInterface
-     */
-    private $stateMachine;
+    private StateMachineInterface $stateMachine;
 
     public function __construct(StateMachineInterface $stateMachine)
     {

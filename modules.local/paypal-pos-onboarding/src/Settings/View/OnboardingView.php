@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 interface OnboardingView
 {
-
     /**
      * @return string
      */

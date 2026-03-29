@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Presentation\Presentation;
@@ -9,7 +11,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 interface VariantInterface
 {
-
     /**
      * @return string
      */

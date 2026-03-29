@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 
 use Psr\Http\Message\UriInterface;
 
 interface Webhook
 {
-
     public function uuid(): string;
 
     public function contactEmail(): string;

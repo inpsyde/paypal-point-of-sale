@@ -18,10 +18,7 @@ class AttributeSetBuilder implements BuilderInterface
 {
     use AttributeFormatterTrait;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
 
     public function __construct(
         ProductRepositoryInterface $repository

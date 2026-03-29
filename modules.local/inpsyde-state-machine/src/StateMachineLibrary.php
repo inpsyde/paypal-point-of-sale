@@ -21,16 +21,9 @@ use Psr\Container\ContainerInterface;
  */
 class StateMachineLibrary
 {
+    private ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var StateMachineModule
-     */
-    private $module;
+    private StateMachineModule $module;
 
     /**
      * StateMachineLibrary constructor.
@@ -49,15 +42,9 @@ class StateMachineLibrary
                 new class ($factories, $extensions) implements ServiceModule, ExtendingModule {
                     use ModuleClassNameIdTrait;
 
-                    /**
-                     * @var array
-                     */
-                    private $factories;
+                    private array $factories;
 
-                    /**
-                     * @var array
-                     */
-                    private $extensions;
+                    private array $extensions;
 
                     public function __construct(array $factories, array $extensions)
                     {

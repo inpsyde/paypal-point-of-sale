@@ -23,7 +23,6 @@ use WP_REST_Server;
  */
 class ProductValidationEndpoint implements EndpointInterface
 {
-
     public const METHODS = WP_REST_Server::READABLE;
     public const VERSION = 'v1';
     public const ROUTE = '/validate';

@@ -14,16 +14,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\Filter\FilterInterface;
  */
 class FilterableBuilder implements BuilderInterface
 {
+    private BuilderInterface $builder;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-
-    /**
-     * @var FilterInterface
-     */
-    private $filter;
+    private FilterInterface $filter;
 
     public function __construct(BuilderInterface $builder, FilterInterface $filter)
     {

@@ -14,7 +14,6 @@ use WC_Product_Variation;
  */
 class SimpleManageStockListener
 {
-
     /**
      * @var callable
      */
@@ -29,6 +28,7 @@ class SimpleManageStockListener
         callable $createJob,
         callable $isSyncable
     ) {
+
         $this->createJob = $createJob;
         $this->isSyncable = $isSyncable;
     }

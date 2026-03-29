@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 class VippsPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var VippsPaymentBuilder
-     */
-    private $vippsPaymentBuilder;
+    private VippsPaymentBuilder $vippsPaymentBuilder;
 
     /**
      * VippsPaymentHandler constructor.
@@ -25,6 +22,7 @@ class VippsPaymentHandler extends AbstractPaymentHandler
         string $validPaymentType,
         VippsPaymentBuilderInterface $vippsPaymentBuilder
     ) {
+
         parent::__construct($validPaymentType);
         $this->vippsPaymentBuilder = $vippsPaymentBuilder;
     }

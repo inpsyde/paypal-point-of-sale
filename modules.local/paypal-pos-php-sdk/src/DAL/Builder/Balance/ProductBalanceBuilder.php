@@ -9,15 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance\ProductBalanceFactory;
 
 class ProductBalanceBuilder implements ProductBalanceBuilderInterface
 {
-    /**
-     * @var ProductBalanceFactory
-     */
-    private $productBalanceFactory;
+    private ProductBalanceFactory $productBalanceFactory;
 
-    /**
-     * @var LocationBalanceCollectionBuilder
-     */
-    private $locationBalanceCollectionBuilder;
+    private LocationBalanceCollectionBuilder $locationBalanceCollectionBuilder;
 
     /**
      * ProductBalanceBuilder constructor.
@@ -29,6 +23,7 @@ class ProductBalanceBuilder implements ProductBalanceBuilderInterface
         ProductBalanceFactory $productBalanceFactory,
         LocationBalanceCollectionBuilderInterface $locationBalanceCollectionBuilder
     ) {
+
         $this->productBalanceFactory = $productBalanceFactory;
         $this->locationBalanceCollectionBuilder = $locationBalanceCollectionBuilder;
     }

@@ -4,26 +4,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Auth\OAuth\Token;
 
-use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use stdClass;
-
 class Token implements TokenInterface
 {
+    private string $accessToken;
 
-    /**
-     * @var string
-     */
-    private $accessToken;
+    private int $expiresIn;
 
-    /**
-     * @var int
-     */
-    private $expiresIn;
-
-    /**
-     * @var string
-     */
-    private $refreshToken;
+    private string $refreshToken;
 
     /**
      * JwtToken constructor.

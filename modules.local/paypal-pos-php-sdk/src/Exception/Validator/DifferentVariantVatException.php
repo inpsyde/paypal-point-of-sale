@@ -11,13 +11,13 @@ use Throwable;
 
 final class DifferentVariantVatException extends Exception implements ValidatorException
 {
-
     public function __construct(
         string $productName,
         array $vatValues,
         int $code = 0,
         ?Throwable $previous = null
     ) {
+
         $vatStr = implode(', ', $vatValues);
 
         parent::__construct(

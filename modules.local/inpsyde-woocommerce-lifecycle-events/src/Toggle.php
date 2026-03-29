@@ -11,7 +11,6 @@ namespace Inpsyde\WcEvents;
  */
 class Toggle
 {
-
     private $state = true;
 
     /**

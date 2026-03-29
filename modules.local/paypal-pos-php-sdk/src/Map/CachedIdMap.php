@@ -14,15 +14,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
  */
 class CachedIdMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordCreator
 {
-
     private $localIdCache = [];
 
     private $remoteIdCache = [];
 
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $base;
+    private OneToOneMapInterface $base;
 
     public function __construct(LocalIdProvider $base)
     {

@@ -12,7 +12,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOption\MinimumVari
 
 class VariantOptionValidator implements ValidatorInterface
 {
-
     public const MIN_NAME_LENGTH = 1;
     public const MAX_NAME_LENGTH = 30;
 

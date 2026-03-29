@@ -24,6 +24,7 @@ class Bootstrap
         callable $createJob,
         callable $webhookDeletion
     ) {
+
         $this->createJob = $createJob;
         $this->webhookDeletion = $webhookDeletion;
     }

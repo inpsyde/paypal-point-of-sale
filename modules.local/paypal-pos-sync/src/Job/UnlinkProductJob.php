@@ -7,35 +7,24 @@ namespace Syde\PayPal\PointOfSale\Sync\Job;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Variation\VariationAccessorUtilInterface;
-use Psr\Log\LoggerInterface;
 use WC_Product;
 use WC_Product_Variable;
 
 class UnlinkProductJob implements Job
 {
-
     const TYPE = 'unlink-product';
 
-    /**
-     * @var MapRecordCreator|OneToOneMapInterface
-     */
-    private $productIdMap;
+    private MapRecordCreator|OneToOneMapInterface $productIdMap;
 
-    /**
-     * @var MapRecordCreator|OneToManyMapInterface
-     */
-    private $variantIdMap;
+    private MapRecordCreator|OneToManyMapInterface $variantIdMap;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
 
     /**
      * UnlinkProductJob constructor.

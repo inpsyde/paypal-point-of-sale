@@ -25,11 +25,7 @@ use WC_Product;
  */
 class ProductConnectionFilter implements FilterInterface
 {
-
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $idMap;
+    private OneToOneMapInterface $idMap;
 
     private $lazyPool = [];
 

@@ -9,15 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Discount\DiscountCollectionFactory
 
 class DiscountCollectionBuilder implements DiscountCollectionBuilderInterface
 {
-    /**
-     * @var DiscountCollectionFactory
-     */
-    private $discountCollectionFactory;
+    private DiscountCollectionFactory $discountCollectionFactory;
 
-    /**
-     * @var DiscountBuilder
-     */
-    private $discountBuilder;
+    private DiscountBuilder $discountBuilder;
 
     /**
      * DiscountCollectionBuilder constructor.
@@ -29,6 +23,7 @@ class DiscountCollectionBuilder implements DiscountCollectionBuilderInterface
         DiscountCollectionFactory $discountCollectionFactory,
         DiscountBuilderInterface $discountBuilder
     ) {
+
         $this->discountCollectionFactory = $discountCollectionFactory;
         $this->discountBuilder = $discountBuilder;
     }

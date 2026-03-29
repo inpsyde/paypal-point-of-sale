@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Auth;
 
 use Http\Client\Common\Plugin;
+use Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface as C;
+use Psr\Http\Message\RequestInterface;
 use Syde\PayPal\PointOfSale\Auth\HTTPlug\ChaosMonkeyPlugin;
 use Syde\PayPal\PointOfSale\Auth\HTTPlug\ZettleAuthPlugin;
 use Syde\PayPal\PointOfSale\Auth\Jwt\ParserFactory;
 use Syde\PayPal\PointOfSale\Auth\Jwt\ParserFactoryInterface;
 use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
+use Syde\PayPal\PointOfSale\Auth\OAuth\ContainerTokenStorage;
 use Syde\PayPal\PointOfSale\Auth\OAuth\CredentialValidator;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Grant\JwtGrant;
-use Syde\PayPal\PointOfSale\Auth\OAuth\ZettleOAuthHeader;
-use Syde\PayPal\PointOfSale\Auth\OAuth\ContainerTokenStorage;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenFactory;
 use Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistingAuthSuccessHandler;
+use Syde\PayPal\PointOfSale\Auth\OAuth\ZettleOAuthHeader;
 use Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
 use Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\PayPal\PointOfSale\Auth\Validator\Validator;
 use Syde\PayPal\PointOfSale\Auth\Validator\ValidatorInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Container\ContainerInterface as C;
 
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);

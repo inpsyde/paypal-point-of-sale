@@ -14,15 +14,9 @@ class GlobalConnectionFailedNotice implements NoticeInterface
      */
     private $isIntegrationPageCallback;
 
-    /**
-     * @var bool
-     */
-    private $authFailed;
+    private bool $authFailed;
 
-    /**
-     * @var string
-     */
-    private $settingsUrl;
+    private string $settingsUrl;
 
     public function __construct(
         callable $isIntegrationPageCallback,

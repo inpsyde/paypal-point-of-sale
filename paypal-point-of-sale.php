@@ -1,6 +1,8 @@
 <?php
 
 //phpcs:disable PSR12.Files.FileHeader.IncorrectOrder
+
+
 declare(strict_types=1);
 
 /**

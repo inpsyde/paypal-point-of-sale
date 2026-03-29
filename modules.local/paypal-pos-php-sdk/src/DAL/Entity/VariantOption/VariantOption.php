@@ -8,21 +8,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 
 class VariantOption
 {
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $value;
 
-    /**
-     * @var string
-     */
-    private $value;
-
-    /**
-     * @var ImageInterface
-     */
-    private $image;
+    private ImageInterface $image;
 
     /**
      * VariantOption constructor.

@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 class GiftcardPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var GiftcardPaymentBuilder
-     */
-    private $giftcardPaymentBuilder;
+    private GiftcardPaymentBuilder $giftcardPaymentBuilder;
 
     /**
      * GiftcardPaymentHandler constructor.
@@ -25,6 +22,7 @@ class GiftcardPaymentHandler extends AbstractPaymentHandler
         string $validPaymentType,
         GiftcardPaymentBuilderInterface $giftcardPaymentBuilder
     ) {
+
         parent::__construct($validPaymentType);
         $this->giftcardPaymentBuilder = $giftcardPaymentBuilder;
     }

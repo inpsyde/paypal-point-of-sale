@@ -21,36 +21,20 @@ use function WP_CLI\Utils\format_items;
 
 class ProductsCommand
 {
-
     /**
      * @var string[]
      */
-    private $productTypeWhitelist;
+    private array $productTypeWhitelist;
 
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $productMap;
+    private OneToOneMapInterface $productMap;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    private Products $productsClient;
 
-    /**
-     * @var ProductValidator
-     */
-    private $productValidator;
+    private ProductValidator $productValidator;
 
-    /**
-     * @var StatusCodeMatcher
-     */
-    private $statusCodeMatcher;
+    private StatusCodeMatcher $statusCodeMatcher;
 
     public function __construct(
         array $productTypeWhitelist,

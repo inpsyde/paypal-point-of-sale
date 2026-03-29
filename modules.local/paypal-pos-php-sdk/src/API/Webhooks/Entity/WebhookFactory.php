@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 
 interface WebhookFactory
 {
-
     /**
      * @param array $data
      *

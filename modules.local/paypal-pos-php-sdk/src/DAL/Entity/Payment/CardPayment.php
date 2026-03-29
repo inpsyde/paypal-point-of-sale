@@ -8,50 +8,23 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Type\PaymentType;
 
 final class CardPayment extends AbstractPaymentMethod
 {
-    /**
-     * @var string
-     */
-    private $referenceNumber;
+    private string $referenceNumber;
 
-    /**
-     * @var string
-     */
-    private $maskedPan;
+    private string $maskedPan;
 
-    /**
-     * @var string
-     */
-    private $cardType;
+    private string $cardType;
 
-    /**
-     * @var string
-     */
-    private $cardPaymentEntryMode;
+    private string $cardPaymentEntryMode;
 
-    /**
-     * @var string|null
-     */
-    private $applicationName;
+    private ?string $applicationName = null;
 
-    /**
-     * @var string|null
-     */
-    private $applicationIdentifier;
+    private ?string $applicationIdentifier = null;
 
-    /**
-     * @var string|null
-     */
-    private $terminalVerificationResults;
+    private ?string $terminalVerificationResults = null;
 
-    /**
-     * @var int|null
-     */
-    private $numberOfInstallments;
+    private ?int $numberOfInstallments = null;
 
-    /**
-     * @var int|null
-     */
-    private $installmentAmount;
+    private ?int $installmentAmount = null;
 
     /**
      * CardPayment constructor.

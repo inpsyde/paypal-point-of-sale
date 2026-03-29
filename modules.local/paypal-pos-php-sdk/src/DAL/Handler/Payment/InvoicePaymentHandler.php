@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 class InvoicePaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var InvoicePaymentBuilder
-     */
-    private $invoicePaymentBuilder;
+    private InvoicePaymentBuilder $invoicePaymentBuilder;
 
     /**
      * InvoicePaymentHandler constructor.
@@ -25,6 +22,7 @@ class InvoicePaymentHandler extends AbstractPaymentHandler
         string $validPaymentType,
         InvoicePaymentBuilderInterface $invoicePaymentBuilder
     ) {
+
         parent::__construct($validPaymentType);
         $this->invoicePaymentBuilder = $invoicePaymentBuilder;
     }

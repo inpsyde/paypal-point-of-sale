@@ -22,51 +22,26 @@ use Psr\Log\NullLogger;
  */
 class ProcessorBuilder
 {
+    private JobRepository $repository;
 
-    /**
-     * @var EphemeralJobRepository
-     */
-    private $repository;
+    private ?Stopper $stopper = null;
 
-    /**
-     * @var Stopper|null
-     */
-    private $stopper;
+    private array $types = [];
 
-    /**
-     * @var array
-     */
-    private $types = [];
+    private LoggerInterface $logger;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private JobRecordFactoryInterface $jobRecordFactory;
 
-    /**
-     * @var JobRecordFactoryInterface
-     */
-    private $jobRecordFactory;
+    private ?Locker $locker = null;
 
-    /**
-     * @var Locker|null
-     */
-    private $locker;
-
-    /**
-     * @var bool
-     */
-    private $isMultisite = false;
+    private bool $isMultisite = false;
 
     /**
      * @var callable
      */
     private $exceptionHandler;
 
-    /**
-     * @var int
-     */
-    private $maxRetriesCount = 0;
+    private int $maxRetriesCount = 0;
 
     public function __construct(
         JobRecordFactoryInterface $jobRecordFactory

@@ -15,11 +15,7 @@ use Iterator;
  */
 class UnstoppableQueueWalker implements QueueWalker
 {
-
-    /**
-     * @var Iterator
-     */
-    private $iterator;
+    private Iterator $iterator;
 
     /**
      * UnstoppableQueueWalker constructor.

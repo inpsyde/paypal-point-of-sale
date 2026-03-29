@@ -19,7 +19,7 @@ class InvalidBuilderPayloadException extends Exception implements BuilderExcepti
     /**
      * @var string[]
      */
-    protected $errorCodes;
+    protected array $errorCodes;
 
     /**
      * @param string[] $errorCodes Values of ValidationErrorCodes.

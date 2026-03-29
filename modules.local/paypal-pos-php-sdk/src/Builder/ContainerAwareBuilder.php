@@ -8,11 +8,7 @@ use Psr\Container\ContainerInterface;
 
 class ContainerAwareBuilder implements BuilderInterface
 {
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Syde\PayPal\PointOfSale\Sync\Status;
 
 interface SyncStatusCodes

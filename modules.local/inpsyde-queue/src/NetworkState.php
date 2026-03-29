@@ -6,16 +6,12 @@ namespace Inpsyde\Queue;
 
 class NetworkState
 {
-
-    /**
-     * @var int
-     */
-    private $siteId;
+    private int $siteId;
 
     /**
      * @var int[]
      */
-    private $stack;
+    private array $stack;
 
     private function __construct()
     {

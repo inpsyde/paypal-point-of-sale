@@ -11,7 +11,6 @@ use RuntimeException;
 
 class WooCommerceConfigContainer implements ContainerInterface
 {
-
     /**
      * @param string $id
      *
@@ -25,7 +24,6 @@ class WooCommerceConfigContainer implements ContainerInterface
             throw new class (
                 sprintf('Given WooCommerce Setting: woocommerce_%s doesnt exists.', $id)
             ) extends Exception implements NotFoundExceptionInterface {
-
             };
         }
 

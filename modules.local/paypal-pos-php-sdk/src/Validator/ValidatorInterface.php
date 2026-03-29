@@ -10,7 +10,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 
 interface ValidatorInterface
 {
-
     /**
      * @param $entity
      *

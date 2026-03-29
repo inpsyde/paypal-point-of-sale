@@ -9,11 +9,7 @@ use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 
 class ExportCommand
 {
-
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
+    private QueueProcessor $processor;
 
     /**
      * @var callable
@@ -24,6 +20,7 @@ class ExportCommand
         QueueProcessor $processor,
         callable $createJobRecord
     ) {
+
         $this->processor = $processor;
         $this->createJobRecord = $createJobRecord;
     }

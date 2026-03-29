@@ -6,7 +6,6 @@ namespace Inpsyde\StateMachine\Guard;
 
 interface GuardInterface
 {
-
     /**
      * @param string $transition
      *

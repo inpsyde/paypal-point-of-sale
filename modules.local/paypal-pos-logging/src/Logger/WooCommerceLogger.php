@@ -33,10 +33,7 @@ class WooCommerceLogger implements LoggerInterface
         LogLevel::INFO,
         LogLevel::DEBUG,
     ];
-    /**
-     * @var WC_Logger_Interface
-     */
-    private $wcLogger;
+    private WC_Logger_Interface $wcLogger;
 
     public function __construct(WC_Logger_Interface $wcLogger)
     {

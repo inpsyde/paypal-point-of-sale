@@ -8,11 +8,10 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
 class CompoundValidator implements ValidatorInterface
 {
-
     /**
      * @var ValidatorInterface[]
      */
-    private $validators;
+    private array $validators;
 
     /**
      * CompoundValidator constructor.

@@ -22,21 +22,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ChaosMonkeyPlugin implements Plugin
 {
-
     /**
      * @var int[]
      */
-    private $statusProbability = [];
+    private array $statusProbability = [];
 
-    /**
-     * @var ResponseFactoryInterface
-     */
-    private $responseFactory;
+    private ResponseFactoryInterface $responseFactory;
 
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
     /**
      * ChaosMonkeyPlugin constructor.
@@ -50,6 +43,7 @@ class ChaosMonkeyPlugin implements Plugin
         StreamFactoryInterface $streamFactory,
         array $config = []
     ) {
+
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $resolver = new OptionsResolver();

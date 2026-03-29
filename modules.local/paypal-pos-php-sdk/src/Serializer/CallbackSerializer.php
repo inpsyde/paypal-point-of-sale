@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Serializer;
 
 class CallbackSerializer implements SerializerInterface
 {
-
     /**
      * @var callable
      */

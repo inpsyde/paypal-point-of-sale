@@ -20,7 +20,7 @@ class WonoLogger implements LoggerInterface
     /**
      * @var string the Monolog channel to use
      */
-    private $channel;
+    private string $channel;
 
     public function __construct(string $channel)
     {

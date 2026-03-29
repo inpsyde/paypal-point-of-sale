@@ -6,11 +6,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding;
 
 class RequestDataFilter
 {
-
-    /**
-     * @var array
-     */
-    private $requestData;
+    private array $requestData;
 
     public function __construct(array $requestData)
     {

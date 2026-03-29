@@ -15,11 +15,10 @@ use Inpsyde\Queue\Processor\QueueProcessor;
  */
 class AggregateRunner implements Runner
 {
-
     /**
      * @var Runner[]
      */
-    private $runners;
+    private array $runners;
 
     /**
      * AggregateRunner constructor.

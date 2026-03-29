@@ -10,7 +10,6 @@ use Throwable;
 
 trait ExceptionLoggingTrait
 {
-
     /**
      * Produces an exception trace and passes that to the Logger.
      * if WP_DEBUG is active, the full trace is used, otherwise a shorter on will be produced

@@ -8,16 +8,9 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 trait TransitionEventTrait
 {
+    private string $fromState;
 
-    /**
-     * @var string
-     */
-    private $fromState;
-
-    /**
-     * @var TransitionInterface
-     */
-    private $transition;
+    private TransitionInterface $transition;
 
     public function __construct(string $fromState, TransitionInterface $transition)
     {

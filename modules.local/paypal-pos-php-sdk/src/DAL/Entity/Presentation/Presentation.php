@@ -5,25 +5,14 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Presentation;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ZettleImage;
 
 class Presentation
 {
+    private ImageInterface $image;
 
-    /**
-     * @var ImageInterface
-     */
-    private $image;
+    private string $backgroundColor;
 
-    /**
-     * @var string
-     */
-    private $backgroundColor;
-
-    /**
-     * @var string
-     */
-    private $textColor;
+    private string $textColor;
 
     /**
      * Presentation constructor.
@@ -37,6 +26,7 @@ class Presentation
         ?string $backgroundColor = null,
         ?string $textColor = null
     ) {
+
         $this->image = $image;
         $this->backgroundColor = $backgroundColor;
         $this->textColor = $textColor;

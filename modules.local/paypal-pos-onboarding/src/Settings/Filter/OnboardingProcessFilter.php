@@ -11,7 +11,6 @@ use Syde\PayPal\PointOfSale\Onboarding\OnboardingState as S;
  */
 class OnboardingProcessFilter implements SettingsFilter
 {
-
     private $knownStates = [
         S::WELCOME,
         S::API_CREDENTIALS,
@@ -41,7 +40,7 @@ class OnboardingProcessFilter implements SettingsFilter
      * Needed for IZET-273 fix (old settings were re-submitted)
      * @var string[]
      */
-    private $settingsResetStates = [
+    private array $settingsResetStates = [
         S::WELCOME,
     ];
 
@@ -50,10 +49,7 @@ class OnboardingProcessFilter implements SettingsFilter
         'api_key',
     ];
 
-    /**
-     * @var string
-     */
-    private $currentState;
+    private string $currentState;
 
     /**
      * OnboardingProcessFilter constructor.

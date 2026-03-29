@@ -16,16 +16,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\Validator\ValidatorInterface;
  */
 class ValidatableBuilder implements BuilderInterface
 {
+    private BuilderInterface $builder;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
     public function __construct(BuilderInterface $builder, ValidatorInterface $validator)
     {

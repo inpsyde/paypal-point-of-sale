@@ -8,11 +8,10 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 class StateAwareListenerProvider implements ListenerProviderInterface
 {
-
     /**
      * @var ListenerProvider[]
      */
-    private $listeners = [];
+    private array $listeners = [];
 
     public function listen(string $state, callable $listener)
     {

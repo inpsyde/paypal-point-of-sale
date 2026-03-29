@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Settings\Provider;
 
-use Syde\PayPal\PointOfSale\Provider;
 use Psr\Container\ContainerInterface as C;
+use Syde\PayPal\PointOfSale\Provider;
 
 class SettingsPageProvider implements Provider
 {
-
     /**
      * @var callable
      */

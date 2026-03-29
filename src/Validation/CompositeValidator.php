@@ -6,11 +6,10 @@ namespace Syde\PayPal\PointOfSale\Validation;
 
 class CompositeValidator implements ValidatorInterface
 {
-
     /**
      * @var ValidatorInterface[]
      */
-    private $validators;
+    private array $validators;
 
     /**
      * @param ValidatorInterface[] $validators

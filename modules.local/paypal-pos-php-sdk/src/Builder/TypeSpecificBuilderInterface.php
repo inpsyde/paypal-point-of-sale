@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Builder;
 
 interface TypeSpecificBuilderInterface extends BuilderInterface
 {
-
     /**
      * @param $payload
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType

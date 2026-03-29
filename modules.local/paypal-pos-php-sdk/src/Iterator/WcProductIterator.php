@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Syde\PayPal\PointOfSale\PhpSdk\Iterator;
 
 use Iterator;
@@ -7,7 +9,6 @@ use WC_Product;
 
 interface WcProductIterator extends Iterator
 {
-
     /**
      * Makes the Iterator traverse a different WC_Product instance.
      * the Iterator MUST rewind when receiving a new product

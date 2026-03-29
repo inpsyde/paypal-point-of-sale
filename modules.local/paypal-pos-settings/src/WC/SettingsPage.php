@@ -16,20 +16,11 @@ use WC_Settings_Page;
  */
 class SettingsPage extends WC_Settings_Page
 {
-    /**
-     * @var WC_Settings_API
-     */
-    private $settingsApi;
+    private WC_Settings_API $settingsApi;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var bool
-     */
-    private $isDebugMode;
+    private bool $isDebugMode;
 
     /**
      * @param WC_Settings_API $settingsApi
@@ -45,6 +36,7 @@ class SettingsPage extends WC_Settings_Page
         LoggerInterface $logger,
         bool $isDebugMode
     ) {
+
         $this->settingsApi = $settingsApi;
 
         $this->id = $id;

@@ -9,21 +9,14 @@ use Throwable;
 
 class ZettleRestException extends Exception
 {
-
     const TYPE_ENTITY_NOT_FOUND = 'ENTITY_NOT_FOUND';
     const TYPE_PRODUCT_NOT_TRACKED = 'PRODUCT_NOT_TRACKED';
     const TYPE_UNAUTHENTICATED = 'UNAUTHENTICATED';
     const TYPE_UNKNOWN = 'UNKNOWN';
 
-    /**
-     * @var array
-     */
-    private $json;
+    private array $json;
 
-    /**
-     * @var array
-     */
-    private $payload;
+    private array $payload;
 
     public function __construct(
         string $message = "",

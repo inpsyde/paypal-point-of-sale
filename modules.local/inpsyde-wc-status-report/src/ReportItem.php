@@ -6,20 +6,11 @@ namespace Inpsyde\WcStatusReport;
 
 class ReportItem implements ReportItemInterface
 {
-    /**
-     * @var string
-     */
-    protected $label;
+    protected string $label;
 
-    /**
-     * @var string
-     */
-    protected $exportedLabel;
+    protected string $exportedLabel;
 
-    /**
-     * @var mixed
-     */
-    protected $value;
+    protected mixed $value;
 
     public function __construct(string $label, string $exportedLabel, $value)
     {

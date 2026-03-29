@@ -8,35 +8,17 @@ use DateTime;
 
 class Category
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $etag;
+    private string $etag;
 
-    /**
-     * @var DateTime
-     */
-    private $updatedAt;
+    private DateTime $updatedAt;
 
-    /**
-     * @var string
-     */
-    private $updatedBy;
+    private string $updatedBy;
 
-    /**
-     * @var DateTime
-     */
-    private $createdAt;
+    private DateTime $createdAt;
 
     /**
      * Category constructor.

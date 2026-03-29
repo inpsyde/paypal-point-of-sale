@@ -7,7 +7,6 @@ namespace Inpsyde\Queue\Processor;
 use Inpsyde\Queue\Exception\QueueException;
 use Inpsyde\Queue\Logger\LoggerProviderInterface;
 use Inpsyde\Queue\Queue\Job\JobRepository;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class NetworkQueueProcessor
@@ -21,10 +20,7 @@ class NetworkQueueProcessor implements QueueProcessor, LoggerProviderInterface
 {
     use DecoratingLoggingProviderTrait;
 
-    /**
-     * @var QueueProcessor
-     */
-    private $inner;
+    private QueueProcessor $inner;
 
     /**
      * @var callable The function returning NetworkState object

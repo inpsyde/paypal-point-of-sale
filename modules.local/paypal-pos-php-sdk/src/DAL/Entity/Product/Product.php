@@ -25,90 +25,39 @@ class Product implements ProductTransferInterface, PropertyChangeAwareInterface
 {
     use PropertyChangeAwareTrait;
 
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $description;
+    private string $description;
 
-    /**
-     * @var ImageCollection
-     */
-    private $images;
+    private ImageCollection $images;
 
-    /**
-     * @var VariantCollection
-     */
-    private $variants;
+    private VariantCollection $variants;
 
-    /**
-     * @var Presentation|null
-     */
-    private $presentation;
+    private ?Presentation $presentation = null;
 
-    /**
-     * @var string|null
-     */
-    private $externalReference;
+    private ?string $externalReference = null;
 
-    /**
-     * @var string|null
-     */
-    private $etag;
+    private ?string $etag = null;
 
-    /**
-     * @var DateTime|null
-     */
-    private $updatedAt;
+    private ?DateTime $updatedAt = null;
 
-    /**
-     * @var string|null
-     */
-    private $updatedBy;
+    private ?string $updatedBy = null;
 
-    /**
-     * @var DateTime|null
-     */
-    private $createdAt;
+    private ?DateTime $createdAt = null;
 
-    /**
-     * @var Vat|null
-     */
-    private $vat;
+    private ?Vat $vat = null;
 
-    /**
-     * @var bool|null
-     */
-    private $taxExempt;
+    private ?bool $taxExempt = null;
 
-    /**
-     * @var bool|null
-     */
-    private $usesDefaultTax;
+    private ?bool $usesDefaultTax = null;
 
-    /**
-     * @var string|null
-     */
-    private $unitName;
+    private ?string $unitName = null;
 
-    /**
-     * @var Metadata|null
-     */
-    private $metadata;
+    private ?Metadata $metadata = null;
 
-    /**
-     * @var VariantOptionDefinitions
-     */
-    private $variantOptionDefinitions;
+    private VariantOptionDefinitions $variantOptionDefinitions;
 
     /**
      * Product constructor.
@@ -146,6 +95,7 @@ class Product implements ProductTransferInterface, PropertyChangeAwareInterface
         ?string $unitName = null,
         ?Metadata $metadata = null
     ) {
+
         $this->uuid = $uuid;
         $this->name = $name;
         $this->description = $description;
@@ -447,6 +397,7 @@ class Product implements ProductTransferInterface, PropertyChangeAwareInterface
     public function setVariantOptionDefinitions(
         VariantOptionDefinitions $definitions
     ): void {
+
         $this->variantOptionDefinitions = $definitions;
     }
 }

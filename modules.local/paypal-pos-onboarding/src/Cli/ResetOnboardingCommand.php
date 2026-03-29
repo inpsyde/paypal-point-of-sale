@@ -7,30 +7,17 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Cli;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
-use Inpsyde\Queue\Queue\QueueProcessor;
 use Psr\Log\LoggerInterface;
 
 class ResetOnboardingCommand
 {
-    /**
-     * @var Job
-     */
-    private $resetOnboardingJob;
+    private Job $resetOnboardingJob;
 
-    /**
-     * @var bool
-     */
-    private $isMultisite;
+    private bool $isMultisite;
 
-    /**
-     * @var int
-     */
-    private $currentSiteId;
+    private int $currentSiteId;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @param Job $resetOnboardingJob
@@ -44,6 +31,7 @@ class ResetOnboardingCommand
         int $currentSiteId,
         LoggerInterface $logger
     ) {
+
         $this->resetOnboardingJob = $resetOnboardingJob;
         $this->isMultisite = $isMultisite;
         $this->currentSiteId = $currentSiteId;

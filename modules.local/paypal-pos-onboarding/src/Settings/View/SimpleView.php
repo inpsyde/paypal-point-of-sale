@@ -10,25 +10,13 @@ class SimpleView implements OnboardingView
 {
     use ButtonRendererTrait;
 
-    /**
-     * @var string
-     */
-    private $title;
+    private string $title;
 
-    /**
-     * @var string
-     */
-    private $content;
+    private string $content;
 
-    /**
-     * @var string
-     */
-    private $proceedButtonHtml = '';
+    private string $proceedButtonHtml = '';
 
-    /**
-     * @var string
-     */
-    private $backButtonHtml = '';
+    private string $backButtonHtml = '';
 
     /**
      * SimpleView constructor.
@@ -40,6 +28,7 @@ class SimpleView implements OnboardingView
         string $title,
         string $content
     ) {
+
         $this->title = $title;
         $this->content = $content;
     }

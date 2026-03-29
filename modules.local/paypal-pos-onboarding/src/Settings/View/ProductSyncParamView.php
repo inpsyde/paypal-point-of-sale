@@ -16,35 +16,23 @@ class ProductSyncParamView implements OnboardingView
      */
     private $zettleProductsCountQuery;
 
-    /**
-     * @var int|null
-     */
-    private $zettleProductsCount = null;
+    private ?int $zettleProductsCount = null;
 
     /**
      * @var callable
      */
     private $totalWcProductsCountQuery;
 
-    /**
-     * @var int|null
-     */
-    private $totalWcProductsCount = null;
+    private ?int $totalWcProductsCount = null;
 
     /**
      * @var callable
      */
     private $supportedWcProductsCountQuery;
 
-    /**
-     * @var int|null
-     */
-    private $supportedWcProductsCount;
+    private ?int $supportedWcProductsCount = null;
 
-    /**
-     * @var array
-     */
-    private $documentationLink;
+    private array $documentationLink;
 
     /**
      * ProductSyncParamView constructor.
@@ -60,6 +48,7 @@ class ProductSyncParamView implements OnboardingView
         callable $zettleProductsCountQuery,
         array $documentationLink
     ) {
+
         $this->supportedWcProductsCountQuery = $supportedWcProductsCountQuery;
         $this->totalWcProductsCountQuery = $totalWcProductsCountQuery;
         $this->zettleProductsCountQuery = $zettleProductsCountQuery;
@@ -106,7 +95,7 @@ class ProductSyncParamView implements OnboardingView
             <div class="form-choice-selector">
                 <div class="form-choice-selector-input">
                     <input type="radio" name="woocommerce_zettle_sync_collision_strategy" id="zettle-merge-products"
-                           value="<?php echo esc_attr(SyncCollisionStrategy::MERGE); ?>">
+                            value="<?php echo esc_attr(SyncCollisionStrategy::MERGE); ?>">
                 </div>
 
                 <div class="form-choice-selector-content">
@@ -126,7 +115,7 @@ class ProductSyncParamView implements OnboardingView
             <div class="form-choice-selector">
                 <div class="form-choice-selector-input">
                     <input type="radio" name="woocommerce_zettle_sync_collision_strategy" id="zettle-wipe-products"
-                           value="<?php echo esc_attr(SyncCollisionStrategy::WIPE); ?>">
+                            value="<?php echo esc_attr(SyncCollisionStrategy::WIPE); ?>">
                 </div>
 
                 <div class="form-choice-selector-content">

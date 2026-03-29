@@ -15,7 +15,7 @@ class CompoundLogger implements LoggerInterface
     /**
      * @var LoggerInterface[]
      */
-    private $loggers;
+    private array $loggers;
 
     public function __construct(LoggerInterface ...$loggers)
     {

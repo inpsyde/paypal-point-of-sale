@@ -4,32 +4,22 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Webhooks;
 
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Webhook;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Subscriptions;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Unsubscribes all our webhooks.
  */
 class WebhookDeletion
 {
+    private Webhook $local;
 
-    /**
-     * @var Webhook
-     */
-    private $local;
+    private Subscriptions $subscriptions;
 
-    /**
-     * @var Subscriptions
-     */
-    private $subscriptions;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var callable
@@ -42,6 +32,7 @@ class WebhookDeletion
         LoggerInterface $logger,
         callable $canManageWebhooks
     ) {
+
         $this->subscriptions = $subscriptions;
         $this->local = $local;
         $this->logger = $logger;

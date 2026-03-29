@@ -9,7 +9,6 @@ use WC_Settings_API;
 
 class HiddenFieldRenderer implements FieldRendererInterface
 {
-
     public function accepts(string $fieldId, array $fieldConfig, WC_Settings_API $settingsApi): bool
     {
         return isset($fieldConfig['zettle_hide']);
@@ -32,6 +31,7 @@ class HiddenFieldRenderer implements FieldRendererInterface
         array $fieldConfig,
         WC_Settings_API $settingsApi
     ): string {
+
         ob_start();
         $settingsApi->generate_settings_html([$fieldId => $fieldConfig], true);
 

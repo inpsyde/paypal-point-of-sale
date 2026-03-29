@@ -6,15 +6,9 @@ namespace Syde\PayPal\PointOfSale\ProductSettings\Taxonomy;
 
 class ZettleSyncVisibilityTaxonomy
 {
-    /**
-     * @var string
-     */
-    private $key;
+    private string $key;
 
-    /**
-     * @var string
-     */
-    private $attachedPostType;
+    private string $attachedPostType;
 
     public function __construct(string $key, string $attachedPostType)
     {

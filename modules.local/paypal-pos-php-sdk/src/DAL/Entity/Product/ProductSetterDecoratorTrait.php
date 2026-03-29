@@ -20,7 +20,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
  */
 trait ProductSetterDecoratorTrait
 {
-
     abstract protected function baseWritableProduct(): WritableProductInterface;
 
     public function setUuid(string $uuid): void

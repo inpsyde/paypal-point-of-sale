@@ -8,16 +8,9 @@ use Psr\Container\ContainerInterface;
 
 class JobContainer implements ContainerInterface
 {
+    private ContainerInterface $parent;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $parent;
-
-    /**
-     * @var string
-     */
-    private $prefix;
+    private string $prefix;
 
     public function __construct(ContainerInterface $parent, string $prefix)
     {

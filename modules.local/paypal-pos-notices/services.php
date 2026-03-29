@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Notices;
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Notices\Notice\Admin\CompleteOnboardingNotice;
 use Syde\PayPal\PointOfSale\Notices\Notice\Admin\GlobalConnectionFailedNotice;
 use Syde\PayPal\PointOfSale\Notices\Notice\Admin\IntegrationConnectionFailedNotice;
 use Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 use Syde\PayPal\PointOfSale\Notices\Notice\NoticeInterface;
-use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.notices.notification.notice.info.complete-onboarding' => static function (

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Inpsyde\StateMachine;
 
 use Inpsyde\StateMachine\Event\AggregateProvider;
-use Psr\EventDispatcher\ListenerProviderInterface;
 use Inpsyde\StateMachine\Event\EventDispatcher;
 use Inpsyde\StateMachine\Event\ListenerProvider;
 use Inpsyde\StateMachine\Event\StateAwareListenerProvider;
@@ -18,6 +17,7 @@ use Inpsyde\StateMachine\Initializer\StateQueryInitializer;
 use Inpsyde\StateMachine\Loader\ContainerLoader;
 use Inpsyde\StateMachine\Loader\LoaderInterface;
 use Psr\Container\ContainerInterface as C;
+use Psr\EventDispatcher\ListenerProviderInterface;
 
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);

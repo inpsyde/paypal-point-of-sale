@@ -12,15 +12,9 @@ class LockingQueueProcessor implements QueueProcessor
 {
     use DecoratingLoggingProviderTrait;
 
-    /**
-     * @var QueueProcessor
-     */
-    private $inner;
+    private QueueProcessor $inner;
 
-    /**
-     * @var Locker
-     */
-    private $locker;
+    private Locker $locker;
 
     public function __construct(QueueProcessor $inner, Locker $locker)
     {

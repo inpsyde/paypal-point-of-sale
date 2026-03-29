@@ -8,10 +8,10 @@ use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ExtendingModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\VariantBarcodeSaveHandler;
-use Psr\Container\ContainerInterface as C;
 use WP_Post;
 
 class ProductSettingsModule implements ServiceModule, ExtendingModule, ExecutableModule
@@ -54,6 +54,7 @@ class ProductSettingsModule implements ServiceModule, ExtendingModule, Executabl
         ProductRepositoryInterface $wcProductRepository,
         VariantBarcodeSaveHandler $saveHandler
     ) {
+
         add_action('woocommerce_product_after_variable_attributes', static function (
             int $loop,
             array $variationData,

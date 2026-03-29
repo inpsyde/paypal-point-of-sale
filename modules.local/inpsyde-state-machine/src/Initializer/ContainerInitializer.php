@@ -18,27 +18,18 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerInitializer implements InitializerInterface
 {
+    private string $namespace;
 
-    /**
-     * @var string
-     */
-    private $namespace;
+    private ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var InitializerInterface
-     */
-    private $childInitializer;
+    private InitializerInterface $childInitializer;
 
     public function __construct(
         string $namespace,
         ContainerInterface $container,
         InitializerInterface $childInitializer
     ) {
+
         $this->namespace = $namespace;
         $this->container = $container;
         $this->childInitializer = $childInitializer;
@@ -48,6 +39,7 @@ class ContainerInitializer implements InitializerInterface
         StateMachineInterface $stateMachine,
         StateInterface ...$states
     ): StateInterface {
+
         $key = "{$this->namespace}.initial-state";
         if (!$this->container->has($key)) {
             goto child;

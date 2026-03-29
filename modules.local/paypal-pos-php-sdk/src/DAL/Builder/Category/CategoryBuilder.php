@@ -13,10 +13,7 @@ use Symfony\Component\Uid\Uuid;
 
 class CategoryBuilder extends AbstractBuilder implements CategoryBuilderInterface
 {
-    /**
-     * @var CategoryFactory
-     */
-    private $categoryFactory;
+    private CategoryFactory $categoryFactory;
 
     /**
      * CategoryBuilder constructor.

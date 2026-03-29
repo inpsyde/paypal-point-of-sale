@@ -11,10 +11,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MaximumStockException;
 
 class StockValidator implements ValidatorInterface
 {
-    /**
-     * @var int
-     */
-    protected $maxStock;
+    protected int $maxStock;
 
     /**
      * @param int $maxStock

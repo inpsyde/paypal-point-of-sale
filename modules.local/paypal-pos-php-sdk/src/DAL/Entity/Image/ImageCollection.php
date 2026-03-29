@@ -6,11 +6,10 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image;
 
 final class ImageCollection
 {
-
     /**
      * @var ImageInterface[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
      * ImageCollection constructor.

@@ -12,31 +12,20 @@ class LazyVariant implements VariantInterface, StockQuantityAwareInterface, Pric
 {
     use VariantGetterDecoratorTrait;
 
-    /**
-     * @var int
-     */
-    private $localId;
+    private int $localId;
 
-    /**
-     * @var VariantTransferInterface
-     */
-    private $base;
+    private VariantTransferInterface $base;
 
-    /**
-     * @var MapRecordCreator
-     */
-    private $recordCreator;
+    private MapRecordCreator $recordCreator;
 
-    /**
-     * @var bool
-     */
-    private $persisted;
+    private bool $persisted;
 
     public function __construct(
         int $localId,
         VariantTransferInterface $base,
         MapRecordCreator $recordCreator
     ) {
+
         $this->localId = $localId;
         $this->base = $base;
         $this->recordCreator = $recordCreator;

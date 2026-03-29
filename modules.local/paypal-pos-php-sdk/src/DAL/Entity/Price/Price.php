@@ -6,16 +6,9 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price;
 
 class Price
 {
+    private int $amount;
 
-    /**
-     * @var int
-     */
-    private $amount;
-
-    /**
-     * @var string
-     */
-    private $currencyId;
+    private string $currencyId;
 
     /**
      * Price constructor.
@@ -27,6 +20,7 @@ class Price
         int $amount,
         string $currencyId
     ) {
+
         $this->amount = $amount;
         $this->currencyId = $currencyId;
     }

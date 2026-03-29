@@ -3,13 +3,12 @@
 declare(strict_types=1);
 
 use Inpsyde\Debug\ExceptionFormatter;
-use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Psr\Container\ContainerInterface as C;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 
 return [
     'inpsyde.debug.exception-formatters' => static function (array $previous, C $ctr): array {
         $previous[ZettleRestException::class] = new class implements ExceptionFormatter {
-
             public function format(Throwable $exception): string
             {
                 assert($exception instanceof ZettleRestException);

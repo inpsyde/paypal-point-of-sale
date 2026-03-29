@@ -6,15 +6,9 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Metadata;
 
 class Source
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var bool
-     */
-    private $external;
+    private bool $external;
 
     /**
      * @param string $name

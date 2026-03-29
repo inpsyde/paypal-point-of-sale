@@ -12,26 +12,19 @@ use WC_Product;
  */
 class WcProductIteratorAggregate implements WcProductIterator
 {
-
     /**
      * @var WcProductIterator[]
      */
-    private $iterators;
+    private array $iterators;
 
-    /**
-     * @var WC_Product
-     */
-    private $currentProduct;
+    private WC_Product $currentProduct;
 
-    /**
-     * @var WcProductIterator
-     */
-    private $currentIterator;
+    private WcProductIterator $currentIterator;
 
     /**
      * @var int The key of the current value
      */
-    protected $key = 0;
+    protected int $key = 0;
 
     public function __construct(WcProductIterator ...$iterators)
     {

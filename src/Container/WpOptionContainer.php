@@ -10,16 +10,9 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class WpOptionContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
+    private array $options;
 
-    /**
-     * @var array
-     */
-    private $options;
-
-    /**
-     * @var string
-     */
-    private $optionKey;
+    private string $optionKey;
 
     public function __construct(string $optionKey)
     {
@@ -43,7 +36,6 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
             $this->optionKey
         );
         throw new class ($exceptionMessage) extends Exception implements NotFoundExceptionInterface {
-
         };
     }
 

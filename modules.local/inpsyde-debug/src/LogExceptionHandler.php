@@ -10,21 +10,14 @@ use Throwable;
 
 class LogExceptionHandler implements ExceptionHandler
 {
+    private LoggerInterface $logger;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var ExceptionFormatter
-     */
-    private $formatter;
+    private ExceptionFormatter $formatter;
 
     /**
      * @var string[]
      */
-    private $levels;
+    private array $levels;
 
     public function __construct(
         LoggerInterface $logger,

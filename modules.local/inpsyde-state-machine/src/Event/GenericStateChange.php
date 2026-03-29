@@ -1,4 +1,6 @@
 <?php //phpcs:disable - There is a weird error on PHP7.4 which breaks phpcs when returning $_POST down below
+
+
 declare(strict_types=1);
 
 namespace Inpsyde\StateMachine\Event;
@@ -7,15 +9,9 @@ use Inpsyde\StateMachine\StateMachineInterface;
 
 class GenericStateChange implements StateChange
 {
-    /**
-     * @var string
-     */
-    protected $sourceState;
+    protected string $sourceState;
 
-    /**
-     * @var string
-     */
-    protected $newState;
+    protected string $newState;
 
     public function isPropagationStopped(): bool
     {

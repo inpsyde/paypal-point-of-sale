@@ -7,65 +7,45 @@ namespace Syde\PayPal\PointOfSale\Auth\HTTPlug;
 use Http\Client\Common\Plugin;
 use Http\Message\Authentication;
 use Http\Promise\Promise;
-use Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
-use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use Syde\PayPal\PointOfSale\Auth\OAuth\AuthSuccessHandler;
-use Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
+use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
+use Syde\PayPal\PointOfSale\Auth\OAuth\AuthSuccessHandler;
+use Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
 
 /**
  * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
  */
 class ZettleAuthPlugin implements Plugin
 {
-
     const OAUTH_URL = 'https://oauth.izettle.com/token';
 
-    /**
-     * @var Authentication
-     */
-    private $auth;
+    private Authentication $auth;
 
     /**
      * Flag attempted refreshes for each request.
      *
-     * @var array
      */
-    private $chainStorage = [];
+    private array $chainStorage = [];
 
     /**
      * @var callable
      */
     private $shouldAuthenticate;
 
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
+    private UriFactoryInterface $uriFactory;
 
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
-    /**
-     * @var GrantType
-     */
-    private $authGrantType;
+    private GrantType $authGrantType;
 
-    /**
-     * @var GrantType
-     */
-    private $refreshGrantType;
+    private GrantType $refreshGrantType;
 
-    /**
-     * @var AuthSuccessHandler
-     */
-    private $authSuccessHandler;
+    private AuthSuccessHandler $authSuccessHandler;
 
     public function __construct(
         Authentication $auth,

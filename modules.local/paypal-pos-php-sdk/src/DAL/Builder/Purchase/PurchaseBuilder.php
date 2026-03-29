@@ -15,20 +15,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Type\SourceType;
 
 class PurchaseBuilder implements PurchaseBuilderInterface
 {
-    /**
-     * @var PurchaseFactory
-     */
-    private $purchaseFactory;
+    private PurchaseFactory $purchaseFactory;
 
-    /**
-     * @var UserBuilder
-     */
-    private $userBuilder;
+    private UserBuilder $userBuilder;
 
-    /**
-     * @var CoordinatesBuilder
-     */
-    private $coordinatesBuilder;
+    private CoordinatesBuilder $coordinatesBuilder;
 
     /**
      * PurchaseBuilder constructor.
@@ -42,6 +33,7 @@ class PurchaseBuilder implements PurchaseBuilderInterface
         UserBuilderInterface $userBuilder,
         CoordinatesBuilderInterface $coordinatesBuilder
     ) {
+
         $this->purchaseFactory = $purchaseFactory;
         $this->userBuilder = $userBuilder;
         $this->coordinatesBuilder = $coordinatesBuilder;

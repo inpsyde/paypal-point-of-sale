@@ -17,28 +17,17 @@ use function get_transient;
  */
 class TransientCachingOrganizationProvider implements OrganizationProvider
 {
-
-    /**
-     * @var Organization|null
-     */
-    private $cache;
+    private ?Organization $cache = null;
 
     /**
      * Transient Identifier Key
      *
-     * @var string
      */
-    private $key;
+    private string $key;
 
-    /**
-     * @var int
-     */
-    private $expiration;
+    private int $expiration;
 
-    /**
-     * @var OrganizationProvider
-     */
-    private $provider;
+    private OrganizationProvider $provider;
 
     public function __construct(
         OrganizationProvider $provider,

@@ -10,7 +10,6 @@ use WP_Term;
 
 trait AttributeFormatterTrait
 {
-
     /**
      * @param WC_Product_Attribute|string $attribute
      *

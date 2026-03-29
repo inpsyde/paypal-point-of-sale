@@ -16,16 +16,9 @@ use Psr\Container\ContainerInterface;
  */
 class WcEventsLibrary
 {
+    private ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var WcEventsModule
-     */
-    private $module;
+    private WcEventsModule $module;
 
     /**
      * WcEventsLibrary constructor.
@@ -44,15 +37,9 @@ class WcEventsLibrary
                 new class ($factories, $extensions) implements ServiceModule, ExtendingModule {
                     use ModuleClassNameIdTrait;
 
-                    /**
-                     * @var array
-                     */
-                    private $factories;
+                    private array $factories;
 
-                    /**
-                     * @var array
-                     */
-                    private $extensions;
+                    private array $extensions;
 
                     public function __construct(array $factories, array $extensions)
                     {

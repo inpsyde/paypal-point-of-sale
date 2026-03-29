@@ -9,7 +9,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 
 interface WebhookStorageInterface
 {
-
     /**
      * Persist the Webhook instance
      *

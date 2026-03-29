@@ -14,15 +14,9 @@ class FiFoLogger implements LoggerInterface
 
     private $pool;
 
-    /**
-     * @var string
-     */
-    private $optionKey;
+    private string $optionKey;
 
-    /**
-     * @var int
-     */
-    private $maxItems;
+    private int $maxItems;
 
     /**
      * @var callable
@@ -34,6 +28,7 @@ class FiFoLogger implements LoggerInterface
         int $maxItems,
         callable $flush
     ) {
+
         $this->maxItems = $maxItems;
         $this->pool = new SplQueue();
         foreach ($current as $item) {

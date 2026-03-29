@@ -8,11 +8,10 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 class TransitionAwareListenerProvider implements ListenerProviderInterface
 {
-
     /**
      * @var ListenerProvider[]
      */
-    private $listeners = [];
+    private array $listeners = [];
 
     /**
      * @param string $state

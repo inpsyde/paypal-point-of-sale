@@ -8,7 +8,6 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 class State implements StateInterface
 {
-
     protected $name;
 
     protected $type;
@@ -16,13 +15,14 @@ class State implements StateInterface
     /**
      * @var TransitionInterface[]
      */
-    protected $transitions;
+    protected array $transitions;
 
     public function __construct(
         string $name,
         string $type = self::TYPE_NORMAL,
         array $transitions = []
     ) {
+
         $this->name = $name;
         $this->type = $type;
         $this->transitions = $transitions;
@@ -37,7 +37,7 @@ class State implements StateInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isInitial(): bool
     {
@@ -45,7 +45,7 @@ class State implements StateInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isFinal(): bool
     {
@@ -77,8 +77,8 @@ class State implements StateInterface
     /**
      * @param TransitionInterface $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+	 * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
      */
     public function can($transition): bool
     {

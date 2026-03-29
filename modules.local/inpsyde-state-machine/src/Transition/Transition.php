@@ -6,21 +6,11 @@ namespace Inpsyde\StateMachine\Transition;
 
 class Transition implements TransitionInterface
 {
+    protected array $from;
 
-    /**
-     * @var array
-     */
-    protected $from;
+    protected string $to;
 
-    /**
-     * @var string
-     */
-    protected $to;
-
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
     /**
      * Transition constructor.
@@ -34,6 +24,7 @@ class Transition implements TransitionInterface
         array $from,
         string $to
     ) {
+
         $this->name = $name;
         $this->from = $from;
         $this->to = $to;

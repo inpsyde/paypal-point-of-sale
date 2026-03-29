@@ -8,11 +8,10 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 
 class VariantInventoryStateCollection
 {
-
     /**
      * @var VariantInventoryState[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
      * VariantChangeHistoryCollection constructor.

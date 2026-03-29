@@ -9,11 +9,7 @@ use Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 
 class SyncCommand
 {
-
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
+    private QueueProcessor $processor;
 
     /**
      * @var callable

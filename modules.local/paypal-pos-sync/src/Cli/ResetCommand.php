@@ -9,38 +9,22 @@ use Inpsyde\Queue\Exception\QueueRuntimeException;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\DB\Table as IdMapTable;
-use Psr\Log\LoggerInterface;
 use WP_CLI;
 
 class ResetCommand
 {
+    private Products $productsClient;
 
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    private IdMapTable $idMapTable;
 
-    /**
-     * @var IdMapTable
-     */
-    private $idMapTable;
+    private QueueTable $queueTable;
 
-    /**
-     * @var QueueTable
-     */
-    private $queueTable;
+    private Job $wipeRemoteJob;
 
-    /**
-     * @var Job
-     */
-    private $wipeRemoteJob;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         Job $wipeRemoteJob,

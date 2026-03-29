@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Psr\Container\ContainerInterface;
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
@@ -22,7 +23,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\DescriptionLengthFilter;
 use Syde\PayPal\PointOfSale\PhpSdk\Serializer\CallbackSerializer;
 use Syde\PayPal\PointOfSale\PhpSdk\Serializer\SerializerInterface;
-use Psr\Container\ContainerInterface;
 
 $key = static function (string $className): string {
     return "paypal-pos.sdk.serializer.{$className}";

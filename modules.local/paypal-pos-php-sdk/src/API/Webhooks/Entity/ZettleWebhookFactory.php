@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 
-use Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Nyholm\Psr7\Uri;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Symfony\Component\Uid\Uuid;
 
 class ZettleWebhookFactory implements WebhookFactory
 {
-
     public function fromArray(array $data): Webhook
     {
         if (!Uuid::isValid((string) $data['uuid'])) {

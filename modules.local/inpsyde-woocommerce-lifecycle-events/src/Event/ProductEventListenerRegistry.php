@@ -14,7 +14,6 @@ use WC_Product;
  */
 class ProductEventListenerRegistry
 {
-
     /**
      * Used internally to mark a product as deleted.
      */
@@ -23,12 +22,9 @@ class ProductEventListenerRegistry
     /**
      * @var array<callable(WC_Product,WC_Product):void> The full list of listeners
      */
-    private $listeners = [];
+    private array $listeners = [];
 
-    /**
-     * @var ParameterDeriver
-     */
-    private $parameterDeriver;
+    private ParameterDeriver $parameterDeriver;
 
     /**
      * ProductEventListenerRegistry constructor.

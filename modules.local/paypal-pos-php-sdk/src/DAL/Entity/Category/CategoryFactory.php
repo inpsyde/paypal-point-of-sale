@@ -10,7 +10,6 @@ use Symfony\Component\Uid\Uuid;
 
 class CategoryFactory
 {
-
     /**
      * @param string $name
      * @param string|null $uuid
@@ -30,6 +29,7 @@ class CategoryFactory
         ?string $updatedAt = null,
         ?string $updatedBy = null
     ): Category {
+
         $createdAt = $createdAt
             ? DateTime::createFromFormat('Y-m-d', $createdAt)
             : new DateTime();
@@ -67,6 +67,7 @@ class CategoryFactory
         ?string $updatedAt = null,
         ?string $updatedBy = null
     ): Category {
+
         return new Category(
             $name,
             $uuid,

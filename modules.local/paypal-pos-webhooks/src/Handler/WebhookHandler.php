@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 
 interface WebhookHandler
 {
-
     /**
      * @param Payload $payload
      *

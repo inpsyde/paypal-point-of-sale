@@ -10,11 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 
 class RestOrganizationProvider implements OrganizationProvider
 {
-
-    /**
-     * @var Organizations
-     */
-    private $client;
+    private Organizations $client;
 
     public function __construct(
         Organizations $client

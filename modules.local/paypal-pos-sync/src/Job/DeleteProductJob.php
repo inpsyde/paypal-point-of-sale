@@ -8,11 +8,11 @@ use Inpsyde\Queue\ExceptionLoggingTrait;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
-use Psr\Log\LoggerInterface;
 
 class DeleteProductJob implements Job
 {
@@ -20,15 +20,9 @@ class DeleteProductJob implements Job
 
     const TYPE = 'delete-product';
 
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    private Products $productsClient;
 
-    /**
-     * @var RemoteIdProvider
-     */
-    private $remoteIdProvider;
+    private RemoteIdProvider $remoteIdProvider;
 
     /**
      * @var callable

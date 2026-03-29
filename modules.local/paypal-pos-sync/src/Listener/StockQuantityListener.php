@@ -12,7 +12,6 @@ use WC_Product;
  */
 class StockQuantityListener
 {
-
     /**
      * @var callable
      */
@@ -27,6 +26,7 @@ class StockQuantityListener
         callable $createJob,
         callable $isSyncable
     ) {
+
         $this->createJob = $createJob;
         $this->isSyncable = $isSyncable;
     }

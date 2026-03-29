@@ -15,20 +15,11 @@ use Throwable;
 
 class UnhandledErrorListener
 {
-    /**
-     * @var StateMachineInterface
-     */
-    private $stateMachine;
+    private StateMachineInterface $stateMachine;
 
-    /**
-     * @var PageReloaderInterface
-     */
-    private $pageReloader;
+    private PageReloaderInterface $pageReloader;
 
-    /**
-     * @var bool
-     */
-    private $isDebugMode;
+    private bool $isDebugMode;
 
     /**
      * @param StateMachineInterface $stateMachine

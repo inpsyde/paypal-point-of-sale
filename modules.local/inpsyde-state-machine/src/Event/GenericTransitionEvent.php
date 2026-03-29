@@ -10,29 +10,16 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 class GenericTransitionEvent
 {
-
     const PRE_TRANSITION = 'pre-transition';
     const POST_TRANSITION = 'post-transition';
 
-    /**
-     * @var TransitionInterface
-     */
-    protected $transition;
+    protected TransitionInterface $transition;
 
-    /**
-     * @var StateInterface
-     */
-    protected $fromState;
+    protected StateInterface $fromState;
 
-    /**
-     * @var StateMachineInterface
-     */
-    protected $stateMachine;
+    protected StateMachineInterface $stateMachine;
 
-    /**
-     * @var StateInterface
-     */
-    private $toState;
+    private StateInterface $toState;
 
     public function __construct(
         TransitionInterface $transition,
@@ -40,39 +27,28 @@ class GenericTransitionEvent
         StateInterface $toState,
         StateMachineInterface $stateMachine
     ) {
+
         $this->transition = $transition;
         $this->fromState = $fromState;
         $this->stateMachine = $stateMachine;
         $this->toState = $toState;
     }
 
-    /**
-     * @return TransitionInterface
-     */
     public function transition(): TransitionInterface
     {
         return $this->transition;
     }
 
-    /**
-     * @return StateInterface
-     */
     public function fromState(): StateInterface
     {
         return $this->fromState;
     }
 
-    /**
-     * @return StateMachineInterface
-     */
     public function stateMachine(): StateMachineInterface
     {
         return $this->stateMachine;
     }
 
-    /**
-     * @return StateInterface
-     */
     public function toState(): StateInterface
     {
         return $this->toState;

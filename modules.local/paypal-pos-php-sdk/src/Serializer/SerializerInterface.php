@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Serializer;
 
 interface SerializerInterface
 {
-
     /**
      * @param $entity
      * @param SerializerInterface|null $serializer

@@ -11,100 +11,43 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\User;
 
 final class Purchase
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $uuid1;
+    private string $uuid1;
 
-    /**
-     * @var DateTime
-     */
-    private $timestamp;
+    private DateTime $timestamp;
 
-    /**
-     * @var Coordinates|null
-     */
-    private $coordinates;
+    private ?Coordinates $coordinates = null;
 
-    /**
-     * @var string
-     */
-    private $country;
+    private string $country;
 
-    /**
-     * @var string
-     */
-    private $currency;
+    private string $currency;
 
-    /**
-     * @var User
-     */
-    private $user;
+    private User $user;
 
-    /**
-     * @var int
-     */
-    private $organizationId;
+    private int $organizationId;
 
-    /**
-     * @var int
-     */
-    private $purchaseNumber;
+    private int $purchaseNumber;
 
-    /**
-     * @var float
-     */
-    private $amount;
+    private float $amount;
 
-    /**
-     * @var float
-     */
-    private $vatAmount;
+    private float $vatAmount;
 
-    /**
-     * @var array
-     */
-    private $products;
+    private array $products;
 
-    /**
-     * @var array
-     */
-    private $payments;
+    private array $payments;
 
-    /**
-     * @var array
-     */
-    private $vatAmounts;
+    private array $vatAmounts;
 
-    /**
-     * @var bool
-     */
-    private $receiptCopyAllowed;
+    private bool $receiptCopyAllowed;
 
-    /**
-     * @var bool|null
-     */
-    private $published;
+    private ?bool $published = null;
 
-    /**
-     * @var bool
-     */
-    private $refund;
+    private bool $refund;
 
-    /**
-     * @var bool
-     */
-    private $refunded;
+    private bool $refunded;
 
-    /**
-     * @var SourceType|null
-     */
-    private $sourceType;
+    private ?SourceType $sourceType = null;
 
     /**
      * Purchase constructor.
@@ -128,7 +71,7 @@ final class Purchase
      * @param bool $refund
      * @param bool $refunded
      * @param Coordinates|null $coordinates
-     * @param SourceType $sourceType
+     * @param SourceType|null $sourceType
      * @param bool|null $published
      */
     public function __construct(

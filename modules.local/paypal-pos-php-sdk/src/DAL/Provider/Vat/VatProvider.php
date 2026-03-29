@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat;
 
 use Exception;
@@ -9,7 +11,6 @@ use WC_Product;
 
 interface VatProvider
 {
-
     /**
      * @param WC_Product $wcProduct
      * @return Vat

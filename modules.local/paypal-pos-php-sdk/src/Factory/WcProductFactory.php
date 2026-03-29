@@ -11,22 +11,10 @@ use WC_Product;
 
 class WcProductFactory implements WcProductFactoryInterface
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $izProductRepository;
+    private ProductRepositoryInterface $izProductRepository;
 
-    /**
-     * @var WcProductRepositoryInterface
-     */
-    private $wcProductRepository;
+    private WcProductRepositoryInterface $wcProductRepository;
 
-    /**
-     * ProductRepository constructor.
-     *
-     * @param ProductRepositoryInterface $izProductRepository
-     * @param WcProductRepositoryInterface $wcProductRepository
-     */
     public function __construct(
         ProductRepositoryInterface $izProductRepository,
         WcProductRepositoryInterface $wcProductRepository

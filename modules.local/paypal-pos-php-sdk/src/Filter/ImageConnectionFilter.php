@@ -11,7 +11,6 @@ use WC_Product;
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
 class ImageConnectionFilter implements FilterInterface
 {
-
     /**
      * @inheritDoc
      */

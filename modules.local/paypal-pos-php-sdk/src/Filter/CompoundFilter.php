@@ -8,11 +8,10 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Filter;
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
 class CompoundFilter implements FilterInterface
 {
-
     /**
      * @var FilterInterface[]
      */
-    private $filters;
+    private array $filters;
 
     public function __construct(FilterInterface ...$filters)
     {

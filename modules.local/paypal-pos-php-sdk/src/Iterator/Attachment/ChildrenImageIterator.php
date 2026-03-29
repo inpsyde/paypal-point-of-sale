@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Syde\PayPal\PointOfSale\PhpSdk\Iterator\Attachment;
 
 use Syde\PayPal\PointOfSale\PhpSdk\Iterator\WcProductIterator;
@@ -13,21 +15,14 @@ use WC_Product_Variable;
  */
 class ChildrenImageIterator implements WcProductIterator
 {
-
     /**
      * @var int[]
      */
-    private $children = [];
+    private array $children = [];
 
-    /**
-     * @var int
-     */
-    private $key = 0;
+    private int $key = 0;
 
-    /**
-     * @var WC_Product
-     */
-    private $product;
+    private WC_Product $product;
 
     public function __construct(WC_Product $product)
     {

@@ -8,30 +8,15 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location\Type\LocationType;
 
 class Location
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var LocationType
-     */
-    private $type;
+    private LocationType $type;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string|null
-     */
-    private $description;
+    private ?string $description = null;
 
-    /**
-     * @var bool|null
-     */
-    private $default;
+    private ?bool $default = null;
 
     /**
      * Location constructor.

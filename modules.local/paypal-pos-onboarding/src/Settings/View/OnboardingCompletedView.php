@@ -8,15 +8,9 @@ class OnboardingCompletedView implements OnboardingView
 {
     use ButtonRendererTrait;
 
-    /**
-     * @var array
-     */
-    private $zettleProductsLink;
+    private array $zettleProductsLink;
 
-    /**
-     * @var array
-     */
-    private $settingsLink;
+    private array $settingsLink;
 
     /**
      * @param array $zettleProductsLink

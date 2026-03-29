@@ -15,20 +15,14 @@ class SyncProgressView implements OnboardingView
      */
     private $totalWcProductsCountQuery;
 
-    /**
-     * @var int|null
-     */
-    private $totalWcProductsCount = null;
+    private ?int $totalWcProductsCount = null;
 
     /**
      * @var callable
      */
     private $supportedWcProductsCountQuery;
 
-    /**
-     * @var int|null
-     */
-    private $supportedWcProductsCount;
+    private ?int $supportedWcProductsCount = null;
 
     private string $pluginTitle;
 

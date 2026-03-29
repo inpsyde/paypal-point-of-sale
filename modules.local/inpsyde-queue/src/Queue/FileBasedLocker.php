@@ -6,15 +6,9 @@ namespace Inpsyde\Queue\Queue;
 
 class FileBasedLocker implements Locker
 {
-    /**
-     * @var int
-     */
-    private $timeout;
+    private int $timeout;
 
-    /**
-     * @var string
-     */
-    private $file;
+    private string $file;
 
     /**
      * FileBasedLocker constructor.

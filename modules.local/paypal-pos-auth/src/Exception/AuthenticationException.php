@@ -9,5 +9,4 @@ use Psr\Http\Client\ClientExceptionInterface;
 
 class AuthenticationException extends Exception implements ClientExceptionInterface
 {
-
 }

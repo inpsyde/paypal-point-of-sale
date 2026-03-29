@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image;
 
 interface ImageInterface
 {
-
     /**
      * @return string
      */

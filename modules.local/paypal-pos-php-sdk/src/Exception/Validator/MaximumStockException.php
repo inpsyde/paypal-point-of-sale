@@ -17,6 +17,7 @@ class MaximumStockException extends Exception implements ValidatorException
         int $code = 0,
         ?Throwable $previous = null
     ) {
+
         parent::__construct(
             sprintf(
                 'Stock quantity %1$d exceeding the maximum quantity (%2$d).',

@@ -9,5 +9,4 @@ use Psr\Http\Client\ClientExceptionInterface;
 
 class InvalidTokenException extends Exception implements ClientExceptionInterface
 {
-
 }

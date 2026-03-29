@@ -14,10 +14,7 @@ class WriteOnlyPasswordFieldRenderer implements FieldRendererInterface
 {
     public const DEFAULT_PLACEHOLDER = '**********';
 
-    /**
-     * @var string
-     */
-    protected $placeholder;
+    protected string $placeholder;
 
     /**
      * @param string $placeholder The value put into the field before editing.

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductSettings\Metabox;
 
-use Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use MetaboxOrchestra\BoxAction;
 use MetaboxOrchestra\BoxInfo;
 use MetaboxOrchestra\BoxView;
 use MetaboxOrchestra\Entity;
 use MetaboxOrchestra\PostMetabox;
+use Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use WP_Post;
 
 // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
@@ -17,28 +17,15 @@ use WP_Post;
 
 class ZettleProductLibraryLink implements PostMetabox
 {
-
     public const ID = 'zettle-product-library-link';
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
 
-    /**
-     * @var BoxView
-     */
-    private $view;
+    private BoxView $view;
 
-    /**
-     * @var BoxAction
-     */
-    private $action;
+    private BoxAction $action;
 
-    /**
-     * @var string
-     */
-    private $title;
+    private string $title;
 
     public function __construct(
         ProductRepositoryInterface $repository,

@@ -37,6 +37,7 @@ class WebhookRegistrationJob implements Job
         JobRepository $repository,
         LoggerInterface $logger
     ): bool {
+
         if (!($this->canRegisterWebhooks)()) {
             return true;
         }

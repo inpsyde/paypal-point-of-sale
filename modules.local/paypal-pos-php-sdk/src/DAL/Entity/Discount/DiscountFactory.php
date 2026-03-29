@@ -41,6 +41,7 @@ final class DiscountFactory
         ?string $updatedBy = null,
         ?string $createdAt = null
     ): Discount {
+
         return new Discount(
             $uuid,
             $name,

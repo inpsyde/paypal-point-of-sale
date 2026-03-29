@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 class KlarnaPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var KlarnaPaymentBuilder
-     */
-    private $klarnaPaymentBuilder;
+    private KlarnaPaymentBuilder $klarnaPaymentBuilder;
 
     /**
      * KlarnaPaymentHandler constructor.
@@ -25,11 +22,12 @@ class KlarnaPaymentHandler extends AbstractPaymentHandler
         string $validPaymentType,
         KlarnaPaymentBuilderInterface $klarnaPaymentBuilder
     ) {
+
         parent::__construct($validPaymentType);
         $this->klarnaPaymentBuilder = $klarnaPaymentBuilder;
     }
 
-     /**
+    /**
      * @inheritDoc
      */
     public function serialize(AbstractPaymentMethod $payment): array
@@ -37,7 +35,7 @@ class KlarnaPaymentHandler extends AbstractPaymentHandler
         return $this->klarnaPaymentBuilder->createDataArray($payment);
     }
 
-     /**
+    /**
      * @inheritDoc
      */
     public function deserialize(array $data): AbstractPaymentMethod

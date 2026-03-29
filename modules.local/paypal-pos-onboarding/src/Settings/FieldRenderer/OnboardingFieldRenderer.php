@@ -18,20 +18,11 @@ use WC_Settings_API;
  */
 class OnboardingFieldRenderer implements FieldRendererInterface
 {
-    /**
-     * @var string
-     */
-    private $currentState;
+    private string $currentState;
 
-    /**
-     * @var OnboardingView
-     */
-    private $view;
+    private OnboardingView $view;
 
-    /**
-     * @var OnboardingStepper
-     */
-    private $stepper;
+    private OnboardingStepper $stepper;
 
     /**
      * @var callable
@@ -52,6 +43,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         OnboardingStepper $stepper,
         callable $isIntegrationPage
     ) {
+
         $this->view = $view;
         $this->currentState = $currentState;
         $this->stepper = $stepper;
@@ -81,6 +73,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         array $fieldConfig,
         WC_Settings_API $settingsApi
     ): string {
+
         do_action('inpsyde.zettle.onboarding.rendering-started');
 
         $fieldKey = $settingsApi->get_field_key($fieldId);
@@ -104,7 +97,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
 
         <tr valign="top">
             <th scope="row" class="titledesc">
-               <?php echo $this->renderTableHead($fieldKey, $fieldConfig, $settingsApi); // WPCS: xss ok. ?>
+                <?php echo $this->renderTableHead($fieldKey, $fieldConfig, $settingsApi); // WPCS: xss ok. ?>
             </th>
 
             <td class="forminp">
@@ -129,6 +122,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         array $fieldConfig,
         WC_Settings_API $settingsApi
     ): string {
+
         ob_start(); ?>
 
         <div class="zettle-settings-onboarding-caption">
@@ -161,16 +155,16 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         ob_start(); ?>
 
         <div class="zettle-settings-onboarding-header">
-            <?php echo $this->view->renderHeader();  // WPCS: XSS ok. ?>
+            <?php echo $this->view->renderHeader(); // WPCS: XSS ok. ?>
         </div>
 
         <div class="zettle-settings-onboarding-content">
-            <?php echo $this->view->renderContent();  // WPCS: XSS ok. ?>
+            <?php echo $this->view->renderContent(); // WPCS: XSS ok. ?>
         </div>
 
         <div class="zettle-settings-onboarding-actions">
             <input type="hidden" name="zettle_onboarding_state"
-                   value="<?php echo esc_attr($this->currentState); ?>">
+                    value="<?php echo esc_attr($this->currentState); ?>">
 
             <?php
             echo $this->view->renderProceedButton(); // WPCS: XSS ok.

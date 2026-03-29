@@ -7,9 +7,9 @@ namespace Syde\PayPal\PointOfSale\ProductSettings;
 use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Components\TermManager;
-use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.sync.product.sync-active-for-id' =>

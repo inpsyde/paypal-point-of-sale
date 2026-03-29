@@ -6,15 +6,12 @@ namespace Inpsyde\WcStatusReport;
 
 class StatusReport implements StatusReportInterface
 {
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
 
     /**
      * @var iterable<ReportItem>
      */
-    protected $items;
+    protected iterable $items;
 
     /**
      * @param iterable<ReportItem> $items

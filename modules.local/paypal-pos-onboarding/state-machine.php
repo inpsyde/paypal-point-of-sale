@@ -1,4 +1,6 @@
 <?php // phpcs:disable - There is a weird error on PHP7.4 which breaks phpcs when returning $_POST down below
+
+
 declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Onboarding;
@@ -11,6 +13,8 @@ use Inpsyde\StateMachine\Event\PostTransition;
 use Inpsyde\StateMachine\State\State;
 use Inpsyde\StateMachine\State\StateInterface;
 use Inpsyde\StateMachine\Transition\Transition;
+use Psr\Container\ContainerInterface as C;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\CredentialValidator;
 use Syde\PayPal\PointOfSale\Auth\Validator\Validator;
 use Syde\PayPal\PointOfSale\Onboarding\Event\AuthCheck;
@@ -27,8 +31,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
 use Syde\PayPal\PointOfSale\Sync\PriceSyncMode;
-use Psr\Container\ContainerInterface as C;
-use Psr\Log\LoggerInterface;
 use Throwable;
 
 return [

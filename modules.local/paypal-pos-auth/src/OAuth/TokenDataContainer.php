@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Auth\OAuth;
 
-use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenPropertyException;
-use Syde\PayPal\PointOfSale\Auth\OAuth\Token\Token;
-use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenPropertyException;
+use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 
 /**
  * Class TokenContainer
@@ -18,10 +17,7 @@ use Psr\Container\ContainerInterface;
  */
 class TokenDataContainer implements ContainerInterface
 {
-    /**
-     * @var array
-     */
-    private $accessors;
+    private array $accessors;
 
     /**
      * TokenContainer constructor.

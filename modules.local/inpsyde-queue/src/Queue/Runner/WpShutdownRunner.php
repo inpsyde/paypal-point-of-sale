@@ -21,7 +21,6 @@ use Inpsyde\Queue\Processor\QueueProcessor;
  */
 class WpShutdownRunner implements Runner
 {
-
     private $called = false;
 
     /**

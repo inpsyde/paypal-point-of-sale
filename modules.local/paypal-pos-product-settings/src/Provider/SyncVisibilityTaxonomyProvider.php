@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductSettings\Provider;
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\ProductSettings\Taxonomy\ZettleSyncVisibilityTaxonomy;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
 
 class SyncVisibilityTaxonomyProvider implements Provider
 {
-
-    /**
-     * @var ZettleSyncVisibilityTaxonomy
-     */
-    private $syncVisibilityTaxonomy;
+    private ZettleSyncVisibilityTaxonomy $syncVisibilityTaxonomy;
 
     public function __construct(ZettleSyncVisibilityTaxonomy $syncVisibilityTaxonomy)
     {

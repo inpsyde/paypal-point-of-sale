@@ -18,11 +18,7 @@ use WC_Product_Variation;
  */
 class WooCommerceBuilder implements TypeSpecificBuilderInterface
 {
-
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
     public function __construct(BuilderInterface $builder)
     {

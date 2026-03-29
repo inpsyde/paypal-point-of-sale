@@ -8,6 +8,5 @@ use Inpsyde\StateMachine\StateMachineInterface;
 
 interface LoaderInterface
 {
-
     public function load(StateMachineInterface $stateMachine): StateMachineInterface;
 }

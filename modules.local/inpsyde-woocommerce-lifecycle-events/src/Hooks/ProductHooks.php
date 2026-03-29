@@ -18,26 +18,16 @@ use WC_Product_Variable;
  */
 class ProductHooks
 {
-
     /**
      * @var WC_Product[]
      */
-    private $snapshots = [];
+    private array $snapshots = [];
 
-    /**
-     * @var EventDispatcher
-     */
-    private $dispatcher;
+    private EventDispatcher $dispatcher;
 
-    /**
-     * @var Toggle
-     */
-    private $toggle;
+    private Toggle $toggle;
 
-    /**
-     * @var DispatchDecider
-     */
-    private $decider;
+    private DispatchDecider $decider;
 
     /**
      * ProductHooks constructor.
@@ -49,6 +39,7 @@ class ProductHooks
         Toggle $toggle,
         DispatchDecider $decider
     ) {
+
         $this->dispatcher = $dispatcher;
         $this->toggle = $toggle;
         $this->decider = $decider;

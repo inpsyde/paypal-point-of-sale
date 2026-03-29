@@ -8,30 +8,15 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\Type\PeriodType;
 
 final class PayoutInfo
 {
-    /**
-     * @var float
-     */
-    private $totalBalance;
+    private float $totalBalance;
 
-    /**
-     * @var string
-     */
-    private $currencyId;
+    private string $currencyId;
 
-    /**
-     * @var float
-     */
-    private $nextPayoutAmount;
+    private float $nextPayoutAmount;
 
-    /**
-     * @var float
-     */
-    private $discountRemaining;
+    private float $discountRemaining;
 
-    /**
-     * @var PeriodType
-     */
-    private $period;
+    private PeriodType $period;
 
     /**
      * PayoutInfo constructor.

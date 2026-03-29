@@ -9,7 +9,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Filter;
 
 interface FilterInterface
 {
-
     /**
      * @param mixed $entity
      * @param mixed $payload

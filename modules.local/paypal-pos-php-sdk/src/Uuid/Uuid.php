@@ -31,11 +31,7 @@ use const PHP_INT_SIZE;
  */
 class Uuid
 {
-
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
     public function __construct(string $uuid)
     {

@@ -7,16 +7,15 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Sync\Job;
 
-use Inpsyde\Queue\Exception\QueueLockedException;
 use Inpsyde\Queue\ExceptionLoggingTrait;
 use Inpsyde\Queue\Processor\QueueProcessor;
-use Inpsyde\Queue\Queue\Job\BasicJobRecord;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Inpsyde\WcProductContracts\ProductType;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Inventory as InventoryEntity;
@@ -26,7 +25,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
-use Psr\Log\LoggerInterface;
 use Throwable;
 use WC_Product;
 use WC_Product_Variation;
@@ -37,35 +35,17 @@ class SyncStockJob implements Job
 
     public const TYPE = 'sync-product-stock';
 
-    /**
-     * @var Inventory
-     */
-    private $inventoryClient;
+    private Inventory $inventoryClient;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var OneToManyMapInterface
-     */
-    private $map;
+    private OneToManyMapInterface $map;
 
-    /**
-     * @var int
-     */
-    private $maxStockChange;
+    private int $maxStockChange;
 
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
+    private QueueProcessor $processor;
 
-    /**
-     * @var Job
-     */
-    private $setInventoryTrackingJob;
+    private Job $setInventoryTrackingJob;
 
     /**
      * @param int $maxStockChange iZ API does not allow transactions larger than 100.000

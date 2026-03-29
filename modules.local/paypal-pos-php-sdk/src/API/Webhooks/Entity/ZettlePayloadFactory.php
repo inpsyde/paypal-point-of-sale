@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 
 class ZettlePayloadFactory implements PayloadFactory
 {
-
     public function fromArray(array $data): Payload
     {
         $payload = json_decode($data['payload'], true);

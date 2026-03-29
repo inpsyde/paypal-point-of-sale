@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Inventory;
 
+use Psr\Http\Message\UriInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location\Location;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Psr\Http\Message\UriInterface;
 
 class Locations
 {
-
     private $uri;
 
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
+    private RestClientInterface $restClient;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
     public function __construct(
         UriInterface $uri,

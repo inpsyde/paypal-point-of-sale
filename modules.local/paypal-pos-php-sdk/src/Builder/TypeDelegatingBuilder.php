@@ -9,11 +9,10 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderNotFoundException;
 
 class TypeDelegatingBuilder implements BuilderInterface
 {
-
     /**
      * @var TypeSpecificBuilderInterface[]
      */
-    private $builders;
+    private array $builders;
 
     public function __construct(TypeSpecificBuilderInterface ...$builders)
     {

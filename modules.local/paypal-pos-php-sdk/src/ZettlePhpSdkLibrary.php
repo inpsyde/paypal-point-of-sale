@@ -16,15 +16,9 @@ use Psr\Container\ContainerInterface;
  */
 class ZettlePhpSdkLibrary
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
-    /**
-     * @var PhpSdkModule
-     */
-    private $module;
+    private PhpSdkModule $module;
 
     public function __construct(array $factories = [], array $extensions = [])
     {
@@ -37,15 +31,9 @@ class ZettlePhpSdkLibrary
                 new class ($factories, $extensions) implements ServiceModule, ExtendingModule {
                     use ModuleClassNameIdTrait;
 
-                    /**
-                     * @var array
-                     */
-                    private $factories;
+                    private array $factories;
 
-                    /**
-                     * @var array
-                     */
-                    private $extensions;
+                    private array $extensions;
 
                     public function __construct(array $factories, array $extensions)
                     {

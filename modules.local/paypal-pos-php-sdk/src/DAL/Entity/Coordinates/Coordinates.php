@@ -6,20 +6,11 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates;
 
 final class Coordinates
 {
-    /**
-     * @var float
-     */
-    private $latitude;
+    private float $latitude;
 
-    /**
-     * @var float
-     */
-    private $longitude;
+    private float $longitude;
 
-    /**
-     * @var float
-     */
-    private $accuracyMeters;
+    private float $accuracyMeters;
 
     /**
      * Coordinates constructor.

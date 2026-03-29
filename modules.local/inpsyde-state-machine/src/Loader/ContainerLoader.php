@@ -13,27 +13,18 @@ use Psr\Container\ContainerInterface;
 
 class ContainerLoader implements LoaderInterface
 {
+    private string $namespace;
 
-    /**
-     * @var string
-     */
-    private $namespace;
+    private ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var InitializerInterface
-     */
-    private $initializer;
+    private InitializerInterface $initializer;
 
     public function __construct(
         string $namespace,
         InitializerInterface $initializer,
         ContainerInterface $container
     ) {
+
         $this->namespace = $namespace;
         $this->initializer = $initializer;
         $this->container = $container;

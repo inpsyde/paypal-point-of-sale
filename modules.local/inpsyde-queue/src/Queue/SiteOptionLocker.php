@@ -13,20 +13,11 @@ use Syde\PayPal\PointOfSale\Operator\Option\OptionOperatorInterface;
  */
 class SiteOptionLocker implements Locker
 {
-    /**
-     * @var OptionOperatorInterface
-     */
-    private $optionOperator;
+    private OptionOperatorInterface $optionOperator;
 
-    /**
-     * @var int
-     */
-    private $timeout;
+    private int $timeout;
 
-    /**
-     * @var string
-     */
-    private $optionKey;
+    private string $optionKey;
 
     /**
      * SiteOptionLocker constructor.
@@ -40,6 +31,7 @@ class SiteOptionLocker implements Locker
         int $timeout,
         string $optionKey
     ) {
+
         $this->optionOperator = $optionOperator;
         $this->timeout = $timeout;
         $this->optionKey = $optionKey;

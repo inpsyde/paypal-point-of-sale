@@ -5,38 +5,29 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Settings\WC;
 
 use Exception;
+use RuntimeException;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState as S;
 use Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
-use RuntimeException;
 use WC_Settings_API;
 
 class ZettleIntegration extends WC_Settings_API
 {
-    /**
-     * @var ZettleIntegrationTemplate
-     */
-    private $header;
+    private ZettleIntegrationTemplate $header;
 
-    /**
-     * @var string
-     */
-    private $currentState;
+    private string $currentState;
 
     /**
      * @var FieldRendererInterface[]
      */
-    private $renderers;
+    private array $renderers;
 
     /**
      * @var string[]
      */
-    private $readonlyFieldTypes = ['title', 'zettle-onboarding'];
+    private array $readonlyFieldTypes = ['title', 'zettle-onboarding'];
 
-    /**
-     * @var WritableContainerInterface
-     */
-    private $container;
+    private WritableContainerInterface $container;
 
     public function __construct(
         string $id,
@@ -168,7 +159,7 @@ class ZettleIntegration extends WC_Settings_API
         // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
         // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 
-        echo sprintf(
+        printf(
             '<div class="zettle-settings %s">',
             ($this->currentState === S::ONBOARDING_COMPLETED)
                 ? 'is--completed'

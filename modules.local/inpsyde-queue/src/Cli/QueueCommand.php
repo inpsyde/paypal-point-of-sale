@@ -8,11 +8,7 @@ use Inpsyde\Queue\Processor\QueueProcessor;
 
 class QueueCommand
 {
-
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
+    private QueueProcessor $processor;
 
     public function __construct(QueueProcessor $processor)
     {

@@ -19,15 +19,9 @@ class IntegrationConnectionFailedNotice implements NoticeInterface
      */
     private $authCheckCallback;
 
-    /**
-     * @var bool
-     */
-    private $isSavingSettings;
+    private bool $isSavingSettings;
 
-    /**
-     * @var string
-     */
-    private $apiCreationLink;
+    private string $apiCreationLink;
 
     public function __construct(
         callable $isIntegrationPageCallback,

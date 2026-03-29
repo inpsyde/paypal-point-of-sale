@@ -20,7 +20,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\VatSetterInterface;
  */
 interface WritableProductInterface extends VatSetterInterface
 {
-
     /**
      * @param string $uuid
      */

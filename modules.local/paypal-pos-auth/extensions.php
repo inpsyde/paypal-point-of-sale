@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Auth;
 
 use Http\Client\Common\Plugin\HeaderSetPlugin;
-use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Psr\Container\ContainerInterface;
 
 return [

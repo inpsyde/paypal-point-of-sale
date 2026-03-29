@@ -9,10 +9,7 @@ use Throwable;
 
 class UnhandledError extends GenericStateChange
 {
-    /**
-     * @var Throwable
-     */
-    private $exception;
+    private Throwable $exception;
 
     public function __construct(Throwable $exception)
     {

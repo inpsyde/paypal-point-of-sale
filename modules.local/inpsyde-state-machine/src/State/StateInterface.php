@@ -8,24 +8,14 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 interface StateInterface
 {
-
     const TYPE_INITIAL = 'State.Type.Initial';
     const TYPE_NORMAL = 'State.Type.Normal';
     const TYPE_FINAL = 'State.Type.Final';
 
-    /**
-     * @return string
-     */
     public function name(): string;
 
-    /**
-     * @return boolean
-     */
     public function isInitial(): bool;
 
-    /**
-     * @return boolean
-     */
     public function isFinal(): bool;
 
     /**
@@ -40,8 +30,8 @@ interface StateInterface
     /**
      * @param TransitionInterface|string $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+	 * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
      */
     public function can($transition): bool;
 }

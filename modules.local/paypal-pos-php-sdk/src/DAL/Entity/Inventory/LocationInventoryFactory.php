@@ -14,6 +14,7 @@ class LocationInventoryFactory
         ProductCollection $trackedProducts,
         LocationBalanceCollection $locationBalances
     ): LocationInventory {
+
         return new LocationInventory(
             $uuid,
             $trackedProducts,

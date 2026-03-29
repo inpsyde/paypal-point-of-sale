@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Inpsyde\Queue\Queue\Job;
 
+use DateTime;
 use Exception;
 use Inpsyde\Queue\Db\Table;
-use DateTime;
 use Inpsyde\Queue\Exception\InvalidJobException;
 use Psr\Log\LoggerInterface;
 use stdClass;
@@ -28,26 +28,13 @@ use wpdb;
  */
 class WpDbJobRepository implements JobRepository
 {
+    private wpdb $database;
 
-    /**
-     * @var wpdb
-     */
-    private $database;
+    private Table $queueTable;
 
-    /**
-     * @var Table
-     */
-    private $queueTable;
+    private JobRecordFactoryInterface $jobRecordFactory;
 
-    /**
-     * @var JobRecordFactoryInterface
-     */
-    private $jobRecordFactory;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * NetworkQueueJobRepository constructor.

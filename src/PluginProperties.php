@@ -21,7 +21,6 @@ use Error;
  */
 class PluginProperties
 {
-
     private const HEADER_PROPERTIES = [
         'name' => 'Name',
         'pluginUri' => 'PluginURI',
@@ -36,35 +35,17 @@ class PluginProperties
         'requiresPhp' => 'RequiresPHP',
     ];
 
-    /**
-     * @var string
-     */
-    private $basePath;
+    private string $basePath;
 
-    /**
-     * @var string
-     */
-    private $baseUrl;
+    private string $baseUrl;
 
-    /**
-     * @var string
-     */
-    private $basename;
+    private string $basename;
 
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
-    /**
-     * @var bool
-     */
-    private $debug;
+    private bool $debug;
 
-    /**
-     * @var int|null
-     */
-    private $lastUpdateTimestamp;
+    private ?int $lastUpdateTimestamp = null;
 
     /**
      * @param string $pluginFile
@@ -77,7 +58,7 @@ class PluginProperties
 
         if (!function_exists('get_plugin_data')) {
             /** @psalm-suppress MissingFile */
-            require_once  ABSPATH . 'wp-admin/includes/plugin.php';
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
         $this->data = get_plugin_data($pluginFile, false, false);
@@ -100,7 +81,7 @@ class PluginProperties
             throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, $name));
         }
 
-        return (string)($this->data[$key] ?? '');
+        return (string) ($this->data[$key] ?? '');
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding;
 
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\StateMachine\StateMachineInterface;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\Cli\ResetOnboardingCommand;
 use Syde\PayPal\PointOfSale\Onboarding\Comparison\StoreComparison;
 use Syde\PayPal\PointOfSale\Onboarding\Counter\ProductSyncJobsCounter;
@@ -42,7 +43,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\Provider;
 use Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
-use Psr\Container\ContainerInterface as C;
 use WC_Admin_Settings;
 use wpdb;
 

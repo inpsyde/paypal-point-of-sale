@@ -29,6 +29,7 @@ trait ButtonRendererTrait
         ?string $label = null,
         array $params = []
     ): string {
+
         if ($label === null) {
             $label = $this->getDefaultButtonLabel($action);
         }

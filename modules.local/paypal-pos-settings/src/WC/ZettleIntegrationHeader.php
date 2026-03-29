@@ -19,63 +19,36 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
      */
     private $accountLinkData;
 
-    /**
-     * @var array
-     */
-    private $shopLinkData;
+    private array $shopLinkData;
 
     /**
      * @var callable
      */
     private $linkData;
 
-    /**
-     * @var OrganizationProvider
-     */
-    private $organizationProvider;
+    private OrganizationProvider $organizationProvider;
 
-    /**
-     * @var array
-     */
-    private $disconnectAccountData;
+    private array $disconnectAccountData;
 
-    /**
-     * @var Countable
-     */
-    private $productCounter;
+    private Countable $productCounter;
 
-    /**
-     * @var int|null
-     */
-    private $firstImportTimestamp;
+    private ?int $firstImportTimestamp = null;
 
     /**
      * @var callable(int):string
      */
     private $timestampFormatter;
 
-    /**
-     * @var bool
-     */
-    private $priceSyncEnabled;
+    private bool $priceSyncEnabled;
+
+    private string $title;
+
+    private string $description;
+
+    private string $currentState;
 
     /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string
-     */
-    private $currentState;
-
-    /**
-     * @var bool
+     * @var callable
      */
     private $authCheck;
 
@@ -94,6 +67,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         string $currentState,
         callable $authCheck
     ) {
+
         $this->accountLinkData = $accountLinkData;
         $this->shopLinkData = $shopLinkData;
         $this->linkData = $linkData;
@@ -225,7 +199,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
 
         if ($this->currentState === S::WELCOME || $this->currentState === S::ONBOARDING_COMPLETED) : ?>
             <input type="hidden" name="zettle_onboarding_state"
-                   value="<?php echo esc_attr($this->currentState) ?>">
+                    value="<?php echo esc_attr($this->currentState) ?>">
         <?php endif; // WPCS: xss ok.
 
         if ($this->currentState === S::WELCOME || $this->currentState === S::API_CREDENTIALS) {
@@ -254,35 +228,35 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
 
         if ($this->currentState === S::ONBOARDING_COMPLETED) : ?>
             <div class="zettle-settings-header-merchant-email">
-                  <p><?php echo esc_html((string) $this->email()); ?></p>
+                    <p><?php echo esc_html((string) $this->email()); ?></p>
             </div>
             <?php
             if ($this->firstImportTimestamp) {
                 ?>
                 <div>
-                      <p>
-                          <?= esc_html__('First import: ', 'paypal-point-of-sale'); ?>
-                          <?= esc_html(($this->timestampFormatter)($this->firstImportTimestamp))
+                        <p>
+                            <?= esc_html__('First import: ', 'paypal-point-of-sale'); ?>
+                            <?= esc_html(($this->timestampFormatter)($this->firstImportTimestamp))
                             ?>
-                      </p>
+                        </p>
                 </div>
                 <?php
             }
             ?>
             <div>
-                  <p>
-                      <?= esc_html__('Number of products syncing: ', 'paypal-point-of-sale'); ?>
-                      <?= esc_html((string) $this->productCounter->count()) ?>
-                  </p>
+                    <p>
+                        <?= esc_html__('Number of products syncing: ', 'paypal-point-of-sale'); ?>
+                        <?= esc_html((string) $this->productCounter->count()) ?>
+                    </p>
             </div>
             <div>
-                  <p>
-                      <?= esc_html__('Prices syncing: ', 'paypal-point-of-sale'); ?>
-                      <?= esc_html($this->priceSyncEnabled
-                          ? __('Yes', 'paypal-point-of-sale')
-                          : __('No', 'paypal-point-of-sale'))
+                    <p>
+                        <?= esc_html__('Prices syncing: ', 'paypal-point-of-sale'); ?>
+                        <?= esc_html($this->priceSyncEnabled
+                            ? __('Yes', 'paypal-point-of-sale')
+                            : __('No', 'paypal-point-of-sale'))
                         ?>
-                  </p>
+                    </p>
             </div>
         <?php endif;
 
@@ -330,12 +304,13 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         string $target = '_blank',
         bool $popup = false
     ): string {
+
         ob_start(); ?>
 
         <a href="<?php echo esc_url_raw($url); ?>"
-           class="<?php echo esc_attr($class); ?>"
-           rel="noopener noreferrer"
-           target="<?php echo esc_attr($target); ?>" <?php echo $popup ? 'data-popup="true"' : ''; ?>>
+            class="<?php echo esc_attr($class); ?>"
+            rel="noopener noreferrer"
+            target="<?php echo esc_attr($target); ?>" <?php echo $popup ? 'data-popup="true"' : ''; ?>>
             <?php echo $this->renderLabel($label, esc_html($labelClass), $withIcon); // WPCS: xss ok. ?>
         </a>
 
@@ -363,6 +338,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         string $type = 'submit',
         array $otherAttributes = []
     ): string {
+
         ob_start(); ?>
 
         <button name="<?php echo esc_attr($name); ?>" class="<?php echo esc_attr($class); ?>"
@@ -416,7 +392,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ob_start(); ?>
 
         <svg viewBox="2 2 22 22" xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink">
+            xmlns:xlink="http://www.w3.org/1999/xlink">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <path d="M19.5692298,21.4615374 C20.6538451,21.4615374 21.4615374,20.6538451 21.4615374,19.5692298
                     L21.4615374,12.2307687 L20.0769221,12.2307687 L20.0769221,19.6153836 C20.0769221,19.8692298
@@ -471,7 +447,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                             <?= $content // WPCS: xss ok. ?>
                         </main>
                         <footer class="zettle-settings-onboarding-actions">
-                            <?= $buttonsHtml  // WPCS: xss ok. ?>
+                            <?= $buttonsHtml // WPCS: xss ok. ?>
                         </footer>
                     </div>
                 </div>

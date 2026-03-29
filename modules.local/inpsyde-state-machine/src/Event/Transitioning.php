@@ -8,7 +8,6 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 interface Transitioning
 {
-
     public function fromState(): string;
 
     public function transition(): TransitionInterface;

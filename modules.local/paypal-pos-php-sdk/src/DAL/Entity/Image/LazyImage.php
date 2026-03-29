@@ -14,38 +14,19 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 
 class LazyImage implements ImageInterface
 {
-
     private const FALLBACK = 'https://placehold.co/200x200.jpg?text=WooProduct';
 
-    /**
-     * @var ImageInterface
-     */
-    private $image;
+    private ImageInterface $image;
 
-    /**
-     * @var string
-     */
-    private $localUrl;
+    private string $localUrl;
 
-    /**
-     * @var Images
-     */
-    private $imageClient;
+    private Images $imageClient;
 
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $map;
+    private OneToOneMapInterface $map;
 
-    /**
-     * @var int
-     */
-    private $localId;
+    private int $localId;
 
-    /**
-     * @var UrlProviderInterface
-     */
-    private $urlProvider;
+    private UrlProviderInterface $urlProvider;
 
     /**
      * LazyImage constructor.
@@ -61,6 +42,7 @@ class LazyImage implements ImageInterface
         Images $imageClient,
         OneToOneMapInterface $map
     ) {
+
         $this->imageClient = $imageClient;
         assert($map instanceof MapRecordCreator);
         $this->map = $map;

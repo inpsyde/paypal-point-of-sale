@@ -8,11 +8,10 @@ use Inpsyde\Queue\Db\Table;
 
 class Bootstrap
 {
-
     /**
      * @var Table[]
      */
-    private $tables;
+    private array $tables;
 
     public function __construct(Table ...$tables)
     {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Auth\OAuth;
 
 use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenFactoryInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 
 /**
  * Stores Zettle access tokens in a child container.
@@ -15,21 +15,11 @@ use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
  */
 class ContainerTokenStorage implements TokenPersistorInterface, TokenProviderInterface
 {
+    private WritableContainerInterface $container;
 
-    /**
-     * @var WritableContainerInterface
-     */
-    private $container;
+    private string $key;
 
-    /**
-     * @var string
-     */
-    private $key;
-
-    /**
-     * @var TokenFactoryInterface
-     */
-    private $tokenFactory;
+    private TokenFactoryInterface $tokenFactory;
 
     /**
      * SiteOptionTokenStorage constructor.

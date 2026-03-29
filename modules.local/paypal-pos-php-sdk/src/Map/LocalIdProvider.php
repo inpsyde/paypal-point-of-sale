@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 
 interface LocalIdProvider
 {
-
     /**
      * @param string $remoteId
      * @throws IdNotFoundException

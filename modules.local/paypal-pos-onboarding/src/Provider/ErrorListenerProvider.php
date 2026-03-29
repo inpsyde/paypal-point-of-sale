@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Onboarding\Provider;
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\Listener\UnhandledErrorListener;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
 
 class ErrorListenerProvider implements Provider
 {
-    /**
-     * @var UnhandledErrorListener
-     */
-    private $unhandledErrorListener;
+    private UnhandledErrorListener $unhandledErrorListener;
 
     public function __construct(
         UnhandledErrorListener $unhandledErrorListener
     ) {
+
         $this->unhandledErrorListener = $unhandledErrorListener;
     }
 

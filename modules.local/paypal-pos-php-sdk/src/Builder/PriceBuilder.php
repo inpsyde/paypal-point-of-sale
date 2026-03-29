@@ -4,23 +4,16 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Builder;
 
+use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationMode;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
-use Psr\Container\ContainerInterface;
 use WC_Product;
 
 class PriceBuilder implements BuilderInterface
 {
+    private ContainerInterface $wooCommerceConfig;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $wooCommerceConfig;
-
-    /**
-     * @var string
-     */
-    private $taxationMode;
+    private string $taxationMode;
 
     public function __construct(ContainerInterface $wooCommerceConfig, string $taxationMode)
     {

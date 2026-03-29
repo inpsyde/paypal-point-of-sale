@@ -16,7 +16,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\
 
 class VariantOptionDefinitionsValidator implements ValidatorInterface
 {
-
     public const MAXIMUM_DEFINITIONS_AMOUNT = 3;
 
     /**

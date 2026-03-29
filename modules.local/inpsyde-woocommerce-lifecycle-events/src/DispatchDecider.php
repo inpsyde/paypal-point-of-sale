@@ -12,7 +12,6 @@ use Inpsyde\WcEvents\Event\ProductChangeEvent;
  */
 class DispatchDecider
 {
-
     private $deciders;
 
     /**

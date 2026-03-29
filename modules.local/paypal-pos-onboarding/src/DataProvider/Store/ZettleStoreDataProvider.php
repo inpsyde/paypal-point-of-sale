@@ -13,10 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 
 class ZettleStoreDataProvider implements StoreDataProvider
 {
-    /**
-     * @var OrganizationProvider
-     */
-    private $provider;
+    private OrganizationProvider $provider;
 
     public function __construct(OrganizationProvider $provider)
     {

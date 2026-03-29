@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
 
 class TokenFactory implements TokenFactoryInterface
 {
-
     /**
      * @param array $data
      *

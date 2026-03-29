@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\Validation;
 
 interface ValidatorInterface
 {
-
     /**
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      * @param mixed $value

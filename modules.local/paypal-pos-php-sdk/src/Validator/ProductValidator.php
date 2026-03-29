@@ -11,7 +11,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MinimumVariantsException;
 // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
 class ProductValidator implements ValidatorInterface
 {
-
     public const MINIMUM_VARIANTS_AMOUNT = 0;
     public const MAXIMUM_VARIANTS_AMOUNT = 99;
 

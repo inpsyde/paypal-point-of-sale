@@ -15,16 +15,9 @@ use Psr\Container\ContainerInterface;
  */
 class NamespacedContainer implements ContainerInterface
 {
+    private string $namespace;
 
-    /**
-     * @var string
-     */
-    private $namespace;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $base;
+    private ContainerInterface $base;
 
     public function __construct(string $namespace, ContainerInterface $base)
     {

@@ -8,30 +8,15 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location\Type\LocationType;
 
 class LocationBalance
 {
-    /**
-     * @var string
-     */
-    private $locationUuid;
+    private string $locationUuid;
 
-    /**
-     * @var LocationType
-     */
-    private $locationType;
+    private LocationType $locationType;
 
-    /**
-     * @var string
-     */
-    private $productUuid;
+    private string $productUuid;
 
-    /**
-     * @var string
-     */
-    private $variantUuid;
+    private string $variantUuid;
 
-    /**
-     * @var int
-     */
-    private $balance;
+    private int $balance;
 
     /**
      * LocationBalance constructor.

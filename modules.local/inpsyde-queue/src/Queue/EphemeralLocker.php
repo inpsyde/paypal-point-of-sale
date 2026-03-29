@@ -13,7 +13,6 @@ namespace Inpsyde\Queue\Queue;
  */
 class EphemeralLocker implements Locker
 {
-
     private $isLocked = false;
 
     /**

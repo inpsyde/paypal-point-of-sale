@@ -16,6 +16,7 @@ class UserFactory
         string $id,
         string $displayName
     ): User {
+
         return new User(
             (int) $id,
             $displayName

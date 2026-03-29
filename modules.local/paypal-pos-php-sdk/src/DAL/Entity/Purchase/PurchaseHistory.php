@@ -6,20 +6,11 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase;
 
 final class PurchaseHistory
 {
-    /**
-     * @var string
-     */
-    private $firstPurchaseHash;
+    private string $firstPurchaseHash;
 
-    /**
-     * @var string
-     */
-    private $lastPurchaseHash;
+    private string $lastPurchaseHash;
 
-    /**
-     * @var PurchaseCollection
-     */
-    private $purchaseCollection;
+    private PurchaseCollection $purchaseCollection;
 
     /**
      * PurchaseHistory constructor.

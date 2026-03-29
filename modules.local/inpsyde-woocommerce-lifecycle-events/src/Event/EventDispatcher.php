@@ -14,26 +14,13 @@ use Psr\Log\LoggerInterface;
  */
 class EventDispatcher
 {
+    private ProductEventListenerRegistry $listenerProvider;
 
-    /**
-     * @var ProductEventListenerRegistry
-     */
-    private $listenerProvider;
+    private Toggle $switch;
 
-    /**
-     * @var Toggle
-     */
-    private $switch;
+    private DispatchDecider $decider;
 
-    /**
-     * @var DispatchDecider
-     */
-    private $decider;
-
-    /**
-     * @var LoggerInterface|null
-     */
-    private $logger;
+    private ?LoggerInterface $logger = null;
 
     /**
      * EventDispatcher constructor.
@@ -47,6 +34,7 @@ class EventDispatcher
         ProductEventListenerRegistry $listenerProvider,
         ?LoggerInterface $logger = null
     ) {
+
         $this->listenerProvider = $listenerProvider;
         $this->logger = $logger;
     }

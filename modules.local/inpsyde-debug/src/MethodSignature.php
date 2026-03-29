@@ -11,11 +11,7 @@ use ReflectionParameter;
 
 class MethodSignature
 {
-
-    /**
-     * @var ReflectionMethod
-     */
-    private $method;
+    private ReflectionMethod $method;
 
     public function __construct(ReflectionMethod $method)
     {

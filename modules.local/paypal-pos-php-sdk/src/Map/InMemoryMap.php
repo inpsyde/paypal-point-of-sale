@@ -17,16 +17,9 @@ class InMemoryMap implements
     MapRecordCreator,
     RecordMetaProvider
 {
+    private array $map;
 
-    /**
-     * @var array
-     */
-    private $map;
-
-    /**
-     * @var array
-     */
-    private $meta = [];
+    private array $meta = [];
 
     /**
      * InMemoryMap constructor.

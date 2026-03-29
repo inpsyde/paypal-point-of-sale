@@ -12,7 +12,6 @@ use WC_Settings_API;
  */
 class RemovedFieldRenderer implements FieldRendererInterface
 {
-
     public function accepts(string $fieldId, array $fieldConfig, WC_Settings_API $settingsApi): bool
     {
         return ($fieldConfig['zettle_remove'] ?? false);

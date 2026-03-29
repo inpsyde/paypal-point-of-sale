@@ -7,11 +7,11 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Listener\Products;
 
 use Inpsyde\Queue\Queue\Job\JobRepository;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Listener\ApiRestListener;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkImages;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class OnSuccessDeleteProductsListener
@@ -25,26 +25,16 @@ use Psr\Log\LoggerInterface;
  */
 class OnSuccessDeleteProductsListener implements ApiRestListener
 {
-
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
 
     /**
      * @var callable
      */
     private $createJob;
 
-    /**
-     * @var JobRepository
-     */
-    private $jobRepository;
+    private JobRepository $jobRepository;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * DeleteProductListener constructor.

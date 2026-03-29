@@ -9,20 +9,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Type\PaymentType;
 
 final class InvoicePayment extends AbstractPaymentMethod
 {
-    /**
-     * @var string
-     */
-    private $orderUuid;
+    private string $orderUuid;
 
-    /**
-     * @var string
-     */
-    private $invoiceNumber;
+    private string $invoiceNumber;
 
-    /**
-     * @var DateTime
-     */
-    private $dueDate;
+    private DateTime $dueDate;
 
     /**
      * InvoicePayment constructor.

@@ -10,7 +10,6 @@ use Psr\Log\NullLogger;
 
 trait DecoratingLoggingProviderTrait
 {
-
     abstract protected function inner(): QueueProcessor;
 
     /**

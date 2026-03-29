@@ -14,11 +14,7 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerAwareJobRecordFactory implements JobRecordFactoryInterface
 {
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     /**
      * QueueEntryFactory constructor.

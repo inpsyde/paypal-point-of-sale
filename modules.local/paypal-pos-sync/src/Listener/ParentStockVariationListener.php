@@ -20,7 +20,6 @@ use WC_Product_Variation;
  */
 class ParentStockVariationListener
 {
-
     /**
      * @var callable
      */

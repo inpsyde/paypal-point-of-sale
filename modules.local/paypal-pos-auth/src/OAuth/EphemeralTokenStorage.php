@@ -16,11 +16,7 @@ use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
  */
 class EphemeralTokenStorage implements TokenProviderInterface, TokenPersistorInterface
 {
-
-    /**
-     * @var TokenInterface|null
-     */
-    private $token;
+    private ?TokenInterface $token = null;
 
     /**
      * @param TokenInterface $token

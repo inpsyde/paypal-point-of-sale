@@ -11,20 +11,11 @@ use Psr\Log\LoggerInterface;
 
 class ExcludeCommand
 {
-    /**
-     * @var Job
-     */
-    private $deleteProductJob;
+    private Job $deleteProductJob;
 
-    /**
-     * @var Job
-     */
-    private $unlinkProductJob;
+    private Job $unlinkProductJob;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * ExcludeCommand constructor.
@@ -38,6 +29,7 @@ class ExcludeCommand
         Job $unlinkProductJob,
         LoggerInterface $logger
     ) {
+
         $this->deleteProductJob = $deleteProductJob;
         $this->unlinkProductJob = $unlinkProductJob;
         $this->logger = $logger;

@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
 
 interface GrantType
 {
-
     /**
      * @return string
      */

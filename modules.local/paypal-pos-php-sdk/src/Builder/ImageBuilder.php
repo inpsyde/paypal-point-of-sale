@@ -10,7 +10,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\UnexpectedImageUrlE
 
 class ImageBuilder implements BuilderInterface
 {
-
     /**
      * @inheritDoc
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
@@ -21,6 +20,7 @@ class ImageBuilder implements BuilderInterface
         $payload,
         ?BuilderInterface $builder = null
     ): ImageInterface {
+
         assert(is_array($payload));
         $lookupKey = $this->findLookupKey($payload);
 

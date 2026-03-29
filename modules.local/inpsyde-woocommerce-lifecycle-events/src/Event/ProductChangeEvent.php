@@ -8,7 +8,6 @@ use WC_Product;
 
 interface ProductChangeEvent
 {
-
     /**
      * An instance of the WC_Product before the change was applied
      *

@@ -21,26 +21,13 @@ class WpdbMap implements
     Countable,
     RecordMetaProvider
 {
+    private wpdb $wpdb;
 
-    /**
-     * @var wpdb
-     */
-    private $wpdb;
+    private Table $table;
 
-    /**
-     * @var Table
-     */
-    private $table;
+    private string $type;
 
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var int
-     */
-    private $siteId;
+    private int $siteId;
 
     /**
      * WpdbMap constructor.

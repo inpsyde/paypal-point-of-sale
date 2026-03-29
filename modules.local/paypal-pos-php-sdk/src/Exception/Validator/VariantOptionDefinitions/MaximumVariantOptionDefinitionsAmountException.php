@@ -12,7 +12,6 @@ use Throwable;
 // phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
 class MaximumVariantOptionDefinitionsAmountException extends Exception implements ValidatorException
 {
-
     /**
      * @param int $limit                Maximum amount of VariantOptionDefinitions
      * @param int $amount               VariantOptionDefinitions amount provided

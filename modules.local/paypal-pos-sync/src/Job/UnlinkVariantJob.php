@@ -7,21 +7,17 @@ namespace Syde\PayPal\PointOfSale\Sync\Job;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
+use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
 
 class UnlinkVariantJob implements Job
 {
-
     const TYPE = 'unlink-variant';
 
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $variantMap;
+    private OneToOneMapInterface|MapRecordCreator $variantMap;
 
     /**
      * VariantRepository constructor.

@@ -9,7 +9,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 interface StoreDataProvider
 {
-
     /**
      * @return Vat
      * @throws Exception

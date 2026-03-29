@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\Onboarding;
 
 interface OnboardingState
 {
-
     const WELCOME = 'welcome';
     const API_CREDENTIALS = 'api-credentials';
     const INVALID_CREDENTIALS = 'invalid-credentials';

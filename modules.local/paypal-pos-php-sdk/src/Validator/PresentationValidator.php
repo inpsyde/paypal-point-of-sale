@@ -19,7 +19,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
  */
 class PresentationValidator implements ValidatorInterface
 {
-
     public const HEX_COLOR_LENGTH = 6;
 
     /**

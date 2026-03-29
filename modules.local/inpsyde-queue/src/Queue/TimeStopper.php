@@ -23,15 +23,9 @@ namespace Inpsyde\Queue\Queue;
  */
 class TimeStopper implements Stopper
 {
-    /**
-     * @var int
-     */
-    private $startedAt;
+    private int $startedAt;
 
-    /**
-     * @var int
-     */
-    private $stopAfter;
+    private int $stopAfter;
 
     /**
      * Timer constructor.

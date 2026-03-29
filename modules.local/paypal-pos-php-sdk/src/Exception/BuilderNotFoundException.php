@@ -8,5 +8,4 @@ use Exception;
 
 class BuilderNotFoundException extends Exception implements BuilderException
 {
-
 }

@@ -9,10 +9,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\AccountTransactionFactory;
 
 class AccountTransactionBuilder implements AccountTransactionBuilderInterface
 {
-    /**
-     * @var AccountTransactionFactory
-     */
-    private $accountTransactionFactory;
+    private AccountTransactionFactory $accountTransactionFactory;
 
     /**
      * AccountTransactionBuilder constructor.
@@ -22,6 +19,7 @@ class AccountTransactionBuilder implements AccountTransactionBuilderInterface
     public function __construct(
         AccountTransactionFactory $accountTransactionFactory
     ) {
+
         $this->accountTransactionFactory = $accountTransactionFactory;
     }
 

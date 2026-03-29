@@ -10,11 +10,7 @@ use ReflectionMethod;
 
 class DebugProxyFactory
 {
-
-    /**
-     * @var ExceptionHandler
-     */
-    private $handler;
+    private ExceptionHandler $handler;
 
     public function __construct(ExceptionHandler $handler)
     {

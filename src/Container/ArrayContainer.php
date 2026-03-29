@@ -10,10 +10,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class ArrayContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
     public function __construct(array $options)
     {
@@ -31,7 +28,6 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
                 $id
             );
             throw new class ($exceptionMessage) extends Exception implements NotFoundExceptionInterface {
-
             };
         }
         return $this->options[$id];

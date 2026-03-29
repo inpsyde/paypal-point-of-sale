@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inpsyde\Queue\Queue\Job;
 
 use DateTime;
 
 interface ContextInterface
 {
-
     public function id(): int;
 
     /**

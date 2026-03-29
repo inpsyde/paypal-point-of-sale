@@ -19,27 +19,21 @@ use function WP_CLI\Utils\format_items;
 
 class WebhookCommand
 {
-
-    /**
-     * @var Subscriptions
-     */
-    private $subscriptions;
+    private Subscriptions $subscriptions;
 
     /**
      * @var callable
      */
     private $webhookStorage;
 
-    /**
-     * @var WebhookRegistration
-     */
-    private $webhookRegistration;
+    private WebhookRegistration $webhookRegistration;
 
     public function __construct(
         Subscriptions $subscriptions,
         WebhookStorageInterface $webhookStorage,
         WebhookRegistration $webhookRegistration
     ) {
+
         $this->subscriptions = $subscriptions;
         $this->webhookStorage = $webhookStorage;
         $this->webhookRegistration = $webhookRegistration;

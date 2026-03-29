@@ -11,35 +11,17 @@ class SettingsFieldView implements OnboardingView
 {
     use ButtonRendererTrait;
 
-    /**
-     * @var WC_Settings_API
-     */
-    protected $settingsApi;
+    protected WC_Settings_API $settingsApi;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var string
-     */
-    protected $content;
+    protected string $content;
 
-    /**
-     * @var array
-     */
-    protected $fields;
+    protected array $fields;
 
-    /**
-     * @var string
-     */
-    protected $notice;
+    protected string $notice;
 
-    /**
-     * @var string
-     */
-    protected $allowedFieldTags;
+    protected string $allowedFieldTags;
 
     /**
      * CredentialAwareView constructor.
@@ -65,9 +47,9 @@ class SettingsFieldView implements OnboardingView
         $this->content = $content;
         $this->fields = $fields;
         $this->notice = $notice;
-        $this->allowedFieldTags = !empty($allowedFieldTags) ?
-            $allowedFieldTags :
-            [
+        $this->allowedFieldTags = !empty($allowedFieldTags)
+            ? $allowedFieldTags
+            : [
                 'label',
                 'span',
                 'fieldset',

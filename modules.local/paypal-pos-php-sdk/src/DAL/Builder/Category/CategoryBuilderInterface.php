@@ -1,6 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
 declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Category;

@@ -11,7 +11,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image;
  */
 class WordPressFilePathProvider implements UrlProviderInterface
 {
-
     /**
      * {@inheritDoc}
      */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Presentation\Presentation;
@@ -15,7 +17,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\VatSetterInterface;
  */
 interface WritableVariantInterface extends VatSetterInterface
 {
-
     public function setUuid(string $uuid): void;
 
     public function setName(string $name): void;

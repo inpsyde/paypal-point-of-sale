@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\Onboarding;
 
 interface OnboardingTransition
 {
-
     const TO_WELCOME = 'to-welcome';
     const TO_API_CREDENTIALS = 'to-api-credentials';
     const TO_APP_CREDENTIALS = 'to-app-credentials';

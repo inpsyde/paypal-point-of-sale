@@ -19,10 +19,7 @@ namespace Inpsyde\Queue\Db;
  */
 class QueueTable implements Table
 {
-    /**
-     * @var string
-     */
-    private $namespace;
+    private string $namespace;
 
     public function __construct(string $namespace)
     {

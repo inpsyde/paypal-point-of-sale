@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Builder;
 
 class CallbackBuilder implements BuilderInterface
 {
-
     /**
      * @var callable
      */

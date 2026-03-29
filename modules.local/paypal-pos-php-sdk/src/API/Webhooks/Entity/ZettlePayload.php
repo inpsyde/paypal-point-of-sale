@@ -6,26 +6,13 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 
 class ZettlePayload implements Payload
 {
+    private string $eventName;
 
-    /**
-     * @var string
-     */
-    private $eventName;
+    private string $organizationUuid;
 
-    /**
-     * @var string
-     */
-    private $organizationUuid;
+    private string $messageUuid;
 
-    /**
-     * @var string
-     */
-    private $messageUuid;
-
-    /**
-     * @var array
-     */
-    private $payload;
+    private array $payload;
 
     public function __construct(
         string $eventName,
@@ -33,6 +20,7 @@ class ZettlePayload implements Payload
         string $messageUuid,
         array $payload
     ) {
+
         $this->eventName = $eventName;
         $this->organizationUuid = $organizationUuid;
         $this->messageUuid = $messageUuid;

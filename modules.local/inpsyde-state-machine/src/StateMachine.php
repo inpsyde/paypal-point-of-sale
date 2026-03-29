@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Inpsyde\StateMachine;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Inpsyde\StateMachine\Event\GenericPostTransition;
 use Inpsyde\StateMachine\Event\GenericPreTransition;
 use Inpsyde\StateMachine\Event\StateChange;
@@ -12,11 +11,11 @@ use Inpsyde\StateMachine\Exceptions\DenyTransitionException;
 use Inpsyde\StateMachine\Guard\GuardInterface;
 use Inpsyde\StateMachine\State\StateInterface;
 use Inpsyde\StateMachine\Transition\TransitionInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use UnexpectedValueException;
 
 class StateMachine implements StateMachineInterface
 {
-
     /**
      * trigger when change state
      *
@@ -24,40 +23,26 @@ class StateMachine implements StateMachineInterface
      */
     protected $stateHandler;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $dispatcher;
+    protected EventDispatcherInterface $dispatcher;
 
-    /**
-     * @var StateInterface
-     */
-    protected $currentState;
+    protected StateInterface $currentState;
 
-    /**
-     * @var array
-     */
-    protected $states = [];
+    protected array $states = [];
 
-    /**
-     * @var array
-     */
-    protected $transitions = [];
+    protected array $transitions = [];
 
     /**
      * @var GuardInterface[]
      */
-    private $guards = [];
+    private array $guards = [];
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         ?callable $updateStateHandler = null
     ) {
+
         $this->eventDispatcher = $eventDispatcher;
         $this->stateHandler = $updateStateHandler;
     }
@@ -166,8 +151,8 @@ class StateMachine implements StateMachineInterface
     /**
      * @param string|TransitionInterface $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+	 * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
      */
     public function can($transition): bool
     {
@@ -257,9 +242,9 @@ class StateMachine implements StateMachineInterface
     /**
      * @param string|StateInterface $state
      *
-     * @return boolean
+     * @return bool
      * @throws UnexpectedValueException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+	 * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
      */
     private function getState($state): StateInterface
     {

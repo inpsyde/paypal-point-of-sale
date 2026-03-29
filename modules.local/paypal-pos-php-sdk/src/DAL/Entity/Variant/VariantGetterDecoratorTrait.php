@@ -11,7 +11,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 trait VariantGetterDecoratorTrait
 {
-
     abstract protected function baseVariant(): VariantInterface;
 
     public function uuid(): string

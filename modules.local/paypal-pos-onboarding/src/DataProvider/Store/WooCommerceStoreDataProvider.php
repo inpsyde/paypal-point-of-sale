@@ -10,15 +10,9 @@ use WC_Tax;
 
 class WooCommerceStoreDataProvider implements StoreDataProvider
 {
-    /**
-     * @var array
-     */
-    private $location;
+    private array $location;
 
-    /**
-     * @var array
-     */
-    private $standardTaxRates;
+    private array $standardTaxRates;
 
     /**
      * @param array $location An array with keys country, state, etc., used for looking up taxes.

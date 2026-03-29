@@ -9,11 +9,10 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption;
  */
 class AttributeSet
 {
-
     /**
      * @var array<string, string[]>
      */
-    protected $set = [];
+    protected array $set = [];
 
     /**
      * @param string $type

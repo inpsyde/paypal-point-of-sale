@@ -15,7 +15,6 @@ use WC_Product_Variable;
 
 class VariantOptionDefinitionsBuilder implements BuilderInterface
 {
-
     /**
      * @inheritDoc
      *

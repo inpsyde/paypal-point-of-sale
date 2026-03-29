@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Onboarding\Provider;
 
 use Inpsyde\StateMachine\StateMachineInterface;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\Event\BackButtonPressed;
 use Syde\PayPal\PointOfSale\Onboarding\Event\CancelButtonPressed;
 use Syde\PayPal\PointOfSale\Onboarding\Event\DeleteButtonPressed;
 use Syde\PayPal\PointOfSale\Onboarding\Event\ProceedButtonPressed;
 use Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
 
 class StateMachineProvider implements Provider
 {
-
-    /**
-     * @var StateMachineInterface
-     */
-    private $stateMachine;
+    private StateMachineInterface $stateMachine;
 
     /**
      * StateMachineProvider constructor.

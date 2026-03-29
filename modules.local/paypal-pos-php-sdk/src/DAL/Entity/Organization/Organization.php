@@ -10,140 +10,59 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 final class Organization
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var Vat|null
-     */
-    private $vat;
+    private ?Vat $vat = null;
 
-    /**
-     * @var string
-     */
-    private $currency;
+    private string $currency;
 
-    /**
-     * @var string|null
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    private $city;
+    private ?string $city = null;
 
-    /**
-     * @var string|null
-     */
-    private $zipCode;
+    private ?string $zipCode = null;
 
-    /**
-     * @var string|null
-     */
-    private $address;
+    private ?string $address = null;
 
-    /**
-     * @var string|null
-     */
-    private $phoneNumber;
+    private ?string $phoneNumber = null;
 
-    /**
-     * @var string|null
-     */
-    private $contactEmail;
+    private ?string $contactEmail = null;
 
-    /**
-     * @var string|null
-     */
-    private $receiptEmail;
+    private ?string $receiptEmail = null;
 
-    /**
-     * @var string|null
-     */
-    private $legalEntityType;
+    private ?string $legalEntityType = null;
 
-    /**
-     * @var string|null
-     */
-    private $legalEntityNr;
+    private ?string $legalEntityNr = null;
 
-    /**
-     * @var string|null
-     */
-    private $country;
+    private ?string $country = null;
 
-    /**
-     * @var string|null
-     */
-    private $language;
+    private ?string $language = null;
 
-    /**
-     * @var DateTime|null
-     */
-    private $created;
+    private ?DateTime $created = null;
 
-    /**
-     * @var string|null
-     */
-    private $ownerUuid;
+    private ?string $ownerUuid = null;
 
-    /**
-     * @var int|null
-     */
-    private $organizationId;
+    private ?int $organizationId = null;
 
-    /**
-     * @var string|null
-     */
-    private $customerStatus;
+    private ?string $customerStatus = null;
 
-    /**
-     * @var string
-     */
-    private $taxationMode;
+    private string $taxationMode;
 
-    /**
-     * @var string
-     */
-    private $taxationType;
+    private string $taxationType;
 
-    /**
-     * @var string|null
-     */
-    private $customerType;
+    private ?string $customerType = null;
 
-    /**
-     * @var DateTimeZone
-     */
-    private $timeZone;
+    private DateTimeZone $timeZone;
 
-    /**
-     * @var string|null
-     */
-    private $addressLine2;
+    private ?string $addressLine2 = null;
 
-    /**
-     * @var string|null
-     */
-    private $legalName;
+    private ?string $legalName = null;
 
-    /**
-     * @var string|null
-     */
-    private $legalZipCode;
+    private ?string $legalZipCode = null;
 
-    /**
-     * @var string|null
-     */
-    private $legalCity;
+    private ?string $legalCity = null;
 
-    /**
-     * @var string|null
-     */
-    private $legalState;
+    private ?string $legalState = null;
 
     public function __construct(
         string $uuid,

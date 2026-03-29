@@ -8,16 +8,9 @@ use Psr\Container\ContainerInterface;
 
 class ContainerAwareGuard implements GuardInterface
 {
+    private string $namespace;
 
-    /**
-     * @var string
-     */
-    private $namespace;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(string $namespace, ContainerInterface $container)
     {

@@ -8,20 +8,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Type\PaymentType;
 
 abstract class AbstractPaymentMethod
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var float
-     */
-    private $amount;
+    private float $amount;
 
-    /**
-     * @var PaymentType
-     */
-    private $type;
+    private PaymentType $type;
 
     /**
      * AbstractPaymentMethod constructor.

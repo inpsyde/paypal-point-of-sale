@@ -9,11 +9,7 @@ use MetaboxOrchestra\BoxView;
 
 class ZettleProductLibraryLinkView implements BoxView
 {
-
-    /**
-     * @var string
-     */
-    private $baseLink;
+    private string $baseLink;
 
     public function __construct(string $baseLink)
     {

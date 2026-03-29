@@ -16,7 +16,6 @@ use Inpsyde\Queue\Processor\QueueProcessor;
  */
 interface Runner
 {
-
     /**
      * Register a method to call QueueProcessor::process() at some point.
      *

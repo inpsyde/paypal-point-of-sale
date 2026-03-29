@@ -6,11 +6,10 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant;
 
 final class VariantCollection
 {
-
     /**
      * @var VariantInterface[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
      * VariantCollection constructor.

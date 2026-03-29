@@ -13,20 +13,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Discount\DiscountFactory;
 
 class DiscountBuilder extends AbstractBuilder implements DiscountBuilderInterface
 {
-    /**
-     * @var DiscountFactory
-     */
-    private $discountFactory;
+    private DiscountFactory $discountFactory;
 
-    /**
-     * @var ImageCollectionBuilderInterface
-     */
-    private $imageCollectionBuilder;
+    private ImageCollectionBuilderInterface $imageCollectionBuilder;
 
-    /**
-     * @var PriceBuilderInterface
-     */
-    private $priceBuilder;
+    private PriceBuilderInterface $priceBuilder;
 
     /**
      * DiscountBuilder constructor.
@@ -40,6 +31,7 @@ class DiscountBuilder extends AbstractBuilder implements DiscountBuilderInterfac
         ImageCollectionBuilderInterface $imageCollectionBuilder,
         PriceBuilderInterface $priceBuilder
     ) {
+
         $this->discountFactory = $discountFactory;
         $this->imageCollectionBuilder = $imageCollectionBuilder;
         $this->priceBuilder = $priceBuilder;

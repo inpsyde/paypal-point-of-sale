@@ -10,20 +10,11 @@ use WP_Error;
 
 class TermManager
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $slug;
+    private string $slug;
 
-    /**
-     * @var string
-     */
-    private $taxonomy;
+    private string $taxonomy;
 
     /**
      * ExcludeFromSync constructor.

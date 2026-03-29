@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Products;
 
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 use Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Listener\ApiRestListener;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
@@ -14,8 +16,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Serializer\SerializerInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\UriInterface;
 
 /**
  * Class Products
@@ -28,31 +28,18 @@ use Psr\Http\Message\UriInterface;
  */
 class Products
 {
+    private UriInterface $uri;
 
-    /**
-     * @var UriInterface
-     */
-    private $uri;
-
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
+    private RestClientInterface $restClient;
 
     /**
      * @var callable[]
      */
-    private $listeners;
+    private array $listeners;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
     /**
      * Products constructor.
@@ -70,6 +57,7 @@ class Products
         SerializerInterface $serializer,
         callable ...$listeners
     ) {
+
         $this->uri = $uri;
         $this->restClient = $restClient;
         $this->builder = $builder;

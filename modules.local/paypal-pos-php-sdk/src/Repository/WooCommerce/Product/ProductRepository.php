@@ -92,6 +92,7 @@ class ProductRepository implements ProductRepositoryInterface
         string $status = ProductState::PUBLISH,
         int $limit = -1
     ): array {
+
         return wc_get_products([
             'type' => $types,
             'status' => $status,

@@ -13,10 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 
 class PaymentFactory
 {
-    /**
-     * @var PaymentValidator
-     */
-    private $paymentValidator;
+    private PaymentValidator $paymentValidator;
 
     /**
      * PaymentFactory constructor.
@@ -42,6 +39,7 @@ class PaymentFactory
         float $amount,
         string $paymentType
     ): CardOnlinePayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CARD_ONLINE,
@@ -90,6 +88,7 @@ class PaymentFactory
         ?string $terminalVerificationResults = null,
         ?int $numberOfInstallments = null
     ): CardPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CARD,
@@ -135,6 +134,7 @@ class PaymentFactory
         string $amount,
         string $handedAmount
     ): CashPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CASH,
@@ -171,6 +171,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): CustomPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CUSTOM,
@@ -203,6 +204,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): GiftcardPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::GIFTCARD,
@@ -242,6 +244,7 @@ class PaymentFactory
         string $invoiceNumber,
         string $dueDate
     ): InvoicePayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::INVOICE,
@@ -280,6 +283,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): KlarnaPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::KLARNA,
@@ -312,6 +316,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): MobilePayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::MOBILE,
@@ -344,6 +349,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): PaypalPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::PAYPAL,
@@ -376,6 +382,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): StoreCreditPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::STORE_CREDIT,
@@ -408,6 +415,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): SwishPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::SWISH,
@@ -440,6 +448,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): VippsPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::VIPPS,

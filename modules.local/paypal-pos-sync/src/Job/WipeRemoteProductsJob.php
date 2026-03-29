@@ -8,9 +8,9 @@ use Inpsyde\Queue\ExceptionLoggingTrait;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-use Psr\Log\LoggerInterface;
 
 class WipeRemoteProductsJob implements Job
 {
@@ -18,10 +18,7 @@ class WipeRemoteProductsJob implements Job
 
     const TYPE = 'wipe-remote-products';
 
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    private Products $productsClient;
 
     /**
      * WipeRemoteProductsJob constructor.

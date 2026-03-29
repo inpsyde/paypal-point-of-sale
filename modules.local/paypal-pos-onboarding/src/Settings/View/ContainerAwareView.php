@@ -5,21 +5,14 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 use Inpsyde\StateMachine\StateMachineInterface;
-use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 
 class ContainerAwareView implements OnboardingView
 {
+    private ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var OnboardingView
-     */
-    private $view;
+    private ?OnboardingView $view = null;
 
     public function __construct(ContainerInterface $container)
     {

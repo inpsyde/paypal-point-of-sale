@@ -7,35 +7,22 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Handler;
 use Inpsyde\Queue\Exception\QueueRuntimeException;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\PayPal\PointOfSale\Webhooks\EventName;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
-use Psr\Log\LoggerInterface;
 
 class InventoryBalanceChangedHandler implements WebhookHandler
 {
+    private InventoryBalanceChangedJob $inventoryBalanceChanged;
 
-    /**
-     * @var InventoryBalanceChangedJob
-     */
-    private $inventoryBalanceChanged;
+    private OneToManyMapInterface $variantIdMap;
 
-    /**
-     * @var OneToManyMapInterface
-     */
-    private $variantIdMap;
+    private string $integrationUuid;
 
-    /**
-     * @var string
-     */
-    private $integrationUuid;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         InventoryBalanceChangedJob $inventoryBalanceChanged,

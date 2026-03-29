@@ -20,7 +20,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\
  */
 class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
 {
-
     /**
      * @inheritDoc
      */

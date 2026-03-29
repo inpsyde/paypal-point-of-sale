@@ -8,9 +8,9 @@ use Exception;
 use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
+use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
-use Psr\Container\ContainerInterface;
 use WP_CLI;
 
 class WebhookModule implements ServiceModule, ExecutableModule

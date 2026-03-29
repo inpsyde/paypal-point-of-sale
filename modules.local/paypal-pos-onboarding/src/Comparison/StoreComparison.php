@@ -9,15 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationType;
 
 class StoreComparison
 {
-    /**
-     * @var StoreDataProvider
-     */
-    private $remoteStoreData;
+    private StoreDataProvider $remoteStoreData;
 
-    /**
-     * @var StoreDataProvider
-     */
-    private $localStoreData;
+    private StoreDataProvider $localStoreData;
 
     /**
      * VatCurrencyComparison constructor.

@@ -13,7 +13,6 @@ use WC_Product_Variable;
  */
 class SimpleToVariableTypeChangeListener
 {
-
     /**
      * @var callable
      */

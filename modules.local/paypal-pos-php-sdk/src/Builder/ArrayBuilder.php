@@ -12,11 +12,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Builder;
  */
 class ArrayBuilder implements TypeSpecificBuilderInterface
 {
-
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
     /**
      * @inheritDoc

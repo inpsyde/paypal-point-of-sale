@@ -20,45 +20,24 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\UnsupportedImageFil
  */
 class LocalImageValidator implements ValidatorInterface
 {
-    /**
-     * @var UrlProviderInterface
-     */
-    private $filePathProvider;
+    private UrlProviderInterface $filePathProvider;
 
     /**
      * @var array<int, string>
      */
-    protected $supportedImageTypes;
+    protected array $supportedImageTypes;
 
-    /**
-     * @var int
-     */
-    protected $minFileSize;
+    protected int $minFileSize;
 
-    /**
-     * @var int
-     */
-    protected $maxFileSize;
+    protected int $maxFileSize;
 
-    /**
-     * @var int
-     */
-    protected $minWidth;
+    protected int $minWidth;
 
-    /**
-     * @var int
-     */
-    protected $minHeight;
+    protected int $minHeight;
 
-    /**
-     * @var int
-     */
-    protected $maxWidth;
+    protected int $maxWidth;
 
-    /**
-     * @var int
-     */
-    protected $maxHeight;
+    protected int $maxHeight;
 
     /**
      * @param array<int, string> $supportedImageTypes Key - type of exif_imagetype such as IMAGETYPE_JPEG,
@@ -74,6 +53,7 @@ class LocalImageValidator implements ValidatorInterface
         int $maxWidth,
         int $maxHeight
     ) {
+
         $this->filePathProvider = $filePathProvider;
         $this->supportedImageTypes = $supportedImageTypes;
         $this->minFileSize = $minFileSize;

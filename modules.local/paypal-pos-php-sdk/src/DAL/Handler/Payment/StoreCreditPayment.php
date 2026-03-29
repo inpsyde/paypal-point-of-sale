@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 class StoreCreditPayment extends AbstractPaymentHandler
 {
-    /**
-     * @var StoreCreditPaymentBuilder
-     */
-    private $storeCreditPaymentBuilder;
+    private StoreCreditPaymentBuilder $storeCreditPaymentBuilder;
 
     /**
      * StoreCreditPayment constructor.
@@ -25,6 +22,7 @@ class StoreCreditPayment extends AbstractPaymentHandler
         string $validPaymentType,
         StoreCreditPaymentBuilderInterface $storeCreditPaymentBuilder
     ) {
+
         parent::__construct($validPaymentType);
         $this->storeCreditPaymentBuilder = $storeCreditPaymentBuilder;
     }

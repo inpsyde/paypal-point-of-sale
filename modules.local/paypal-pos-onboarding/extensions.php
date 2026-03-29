@@ -10,11 +10,11 @@ use Inpsyde\StateMachine\Event\StateAwareListenerProvider;
 use Inpsyde\StateMachine\Event\TransitionAwareListenerProvider;
 use Inpsyde\StateMachine\StateMachineInterface;
 use Inpsyde\WcEvents\Toggle;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\OrganizationProvider;
 use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
-use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.init-possible' => static function (bool $previous, C $ctr): bool {

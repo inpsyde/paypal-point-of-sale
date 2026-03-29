@@ -23,11 +23,7 @@ use WC_Product;
  */
 class VariantConnectionFilter implements FilterInterface
 {
-
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $idMap;
+    private OneToOneMapInterface|MapRecordCreator $idMap;
 
     private $lazyPool = [];
 

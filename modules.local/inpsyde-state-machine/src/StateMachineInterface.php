@@ -11,7 +11,6 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 interface StateMachineInterface
 {
-
     /**
      * @param string $initialStateName
      */
@@ -48,8 +47,8 @@ interface StateMachineInterface
     /**
      * @param string|TransitionInterface $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+	 * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
      */
     public function can($transition): bool;
 

@@ -10,15 +10,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseCollectionFactory
 
 class PurchaseCollectionBuilder implements PurchaseCollectionBuilderInterface
 {
-    /**
-     * @var PurchaseCollectionFactory
-     */
-    private $purchaseCollectionFactory;
+    private PurchaseCollectionFactory $purchaseCollectionFactory;
 
-    /**
-     * @var PurchaseBuilder
-     */
-    private $purchaseBuilder;
+    private PurchaseBuilder $purchaseBuilder;
 
     /**
      * PurchaseCollectionBuilder constructor.
@@ -30,6 +24,7 @@ class PurchaseCollectionBuilder implements PurchaseCollectionBuilderInterface
         PurchaseCollectionFactory $purchaseCollectionFactory,
         PurchaseBuilderInterface $purchaseBuilder
     ) {
+
         $this->purchaseCollectionFactory = $purchaseCollectionFactory;
         $this->purchaseBuilder = $purchaseBuilder;
     }

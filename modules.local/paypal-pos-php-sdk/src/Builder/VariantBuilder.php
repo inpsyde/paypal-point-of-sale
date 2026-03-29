@@ -20,26 +20,16 @@ use WC_Product_Variation;
 
 class VariantBuilder implements BuilderInterface
 {
-
     /**
      * @var callable
      */
     private $onException;
 
-    /**
-     * @var string
-     */
-    private $taxationType;
+    private string $taxationType;
 
-    /**
-     * @var BarcodeRetrieverInterface
-     */
-    private $barcodeRetriever;
+    private BarcodeRetrieverInterface $barcodeRetriever;
 
-    /**
-     * @var bool
-     */
-    private $priceSyncEnabled;
+    private bool $priceSyncEnabled;
 
     public function __construct(
         callable $onException,
@@ -47,6 +37,7 @@ class VariantBuilder implements BuilderInterface
         bool $priceSyncEnabled,
         BarcodeRetrieverInterface $barcodeRetriever
     ) {
+
         $this->onException = $onException;
         $this->taxationType = $taxationType;
         $this->priceSyncEnabled = $priceSyncEnabled;

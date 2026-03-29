@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Container\WpOptionContainer;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
-use Syde\PayPal\PointOfSale\Validation\CompositeValidator;
-use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use Syde\PayPal\PointOfSale\Http\PageReloader;
 use Syde\PayPal\PointOfSale\Http\PageReloaderInterface;
 use Syde\PayPal\PointOfSale\Logging\Logger\CompoundLogger;
+use Syde\PayPal\PointOfSale\Validation\CompositeValidator;
 use Syde\PayPal\PointOfSale\Validation\RequiredExtensionsValidator;
 use Syde\PayPal\PointOfSale\Validation\RequiredPluginsValidator;
-use Psr\Container\ContainerInterface as C;
+use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use UnexpectedValueException;
 use WC_Tax;
 

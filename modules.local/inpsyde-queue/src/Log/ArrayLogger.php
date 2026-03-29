@@ -6,7 +6,6 @@ namespace Inpsyde\Queue\Log;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
-use Psr\Log\LogLevel;
 
 /**
  * Class ArrayLogger
@@ -23,15 +22,9 @@ class ArrayLogger implements LoggerInterface
 {
     use LoggerTrait;
 
-    /**
-     * @var array
-     */
-    private $storage = [];
+    private array $storage = [];
 
-    /**
-     * @var LoggerInterface|null
-     */
-    private $childLogger;
+    private ?LoggerInterface $childLogger = null;
 
     public function __construct(LoggerInterface $childLogger = null)
     {

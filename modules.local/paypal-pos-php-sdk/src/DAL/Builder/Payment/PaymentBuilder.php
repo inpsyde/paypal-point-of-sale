@@ -15,7 +15,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
     /**
      * @var PaymentHandlerInterface[]
      */
-    private $paymentHandlers;
+    private array $paymentHandlers;
 
     /**
      * Payment constructor.

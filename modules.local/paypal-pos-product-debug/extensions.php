@@ -7,8 +7,8 @@ namespace Syde\PayPal\PointOfSale\ProductDebug;
 use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
-use Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
 use Psr\Container\ContainerInterface as C;
+use Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
 
 return [
     'inpsyde.assets.registry' => static function (array $previous, C $container): array {
