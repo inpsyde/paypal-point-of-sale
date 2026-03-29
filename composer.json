@@ -69,7 +69,7 @@
     "require-dev": {
         "brain/monkey": "^2.0",
         "fakerphp/faker": "^1.9@dev",
-        "inpsyde/php-coding-standards": "1.0.0-RC.1",
+        "syde/phpcs": "^1.0.1",
         "mockery/mockery": "^1.3",
         "php-stubs/woocommerce-stubs": "^4.3",
         "php-stubs/wordpress-stubs": "^5.4",
