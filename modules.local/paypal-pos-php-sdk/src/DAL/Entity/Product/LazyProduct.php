@@ -21,7 +21,7 @@ class LazyProduct implements ProductTransferInterface
 
     private ProductTransferInterface $base;
 
-    private string $syncedUuid;
+    private ?string $syncedUuid = null;
 
     private Products $productClient;
 

@@ -18,7 +18,7 @@ class LazyImage implements ImageInterface
 
     private ?ImageInterface $image = null;
 
-    private string $localUrl;
+    private string $localUrl = '';
 
     private Images $imageClient;
 

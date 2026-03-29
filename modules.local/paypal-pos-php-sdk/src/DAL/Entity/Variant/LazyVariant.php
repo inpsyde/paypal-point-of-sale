@@ -18,7 +18,7 @@ class LazyVariant implements VariantInterface, StockQuantityAwareInterface, Pric
 
     private MapRecordCreator $recordCreator;
 
-    private bool $persisted;
+    private bool $persisted = false;
 
     public function __construct(
         int $localId,
