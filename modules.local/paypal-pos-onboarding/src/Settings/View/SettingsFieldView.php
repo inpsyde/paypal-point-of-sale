@@ -21,7 +21,7 @@ class SettingsFieldView implements OnboardingView
 
     protected string $notice;
 
-    protected string $allowedFieldTags;
+    protected array $allowedFieldTags;
 
     /**
      * CredentialAwareView constructor.

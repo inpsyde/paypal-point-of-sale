@@ -32,9 +32,9 @@ class Variant implements VariantTransferInterface, StockQuantityAwareInterface, 
 
     private int $defaultQuantity;
 
-    private Presentation $presentation;
+    private ?Presentation $presentation;
 
-    private VariantOptionCollection $options;
+    private ?VariantOptionCollection $options;
 
     private ?string $unitName = null;
 

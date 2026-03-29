@@ -23,14 +23,10 @@ namespace Inpsyde\Queue\Queue;
  */
 class TimeStopper implements Stopper
 {
-    private int $startedAt;
+    private ?float $startedAt = null;
 
-    private int $stopAfter;
+    private float $stopAfter;
 
-    /**
-     * Timer constructor.
-     * @param float $seconds
-     */
     public function __construct(float $seconds)
     {
         $this->stopAfter = $seconds * 1000;

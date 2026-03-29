@@ -17,9 +17,12 @@ class WcProductIteratorAggregate implements WcProductIterator
      */
     private array $iterators;
 
-    private WC_Product $currentProduct;
+    private ?WC_Product $currentProduct = null;
 
-    private WcProductIterator $currentIterator;
+    /**
+     * @var WcProductIterator|null|false
+     */
+    private $currentIterator = null;
 
     /**
      * @var int The key of the current value
@@ -67,9 +70,6 @@ class WcProductIteratorAggregate implements WcProductIterator
 
     public function valid(): bool
     {
-        /**
-         * @psalm-suppress RedundantConditionGivenDocblockType
-         */
         return $this->currentProduct and $this->currentIterator and $this->currentIterator->valid();
     }
 

@@ -10,17 +10,10 @@ class Presentation
 {
     private ImageInterface $image;
 
-    private string $backgroundColor;
+    private ?string $backgroundColor;
 
-    private string $textColor;
+    private ?string $textColor;
 
-    /**
-     * Presentation constructor.
-     *
-     * @param ImageInterface $image
-     * @param string|null $backgroundColor
-     * @param string|null $textColor
-     */
     public function __construct(
         ImageInterface $image,
         ?string $backgroundColor = null,
@@ -32,19 +25,11 @@ class Presentation
         $this->textColor = $textColor;
     }
 
-    /**
-     * @return ImageInterface
-     */
     public function image(): ImageInterface
     {
         return $this->image;
     }
 
-    /**
-     * @param string $image
-     *
-     * @return Presentation
-     */
     public function setImage(ImageInterface $image): Presentation
     {
         $this->image = $image;
@@ -52,19 +37,11 @@ class Presentation
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function backgroundColor(): ?string
     {
         return $this->backgroundColor;
     }
 
-    /**
-     * @param string $backgroundColor
-     *
-     * @return Presentation
-     */
     public function setBackgroundColor(string $backgroundColor): Presentation
     {
         $this->backgroundColor = $backgroundColor;
@@ -72,19 +49,11 @@ class Presentation
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function textColor(): ?string
     {
         return $this->textColor;
     }
 
-    /**
-     * @param string $textColor
-     *
-     * @return Presentation
-     */
     public function setTextColor(string $textColor): Presentation
     {
         $this->textColor = $textColor;

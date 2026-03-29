@@ -16,7 +16,7 @@ class LazyImage implements ImageInterface
 {
     private const FALLBACK = 'https://placehold.co/200x200.jpg?text=WooProduct';
 
-    private ImageInterface $image;
+    private ?ImageInterface $image = null;
 
     private string $localUrl;
 

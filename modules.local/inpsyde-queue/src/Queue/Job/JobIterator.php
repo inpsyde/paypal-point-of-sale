@@ -25,7 +25,7 @@ class JobIterator implements Iterator
      */
     private array $jobs = [];
 
-    private Job $current;
+    private ?JobRecord $current = null;
 
     private int $idx = 0;
 

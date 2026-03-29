@@ -52,7 +52,7 @@ final class Organization
 
     private ?string $customerType = null;
 
-    private DateTimeZone $timeZone;
+    private ?DateTimeZone $timeZone;
 
     private ?string $addressLine2 = null;
 

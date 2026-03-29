@@ -57,7 +57,7 @@ class Product implements ProductTransferInterface, PropertyChangeAwareInterface
 
     private ?Metadata $metadata = null;
 
-    private VariantOptionDefinitions $variantOptionDefinitions;
+    private ?VariantOptionDefinitions $variantOptionDefinitions = null;
 
     /**
      * Product constructor.
