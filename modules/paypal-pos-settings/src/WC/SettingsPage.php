@@ -71,9 +71,8 @@ class SettingsPage extends WC_Settings_Page
             ?>
             </h3>
             <?php 
-            // phpcs:ignore WordPress.Security.EscapeOutput
             echo ob_get_clean();
-            // WPCS: XSS ok.
+            // phpcs:ignore WordPress.Security.EscapeOutput
         }
     }
     /**
