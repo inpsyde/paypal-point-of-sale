@@ -10,7 +10,7 @@ class Guard implements GuardInterface
      * @var callable
      */
     private $callables;
-    private string $fromState;
+    private ?string $fromState = null;
     public function __construct(string $transitionName, ?string $fromState = null, callable ...$callables)
     {
         $this->transitionName = $transitionName;
