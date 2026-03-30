@@ -13,7 +13,7 @@ class Guard implements GuardInterface
      */
     private $callables;
 
-    private string $fromState;
+    private ?string $fromState = null;
 
     public function __construct(
         string $transitionName,

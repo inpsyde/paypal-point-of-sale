@@ -9,7 +9,7 @@ class FeaturedImageIteratorTest extends BrainMonkeyWpTestCase
 
     public function testIterator()
     {
-        $id = 524307891;
+        $id = '524307891';
         $product = Mockery::mock(WC_Product::class);
         $product->shouldReceive('get_image_id')->andReturn($id);
         $testee = new FeaturedImageIterator($product);
