@@ -131,5 +131,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "0.0.0+izet-543-fix-phpcs.ed53a2b"
+    "version": "0.0.0+izet-543-fix-phpcs.41fc0be"
 }
