@@ -8,7 +8,7 @@ use Psr\Http\Message\UriInterface;
 
 class ZettleWebhook implements Webhook
 {
-    const TRANSPORT_NAME = 'WEBHOOK';
+    public const TRANSPORT_NAME = 'WEBHOOK';
 
     private string $uuid;
 

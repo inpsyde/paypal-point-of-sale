@@ -22,7 +22,7 @@ use Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
  */
 class ZettleAuthPlugin implements Plugin
 {
-    const OAUTH_URL = 'https://oauth.izettle.com/token';
+    public const OAUTH_URL = 'https://oauth.izettle.com/token';
 
     private Authentication $auth;
 

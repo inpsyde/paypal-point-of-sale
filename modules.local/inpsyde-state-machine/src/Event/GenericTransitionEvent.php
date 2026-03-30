@@ -10,8 +10,8 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 class GenericTransitionEvent
 {
-    const PRE_TRANSITION = 'pre-transition';
-    const POST_TRANSITION = 'post-transition';
+    public const PRE_TRANSITION = 'pre-transition';
+    public const POST_TRANSITION = 'post-transition';
 
     protected TransitionInterface $transition;
 

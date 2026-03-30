@@ -6,13 +6,13 @@ namespace Syde\PayPal\PointOfSale\Onboarding;
 
 interface OnboardingState
 {
-    const WELCOME = 'welcome';
-    const API_CREDENTIALS = 'api-credentials';
-    const INVALID_CREDENTIALS = 'invalid-credentials';
-    const SYNC_PARAM_PRODUCTS = 'sync-param-products';
-    const SYNC_PARAM_VAT = 'sync-parameters-vat';
-    const SYNC_PROGRESS = 'sync-progress';
-    const SYNC_FINISHED = 'sync-finished';
-    const ONBOARDING_COMPLETED = 'onboarding-completed';
-    const UNHANDLED_ERROR = 'unhandled-error';
+    public const WELCOME = 'welcome';
+    public const API_CREDENTIALS = 'api-credentials';
+    public const INVALID_CREDENTIALS = 'invalid-credentials';
+    public const SYNC_PARAM_PRODUCTS = 'sync-param-products';
+    public const SYNC_PARAM_VAT = 'sync-parameters-vat';
+    public const SYNC_PROGRESS = 'sync-progress';
+    public const SYNC_FINISHED = 'sync-finished';
+    public const ONBOARDING_COMPLETED = 'onboarding-completed';
+    public const UNHANDLED_ERROR = 'unhandled-error';
 }

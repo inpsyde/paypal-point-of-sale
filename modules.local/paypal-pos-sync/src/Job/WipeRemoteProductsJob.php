@@ -16,7 +16,7 @@ class WipeRemoteProductsJob implements Job
 {
     use ExceptionLoggingTrait;
 
-    const TYPE = 'wipe-remote-products';
+    public const TYPE = 'wipe-remote-products';
 
     private Products $productsClient;
 

@@ -18,7 +18,7 @@ namespace Inpsyde\Queue\Db;
  */
 interface Table
 {
-    const MAX_INDEX_LENGTH = 191;
+    public const MAX_INDEX_LENGTH = 191;
 
     /**
      * The name of the database table

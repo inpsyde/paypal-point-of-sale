@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
  */
 class EnqueueProductSyncJob implements Job
 {
-    const TYPE = 'enqueue-products-to-sync';
+    public const TYPE = 'enqueue-products-to-sync';
 
     private array $productTypeWhitelist;
 

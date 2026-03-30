@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 
 class WebhookRegistrationJob implements Job
 {
-    const TYPE = 'webhook-registration';
+    public const TYPE = 'webhook-registration';
 
     /**
      * @var callable

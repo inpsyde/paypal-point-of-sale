@@ -18,7 +18,7 @@ use WC_Product_Variable;
 
 class UnlinkProductJob implements Job
 {
-    const TYPE = 'unlink-product';
+    public const TYPE = 'unlink-product';
 
     private MapRecordCreator|OneToOneMapInterface $productIdMap;
 

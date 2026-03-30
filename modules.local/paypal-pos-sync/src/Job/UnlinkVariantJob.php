@@ -15,7 +15,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 
 class UnlinkVariantJob implements Job
 {
-    const TYPE = 'unlink-variant';
+    public const TYPE = 'unlink-variant';
 
     private OneToOneMapInterface|MapRecordCreator $variantMap;
 

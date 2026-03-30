@@ -8,9 +8,9 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 interface StateInterface
 {
-    const TYPE_INITIAL = 'State.Type.Initial';
-    const TYPE_NORMAL = 'State.Type.Normal';
-    const TYPE_FINAL = 'State.Type.Final';
+    public const TYPE_INITIAL = 'State.Type.Initial';
+    public const TYPE_NORMAL = 'State.Type.Normal';
+    public const TYPE_FINAL = 'State.Type.Final';
 
     public function name(): string;
 

@@ -10,7 +10,7 @@ use Throwable;
 
 class CredentialValidator
 {
-    const ENDPOINT = 'https://oauth.izettle.com/users/me';
+    public const ENDPOINT = 'https://oauth.izettle.com/users/me';
 
     private AuthenticatedClientFactory $clientFactory;
 

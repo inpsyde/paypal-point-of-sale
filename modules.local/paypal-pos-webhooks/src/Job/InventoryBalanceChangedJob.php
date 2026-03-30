@@ -13,7 +13,7 @@ use Syde\PayPal\PointOfSale\Sync\Job\SyncStockJob;
 
 class InventoryBalanceChangedJob implements Job
 {
-    const TYPE = 'webhook-inventory-balance-changed';
+    public const TYPE = 'webhook-inventory-balance-changed';
 
     private Toggle $toggle;
 

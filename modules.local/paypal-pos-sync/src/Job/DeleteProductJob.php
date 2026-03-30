@@ -18,7 +18,7 @@ class DeleteProductJob implements Job
 {
     use ExceptionLoggingTrait;
 
-    const TYPE = 'delete-product';
+    public const TYPE = 'delete-product';
 
     private Products $productsClient;
 

@@ -44,7 +44,7 @@ class ExportProductJob implements Job
     use ExceptionLoggingTrait;
     use VariableInventoryChecker;
 
-    const TYPE = 'sync-product';
+    public const TYPE = 'sync-product';
 
     private ProductRepositoryInterface $repository;
 
