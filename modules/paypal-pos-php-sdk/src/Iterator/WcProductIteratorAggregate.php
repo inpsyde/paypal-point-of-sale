@@ -31,10 +31,12 @@ class WcProductIteratorAggregate implements WcProductIterator
     #[\ReturnTypeWillChange]
     public function current()
     {
+        assert($this->currentIterator instanceof WcProductIterator);
         return $this->currentIterator->current();
     }
     public function next(): void
     {
+        assert($this->currentIterator instanceof WcProductIterator);
         $this->key++;
         $this->currentIterator->next();
         if (!$this->valid()) {
