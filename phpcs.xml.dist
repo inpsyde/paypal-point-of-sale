@@ -23,5 +23,6 @@
     	<rule ref="Syde-Extra">
 			<exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" />
 			<exclude name="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly.ReferencedGeneralException" />
+			<exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingTraversableTypeHintSpecification" />
 		</rule>
 </ruleset>
