@@ -97,12 +97,12 @@ class OnboardingFieldRenderer implements FieldRendererInterface
 
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <?php echo $this->renderTableHead($fieldKey, $fieldConfig, $settingsApi); // WPCS: xss ok. ?>
+                <?php echo $this->renderTableHead($fieldKey, $fieldConfig, $settingsApi); // phpcs:ignore WordPress.Security.EscapeOutput ?>
             </th>
 
             <td class="forminp">
                 <div class="zettle-settings-onboarding-container">
-                    <?php echo $this->renderTableContent(); // WPCS: xss ok. ?>
+                    <?php echo $this->renderTableContent(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
                 </div>
             </td>
         </tr>
@@ -131,7 +131,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
                     <label for="<?php echo esc_attr($fieldKey); ?>">
                         <?php
                             echo wp_kses_post($fieldConfig['title']);
-                            echo $settingsApi->get_tooltip_html($fieldConfig); // WPCS: XSS ok.
+                            echo $settingsApi->get_tooltip_html($fieldConfig); // phpcs:ignore WordPress.Security.EscapeOutput
                         ?>
                     </label>
                 <?php endif; ?>
@@ -155,11 +155,11 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         ob_start(); ?>
 
         <div class="zettle-settings-onboarding-header">
-            <?php echo $this->view->renderHeader(); // WPCS: XSS ok. ?>
+            <?php echo $this->view->renderHeader(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
         </div>
 
         <div class="zettle-settings-onboarding-content">
-            <?php echo $this->view->renderContent(); // WPCS: XSS ok. ?>
+            <?php echo $this->view->renderContent(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
         </div>
 
         <div class="zettle-settings-onboarding-actions">
@@ -167,8 +167,8 @@ class OnboardingFieldRenderer implements FieldRendererInterface
                     value="<?php echo esc_attr($this->currentState); ?>">
 
             <?php
-            echo $this->view->renderProceedButton(); // WPCS: XSS ok.
-            echo $this->view->renderBackButton(); // WPCS: XSS ok.
+            echo $this->view->renderProceedButton(); // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->view->renderBackButton(); // phpcs:ignore WordPress.Security.EscapeOutput
             ?>
         </div>
 

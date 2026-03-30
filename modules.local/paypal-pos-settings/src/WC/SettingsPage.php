@@ -65,18 +65,8 @@ class SettingsPage extends WC_Settings_Page
         return $this->settingsApi->get_form_fields();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return void
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     */
     public function output()
     {
-        // phpcs:enable
-
         try {
             $this->settingsApi->admin_options();
         } catch (Throwable $exception) {
@@ -100,7 +90,7 @@ class SettingsPage extends WC_Settings_Page
                     'paypal-point-of-sale'
                 ) ?>
             </h3>
-            <?php echo ob_get_clean(); // WPCS: XSS ok.
+            <?php echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput
         }
     }
 

@@ -16,14 +16,11 @@ class ZettleProductLibraryLinkView implements BoxView
         $this->baseLink = $baseLink;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function render(BoxInfo $info): string
     {
         ob_start(); ?>
 
-        <a href="<?php echo $this->productLink($info['uuid']); // wps.xss ok ?>"
+        <a href="<?php echo $this->productLink($info['uuid']); // phpcs:ignore WordPress.Security.EscapeOutput ?>"
             target="_blank" rel="noreferrer noopener">
             View Product at PayPal Point of Sale
         </a>
@@ -31,10 +28,6 @@ class ZettleProductLibraryLinkView implements BoxView
         <?php return ob_get_clean();
     }
 
-    /**
-     * @param string $productUuid
-     * @return string
-     */
     private function productLink(string $productUuid): string
     {
         return sprintf(
