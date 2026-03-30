@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85d014e2bad99762009b1522e8ba0e9e",
+    "content-hash": "4abf7116acee3d7ff506d043a9202972",
     "packages": [
         {
             "name": "brain/nonces",
@@ -472,7 +472,7 @@
         },
         {
             "name": "inpsyde/inpsyde-debug",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-debug",
@@ -506,7 +506,7 @@
         },
         {
             "name": "inpsyde/inpsyde-http-client",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-http-client",
@@ -533,7 +533,7 @@
         },
         {
             "name": "inpsyde/inpsyde-queue",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-queue",
@@ -566,7 +566,7 @@
         },
         {
             "name": "inpsyde/inpsyde-state-machine",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-state-machine",
@@ -598,7 +598,7 @@
         },
         {
             "name": "inpsyde/inpsyde-woocommerce-lifecycle-events",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-woocommerce-lifecycle-events",
@@ -765,7 +765,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-assets",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-assets",
@@ -787,7 +787,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-auth",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-auth",
@@ -814,7 +814,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-logging",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-logging",
@@ -850,7 +850,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-notices",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-notices",
@@ -871,7 +871,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-onboarding",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-onboarding",
@@ -906,7 +906,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-php-sdk",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-php-sdk",
@@ -944,7 +944,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-product-debug",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-product-debug",
@@ -965,7 +965,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-product-settings",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-product-settings",
@@ -987,7 +987,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-queue",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-queue",
@@ -1009,7 +1009,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-settings",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-settings",
@@ -1030,7 +1030,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-sync",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-sync",
@@ -1052,7 +1052,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-webhooks",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-webhooks",
@@ -1163,7 +1163,7 @@
         },
         {
             "name": "inpsyde/wc-product-contracts",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./packages.local/wc-product-contracts",
@@ -1194,7 +1194,7 @@
         },
         {
             "name": "inpsyde/wc-status-report",
-            "version": "dev-dev/main",
+            "version": "dev-dev/IZET-543-fix-phpcs",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-wc-status-report",
