@@ -116,7 +116,7 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
 
     add_action(
         'plugins_loaded',
-        static function () {
+        static function (): void {
             $package = init();
 
             if (!$package) {

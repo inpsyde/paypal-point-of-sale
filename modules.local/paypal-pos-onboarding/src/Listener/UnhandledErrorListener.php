@@ -42,7 +42,7 @@ class UnhandledErrorListener
      * @throws DenyTransitionException
      * @throws Throwable if in debug mode
      */
-    public function __invoke(Throwable $error)
+    public function __invoke(Throwable $error): void
     {
         if ($this->isDebugMode) {
             throw $error;

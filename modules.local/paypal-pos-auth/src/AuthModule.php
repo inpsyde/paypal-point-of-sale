@@ -48,7 +48,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 
         add_action(
             'inpsyde.zettle.settings.updated',
-            static function (array $changed) use ($container) {
+            static function (array $changed) use ($container): void {
                 if (empty($changed)) {
                     return;
                 }

@@ -34,7 +34,7 @@ class StateMachineProvider implements Provider
     {
         add_action(
             'woocommerce_init',
-            function () {
+            function (): void {
                 if (!is_admin()) {
                     return;
                 }

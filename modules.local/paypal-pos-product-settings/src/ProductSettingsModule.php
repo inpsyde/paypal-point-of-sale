@@ -62,7 +62,7 @@ class ProductSettingsModule implements ServiceModule, ExtendingModule, Executabl
         ) use (
             $barcodeField,
             $wcProductRepository
-        ) {
+        ): void {
             $variation = $wcProductRepository->findById((int) $variationPost->ID);
             if (!$variation) {
                 return;

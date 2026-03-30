@@ -29,7 +29,7 @@ class ProductExcludeProvider implements Provider
     {
         add_action(
             'added_term_relationship',
-            function (int $objectId, int $termId, string $taxonomy) {
+            function (int $objectId, int $termId, string $taxonomy): void {
                 if ($this->productExcludeHandler->isExcludable($objectId, $taxonomy, $termId)) {
                     return;
                 }
@@ -42,7 +42,7 @@ class ProductExcludeProvider implements Provider
 
         add_action(
             'delete_term_relationships',
-            function (int $objectId, array $termIds, string $taxonomy) {
+            function (int $objectId, array $termIds, string $taxonomy): void {
                 $termIds = array_map('absint', $termIds);
 
                 if (!$this->productExcludeHandler->isIncludable($objectId, $taxonomy, ...$termIds)) {

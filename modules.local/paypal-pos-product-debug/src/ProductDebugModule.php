@@ -64,7 +64,7 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
 
         add_action(
             'manage_posts_custom_column',
-            static function ($columnName) use ($customColumn) {
+            static function ($columnName) use ($customColumn): void {
                 if (!is_admin()) {
                     return;
                 }
