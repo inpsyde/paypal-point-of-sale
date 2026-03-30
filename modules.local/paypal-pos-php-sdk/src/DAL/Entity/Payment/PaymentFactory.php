@@ -191,19 +191,13 @@ class PaymentFactory
     }
 
     /**
-     * @param string $uuid
-     * @param string $paymentType
-     * @param float $amount
-     *
-     * @return GiftcardPayment
-     *
      * @throws EntityFactoryException
      */
     public function createGiftcardPayment(
         string $uuid,
         string $paymentType,
         float $amount
-    ): GiftcardPayment {
+    ): GiftCardPayment {
 
         try {
             $this->paymentValidator->validate(
@@ -214,13 +208,13 @@ class PaymentFactory
             throw new EntityFactoryException(
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
-                    GiftcardPayment::class,
+                    GiftCardPayment::class,
                     esc_html($validatorException->getMessage())
                 )
             );
         }
 
-        return new GiftcardPayment($uuid, $amount);
+        return new GiftCardPayment($uuid, $amount);
     }
 
     /**
