@@ -33,7 +33,7 @@ class BarcodeInputField
         $this->containerClasses = $containerClasses;
     }
 
-    // phpcs:ignore Inpsyde.CodeQuality.FunctionLength.TooLong
+    // phpcs:ignore Syde.Functions.FunctionLength.TooLong
     public function render(WC_Product $product, ?int $index = null): string
     {
         $name = $this->name . ($index !== null ? "[$index]" : '');

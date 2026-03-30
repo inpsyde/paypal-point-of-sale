@@ -12,7 +12,7 @@ interface BuilderInterface
      * @param string $className
      * @param mixed $payload
      * @param BuilderInterface|null $builder
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * @return mixed
      * @throws BuilderException
      */

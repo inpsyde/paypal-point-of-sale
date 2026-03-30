@@ -41,7 +41,7 @@ class WooCommerceLogger implements LoggerInterface
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @inheritDoc
      */

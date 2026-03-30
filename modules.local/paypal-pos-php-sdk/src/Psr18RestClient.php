@@ -104,7 +104,7 @@ class Psr18RestClient implements RestClientInterface
      *
      * @throws ZettleRestException
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     private function sendRequest(
         string $method,

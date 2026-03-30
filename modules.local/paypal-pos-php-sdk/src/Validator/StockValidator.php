@@ -7,7 +7,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Validator;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\StockQuantityAwareInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MaximumStockException;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 class StockValidator implements ValidatorInterface
 {

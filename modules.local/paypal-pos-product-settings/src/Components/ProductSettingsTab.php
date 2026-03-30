@@ -87,7 +87,7 @@ class ProductSettingsTab
      *
      * @return mixed
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      */
     public function addTab($tabs)
@@ -127,7 +127,7 @@ class ProductSettingsTab
      *
      * @return void
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function renderSettings(bool $addBarcodeInput): void
     {

@@ -27,7 +27,7 @@ class DebugProxyFactory
      *
      * @param $subject
      * @param string ...$methods
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      *

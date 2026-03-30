@@ -56,7 +56,7 @@ class ValidationEndpoint implements EndpointInterface
     /** @inheritDoc */
     public function args(): array
     {
-        // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+        // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
         // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
         return [
             'value' => [

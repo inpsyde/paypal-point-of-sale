@@ -8,7 +8,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MaximumVariantsException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MinimumVariantsException;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 class ProductValidator implements ValidatorInterface
 {
     public const MINIMUM_VARIANTS_AMOUNT = 0;

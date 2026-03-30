@@ -13,7 +13,7 @@ class ImageBuilder implements BuilderInterface
     /**
      * @inheritDoc
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(
         string $className,

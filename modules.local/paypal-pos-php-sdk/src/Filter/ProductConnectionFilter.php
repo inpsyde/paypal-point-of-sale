@@ -12,7 +12,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use WC_Product;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
 
 /**

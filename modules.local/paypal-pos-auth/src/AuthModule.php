@@ -37,7 +37,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
     /**
      * @inheritDoc
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function run(ContainerInterface $container): bool
     {

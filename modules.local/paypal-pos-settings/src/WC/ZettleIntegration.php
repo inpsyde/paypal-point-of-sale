@@ -78,7 +78,7 @@ class ZettleIntegration extends WC_Settings_API
      *
      * @return mixed|string
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function get_option($key, $emptyValue = null)
     {
@@ -183,7 +183,7 @@ class ZettleIntegration extends WC_Settings_API
      * @param bool $echo
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
@@ -266,7 +266,7 @@ class ZettleIntegration extends WC_Settings_API
      *
      * @return bool was anything saved?
      * @since 3.4.0
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */

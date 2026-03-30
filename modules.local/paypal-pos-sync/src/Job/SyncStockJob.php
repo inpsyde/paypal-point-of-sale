@@ -70,7 +70,7 @@ class SyncStockJob implements Job
     /**
      * @inheritDoc
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function execute(
         ContextInterface $context,
@@ -377,7 +377,7 @@ class SyncStockJob implements Job
      *
      * @return string[]
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     private function fetchVariantUuids(
         WC_Product $product,

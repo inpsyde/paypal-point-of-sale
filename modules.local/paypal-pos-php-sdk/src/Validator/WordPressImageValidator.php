@@ -18,7 +18,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\UnsupportedImageFil
  * before syncing, but that would be pretty insane. So we allow ourselves to use the stored data
  * from the WordPress Attachment Information directly.
  *
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
  */
 class WordPressImageValidator implements ValidatorInterface
 {

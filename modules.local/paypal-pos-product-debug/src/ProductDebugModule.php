@@ -27,7 +27,7 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function run(C $container): bool
     {

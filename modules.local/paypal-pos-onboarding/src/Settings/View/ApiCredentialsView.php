@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+// phpcs:disable Syde.Functions.FunctionLength.TooLong
 
 namespace Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 

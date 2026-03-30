@@ -9,7 +9,7 @@ use Throwable;
 
 /**
  * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
  * phpcs:disable Inpsyde.CodeQuality.LineLength.TooLong
  */
 class InvalidBuilderPayloadException extends Exception implements BuilderException, ValidatorException

@@ -16,7 +16,7 @@ class TransitionAwareListenerProvider implements ListenerProviderInterface
     /**
      * @param string $state
      * @param $listener
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function listen(string $state, $listener)
     {

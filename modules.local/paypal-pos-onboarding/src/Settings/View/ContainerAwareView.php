@@ -41,7 +41,7 @@ class ContainerAwareView implements OnboardingView
 
     /**
      * @return OnboardingView
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
      */
     private function view(): OnboardingView

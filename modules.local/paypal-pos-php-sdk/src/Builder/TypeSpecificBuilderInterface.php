@@ -9,7 +9,7 @@ interface TypeSpecificBuilderInterface extends BuilderInterface
     /**
      * @param $payload
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * @return bool
      */
     public function accepts($payload): bool;

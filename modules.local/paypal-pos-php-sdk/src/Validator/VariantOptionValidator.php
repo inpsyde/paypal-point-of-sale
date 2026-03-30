@@ -8,7 +8,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOption;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOption\MaximumVariantOptionNameCharacterLengthException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOption\MinimumVariantOptionNameCharacterLengthException;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 class VariantOptionValidator implements ValidatorInterface
 {

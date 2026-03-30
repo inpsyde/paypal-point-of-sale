@@ -434,14 +434,14 @@ return array_merge(
                 );
             },
         'paypal-pos.sdk.api.products.listener.update' => static function (C $container): callable {
-            //phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+            //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
             return static function (string $operation, $payload, bool $success) use ($container) {
                 //Silence. This is only here so that extensions can add actual listeners
             };
             //phpcs:enable
         },
         'paypal-pos.sdk.api.products.listener.delete' => static function (C $container): callable {
-            //phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+            //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
             return static function (string $operation, $payload, bool $success) use ($container) {
                 $productsDeleteListener = $container->get('paypal-pos.sdk.api.listener.delete.product');

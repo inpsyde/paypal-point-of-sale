@@ -28,7 +28,7 @@ class WooCommerceBuilder implements TypeSpecificBuilderInterface
     /**
      * @inheritDoc
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null)
     {
@@ -37,7 +37,7 @@ class WooCommerceBuilder implements TypeSpecificBuilderInterface
 
     /**
      * @param $payload
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return bool
      */

@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Class NamespacedContainer
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
  * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk

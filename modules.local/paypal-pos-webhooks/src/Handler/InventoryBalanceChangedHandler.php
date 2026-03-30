@@ -71,7 +71,7 @@ class InventoryBalanceChangedHandler implements WebhookHandler
      * @inheritDoc
      *
      * @throws QueueRuntimeException
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function handle(Payload $payload)
     {

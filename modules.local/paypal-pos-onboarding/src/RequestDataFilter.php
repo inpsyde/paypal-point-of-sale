@@ -15,7 +15,7 @@ class RequestDataFilter
 
     /**
      * @param mixed ...$things
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return bool
      */
@@ -32,7 +32,7 @@ class RequestDataFilter
 
     /**
      * @param $thing
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return bool
      */

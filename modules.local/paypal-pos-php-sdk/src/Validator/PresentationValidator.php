@@ -13,7 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
  * Class PresentationValidator
  *
  * Verifies that a Presentation's color values are 6-digit hex strings
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\Validator
  */

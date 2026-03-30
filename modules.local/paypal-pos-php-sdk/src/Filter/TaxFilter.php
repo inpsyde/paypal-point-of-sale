@@ -31,7 +31,7 @@ class TaxFilter implements FilterInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function accepts($entity, $payload): bool
     {
@@ -41,7 +41,7 @@ class TaxFilter implements FilterInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      */
     public function filter($entity, $wcProduct)
@@ -56,7 +56,7 @@ class TaxFilter implements FilterInterface
         return $entity;
     }
 
-    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+    // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
     private function existsRemotely($entity): bool
     {
         // phpcs:enable

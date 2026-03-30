@@ -31,7 +31,7 @@ class AttributeSetBuilder implements BuilderInterface
      * @inheritDoc
      *
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null): AttributeSet
     {
@@ -91,7 +91,7 @@ class AttributeSetBuilder implements BuilderInterface
      *
      * @return AttributeSet                         Return Updated AttributeSet
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * phpcs:disable Generic.Metrics.NestingLevel.MaxExceeded
      * phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh

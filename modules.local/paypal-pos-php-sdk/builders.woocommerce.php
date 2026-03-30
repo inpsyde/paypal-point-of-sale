@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 use Inpsyde\WcProductContracts\ProductType;
 use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\AttributeSetBuilder;

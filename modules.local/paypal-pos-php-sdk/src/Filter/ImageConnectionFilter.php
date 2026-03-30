@@ -7,7 +7,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Filter;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use WC_Product;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
 class ImageConnectionFilter implements FilterInterface
 {

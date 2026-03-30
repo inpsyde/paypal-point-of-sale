@@ -187,7 +187,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         <?php return ob_get_clean();
     }
 
-    // phpcs:ignore Inpsyde.CodeQuality.FunctionLength.TooLong
+    // phpcs:ignore Syde.Functions.FunctionLength.TooLong
     protected function renderMeta(): string
     {
         $authenticated = ($this->authCheck)();

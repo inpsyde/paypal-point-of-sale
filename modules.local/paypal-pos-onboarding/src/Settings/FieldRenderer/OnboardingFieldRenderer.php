@@ -65,7 +65,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
      * @param string $fieldId
      * @param array $fieldConfig
      * @param WC_Settings_API $settingsApi
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * @return string
      */
     public function render(

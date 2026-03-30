@@ -18,7 +18,7 @@ interface StateMachineInterface
 
     /**
      * @param $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return mixed
      */

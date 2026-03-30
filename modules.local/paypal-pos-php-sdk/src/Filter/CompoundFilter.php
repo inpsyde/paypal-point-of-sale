@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Filter;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
 class CompoundFilter implements FilterInterface
 {

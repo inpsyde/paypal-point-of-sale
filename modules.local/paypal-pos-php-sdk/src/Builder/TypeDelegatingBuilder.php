@@ -22,7 +22,7 @@ class TypeDelegatingBuilder implements BuilderInterface
     /**
      * @inheritDoc
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * @throws BuilderException
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null)

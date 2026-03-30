@@ -47,7 +47,7 @@ class WonoLogger implements LoggerInterface
      * @param mixed $level
      * @param string $message
      * @param array $context
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function log($level, $message, array $context = [])
     {

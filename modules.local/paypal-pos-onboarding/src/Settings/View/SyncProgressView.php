@@ -45,7 +45,7 @@ class SyncProgressView implements OnboardingView
 
     /**
      * @return string
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function renderHeader(): string
     {

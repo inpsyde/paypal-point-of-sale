@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1); # -*- coding: utf-8 -*-
 // phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
 
 namespace Syde\PayPal\PointOfSale\Logging\Logger\Tests\Unit;

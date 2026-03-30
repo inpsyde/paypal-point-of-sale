@@ -13,7 +13,7 @@ class PriceFilter implements FilterInterface
 {
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function accepts($entity, $payload): bool
     {
@@ -24,7 +24,7 @@ class PriceFilter implements FilterInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      */
     public function filter($variant, $wcProduct)

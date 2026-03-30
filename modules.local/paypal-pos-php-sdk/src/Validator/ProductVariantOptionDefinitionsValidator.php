@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Validator;
 

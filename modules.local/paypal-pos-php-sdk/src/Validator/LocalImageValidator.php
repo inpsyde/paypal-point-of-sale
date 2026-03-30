@@ -66,7 +66,7 @@ class LocalImageValidator implements ValidatorInterface
 
     /**
      * {@inheritDoc}
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function accepts($entity): bool
     {
@@ -75,7 +75,7 @@ class LocalImageValidator implements ValidatorInterface
 
     /**
      * {@inheritDoc}
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function validate($entity): bool
     {

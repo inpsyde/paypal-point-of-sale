@@ -26,7 +26,7 @@ trait ParameterDeriverTrait
      * @return string
      *   The class the parameter is type hinted on.
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     protected function getParameterType($callable): string
     {
@@ -123,7 +123,7 @@ trait ParameterDeriverTrait
      * @param callable $callable
      * @return True if the callable represents a static method, false otherwise.
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     protected function isClassCallable($callable): bool
     {
