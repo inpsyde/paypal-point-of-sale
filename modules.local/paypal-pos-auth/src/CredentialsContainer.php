@@ -63,7 +63,7 @@ class CredentialsContainer implements ContainerInterface
         }
 
         throw new class (
-            sprintf('%s not found in credentials container', $id)
+            sprintf('%s not found in credentials container', esc_html($id))
         ) extends Exception implements NotFoundExceptionInterface {
         };
     }

@@ -28,7 +28,6 @@ class ZettleAuthPlugin implements Plugin
 
     /**
      * Flag attempted refreshes for each request.
-     *
      */
     private array $chainStorage = [];
 
@@ -168,7 +167,7 @@ class ZettleAuthPlugin implements Plugin
             throw new AuthenticationException(
                 'Could not retrieve payload data',
                 0,
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 
@@ -193,8 +192,8 @@ class ZettleAuthPlugin implements Plugin
                     $contents = $body->getContents();
 
                     throw new AuthenticationException(
-                        "Authentication attempt rejected: '{$contents}'",
-                        $response->getStatusCode()
+                        "Authentication attempt rejected: '" . esc_html($contents) . "'",
+                        $response->getStatusCode() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                     );
                 }
                 $this->authSuccessHandler->handle($response);

@@ -5,12 +5,20 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Presentation\Presentation;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\PresentationValidator;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Functions\when;
 
 /**
  * phpcs:disable
  */
 class PresentationValidatorTest extends BrainMonkeyWpTestCase
 {
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        when('esc_html')->returnArg();
+    }
 
     /**
      * @dataProvider defaultTestData

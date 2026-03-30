@@ -21,7 +21,7 @@ class PaymentValidator
         if (!$this->validatePaymentType($validPaymentType, $paymentType)) {
             throw new InvalidPaymentTypeException(sprintf(
                 'Given Payment type: %s is not valid and doesnt match.',
-                $paymentType
+                esc_html($paymentType)
             ));
         }
 

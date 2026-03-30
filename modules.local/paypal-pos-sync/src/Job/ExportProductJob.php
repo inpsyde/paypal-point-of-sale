@@ -404,12 +404,12 @@ class ExportProductJob implements Job
             throw new QueueRuntimeException(
                 sprintf(
                     "Couldn't update the Product %d - API returned with Code %d and message %s",
-                    $product->localId(),
-                    $exception->getCode(),
-                    $exception->getMessage()
+                    (int) $product->localId(),
+                    (int) $exception->getCode(),
+                    esc_html($exception->getMessage())
                 ),
                 500,
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
     }

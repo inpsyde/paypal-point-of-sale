@@ -48,7 +48,7 @@ class WooCommerceLogger implements LoggerInterface
     public function log($level, $message, array $context = [])
     {
         if (!in_array($level, self::LOG_LEVELS, true)) {
-            throw new InvalidArgumentException("Unknown log level $level");
+            throw new InvalidArgumentException("Unknown log level " . esc_html($level));
         }
 
         if (!isset($context['source'])) {

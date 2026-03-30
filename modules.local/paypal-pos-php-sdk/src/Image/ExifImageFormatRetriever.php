@@ -31,7 +31,7 @@ class ExifImageFormatRetriever implements ImageFormatRetrieverInterface
             case IMAGETYPE_BMP:
                 return ImageFormat::BMP;
             default:
-                throw new UnexpectedValueException("Unsupported image type $type");
+                throw new UnexpectedValueException(sprintf("Unsupported image type %d", (int) $type));
         }
     }
 }

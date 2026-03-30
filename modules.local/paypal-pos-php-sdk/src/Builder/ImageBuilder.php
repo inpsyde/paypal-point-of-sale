@@ -61,7 +61,7 @@ class ImageBuilder implements BuilderInterface
         );
 
         if (!$result) {
-            throw new UnexpectedImageUrlException("Could not parse image url {$url}");
+            throw new UnexpectedImageUrlException("Could not parse image url " . esc_html($url));
         }
 
         return $matches[1];

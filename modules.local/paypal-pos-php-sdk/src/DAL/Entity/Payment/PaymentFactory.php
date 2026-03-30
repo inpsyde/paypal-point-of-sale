@@ -50,7 +50,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CardOnlinePayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -99,7 +99,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CardPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -145,7 +145,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CashPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -182,7 +182,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CustomPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -215,7 +215,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     GiftcardPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -255,7 +255,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     InvoicePayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -294,7 +294,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     KlarnaPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -327,7 +327,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     MobilePayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -360,7 +360,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     PaypalPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -393,7 +393,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     StoreCreditPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -426,7 +426,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     SwishPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }
@@ -459,7 +459,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     VippsPayment::class,
-                    $validatorException->getMessage()
+                    esc_html($validatorException->getMessage())
                 )
             );
         }

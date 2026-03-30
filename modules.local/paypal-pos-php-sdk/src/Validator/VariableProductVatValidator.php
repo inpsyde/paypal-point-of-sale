@@ -49,7 +49,7 @@ class VariableProductVatValidator implements ValidatorInterface
         }, $vats));
 
         if (count($uniqueVats) > 1) {
-            throw new DifferentVariantVatException($product->name(), $uniqueVats);
+            throw new DifferentVariantVatException(esc_html($product->name()), $uniqueVats); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
     }
 }

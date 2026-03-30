@@ -55,7 +55,7 @@ class ReExportProductJob implements Job
             throw new InvalidArgumentException(
                 sprintf(
                     'Expected ID-Map of type %s to implement %s.',
-                    get_class($variantMap),
+                    esc_html(get_class($variantMap)),
                     MapRecordCreator::class
                 )
             );

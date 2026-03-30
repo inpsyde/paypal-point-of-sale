@@ -23,7 +23,7 @@ class VariantOptionDefinitionsBuilder implements BuilderInterface
     public function build(string $className, $payload, ?BuilderInterface $builder = null): Definitions
     {
         if (!$payload instanceof WC_Product) {
-            throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload);
+            throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
 
         $definitions = new Definitions();

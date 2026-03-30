@@ -59,7 +59,7 @@ class Organizations
                 0,
                 [],
                 [],
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
     }

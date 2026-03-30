@@ -137,11 +137,11 @@ class Psr18RestClient implements RestClientInterface
                 ];
             }
             throw new ZettleRestException(
-                $exception->getMessage(),
-                $exception->getCode(),
-                $data,
-                $payload,
-                $exception
+                esc_html($exception->getMessage()),
+                (int) $exception->getCode(),
+                $data, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 
@@ -167,10 +167,10 @@ class Psr18RestClient implements RestClientInterface
                 ];
             }
             throw new ZettleRestException(
-                $message,
-                $status,
-                (array) $json,
-                $payload
+                esc_html($message),
+                (int) $status,
+                (array) $json, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 

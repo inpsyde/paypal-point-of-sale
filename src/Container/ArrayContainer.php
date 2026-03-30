@@ -25,8 +25,9 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
         if (!$this->has($id)) {
             $exceptionMessage = sprintf(
                 'Could not find entry %s in the options array',
-                $id
+                esc_html($id)
             );
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             throw new class ($exceptionMessage) extends Exception implements NotFoundExceptionInterface {
             };
         }

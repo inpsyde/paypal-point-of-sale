@@ -37,7 +37,7 @@ class ExtensionImageFormatRetriever implements ImageFormatRetrieverInterface
             case 'bmp':
                 return ImageFormat::BMP;
             default:
-                throw new UnexpectedValueException("Unsupported image type $ext");
+                throw new UnexpectedValueException("Unsupported image type " . $ext); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
     }
 }

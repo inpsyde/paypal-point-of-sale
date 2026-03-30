@@ -12,6 +12,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationType;
 use Syde\PayPal\PointOfSale\PhpSdk\ZettlePhpSdkLibrary;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use Psr\Container\ContainerInterface;
+use function Brain\Monkey\Functions\when;
 
 class ZettlePhpSdkStandaloneTestCase extends BrainMonkeyWpTestCase
 {
@@ -35,6 +36,8 @@ class ZettlePhpSdkStandaloneTestCase extends BrainMonkeyWpTestCase
 
     protected function setUp(): void
     {
+        when('esc_html')->returnArg();
+
         $this->injectFactory('paypal-pos.sync.taxation-type', function (): string {
             return TaxationType::VAT;
         });

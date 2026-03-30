@@ -51,7 +51,7 @@ class ProductValidator implements ValidatorInterface
     public function validateMinimumVariants(ProductInterface $product): bool
     {
         if (count($product->variants()->all()) === self::MINIMUM_VARIANTS_AMOUNT) {
-            throw new MinimumVariantsException($product->name());
+            throw new MinimumVariantsException(esc_html($product->name()));
         }
 
         return true;
@@ -70,7 +70,7 @@ class ProductValidator implements ValidatorInterface
         $variantsAmount = count($product->variants()->all());
 
         if ($variantsAmount > self::MAXIMUM_VARIANTS_AMOUNT) {
-            throw new MaximumVariantsException($product->name(), $variantsAmount);
+            throw new MaximumVariantsException(esc_html($product->name()), (int) $variantsAmount);
         }
 
         return true;

@@ -35,11 +35,13 @@ class VariantOptionValidator implements ValidatorInterface
         $nameLength = (int) mb_strlen($name);
 
         if ($nameLength < self::MIN_NAME_LENGTH) {
-            throw new MinimumVariantOptionNameCharacterLengthException($name, self::MIN_NAME_LENGTH);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new MinimumVariantOptionNameCharacterLengthException(esc_html($name), self::MIN_NAME_LENGTH);
         }
 
         if ($nameLength > self::MAX_NAME_LENGTH) {
-            throw new MaximumVariantOptionNameCharacterLengthException($name, self::MAX_NAME_LENGTH);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new MaximumVariantOptionNameCharacterLengthException(esc_html($name), self::MAX_NAME_LENGTH);
         }
 
         return true;

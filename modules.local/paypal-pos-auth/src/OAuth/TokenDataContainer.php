@@ -47,7 +47,7 @@ class TokenDataContainer implements ContainerInterface
     public function get(string $key)
     {
         if (!$this->has($key)) {
-            throw new InvalidTokenPropertyException("Property '{$key}' not found on Token");
+            throw new InvalidTokenPropertyException("Property '" . esc_html($key) . "' not found on Token");
         }
 
         return $this->accessors[$key]();

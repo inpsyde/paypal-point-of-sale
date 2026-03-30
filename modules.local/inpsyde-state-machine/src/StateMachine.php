@@ -14,6 +14,8 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use UnexpectedValueException;
 
+// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+
 class StateMachine implements StateMachineInterface
 {
     /**

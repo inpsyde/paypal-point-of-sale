@@ -75,8 +75,8 @@ class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
 
             if ($definitionsAmount !== $currentOptionsAmount) {
                 throw new VariantOptionAmountMismatchException(
-                    $definitionsAmount,
-                    $currentOptionsAmount
+                    (int) $definitionsAmount,
+                    (int) $currentOptionsAmount
                 );
             }
         }

@@ -78,7 +78,7 @@ class PluginProperties
         $key = self::HEADER_PROPERTIES[$name] ?? null;
 
         if (!$key) {
-            throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, $name));
+            throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, esc_html($name)));
         }
 
         return (string) ($this->data[$key] ?? '');

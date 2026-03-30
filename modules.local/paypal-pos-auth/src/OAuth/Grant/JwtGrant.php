@@ -59,7 +59,7 @@ class JwtGrant implements GrantType
 
             $token = $this->tokenDecoder->parse($apiKey);
         } catch (NotFoundExceptionInterface | InvalidArgumentException | RuntimeException $exception) {
-            throw new InvalidTokenException('Failed to create JWT token data', 0, $exception);
+            throw new InvalidTokenException('Failed to create JWT token data', 0, $exception); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
 
         return [

@@ -39,7 +39,7 @@ class StockValidator implements ValidatorInterface
         $stock = $entity->defaultQuantity();
 
         if ($stock > $this->maxStock) {
-            throw new MaximumStockException($stock, $this->maxStock);
+            throw new MaximumStockException((int) $stock, (int) $this->maxStock);
         }
 
         return true;

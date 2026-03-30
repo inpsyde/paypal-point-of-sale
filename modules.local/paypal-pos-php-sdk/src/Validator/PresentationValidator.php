@@ -53,11 +53,11 @@ class PresentationValidator implements ValidatorInterface
         $color = ltrim($string, '#');
 
         if (function_exists('ctype_xdigit') && !ctype_xdigit($color)) {
-            throw new InvalidHexColorException($color);
+            throw new InvalidHexColorException(esc_html($color));
         }
 
         if (strlen($color) < self::HEX_COLOR_LENGTH) {
-            throw new ShortHexColorException($color, 'Presentation');
+            throw new ShortHexColorException(esc_html($color), 'Presentation');
         }
     }
 }

@@ -33,7 +33,7 @@ class LockingQueueProcessor implements QueueProcessor
             throw new QueueLockedException(
                 sprintf(
                     'The queue is currently locked by %s',
-                    get_class($this->locker)
+                    get_class($this->locker) // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }

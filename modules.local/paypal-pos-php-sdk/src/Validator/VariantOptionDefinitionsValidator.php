@@ -40,7 +40,7 @@ class VariantOptionDefinitionsValidator implements ValidatorInterface
         $emptyVariantOptions = $this->validateVariantOptionDefinitions($entity);
 
         if (!empty($emptyVariantOptions)) {
-            throw new EmptyVariantOptionCollectionException($emptyVariantOptions);
+            throw new EmptyVariantOptionCollectionException($emptyVariantOptions); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
 
         $amount = count($entity->definitions());
@@ -53,8 +53,8 @@ class VariantOptionDefinitionsValidator implements ValidatorInterface
          */
         if ($amount > self::MAXIMUM_DEFINITIONS_AMOUNT) {
             throw new MaximumVariantOptionDefinitionsAmountException(
-                self::MAXIMUM_DEFINITIONS_AMOUNT,
-                $amount
+                self::MAXIMUM_DEFINITIONS_AMOUNT, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                (int) $amount
             );
         }
 

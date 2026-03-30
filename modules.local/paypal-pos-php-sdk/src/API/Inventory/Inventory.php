@@ -221,12 +221,12 @@ class Inventory
             throw new ZettleRestException(
                 sprintf(
                     'Could not build Inventory entity of product %s after fetching it',
-                    $productUuid
+                    esc_html($productUuid)
                 ),
                 0,
-                $result,
+                $result, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 [],
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
     }

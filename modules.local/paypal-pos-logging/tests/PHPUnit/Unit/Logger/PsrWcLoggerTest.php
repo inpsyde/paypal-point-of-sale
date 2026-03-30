@@ -12,12 +12,23 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\Test\LoggerInterfaceTest;
 use WC_Logger_Interface;
 
+use function Brain\Monkey\setUp;
+use function Brain\Monkey\tearDown;
+use function Brain\Monkey\Functions\when;
+
 /**
  * Tests of a PSR-3 logger, most of the tests are in LoggerInterfaceTest
  */
 class PsrWcLoggerTest extends LoggerInterfaceTest
 {
     private $logs = [];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        setUp();
+        when('esc_html')->returnArg();
+    }
 
     /**
      * @inheritDoc
@@ -36,6 +47,7 @@ class PsrWcLoggerTest extends LoggerInterfaceTest
 
     function tearDown(): void
     {
+        tearDown();
         parent::tearDown();
 
         // fix no assertions warning for mockery-only tests

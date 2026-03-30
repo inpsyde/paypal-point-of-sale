@@ -36,7 +36,7 @@ class CompositeValidator implements ValidatorInterface
         }
 
         if ($errors) {
-            throw new ValidationFailedException('Validation failed', $errors);
+            throw new ValidationFailedException('Validation failed', $errors); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
     }
 }

@@ -80,7 +80,7 @@ class WordPressImageValidator implements ValidatorInterface
 
         if (!$attachment) {
             throw new ImageNotFoundException(
-                "No Attachment found for Attachment ID: {$entity->localId()}"
+                sprintf("No Attachment found for Attachment ID: %d", (int) $entity->localId())
             );
         }
 
@@ -105,8 +105,8 @@ class WordPressImageValidator implements ValidatorInterface
             throw new UnsupportedImageFileSizeException(
                 sprintf(
                     'Maximum image file size is %1$d bytes. [%2$s]',
-                    $this->maxFileSize,
-                    $fileName
+                    (int) $this->maxFileSize,
+                    esc_html($fileName)
                 )
             );
         }
@@ -115,8 +115,8 @@ class WordPressImageValidator implements ValidatorInterface
             throw new UnsupportedImageFileSizeException(
                 sprintf(
                     'Minimum image file size is %1$d bytes. [%2$s]',
-                    $this->minFileSize,
-                    $fileName
+                    (int) $this->minFileSize,
+                    esc_html($fileName)
                 )
             );
         }
@@ -128,9 +128,9 @@ class WordPressImageValidator implements ValidatorInterface
             throw new UnsupportedImageFileTypeException(
                 sprintf(
                     'Image type %1$s is not supported. Must be one of %2$s. [%3$s]',
-                    $type,
-                    implode(', ', array_map('strtoupper', array_unique($this->supportedImageTypes))),
-                    $fileName
+                    esc_html($type),
+                    esc_html(implode(', ', array_map('strtoupper', array_unique($this->supportedImageTypes)))),
+                    esc_html($fileName)
                 )
             );
         }
@@ -142,9 +142,9 @@ class WordPressImageValidator implements ValidatorInterface
             throw new InvalidImageSizeException(
                 sprintf(
                     'Image is too small. Must be at least: \'%1$dx%2$d\'. [%3$s]',
-                    $this->minWidth,
-                    $this->minHeight,
-                    $fileName
+                    (int) $this->minWidth,
+                    (int) $this->minHeight,
+                    esc_html($fileName)
                 )
             );
         }
@@ -153,9 +153,9 @@ class WordPressImageValidator implements ValidatorInterface
             throw new InvalidImageSizeException(
                 sprintf(
                     'Image is too large. Must be at most: \'%1$dx%2$d\'. [%3$s]',
-                    $this->maxWidth,
-                    $this->maxHeight,
-                    $fileName
+                    (int) $this->maxWidth,
+                    (int) $this->maxHeight,
+                    esc_html($fileName)
                 )
             );
         }

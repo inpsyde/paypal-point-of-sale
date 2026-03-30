@@ -77,16 +77,16 @@ class Products
     {
         $url = (string) $this->uri->withPath('/organizations/self/products/v2');
 
+        $result = $this->restClient->get($url, []);
         try {
-            $result = $this->restClient->get($url, []);
             $collection = $this->builder->build(ProductCollection::class, $result);
         } catch (BuilderException $exception) {
             throw new ZettleRestException(
                 'Failed to build product collection',
                 0,
-                $result,
+                $result, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 [],
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 
@@ -132,12 +132,12 @@ class Products
             throw new ZettleRestException(
                 sprintf(
                     'Failed to build product %s',
-                    $product->uuid()
+                    esc_html($product->uuid())
                 ),
                 0,
-                $result,
-                $payload,
-                $exception
+                $result, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 
@@ -172,12 +172,12 @@ class Products
             throw new ZettleRestException(
                 sprintf(
                     'Could not read product %s',
-                    $uuid
+                    esc_html($uuid)
                 ),
                 0,
-                $result,
+                $result, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 [],
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 
@@ -228,12 +228,12 @@ class Products
             throw new ZettleRestException(
                 sprintf(
                     'Failed to build product %s after updating',
-                    $product->uuid()
+                    esc_html($product->uuid())
                 ),
                 0,
-                $result,
-                $payload,
-                $exception
+                $result ?? [], // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 

@@ -32,9 +32,10 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
         }
         $exceptionMessage = sprintf(
             'Could not find entry %s in the "%s" wp options array',
-            $id,
-            $this->optionKey
+            esc_html($id),
+            esc_html($this->optionKey)
         );
+        // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         throw new class ($exceptionMessage) extends Exception implements NotFoundExceptionInterface {
         };
     }

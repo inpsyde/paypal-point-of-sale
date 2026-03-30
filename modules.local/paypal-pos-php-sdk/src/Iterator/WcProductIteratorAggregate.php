@@ -39,7 +39,7 @@ class WcProductIteratorAggregate implements WcProductIterator
     public function current()
     {
         assert($this->currentIterator instanceof WcProductIterator);
-        
+
         return $this->currentIterator->current();
     }
 

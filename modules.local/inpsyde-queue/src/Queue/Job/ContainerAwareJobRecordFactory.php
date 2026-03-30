@@ -45,6 +45,6 @@ class ContainerAwareJobRecordFactory implements JobRecordFactoryInterface
         return new BasicJobRecord($job, $context);
         // phpcs:disable Squiz.PHP.NonExecutableCode
         error:
-        throw new InvalidJobException("Job type '{$type}' could not be found");
+        throw new InvalidJobException("Job type '" . esc_html($type) . "' could not be found");
     }
 }
