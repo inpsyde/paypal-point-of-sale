@@ -66,20 +66,20 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                     <div class="zettle-settings-header-logo">
                         <?php 
         echo $this->renderIcon();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                     </div>
 
                     <?php 
         echo $this->renderDetails();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                 </div>
 
                 <div class="zettle-settings-header-meta">
                     <?php 
         echo $this->renderMeta();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                 </div>
             </div>
@@ -134,6 +134,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ob_start();
         $authenticated = ($this->authCheck)();
         $zettleLink = ($this->linkData)($authenticated);
+        // phpcs:disable WordPress.Security.EscapeOutput
         ?>
 
         <h2><?php 
@@ -143,7 +144,6 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         <div class="zettle-settings-header-details-links">
             <?php 
         echo $this->renderLink($zettleLink['url'], $zettleLink['title'], $zettleLink['icon']);
-        // WPCS: xss ok. 
         ?>
 
             <span class="separator">
@@ -154,7 +154,6 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
 
             <?php 
         echo $this->renderLink($this->shopLinkData['url'], $this->shopLinkData['title'], $this->shopLinkData['icon']);
-        // WPCS: xss ok. 
         ?>
         </div>
 
@@ -166,6 +165,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
 
         <?php 
         return ob_get_clean();
+        // phpcs:enable
     }
     // phpcs:ignore Syde.Functions.FunctionLength.TooLong
     protected function renderMeta(): string
@@ -181,14 +181,15 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             ?>">
         <?php 
         }
-        // WPCS: xss ok.
         if ($this->currentState === S::WELCOME || $this->currentState === S::API_CREDENTIALS) {
+            // phpcs:disable WordPress.Security.EscapeOutput
             echo $this->renderLink($accountLinkData['url'], $accountLinkData['title'], $accountLinkData['icon'], 'btn btn-secondary', 'btn', '_blank', $accountLinkData['popup'] ?? \false);
-            // WPCS: xss ok.
+            // phpcs:enable
         }
         if ($this->currentState === S::WELCOME) {
+            // phpcs:disable WordPress.Security.EscapeOutput
             echo $this->renderButton(__('Connect', 'paypal-point-of-sale'), 'save', __('Save changes', 'woocommerce'), \false, 'btn btn-primary', 'btn', 'submit');
-            // WPCS: xss ok.
+            // phpcs:enable
         }
         if ($this->currentState === S::ONBOARDING_COMPLETED) {
             ?>
@@ -236,12 +237,12 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         <?php 
         }
         if ($this->currentState === S::ONBOARDING_COMPLETED) {
+            // phpcs:disable WordPress.Security.EscapeOutput
             echo $this->renderButton($this->disconnectAccountData['title'], $this->disconnectAccountData['name'], $this->disconnectAccountData['value'], $this->disconnectAccountData['icon'], $this->disconnectAccountData['class'], '', 'button', ['data-micromodal-trigger' => $this->disconnectAccountData['dialog']['id']]);
-            // WPCS: xss ok.
             add_action('admin_footer', function () {
                 echo $this->renderModal($this->disconnectAccountData['dialog']['id'], $this->disconnectAccountData['dialog']['title'], $this->disconnectAccountData['dialog']['content'], $this->disconnectAccountData['dialog']['buttons']);
-                // WPCS: xss ok.
             });
+            // phpcs:enable
         }
         return ob_get_clean();
     }
@@ -274,7 +275,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ?>>
             <?php 
         echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </a>
 
@@ -316,7 +317,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                 >
             <?php 
         echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </button>
 
@@ -352,7 +353,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ?>">
             <?php 
         echo $this->renderIconExternalLink();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </span>
 
