@@ -48,7 +48,7 @@ class CredentialsContainer implements ContainerInterface
         if ($id === 'client_id' && $this->has('client_id')) {
             return $this->data[$id];
         }
-        throw new class(sprintf('%s not found in credentials container', $id)) extends Exception implements NotFoundExceptionInterface
+        throw new class(sprintf('%s not found in credentials container', esc_html($id))) extends Exception implements NotFoundExceptionInterface
         {
         };
     }

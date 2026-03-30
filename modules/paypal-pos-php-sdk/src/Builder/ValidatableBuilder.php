@@ -36,6 +36,7 @@ class ValidatableBuilder implements BuilderInterface
             $this->validator->validate($result);
         } catch (ValidatorException $exception) {
             throw new InvalidBuilderPayloadException($className, $payload, $exception->errorCodes(), $exception);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         return $result;
     }

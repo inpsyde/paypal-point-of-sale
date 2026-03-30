@@ -91,7 +91,7 @@ return ['paypal-pos.is-debug' => static function (C $container): bool {
     $format = $container->get('paypal-pos.date-time-format');
     return static function (int $timestamp) use ($format): string {
         if (!is_string($date = wp_date($format, $timestamp))) {
-            throw new UnexpectedValueException(sprintf('Cannot get date with format "%1$s" for timestamp "%2$s"', $format, $timestamp));
+            throw new UnexpectedValueException(sprintf('Cannot get date with format "%1$s" for timestamp "%2$d"', esc_html($format), (int) $timestamp));
         }
         return $date;
     };

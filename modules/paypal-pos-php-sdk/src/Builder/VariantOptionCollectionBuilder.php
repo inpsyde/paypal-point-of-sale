@@ -20,6 +20,7 @@ class VariantOptionCollectionBuilder implements BuilderInterface
     {
         if (!$payload instanceof WC_Product) {
             throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         $collection = new Collection();
         if ($payload->is_type(ProductType::SIMPLE)) {

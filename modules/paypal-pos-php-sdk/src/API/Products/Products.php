@@ -62,11 +62,18 @@ class Products
     public function list(bool $withListeners = \true): ProductCollection
     {
         $url = (string) $this->uri->withPath('/organizations/self/products/v2');
+        $result = $this->restClient->get($url, []);
         try {
-            $result = $this->restClient->get($url, []);
             $collection = $this->builder->build(ProductCollection::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException('Failed to build product collection', 0, $result, [], $exception);
+            throw new ZettleRestException(
+                'Failed to build product collection',
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                [],
+                $exception
+            );
         }
         $products = $collection->all();
         if ($withListeners) {
@@ -95,7 +102,15 @@ class Products
         try {
             $created = $this->builder->build(ProductInterface::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException(sprintf('Failed to build product %s', $product->uuid()), 0, $result, $payload, $exception);
+            throw new ZettleRestException(
+                sprintf('Failed to build product %s', esc_html($product->uuid())),
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception
+            );
         }
         if ($withListeners) {
             array_walk($this->listeners, static function (callable $listener) use ($created, $success) {
@@ -119,7 +134,14 @@ class Products
         try {
             $product = $this->builder->build(ProductInterface::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException(sprintf('Could not read product %s', $uuid), 0, $result, [], $exception);
+            throw new ZettleRestException(
+                sprintf('Could not read product %s', esc_html($uuid)),
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                [],
+                $exception
+            );
         }
         if ($withListeners) {
             array_walk($this->listeners, static function (callable $listener) use ($product) {
@@ -150,7 +172,15 @@ class Products
             });
             $product = $this->builder->build(ProductInterface::class, $result);
         } catch (BuilderException|AuthenticationException $exception) {
-            throw new ZettleRestException(sprintf('Failed to build product %s after updating', $product->uuid()), 0, $result, $payload, $exception);
+            throw new ZettleRestException(
+                sprintf('Failed to build product %s after updating', esc_html($product->uuid())),
+                0,
+                $result ?? [],
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception
+            );
         }
         if ($withListeners) {
             array_walk($this->listeners, static function (callable $listener) use ($product, $success) {

@@ -44,7 +44,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     {
         $result = $this->wpdb->get_var($this->wpdb->prepare("\n            SELECT\n                `remote_id`\n            FROM\n                {$this->tableName()}\n            WHERE\n                `local_id` = %d\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $localId, $this->type, $this->siteId));
         if ($result === null) {
-            throw new IdNotFoundException("No remote ID found for local ID {$localId}");
+            throw new IdNotFoundException(sprintf("No remote ID found for local ID %d", (int) $localId));
         }
         return $result;
     }
@@ -55,7 +55,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     {
         $result = $this->wpdb->get_results($this->wpdb->prepare("\n            SELECT\n                `remote_id`\n            FROM\n                {$this->tableName()}\n            WHERE\n                `local_id` = %d\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $localId, $this->type, $this->siteId));
         if ($result === null) {
-            throw new IdNotFoundException("No remote IDs found for local ID {$localId}");
+            throw new IdNotFoundException(sprintf("No remote IDs found for local ID %d", (int) $localId));
         }
         return array_column($result, 'remote_id');
     }
@@ -70,7 +70,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     {
         $result = $this->wpdb->get_var($this->wpdb->prepare("\n            SELECT\n                `local_id`\n            FROM\n                {$this->tableName()}\n            WHERE\n                `remote_id` = %s\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $remoteId, $this->type, $this->siteId));
         if ($result === null) {
-            throw new IdNotFoundException("No local ID found for remote ID {$remoteId}");
+            throw new IdNotFoundException("No local ID found for remote ID " . esc_html($remoteId));
         }
         return (int) $result;
     }
@@ -97,7 +97,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     {
         $result = $this->wpdb->query($this->wpdb->prepare("\n            DELETE FROM\n                {$this->tableName()}\n            WHERE\n                `remote_id` = %s\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $remoteId, $this->type, $this->siteId));
         if ($result === null) {
-            throw new IdNotFoundException(sprintf('Cannot delete record of type: %s with remote ID %s and local ID %s', $this->type, $remoteId, $localId));
+            throw new IdNotFoundException(sprintf('Cannot delete record of type: %s with remote ID %s and local ID %s', esc_html($this->type), esc_html($remoteId), (int) $localId));
         }
         return (bool) $result;
     }
@@ -116,7 +116,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     {
         $result = $this->wpdb->get_var($this->wpdb->prepare("\n            SELECT\n                COUNT(*)\n            FROM\n                {$this->tableName()}\n            WHERE\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $this->type, $this->siteId));
         if ($result === null) {
-            throw new Exception(sprintf('Count query failed: %s.', $this->wpdb->last_error));
+            throw new Exception(sprintf('Count query failed: %s.', esc_html($this->wpdb->last_error)));
         }
         return json_decode($result, \true);
     }

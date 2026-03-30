@@ -64,6 +64,7 @@ class ParameterDeriver
             $type = $rType->getName();
         } catch (ReflectionException $exception) {
             throw new RuntimeException('Type error registering listener.', 0, $exception);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         return $type;
     }

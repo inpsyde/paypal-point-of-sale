@@ -30,7 +30,7 @@ class TypeDelegatingBuilder implements BuilderInterface
             return $typeSpecificBuilder->build($className, $payload, $builder ?? $this);
         }
         $type = $this->inferType($payload);
-        throw new BuilderNotFoundException("No Builder found for type '{$type}'");
+        throw new BuilderNotFoundException("No Builder found for type '" . esc_html($type) . "'");
     }
     private function inferType($payload): string
     {

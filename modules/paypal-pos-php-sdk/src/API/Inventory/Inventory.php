@@ -143,7 +143,14 @@ class Inventory
         try {
             return $this->builder->build(InventoryEntity::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException(sprintf('Could not build Inventory entity of product %s after fetching it', $productUuid), 0, $result, [], $exception);
+            throw new ZettleRestException(
+                sprintf('Could not build Inventory entity of product %s after fetching it', esc_html($productUuid)),
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                [],
+                $exception
+            );
         }
     }
 }

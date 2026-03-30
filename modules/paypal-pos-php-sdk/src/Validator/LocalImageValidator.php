@@ -74,10 +74,10 @@ class LocalImageValidator implements ValidatorInterface
     {
         $imageFileSize = filesize($filePath);
         if ($imageFileSize >= $this->maxFileSize) {
-            throw new UnsupportedImageFileSizeException(sprintf('Maximum image file size is %d bytes. [%s]', $this->maxFileSize, $filePath));
+            throw new UnsupportedImageFileSizeException(sprintf('Maximum image file size is %d bytes. [%s]', (int) $this->maxFileSize, esc_html($filePath)));
         }
         if ($imageFileSize <= $this->minFileSize) {
-            throw new UnsupportedImageFileSizeException(sprintf('Minimum image file size is %d bytes. [%s]', $this->minFileSize, $filePath));
+            throw new UnsupportedImageFileSizeException(sprintf('Minimum image file size is %d bytes. [%s]', (int) $this->minFileSize, esc_html($filePath)));
         }
     }
     /**
@@ -89,7 +89,7 @@ class LocalImageValidator implements ValidatorInterface
     {
         $type = exif_imagetype($filePath);
         if (!array_key_exists($type, $this->supportedImageTypes)) {
-            throw new UnsupportedImageFileTypeException(sprintf('Filetype %s is not supported. Must be one of %s. [%s]', $type, implode(', ', array_unique($this->supportedImageTypes)), $filePath));
+            throw new UnsupportedImageFileTypeException(sprintf('Filetype %d is not supported. Must be one of %s. [%s]', (int) $type, esc_html(implode(', ', array_unique($this->supportedImageTypes))), esc_html($filePath)));
         }
     }
     /**
@@ -101,10 +101,10 @@ class LocalImageValidator implements ValidatorInterface
     {
         [$width, $height] = getimagesize($filePath);
         if ($width < $this->minWidth || $height < $this->minHeight) {
-            throw new InvalidImageSizeException(sprintf('Image too small. Must be at least: \'%dx%d\'. [%s]', $this->minWidth, $this->minHeight, $filePath));
+            throw new InvalidImageSizeException(sprintf('Image too small. Must be at least: \'%dx%d\'. [%s]', (int) $this->minWidth, (int) $this->minHeight, esc_html($filePath)));
         }
         if ($width > $this->maxWidth || $height > $this->maxHeight) {
-            throw new InvalidImageSizeException(sprintf('Image too large. Must be at most: \'%dx%d\'. [%s]', $this->maxWidth, $this->maxHeight, $filePath));
+            throw new InvalidImageSizeException(sprintf('Image too large. Must be at most: \'%dx%d\'. [%s]', (int) $this->maxWidth, (int) $this->maxHeight, esc_html($filePath)));
         }
     }
 }

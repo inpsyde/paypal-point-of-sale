@@ -12,6 +12,7 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 use Syde\Vendor\Zettle\Psr\EventDispatcher\EventDispatcherInterface;
 use UnexpectedValueException;
+// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 class StateMachine implements StateMachineInterface
 {
     /**

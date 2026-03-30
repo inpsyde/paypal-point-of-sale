@@ -19,7 +19,7 @@ class WooCommerceConfigContainer implements ContainerInterface
     public function get(string $id)
     {
         if (!$this->has($id)) {
-            throw new class(sprintf('Given WooCommerce Setting: woocommerce_%s doesnt exists.', $id)) extends Exception implements NotFoundExceptionInterface
+            throw new class(sprintf('Given WooCommerce Setting: woocommerce_%s doesnt exists.', esc_html($id))) extends Exception implements NotFoundExceptionInterface
             {
             };
         }

@@ -23,7 +23,7 @@ class UnlinkVariantJob implements Job
     public function __construct(OneToOneMapInterface $variantMap)
     {
         if (!$variantMap instanceof MapRecordCreator) {
-            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', get_class($variantMap), MapRecordCreator::class));
+            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', esc_html(get_class($variantMap)), MapRecordCreator::class));
         }
         $this->variantMap = $variantMap;
     }

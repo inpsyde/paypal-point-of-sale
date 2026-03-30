@@ -39,7 +39,7 @@ class ReExportProductJob implements Job
     public function __construct(ProductRepositoryInterface $repository, WcProductRepositoryInterface $wcRepository, OneToOneMapInterface $variantMap, callable $createJobRecord)
     {
         if (!$variantMap instanceof MapRecordCreator) {
-            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', get_class($variantMap), MapRecordCreator::class));
+            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', esc_html(get_class($variantMap)), MapRecordCreator::class));
         }
         $this->repository = $repository;
         $this->wcRepository = $wcRepository;

@@ -97,7 +97,15 @@ class Psr18RestClient implements RestClientInterface
             if ($exception instanceof AuthenticationException) {
                 $data = ['errorType' => ZettleRestException::TYPE_UNAUTHENTICATED];
             }
-            throw new ZettleRestException($exception->getMessage(), $exception->getCode(), $data, $payload, $exception);
+            throw new ZettleRestException(
+                esc_html($exception->getMessage()),
+                (int) $exception->getCode(),
+                $data,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception
+            );
         }
         array_walk($this->listeners, static function (callable $listener) use ($response, $request) {
             $listener($response, $request);
@@ -111,7 +119,13 @@ class Psr18RestClient implements RestClientInterface
             if ($status === 401 || $status === 403) {
                 $json = ['errorType' => ZettleRestException::TYPE_UNAUTHENTICATED];
             }
-            throw new ZettleRestException($message, $status, (array) $json, $payload);
+            throw new ZettleRestException(
+                esc_html($message),
+                (int) $status,
+                (array) $json,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload
+            );
         }
         return $json;
     }

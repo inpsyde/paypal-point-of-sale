@@ -29,7 +29,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
     public function createDataArray(AbstractPaymentMethod $payment): array
     {
         if (!in_array($payment->type()->getValue(), PaymentType::getValidOptions(), \true)) {
-            throw new InvalidPaymentTypeException(sprintf('Given Payment Entity has no valid Payment Type: %s', $payment->type()->getValue()));
+            throw new InvalidPaymentTypeException(sprintf('Given Payment Entity has no valid Payment Type: %s', esc_html($payment->type()->getValue())));
         }
         foreach ($this->paymentHandlers as $paymentHandler) {
             if ($paymentHandler->accepts($payment->type()->getValue())) {
@@ -43,7 +43,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
     public function buildFromArray(array $data): AbstractPaymentMethod
     {
         if (!in_array($data['type'], PaymentType::getValidOptions(), \true)) {
-            throw new InvalidPaymentTypeException(sprintf('Given Payment Entity has no valid Payment Type: %s', $data['type']));
+            throw new InvalidPaymentTypeException(sprintf('Given Payment Entity has no valid Payment Type: %s', esc_html($data['type'])));
         }
         foreach ($this->paymentHandlers as $paymentHandler) {
             if ($paymentHandler->accepts($data['type'])) {

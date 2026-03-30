@@ -21,7 +21,7 @@ class CallbackValidator implements ValidatorInterface
     {
         $error = ($this->callback)($value);
         if ($error !== null) {
-            throw new ValidationFailedException((string) $error);
+            throw new ValidationFailedException(esc_html((string) $error));
         }
     }
 }

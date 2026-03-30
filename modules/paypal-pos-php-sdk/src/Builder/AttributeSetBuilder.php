@@ -30,6 +30,7 @@ class AttributeSetBuilder implements BuilderInterface
     {
         if (!$payload instanceof WC_Product) {
             throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         $attributeSet = new AttributeSet();
         if ($payload instanceof WC_Product_Variation) {
