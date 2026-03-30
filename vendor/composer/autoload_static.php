@@ -1211,7 +1211,6 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductAttachmentIterator' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductAttachmentIterator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductIterator' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductIterator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductIteratorAggregate' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductIteratorAggregate.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\CachedIdMap' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/CachedIdMap.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\InMemoryMap' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/InMemoryMap.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\LocalIdProvider' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/LocalIdProvider.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\MapRecordCreator' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/MapRecordCreator.php',

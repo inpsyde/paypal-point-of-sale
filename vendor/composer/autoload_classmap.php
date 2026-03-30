@@ -939,7 +939,6 @@ return array(
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductAttachmentIterator' => $baseDir . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductAttachmentIterator.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductIterator' => $baseDir . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductIterator.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductIteratorAggregate' => $baseDir . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductIteratorAggregate.php',
-    'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\CachedIdMap' => $baseDir . '/modules/paypal-pos-php-sdk/src/Map/CachedIdMap.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\InMemoryMap' => $baseDir . '/modules/paypal-pos-php-sdk/src/Map/InMemoryMap.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\LocalIdProvider' => $baseDir . '/modules/paypal-pos-php-sdk/src/Map/LocalIdProvider.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\MapRecordCreator' => $baseDir . '/modules/paypal-pos-php-sdk/src/Map/MapRecordCreator.php',
