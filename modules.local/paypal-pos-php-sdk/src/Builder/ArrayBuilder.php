@@ -16,7 +16,7 @@ class ArrayBuilder implements TypeSpecificBuilderInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function __construct(BuilderInterface $builder)

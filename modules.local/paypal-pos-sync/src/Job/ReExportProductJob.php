@@ -12,7 +12,7 @@ use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\Sync\VariableInventoryChecker;

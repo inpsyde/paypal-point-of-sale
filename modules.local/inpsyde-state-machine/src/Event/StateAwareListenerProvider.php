@@ -23,7 +23,7 @@ class StateAwareListenerProvider implements ListenerProviderInterface
 
     /**
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.InvalidGeneratorManyReturns
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function getListenersForEvent(object $event): iterable
     {

@@ -8,6 +8,8 @@ use Inpsyde\StateMachine\State\StateInterface;
 use Inpsyde\StateMachine\StateMachineInterface;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable Generic.PHP.DiscourageGoto
+
 /**
  * Class ContainerInitializer
  *

@@ -7,20 +7,12 @@ namespace Inpsyde\Queue\Queue\Job;
 use Inpsyde\Queue\Exception\InvalidJobException;
 use Psr\Container\ContainerInterface;
 
-/**
- * Class QueueJobFactory
- *
- * @package Inpsyde\Queue\Queue
- */
+// phpcs:disable Generic.PHP.DiscourageGoto
+
 class ContainerAwareJobRecordFactory implements JobRecordFactoryInterface
 {
     private ContainerInterface $container;
 
-    /**
-     * QueueEntryFactory constructor.
-     *
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

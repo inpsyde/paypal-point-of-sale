@@ -52,7 +52,7 @@ class VariantBuilder implements BuilderInterface
      * @return VariantInterface
      * @throws BuilderException
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function build(string $className, $wcProduct, ?BuilderInterface $builder = null)
     {

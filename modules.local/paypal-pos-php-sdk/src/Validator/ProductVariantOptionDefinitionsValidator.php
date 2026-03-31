@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\VariantOptionAmountMismatchException;
 
 /**

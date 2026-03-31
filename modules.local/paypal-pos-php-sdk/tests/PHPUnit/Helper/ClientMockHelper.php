@@ -14,10 +14,7 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriFactoryInterface;
 
 /**
- * Class ClientMockHelper
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\Tests
  */

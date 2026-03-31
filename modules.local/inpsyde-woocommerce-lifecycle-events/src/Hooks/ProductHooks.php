@@ -360,7 +360,7 @@ class ProductHooks
      */
     private function createWcProductGuard(callable $callable, int $argPosition = 0): callable
     {
-        //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return static function () use ($callable, $argPosition) {
             $args = func_get_args();
             $product = $args[$argPosition];

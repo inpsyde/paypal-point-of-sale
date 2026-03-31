@@ -18,7 +18,7 @@ class CallbackBuilder implements BuilderInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null)

@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration
 
 namespace Syde\PayPal\PointOfSale\Auth;
 

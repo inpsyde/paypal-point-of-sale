@@ -13,7 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use WC_Product;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 
 /**
  * Class ProductConnectionFilter

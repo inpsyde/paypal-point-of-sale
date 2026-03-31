@@ -19,7 +19,7 @@ use WC_Product;
  * create a new entry as soon as required (when accessing its UUID)
  *
  * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
  */
 class VariantConnectionFilter implements FilterInterface
 {

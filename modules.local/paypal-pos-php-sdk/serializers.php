@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Metadata\Metadata;

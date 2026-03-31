@@ -55,7 +55,7 @@ class SettingsPage extends WC_Settings_Page
      * @return array
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      */
     public function get_settings()
@@ -99,7 +99,7 @@ class SettingsPage extends WC_Settings_Page
      *
      * @return void
      *
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function save()
     {

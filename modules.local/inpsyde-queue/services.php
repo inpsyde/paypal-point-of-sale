@@ -41,7 +41,7 @@ use wpdb;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
 
-    //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
     return static function (C $container) use ($class, $parts) {
         return new $class(
             ...array_map(
@@ -55,7 +55,7 @@ $wire = static function (string ...$parts): callable {
     //phpcs:enable
 };
 //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-//phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+//phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 $scalar = static function ($thing): callable {
     return static function () use ($thing) {
         return $thing;

@@ -24,5 +24,8 @@
 			<exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" />
 			<exclude name="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly.ReferencedGeneralException" />
 			<exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingTraversableTypeHintSpecification" />
+			<exclude name="Syde.Classes.DisallowGetterSetter" />
+			<exclude name="Syde.Files.LineLength.TooLong" />
+			<exclude name="Syde.Classes.PropertyLimit.TooManyProperties" />
 		</rule>
 </ruleset>

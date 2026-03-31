@@ -78,7 +78,7 @@ class State implements StateInterface
      * @param TransitionInterface $transition
      *
      * @return bool
-	 * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+	 * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool
     {

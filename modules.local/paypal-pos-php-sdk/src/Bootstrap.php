@@ -38,7 +38,7 @@ class Bootstrap
         $prefix = $wpdb->get_blog_prefix();
 
         foreach ($this->tables as $table) {
-            //phpcs:disable Inpsyde.CodeQuality.LineLength.TooLong
+            //phpcs:disable Syde.Files.LineLength.TooLong
             $sql = "CREATE TABLE IF NOT EXISTS {$prefix}{$table->name()} ({$table->schema()}) $charsetCollate;";
             // phpcs:ignore WordPress.DB.PreparedSQL
             $wpdb->query($sql);

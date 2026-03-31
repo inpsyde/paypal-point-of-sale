@@ -39,14 +39,14 @@ use Syde\PayPal\PointOfSale\Onboarding\Settings\View\SyncVatParamView;
 use Syde\PayPal\PointOfSale\Onboarding\Settings\WriteOnlyPasswordFieldChecker;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\Provider;
 use Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
 use WC_Admin_Settings;
 use wpdb;
 
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 
 $job = static function (string $type): string {
     return "paypal-pos.job.{$type}";

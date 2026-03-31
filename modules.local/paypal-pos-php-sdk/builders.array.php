@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 use Psr\Container\ContainerInterface as C;

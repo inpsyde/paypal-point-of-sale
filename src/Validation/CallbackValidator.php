@@ -17,7 +17,7 @@ class CallbackValidator implements ValidatorInterface
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      * @param mixed $value
      */
     public function validate($value): void

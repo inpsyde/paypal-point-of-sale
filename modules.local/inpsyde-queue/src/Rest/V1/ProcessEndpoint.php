@@ -91,7 +91,7 @@ class ProcessEndpoint implements EndpointInterface
     public function args(): array
     {
         // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-        // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return [
             'types' => [
                 'types' => 'array',
