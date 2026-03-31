@@ -12,14 +12,14 @@ use Inpsyde\WcEvents\Event\ProductChangeEvent;
  */
 class DispatchDecider
 {
-    /** @var array<callable> */
+    /** @var array<callable(ProductChangeEvent):bool> */
     private array $deciders;
 
     /**
      * DispatchDecider constructor.
      * TODO Discuss if there should be a discrete DeciderInterface instead of callable
      *
-     * @param array<callable(ProductChangeEvent):bool> ...$deciders
+     * @param callable(ProductChangeEvent):bool ...$deciders
      */
     public function __construct(callable ...$deciders)
     {
