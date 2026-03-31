@@ -22,7 +22,7 @@ trait ExceptionLoggingTrait
         Throwable $exception,
         LoggerInterface $logger,
         string $logLevel = LogLevel::WARNING
-    ) {
+    ): void {
 
         $isDebug = defined('WP_DEBUG') && WP_DEBUG;
         $logger->log(

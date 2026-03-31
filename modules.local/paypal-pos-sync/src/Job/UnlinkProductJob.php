@@ -112,7 +112,7 @@ class UnlinkProductJob implements Job
         return true;
     }
 
-    private function logSuccess(LoggerInterface $logger, string $id)
+    private function logSuccess(LoggerInterface $logger, string $id): void
     {
         $logger->info(
             sprintf(

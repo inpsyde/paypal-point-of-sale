@@ -130,7 +130,7 @@ class AuthenticatedClientFactory
     ): AuthSuccessHandler {
 
         return $successHandler ?? new class implements AuthSuccessHandler {
-            public function handle(ResponseInterface $response)
+            public function handle(ResponseInterface $response): void
             {
                 // TODO: Implement handle() method.
             }

@@ -39,7 +39,7 @@ class SyncCommand
      *
      * @when after_wp_load
      */
-    public function product(array $args, array $assocArgs)
+    public function product(array $args, array $assocArgs): void
     {
         $this->processor->repository()->add(
             ($this->createJobRecord)(ExportProductJob::TYPE, ['productId' => (int) $args[0]])

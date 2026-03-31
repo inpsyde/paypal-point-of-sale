@@ -71,7 +71,7 @@ return [
         return $optionContainer->get($key);
     },
     'paypal-pos.onboarding.set-state' => static function (C $container): callable {
-        return static function (string $state) use ($container) {
+        return static function (string $state) use ($container): void {
             $container->get('paypal-pos.settings')->set(
                 $container->get('paypal-pos.onboarding.option.state'),
                 $state

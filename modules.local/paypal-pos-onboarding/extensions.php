@@ -143,7 +143,7 @@ return [
         assert(is_callable($setState));
 
         $listenerProvider->addListener(
-            static function (PostTransition $event) use ($setState) {
+            static function (PostTransition $event) use ($setState): void {
                 $setState($event->transition()->toState());
             }
         );

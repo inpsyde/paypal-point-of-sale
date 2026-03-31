@@ -14,7 +14,7 @@ interface StateMachineInterface
     /**
      * @param string $initialStateName
      */
-    public function initialize(string $initialStateName);
+    public function initialize(string $initialStateName): void;
 
     /**
      * @param $event

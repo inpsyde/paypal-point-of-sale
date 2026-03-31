@@ -34,7 +34,7 @@ class ExportCommand
      *
      * @when after_wp_load
      */
-    public function products(array $args, array $assocArgs)
+    public function products(array $args, array $assocArgs): void
     {
         $this->processor->repository()->add(
             ($this->createJobRecord)(EnqueueProductSyncJob::TYPE)

@@ -48,7 +48,7 @@ class DispatchDecider
      * as its only parameter and returns boolean
      * @param callable(ProductChangeEvent):bool $decider
      */
-    public function addDecider(callable $decider)
+    public function addDecider(callable $decider): void
     {
         $this->deciders[] = $decider;
     }

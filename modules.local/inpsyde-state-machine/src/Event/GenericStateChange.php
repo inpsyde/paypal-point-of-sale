@@ -35,7 +35,7 @@ class GenericStateChange implements StateChange
         return $this->sourceState;
     }
 
-    public function prepare(StateMachineInterface $machine)
+    public function prepare(StateMachineInterface $machine): void
     {
         $this->sourceState = $machine->currentState()->name();
     }

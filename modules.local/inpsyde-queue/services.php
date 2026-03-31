@@ -100,7 +100,7 @@ return [
         'inpsyde.queue.logger'
     ),
     'inpsyde.queue.exception-handler' => static function (): callable {
-        return static function (Throwable $exception) {
+        return static function (Throwable $exception): void {
             //Silence. This is intended to be overwritten/extended by clients
         };
     },
@@ -257,7 +257,7 @@ return [
         return static function (
             JobRecord $jobRecord,
             ?JobRepository $repository = null
-        ) use ($container) {
+        ) use ($container): void {
             /**
              * @var JobRepository $jobRepository
              */

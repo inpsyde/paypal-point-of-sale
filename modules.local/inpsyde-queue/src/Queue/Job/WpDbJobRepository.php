@@ -75,7 +75,7 @@ class WpDbJobRepository implements JobRepository
 
         array_walk(
             $jobRecords,
-            function (JobRecord $jobRecord) use (&$rowSql) {
+            function (JobRecord $jobRecord) use (&$rowSql): void {
                 $job = $jobRecord->job();
                 $context = $jobRecord->context();
 

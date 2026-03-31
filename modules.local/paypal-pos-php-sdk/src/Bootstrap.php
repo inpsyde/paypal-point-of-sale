@@ -22,7 +22,7 @@ class Bootstrap
         $this->tables = $tables;
     }
 
-    public function activate()
+    public function activate(): void
     {
         global $wpdb;
 
@@ -32,7 +32,7 @@ class Bootstrap
     /**
      * @param wpdb $wpdb
      */
-    private function createTables(wpdb $wpdb)
+    private function createTables(wpdb $wpdb): void
     {
         $charsetCollate = $wpdb->get_charset_collate();
         $prefix = $wpdb->get_blog_prefix();
@@ -48,7 +48,7 @@ class Bootstrap
     /**
      * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
      */
-    public function deactivate()
+    public function deactivate(): void
     {
         global $wpdb;
 

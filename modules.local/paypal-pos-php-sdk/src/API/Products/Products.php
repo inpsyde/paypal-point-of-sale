@@ -95,10 +95,10 @@ class Products
         if ($withListeners) {
             array_walk(
                 $products,
-                function (ProductInterface $product) {
+                function (ProductInterface $product): void {
                     array_walk(
                         $this->listeners,
-                        static function (callable $listener) use ($product) {
+                        static function (callable $listener) use ($product): void {
                             $listener(ApiRestListener::READ, $product, true);
                         }
                     );
@@ -144,7 +144,7 @@ class Products
         if ($withListeners) {
             array_walk(
                 $this->listeners,
-                static function (callable $listener) use ($created, $success) {
+                static function (callable $listener) use ($created, $success): void {
                     $listener(ApiRestListener::CREATE, $created, $success);
                 }
             );
@@ -184,7 +184,7 @@ class Products
         if ($withListeners) {
             array_walk(
                 $this->listeners,
-                static function (callable $listener) use ($product) {
+                static function (callable $listener) use ($product): void {
                     $listener(ApiRestListener::READ, $product, true);
                 }
             );
@@ -240,7 +240,7 @@ class Products
         if ($withListeners) {
             array_walk(
                 $this->listeners,
-                static function (callable $listener) use ($product, $success) {
+                static function (callable $listener) use ($product, $success): void {
                     $listener(ApiRestListener::UPDATE, $product, $success);
                 }
             );
@@ -267,7 +267,7 @@ class Products
         if ($withListeners) {
             array_walk(
                 $this->listeners,
-                static function (callable $listener) use ($uuid, $success) {
+                static function (callable $listener) use ($uuid, $success): void {
                     $listener(ApiRestListener::DELETE, $uuid, $success);
                 }
             );

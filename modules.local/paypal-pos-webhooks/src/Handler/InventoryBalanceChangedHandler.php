@@ -73,7 +73,7 @@ class InventoryBalanceChangedHandler implements WebhookHandler
      * @throws QueueRuntimeException
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         $eventPayload = $payload->payload();
 

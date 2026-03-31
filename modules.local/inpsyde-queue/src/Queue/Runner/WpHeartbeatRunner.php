@@ -20,7 +20,7 @@ class WpHeartbeatRunner implements Runner
 
     public function initialize(QueueProcessor $queueProcessor): void
     {
-        $hook = function ($response) use ($queueProcessor) {
+        $hook = function (array $response) use ($queueProcessor): array {
             $this->shutdownRunner->initialize($queueProcessor);
 
             return $response;

@@ -48,7 +48,7 @@ class PresentationValidator implements ValidatorInterface
      *
      * @throws ValidatorException
      */
-    private function assertValidLongHexValue(string $string)
+    private function assertValidLongHexValue(string $string): void
     {
         $color = ltrim($string, '#');
 

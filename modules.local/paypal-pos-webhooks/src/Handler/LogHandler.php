@@ -27,7 +27,7 @@ class LogHandler implements WebhookHandler
     /**
      * @inheritDoc
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         $this->logger->info("Received Webhook: {$payload->eventName()}", $payload->payload());
     }

@@ -18,7 +18,7 @@ class Bootstrap
         $this->tables = $tables;
     }
 
-    public function activate()
+    public function activate(): void
     {
         global $wpdb;
         //phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
@@ -35,7 +35,7 @@ class Bootstrap
     /**
      * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
      */
-    public function deactivate()
+    public function deactivate(): void
     {
         global $wpdb;
 

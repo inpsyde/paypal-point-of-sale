@@ -32,7 +32,7 @@ namespace Syde\PayPal\PointOfSale;
 use Inpsyde\Modularity\Package;
 use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
 
-(static function () {
+(static function (): void {
     /**
      * Display an error message in the WP admin
      *
@@ -40,7 +40,7 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
      *
      * @return void
      */
-    function errorNotice(string $message)
+    function errorNotice(string $message): void
     {
         add_action(
             'all_admin_notices',
@@ -137,14 +137,14 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
     );
     register_activation_hook(
         __FILE__,
-        static function () {
+        static function (): void {
             init();
             do_action('paypal-point-of-sale.activate');
         }
     );
     register_deactivation_hook(
         __FILE__,
-        static function () {
+        static function (): void {
             init();
             do_action('paypal-point-of-sale.deactivate');
         }

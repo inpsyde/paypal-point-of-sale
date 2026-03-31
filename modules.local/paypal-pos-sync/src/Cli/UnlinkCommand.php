@@ -54,7 +54,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function product(array $args, array $assocArgs)
+    public function product(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [
@@ -79,7 +79,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function variant(array $args, array $assocArgs)
+    public function variant(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [
@@ -108,7 +108,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function images(array $args, array $assocArgs)
+    public function images(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [
@@ -140,7 +140,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function image(array $args, array $assocArgs)
+    public function image(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [

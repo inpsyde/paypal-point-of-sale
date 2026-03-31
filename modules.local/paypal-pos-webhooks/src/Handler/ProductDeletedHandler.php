@@ -36,7 +36,7 @@ class ProductDeletedHandler implements WebhookHandler
     /**
      * @inheritDoc
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         $productData = $payload->payload();
         $this->logger->info(

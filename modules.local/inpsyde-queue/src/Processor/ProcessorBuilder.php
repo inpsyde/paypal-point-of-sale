@@ -143,7 +143,7 @@ class ProcessorBuilder
             $queueWalker,
             $this->logger ?? new NullLogger(),
             $this->maxRetriesCount,
-            $this->exceptionHandler ?? static function () {
+            $this->exceptionHandler ?? static function (): void {
             }
         );
 

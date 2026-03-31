@@ -301,7 +301,7 @@ class ProductHooks
      *
      * @param callable $callable
      */
-    private function registerAfterHooks(callable $callable)
+    private function registerAfterHooks(callable $callable): void
     {
         foreach ($this->afterSaveHookNames() as $hookName) {
             add_action($hookName, $callable);
@@ -319,7 +319,7 @@ class ProductHooks
     private function prepareOldProduct(WC_Product $product): WC_Product
     {
         $clone = clone $product;
-        (function () {
+        (function (): void {
             $this->changes = [];
         })->call($clone);
 

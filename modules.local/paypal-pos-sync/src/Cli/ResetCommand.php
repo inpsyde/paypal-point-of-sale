@@ -52,7 +52,7 @@ class ResetCommand
      * @when after_wp_load
      * @throws QueueRuntimeException
      */
-    public function products(array $args, array $assocArgs)
+    public function products(array $args, array $assocArgs): void
     {
         if (!(isset($assocArgs['noconfirm']) && $assocArgs['noconfirm'] === true)) {
             WP_CLI::log("This command will delete ALL PayPal Point of Sale products in your merchant account.");

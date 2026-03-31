@@ -189,7 +189,7 @@ class ExportProductJob implements Job
             $product,
             $productId,
             $logger,
-            function () use ($wcProduct) {
+            function () use ($wcProduct): void {
                 $this->afterCreate($wcProduct);
             }
         );

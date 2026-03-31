@@ -54,7 +54,7 @@ class ChaosMonkeyPlugin implements Plugin
         ];
         $resolver->setDefaults(
             [
-                $statusProbabilityKey => static function (OptionsResolver $resolver) use ($statusProbability) {
+                $statusProbabilityKey => static function (OptionsResolver $resolver) use ($statusProbability): void {
                     foreach ($statusProbability as $status => $probability) {
                         $resolver->setDefault($status, $probability);
                         $resolver->setAllowedTypes($status, 'int');

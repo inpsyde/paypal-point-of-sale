@@ -29,12 +29,12 @@ class Bootstrap
         $this->webhookDeletion = $webhookDeletion;
     }
 
-    public function activate()
+    public function activate(): void
     {
         ($this->createJob)(WebhookRegistrationJob::TYPE);
     }
 
-    public function deactivate()
+    public function deactivate(): void
     {
         try {
             ($this->webhookDeletion)();

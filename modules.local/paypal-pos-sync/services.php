@@ -221,7 +221,7 @@ return [
             };
         },
     'paypal-pos.sync.queue-processor.cli.exception-handler' => static function (): callable {
-        return static function (Throwable $exception) {
+        return static function (Throwable $exception): void {
             // phpcs:ignore WordPress.Security.EscapeOutput
             echo $exception;
         };
@@ -262,7 +262,7 @@ return [
         );
     },
     'paypal-pos.sync.enqueue-initial-sync' => static function (C $container): callable {
-        return static function () use ($container) {
+        return static function () use ($container): void {
             $enqueue = $container->get('inpsyde.queue.enqueue-job');
             assert(is_callable($enqueue));
             $enqueue(EnqueueProductSyncJob::TYPE);

@@ -65,7 +65,7 @@ class SettingsPage extends WC_Settings_Page
         return $this->settingsApi->get_form_fields();
     }
 
-    public function output()
+    public function output(): void
     {
         try {
             $this->settingsApi->admin_options();

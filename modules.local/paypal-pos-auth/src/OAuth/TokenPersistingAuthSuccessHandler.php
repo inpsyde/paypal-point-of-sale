@@ -22,7 +22,7 @@ class TokenPersistingAuthSuccessHandler implements AuthSuccessHandler
         $this->tokenFactory = $tokenFactory;
     }
 
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response): void
     {
         $body = $response->getBody();
         $body->rewind();

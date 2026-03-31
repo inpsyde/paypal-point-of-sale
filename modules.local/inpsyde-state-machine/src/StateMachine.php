@@ -52,7 +52,7 @@ class StateMachine implements StateMachineInterface
     /**
      * @param string $initialStateName
      */
-    public function initialize(string $initialStateName)
+    public function initialize(string $initialStateName): void
     {
         $state = $this->getState($initialStateName);
         if ($state === null) {

@@ -32,7 +32,7 @@ class ZettleSyncVisibilityTaxonomy
         return $this->attachedPostType;
     }
 
-    public function create()
+    public function create(): void
     {
         $labels = [
             'name' => _x('PayPal Point of Sale Sync Visibilities', 'paypal-point-of-sale'),

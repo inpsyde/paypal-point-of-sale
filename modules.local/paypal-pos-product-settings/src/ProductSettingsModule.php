@@ -53,7 +53,7 @@ class ProductSettingsModule implements ServiceModule, ExtendingModule, Executabl
         BarcodeInputField $barcodeField,
         ProductRepositoryInterface $wcProductRepository,
         VariantBarcodeSaveHandler $saveHandler
-    ) {
+    ): void {
 
         add_action('woocommerce_product_after_variable_attributes', static function (
             int $loop,

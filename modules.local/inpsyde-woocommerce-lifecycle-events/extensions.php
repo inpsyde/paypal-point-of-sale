@@ -20,44 +20,44 @@ return [
          * debugging purposes. They should be removed later.
          */
         $provider->onChange(
-            static function (WC_Product $new, WC_Product $old) {
+            static function (WC_Product $new, WC_Product $old): void {
                 $success = 'Some product has changed!';
             },
-            static function (WC_Product_Simple $new, WC_Product_Simple $old) {
+            static function (WC_Product_Simple $new, WC_Product_Simple $old): void {
                 $success = 'A simple product has changed!';
             },
-            static function (WC_Product_Variable $new, WC_Product_Variable $old) {
+            static function (WC_Product_Variable $new, WC_Product_Variable $old): void {
                 $oldChildren = $old->get_children();
                 $newChildren = $new->get_children();
                 $success = 'A variable product has changed!';
             }
         );
         $provider->onPublish(
-            static function (WC_Product $new, WC_Product $old) {
+            static function (WC_Product $new, WC_Product $old): void {
                 $success = 'A product was published!';
             }
         );
 
         $provider->onTrash(
-            static function (WC_Product $new, WC_Product $old) {
+            static function (WC_Product $new, WC_Product $old): void {
                 $success = 'A product was moved to trash';
             }
         );
 
         $provider->onDraft(
-            static function (WC_Product $new, WC_Product $old) {
+            static function (WC_Product $new, WC_Product $old): void {
                 $success = 'A product was moved to draft';
             }
         );
 
         $provider->onDelete(
-            static function (WC_Product $new, WC_Product $old) {
+            static function (WC_Product $new, WC_Product $old): void {
                 $success = 'A product was deleted';
             }
         );
         $provider->onPropertyChange(
             'description',
-            static function (WC_Product $new, WC_Product $old) {
+            static function (WC_Product $new, WC_Product $old): void {
                 $oldDesc = $old->get_description();
                 $newDesc = $new->get_description();
                 $success = 'Description changed!';
@@ -65,7 +65,7 @@ return [
         );
         $provider->onPropertyChange(
             'stock_quantity',
-            static function (WC_Product $new, WC_Product $old) {
+            static function (WC_Product $new, WC_Product $old): void {
                 $oldStock = $old->get_stock_quantity();
                 $newStock = $new->get_stock_quantity();
                 $success = 'Stock changed!';
@@ -73,7 +73,7 @@ return [
         );
 
         $provider->onTypeChange(
-            static function (WC_Product $new) {
+            static function (WC_Product $new): void {
                 $success = 'Type changed!';
             }
         );

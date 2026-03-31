@@ -58,7 +58,7 @@ class WcProductIteratorAggregate implements WcProductIterator
      * Move on to the next iterator and check if it is has data.
      * If not, recurse until an iterator with data is found.
      */
-    private function advanceIterator()
+    private function advanceIterator(): void
     {
         $this->currentIterator = next($this->iterators);
         if (!$this->valid() && $this->currentIterator instanceof WcProductIterator) {

@@ -56,7 +56,7 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
         $this->walker = $walker;
         $this->logger = $logger;
         $this->maxRetriesCount = $maxRetriesCount;
-        $this->exceptionHandler = $exceptionHandler ?? static function () {
+        $this->exceptionHandler = $exceptionHandler ?? static function (): void {
         };
     }
 
