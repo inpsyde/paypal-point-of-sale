@@ -15,7 +15,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 
 class Inventory
 {
-    private $uri;
+    private UriInterface $uri;
 
     private RestClientInterface $restClient;
 

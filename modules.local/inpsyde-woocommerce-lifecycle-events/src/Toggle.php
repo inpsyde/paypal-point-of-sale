@@ -11,7 +11,7 @@ namespace Inpsyde\WcEvents;
  */
 class Toggle
 {
-    private $state = true;
+    private bool $state = true;
 
     /**
      * Enables dispatching of event. This is the default state

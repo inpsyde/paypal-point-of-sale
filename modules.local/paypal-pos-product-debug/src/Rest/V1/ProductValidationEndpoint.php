@@ -30,7 +30,7 @@ class ProductValidationEndpoint implements EndpointInterface
     public const STRATEGY_DEFAULT = 'default';
     public const STRATEGY_LOCAL_DB_CHECK = 'local-db-check';
 
-    private $productValidator;
+    private ProductValidator $productValidator;
 
     public function __construct(ProductValidator $productValidator)
     {

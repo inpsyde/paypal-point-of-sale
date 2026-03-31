@@ -14,7 +14,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 
 class Subscriptions
 {
-    private $uri;
+    private UriInterface $uri;
 
     private RestClientInterface $restClient;
 

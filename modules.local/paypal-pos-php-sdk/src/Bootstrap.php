@@ -9,8 +9,8 @@ use wpdb;
 
 class Bootstrap
 {
-    /** @var $tables */
-    private $tables;
+    /** @var array<Table> */
+    private array $tables;
 
     /**
      * Bootstrap constructor.

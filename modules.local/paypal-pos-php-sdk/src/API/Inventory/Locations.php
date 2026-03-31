@@ -13,7 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 
 class Locations
 {
-    private $uri;
+    private UriInterface $uri;
 
     private RestClientInterface $restClient;
 

@@ -11,7 +11,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 
 class Taxes
 {
-    private $baseUri;
+    private UriInterface $baseUri;
 
     private RestClientInterface $restClient;
 

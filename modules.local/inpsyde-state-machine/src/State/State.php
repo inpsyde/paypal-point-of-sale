@@ -8,9 +8,9 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 class State implements StateInterface
 {
-    protected $name;
+    protected string $name;
 
-    protected $type;
+    protected string $type;
 
     /**
      * @var TransitionInterface[]

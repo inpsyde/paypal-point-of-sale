@@ -19,10 +19,7 @@ class WcProductIteratorAggregate implements WcProductIterator
 
     private ?WC_Product $currentProduct = null;
 
-    /**
-     * @var WcProductIterator|null|false
-     */
-    private $currentIterator = null;
+    private WcProductIterator|null|false $currentIterator = null;
 
     /**
      * @var int The key of the current value

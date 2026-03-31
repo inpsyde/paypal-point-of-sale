@@ -11,7 +11,8 @@ class ListenerProvider implements ListenerProviderInterface
 {
     use ParameterDeriverTrait;
 
-    private $listeners;
+    /** @var array<callable> */
+    private array $listeners;
 
     public function __construct(callable ...$listeners)
     {
