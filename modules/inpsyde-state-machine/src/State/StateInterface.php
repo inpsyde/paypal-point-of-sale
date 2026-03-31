@@ -23,7 +23,7 @@ interface StateInterface
      * @param TransitionInterface|string $transition
      *
      * @return bool
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool;
 }

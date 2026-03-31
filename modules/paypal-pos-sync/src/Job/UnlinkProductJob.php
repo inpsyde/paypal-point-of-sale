@@ -80,7 +80,7 @@ class UnlinkProductJob implements Job
         }
         return \true;
     }
-    private function logSuccess(LoggerInterface $logger, string $id)
+    private function logSuccess(LoggerInterface $logger, string $id): void
     {
         $logger->info(sprintf('ID-mapping cleared for product %s', $id));
     }

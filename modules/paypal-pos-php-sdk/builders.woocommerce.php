@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle;
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 use Syde\Vendor\Zettle\Inpsyde\WcProductContracts\ProductType;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;

@@ -6,6 +6,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+// phpcs:disable Generic.PHP.DiscourageGoto
 /**
  * Class ContainerInitializer
  *

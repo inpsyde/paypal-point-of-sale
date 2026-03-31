@@ -38,7 +38,7 @@ use Throwable;
 use wpdb;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
-    //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
     return static function (C $container) use ($class, $parts) {
         return new $class(...array_map(static function (string $key) use ($container) {
             return $container->get($key);
@@ -47,7 +47,7 @@ $wire = static function (string ...$parts): callable {
     //phpcs:enable
 };
 //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-//phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+//phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 $scalar = static function ($thing): callable {
     return static function () use ($thing) {
         return $thing;
@@ -82,7 +82,7 @@ return [
     },
     'inpsyde.queue.repository' => $wire(WpDbJobRepository::class, 'inpsyde.queue.wpdb', 'inpsyde.queue.table', 'inpsyde.queue.factory', 'inpsyde.queue.logger'),
     'inpsyde.queue.exception-handler' => static function (): callable {
-        return static function (Throwable $exception) {
+        return static function (Throwable $exception): void {
             //Silence. This is intended to be overwritten/extended by clients
         };
     },
@@ -189,7 +189,7 @@ return [
         };
     },
     'inpsyde.queue.add-job-record' => static function (C $container): callable {
-        return static function (JobRecord $jobRecord, ?JobRepository $repository = null) use ($container) {
+        return static function (JobRecord $jobRecord, ?JobRepository $repository = null) use ($container): void {
             /**
              * @var JobRepository $jobRepository
              */

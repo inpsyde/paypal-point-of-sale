@@ -2,6 +2,7 @@
 
 declare (strict_types=1);
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+// phpcs:disable Syde.Functions.ArgumentTypeDeclaration
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Listener\Products;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;

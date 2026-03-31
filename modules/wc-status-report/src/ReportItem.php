@@ -31,7 +31,7 @@ class ReportItem implements ReportItemInterface
     /**
      * @inheritDoc
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

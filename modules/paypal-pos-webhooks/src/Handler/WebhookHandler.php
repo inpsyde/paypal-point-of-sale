@@ -14,8 +14,6 @@ interface WebhookHandler
     public function accepts(Payload $payload): bool;
     /**
      * @param Payload $payload
-     *
-     * @return mixed
      */
-    public function handle(Payload $payload);
+    public function handle(Payload $payload): void;
 }

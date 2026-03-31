@@ -38,7 +38,7 @@ class StateMachine implements StateMachineInterface
     /**
      * @param string $initialStateName
      */
-    public function initialize(string $initialStateName)
+    public function initialize(string $initialStateName): void
     {
         $state = $this->getState($initialStateName);
         if ($state === null) {
@@ -77,7 +77,7 @@ class StateMachine implements StateMachineInterface
      *
      * @return mixed
      * @throws DenyTransitionException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function apply($transition): StateMachineInterface
     {
@@ -113,7 +113,7 @@ class StateMachine implements StateMachineInterface
      * @param string|TransitionInterface $transition
      *
      * @return bool
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool
     {
@@ -196,7 +196,7 @@ class StateMachine implements StateMachineInterface
      *
      * @return bool
      * @throws UnexpectedValueException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     private function getState($state): StateInterface
     {

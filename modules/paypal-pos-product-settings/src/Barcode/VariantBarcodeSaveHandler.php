@@ -20,7 +20,7 @@ class VariantBarcodeSaveHandler
         $this->wcProductRepository = $wcProductRepository;
         $this->logger = $logger;
     }
-    public function save(int $variationId, int $variantIndex)
+    public function save(int $variationId, int $variantIndex): void
     {
         $variation = $this->wcProductRepository->findById($variationId);
         if (!$variation instanceof WC_Product_Variation) {

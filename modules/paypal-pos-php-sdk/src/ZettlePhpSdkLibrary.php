@@ -45,7 +45,7 @@ class ZettlePhpSdkLibrary
         $package->build();
         $this->container = $package->container();
     }
-    public function initialize()
+    public function initialize(): void
     {
         $this->module->run($this->container());
     }

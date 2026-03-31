@@ -72,7 +72,7 @@ class VariantOptionCollection
         }
         return null;
     }
-    public function set(string $key, string $value)
+    public function set(string $key, string $value): void
     {
         $existing = $this->byName($key);
         if (!$existing) {

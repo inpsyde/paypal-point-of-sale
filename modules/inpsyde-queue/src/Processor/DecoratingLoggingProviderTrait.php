@@ -13,7 +13,7 @@ trait DecoratingLoggingProviderTrait
      * @inheritDoc
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoSetter
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $inner = $this->inner();
         if (!$inner instanceof LoggerAwareInterface) {

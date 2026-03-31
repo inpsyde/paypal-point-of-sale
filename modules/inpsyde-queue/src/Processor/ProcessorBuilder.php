@@ -106,7 +106,7 @@ class ProcessorBuilder
     {
         $jobIterator = new JobIterator($this->repository, $this->types);
         $queueWalker = $this->createWalker($jobIterator);
-        $queueProcessor = new BasicQueueProcessor($this->repository, $this->jobRecordFactory, $queueWalker, $this->logger ?? new NullLogger(), $this->maxRetriesCount, $this->exceptionHandler ?? static function () {
+        $queueProcessor = new BasicQueueProcessor($this->repository, $this->jobRecordFactory, $queueWalker, $this->logger ?? new NullLogger(), $this->maxRetriesCount, $this->exceptionHandler ?? static function (): void {
         });
         if ($this->locker) {
             $queueProcessor = new LockingQueueProcessor($queueProcessor, $this->locker);

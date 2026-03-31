@@ -5,19 +5,10 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\InvalidJobException;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-/**
- * Class QueueJobFactory
- *
- * @package Inpsyde\Queue\Queue
- */
+// phpcs:disable Generic.PHP.DiscourageGoto
 class ContainerAwareJobRecordFactory implements JobRecordFactoryInterface
 {
     private ContainerInterface $container;
-    /**
-     * QueueEntryFactory constructor.
-     *
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

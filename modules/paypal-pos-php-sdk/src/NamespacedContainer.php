@@ -7,7 +7,7 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * Class NamespacedContainer
  * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk
  */

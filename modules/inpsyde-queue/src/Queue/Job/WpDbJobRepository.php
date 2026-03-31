@@ -56,7 +56,7 @@ class WpDbJobRepository implements JobRepository
             return \true;
         }
         $rowSql = '';
-        array_walk($jobRecords, function (JobRecord $jobRecord) use (&$rowSql) {
+        array_walk($jobRecords, function (JobRecord $jobRecord) use (&$rowSql): void {
             $job = $jobRecord->job();
             $context = $jobRecord->context();
             if ($job instanceof NullJob) {

@@ -182,7 +182,7 @@ class UnlinkImages implements Job
             $this->imageIdMap->deleteRecord($attachmentId, $remoteId);
         } catch (IdNotFoundException $exception) {
             $logger->info(
-                // phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+                // phpcs:ignore Syde.Files.LineLength.TooLong
                 "Could not delete {$type} image mapping {$attachmentId} <-> {$remoteId} - {$exception->getMessage()}"
             );
         }

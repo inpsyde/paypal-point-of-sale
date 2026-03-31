@@ -40,7 +40,7 @@ class WebhookModule implements ServiceModule, ExecutableModule
         });
         return \true;
     }
-    private function registerCliCommand(ContainerInterface $container)
+    private function registerCliCommand(ContainerInterface $container): void
     {
         if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
             try {
@@ -55,7 +55,7 @@ class WebhookModule implements ServiceModule, ExecutableModule
      *
      * @param ContainerInterface $container
      */
-    private function registerRestRoute(ContainerInterface $container)
+    private function registerRestRoute(ContainerInterface $container): void
     {
         add_action('rest_api_init', static function () use ($container) {
             $namespace = $container->get('paypal-pos.webhook.listener.namespace');

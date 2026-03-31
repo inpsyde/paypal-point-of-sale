@@ -75,7 +75,7 @@ return [
     'inpsyde.state-machine.events.listener-provider.internal' => static function (ListenerProvider $listenerProvider, C $container): ListenerProvider {
         $setState = $container->get('paypal-pos.onboarding.set-state');
         assert(is_callable($setState));
-        $listenerProvider->addListener(static function (PostTransition $event) use ($setState) {
+        $listenerProvider->addListener(static function (PostTransition $event) use ($setState): void {
             $setState($event->transition()->toState());
         });
         $listenerProvider->addListener($container->get('paypal-pos.onboarding.repository.auth-check-event'));

@@ -107,7 +107,7 @@ class Psr18RestClient implements RestClientInterface
                 $exception
             );
         }
-        array_walk($this->listeners, static function (callable $listener) use ($response, $request) {
+        array_walk($this->listeners, static function (callable $listener) use ($response, $request): void {
             $listener($response, $request);
         });
         $body = $response->getBody();

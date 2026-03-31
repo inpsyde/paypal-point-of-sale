@@ -39,7 +39,7 @@ class ExcludeCommand
      *
      * @when after_wp_load
      */
-    public function product(array $args, array $assocArgs)
+    public function product(array $args, array $assocArgs): void
     {
         $productId = (int) $args[0];
         $this->deleteProductJob->execute(Context::fromArray(['productId' => $productId]), new EphemeralJobRepository(), $this->logger);

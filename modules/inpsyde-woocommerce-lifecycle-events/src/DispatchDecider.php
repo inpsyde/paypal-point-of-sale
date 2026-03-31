@@ -10,12 +10,13 @@ use Syde\Vendor\Zettle\Inpsyde\WcEvents\Event\ProductChangeEvent;
  */
 class DispatchDecider
 {
-    private $deciders;
+    /** @var array<callable(ProductChangeEvent):bool> */
+    private array $deciders;
     /**
      * DispatchDecider constructor.
      * TODO Discuss if there should be a discrete DeciderInterface instead of callable
      *
-     * @param array<callable(ProductChangeEvent):bool> ...$deciders
+     * @param callable(ProductChangeEvent):bool ...$deciders
      */
     public function __construct(callable ...$deciders)
     {
@@ -42,7 +43,7 @@ class DispatchDecider
      * as its only parameter and returns boolean
      * @param callable(ProductChangeEvent):bool $decider
      */
-    public function addDecider(callable $decider)
+    public function addDecider(callable $decider): void
     {
         $this->deciders[] = $decider;
     }

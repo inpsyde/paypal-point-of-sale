@@ -77,8 +77,8 @@ class Products
         }
         $products = $collection->all();
         if ($withListeners) {
-            array_walk($products, function (ProductInterface $product) {
-                array_walk($this->listeners, static function (callable $listener) use ($product) {
+            array_walk($products, function (ProductInterface $product): void {
+                array_walk($this->listeners, static function (callable $listener) use ($product): void {
                     $listener(ApiRestListener::READ, $product, \true);
                 });
             });
@@ -113,7 +113,7 @@ class Products
             );
         }
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($created, $success) {
+            array_walk($this->listeners, static function (callable $listener) use ($created, $success): void {
                 $listener(ApiRestListener::CREATE, $created, $success);
             });
         }
@@ -144,7 +144,7 @@ class Products
             );
         }
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($product) {
+            array_walk($this->listeners, static function (callable $listener) use ($product): void {
                 $listener(ApiRestListener::READ, $product, \true);
             });
         }
@@ -183,7 +183,7 @@ class Products
             );
         }
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($product, $success) {
+            array_walk($this->listeners, static function (callable $listener) use ($product, $success): void {
                 $listener(ApiRestListener::UPDATE, $product, $success);
             });
         }
@@ -202,7 +202,7 @@ class Products
         $success = \true;
         $this->restClient->delete($url, []);
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($uuid, $success) {
+            array_walk($this->listeners, static function (callable $listener) use ($uuid, $success): void {
                 $listener(ApiRestListener::DELETE, $uuid, $success);
             });
         }

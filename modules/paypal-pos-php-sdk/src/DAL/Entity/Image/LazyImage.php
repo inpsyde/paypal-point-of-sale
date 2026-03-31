@@ -73,6 +73,7 @@ class LazyImage implements ImageInterface
                 $url = $this->urlProvider->provide((string) $this->localId);
                 $this->image = $this->syncImage($url);
             } catch (Exception $exception) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 throw new Exception("Failed to sync image {$this->localId}: {$exception->getMessage()}");
             }
             $this->map->createRecord($this->localId, $this->image->imageLookupKey());

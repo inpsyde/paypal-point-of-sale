@@ -11,7 +11,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 class Organizations
 {
-    private $uri;
+    private UriInterface $uri;
     private RestClientInterface $restClient;
     private BuilderInterface $builder;
     /**

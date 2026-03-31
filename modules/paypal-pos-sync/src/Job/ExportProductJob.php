@@ -135,7 +135,7 @@ class ExportProductJob implements Job
             $this->removeProductIfExists($productId, $logger);
             return \true;
         }
-        $this->syncProduct($product, $productId, $logger, function () use ($wcProduct) {
+        $this->syncProduct($product, $productId, $logger, function () use ($wcProduct): void {
             $this->afterCreate($wcProduct);
         });
         /**

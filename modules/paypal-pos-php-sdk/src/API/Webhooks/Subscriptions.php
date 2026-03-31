@@ -12,7 +12,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 class Subscriptions
 {
-    private $uri;
+    private UriInterface $uri;
     private RestClientInterface $restClient;
     private WebhookFactory $webhookFactory;
     public function __construct(UriInterface $uri, RestClientInterface $restClient, WebhookFactory $webhookFactory)

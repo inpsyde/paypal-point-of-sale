@@ -40,7 +40,7 @@ class ZettleIntegration extends WC_Settings_API
     /**
      * @return string
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
     public function get_option_key()
@@ -136,7 +136,7 @@ class ZettleIntegration extends WC_Settings_API
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      *
      * @return string
@@ -204,7 +204,7 @@ class ZettleIntegration extends WC_Settings_API
      * @return bool was anything saved?
      * @since 3.4.0
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
     public function update_option($key, $value = '')

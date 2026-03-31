@@ -21,7 +21,7 @@ class RequiredExtensionsValidator implements ValidatorInterface
         $this->extensions = $extensions;
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
     public function validate($value): void
     {

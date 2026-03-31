@@ -23,7 +23,7 @@ class RequiredPluginsValidator implements ValidatorInterface
         $this->plugins = $plugins;
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
     public function validate($value): void
     {

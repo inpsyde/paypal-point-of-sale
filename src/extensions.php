@@ -34,7 +34,7 @@ return [
         return $proxyFactory->forInstanceMethods($client);
     },
     'inpsyde.queue.exception-handler' => static function (callable $previous, C $container): callable {
-        return static function (Throwable $exception) use ($previous, $container) {
+        return static function (Throwable $exception) use ($previous, $container): void {
             $previous($exception);
             $container->get('inpsyde.debug.exception-handler')->handle($exception);
         };

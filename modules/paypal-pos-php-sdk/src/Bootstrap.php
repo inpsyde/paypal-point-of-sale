@@ -7,8 +7,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\Table;
 use wpdb;
 class Bootstrap
 {
-    /** @var $tables */
-    private $tables;
+    /** @var array<Table> */
+    private array $tables;
     /**
      * Bootstrap constructor.
      *
@@ -18,7 +18,7 @@ class Bootstrap
     {
         $this->tables = $tables;
     }
-    public function activate()
+    public function activate(): void
     {
         global $wpdb;
         $this->createTables($wpdb);
@@ -26,12 +26,12 @@ class Bootstrap
     /**
      * @param wpdb $wpdb
      */
-    private function createTables(wpdb $wpdb)
+    private function createTables(wpdb $wpdb): void
     {
         $charsetCollate = $wpdb->get_charset_collate();
         $prefix = $wpdb->get_blog_prefix();
         foreach ($this->tables as $table) {
-            //phpcs:disable Inpsyde.CodeQuality.LineLength.TooLong
+            //phpcs:disable Syde.Files.LineLength.TooLong
             $sql = "CREATE TABLE IF NOT EXISTS {$prefix}{$table->name()} ({$table->schema()}) {$charsetCollate};";
             // phpcs:ignore WordPress.DB.PreparedSQL
             $wpdb->query($sql);
@@ -40,7 +40,7 @@ class Bootstrap
     /**
      * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
      */
-    public function deactivate()
+    public function deactivate(): void
     {
         global $wpdb;
         $prefix = $wpdb->get_blog_prefix();

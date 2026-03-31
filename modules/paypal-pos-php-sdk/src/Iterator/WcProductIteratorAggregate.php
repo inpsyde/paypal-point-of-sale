@@ -15,10 +15,7 @@ class WcProductIteratorAggregate implements WcProductIterator
      */
     private array $iterators;
     private ?WC_Product $currentProduct = null;
-    /**
-     * @var WcProductIterator|null|false
-     */
-    private $currentIterator = null;
+    private WcProductIterator|null|false $currentIterator = null;
     /**
      * @var int The key of the current value
      */
@@ -47,7 +44,7 @@ class WcProductIteratorAggregate implements WcProductIterator
      * Move on to the next iterator and check if it is has data.
      * If not, recurse until an iterator with data is found.
      */
-    private function advanceIterator()
+    private function advanceIterator(): void
     {
         $this->currentIterator = next($this->iterators);
         if (!$this->valid() && $this->currentIterator instanceof WcProductIterator) {

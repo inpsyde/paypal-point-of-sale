@@ -37,7 +37,7 @@ class ProductSettingsModule implements ServiceModule, ExtendingModule, Executabl
         });
         return \true;
     }
-    private function addVariationBarcodeHandlers(BarcodeInputField $barcodeField, ProductRepositoryInterface $wcProductRepository, VariantBarcodeSaveHandler $saveHandler)
+    private function addVariationBarcodeHandlers(BarcodeInputField $barcodeField, ProductRepositoryInterface $wcProductRepository, VariantBarcodeSaveHandler $saveHandler): void
     {
         add_action('woocommerce_product_after_variable_attributes', static function (int $loop, array $variationData, WP_Post $variationPost) use ($barcodeField, $wcProductRepository): void {
             $variation = $wcProductRepository->findById((int) $variationPost->ID);

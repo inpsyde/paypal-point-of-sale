@@ -12,7 +12,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
  */
 class EphemeralLocker implements Locker
 {
-    private $isLocked = \false;
+    private bool $isLocked = \false;
     /**
      * @inheritDoc
      */

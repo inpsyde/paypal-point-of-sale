@@ -26,7 +26,7 @@ class ProductValidationEndpoint implements EndpointInterface
     public const ROUTE = '/validate';
     public const STRATEGY_DEFAULT = 'default';
     public const STRATEGY_LOCAL_DB_CHECK = 'local-db-check';
-    private $productValidator;
+    private ProductValidator $productValidator;
     public function __construct(ProductValidator $productValidator)
     {
         $this->productValidator = $productValidator;
@@ -65,7 +65,7 @@ class ProductValidationEndpoint implements EndpointInterface
     public function args(): array
     {
         // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-        // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return ['ids' => ['type' => 'array', 'default' => [], 'validate_callback' => static function ($value): bool {
             return is_array($value);
         }, 'sanitize_callback' => static function ($value): array {

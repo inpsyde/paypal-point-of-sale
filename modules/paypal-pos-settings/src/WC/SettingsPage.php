@@ -39,7 +39,7 @@ class SettingsPage extends WC_Settings_Page
      * @return array
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      */
     public function get_settings()
@@ -47,7 +47,7 @@ class SettingsPage extends WC_Settings_Page
         // phpcs:enable
         return $this->settingsApi->get_form_fields();
     }
-    public function output()
+    public function output(): void
     {
         try {
             $this->settingsApi->admin_options();
@@ -80,7 +80,7 @@ class SettingsPage extends WC_Settings_Page
      *
      * @return void
      *
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function save()
     {

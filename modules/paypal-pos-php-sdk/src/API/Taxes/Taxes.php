@@ -9,7 +9,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 class Taxes
 {
-    private $baseUri;
+    private UriInterface $baseUri;
     private RestClientInterface $restClient;
     private BuilderInterface $builder;
     public function __construct(UriInterface $baseUri, RestClientInterface $restClient, BuilderInterface $builder)

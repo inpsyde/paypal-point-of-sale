@@ -6,9 +6,9 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception;
 use Exception;
 use Throwable;
 /**
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
  * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
- * phpcs:disable Inpsyde.CodeQuality.LineLength.TooLong
+ * phpcs:disable Syde.Files.LineLength.TooLong
  */
 class InvalidBuilderPayloadException extends Exception implements BuilderException, ValidatorException
 {

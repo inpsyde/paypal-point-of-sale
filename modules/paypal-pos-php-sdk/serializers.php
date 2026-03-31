@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle;
 
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Metadata\Metadata;

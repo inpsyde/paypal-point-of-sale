@@ -38,13 +38,13 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\View\SyncVatP
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\WriteOnlyPasswordFieldChecker;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
 use WC_Admin_Settings;
 use wpdb;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 $job = static function (string $type): string {
     return "paypal-pos.job.{$type}";
 };
@@ -61,7 +61,7 @@ return ['paypal-pos.onboarding.wpdb' => static function (C $container): wpdb {
     }
     return $optionContainer->get($key);
 }, 'paypal-pos.onboarding.set-state' => static function (C $container): callable {
-    return static function (string $state) use ($container) {
+    return static function (string $state) use ($container): void {
         $container->get('paypal-pos.settings')->set($container->get('paypal-pos.onboarding.option.state'), $state);
     };
 }, 'paypal-pos.onboarding.current-state' => static function (C $container): string {

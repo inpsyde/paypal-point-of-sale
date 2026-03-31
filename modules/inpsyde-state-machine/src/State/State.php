@@ -6,8 +6,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\State;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 class State implements StateInterface
 {
-    protected $name;
-    protected $type;
+    protected string $name;
+    protected string $type;
     /**
      * @var TransitionInterface[]
      */
@@ -62,7 +62,7 @@ class State implements StateInterface
      * @param TransitionInterface $transition
      *
      * @return bool
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool
     {

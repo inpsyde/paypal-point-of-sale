@@ -228,6 +228,7 @@ class SyncStockJob implements Job
      * @return string[]
      *
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     private function fetchVariantUuids(WC_Product $product, LoggerInterface $logger): array
     {

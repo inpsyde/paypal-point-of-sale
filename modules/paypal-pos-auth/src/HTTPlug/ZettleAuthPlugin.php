@@ -16,7 +16,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\AuthSuccessHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
 /**
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
  */
 class ZettleAuthPlugin implements Plugin
 {
