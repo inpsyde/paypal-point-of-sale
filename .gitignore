@@ -1,7 +1,11 @@
 ### PHPUnit
 phpunit.xml
 .phpunit.result.cache
+.phpunit.cache
 .env.phpunit
+
+# Currently it is not available in Packagist, must copy the dir locally.
+/poc-wp-lite-integration-test-helper
 
 ### Modules
 /modules
@@ -47,7 +51,7 @@ jspm_packages
 .node_repl_history
 ### Composer template
 composer.phar
-/vendor
+vendor
 
 
 # Yarn stuff
