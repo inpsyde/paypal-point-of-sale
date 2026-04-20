@@ -34,17 +34,6 @@ if (!is_dir($vendorPath)) {
 /** @var \Composer\Autoload\ClassLoader $subprojectLoader */
 $subprojectLoader = require "{$vendorPath}/autoload.php";
 
-/*
- * `roots/wordpress-full` ends up extracted in two places:
- * (1) `vendor/roots/wordpress-full/` (composer default) and
- * (2) `vendor/wordpress/wordpress/` (via `extra.wordpress-install-dir`).
- * Only (2) receives the wpackagist plugins (sqlite-database-integration, woocommerce),
- * so WLITH's path finder must be pinned there — otherwise it picks (1) and the install
- * fails with no SQLite drop-in resolving to the real plugin.
- */
-$wpPath = "{$vendorPath}/wordpress/wordpress";
-putenv("WP_LITE_HELPER_CACHED_LOCAL_DEPENDENCY_WORDPRESSPATHFINDER={$wpPath}");
-
 $envFile = "{$subprojectPath}/.env.phpunit";
 if (is_file($envFile)) {
     \Dotenv\Dotenv::createImmutable($subprojectPath, '.env.phpunit')->load();
