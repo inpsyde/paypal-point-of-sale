@@ -47,18 +47,14 @@ final class ProductCollection
         return $this;
     }
 
-    /**
-     * @param string $uuid
-     *
-     * @return ProductInterface
-     */
-    public function get(string $uuid): ProductInterface
+    public function get(string $uuid): ?ProductInterface
     {
         foreach ($this->collection as $item) {
             if ($item->uuid() === (string) $uuid) {
                 return $item;
             }
         }
+        return null;
     }
 
     /**
