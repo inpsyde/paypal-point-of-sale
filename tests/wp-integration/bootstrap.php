@@ -114,6 +114,22 @@ $installTestCredentialsMuPlugin = static function () use ($filesystem, $muPlugin
                                     }
                                 };
                             },
+                            // Add an error_log-backed PSR-3 logger to the CompoundLogger so every
+                            // plugin log message appears in wp-content/paypal-pos.log.
+                            'paypal-pos.logger' => static function ($compound) {
+                                $compound->addLogger(new class extends \Psr\Log\AbstractLogger {
+                                    public function log($level, $message, array $context = []): void
+                                    {
+                                        $ctx = $context ? ' ' . json_encode($context, JSON_UNESCAPED_SLASHES) : '';
+                                        file_put_contents(
+                                            WP_CONTENT_DIR . '/paypal-pos.log',
+                                            sprintf("[%s] [%s] %s%s\n", date('H:i:s'), $level, $message, $ctx),
+                                            FILE_APPEND
+                                        );
+                                    }
+                                });
+                                return $compound;
+                            },
                         ];
                     }
                 };
@@ -135,6 +151,12 @@ Bootstrap::init(
             WpTestEnv::setup();
             $symlinkPlugin();
             $installTestCredentialsMuPlugin();
+
+            // Truncate plugin log so runs start clean.
+            file_put_contents(
+                ServiceLocator::retrieve(WordPressPath::class)->path() . '/wp-content/paypal-pos.log',
+                ''
+            );
 
             // SAVEQUERIES floods debug.log with every SQL statement, hiding plugin errors
             // we actually care about. WLITH currently enables it in the setup.
