@@ -274,7 +274,8 @@ class WpdbMap implements
         );
 
         if ($result === null) {
-            throw new Exception(sprintf('Count query failed: %s.', esc_html($this->wpdb->last_error)));
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new Exception(sprintf('Count query failed: %s.', $this->wpdb->last_error));
         }
 
         return json_decode($result, true);

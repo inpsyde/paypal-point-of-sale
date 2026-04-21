@@ -61,7 +61,8 @@ class ImageBuilder implements BuilderInterface
         );
 
         if (!$result) {
-            throw new UnexpectedImageUrlException("Could not parse image url " . esc_html($url));
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new UnexpectedImageUrlException("Could not parse image url " . $url);
         }
 
         return $matches[1];

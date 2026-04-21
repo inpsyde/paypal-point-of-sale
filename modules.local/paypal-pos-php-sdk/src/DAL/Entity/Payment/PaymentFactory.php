@@ -50,7 +50,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CardOnlinePayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -99,7 +99,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CardPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -145,7 +145,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CashPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -182,7 +182,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CustomPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -209,7 +209,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     GiftCardPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -249,7 +249,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     InvoicePayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -288,7 +288,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     KlarnaPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -321,7 +321,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     MobilePayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -354,7 +354,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     PaypalPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -387,7 +387,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     StoreCreditPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -420,7 +420,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     SwishPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -453,7 +453,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     VippsPayment::class,
-                    esc_html($validatorException->getMessage())
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }

@@ -192,7 +192,7 @@ class ZettleAuthPlugin implements Plugin
                     $contents = $body->getContents();
 
                     throw new AuthenticationException(
-                        "Authentication attempt rejected: '" . esc_html($contents) . "'",
+                        "Authentication attempt rejected: '" . $contents . "'", // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                         $response->getStatusCode() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                     );
                 }

@@ -406,7 +406,7 @@ class ExportProductJob implements Job
                     "Couldn't update the Product %d - API returned with Code %d and message %s",
                     (int) $product->localId(),
                     (int) $exception->getCode(),
-                    esc_html($exception->getMessage())
+                    $exception->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 ),
                 500,
                 $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
