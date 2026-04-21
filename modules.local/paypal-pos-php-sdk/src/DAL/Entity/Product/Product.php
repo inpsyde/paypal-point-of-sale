@@ -16,8 +16,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 /**
  * Class Product
- * phpcs:disable Inpsyde.CodeQuality.PropertyPerClassLimit.TooMuchProperties
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product
  */

@@ -40,7 +40,6 @@ class ProductEventListenerRegistry
      * Inspects the event and returns appropriate listeners.
      *
      * @param ProductChangeEvent $event
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      *
      * @return array
      */

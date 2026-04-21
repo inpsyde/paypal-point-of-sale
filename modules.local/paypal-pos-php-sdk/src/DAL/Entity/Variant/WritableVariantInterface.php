@@ -11,7 +11,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\VatSetterInterface;
 
 /**
  * Interface WritableVariantInterface
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant
  */

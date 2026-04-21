@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1); # -*- coding: utf-8 -*-
-// phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 

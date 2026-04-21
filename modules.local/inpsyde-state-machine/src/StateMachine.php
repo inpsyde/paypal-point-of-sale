@@ -161,7 +161,6 @@ class StateMachine implements StateMachineInterface
         if (!$this->currentState->can($transition)) {
             return false;
         }
-        //phpcs:disable Inpsyde.CodeQuality.NoElse
         if (is_string($transition)) {
             $transitionName = $transition;
             $transition = $this->transition($transition);

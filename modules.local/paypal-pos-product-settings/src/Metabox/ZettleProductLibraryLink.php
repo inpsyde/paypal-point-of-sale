@@ -13,7 +13,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryIn
 use WP_Post;
 
 // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-// phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
 
 class ZettleProductLibraryLink implements PostMetabox
 {

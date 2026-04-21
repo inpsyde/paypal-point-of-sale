@@ -10,9 +10,6 @@ class AggregateProvider implements ListenerProviderInterface
 {
     protected array $providers = [];
 
-    /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     */
     public function getListenersForEvent(object $event): iterable
     {
         /** @var ListenerProviderInterface $provider */

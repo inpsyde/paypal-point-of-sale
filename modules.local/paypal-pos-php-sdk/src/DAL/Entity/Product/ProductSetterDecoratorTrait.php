@@ -14,7 +14,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 /**
  * Trait ProductSetterDecoratorTrait
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product
  */

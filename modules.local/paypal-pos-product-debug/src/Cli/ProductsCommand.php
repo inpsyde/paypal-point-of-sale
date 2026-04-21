@@ -104,8 +104,6 @@ class ProductsCommand
      * @param int[] $productIds
      *
      * @return array
-     *
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     protected function processProducts(array $productIds): array
     {
@@ -197,8 +195,6 @@ class ProductsCommand
      * @param int $limit
      *
      * @return array
-     *
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     private function processExceptions(array $exceptions, int $limit = 10): array
     {
