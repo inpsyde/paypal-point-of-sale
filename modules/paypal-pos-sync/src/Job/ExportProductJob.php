@@ -276,7 +276,7 @@ class ExportProductJob implements Job
             $logger->info(sprintf('Product with Id:%d and Uuid:%s was successfully created at PayPal Point of Sale Backoffice.', $product->localId(), $product->uuid()));
             $onSuccess and $onSuccess($product);
         } catch (ZettleRestException $exception) {
-            throw new QueueRuntimeException(sprintf("Couldn't update the Product %d - API returned with Code %d and message %s", (int) $product->localId(), (int) $exception->getCode(), esc_html($exception->getMessage())), 500, $exception);
+            throw new QueueRuntimeException(sprintf("Couldn't update the Product %d - API returned with Code %d and message %s", (int) $product->localId(), (int) $exception->getCode(), $exception->getMessage()), 500, $exception);
         }
     }
     /**

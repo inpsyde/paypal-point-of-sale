@@ -44,7 +44,8 @@ class ImageBuilder implements BuilderInterface
         $matches = [];
         $result = preg_match('~https://image.izettle.com/(?:product|productimage/[Lo])/(.*)~', $url, $matches);
         if (!$result) {
-            throw new UnexpectedImageUrlException("Could not parse image url " . esc_html($url));
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new UnexpectedImageUrlException("Could not parse image url " . $url);
         }
         return $matches[1];
     }

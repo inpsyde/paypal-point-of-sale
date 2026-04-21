@@ -35,7 +35,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::CARD_ONLINE, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CardOnlinePayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CardOnlinePayment::class, $validatorException->getMessage()));
         }
         return new CardOnlinePayment($uuid, $amount);
     }
@@ -61,7 +61,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::CARD, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CardPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CardPayment::class, $validatorException->getMessage()));
         }
         return new CardPayment($uuid, $amount, $referenceNumber, $maskedPan, $cardType, $cardPaymentEntryMode, $applicationName, $applicationIdentifier, $terminalVerificationResults, $numberOfInstallments);
     }
@@ -80,7 +80,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::CASH, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CashPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CashPayment::class, $validatorException->getMessage()));
         }
         return new CashPayment($uuid, (float) $amount, (float) $handedAmount);
     }
@@ -98,7 +98,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::CUSTOM, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CustomPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', CustomPayment::class, $validatorException->getMessage()));
         }
         return new CustomPayment($uuid, $amount);
     }
@@ -110,7 +110,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::GIFTCARD, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', GiftCardPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', GiftCardPayment::class, $validatorException->getMessage()));
         }
         return new GiftCardPayment($uuid, $amount);
     }
@@ -132,7 +132,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::INVOICE, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', InvoicePayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', InvoicePayment::class, $validatorException->getMessage()));
         }
         return new InvoicePayment($uuid, $amount, $orderUuid, $invoiceNumber, new DateTime($dueDate));
     }
@@ -150,7 +150,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::KLARNA, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', KlarnaPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', KlarnaPayment::class, $validatorException->getMessage()));
         }
         return new KlarnaPayment($uuid, $amount);
     }
@@ -168,7 +168,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::MOBILE, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', MobilePayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', MobilePayment::class, $validatorException->getMessage()));
         }
         return new MobilePayment($uuid, $amount);
     }
@@ -186,7 +186,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::PAYPAL, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', PaypalPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', PaypalPayment::class, $validatorException->getMessage()));
         }
         return new PaypalPayment($uuid, $amount);
     }
@@ -204,7 +204,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::STORE_CREDIT, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', StoreCreditPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', StoreCreditPayment::class, $validatorException->getMessage()));
         }
         return new StoreCreditPayment($uuid, $amount);
     }
@@ -222,7 +222,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::SWISH, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', SwishPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', SwishPayment::class, $validatorException->getMessage()));
         }
         return new SwishPayment($uuid, $amount);
     }
@@ -240,7 +240,7 @@ class PaymentFactory
         try {
             $this->paymentValidator->validate(PaymentType::VIPPS, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', VippsPayment::class, esc_html($validatorException->getMessage())));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', VippsPayment::class, $validatorException->getMessage()));
         }
         return new VippsPayment($uuid, $amount);
     }
