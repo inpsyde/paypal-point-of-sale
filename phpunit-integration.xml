@@ -2,14 +2,14 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-    bootstrap="bootstrap.php"
+    bootstrap="tests/wp-integration/bootstrap.php"
     colors="true"
     processIsolation="false"
     cacheDirectory=".phpunit.cache"
     displayDetailsOnTestsThatTriggerWarnings="true">
     <testsuites>
         <testsuite name="wp-integration">
-            <directory>tests</directory>
+            <directory>tests/wp-integration/tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Syde\PayPal\PointOfSale\Test\WpIntegration;
-
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
