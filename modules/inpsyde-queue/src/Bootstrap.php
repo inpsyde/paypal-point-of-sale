@@ -17,7 +17,6 @@ class Bootstrap
     public function activate(): void
     {
         global $wpdb;
-        //phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
         $charset_collate = $wpdb->get_charset_collate();
         $prefix = $wpdb->get_blog_prefix();
         foreach ($this->tables as $table) {

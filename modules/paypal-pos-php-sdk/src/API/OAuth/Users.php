@@ -21,7 +21,6 @@ class Users
     /**
      * @return array
      * @throws ZettleRestException
-     * phpcs:disable Inpsyde.CodeQuality.ElementNameMinimalLength.TooShort
      */
     public function me(): array
     {

@@ -40,7 +40,6 @@ class SettingsPage extends WC_Settings_Page
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      */
     public function get_settings()
     {

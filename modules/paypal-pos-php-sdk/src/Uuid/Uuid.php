@@ -91,7 +91,6 @@ class Uuid
      * @param string $digits
      *
      * @return string
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     private static function toBinary(string $digits): string
     {

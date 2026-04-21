@@ -18,9 +18,6 @@ class ListenerProvider implements ListenerProviderInterface
     {
         $this->listeners[] = $listener;
     }
-    /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     */
     public function getListenersForEvent(object $event): iterable
     {
         $eventType = get_class($event);

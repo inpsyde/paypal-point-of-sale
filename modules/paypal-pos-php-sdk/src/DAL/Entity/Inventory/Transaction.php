@@ -5,7 +5,6 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory
 
 /**
  * Class Transaction
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory
  */

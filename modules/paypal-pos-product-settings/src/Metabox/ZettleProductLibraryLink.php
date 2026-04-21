@@ -11,7 +11,6 @@ use Syde\Vendor\Zettle\MetaboxOrchestra\PostMetabox;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use WP_Post;
 // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-// phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
 class ZettleProductLibraryLink implements PostMetabox
 {
     public const ID = 'zettle-product-library-link';

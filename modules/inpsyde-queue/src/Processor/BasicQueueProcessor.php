@@ -46,7 +46,6 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
     }
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoSetter
      */
     public function setLogger(LoggerInterface $logger): void
     {

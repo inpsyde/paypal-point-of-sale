@@ -39,7 +39,6 @@ class ZettleIntegration extends WC_Settings_API
     }
     /**
      * @return string
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
@@ -68,7 +67,6 @@ class ZettleIntegration extends WC_Settings_API
     /**
      * @return bool|void
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     public function process_admin_options()
     {
@@ -137,7 +135,6 @@ class ZettleIntegration extends WC_Settings_API
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      *
      * @return string
      */

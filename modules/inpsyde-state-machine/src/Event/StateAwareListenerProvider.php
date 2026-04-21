@@ -18,7 +18,6 @@ class StateAwareListenerProvider implements ListenerProviderInterface
         $this->listeners[$state]->addListener($listener);
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function getListenersForEvent(object $event): iterable

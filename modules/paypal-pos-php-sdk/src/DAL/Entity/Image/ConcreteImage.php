@@ -6,8 +6,6 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image;
 /**
  * Class Image
  *
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
- *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image
  */
 class ConcreteImage implements ImageInterface
