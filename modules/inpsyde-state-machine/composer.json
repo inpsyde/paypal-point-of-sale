@@ -1,0 +1,25 @@
+{
+    "name": "inpsyde\/inpsyde-state-machine",
+    "type": "inpsyde-module",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "inpsyde\/modularity": "^1.7",
+        "psr\/event-dispatcher": "^1.0"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^8.0 || ^9.0",
+        "inpsyde\/monkery-test-case": "^6.0.1",
+        "brianium\/paratest": "^4.0 || ^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\StateMachine\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\StateMachine\\Test\\": "tests\/PHPUnit\/Helper"
+        }
+    }
+}
