@@ -9,22 +9,10 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 class LazyVariant implements VariantInterface, StockQuantityAwareInterface, PriceAwareInterface
 {
     use VariantGetterDecoratorTrait;
-    /**
-     * @var int
-     */
-    private $localId;
-    /**
-     * @var VariantTransferInterface
-     */
-    private $base;
-    /**
-     * @var MapRecordCreator
-     */
-    private $recordCreator;
-    /**
-     * @var bool
-     */
-    private $persisted;
+    private int $localId;
+    private VariantTransferInterface $base;
+    private MapRecordCreator $recordCreator;
+    private bool $persisted = \false;
     public function __construct(int $localId, VariantTransferInterface $base, MapRecordCreator $recordCreator)
     {
         $this->localId = $localId;

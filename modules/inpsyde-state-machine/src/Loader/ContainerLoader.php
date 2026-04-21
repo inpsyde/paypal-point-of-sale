@@ -11,18 +11,9 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 class ContainerLoader implements LoaderInterface
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var InitializerInterface
-     */
-    private $initializer;
+    private string $namespace;
+    private ContainerInterface $container;
+    private InitializerInterface $initializer;
     public function __construct(string $namespace, InitializerInterface $initializer, ContainerInterface $container)
     {
         $this->namespace = $namespace;
@@ -36,7 +27,7 @@ class ContainerLoader implements LoaderInterface
         $this->loadGuards($stateMachine);
         return $stateMachine;
     }
-    private function loadStates(StateMachineInterface $stateMachine)
+    private function loadStates(StateMachineInterface $stateMachine): void
     {
         $key = "{$this->namespace}.states";
         if (!$this->container->has($key)) {
@@ -50,7 +41,7 @@ class ContainerLoader implements LoaderInterface
         }
         $this->initializer->initialize($stateMachine, ...$states);
     }
-    private function loadTransitions(StateMachineInterface $stateMachine)
+    private function loadTransitions(StateMachineInterface $stateMachine): void
     {
         $key = "{$this->namespace}.transitions";
         if (!$this->container->has($key)) {
@@ -63,7 +54,7 @@ class ContainerLoader implements LoaderInterface
             $stateMachine->addTransition($state);
         }
     }
-    private function loadGuards(StateMachineInterface $stateMachine)
+    private function loadGuards(StateMachineInterface $stateMachine): void
     {
         $guards = [$this->container->get("inpsyde.state-machine.guards.container-aware")];
         $key = "{$this->namespace}.guards";

@@ -13,14 +13,8 @@ use WP_REST_Response;
 use WP_REST_Server;
 class DisconnectEndpoint implements EndpointInterface
 {
-    /**
-     * @var Job
-     */
-    protected $onboardingResetJob;
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected Job $onboardingResetJob;
+    protected LoggerInterface $logger;
     public function __construct(Job $onboardingResetJob, LoggerInterface $logger)
     {
         $this->onboardingResetJob = $onboardingResetJob;

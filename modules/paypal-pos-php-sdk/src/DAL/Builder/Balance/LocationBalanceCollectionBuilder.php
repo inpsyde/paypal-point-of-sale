@@ -7,14 +7,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance\Locatio
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance\LocationBalanceCollectionFactory;
 class LocationBalanceCollectionBuilder implements LocationBalanceCollectionBuilderInterface
 {
-    /**
-     * @var LocationBalanceCollectionFactory
-     */
-    private $locationBalanceCollectionFactory;
-    /**
-     * @var LocationBalanceBuilder
-     */
-    private $locationBalanceBuilder;
+    private LocationBalanceCollectionFactory $locationBalanceCollectionFactory;
+    private LocationBalanceBuilder $locationBalanceBuilder;
     /**
      * LocationBalanceCollectionBuilder constructor.
      *

@@ -5,7 +5,6 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Log;
 
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Psr\Log\LoggerTrait;
-use Syde\Vendor\Zettle\Psr\Log\LogLevel;
 /**
  * Class ArrayLogger
  *
@@ -20,14 +19,8 @@ use Syde\Vendor\Zettle\Psr\Log\LogLevel;
 class ArrayLogger implements LoggerInterface
 {
     use LoggerTrait;
-    /**
-     * @var array
-     */
-    private $storage = [];
-    /**
-     * @var LoggerInterface|null
-     */
-    private $childLogger;
+    private array $storage = [];
+    private ?LoggerInterface $childLogger = null;
     public function __construct(LoggerInterface $childLogger = null)
     {
         $this->childLogger = $childLogger;

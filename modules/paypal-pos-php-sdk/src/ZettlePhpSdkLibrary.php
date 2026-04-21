@@ -14,14 +14,8 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
  */
 class ZettlePhpSdkLibrary
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var PhpSdkModule
-     */
-    private $module;
+    private ContainerInterface $container;
+    private PhpSdkModule $module;
     public function __construct(array $factories = [], array $extensions = [])
     {
         $this->module = new PhpSdkModule();
@@ -31,14 +25,8 @@ class ZettlePhpSdkLibrary
             $package->addModule(new class($factories, $extensions) implements ServiceModule, ExtendingModule
             {
                 use ModuleClassNameIdTrait;
-                /**
-                 * @var array
-                 */
-                private $factories;
-                /**
-                 * @var array
-                 */
-                private $extensions;
+                private array $factories;
+                private array $extensions;
                 public function __construct(array $factories, array $extensions)
                 {
                     $this->factories = $factories;
@@ -57,7 +45,7 @@ class ZettlePhpSdkLibrary
         $package->build();
         $this->container = $package->container();
     }
-    public function initialize()
+    public function initialize(): void
     {
         $this->module->run($this->container());
     }

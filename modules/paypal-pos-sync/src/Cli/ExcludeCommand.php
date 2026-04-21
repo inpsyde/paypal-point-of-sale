@@ -9,18 +9,9 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class ExcludeCommand
 {
-    /**
-     * @var Job
-     */
-    private $deleteProductJob;
-    /**
-     * @var Job
-     */
-    private $unlinkProductJob;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private Job $deleteProductJob;
+    private Job $unlinkProductJob;
+    private LoggerInterface $logger;
     /**
      * ExcludeCommand constructor.
      *
@@ -48,7 +39,7 @@ class ExcludeCommand
      *
      * @when after_wp_load
      */
-    public function product(array $args, array $assocArgs)
+    public function product(array $args, array $assocArgs): void
     {
         $productId = (int) $args[0];
         $this->deleteProductJob->execute(Context::fromArray(['productId' => $productId]), new EphemeralJobRepository(), $this->logger);

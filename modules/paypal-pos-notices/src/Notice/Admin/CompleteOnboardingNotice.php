@@ -11,10 +11,7 @@ class CompleteOnboardingNotice implements NoticeInterface
      * @var callable
      */
     private $isIntegrationPageCallback;
-    /**
-     * @var string
-     */
-    private $settingsUrl;
+    private string $settingsUrl;
     /**
      * CompleteOnboardingNotice constructor.
      *

@@ -8,14 +8,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purcha
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseCollectionFactory;
 class PurchaseCollectionBuilder implements PurchaseCollectionBuilderInterface
 {
-    /**
-     * @var PurchaseCollectionFactory
-     */
-    private $purchaseCollectionFactory;
-    /**
-     * @var PurchaseBuilder
-     */
-    private $purchaseBuilder;
+    private PurchaseCollectionFactory $purchaseCollectionFactory;
+    private PurchaseBuilder $purchaseBuilder;
     /**
      * PurchaseCollectionBuilder constructor.
      *

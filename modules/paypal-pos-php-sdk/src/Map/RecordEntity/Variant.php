@@ -6,30 +6,12 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\RecordEntity;
 class Variant
 {
     public const TYPE = 'variant';
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var int
-     */
-    private $localId;
-    /**
-     * @var string
-     */
-    private $type;
-    /**
-     * @var int
-     */
-    private $siteId;
-    /**
-     * @var array
-     */
-    private $meta;
+    private int $id;
+    private string $uuid;
+    private int $localId;
+    private string $type;
+    private int $siteId;
+    private array $meta;
     /**
      * Variant constructor.
      *

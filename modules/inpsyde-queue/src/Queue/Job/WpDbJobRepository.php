@@ -11,9 +11,9 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
+use DateTime;
 use Exception;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Db\Table;
-use DateTime;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\InvalidJobException;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use stdClass;
@@ -25,22 +25,10 @@ use wpdb;
  */
 class WpDbJobRepository implements JobRepository
 {
-    /**
-     * @var wpdb
-     */
-    private $database;
-    /**
-     * @var Table
-     */
-    private $queueTable;
-    /**
-     * @var JobRecordFactoryInterface
-     */
-    private $jobRecordFactory;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private wpdb $database;
+    private Table $queueTable;
+    private JobRecordFactoryInterface $jobRecordFactory;
+    private LoggerInterface $logger;
     /**
      * NetworkQueueJobRepository constructor.
      *
@@ -68,7 +56,7 @@ class WpDbJobRepository implements JobRepository
             return \true;
         }
         $rowSql = '';
-        array_walk($jobRecords, function (JobRecord $jobRecord) use (&$rowSql) {
+        array_walk($jobRecords, function (JobRecord $jobRecord) use (&$rowSql): void {
             $job = $jobRecord->job();
             $context = $jobRecord->context();
             if ($job instanceof NullJob) {

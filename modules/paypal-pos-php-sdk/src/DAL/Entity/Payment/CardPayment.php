@@ -6,42 +6,15 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Type\PaymentType;
 final class CardPayment extends AbstractPaymentMethod
 {
-    /**
-     * @var string
-     */
-    private $referenceNumber;
-    /**
-     * @var string
-     */
-    private $maskedPan;
-    /**
-     * @var string
-     */
-    private $cardType;
-    /**
-     * @var string
-     */
-    private $cardPaymentEntryMode;
-    /**
-     * @var string|null
-     */
-    private $applicationName;
-    /**
-     * @var string|null
-     */
-    private $applicationIdentifier;
-    /**
-     * @var string|null
-     */
-    private $terminalVerificationResults;
-    /**
-     * @var int|null
-     */
-    private $numberOfInstallments;
-    /**
-     * @var int|null
-     */
-    private $installmentAmount;
+    private string $referenceNumber;
+    private string $maskedPan;
+    private string $cardType;
+    private string $cardPaymentEntryMode;
+    private ?string $applicationName = null;
+    private ?string $applicationIdentifier = null;
+    private ?string $terminalVerificationResults = null;
+    private ?int $numberOfInstallments = null;
+    private ?int $installmentAmount = null;
     /**
      * CardPayment constructor.
      *

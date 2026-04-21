@@ -1,5 +1,6 @@
 <?php
 
+declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Iterator\Attachment;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Iterator\WcProductIterator;
@@ -15,15 +16,9 @@ class ChildrenImageIterator implements WcProductIterator
     /**
      * @var int[]
      */
-    private $children = [];
-    /**
-     * @var int
-     */
-    private $key = 0;
-    /**
-     * @var WC_Product
-     */
-    private $product;
+    private array $children = [];
+    private int $key = 0;
+    private WC_Product $product;
     public function __construct(WC_Product $product)
     {
         $this->product = $product;

@@ -8,10 +8,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\Filter;
  */
 class GenericSettingsValueFilter implements SettingsValueFilter
 {
-    /**
-     * @var string
-     */
-    protected $key;
+    protected string $key;
     /**
      * @var callable(string):bool
      */

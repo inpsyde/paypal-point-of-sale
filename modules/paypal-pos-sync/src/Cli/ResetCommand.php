@@ -8,32 +8,17 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueRuntimeException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\Table as IdMapTable;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\WP_CLI;
 class ResetCommand
 {
-    /**
-     * @var Products
-     */
-    private $productsClient;
-    /**
-     * @var IdMapTable
-     */
-    private $idMapTable;
-    /**
-     * @var QueueTable
-     */
-    private $queueTable;
-    /**
-     * @var Job
-     */
-    private $wipeRemoteJob;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private Products $productsClient;
+    private IdMapTable $idMapTable;
+    private QueueTable $queueTable;
+    private Job $wipeRemoteJob;
+    private LoggerInterface $logger;
     public function __construct(Job $wipeRemoteJob, LoggerInterface $logger, IdMapTable $idMapTable, QueueTable $queueTable)
     {
         $this->wipeRemoteJob = $wipeRemoteJob;
@@ -54,7 +39,7 @@ class ResetCommand
      * @when after_wp_load
      * @throws QueueRuntimeException
      */
-    public function products(array $args, array $assocArgs)
+    public function products(array $args, array $assocArgs): void
     {
         if (!(isset($assocArgs['noconfirm']) && $assocArgs['noconfirm'] === \true)) {
             WP_CLI::log("This command will delete ALL PayPal Point of Sale products in your merchant account.");

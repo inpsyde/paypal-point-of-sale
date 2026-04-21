@@ -20,7 +20,7 @@ class QueueModule implements ServiceModule, ExecutableModule
         return require __DIR__ . '/../services.php';
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function run(ContainerInterface $container): bool
     {

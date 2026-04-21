@@ -7,7 +7,7 @@ use Exception;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidationErrorCodes;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 use Throwable;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 class MaximumVariantOptionDefinitionsAmountException extends Exception implements ValidatorException
 {
     /**

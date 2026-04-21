@@ -13,26 +13,15 @@ class JobIterator implements Iterator
 {
     /**
      * Used to fetch a batch of new jobs once we're done with the current one
-     * @var JobRepository
      */
-    private $repo;
-    /**
-     * @var array
-     */
-    private $types;
+    private JobRepository $repo;
+    private array $types;
     /**
      * Current batch of jobs to iterate over
-     * @var array
      */
-    private $jobs = [];
-    /**
-     * @var Job
-     */
-    private $current;
-    /**
-     * @var int
-     */
-    private $idx = 0;
+    private array $jobs = [];
+    private ?JobRecord $current = null;
+    private int $idx = 0;
     /**
      * @var callable
      */
@@ -69,7 +58,7 @@ class JobIterator implements Iterator
     /**
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
+     * @return bool The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
      * @since 5.0.0
      */

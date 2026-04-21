@@ -8,7 +8,7 @@ class NoticeDelegator
     /**
      * @var NoticeInterface[]
      */
-    private $notices;
+    private array $notices;
     /**
      * NoticeDelegator constructor.
      *

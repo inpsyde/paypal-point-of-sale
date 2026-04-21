@@ -9,10 +9,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Exception\ValidatorExc
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
 class CoordinatesFactory
 {
-    /**
-     * @var CoordinatesValidator
-     */
-    private $coordinatesValidator;
+    private CoordinatesValidator $coordinatesValidator;
     /**
      * CoordinatesFactory constructor.
      *

@@ -13,18 +13,9 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purcha
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Type\SourceType;
 class PurchaseBuilder implements PurchaseBuilderInterface
 {
-    /**
-     * @var PurchaseFactory
-     */
-    private $purchaseFactory;
-    /**
-     * @var UserBuilder
-     */
-    private $userBuilder;
-    /**
-     * @var CoordinatesBuilder
-     */
-    private $coordinatesBuilder;
+    private PurchaseFactory $purchaseFactory;
+    private UserBuilder $userBuilder;
+    private CoordinatesBuilder $coordinatesBuilder;
     /**
      * PurchaseBuilder constructor.
      *

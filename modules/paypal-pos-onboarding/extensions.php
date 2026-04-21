@@ -9,11 +9,11 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\StateAwareListenerProvider;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\TransitionAwareListenerProvider;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
 use Syde\Vendor\Zettle\Inpsyde\WcEvents\Toggle;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\OrganizationProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return [
     'paypal-pos.init-possible' => static function (bool $previous, C $ctr): bool {
         $initableStates = [OnboardingState::SYNC_PARAM_PRODUCTS, OnboardingState::SYNC_PARAM_VAT, OnboardingState::SYNC_PROGRESS, OnboardingState::SYNC_FINISHED, OnboardingState::ONBOARDING_COMPLETED];
@@ -75,7 +75,7 @@ return [
     'inpsyde.state-machine.events.listener-provider.internal' => static function (ListenerProvider $listenerProvider, C $container): ListenerProvider {
         $setState = $container->get('paypal-pos.onboarding.set-state');
         assert(is_callable($setState));
-        $listenerProvider->addListener(static function (PostTransition $event) use ($setState) {
+        $listenerProvider->addListener(static function (PostTransition $event) use ($setState): void {
             $setState($event->transition()->toState());
         });
         $listenerProvider->addListener($container->get('paypal-pos.onboarding.repository.auth-check-event'));

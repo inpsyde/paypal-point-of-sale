@@ -8,114 +8,33 @@ use DateTimeZone;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 final class Organization
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var Vat|null
-     */
-    private $vat;
-    /**
-     * @var string
-     */
-    private $currency;
-    /**
-     * @var string|null
-     */
-    private $name;
-    /**
-     * @var string|null
-     */
-    private $city;
-    /**
-     * @var string|null
-     */
-    private $zipCode;
-    /**
-     * @var string|null
-     */
-    private $address;
-    /**
-     * @var string|null
-     */
-    private $phoneNumber;
-    /**
-     * @var string|null
-     */
-    private $contactEmail;
-    /**
-     * @var string|null
-     */
-    private $receiptEmail;
-    /**
-     * @var string|null
-     */
-    private $legalEntityType;
-    /**
-     * @var string|null
-     */
-    private $legalEntityNr;
-    /**
-     * @var string|null
-     */
-    private $country;
-    /**
-     * @var string|null
-     */
-    private $language;
-    /**
-     * @var DateTime|null
-     */
-    private $created;
-    /**
-     * @var string|null
-     */
-    private $ownerUuid;
-    /**
-     * @var int|null
-     */
-    private $organizationId;
-    /**
-     * @var string|null
-     */
-    private $customerStatus;
-    /**
-     * @var string
-     */
-    private $taxationMode;
-    /**
-     * @var string
-     */
-    private $taxationType;
-    /**
-     * @var string|null
-     */
-    private $customerType;
-    /**
-     * @var DateTimeZone
-     */
-    private $timeZone;
-    /**
-     * @var string|null
-     */
-    private $addressLine2;
-    /**
-     * @var string|null
-     */
-    private $legalName;
-    /**
-     * @var string|null
-     */
-    private $legalZipCode;
-    /**
-     * @var string|null
-     */
-    private $legalCity;
-    /**
-     * @var string|null
-     */
-    private $legalState;
+    private string $uuid;
+    private ?Vat $vat = null;
+    private string $currency;
+    private ?string $name = null;
+    private ?string $city = null;
+    private ?string $zipCode = null;
+    private ?string $address = null;
+    private ?string $phoneNumber = null;
+    private ?string $contactEmail = null;
+    private ?string $receiptEmail = null;
+    private ?string $legalEntityType = null;
+    private ?string $legalEntityNr = null;
+    private ?string $country = null;
+    private ?string $language = null;
+    private ?DateTime $created = null;
+    private ?string $ownerUuid = null;
+    private ?int $organizationId = null;
+    private ?string $customerStatus = null;
+    private string $taxationMode;
+    private string $taxationType;
+    private ?string $customerType = null;
+    private ?DateTimeZone $timeZone;
+    private ?string $addressLine2 = null;
+    private ?string $legalName = null;
+    private ?string $legalZipCode = null;
+    private ?string $legalCity = null;
+    private ?string $legalState = null;
     public function __construct(string $uuid, ?Vat $vat, string $currency, ?string $name = null, ?string $city = null, ?string $zipCode = null, ?string $address = null, ?string $phoneNumber = null, ?string $contactEmail = null, ?string $receiptEmail = null, ?string $legalEntityType = null, ?string $legalEntityNr = null, ?string $country = null, ?string $language = null, ?DateTime $created = null, ?string $ownerUuid = null, ?int $organizationId = null, ?string $customerStatus = null, string $taxationMode = TaxationMode::INCLUSIVE, string $taxationType = TaxationType::VAT, ?string $customerType = null, ?DateTimeZone $timeZone = null, ?string $addressLine2 = null, ?string $legalName = null, ?string $legalZipCode = null, ?string $legalCity = null, ?string $legalState = null)
     {
         $this->uuid = $uuid;

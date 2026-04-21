@@ -8,18 +8,12 @@ use Syde\Vendor\Zettle\Psr\Log\LogLevel;
 use Throwable;
 class LogExceptionHandler implements ExceptionHandler
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    /**
-     * @var ExceptionFormatter
-     */
-    private $formatter;
+    private LoggerInterface $logger;
+    private ExceptionFormatter $formatter;
     /**
      * @var string[]
      */
-    private $levels;
+    private array $levels;
     public function __construct(LoggerInterface $logger, ExceptionFormatter $formatter, array $levels)
     {
         $this->logger = $logger;

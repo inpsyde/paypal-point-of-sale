@@ -4,6 +4,8 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Image;
 
 use Exception;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
@@ -12,29 +14,14 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Image\ImageFormat;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Image\ImageFormatRetrieverInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use UnexpectedValueException;
 class Images
 {
-    /**
-     * @var UriInterface
-     */
-    private $uri;
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /** @var ImageFormatRetrieverInterface */
-    private $imageFormatRetriever;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private UriInterface $uri;
+    private RestClientInterface $restClient;
+    private BuilderInterface $builder;
+    private ImageFormatRetrieverInterface $imageFormatRetriever;
+    private LoggerInterface $logger;
     public function __construct(UriInterface $uri, RestClientInterface $restClient, BuilderInterface $builder, ImageFormatRetrieverInterface $imageFormatRetriever, LoggerInterface $logger)
     {
         $this->uri = $uri;

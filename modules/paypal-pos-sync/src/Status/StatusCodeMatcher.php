@@ -9,7 +9,7 @@ class StatusCodeMatcher implements ArrayAccess
     /**
      * @var array<string, string>
      */
-    private $statusMap;
+    private array $statusMap;
     public function __construct(array $statusMap)
     {
         $this->statusMap = $statusMap;

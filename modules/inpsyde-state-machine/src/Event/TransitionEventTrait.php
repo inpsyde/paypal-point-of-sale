@@ -6,14 +6,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 trait TransitionEventTrait
 {
-    /**
-     * @var string
-     */
-    private $fromState;
-    /**
-     * @var TransitionInterface
-     */
-    private $transition;
+    private string $fromState;
+    private TransitionInterface $transition;
     public function __construct(string $fromState, TransitionInterface $transition)
     {
         $this->fromState = $fromState;

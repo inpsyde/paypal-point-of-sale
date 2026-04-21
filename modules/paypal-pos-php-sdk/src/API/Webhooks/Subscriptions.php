@@ -3,24 +3,18 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks;
 
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Webhook;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\WebhookFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\ZettleWebhook;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 class Subscriptions
 {
-    private $uri;
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
-    /**
-     * @var WebhookFactory
-     */
-    private $webhookFactory;
+    private UriInterface $uri;
+    private RestClientInterface $restClient;
+    private WebhookFactory $webhookFactory;
     public function __construct(UriInterface $uri, RestClientInterface $restClient, WebhookFactory $webhookFactory)
     {
         $this->uri = $uri;

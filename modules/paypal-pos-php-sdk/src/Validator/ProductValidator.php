@@ -6,7 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MaximumVariantsException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MinimumVariantsException;
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 class ProductValidator implements ValidatorInterface
 {
     public const MINIMUM_VARIANTS_AMOUNT = 0;
@@ -44,7 +44,7 @@ class ProductValidator implements ValidatorInterface
     public function validateMinimumVariants(ProductInterface $product): bool
     {
         if (count($product->variants()->all()) === self::MINIMUM_VARIANTS_AMOUNT) {
-            throw new MinimumVariantsException($product->name());
+            throw new MinimumVariantsException(esc_html($product->name()));
         }
         return \true;
     }
@@ -60,7 +60,7 @@ class ProductValidator implements ValidatorInterface
     {
         $variantsAmount = count($product->variants()->all());
         if ($variantsAmount > self::MAXIMUM_VARIANTS_AMOUNT) {
-            throw new MaximumVariantsException($product->name(), $variantsAmount);
+            throw new MaximumVariantsException(esc_html($product->name()), (int) $variantsAmount);
         }
         return \true;
     }

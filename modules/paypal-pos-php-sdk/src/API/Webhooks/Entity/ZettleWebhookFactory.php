@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\Vendor\Zettle\Nyholm\Psr7\Uri;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\Vendor\Zettle\Symfony\Component\Uid\Uuid;
 class ZettleWebhookFactory implements WebhookFactory
 {

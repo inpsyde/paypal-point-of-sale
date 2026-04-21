@@ -6,14 +6,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 class OnboardingCompletedView implements OnboardingView
 {
     use ButtonRendererTrait;
-    /**
-     * @var array
-     */
-    private $zettleProductsLink;
-    /**
-     * @var array
-     */
-    private $settingsLink;
+    private array $zettleProductsLink;
+    private array $settingsLink;
     /**
      * @param array $zettleProductsLink
      */

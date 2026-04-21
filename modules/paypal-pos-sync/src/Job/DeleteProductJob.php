@@ -7,23 +7,17 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class DeleteProductJob implements Job
 {
     use ExceptionLoggingTrait;
-    const TYPE = 'delete-product';
-    /**
-     * @var Products
-     */
-    private $productsClient;
-    /**
-     * @var RemoteIdProvider
-     */
-    private $remoteIdProvider;
+    public const TYPE = 'delete-product';
+    private Products $productsClient;
+    private RemoteIdProvider $remoteIdProvider;
     /**
      * @var callable
      */

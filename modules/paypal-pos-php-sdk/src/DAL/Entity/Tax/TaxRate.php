@@ -5,22 +5,10 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax;
 
 class TaxRate
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var string
-     */
-    private $label;
-    /**
-     * @var float|null
-     */
-    private $percentage;
-    /**
-     * @var bool|null
-     */
-    private $default;
+    private string $uuid;
+    private string $label;
+    private ?float $percentage = null;
+    private ?bool $default = null;
     public function __construct(string $uuid, string $label, ?float $percentage, ?bool $default)
     {
         $this->uuid = $uuid;

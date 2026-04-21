@@ -1,17 +1,14 @@
 <?php
 
 declare (strict_types=1);
-// phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+// phpcs:disable Syde.Functions.FunctionLength.TooLong
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 use WC_Settings_API;
 class ApiCredentialsView extends SettingsFieldView implements OnboardingView
 {
-    /**
-     * @var array
-     */
-    private $apiKeyCreationLink;
+    private array $apiKeyCreationLink;
     /**
      * ApiCredentialsView constructor.
      *
@@ -58,7 +55,7 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
 
         <p>
             <?php 
-        echo sprintf("%s %s %s", esc_html__('1.', 'paypal-point-of-sale'), sprintf('<a class="link" rel="noopener noreferrer" target="_blank"
+        printf("%s %s %s", esc_html__('1.', 'paypal-point-of-sale'), sprintf('<a class="link" rel="noopener noreferrer" target="_blank"
                         href="%s" data-popup="%s">%s</a>', esc_url($this->apiKeyCreationLink['url']), esc_attr($this->apiKeyCreationLink['popup'] ? 'true' : 'false'), esc_html__('Create an API key', 'paypal-point-of-sale')), esc_html__('in PayPal Point of Sale to allow WooCommerce access.', 'paypal-point-of-sale'));
         ?>
         </p>

@@ -8,6 +8,7 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Inpsyde\WcProductContracts\ProductType;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\LazyProduct;
@@ -15,7 +16,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 /**
  * Class SetInventoryTrackingJob
  *
@@ -28,22 +28,10 @@ class SetInventoryTrackingJob implements Job
 {
     use ExceptionLoggingTrait;
     public const TYPE = 'set-inventory-tracking';
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var Inventory
-     */
-    private $inventoryClient;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /**
-     * @var OneToManyMapInterface
-     */
-    private $variantMap;
+    private ProductRepositoryInterface $repository;
+    private Inventory $inventoryClient;
+    private BuilderInterface $builder;
+    private OneToManyMapInterface $variantMap;
     /**
      * SetInventoryTrackingJob constructor.
      *

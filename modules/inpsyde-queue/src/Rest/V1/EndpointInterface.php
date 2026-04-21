@@ -1,7 +1,6 @@
 <?php
 
 declare (strict_types=1);
-# -*- coding: utf-8 -*-
 namespace Syde\Vendor\Zettle\Inpsyde\Queue\Rest\V1;
 
 use WP_REST_Request;

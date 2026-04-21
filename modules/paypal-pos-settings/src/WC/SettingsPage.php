@@ -14,18 +14,9 @@ use WC_Settings_Page;
  */
 class SettingsPage extends WC_Settings_Page
 {
-    /**
-     * @var WC_Settings_API
-     */
-    private $settingsApi;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    /**
-     * @var bool
-     */
-    private $isDebugMode;
+    private WC_Settings_API $settingsApi;
+    private LoggerInterface $logger;
+    private bool $isDebugMode;
     /**
      * @param WC_Settings_API $settingsApi
      * @param string $id
@@ -48,25 +39,15 @@ class SettingsPage extends WC_Settings_Page
      * @return array
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function get_settings()
     {
         // phpcs:enable
         return $this->settingsApi->get_form_fields();
     }
-    /**
-     * {@inheritDoc}
-     *
-     * @return void
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     */
-    public function output()
+    public function output(): void
     {
-        // phpcs:enable
         try {
             $this->settingsApi->admin_options();
         } catch (Throwable $exception) {
@@ -90,7 +71,7 @@ class SettingsPage extends WC_Settings_Page
             </h3>
             <?php 
             echo ob_get_clean();
-            // WPCS: XSS ok.
+            // phpcs:ignore WordPress.Security.EscapeOutput
         }
     }
     /**
@@ -98,7 +79,7 @@ class SettingsPage extends WC_Settings_Page
      *
      * @return void
      *
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function save()
     {

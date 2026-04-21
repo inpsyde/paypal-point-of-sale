@@ -7,7 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\DifferentVariantVatException;
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 class VariableProductVatValidator implements ValidatorInterface
 {
     /**
@@ -38,7 +38,8 @@ class VariableProductVatValidator implements ValidatorInterface
             return $vat ? $vat->percentage() : null;
         }, $vats));
         if (count($uniqueVats) > 1) {
-            throw new DifferentVariantVatException($product->name(), $uniqueVats);
+            throw new DifferentVariantVatException(esc_html($product->name()), $uniqueVats);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
     }
 }

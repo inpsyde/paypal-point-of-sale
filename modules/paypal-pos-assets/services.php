@@ -3,11 +3,11 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Assets;
 
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\SyncCollisionStrategy;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.assets.sync-job-types' => static function (C $container): array {
     $jobTypes = ['prepare' => [EnqueueProductSyncJob::TYPE], 'sync' => [ExportProductJob::TYPE]];
     $settings = $container->get('paypal-pos.settings');

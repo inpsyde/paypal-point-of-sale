@@ -3,34 +3,21 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Metabox;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\MetaboxOrchestra\BoxAction;
 use Syde\Vendor\Zettle\MetaboxOrchestra\BoxInfo;
 use Syde\Vendor\Zettle\MetaboxOrchestra\BoxView;
 use Syde\Vendor\Zettle\MetaboxOrchestra\Entity;
 use Syde\Vendor\Zettle\MetaboxOrchestra\PostMetabox;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use WP_Post;
 // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-// phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
 class ZettleProductLibraryLink implements PostMetabox
 {
     public const ID = 'zettle-product-library-link';
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var BoxView
-     */
-    private $view;
-    /**
-     * @var BoxAction
-     */
-    private $action;
-    /**
-     * @var string
-     */
-    private $title;
+    private ProductRepositoryInterface $repository;
+    private BoxView $view;
+    private BoxAction $action;
+    private string $title;
     public function __construct(ProductRepositoryInterface $repository, ZettleProductLibraryLinkView $view, BoxAction $action, string $title)
     {
         $this->repository = $repository;

@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\PayoutI
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\PayoutInfoFactory;
 class PayoutInfoBuilder implements PayoutInfoBuilderInterface
 {
-    /**
-     * @var PayoutInfoFactory
-     */
-    private $payoutInfoFactory;
+    private PayoutInfoFactory $payoutInfoFactory;
     /**
      * PayoutInfoBuilder constructor.
      * @param PayoutInfoFactory $payoutInfoFactory

@@ -8,7 +8,7 @@ final class PurchaseCollection
     /**
      * @var Purchase[]
      */
-    private $collection = [];
+    private array $collection = [];
     /**
      * PurchaseCollection constructor.
      *

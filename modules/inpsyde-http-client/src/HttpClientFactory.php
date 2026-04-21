@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Http\Client\Common\PluginClient;
 use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
 class HttpClientFactory
 {
-    /**
-     * @var ClientInterface
-     */
-    protected $innerClient;
+    protected ClientInterface $innerClient;
     public function __construct(ClientInterface $innerClient)
     {
         $this->innerClient = $innerClient;

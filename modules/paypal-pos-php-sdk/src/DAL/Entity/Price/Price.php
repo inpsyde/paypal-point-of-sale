@@ -5,14 +5,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price;
 
 class Price
 {
-    /**
-     * @var int
-     */
-    private $amount;
-    /**
-     * @var string
-     */
-    private $currencyId;
+    private int $amount;
+    private string $currencyId;
     /**
      * Price constructor.
      *

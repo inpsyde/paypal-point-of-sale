@@ -7,14 +7,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Payment
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\PaymentCollectionFactory;
 class PaymentCollectionBuilder implements PaymentCollectionBuilderInterface
 {
-    /**
-     * @var PaymentCollectionFactory
-     */
-    private $paymentCollectionFactory;
-    /**
-     * @var PaymentBuilderInterface
-     */
-    private $paymentBuilder;
+    private PaymentCollectionFactory $paymentCollectionFactory;
+    private PaymentBuilderInterface $paymentBuilder;
     /**
      * PaymentCollectionBuilder constructor.
      *

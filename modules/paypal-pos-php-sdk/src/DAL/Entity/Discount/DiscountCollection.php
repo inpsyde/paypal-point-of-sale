@@ -8,7 +8,7 @@ final class DiscountCollection
     /**
      * @var Discount[]
      */
-    private $collection = [];
+    private array $collection = [];
     /**
      * DiscountCollection constructor.
      *

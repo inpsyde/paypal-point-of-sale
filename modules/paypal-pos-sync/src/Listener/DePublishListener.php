@@ -25,10 +25,7 @@ class DePublishListener
      * @var callable
      */
     private $createJob;
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $productMap;
+    private OneToOneMapInterface $productMap;
     public function __construct(OneToOneMapInterface $productMap, callable $createJob)
     {
         $this->createJob = $createJob;

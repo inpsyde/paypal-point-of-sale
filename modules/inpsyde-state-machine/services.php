@@ -4,7 +4,6 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\StateMachine;
 
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\AggregateProvider;
-use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\EventDispatcher;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\ListenerProvider;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\StateAwareListenerProvider;
@@ -17,9 +16,10 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer\StateQueryInitializer;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Loader\ContainerLoader;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Loader\LoaderInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
-    //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
     return static function (C $container) use ($class, $parts) {
         return new $class(...array_map(static function (string $key) use ($container) {
             return $container->get($key);
@@ -27,8 +27,8 @@ $wire = static function (string ...$parts): callable {
     };
     //phpcs:enable
 };
-//phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-//phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+//phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+//phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 $scalar = static function ($thing): callable {
     return static function () use ($thing) {
         return $thing;

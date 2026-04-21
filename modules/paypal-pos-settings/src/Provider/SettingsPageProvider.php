@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\Provider;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
 class SettingsPageProvider implements Provider
 {
     /**

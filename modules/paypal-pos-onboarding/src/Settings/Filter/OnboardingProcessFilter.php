@@ -9,18 +9,18 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingState as S;
  */
 class OnboardingProcessFilter implements SettingsFilter
 {
-    private $knownStates = [S::WELCOME, S::API_CREDENTIALS, S::INVALID_CREDENTIALS, S::SYNC_PARAM_PRODUCTS, S::SYNC_PARAM_VAT, S::SYNC_PROGRESS, S::SYNC_FINISHED, S::ONBOARDING_COMPLETED, S::UNHANDLED_ERROR];
-    private $disabled = [S::API_CREDENTIALS => ['api_key'], S::INVALID_CREDENTIALS => [], S::SYNC_PARAM_PRODUCTS => ['sync_collision_strategy'], S::SYNC_PARAM_VAT => ['sync_price_strategy']];
+    /** @var array<string> */
+    private array $knownStates = [S::WELCOME, S::API_CREDENTIALS, S::INVALID_CREDENTIALS, S::SYNC_PARAM_PRODUCTS, S::SYNC_PARAM_VAT, S::SYNC_PROGRESS, S::SYNC_FINISHED, S::ONBOARDING_COMPLETED, S::UNHANDLED_ERROR];
+    /** @var array<string, array<string>> */
+    private array $disabled = [S::API_CREDENTIALS => ['api_key'], S::INVALID_CREDENTIALS => [], S::SYNC_PARAM_PRODUCTS => ['sync_collision_strategy'], S::SYNC_PARAM_VAT => ['sync_price_strategy']];
     /**
      * Needed for IZET-273 fix (old settings were re-submitted)
      * @var string[]
      */
-    private $settingsResetStates = [S::WELCOME];
-    private $authFieldKeys = ['authentication', 'api_key'];
-    /**
-     * @var string
-     */
-    private $currentState;
+    private array $settingsResetStates = [S::WELCOME];
+    /** @var array<string> */
+    private array $authFieldKeys = ['authentication', 'api_key'];
+    private string $currentState;
     /**
      * OnboardingProcessFilter constructor.
      *

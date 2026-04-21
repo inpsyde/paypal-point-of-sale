@@ -6,26 +6,11 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location\Type\LocationType;
 class Location
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var LocationType
-     */
-    private $type;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string|null
-     */
-    private $description;
-    /**
-     * @var bool|null
-     */
-    private $default;
+    private string $uuid;
+    private LocationType $type;
+    private string $name;
+    private ?string $description = null;
+    private ?bool $default = null;
     /**
      * Location constructor.
      *

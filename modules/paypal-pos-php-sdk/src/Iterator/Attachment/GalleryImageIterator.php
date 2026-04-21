@@ -10,14 +10,11 @@ use WC_Product;
  */
 class GalleryImageIterator implements WcProductIterator
 {
-    /**
-     * @var WC_Product
-     */
-    private $product;
+    private WC_Product $product;
     /**
      * @var int[]
      */
-    private $galleryIds;
+    private array $galleryIds;
     public function __construct(WC_Product $product)
     {
         $this->product = $product;

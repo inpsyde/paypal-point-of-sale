@@ -3,14 +3,13 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Assets;
 
-use Inpsyde\Assets\Asset;
 use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Counter\ProductSyncJobsCounter;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['inpsyde.assets.registry' => static function (array $previous, C $container): array {
     $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
     if ($container->get('paypal-pos.assets.should-enqueue.all')()) {

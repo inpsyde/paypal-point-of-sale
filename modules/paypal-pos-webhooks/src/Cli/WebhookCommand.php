@@ -16,18 +16,12 @@ use Syde\Vendor\Zettle\WP_CLI;
 use function Syde\Vendor\Zettle\WP_CLI\Utils\format_items;
 class WebhookCommand
 {
-    /**
-     * @var Subscriptions
-     */
-    private $subscriptions;
+    private Subscriptions $subscriptions;
     /**
      * @var callable
      */
     private $webhookStorage;
-    /**
-     * @var WebhookRegistration
-     */
-    private $webhookRegistration;
+    private WebhookRegistration $webhookRegistration;
     public function __construct(Subscriptions $subscriptions, WebhookStorageInterface $webhookStorage, WebhookRegistration $webhookRegistration)
     {
         $this->subscriptions = $subscriptions;
@@ -43,7 +37,7 @@ class WebhookCommand
      *
      * @when after_wp_load
      */
-    public function register()
+    public function register(): void
     {
         try {
             $webhook = $this->webhookStorage->fetch();
@@ -67,7 +61,7 @@ class WebhookCommand
      *
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      */
-    public function list()
+    public function list(): void
     {
         try {
             $result = $this->subscriptions->list();
@@ -97,7 +91,7 @@ class WebhookCommand
      *
      * @when after_wp_load
      */
-    public function delete(array $args, array $assocArgs)
+    public function delete(array $args, array $assocArgs): void
     {
         [$uuid] = $args;
         if (!Uuid::isValid($uuid)) {

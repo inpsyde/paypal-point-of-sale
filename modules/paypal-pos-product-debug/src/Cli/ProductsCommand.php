@@ -21,27 +21,12 @@ class ProductsCommand
     /**
      * @var string[]
      */
-    private $productTypeWhitelist;
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $productMap;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /**
-     * @var Products
-     */
-    private $productsClient;
-    /**
-     * @var ProductValidator
-     */
-    private $productValidator;
-    /**
-     * @var StatusCodeMatcher
-     */
-    private $statusCodeMatcher;
+    private array $productTypeWhitelist;
+    private OneToOneMapInterface $productMap;
+    private BuilderInterface $builder;
+    private Products $productsClient;
+    private ProductValidator $productValidator;
+    private StatusCodeMatcher $statusCodeMatcher;
     public function __construct(array $productTypeWhitelist, OneToOneMapInterface $productMap, BuilderInterface $builder, Products $productsClient, ProductValidator $productValidator, StatusCodeMatcher $statusCodeMatcher)
     {
         $this->productTypeWhitelist = $productTypeWhitelist;
@@ -80,8 +65,6 @@ class ProductsCommand
      * @param int[] $productIds
      *
      * @return array
-     *
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     protected function processProducts(array $productIds): array
     {
@@ -146,8 +129,6 @@ class ProductsCommand
      * @param int $limit
      *
      * @return array
-     *
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     private function processExceptions(array $exceptions, int $limit = 10): array
     {

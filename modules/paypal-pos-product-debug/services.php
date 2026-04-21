@@ -3,11 +3,11 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug;
 
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug\Cli\ProductsCommand;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug\Listing\CustomColumn;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\EndpointInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.product.debug.listing.custom-column' => static function (C $container): CustomColumn {
     return new CustomColumn('zettle_synced');
 }, 'paypal-pos.product.debug.cli.products' => static function (C $container): ProductsCommand {

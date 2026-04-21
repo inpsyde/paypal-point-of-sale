@@ -6,30 +6,20 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Variation\VariationAccessorUtilInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use WC_Product;
 use WC_Product_Variable;
 class UnlinkProductJob implements Job
 {
-    const TYPE = 'unlink-product';
-    /**
-     * @var MapRecordCreator|OneToOneMapInterface
-     */
-    private $productIdMap;
-    /**
-     * @var MapRecordCreator|OneToManyMapInterface
-     */
-    private $variantIdMap;
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    public const TYPE = 'unlink-product';
+    private MapRecordCreator|OneToOneMapInterface $productIdMap;
+    private MapRecordCreator|OneToManyMapInterface $variantIdMap;
+    private ProductRepositoryInterface $repository;
     /**
      * UnlinkProductJob constructor.
      *
@@ -90,7 +80,7 @@ class UnlinkProductJob implements Job
         }
         return \true;
     }
-    private function logSuccess(LoggerInterface $logger, string $id)
+    private function logSuccess(LoggerInterface $logger, string $id): void
     {
         $logger->info(sprintf('ID-mapping cleared for product %s', $id));
     }

@@ -3,6 +3,9 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings;
 
+use Syde\Vendor\Zettle\MetaboxOrchestra\BoxAction;
+use Syde\Vendor\Zettle\MetaboxOrchestra\BoxView;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeRepository;
@@ -18,9 +21,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Provider\ProductE
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Provider\SyncVisibilityTaxonomyProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Taxonomy\ZettleSyncVisibilityTaxonomy;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\MetaboxOrchestra\BoxAction;
-use Syde\Vendor\Zettle\MetaboxOrchestra\BoxView;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.product-settings.taxonomy.sync-visibility.key' => static function (C $container): string {
     return 'zettle_sync_visibility';
 }, 'paypal-pos.product-settings.taxonomy.sync-visibility.post-type' => static function (C $container): string {

@@ -3,12 +3,12 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices;
 
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\Admin\CompleteOnboardingNotice;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\Admin\GlobalConnectionFailedNotice;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\Admin\IntegrationConnectionFailedNotice;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.notices.notification.notice.info.complete-onboarding' => static function (C $container): NoticeInterface {
     return new CompleteOnboardingNotice($container->get('paypal-pos.settings.is-integration-page'), $container->get('paypal-pos.settings.url'));
 }, 'paypal-pos.notices.notification.notice.error.global.auth-failed' => static function (C $container): NoticeInterface {

@@ -7,17 +7,11 @@ use Syde\Vendor\Zettle\MetaboxOrchestra\BoxInfo;
 use Syde\Vendor\Zettle\MetaboxOrchestra\BoxView;
 class ZettleProductLibraryLinkView implements BoxView
 {
-    /**
-     * @var string
-     */
-    private $baseLink;
+    private string $baseLink;
     public function __construct(string $baseLink)
     {
         $this->baseLink = $baseLink;
     }
-    /**
-     * @inheritDoc
-     */
     public function render(BoxInfo $info): string
     {
         ob_start();
@@ -25,7 +19,7 @@ class ZettleProductLibraryLinkView implements BoxView
 
         <a href="<?php 
         echo $this->productLink($info['uuid']);
-        // wps.xss ok 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>"
             target="_blank" rel="noreferrer noopener">
             View Product at PayPal Point of Sale
@@ -34,10 +28,6 @@ class ZettleProductLibraryLinkView implements BoxView
         <?php 
         return ob_get_clean();
     }
-    /**
-     * @param string $productUuid
-     * @return string
-     */
     private function productLink(string $productUuid): string
     {
         return sprintf('%1$s/%2$s', $this->baseLink, $productUuid);

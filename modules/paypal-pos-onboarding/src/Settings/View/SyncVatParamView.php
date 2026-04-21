@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-// phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+// phpcs:disable Syde.Functions.FunctionLength.TooLong
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Comparison\StoreComparison;
@@ -12,22 +12,13 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\PriceSyncMode;
 class SyncVatParamView implements OnboardingView
 {
     use ButtonRendererTrait;
-    /**
-     * @var StoreComparison
-     */
-    private $storeComparison;
-    /**
-     * @var StoreDataProvider
-     */
-    private $remoteStoreData;
-    /**
-     * @var StoreDataProvider
-     */
-    private $localStoreData;
+    private StoreComparison $storeComparison;
+    private StoreDataProvider $remoteStoreData;
+    private StoreDataProvider $localStoreData;
     /**
      * @var TaxRate[]|null
      */
-    private $defaultTaxRates;
+    private ?array $defaultTaxRates = null;
     /**
      * @param TaxRate[]|null $defaultTaxRates
      */
@@ -181,10 +172,10 @@ class SyncVatParamView implements OnboardingView
         ?>">
                 <div class="form-choice-selector-input">
                     <input id="zettle-include-tax-prices" type="radio" name="woocommerce_zettle_sync_price_strategy"
-                           value="<?php 
+                            value="<?php 
         echo esc_attr(PriceSyncMode::ENABLED);
         ?>"
-                           <?php 
+                            <?php 
         echo $disabled ? 'disabled' : ($syncByDefault ? 'checked' : '');
         ?>
                     >
@@ -210,10 +201,10 @@ class SyncVatParamView implements OnboardingView
         ?>">
                 <div class="form-choice-selector-input">
                     <input id="zettle-zero-prices" type="radio" name="woocommerce_zettle_sync_price_strategy"
-                           value="<?php 
+                            value="<?php 
         echo esc_attr(PriceSyncMode::DISABLED);
         ?>"
-                           <?php 
+                            <?php 
         echo !$syncByDefault ? 'checked' : '';
         ?>>
                 </div>

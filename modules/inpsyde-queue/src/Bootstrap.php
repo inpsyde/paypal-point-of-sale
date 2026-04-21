@@ -9,19 +9,18 @@ class Bootstrap
     /**
      * @var Table[]
      */
-    private $tables;
+    private array $tables;
     public function __construct(Table ...$tables)
     {
         $this->tables = $tables;
     }
-    public function activate()
+    public function activate(): void
     {
         global $wpdb;
-        //phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
         $charset_collate = $wpdb->get_charset_collate();
         $prefix = $wpdb->get_blog_prefix();
         foreach ($this->tables as $table) {
-            //phpcs:disable Inpsyde.CodeQuality.LineLength.TooLong
+            //phpcs:disable Syde.Files.LineLength.TooLong
             $sql = "CREATE TABLE IF NOT EXISTS {$prefix}{$table->name()} ({$table->schema()}) {$charset_collate};";
             // phpcs:ignore WordPress.DB.PreparedSQL
             $wpdb->query($sql);
@@ -30,7 +29,7 @@ class Bootstrap
     /**
      * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
      */
-    public function deactivate()
+    public function deactivate(): void
     {
         global $wpdb;
         $prefix = $wpdb->get_blog_prefix();

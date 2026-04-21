@@ -17,7 +17,7 @@ class PaymentValidator
     public function validate(string $validPaymentType, string $paymentType): bool
     {
         if (!$this->validatePaymentType($validPaymentType, $paymentType)) {
-            throw new InvalidPaymentTypeException(sprintf('Given Payment type: %s is not valid and doesnt match.', $paymentType));
+            throw new InvalidPaymentTypeException(sprintf('Given Payment type: %s is not valid and doesnt match.', esc_html($paymentType)));
         }
         return \true;
     }

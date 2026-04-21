@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\SwishPa
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Exception\EntityFactoryException;
 class SwishPaymentBuilder implements SwishPaymentBuilderInterface
 {
-    /**
-     * @var PaymentFactory
-     */
-    private $paymentFactory;
+    private PaymentFactory $paymentFactory;
     /**
      * CardOnlinePaymentBuilder constructor.
      *

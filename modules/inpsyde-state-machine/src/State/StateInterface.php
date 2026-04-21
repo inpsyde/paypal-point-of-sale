@@ -6,20 +6,11 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\State;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 interface StateInterface
 {
-    const TYPE_INITIAL = 'State.Type.Initial';
-    const TYPE_NORMAL = 'State.Type.Normal';
-    const TYPE_FINAL = 'State.Type.Final';
-    /**
-     * @return string
-     */
+    public const TYPE_INITIAL = 'State.Type.Initial';
+    public const TYPE_NORMAL = 'State.Type.Normal';
+    public const TYPE_FINAL = 'State.Type.Final';
     public function name(): string;
-    /**
-     * @return boolean
-     */
     public function isInitial(): bool;
-    /**
-     * @return boolean
-     */
     public function isFinal(): bool;
     /**
      * Return the available transitions
@@ -31,8 +22,8 @@ interface StateInterface
     /**
      * @param TransitionInterface|string $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool;
 }

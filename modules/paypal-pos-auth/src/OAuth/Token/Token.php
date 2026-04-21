@@ -3,22 +3,11 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use stdClass;
 class Token implements TokenInterface
 {
-    /**
-     * @var string
-     */
-    private $accessToken;
-    /**
-     * @var int
-     */
-    private $expiresIn;
-    /**
-     * @var string
-     */
-    private $refreshToken;
+    private string $accessToken;
+    private int $expiresIn;
+    private string $refreshToken;
     /**
      * JwtToken constructor.
      *

@@ -9,14 +9,8 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Locker;
 class LockingQueueProcessor implements QueueProcessor
 {
     use DecoratingLoggingProviderTrait;
-    /**
-     * @var QueueProcessor
-     */
-    private $inner;
-    /**
-     * @var Locker
-     */
-    private $locker;
+    private QueueProcessor $inner;
+    private Locker $locker;
     public function __construct(QueueProcessor $inner, Locker $locker)
     {
         $this->inner = $inner;

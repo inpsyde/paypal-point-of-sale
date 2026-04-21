@@ -7,22 +7,10 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 class SimpleView implements OnboardingView
 {
     use ButtonRendererTrait;
-    /**
-     * @var string
-     */
-    private $title;
-    /**
-     * @var string
-     */
-    private $content;
-    /**
-     * @var string
-     */
-    private $proceedButtonHtml = '';
-    /**
-     * @var string
-     */
-    private $backButtonHtml = '';
+    private string $title;
+    private string $content;
+    private string $proceedButtonHtml = '';
+    private string $backButtonHtml = '';
     /**
      * SimpleView constructor.
      *

@@ -23,15 +23,9 @@ class ChaosMonkeyPlugin implements Plugin
     /**
      * @var int[]
      */
-    private $statusProbability = [];
-    /**
-     * @var ResponseFactoryInterface
-     */
-    private $responseFactory;
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private array $statusProbability = [];
+    private ResponseFactoryInterface $responseFactory;
+    private StreamFactoryInterface $streamFactory;
     /**
      * ChaosMonkeyPlugin constructor.
      *
@@ -46,7 +40,7 @@ class ChaosMonkeyPlugin implements Plugin
         $resolver = new OptionsResolver();
         $statusProbabilityKey = 'probability.status';
         $statusProbability = [401 => 20, 500 => 20];
-        $resolver->setDefaults([$statusProbabilityKey => static function (OptionsResolver $resolver) use ($statusProbability) {
+        $resolver->setDefaults([$statusProbabilityKey => static function (OptionsResolver $resolver) use ($statusProbability): void {
             foreach ($statusProbability as $status => $probability) {
                 $resolver->setDefault($status, $probability);
                 $resolver->setAllowedTypes($status, 'int');

@@ -3,6 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products;
 
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Listener\ApiRestListener;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
@@ -13,8 +15,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Serializer\SerializerInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 /**
  * Class Products
  *
@@ -26,26 +26,14 @@ use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
  */
 class Products
 {
-    /**
-     * @var UriInterface
-     */
-    private $uri;
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
+    private UriInterface $uri;
+    private RestClientInterface $restClient;
     /**
      * @var callable[]
      */
-    private $listeners;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private array $listeners;
+    private BuilderInterface $builder;
+    private SerializerInterface $serializer;
     /**
      * Products constructor.
      *
@@ -74,16 +62,23 @@ class Products
     public function list(bool $withListeners = \true): ProductCollection
     {
         $url = (string) $this->uri->withPath('/organizations/self/products/v2');
+        $result = $this->restClient->get($url, []);
         try {
-            $result = $this->restClient->get($url, []);
             $collection = $this->builder->build(ProductCollection::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException('Failed to build product collection', 0, $result, [], $exception);
+            throw new ZettleRestException(
+                'Failed to build product collection',
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                [],
+                $exception
+            );
         }
         $products = $collection->all();
         if ($withListeners) {
-            array_walk($products, function (ProductInterface $product) {
-                array_walk($this->listeners, static function (callable $listener) use ($product) {
+            array_walk($products, function (ProductInterface $product): void {
+                array_walk($this->listeners, static function (callable $listener) use ($product): void {
                     $listener(ApiRestListener::READ, $product, \true);
                 });
             });
@@ -107,10 +102,18 @@ class Products
         try {
             $created = $this->builder->build(ProductInterface::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException(sprintf('Failed to build product %s', $product->uuid()), 0, $result, $payload, $exception);
+            throw new ZettleRestException(
+                sprintf('Failed to build product %s', esc_html($product->uuid())),
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception
+            );
         }
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($created, $success) {
+            array_walk($this->listeners, static function (callable $listener) use ($created, $success): void {
                 $listener(ApiRestListener::CREATE, $created, $success);
             });
         }
@@ -131,10 +134,17 @@ class Products
         try {
             $product = $this->builder->build(ProductInterface::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException(sprintf('Could not read product %s', $uuid), 0, $result, [], $exception);
+            throw new ZettleRestException(
+                sprintf('Could not read product %s', esc_html($uuid)),
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                [],
+                $exception
+            );
         }
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($product) {
+            array_walk($this->listeners, static function (callable $listener) use ($product): void {
                 $listener(ApiRestListener::READ, $product, \true);
             });
         }
@@ -162,10 +172,18 @@ class Products
             });
             $product = $this->builder->build(ProductInterface::class, $result);
         } catch (BuilderException|AuthenticationException $exception) {
-            throw new ZettleRestException(sprintf('Failed to build product %s after updating', $product->uuid()), 0, $result, $payload, $exception);
+            throw new ZettleRestException(
+                sprintf('Failed to build product %s after updating', esc_html($product->uuid())),
+                0,
+                $result ?? [],
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception
+            );
         }
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($product, $success) {
+            array_walk($this->listeners, static function (callable $listener) use ($product, $success): void {
                 $listener(ApiRestListener::UPDATE, $product, $success);
             });
         }
@@ -184,7 +202,7 @@ class Products
         $success = \true;
         $this->restClient->delete($url, []);
         if ($withListeners) {
-            array_walk($this->listeners, static function (callable $listener) use ($uuid, $success) {
+            array_walk($this->listeners, static function (callable $listener) use ($uuid, $success): void {
                 $listener(ApiRestListener::DELETE, $uuid, $success);
             });
         }

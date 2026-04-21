@@ -4,45 +4,30 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Job;
 
 use Exception;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\ClearableContainerInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\ClearableContainerInterface;
 use Throwable;
 use wpdb;
 class ResetOnboardingJob implements Job
 {
     public const TYPE = 'reset-onboarding';
-    /**
-     * @var wpdb
-     */
-    private $database;
-    /**
-     * @var ClearableContainerInterface
-     */
-    private $optionContainer;
-    /**
-     * @var ClearableContainerInterface
-     */
-    private $setupInfoContainer;
-    /**
-     * @var TokenPersistorInterface
-     */
-    private $tokenStorage;
-    /**
-     * @var array
-     */
-    private $tables;
+    private wpdb $database;
+    private ClearableContainerInterface $optionContainer;
+    private ClearableContainerInterface $setupInfoContainer;
+    private TokenPersistorInterface $tokenStorage;
+    private array $tables;
     /**
      * @var string[]
      */
-    private $transients;
+    private array $transients;
     /**
      * @var string[]
      */
-    private $options;
+    private array $options;
     /**
      * @var callable
      */

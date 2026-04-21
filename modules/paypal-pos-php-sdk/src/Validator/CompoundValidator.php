@@ -3,13 +3,13 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 class CompoundValidator implements ValidatorInterface
 {
     /**
      * @var ValidatorInterface[]
      */
-    private $validators;
+    private array $validators;
     /**
      * CompoundValidator constructor.
      *

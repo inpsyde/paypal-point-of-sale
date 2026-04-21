@@ -3,12 +3,11 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\WonoLogger;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\WooCommerceLogger;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Operator\Option\OptionOperatorInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Psr\Log\NullLogger;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\WonoLogger;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\WooCommerceLogger;
 use WC_Logger;
 return ['paypal-pos.logger.woocommerce.enabled' => static function (C $container): bool {
     return !(bool) getenv('IZETTLE_LOGGING_DISABLE_WOOOCOMMERCE');

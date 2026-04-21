@@ -5,10 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 class WelcomeView implements OnboardingView
 {
-    /**
-     * @var array
-     */
-    protected $zettleLink;
+    protected array $zettleLink;
     /**
      * @param array $zettleLink
      */
@@ -57,9 +54,9 @@ class WelcomeView implements OnboardingView
         ?>
 
             <a class="link"
-               rel="noopener noreferrer"
-               target="_blank"
-               href="<?php 
+                rel="noopener noreferrer"
+                target="_blank"
+                href="<?php 
         echo esc_url_raw($this->zettleLink['url']);
         ?>">
                 <?php 
@@ -91,10 +88,10 @@ class WelcomeView implements OnboardingView
                 <img src="<?php 
         echo esc_url_raw("{$imgResources}/connect.jpg");
         ?>"
-                     alt="<?php 
+                    alt="<?php 
         esc_attr_e('Connect in minutes', 'paypal-point-of-sale');
         ?>"
-                     title="<?php 
+                    title="<?php 
         esc_attr_e('Connect in minutes', 'paypal-point-of-sale');
         ?>">
 
@@ -111,10 +108,10 @@ class WelcomeView implements OnboardingView
                 <img src="<?php 
         echo esc_url_raw("{$imgResources}/zettle.jpg");
         ?>"
-                     alt="<?php 
+                    alt="<?php 
         esc_attr_e('Manage products in one place', 'paypal-point-of-sale');
         ?>"
-                     title="<?php 
+                    title="<?php 
         esc_attr_e('Manage products in one place', 'paypal-point-of-sale');
         ?>">
                 <h4><?php 
@@ -130,10 +127,10 @@ class WelcomeView implements OnboardingView
                 <img src="<?php 
         echo esc_url_raw("{$imgResources}/sync.jpg");
         ?>"
-                     alt="<?php 
+                    alt="<?php 
         esc_attr_e('Sync in real-time', 'paypal-point-of-sale');
         ?>"
-                     title="<?php 
+                    title="<?php 
         esc_attr_e('Sync in real-time', 'paypal-point-of-sale');
         ?>">
                 <h4><?php 

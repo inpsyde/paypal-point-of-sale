@@ -7,9 +7,9 @@ use Exception;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\WP_CLI;
 class WebhookModule implements ServiceModule, ExecutableModule
 {
@@ -40,7 +40,7 @@ class WebhookModule implements ServiceModule, ExecutableModule
         });
         return \true;
     }
-    private function registerCliCommand(ContainerInterface $container)
+    private function registerCliCommand(ContainerInterface $container): void
     {
         if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
             try {
@@ -55,7 +55,7 @@ class WebhookModule implements ServiceModule, ExecutableModule
      *
      * @param ContainerInterface $container
      */
-    private function registerRestRoute(ContainerInterface $container)
+    private function registerRestRoute(ContainerInterface $container): void
     {
         add_action('rest_api_init', static function () use ($container) {
             $namespace = $container->get('paypal-pos.webhook.listener.namespace');

@@ -13,7 +13,7 @@ class ProductSyncJobsCounter
     /**
      * @var string wipe or merge from sync collision strategy settings field
      */
-    private $syncCollisionStrategy;
+    private string $syncCollisionStrategy;
     /**
      * SyncJobsPredictor constructor.
      *

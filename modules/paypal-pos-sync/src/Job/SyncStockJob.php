@@ -5,16 +5,15 @@ declare (strict_types=1);
 // phpcs:disable Generic.Metrics.NestingLevel.TooHigh
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 
-use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueLockedException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\BasicJobRecord;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Inpsyde\WcProductContracts\ProductType;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Inventory as InventoryEntity;
@@ -24,7 +23,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Throwable;
 use WC_Product;
 use WC_Product_Variation;
@@ -32,30 +30,12 @@ class SyncStockJob implements Job
 {
     use ExceptionLoggingTrait;
     public const TYPE = 'sync-product-stock';
-    /**
-     * @var Inventory
-     */
-    private $inventoryClient;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /**
-     * @var OneToManyMapInterface
-     */
-    private $map;
-    /**
-     * @var int
-     */
-    private $maxStockChange;
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
-    /**
-     * @var Job
-     */
-    private $setInventoryTrackingJob;
+    private Inventory $inventoryClient;
+    private BuilderInterface $builder;
+    private OneToManyMapInterface $map;
+    private int $maxStockChange;
+    private QueueProcessor $processor;
+    private Job $setInventoryTrackingJob;
     /**
      * @param int $maxStockChange iZ API does not allow transactions larger than 100.000
      */
@@ -71,7 +51,7 @@ class SyncStockJob implements Job
     /**
      * @inheritDoc
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function execute(ContextInterface $context, JobRepository $repository, LoggerInterface $logger): bool
     {
@@ -247,7 +227,8 @@ class SyncStockJob implements Job
      *
      * @return string[]
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     private function fetchVariantUuids(WC_Product $product, LoggerInterface $logger): array
     {

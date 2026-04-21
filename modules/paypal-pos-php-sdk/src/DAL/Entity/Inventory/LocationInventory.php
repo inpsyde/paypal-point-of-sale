@@ -7,18 +7,9 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance\Locatio
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 final class LocationInventory
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var ProductCollection
-     */
-    private $trackedProducts;
-    /**
-     * @var LocationBalanceCollection
-     */
-    private $locationBalances;
+    private string $uuid;
+    private ProductCollection $trackedProducts;
+    private LocationBalanceCollection $locationBalances;
     /**
      * LocationInventory constructor.
      *

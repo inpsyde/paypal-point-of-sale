@@ -6,11 +6,11 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use WC_Product;
 use WC_Product_Variable;
 use WC_Product_Variation;
@@ -26,14 +26,8 @@ class UnlinkImages implements Job
     public const TYPE = 'unlink-images';
     public const PRODUCT_TYPE = 'product';
     public const VARIANT_TYPE = 'variant';
-    /**
-     * @var MapRecordCreator|OneToManyMapInterface
-     */
-    private $imageIdMap;
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private MapRecordCreator|OneToManyMapInterface $imageIdMap;
+    private ProductRepositoryInterface $repository;
     /**
      * UnlinkProductJob constructor.
      *
@@ -188,7 +182,7 @@ class UnlinkImages implements Job
             $this->imageIdMap->deleteRecord($attachmentId, $remoteId);
         } catch (IdNotFoundException $exception) {
             $logger->info(
-                // phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+                // phpcs:ignore Syde.Files.LineLength.TooLong
                 "Could not delete {$type} image mapping {$attachmentId} <-> {$remoteId} - {$exception->getMessage()}"
             );
         }

@@ -9,7 +9,7 @@ class StateAwareListenerProvider implements ListenerProviderInterface
     /**
      * @var ListenerProvider[]
      */
-    private $listeners = [];
+    private array $listeners = [];
     public function listen(string $state, callable $listener)
     {
         if (!isset($this->listeners[$state])) {
@@ -18,8 +18,7 @@ class StateAwareListenerProvider implements ListenerProviderInterface
         $this->listeners[$state]->addListener($listener);
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.InvalidGeneratorManyReturns
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function getListenersForEvent(object $event): iterable
     {

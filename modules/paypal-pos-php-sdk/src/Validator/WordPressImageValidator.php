@@ -16,38 +16,20 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\
  * before syncing, but that would be pretty insane. So we allow ourselves to use the stored data
  * from the WordPress Attachment Information directly.
  *
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
  */
 class WordPressImageValidator implements ValidatorInterface
 {
     /**
      * @var string[]
      */
-    protected $supportedImageTypes;
-    /**
-     * @var int
-     */
-    protected $minFileSize;
-    /**
-     * @var int
-     */
-    protected $maxFileSize;
-    /**
-     * @var int
-     */
-    protected $minWidth;
-    /**
-     * @var int
-     */
-    protected $minHeight;
-    /**
-     * @var int
-     */
-    protected $maxWidth;
-    /**
-     * @var int
-     */
-    protected $maxHeight;
+    protected array $supportedImageTypes;
+    protected int $minFileSize;
+    protected int $maxFileSize;
+    protected int $minWidth;
+    protected int $minHeight;
+    protected int $maxWidth;
+    protected int $maxHeight;
     /**
      * @param string[] $supportedImageTypes MIME subtypes like 'jpeg', 'png'
      */
@@ -76,7 +58,7 @@ class WordPressImageValidator implements ValidatorInterface
         assert($entity instanceof LazyImage);
         $attachment = wp_prepare_attachment_for_js($entity->localId());
         if (!$attachment) {
-            throw new ImageNotFoundException("No Attachment found for Attachment ID: {$entity->localId()}");
+            throw new ImageNotFoundException(sprintf("No Attachment found for Attachment ID: %d", (int) $entity->localId()));
         }
         /**
          * @psalm-suppress RedundantCastGivenDocblockType
@@ -93,25 +75,25 @@ class WordPressImageValidator implements ValidatorInterface
     protected function validateImageFileSize(int $imageFileSize, string $fileName): void
     {
         if ($imageFileSize >= $this->maxFileSize) {
-            throw new UnsupportedImageFileSizeException(sprintf('Maximum image file size is %1$d bytes. [%2$s]', $this->maxFileSize, $fileName));
+            throw new UnsupportedImageFileSizeException(sprintf('Maximum image file size is %1$d bytes. [%2$s]', (int) $this->maxFileSize, esc_html($fileName)));
         }
         if ($imageFileSize <= $this->minFileSize) {
-            throw new UnsupportedImageFileSizeException(sprintf('Minimum image file size is %1$d bytes. [%2$s]', $this->minFileSize, $fileName));
+            throw new UnsupportedImageFileSizeException(sprintf('Minimum image file size is %1$d bytes. [%2$s]', (int) $this->minFileSize, esc_html($fileName)));
         }
     }
     protected function validatedImageType(string $type, string $fileName): void
     {
         if (!in_array($type, $this->supportedImageTypes, \true)) {
-            throw new UnsupportedImageFileTypeException(sprintf('Image type %1$s is not supported. Must be one of %2$s. [%3$s]', $type, implode(', ', array_map('strtoupper', array_unique($this->supportedImageTypes))), $fileName));
+            throw new UnsupportedImageFileTypeException(sprintf('Image type %1$s is not supported. Must be one of %2$s. [%3$s]', esc_html($type), esc_html(implode(', ', array_map('strtoupper', array_unique($this->supportedImageTypes)))), esc_html($fileName)));
         }
     }
     protected function validateImageSize(int $width, int $height, string $fileName): void
     {
         if ($width < $this->minWidth || $height < $this->minHeight) {
-            throw new InvalidImageSizeException(sprintf('Image is too small. Must be at least: \'%1$dx%2$d\'. [%3$s]', $this->minWidth, $this->minHeight, $fileName));
+            throw new InvalidImageSizeException(sprintf('Image is too small. Must be at least: \'%1$dx%2$d\'. [%3$s]', (int) $this->minWidth, (int) $this->minHeight, esc_html($fileName)));
         }
         if ($width > $this->maxWidth || $height > $this->maxHeight) {
-            throw new InvalidImageSizeException(sprintf('Image is too large. Must be at most: \'%1$dx%2$d\'. [%3$s]', $this->maxWidth, $this->maxHeight, $fileName));
+            throw new InvalidImageSizeException(sprintf('Image is too large. Must be at most: \'%1$dx%2$d\'. [%3$s]', (int) $this->maxWidth, (int) $this->maxHeight, esc_html($fileName)));
         }
     }
 }

@@ -6,33 +6,24 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use InvalidArgumentException;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\VariableInventoryChecker;
-use InvalidArgumentException;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use WC_Product;
 use WC_Product_Variable;
 class ReExportProductJob implements Job
 {
     use VariableInventoryChecker;
     public const TYPE = 're-export-product';
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var WcProductRepositoryInterface
-     */
-    private $wcRepository;
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $variantMap;
+    private ProductRepositoryInterface $repository;
+    private WcProductRepositoryInterface $wcRepository;
+    private OneToOneMapInterface|MapRecordCreator $variantMap;
     /**
      * @var callable
      */
@@ -48,7 +39,7 @@ class ReExportProductJob implements Job
     public function __construct(ProductRepositoryInterface $repository, WcProductRepositoryInterface $wcRepository, OneToOneMapInterface $variantMap, callable $createJobRecord)
     {
         if (!$variantMap instanceof MapRecordCreator) {
-            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', get_class($variantMap), MapRecordCreator::class));
+            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', esc_html(get_class($variantMap)), MapRecordCreator::class));
         }
         $this->repository = $repository;
         $this->wcRepository = $wcRepository;

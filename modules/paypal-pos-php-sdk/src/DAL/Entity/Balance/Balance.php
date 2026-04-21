@@ -5,18 +5,9 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance;
 
 class Balance
 {
-    /**
-     * @var string
-     */
-    private $productUuid;
-    /**
-     * @var string
-     */
-    private $variantUuid;
-    /**
-     * @var int
-     */
-    private $balance;
+    private string $productUuid;
+    private string $variantUuid;
+    private int $balance;
     /**
      * Balance constructor.
      *

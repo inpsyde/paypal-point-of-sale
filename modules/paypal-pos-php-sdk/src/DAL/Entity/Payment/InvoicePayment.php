@@ -7,18 +7,9 @@ use DateTime;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Type\PaymentType;
 final class InvoicePayment extends AbstractPaymentMethod
 {
-    /**
-     * @var string
-     */
-    private $orderUuid;
-    /**
-     * @var string
-     */
-    private $invoiceNumber;
-    /**
-     * @var DateTime
-     */
-    private $dueDate;
+    private string $orderUuid;
+    private string $invoiceNumber;
+    private DateTime $dueDate;
     /**
      * InvoicePayment constructor.
      *

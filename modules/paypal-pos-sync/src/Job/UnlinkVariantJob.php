@@ -6,18 +6,15 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use InvalidArgumentException;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-use InvalidArgumentException;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class UnlinkVariantJob implements Job
 {
-    const TYPE = 'unlink-variant';
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $variantMap;
+    public const TYPE = 'unlink-variant';
+    private OneToOneMapInterface|MapRecordCreator $variantMap;
     /**
      * VariantRepository constructor.
      *
@@ -26,7 +23,7 @@ class UnlinkVariantJob implements Job
     public function __construct(OneToOneMapInterface $variantMap)
     {
         if (!$variantMap instanceof MapRecordCreator) {
-            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', get_class($variantMap), MapRecordCreator::class));
+            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', esc_html(get_class($variantMap)), MapRecordCreator::class));
         }
         $this->variantMap = $variantMap;
     }

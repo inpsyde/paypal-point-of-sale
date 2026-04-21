@@ -6,7 +6,7 @@ declare (strict_types=1);
  * Plugin Name: PayPal Point of Sale
  * Plugin URI:  https://zettle.inpsyde.com/
  * Description: PayPal Point of Sale Integration for WooCommerce
- * Version: 0.0.0+main.098b707
+ * Version: 0.0.0+main.2b8215b
  * Requires at least: 6.8
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
@@ -21,12 +21,13 @@ declare (strict_types=1);
 /**
  * phpcs:disable PSR1.Files.SideEffects
  * phpcs:disable Squiz.PHP.CommentedOutCode.Found
+ * phpcs:disable Squiz.PHP.InnerFunctions.NotAllowed
  */
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
-(static function () {
+(static function (): void {
     /**
      * Display an error message in the WP admin
      *
@@ -34,7 +35,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidationFailedExcept
      *
      * @return void
      */
-    function errorNotice(string $message)
+    function errorNotice(string $message): void
     {
         add_action('all_admin_notices', static function () use ($message) {
             $class = 'notice notice-error';
@@ -80,7 +81,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidationFailedExcept
         }
         return $package;
     }
-    add_action('plugins_loaded', static function () {
+    add_action('plugins_loaded', static function (): void {
         $package = init();
         if (!$package) {
             return;
@@ -94,11 +95,11 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidationFailedExcept
             update_option($versionOptionName, $version);
         }
     });
-    register_activation_hook(__FILE__, static function () {
+    register_activation_hook(__FILE__, static function (): void {
         init();
         do_action('paypal-point-of-sale.activate');
     });
-    register_deactivation_hook(__FILE__, static function () {
+    register_deactivation_hook(__FILE__, static function (): void {
         init();
         do_action('paypal-point-of-sale.deactivate');
     });

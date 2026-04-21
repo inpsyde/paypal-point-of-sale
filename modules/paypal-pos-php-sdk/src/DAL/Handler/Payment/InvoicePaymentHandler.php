@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Payment\Invoic
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 class InvoicePaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var InvoicePaymentBuilder
-     */
-    private $invoicePaymentBuilder;
+    private InvoicePaymentBuilder $invoicePaymentBuilder;
     /**
      * InvoicePaymentHandler constructor.
      *

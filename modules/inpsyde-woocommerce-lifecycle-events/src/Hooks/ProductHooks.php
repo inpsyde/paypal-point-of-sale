@@ -19,19 +19,10 @@ class ProductHooks
     /**
      * @var WC_Product[]
      */
-    private $snapshots = [];
-    /**
-     * @var EventDispatcher
-     */
-    private $dispatcher;
-    /**
-     * @var Toggle
-     */
-    private $toggle;
-    /**
-     * @var DispatchDecider
-     */
-    private $decider;
+    private array $snapshots = [];
+    private EventDispatcher $dispatcher;
+    private Toggle $toggle;
+    private DispatchDecider $decider;
     /**
      * ProductHooks constructor.
      *
@@ -245,7 +236,7 @@ class ProductHooks
      *
      * @param callable $callable
      */
-    private function registerAfterHooks(callable $callable)
+    private function registerAfterHooks(callable $callable): void
     {
         foreach ($this->afterSaveHookNames() as $hookName) {
             add_action($hookName, $callable);
@@ -262,7 +253,7 @@ class ProductHooks
     private function prepareOldProduct(WC_Product $product): WC_Product
     {
         $clone = clone $product;
-        (function () {
+        (function (): void {
             $this->changes = [];
         })->call($clone);
         return $clone;
@@ -298,7 +289,7 @@ class ProductHooks
      */
     private function createWcProductGuard(callable $callable, int $argPosition = 0): callable
     {
-        //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return static function () use ($callable, $argPosition) {
             $args = func_get_args();
             $product = $args[$argPosition];

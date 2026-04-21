@@ -21,23 +21,20 @@ class WooCommerceLogger implements LoggerInterface
 {
     use LoggerTrait;
     protected const LOG_LEVELS = [LogLevel::EMERGENCY, LogLevel::ALERT, LogLevel::CRITICAL, LogLevel::ERROR, LogLevel::WARNING, LogLevel::NOTICE, LogLevel::INFO, LogLevel::DEBUG];
-    /**
-     * @var WC_Logger_Interface
-     */
-    private $wcLogger;
+    private WC_Logger_Interface $wcLogger;
     public function __construct(WC_Logger_Interface $wcLogger)
     {
         $this->wcLogger = $wcLogger;
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @inheritDoc
      */
     public function log($level, $message, array $context = [])
     {
         if (!in_array($level, self::LOG_LEVELS, \true)) {
-            throw new InvalidArgumentException("Unknown log level {$level}");
+            throw new InvalidArgumentException("Unknown log level " . esc_html($level));
         }
         if (!isset($context['source'])) {
             $context['source'] = 'paypal-point-of-sale';

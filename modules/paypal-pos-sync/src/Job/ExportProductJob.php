@@ -10,6 +10,8 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Psr\Log\LoggerAwareInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\LazyProduct;
@@ -21,8 +23,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\VariableInventoryChecker;
-use Syde\Vendor\Zettle\Psr\Log\LoggerAwareInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Throwable;
 use WC_Product;
 use WC_Product_Simple;
@@ -41,19 +41,10 @@ class ExportProductJob implements Job
 {
     use ExceptionLoggingTrait;
     use VariableInventoryChecker;
-    const TYPE = 'sync-product';
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    public const TYPE = 'sync-product';
+    private ProductRepositoryInterface $repository;
+    private BuilderInterface $builder;
+    private Products $productsClient;
     /**
      * We are using a custom QueueProcessor for executing follow-up jobs directly
      * instead of adding them to the repository that we get passed in execute()
@@ -63,17 +54,13 @@ class ExportProductJob implements Job
      *
      * This instance should therefore run on a separate JobRepository
      *
-     * @var QueueProcessor
      */
-    private $processor;
+    private QueueProcessor $processor;
     /**
      * @var callable
      */
     private $createJobRecord;
-    /**
-     * @var RemoteIdProvider
-     */
-    private $remoteIdProvider;
+    private RemoteIdProvider $remoteIdProvider;
     /**
      * @var callable(int):bool
      */
@@ -108,7 +95,7 @@ class ExportProductJob implements Job
     /**
      * @inheritDoc
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function execute(ContextInterface $context, JobRepository $repository, LoggerInterface $logger): bool
     {
@@ -148,7 +135,7 @@ class ExportProductJob implements Job
             $this->removeProductIfExists($productId, $logger);
             return \true;
         }
-        $this->syncProduct($product, $productId, $logger, function () use ($wcProduct) {
+        $this->syncProduct($product, $productId, $logger, function () use ($wcProduct): void {
             $this->afterCreate($wcProduct);
         });
         /**
@@ -289,7 +276,7 @@ class ExportProductJob implements Job
             $logger->info(sprintf('Product with Id:%d and Uuid:%s was successfully created at PayPal Point of Sale Backoffice.', $product->localId(), $product->uuid()));
             $onSuccess and $onSuccess($product);
         } catch (ZettleRestException $exception) {
-            throw new QueueRuntimeException(sprintf("Couldn't update the Product %d - API returned with Code %d and message %s", $product->localId(), $exception->getCode(), $exception->getMessage()), 500, $exception);
+            throw new QueueRuntimeException(sprintf("Couldn't update the Product %d - API returned with Code %d and message %s", (int) $product->localId(), (int) $exception->getCode(), $exception->getMessage()), 500, $exception);
         }
     }
     /**

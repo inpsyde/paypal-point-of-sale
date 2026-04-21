@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\User;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 class UserBuilder implements UserBuilderInterface
 {
-    /**
-     * @var UserFactory
-     */
-    private $userFactory;
+    private UserFactory $userFactory;
     /**
      * UserBuilder constructor.
      * @param UserFactory $userFactory

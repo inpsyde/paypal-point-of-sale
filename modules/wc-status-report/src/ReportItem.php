@@ -5,18 +5,9 @@ namespace Syde\Vendor\Zettle\Inpsyde\WcStatusReport;
 
 class ReportItem implements ReportItemInterface
 {
-    /**
-     * @var string
-     */
-    protected $label;
-    /**
-     * @var string
-     */
-    protected $exportedLabel;
-    /**
-     * @var mixed
-     */
-    protected $value;
+    protected string $label;
+    protected string $exportedLabel;
+    protected mixed $value;
     public function __construct(string $label, string $exportedLabel, $value)
     {
         $this->label = $label;
@@ -40,7 +31,7 @@ class ReportItem implements ReportItemInterface
     /**
      * @inheritDoc
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

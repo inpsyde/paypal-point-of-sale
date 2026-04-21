@@ -9,7 +9,7 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class SetStateJob implements Job
 {
-    const TYPE = 'set-state';
+    public const TYPE = 'set-state';
     /**
      * @var callable
      */

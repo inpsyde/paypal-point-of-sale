@@ -7,14 +7,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
 class GenericStateChange implements StateChange
 {
-    /**
-     * @var string
-     */
-    protected $sourceState;
-    /**
-     * @var string
-     */
-    protected $newState;
+    protected string $sourceState;
+    protected string $newState;
     public function isPropagationStopped(): bool
     {
         return \false;
@@ -32,7 +26,7 @@ class GenericStateChange implements StateChange
     {
         return $this->sourceState;
     }
-    public function prepare(StateMachineInterface $machine)
+    public function prepare(StateMachineInterface $machine): void
     {
         $this->sourceState = $machine->currentState()->name();
     }

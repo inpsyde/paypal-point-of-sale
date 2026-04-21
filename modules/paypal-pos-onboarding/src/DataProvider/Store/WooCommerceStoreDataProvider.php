@@ -8,14 +8,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use WC_Tax;
 class WooCommerceStoreDataProvider implements StoreDataProvider
 {
-    /**
-     * @var array
-     */
-    private $location;
-    /**
-     * @var array
-     */
-    private $standardTaxRates;
+    private array $location;
+    private array $standardTaxRates;
     /**
      * @param array $location An array with keys country, state, etc., used for looking up taxes.
      * @param array $standardTaxRates An array with rates for the standard tax class,

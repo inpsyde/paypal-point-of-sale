@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\VippsPa
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Exception\EntityFactoryException;
 class VippsPaymentBuilder implements VippsPaymentBuilderInterface
 {
-    /**
-     * @var PaymentFactory
-     */
-    private $paymentFactory;
+    private PaymentFactory $paymentFactory;
     /**
      * CardOnlinePaymentBuilder constructor.
      *

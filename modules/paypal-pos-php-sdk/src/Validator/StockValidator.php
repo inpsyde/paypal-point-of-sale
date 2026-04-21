@@ -5,13 +5,10 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\StockQuantityAwareInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\MaximumStockException;
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 class StockValidator implements ValidatorInterface
 {
-    /**
-     * @var int
-     */
-    protected $maxStock;
+    protected int $maxStock;
     /**
      * @param int $maxStock
      */
@@ -34,7 +31,7 @@ class StockValidator implements ValidatorInterface
         assert($entity instanceof StockQuantityAwareInterface);
         $stock = $entity->defaultQuantity();
         if ($stock > $this->maxStock) {
-            throw new MaximumStockException($stock, $this->maxStock);
+            throw new MaximumStockException((int) $stock, (int) $this->maxStock);
         }
         return \true;
     }

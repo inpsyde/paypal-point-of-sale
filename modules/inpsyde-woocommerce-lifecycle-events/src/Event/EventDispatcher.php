@@ -12,22 +12,10 @@ use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
  */
 class EventDispatcher
 {
-    /**
-     * @var ProductEventListenerRegistry
-     */
-    private $listenerProvider;
-    /**
-     * @var Toggle
-     */
-    private $switch;
-    /**
-     * @var DispatchDecider
-     */
-    private $decider;
-    /**
-     * @var LoggerInterface|null
-     */
-    private $logger;
+    private ProductEventListenerRegistry $listenerProvider;
+    private Toggle $switch;
+    private DispatchDecider $decider;
+    private ?LoggerInterface $logger = null;
     /**
      * EventDispatcher constructor.
      *

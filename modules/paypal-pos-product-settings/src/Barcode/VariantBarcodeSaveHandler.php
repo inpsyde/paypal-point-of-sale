@@ -3,28 +3,16 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode;
 
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeSaverInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use WC_Product_Variation;
 class VariantBarcodeSaveHandler
 {
-    /**
-     * @var BarcodeSaverInterface
-     */
-    private $barcodeSaver;
-    /**
-     * @var BarcodeInputField
-     */
-    private $barcodeField;
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $wcProductRepository;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private BarcodeSaverInterface $barcodeSaver;
+    private BarcodeInputField $barcodeField;
+    private ProductRepositoryInterface $wcProductRepository;
+    private LoggerInterface $logger;
     public function __construct(BarcodeSaverInterface $barcodeSaver, BarcodeInputField $barcodeField, ProductRepositoryInterface $wcProductRepository, LoggerInterface $logger)
     {
         $this->barcodeSaver = $barcodeSaver;
@@ -32,7 +20,7 @@ class VariantBarcodeSaveHandler
         $this->wcProductRepository = $wcProductRepository;
         $this->logger = $logger;
     }
-    public function save(int $variationId, int $variantIndex)
+    public function save(int $variationId, int $variantIndex): void
     {
         $variation = $this->wcProductRepository->findById($variationId);
         if (!$variation instanceof WC_Product_Variation) {

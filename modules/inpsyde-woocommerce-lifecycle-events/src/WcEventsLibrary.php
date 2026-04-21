@@ -14,14 +14,8 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
  */
 class WcEventsLibrary
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var WcEventsModule
-     */
-    private $module;
+    private ContainerInterface $container;
+    private WcEventsModule $module;
     /**
      * WcEventsLibrary constructor.
      *
@@ -37,14 +31,8 @@ class WcEventsLibrary
             $package->addModule(new class($factories, $extensions) implements ServiceModule, ExtendingModule
             {
                 use ModuleClassNameIdTrait;
-                /**
-                 * @var array
-                 */
-                private $factories;
-                /**
-                 * @var array
-                 */
-                private $extensions;
+                private array $factories;
+                private array $extensions;
                 public function __construct(array $factories, array $extensions)
                 {
                     $this->factories = $factories;
@@ -63,7 +51,7 @@ class WcEventsLibrary
         $package->build();
         $this->container = $package->container();
     }
-    public function initialize()
+    public function initialize(): void
     {
         $this->module->run($this->container());
     }

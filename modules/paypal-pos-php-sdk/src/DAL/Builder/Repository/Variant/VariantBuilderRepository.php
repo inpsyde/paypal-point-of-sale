@@ -9,10 +9,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\Variant
 use WC_Product;
 class VariantBuilderRepository implements VariantBuilderRepositoryInterface
 {
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
     /**
      * VariantBuilderRepository constructor.
      *

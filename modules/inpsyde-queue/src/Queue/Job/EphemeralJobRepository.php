@@ -15,7 +15,7 @@ class EphemeralJobRepository implements JobRepository
     /**
      * @var JobRecord[]
      */
-    private $repository = [];
+    private array $repository = [];
     /**
      * @inheritDoc
      */

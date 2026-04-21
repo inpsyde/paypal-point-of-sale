@@ -21,18 +21,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
  */
 class TimeStopper implements Stopper
 {
-    /**
-     * @var int
-     */
-    private $startedAt;
-    /**
-     * @var int
-     */
-    private $stopAfter;
-    /**
-     * Timer constructor.
-     * @param float $seconds
-     */
+    private ?float $startedAt = null;
+    private float $stopAfter;
     public function __construct(float $seconds)
     {
         $this->stopAfter = $seconds * 1000;

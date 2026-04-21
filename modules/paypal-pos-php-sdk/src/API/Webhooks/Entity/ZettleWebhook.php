@@ -6,23 +6,11 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 class ZettleWebhook implements Webhook
 {
-    const TRANSPORT_NAME = 'WEBHOOK';
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var array
-     */
-    private $eventNames;
-    /**
-     * @var UriInterface
-     */
-    private $destination;
-    /**
-     * @var string
-     */
-    private $contactEmail;
+    public const TRANSPORT_NAME = 'WEBHOOK';
+    private string $uuid;
+    private array $eventNames;
+    private UriInterface $destination;
+    private string $contactEmail;
     public function __construct(string $uuid, array $eventNames, UriInterface $destination, string $contactEmail)
     {
         $this->uuid = $uuid;

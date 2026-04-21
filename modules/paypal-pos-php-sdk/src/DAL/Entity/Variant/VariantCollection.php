@@ -8,7 +8,7 @@ final class VariantCollection
     /**
      * @var VariantInterface[]
      */
-    private $collection = [];
+    private array $collection = [];
     /**
      * VariantCollection constructor.
      *

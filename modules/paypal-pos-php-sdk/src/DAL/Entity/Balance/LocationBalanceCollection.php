@@ -8,7 +8,7 @@ class LocationBalanceCollection
     /**
      * @var LocationBalance[]
      */
-    private $collection = [];
+    private array $collection = [];
     /**
      * LocationBalanceCollection constructor.
      *

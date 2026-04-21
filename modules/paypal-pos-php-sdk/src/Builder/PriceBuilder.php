@@ -3,20 +3,14 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder;
 
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationMode;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use WC_Product;
 class PriceBuilder implements BuilderInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $wooCommerceConfig;
-    /**
-     * @var string
-     */
-    private $taxationMode;
+    private ContainerInterface $wooCommerceConfig;
+    private string $taxationMode;
     public function __construct(ContainerInterface $wooCommerceConfig, string $taxationMode)
     {
         $this->wooCommerceConfig = $wooCommerceConfig;
@@ -25,8 +19,8 @@ class PriceBuilder implements BuilderInterface
     /**
      * @inheritDoc
      *
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null): Price
     {

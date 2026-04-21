@@ -6,10 +6,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 use Throwable;
 class FallbackFormatter implements ExceptionFormatter
 {
-    /**
-     * @var bool
-     */
-    private $isDebug;
+    private bool $isDebug;
     public function __construct(bool $isDebug)
     {
         $this->isDebug = $isDebug;

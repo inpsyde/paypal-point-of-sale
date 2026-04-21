@@ -11,18 +11,12 @@ class SyncProgressView implements OnboardingView
      * @var callable
      */
     private $totalWcProductsCountQuery;
-    /**
-     * @var int|null
-     */
-    private $totalWcProductsCount = null;
+    private ?int $totalWcProductsCount = null;
     /**
      * @var callable
      */
     private $supportedWcProductsCountQuery;
-    /**
-     * @var int|null
-     */
-    private $supportedWcProductsCount;
+    private ?int $supportedWcProductsCount = null;
     private string $pluginTitle;
     /**
      * SyncProgressView constructor.
@@ -38,7 +32,7 @@ class SyncProgressView implements OnboardingView
     }
     /**
      * @return string
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function renderHeader(): string
     {
@@ -77,7 +71,7 @@ class SyncProgressView implements OnboardingView
         <div class="sync-progress" data-sync-progress="true">
             <div class="sync-progress-icon">
                 <?php 
-        // phpcs:disable Inpsyde.CodeQuality.LineLength.TooLong
+        // phpcs:disable Syde.Files.LineLength.TooLong
         ?>
                 <svg xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -97,7 +91,7 @@ class SyncProgressView implements OnboardingView
                                 c40.09-41.409,62.455-96.818,62.344-154.454C460.8,229.508,453.159,221.867,443.733,221.867z" />
                 </svg>
                 <?php 
-        // phpcs:enable Inpsyde.CodeQuality.LineLength.TooLong
+        // phpcs:enable Syde.Files.LineLength.TooLong
         ?>
             </div>
 

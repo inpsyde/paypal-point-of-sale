@@ -1,6 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates;
 
@@ -8,10 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\Coo
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\CoordinatesFactory;
 final class CoordinatesBuilder implements CoordinatesBuilderInterface
 {
-    /**
-     * @var CoordinatesFactory
-     */
-    private $coordinatesFactory;
+    private CoordinatesFactory $coordinatesFactory;
     /**
      * CoordinatesBuilder constructor.
      *

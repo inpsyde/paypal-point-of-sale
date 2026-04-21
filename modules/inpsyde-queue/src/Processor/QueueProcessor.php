@@ -3,7 +3,6 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Queue\Processor;
 
-use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueLockedException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 interface QueueProcessor

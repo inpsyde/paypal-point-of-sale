@@ -5,10 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat;
 
 final class Vat
 {
-    /**
-     * @var float
-     */
-    private $percentage;
+    private float $percentage;
     /**
      * Vat constructor.
      * @param float $percentage

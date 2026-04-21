@@ -15,52 +15,25 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
      * @var callable
      */
     private $accountLinkData;
-    /**
-     * @var array
-     */
-    private $shopLinkData;
+    private array $shopLinkData;
     /**
      * @var callable
      */
     private $linkData;
-    /**
-     * @var OrganizationProvider
-     */
-    private $organizationProvider;
-    /**
-     * @var array
-     */
-    private $disconnectAccountData;
-    /**
-     * @var Countable
-     */
-    private $productCounter;
-    /**
-     * @var int|null
-     */
-    private $firstImportTimestamp;
+    private OrganizationProvider $organizationProvider;
+    private array $disconnectAccountData;
+    private Countable $productCounter;
+    private ?int $firstImportTimestamp = null;
     /**
      * @var callable(int):string
      */
     private $timestampFormatter;
+    private bool $priceSyncEnabled;
+    private string $title;
+    private string $description;
+    private string $currentState;
     /**
-     * @var bool
-     */
-    private $priceSyncEnabled;
-    /**
-     * @var string
-     */
-    private $title;
-    /**
-     * @var string
-     */
-    private $description;
-    /**
-     * @var string
-     */
-    private $currentState;
-    /**
-     * @var bool
+     * @var callable
      */
     private $authCheck;
     public function __construct(callable $accountLinkData, array $shopLinkData, callable $linkData, OrganizationProvider $organizationProvider, array $disconnectAccountData, Countable $productCounter, ?int $firstImportTimestamp, callable $timestampFormatter, bool $priceSyncEnabled, string $title, string $description, string $currentState, callable $authCheck)
@@ -93,20 +66,20 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                     <div class="zettle-settings-header-logo">
                         <?php 
         echo $this->renderIcon();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                     </div>
 
                     <?php 
         echo $this->renderDetails();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                 </div>
 
                 <div class="zettle-settings-header-meta">
                     <?php 
         echo $this->renderMeta();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                 </div>
             </div>
@@ -161,6 +134,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ob_start();
         $authenticated = ($this->authCheck)();
         $zettleLink = ($this->linkData)($authenticated);
+        // phpcs:disable WordPress.Security.EscapeOutput
         ?>
 
         <h2><?php 
@@ -170,7 +144,6 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         <div class="zettle-settings-header-details-links">
             <?php 
         echo $this->renderLink($zettleLink['url'], $zettleLink['title'], $zettleLink['icon']);
-        // WPCS: xss ok. 
         ?>
 
             <span class="separator">
@@ -181,7 +154,6 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
 
             <?php 
         echo $this->renderLink($this->shopLinkData['url'], $this->shopLinkData['title'], $this->shopLinkData['icon']);
-        // WPCS: xss ok. 
         ?>
         </div>
 
@@ -193,8 +165,9 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
 
         <?php 
         return ob_get_clean();
+        // phpcs:enable
     }
-    // phpcs:ignore Inpsyde.CodeQuality.FunctionLength.TooLong
+    // phpcs:ignore Syde.Functions.FunctionLength.TooLong
     protected function renderMeta(): string
     {
         $authenticated = ($this->authCheck)();
@@ -203,24 +176,25 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         if ($this->currentState === S::WELCOME || $this->currentState === S::ONBOARDING_COMPLETED) {
             ?>
             <input type="hidden" name="zettle_onboarding_state"
-                   value="<?php 
+                    value="<?php 
             echo esc_attr($this->currentState);
             ?>">
         <?php 
         }
-        // WPCS: xss ok.
         if ($this->currentState === S::WELCOME || $this->currentState === S::API_CREDENTIALS) {
+            // phpcs:disable WordPress.Security.EscapeOutput
             echo $this->renderLink($accountLinkData['url'], $accountLinkData['title'], $accountLinkData['icon'], 'btn btn-secondary', 'btn', '_blank', $accountLinkData['popup'] ?? \false);
-            // WPCS: xss ok.
+            // phpcs:enable
         }
         if ($this->currentState === S::WELCOME) {
+            // phpcs:disable WordPress.Security.EscapeOutput
             echo $this->renderButton(__('Connect', 'paypal-point-of-sale'), 'save', __('Save changes', 'woocommerce'), \false, 'btn btn-primary', 'btn', 'submit');
-            // WPCS: xss ok.
+            // phpcs:enable
         }
         if ($this->currentState === S::ONBOARDING_COMPLETED) {
             ?>
             <div class="zettle-settings-header-merchant-email">
-                  <p><?php 
+                    <p><?php 
             echo esc_html((string) $this->email());
             ?></p>
             </div>
@@ -228,47 +202,47 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             if ($this->firstImportTimestamp) {
                 ?>
                 <div>
-                      <p>
-                          <?php 
+                        <p>
+                            <?php 
                 echo esc_html__('First import: ', 'paypal-point-of-sale');
                 ?>
-                          <?php 
+                            <?php 
                 echo esc_html(($this->timestampFormatter)($this->firstImportTimestamp));
                 ?>
-                      </p>
+                        </p>
                 </div>
                 <?php 
             }
             ?>
             <div>
-                  <p>
-                      <?php 
+                    <p>
+                        <?php 
             echo esc_html__('Number of products syncing: ', 'paypal-point-of-sale');
             ?>
-                      <?php 
+                        <?php 
             echo esc_html((string) $this->productCounter->count());
             ?>
-                  </p>
+                    </p>
             </div>
             <div>
-                  <p>
-                      <?php 
+                    <p>
+                        <?php 
             echo esc_html__('Prices syncing: ', 'paypal-point-of-sale');
             ?>
-                      <?php 
+                        <?php 
             echo esc_html($this->priceSyncEnabled ? __('Yes', 'paypal-point-of-sale') : __('No', 'paypal-point-of-sale'));
             ?>
-                  </p>
+                    </p>
             </div>
         <?php 
         }
         if ($this->currentState === S::ONBOARDING_COMPLETED) {
+            // phpcs:disable WordPress.Security.EscapeOutput
             echo $this->renderButton($this->disconnectAccountData['title'], $this->disconnectAccountData['name'], $this->disconnectAccountData['value'], $this->disconnectAccountData['icon'], $this->disconnectAccountData['class'], '', 'button', ['data-micromodal-trigger' => $this->disconnectAccountData['dialog']['id']]);
-            // WPCS: xss ok.
             add_action('admin_footer', function () {
                 echo $this->renderModal($this->disconnectAccountData['dialog']['id'], $this->disconnectAccountData['dialog']['title'], $this->disconnectAccountData['dialog']['content'], $this->disconnectAccountData['dialog']['buttons']);
-                // WPCS: xss ok.
             });
+            // phpcs:enable
         }
         return ob_get_clean();
     }
@@ -290,18 +264,18 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         <a href="<?php 
         echo esc_url_raw($url);
         ?>"
-           class="<?php 
+            class="<?php 
         echo esc_attr($class);
         ?>"
-           rel="noopener noreferrer"
-           target="<?php 
+            rel="noopener noreferrer"
+            target="<?php 
         echo esc_attr($target);
         ?>" <?php 
         echo $popup ? 'data-popup="true"' : '';
         ?>>
             <?php 
         echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </a>
 
@@ -343,7 +317,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                 >
             <?php 
         echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </button>
 
@@ -379,7 +353,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ?>">
             <?php 
         echo $this->renderIconExternalLink();
-        // WPCS: xss ok. 
+        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </span>
 
@@ -395,7 +369,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ?>
 
         <svg viewBox="2 2 22 22" xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink">
+            xmlns:xlink="http://www.w3.org/1999/xlink">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <path d="M19.5692298,21.4615374 C20.6538451,21.4615374 21.4615374,20.6538451 21.4615374,19.5692298
                     L21.4615374,12.2307687 L20.0769221,12.2307687 L20.0769221,19.6153836 C20.0769221,19.8692298

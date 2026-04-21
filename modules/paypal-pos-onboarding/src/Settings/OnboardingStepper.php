@@ -6,34 +6,13 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\State;
 class OnboardingStepper
 {
-    /**
-     * @var array
-     */
-    private $states;
-    /**
-     * @var string
-     */
-    private $currentStep;
-    /**
-     * @var array
-     */
-    private $exclude;
-    /**
-     * @var string
-     */
-    private $stepLabel;
-    /**
-     * @var string
-     */
-    private $stepsTemplate;
-    /**
-     * @var array
-     */
-    private $steppableMap;
-    /**
-     * @var int
-     */
-    private $currentPosition;
+    private array $states;
+    private string $currentStep;
+    private array $exclude;
+    private string $stepLabel;
+    private string $stepsTemplate;
+    private array $steppableMap;
+    private int $currentPosition;
     /**
      * OnboardingStepper constructor.
      *

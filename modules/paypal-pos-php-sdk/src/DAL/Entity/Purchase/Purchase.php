@@ -9,82 +9,25 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Type\S
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\User;
 final class Purchase
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var string
-     */
-    private $uuid1;
-    /**
-     * @var DateTime
-     */
-    private $timestamp;
-    /**
-     * @var Coordinates|null
-     */
-    private $coordinates;
-    /**
-     * @var string
-     */
-    private $country;
-    /**
-     * @var string
-     */
-    private $currency;
-    /**
-     * @var User
-     */
-    private $user;
-    /**
-     * @var int
-     */
-    private $organizationId;
-    /**
-     * @var int
-     */
-    private $purchaseNumber;
-    /**
-     * @var float
-     */
-    private $amount;
-    /**
-     * @var float
-     */
-    private $vatAmount;
-    /**
-     * @var array
-     */
-    private $products;
-    /**
-     * @var array
-     */
-    private $payments;
-    /**
-     * @var array
-     */
-    private $vatAmounts;
-    /**
-     * @var bool
-     */
-    private $receiptCopyAllowed;
-    /**
-     * @var bool|null
-     */
-    private $published;
-    /**
-     * @var bool
-     */
-    private $refund;
-    /**
-     * @var bool
-     */
-    private $refunded;
-    /**
-     * @var SourceType|null
-     */
-    private $sourceType;
+    private string $uuid;
+    private string $uuid1;
+    private DateTime $timestamp;
+    private ?Coordinates $coordinates = null;
+    private string $country;
+    private string $currency;
+    private User $user;
+    private int $organizationId;
+    private int $purchaseNumber;
+    private float $amount;
+    private float $vatAmount;
+    private array $products;
+    private array $payments;
+    private array $vatAmounts;
+    private bool $receiptCopyAllowed;
+    private ?bool $published = null;
+    private bool $refund;
+    private bool $refunded;
+    private ?SourceType $sourceType = null;
     /**
      * Purchase constructor.
      *
@@ -107,7 +50,7 @@ final class Purchase
      * @param bool $refund
      * @param bool $refunded
      * @param Coordinates|null $coordinates
-     * @param SourceType $sourceType
+     * @param SourceType|null $sourceType
      * @param bool|null $published
      */
     public function __construct(string $uuid, string $uuid1, DateTime $timestamp, string $country, string $currency, User $user, int $organizationId, int $purchaseNumber, float $amount, float $vatAmount, array $products, array $payments, array $vatAmounts, bool $receiptCopyAllowed, bool $refund, bool $refunded, ?Coordinates $coordinates = null, ?SourceType $sourceType = null, ?bool $published = null)

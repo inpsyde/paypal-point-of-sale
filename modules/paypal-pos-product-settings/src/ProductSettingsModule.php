@@ -7,10 +7,10 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\VariantBarcodeSaveHandler;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use WP_Post;
 class ProductSettingsModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
@@ -37,9 +37,9 @@ class ProductSettingsModule implements ServiceModule, ExtendingModule, Executabl
         });
         return \true;
     }
-    private function addVariationBarcodeHandlers(BarcodeInputField $barcodeField, ProductRepositoryInterface $wcProductRepository, VariantBarcodeSaveHandler $saveHandler)
+    private function addVariationBarcodeHandlers(BarcodeInputField $barcodeField, ProductRepositoryInterface $wcProductRepository, VariantBarcodeSaveHandler $saveHandler): void
     {
-        add_action('woocommerce_product_after_variable_attributes', static function (int $loop, array $variationData, WP_Post $variationPost) use ($barcodeField, $wcProductRepository) {
+        add_action('woocommerce_product_after_variable_attributes', static function (int $loop, array $variationData, WP_Post $variationPost) use ($barcodeField, $wcProductRepository): void {
             $variation = $wcProductRepository->findById((int) $variationPost->ID);
             if (!$variation) {
                 return;

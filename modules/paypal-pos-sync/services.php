@@ -7,6 +7,7 @@ use Exception;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\ProcessorBuilder;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationType;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\OrganizationProvider;
@@ -45,7 +46,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Listener\VariationManageStoc
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Status\StatusCodeMatcher;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Status\SyncStatusCodes;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Validator\ProductValidator;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Throwable;
 use WC_Product_Variation;
 $job = static function (string $type): string {
@@ -119,7 +119,7 @@ return [
         };
     },
     'paypal-pos.sync.queue-processor.cli.exception-handler' => static function (): callable {
-        return static function (Throwable $exception) {
+        return static function (Throwable $exception): void {
             // phpcs:ignore WordPress.Security.EscapeOutput
             echo $exception;
         };
@@ -140,7 +140,7 @@ return [
         return new ExcludeCommand($container->get($job(DeleteProductJob::TYPE)), $container->get($job(UnlinkProductJob::TYPE)), $container->get('inpsyde.queue.logger'));
     },
     'paypal-pos.sync.enqueue-initial-sync' => static function (C $container): callable {
-        return static function () use ($container) {
+        return static function () use ($container): void {
             $enqueue = $container->get('inpsyde.queue.enqueue-job');
             assert(is_callable($enqueue));
             $enqueue(EnqueueProductSyncJob::TYPE);

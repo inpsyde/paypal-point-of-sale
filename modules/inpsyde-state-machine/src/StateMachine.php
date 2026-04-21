@@ -3,7 +3,6 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\StateMachine;
 
-use Syde\Vendor\Zettle\Psr\EventDispatcher\EventDispatcherInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\GenericPostTransition;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\GenericPreTransition;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\StateChange;
@@ -11,7 +10,9 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\Exceptions\DenyTransitionException;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Guard\GuardInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\EventDispatcherInterface;
 use UnexpectedValueException;
+// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 class StateMachine implements StateMachineInterface
 {
     /**
@@ -20,30 +21,15 @@ class StateMachine implements StateMachineInterface
      * @var callable|null
      */
     protected $stateHandler;
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $dispatcher;
-    /**
-     * @var StateInterface
-     */
-    protected $currentState;
-    /**
-     * @var array
-     */
-    protected $states = [];
-    /**
-     * @var array
-     */
-    protected $transitions = [];
+    protected EventDispatcherInterface $dispatcher;
+    protected StateInterface $currentState;
+    protected array $states = [];
+    protected array $transitions = [];
     /**
      * @var GuardInterface[]
      */
-    private $guards = [];
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private array $guards = [];
+    private EventDispatcherInterface $eventDispatcher;
     public function __construct(EventDispatcherInterface $eventDispatcher, ?callable $updateStateHandler = null)
     {
         $this->eventDispatcher = $eventDispatcher;
@@ -52,7 +38,7 @@ class StateMachine implements StateMachineInterface
     /**
      * @param string $initialStateName
      */
-    public function initialize(string $initialStateName)
+    public function initialize(string $initialStateName): void
     {
         $state = $this->getState($initialStateName);
         if ($state === null) {
@@ -91,7 +77,7 @@ class StateMachine implements StateMachineInterface
      *
      * @return mixed
      * @throws DenyTransitionException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function apply($transition): StateMachineInterface
     {
@@ -126,15 +112,14 @@ class StateMachine implements StateMachineInterface
     /**
      * @param string|TransitionInterface $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool
     {
         if (!$this->currentState->can($transition)) {
             return \false;
         }
-        //phpcs:disable Inpsyde.CodeQuality.NoElse
         if (is_string($transition)) {
             $transitionName = $transition;
             $transition = $this->transition($transition);
@@ -208,9 +193,9 @@ class StateMachine implements StateMachineInterface
     /**
      * @param string|StateInterface $state
      *
-     * @return boolean
+     * @return bool
      * @throws UnexpectedValueException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     private function getState($state): StateInterface
     {

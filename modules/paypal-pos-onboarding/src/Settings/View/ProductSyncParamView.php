@@ -12,30 +12,18 @@ class ProductSyncParamView implements OnboardingView
      * @var callable
      */
     private $zettleProductsCountQuery;
-    /**
-     * @var int|null
-     */
-    private $zettleProductsCount = null;
+    private ?int $zettleProductsCount = null;
     /**
      * @var callable
      */
     private $totalWcProductsCountQuery;
-    /**
-     * @var int|null
-     */
-    private $totalWcProductsCount = null;
+    private ?int $totalWcProductsCount = null;
     /**
      * @var callable
      */
     private $supportedWcProductsCountQuery;
-    /**
-     * @var int|null
-     */
-    private $supportedWcProductsCount;
-    /**
-     * @var array
-     */
-    private $documentationLink;
+    private ?int $supportedWcProductsCount = null;
+    private array $documentationLink;
     /**
      * ProductSyncParamView constructor.
      *
@@ -95,7 +83,7 @@ class ProductSyncParamView implements OnboardingView
             <div class="form-choice-selector">
                 <div class="form-choice-selector-input">
                     <input type="radio" name="woocommerce_zettle_sync_collision_strategy" id="zettle-merge-products"
-                           value="<?php 
+                            value="<?php 
         echo esc_attr(SyncCollisionStrategy::MERGE);
         ?>">
                 </div>
@@ -118,7 +106,7 @@ class ProductSyncParamView implements OnboardingView
             <div class="form-choice-selector">
                 <div class="form-choice-selector-input">
                     <input type="radio" name="woocommerce_zettle_sync_collision_strategy" id="zettle-wipe-products"
-                           value="<?php 
+                            value="<?php 
         echo esc_attr(SyncCollisionStrategy::WIPE);
         ?>">
                 </div>

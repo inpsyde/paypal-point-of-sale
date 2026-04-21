@@ -4,32 +4,23 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\PayloadFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Throwable;
 use WP_REST_Request;
 use WP_REST_Server;
 class WebhookListenerEndpoint implements Endpoint
 {
     use ExceptionLoggingTrait;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    /**
-     * @var PayloadFactory
-     */
-    private $payloadFactory;
+    private LoggerInterface $logger;
+    private PayloadFactory $payloadFactory;
     /**
      * @var WebhookHandler[]
      */
-    private $handlers;
-    /**
-     * @var bool
-     */
-    private static $shutDownCalled = \false;
+    private array $handlers;
+    private static bool $shutDownCalled = \false;
     public function __construct(LoggerInterface $logger, PayloadFactory $payloadFactory, WebhookHandler ...$handlers)
     {
         $this->logger = $logger;

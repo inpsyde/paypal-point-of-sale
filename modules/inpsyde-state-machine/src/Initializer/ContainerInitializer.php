@@ -6,6 +6,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+// phpcs:disable Generic.PHP.DiscourageGoto
 /**
  * Class ContainerInitializer
  *
@@ -16,18 +17,9 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
  */
 class ContainerInitializer implements InitializerInterface
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var InitializerInterface
-     */
-    private $childInitializer;
+    private string $namespace;
+    private ContainerInterface $container;
+    private InitializerInterface $childInitializer;
     public function __construct(string $namespace, ContainerInterface $container, InitializerInterface $childInitializer)
     {
         $this->namespace = $namespace;

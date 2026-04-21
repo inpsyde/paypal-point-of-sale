@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Listener;
 
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantTransferInterface;
@@ -10,7 +11,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use WC_Product_Variable;
 /**
  * Detects a Variable Product without Variations and deletes the Product on Update
@@ -19,22 +19,10 @@ use WC_Product_Variable;
  */
 class DeleteVariableWithoutVariationsListener
 {
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $productMap;
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $variantMap;
-    /**
-     * @var Products
-     */
-    private $productsClient;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private OneToOneMapInterface|MapRecordCreator $productMap;
+    private OneToOneMapInterface|MapRecordCreator $variantMap;
+    private Products $productsClient;
+    private LoggerInterface $logger;
     /**
      * DeleteVariableProductWithoutVariationsListener constructor.
      *

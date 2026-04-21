@@ -6,26 +6,11 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 use DateTime;
 class Context implements ContextInterface
 {
-    /**
-     * @var object
-     */
-    private $args;
-    /**
-     * @var DateTime
-     */
-    private $created;
-    /**
-     * @var int
-     */
-    private $siteId;
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var int
-     */
-    private $retryCount;
+    private object $args;
+    private DateTime $created;
+    private int $siteId;
+    private int $id;
+    private int $retryCount;
     public function __construct(object $args, DateTime $created, int $siteId, int $retryCount = 0, int $id = 0)
     {
         $this->args = $args;

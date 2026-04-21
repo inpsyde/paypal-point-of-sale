@@ -5,22 +5,10 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 
 class ZettlePayload implements Payload
 {
-    /**
-     * @var string
-     */
-    private $eventName;
-    /**
-     * @var string
-     */
-    private $organizationUuid;
-    /**
-     * @var string
-     */
-    private $messageUuid;
-    /**
-     * @var array
-     */
-    private $payload;
+    private string $eventName;
+    private string $organizationUuid;
+    private string $messageUuid;
+    private array $payload;
     public function __construct(string $eventName, string $organizationUuid, string $messageUuid, array $payload)
     {
         $this->eventName = $eventName;

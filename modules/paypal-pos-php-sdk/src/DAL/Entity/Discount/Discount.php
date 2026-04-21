@@ -8,50 +8,17 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageColl
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 class Discount
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $description;
-    /**
-     * @var ImageCollection|null
-     */
-    private $imageCollection;
-    /**
-     * @var Price|null
-     */
-    private $amount;
-    /**
-     * @var float|null
-     */
-    private $percentage;
-    /**
-     * @var string|null
-     */
-    private $externalReference;
-    /**
-     * @var string|null
-     */
-    private $etag;
-    /**
-     * @var DateTime|null
-     */
-    private $updatedAt;
-    /**
-     * @var string|null
-     */
-    private $updatedBy;
-    /**
-     * @var DateTime|null
-     */
-    private $createdAt;
+    private string $uuid;
+    private string $name;
+    private string $description;
+    private ?ImageCollection $imageCollection = null;
+    private ?Price $amount = null;
+    private ?float $percentage = null;
+    private ?string $externalReference = null;
+    private ?string $etag = null;
+    private ?DateTime $updatedAt = null;
+    private ?string $updatedBy = null;
+    private ?DateTime $createdAt = null;
     /**
      * Discount constructor.
      *

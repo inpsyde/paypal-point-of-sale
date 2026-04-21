@@ -18,10 +18,7 @@ use WC_Product;
  */
 class WcProductAttachmentIterator extends WcProductIteratorAggregate
 {
-    /**
-     * @var int
-     */
-    private $limit;
+    private int $limit;
     public function __construct(WC_Product $product, int $limit = 0, WcProductIterator ...$iterators)
     {
         $this->limit = $limit;

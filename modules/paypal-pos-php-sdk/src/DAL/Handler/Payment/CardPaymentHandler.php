@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Payment\CardPa
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 class CardPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var CardPaymentBuilder
-     */
-    private $cardPaymentBuilder;
+    private CardPaymentBuilder $cardPaymentBuilder;
     /**
      * CardPaymentHandler constructor.
      *

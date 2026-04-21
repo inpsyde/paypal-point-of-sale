@@ -12,7 +12,7 @@ class ArrayProductRepository implements ProductRepositoryInterface
     /**
      * @var array<int, WC_Product>
      */
-    private $repository;
+    private array $repository;
     /**
      * ArrayProductRepository constructor.
      *

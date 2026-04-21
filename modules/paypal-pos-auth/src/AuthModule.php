@@ -7,11 +7,11 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenProviderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
@@ -32,7 +32,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
     /**
      * @inheritDoc
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function run(ContainerInterface $container): bool
     {
@@ -40,7 +40,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
          * @var TokenProviderInterface|TokenPersistorInterface $tokenStorage
          */
         $tokenStorage = $container->get('paypal-pos.oauth.token-storage');
-        add_action('inpsyde.zettle.settings.updated', static function (array $changed) use ($container) {
+        add_action('inpsyde.zettle.settings.updated', static function (array $changed) use ($container): void {
             if (empty($changed)) {
                 return;
             }

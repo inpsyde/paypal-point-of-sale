@@ -8,30 +8,12 @@ use WC_Settings_API;
 class SettingsFieldView implements OnboardingView
 {
     use ButtonRendererTrait;
-    /**
-     * @var WC_Settings_API
-     */
-    protected $settingsApi;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var string
-     */
-    protected $content;
-    /**
-     * @var array
-     */
-    protected $fields;
-    /**
-     * @var string
-     */
-    protected $notice;
-    /**
-     * @var string
-     */
-    protected $allowedFieldTags;
+    protected WC_Settings_API $settingsApi;
+    protected string $title;
+    protected string $content;
+    protected array $fields;
+    protected string $notice;
+    protected array $allowedFieldTags;
     /**
      * CredentialAwareView constructor.
      *

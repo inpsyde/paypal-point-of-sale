@@ -3,27 +3,18 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use InvalidArgumentException;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 class JwtGrant implements GrantType
 {
     public const KEY = 'urn:ietf:params:oauth:grant-type:jwt-bearer';
-    /**
-     * @var ContainerInterface
-     */
-    private $credentials;
-    /**
-     * @var ParserInterface
-     */
-    private $tokenDecoder;
-    /**
-     * @var string
-     */
-    private $clientId;
+    private ContainerInterface $credentials;
+    private ParserInterface $tokenDecoder;
+    private string $clientId;
     /**
      * @param ContainerInterface $credentials
      * @param ParserInterface $tokenDecoder
@@ -55,6 +46,7 @@ class JwtGrant implements GrantType
             $token = $this->tokenDecoder->parse($apiKey);
         } catch (NotFoundExceptionInterface|InvalidArgumentException|RuntimeException $exception) {
             throw new InvalidTokenException('Failed to create JWT token data', 0, $exception);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         return ['assertion' => $apiKey, 'client_id' => $this->clientId];
     }

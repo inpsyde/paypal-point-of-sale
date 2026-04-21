@@ -3,21 +3,15 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Taxes;
 
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 class Taxes
 {
-    private $baseUri;
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private UriInterface $baseUri;
+    private RestClientInterface $restClient;
+    private BuilderInterface $builder;
     public function __construct(UriInterface $baseUri, RestClientInterface $restClient, BuilderInterface $builder)
     {
         $this->baseUri = $baseUri;

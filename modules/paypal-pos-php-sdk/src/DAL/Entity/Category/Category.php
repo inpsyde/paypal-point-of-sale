@@ -6,30 +6,12 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Category;
 use DateTime;
 class Category
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $etag;
-    /**
-     * @var DateTime
-     */
-    private $updatedAt;
-    /**
-     * @var string
-     */
-    private $updatedBy;
-    /**
-     * @var DateTime
-     */
-    private $createdAt;
+    private string $uuid;
+    private string $name;
+    private string $etag;
+    private DateTime $updatedAt;
+    private string $updatedBy;
+    private DateTime $createdAt;
     /**
      * Category constructor.
      *

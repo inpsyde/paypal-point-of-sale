@@ -13,19 +13,13 @@ class WcProductIteratorAggregate implements WcProductIterator
     /**
      * @var WcProductIterator[]
      */
-    private $iterators;
-    /**
-     * @var WC_Product
-     */
-    private $currentProduct;
-    /**
-     * @var WcProductIterator
-     */
-    private $currentIterator;
+    private array $iterators;
+    private ?WC_Product $currentProduct = null;
+    private WcProductIterator|null|false $currentIterator = null;
     /**
      * @var int The key of the current value
      */
-    protected $key = 0;
+    protected int $key = 0;
     public function __construct(WcProductIterator ...$iterators)
     {
         $this->iterators = $iterators;
@@ -34,10 +28,12 @@ class WcProductIteratorAggregate implements WcProductIterator
     #[\ReturnTypeWillChange]
     public function current()
     {
+        assert($this->currentIterator instanceof WcProductIterator);
         return $this->currentIterator->current();
     }
     public function next(): void
     {
+        assert($this->currentIterator instanceof WcProductIterator);
         $this->key++;
         $this->currentIterator->next();
         if (!$this->valid()) {
@@ -48,7 +44,7 @@ class WcProductIteratorAggregate implements WcProductIterator
      * Move on to the next iterator and check if it is has data.
      * If not, recurse until an iterator with data is found.
      */
-    private function advanceIterator()
+    private function advanceIterator(): void
     {
         $this->currentIterator = next($this->iterators);
         if (!$this->valid() && $this->currentIterator instanceof WcProductIterator) {
@@ -62,9 +58,6 @@ class WcProductIteratorAggregate implements WcProductIterator
     }
     public function valid(): bool
     {
-        /**
-         * @psalm-suppress RedundantConditionGivenDocblockType
-         */
         return $this->currentProduct and $this->currentIterator and $this->currentIterator->valid();
     }
     public function rewind(): void

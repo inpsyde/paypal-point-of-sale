@@ -6,13 +6,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 class AggregateProvider implements ListenerProviderInterface
 {
-    /**
-     * @var array
-     */
-    protected $providers = [];
-    /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     */
+    protected array $providers = [];
     public function getListenersForEvent(object $event): iterable
     {
         /** @var ListenerProviderInterface $provider */

@@ -16,18 +16,15 @@ use WC_Product_Variation;
  */
 class WooCommerceBuilder implements TypeSpecificBuilderInterface
 {
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
     public function __construct(BuilderInterface $builder)
     {
         $this->builder = $builder;
     }
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null)
     {
@@ -35,7 +32,7 @@ class WooCommerceBuilder implements TypeSpecificBuilderInterface
     }
     /**
      * @param $payload
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return bool
      */

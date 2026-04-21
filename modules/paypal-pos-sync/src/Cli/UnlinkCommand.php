@@ -7,25 +7,12 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
-use Syde\Vendor\Zettle\WP_CLI;
 class UnlinkCommand
 {
-    /**
-     * @var Job
-     */
-    private $unlinkProductJob;
-    /**
-     * @var Job
-     */
-    private $unlinkVariantJob;
-    /**
-     * @var Job
-     */
-    private $unlinkImagesJob;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private Job $unlinkProductJob;
+    private Job $unlinkVariantJob;
+    private Job $unlinkImagesJob;
+    private LoggerInterface $logger;
     /**
      * UnlinkCommand constructor.
      *
@@ -55,7 +42,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function product(array $args, array $assocArgs)
+    public function product(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(['localId' => (int) $args[0]]);
         $this->unlinkProductJob->execute($context, new EphemeralJobRepository(), $this->logger);
@@ -74,7 +61,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function variant(array $args, array $assocArgs)
+    public function variant(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(['variantId' => (int) $args[0]]);
         $this->unlinkVariantJob->execute($context, new EphemeralJobRepository(), $this->logger);
@@ -93,7 +80,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function images(array $args, array $assocArgs)
+    public function images(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(['productId' => (int) $args[0]]);
         $this->unlinkImagesJob->execute($context, new EphemeralJobRepository(), $this->logger);
@@ -115,7 +102,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function image(array $args, array $assocArgs)
+    public function image(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(['attachmentId' => (int) $args[0], 'type' => (string) $args[1]]);
         $this->unlinkImagesJob->execute($context, new EphemeralJobRepository(), $this->logger);

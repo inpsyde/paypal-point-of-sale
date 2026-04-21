@@ -11,10 +11,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Payment\Paym
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 class PaymentFactory
 {
-    /**
-     * @var PaymentValidator
-     */
-    private $paymentValidator;
+    private PaymentValidator $paymentValidator;
     /**
      * PaymentFactory constructor.
      *
@@ -106,22 +103,16 @@ class PaymentFactory
         return new CustomPayment($uuid, $amount);
     }
     /**
-     * @param string $uuid
-     * @param string $paymentType
-     * @param float $amount
-     *
-     * @return GiftcardPayment
-     *
      * @throws EntityFactoryException
      */
-    public function createGiftcardPayment(string $uuid, string $paymentType, float $amount): GiftcardPayment
+    public function createGiftcardPayment(string $uuid, string $paymentType, float $amount): GiftCardPayment
     {
         try {
             $this->paymentValidator->validate(PaymentType::GIFTCARD, $paymentType);
         } catch (ValidatorException $validatorException) {
-            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', GiftcardPayment::class, $validatorException->getMessage()));
+            throw new EntityFactoryException(sprintf('%s Entity cannot be created, because of: %s', GiftCardPayment::class, $validatorException->getMessage()));
         }
-        return new GiftcardPayment($uuid, $amount);
+        return new GiftCardPayment($uuid, $amount);
     }
     /**
      * @param string $uuid

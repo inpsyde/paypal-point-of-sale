@@ -8,10 +8,7 @@ use WC_Product_Variable;
 use WP_Term;
 class CategoryCollectionFactory
 {
-    /**
-     * @var CategoryFactory
-     */
-    private $categoryFactory;
+    private CategoryFactory $categoryFactory;
     public function __construct(CategoryFactory $categoryFactory)
     {
         $this->categoryFactory = $categoryFactory;

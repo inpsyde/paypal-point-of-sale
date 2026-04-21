@@ -5,10 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB;
 
 class DataMappingTable implements Table
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
     /**
      * DataMappingTable constructor.
      *

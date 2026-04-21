@@ -6,30 +6,18 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueRuntimeException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\EventName;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class InventoryBalanceChangedHandler implements WebhookHandler
 {
-    /**
-     * @var InventoryBalanceChangedJob
-     */
-    private $inventoryBalanceChanged;
-    /**
-     * @var OneToManyMapInterface
-     */
-    private $variantIdMap;
-    /**
-     * @var string
-     */
-    private $integrationUuid;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private InventoryBalanceChangedJob $inventoryBalanceChanged;
+    private OneToManyMapInterface $variantIdMap;
+    private string $integrationUuid;
+    private LoggerInterface $logger;
     public function __construct(InventoryBalanceChangedJob $inventoryBalanceChanged, LoggerInterface $logger, OneToManyMapInterface $variantIdMap, string $integrationUuid)
     {
         $this->inventoryBalanceChanged = $inventoryBalanceChanged;
@@ -61,9 +49,9 @@ class InventoryBalanceChangedHandler implements WebhookHandler
      * @inheritDoc
      *
      * @throws QueueRuntimeException
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         $eventPayload = $payload->payload();
         $variantsBefore = [];

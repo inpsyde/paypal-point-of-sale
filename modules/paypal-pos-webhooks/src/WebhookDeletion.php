@@ -3,28 +3,19 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks;
 
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Webhook;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Subscriptions;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 /**
  * Unsubscribes all our webhooks.
  */
 class WebhookDeletion
 {
-    /**
-     * @var Webhook
-     */
-    private $local;
-    /**
-     * @var Subscriptions
-     */
-    private $subscriptions;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private Webhook $local;
+    private Subscriptions $subscriptions;
+    private LoggerInterface $logger;
     /**
      * @var callable
      */

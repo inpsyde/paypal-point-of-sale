@@ -11,10 +11,7 @@ use WC_Product;
  */
 class NotSyncableListener
 {
-    /**
-     * @var DePublishListener
-     */
-    private $depublishListener;
+    private DePublishListener $depublishListener;
     /**
      * @var callable(int):bool
      */

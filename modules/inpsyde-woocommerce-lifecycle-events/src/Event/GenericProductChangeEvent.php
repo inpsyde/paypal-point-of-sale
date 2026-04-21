@@ -9,14 +9,8 @@ use WC_Product;
  */
 class GenericProductChangeEvent implements ProductChangeEvent
 {
-    /**
-     * @var WC_Product
-     */
-    private $new;
-    /**
-     * @var WC_Product
-     */
-    private $old;
+    private WC_Product $new;
+    private WC_Product $old;
     /**
      * GenericProductChangeEvent constructor.
      *

@@ -1,7 +1,6 @@
 <?php
 
 declare (strict_types=1);
-# -*- coding: utf-8 -*-
 namespace Syde\Vendor\Zettle\Inpsyde\Queue\Rest\V1;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueLockedException;
@@ -9,11 +8,9 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Log\ArrayLogger;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Logger\LoggerProviderInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\ProcessorBuilder;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Locker;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\TimeStopper;
-use Syde\Vendor\Zettle\Psr\Log\LoggerAwareInterface;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Throwable;
 use WP_REST_Request;
@@ -26,34 +23,16 @@ class ProcessEndpoint implements EndpointInterface
     public const VERSION = 'v1';
     public const ROUTE = '/process';
     public const DEFAULT_EXECUTION_TIME = 10;
-    /**
-     * @var ProcessorBuilder
-     */
-    private $builder;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private ProcessorBuilder $builder;
+    private LoggerInterface $logger;
     /**
      * @var callable
      */
     private $metaCallback;
-    /**
-     * @var Locker
-     */
-    private $locker;
-    /**
-     * @var JobRepository
-     */
-    private $repository;
-    /**
-     * @var bool
-     */
-    private $isMultisite;
-    /**
-     * @var int
-     */
-    private $maxRetriesCount;
+    private Locker $locker;
+    private JobRepository $repository;
+    private bool $isMultisite;
+    private int $maxRetriesCount;
     public function __construct(ProcessorBuilder $processorBuilder, JobRepository $repository, Locker $locker, LoggerInterface $logger, callable $metaCallback, bool $isMultisite, int $maxRetriesCount)
     {
         $this->builder = $processorBuilder;
@@ -87,8 +66,8 @@ class ProcessEndpoint implements EndpointInterface
     /** @inheritDoc */
     public function args(): array
     {
-        // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-        // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+        // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return ['types' => ['types' => 'array', 'default' => [], 'validate_callback' => static function ($value): bool {
             return is_array($value);
         }, 'sanitize_callback' => static function ($value) {

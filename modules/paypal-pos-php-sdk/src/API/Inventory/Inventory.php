@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Inventory;
 
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Inventory as InventoryEntity;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Transaction;
@@ -10,30 +11,17 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location\Locati
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 class Inventory
 {
-    private $uri;
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
-    /**
-     * @var Locations
-     */
-    private $locationsClient;
+    private UriInterface $uri;
+    private RestClientInterface $restClient;
+    private Locations $locationsClient;
     /**
      * @var Location[]
      */
-    private $locations;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /**
-     * @var string
-     */
-    private $integrationUuid;
+    private array $locations;
+    private BuilderInterface $builder;
+    private string $integrationUuid;
     public function __construct(UriInterface $uri, RestClientInterface $restClient, Locations $locationsClient, BuilderInterface $builder, string $integrationUuid)
     {
         $this->uri = $uri;
@@ -155,7 +143,14 @@ class Inventory
         try {
             return $this->builder->build(InventoryEntity::class, $result);
         } catch (BuilderException $exception) {
-            throw new ZettleRestException(sprintf('Could not build Inventory entity of product %s after fetching it', $productUuid), 0, $result, [], $exception);
+            throw new ZettleRestException(
+                sprintf('Could not build Inventory entity of product %s after fetching it', esc_html($productUuid)),
+                0,
+                $result,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                [],
+                $exception
+            );
         }
     }
 }

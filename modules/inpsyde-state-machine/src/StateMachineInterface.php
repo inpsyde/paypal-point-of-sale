@@ -12,10 +12,10 @@ interface StateMachineInterface
     /**
      * @param string $initialStateName
      */
-    public function initialize(string $initialStateName);
+    public function initialize(string $initialStateName): void;
     /**
      * @param $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return mixed
      */
@@ -33,14 +33,14 @@ interface StateMachineInterface
      *
      * @return StateMachineInterface
      * @throws DenyTransitionException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function apply($transition): StateMachineInterface;
     /**
      * @param string|TransitionInterface $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool;
     public function currentState(): StateInterface;

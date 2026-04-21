@@ -6,10 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation;
 use RuntimeException;
 class ValidationFailedException extends RuntimeException
 {
-    /**
-     * @var array
-     */
-    private $errors;
+    private array $errors;
     public function __construct(string $message = '', array $errors = [])
     {
         parent::__construct($message);

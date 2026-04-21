@@ -4,18 +4,12 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 class ContainerAwareView implements OnboardingView
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var OnboardingView
-     */
-    private $view;
+    private ContainerInterface $container;
+    private ?OnboardingView $view = null;
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -38,7 +32,7 @@ class ContainerAwareView implements OnboardingView
     }
     /**
      * @return OnboardingView
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
      */
     private function view(): OnboardingView

@@ -9,11 +9,11 @@ class TransitionAwareListenerProvider implements ListenerProviderInterface
     /**
      * @var ListenerProvider[]
      */
-    private $listeners = [];
+    private array $listeners = [];
     /**
      * @param string $state
      * @param $listener
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function listen(string $state, $listener)
     {
@@ -23,8 +23,7 @@ class TransitionAwareListenerProvider implements ListenerProviderInterface
         $this->listeners[$state]->addListener($listener);
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.InvalidGeneratorManyReturns
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function getListenersForEvent(object $event): iterable
     {

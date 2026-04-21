@@ -6,14 +6,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 class RegisteredZettleWebhook extends ZettleWebhook implements RegisteredWebhook
 {
-    /**
-     * @var string
-     */
-    private $status;
-    /**
-     * @var string
-     */
-    private $signingKey;
+    private string $status;
+    private string $signingKey;
     public function __construct(string $uuid, array $eventNames, UriInterface $destination, string $contactEmail, string $status, string $signingKey)
     {
         parent::__construct($uuid, $eventNames, $destination, $contactEmail);

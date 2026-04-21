@@ -5,14 +5,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Metadata;
 
 class Metadata
 {
-    /**
-     * @var bool
-     */
-    private $inPos;
-    /**
-     * @var Source
-     */
-    private $source;
+    private bool $inPos;
+    private Source $source;
     /**
      * @param bool $inPos
      * @param Source $source

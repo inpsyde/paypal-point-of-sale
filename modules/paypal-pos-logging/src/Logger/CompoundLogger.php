@@ -12,13 +12,13 @@ class CompoundLogger implements LoggerInterface
     /**
      * @var LoggerInterface[]
      */
-    private $loggers;
+    private array $loggers;
     public function __construct(LoggerInterface ...$loggers)
     {
         $this->loggers = $loggers;
     }
     /**
-     *  phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     *  phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @inheritDoc
      */

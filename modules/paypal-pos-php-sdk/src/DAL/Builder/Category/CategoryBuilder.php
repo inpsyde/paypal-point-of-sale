@@ -11,10 +11,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Category\Catego
 use Syde\Vendor\Zettle\Symfony\Component\Uid\Uuid;
 class CategoryBuilder extends AbstractBuilder implements CategoryBuilderInterface
 {
-    /**
-     * @var CategoryFactory
-     */
-    private $categoryFactory;
+    private CategoryFactory $categoryFactory;
     /**
      * CategoryBuilder constructor.
      *

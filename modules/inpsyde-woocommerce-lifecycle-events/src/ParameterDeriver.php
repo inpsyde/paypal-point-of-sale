@@ -25,7 +25,7 @@ class ParameterDeriver
      *   The class the parameter is type hinted on.
      *
      * We can't type hint $callable as it could be an array, and arrays are not callable.
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      */
     public function parameterType($callable, int $param): string
@@ -64,6 +64,7 @@ class ParameterDeriver
             $type = $rType->getName();
         } catch (ReflectionException $exception) {
             throw new RuntimeException('Type error registering listener.', 0, $exception);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         return $type;
     }

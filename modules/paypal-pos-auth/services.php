@@ -4,28 +4,28 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth;
 
 use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\HTTPlug\ChaosMonkeyPlugin;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\HTTPlug\ZettleAuthPlugin;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserFactoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\ContainerTokenStorage;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\CredentialValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant\JwtGrant;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\ZettleOAuthHeader;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\ContainerTokenStorage;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistingAuthSuccessHandler;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\ZettleOAuthHeader;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Validator\Validator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Validator\ValidatorInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
-    //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
     return static function (C $container) use ($class, $parts) {
         return new $class(...array_map(static function (string $key) use ($container) {
             return $container->get($key);

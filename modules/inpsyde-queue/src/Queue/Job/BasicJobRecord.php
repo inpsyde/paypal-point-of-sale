@@ -5,14 +5,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
 class BasicJobRecord implements JobRecord
 {
-    /**
-     * @var Job
-     */
-    private $job;
-    /**
-     * @var ContextInterface
-     */
-    private $context;
+    private Job $job;
+    private ContextInterface $context;
     public function __construct(Job $job, ContextInterface $context)
     {
         $this->job = $job;

@@ -21,14 +21,8 @@ use Iterator;
  */
 class StoppableQueueWalker implements QueueWalker
 {
-    /**
-     * @var Iterator
-     */
-    private $iterator;
-    /**
-     * @var Stopper
-     */
-    private $stopper;
+    private Iterator $iterator;
+    private Stopper $stopper;
     /**
      * TimeoutQueueWalker constructor.
      *

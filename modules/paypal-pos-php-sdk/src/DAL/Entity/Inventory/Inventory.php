@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantInventor
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 final class Inventory
 {
-    /**
-     * @var VariantInventoryStateCollection
-     */
-    private $variants;
+    private VariantInventoryStateCollection $variants;
     /**
      * Inventory constructor.
      *

@@ -3,40 +3,25 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface;
 use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\RequestFactoryInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\StreamFactoryInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 class Psr18RestClient implements RestClientInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    /**
-     * @var ClientInterface
-     */
-    private $client;
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
-    /**
-     * @var RequestFactoryInterface
-     */
-    private $requestFactory;
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private LoggerInterface $logger;
+    private ClientInterface $client;
+    private UriFactoryInterface $uriFactory;
+    private RequestFactoryInterface $requestFactory;
+    private StreamFactoryInterface $streamFactory;
     /**
      * @var callable[]
      */
-    private $listeners;
+    private array $listeners;
     /**
      * Psr18RestClient constructor.
      *
@@ -94,7 +79,7 @@ class Psr18RestClient implements RestClientInterface
      *
      * @throws ZettleRestException
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     private function sendRequest(string $method, string $url, array $payload, ?callable $modifyRequest = null): array
     {
@@ -112,9 +97,18 @@ class Psr18RestClient implements RestClientInterface
             if ($exception instanceof AuthenticationException) {
                 $data = ['errorType' => ZettleRestException::TYPE_UNAUTHENTICATED];
             }
-            throw new ZettleRestException($exception->getMessage(), $exception->getCode(), $data, $payload, $exception);
+            throw new ZettleRestException(
+                $exception->getMessage(),
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                (int) $exception->getCode(),
+                $data,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception
+            );
         }
-        array_walk($this->listeners, static function (callable $listener) use ($response, $request) {
+        array_walk($this->listeners, static function (callable $listener) use ($response, $request): void {
             $listener($response, $request);
         });
         $body = $response->getBody();
@@ -126,7 +120,14 @@ class Psr18RestClient implements RestClientInterface
             if ($status === 401 || $status === 403) {
                 $json = ['errorType' => ZettleRestException::TYPE_UNAUTHENTICATED];
             }
-            throw new ZettleRestException($message, $status, (array) $json, $payload);
+            throw new ZettleRestException(
+                $message,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                (int) $status,
+                (array) $json,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload
+            );
         }
         return $json;
     }

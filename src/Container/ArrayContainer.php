@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 class ArrayContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
     public function __construct(array $options)
     {
         $this->options = $options;
@@ -22,7 +19,8 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
     public function get(string $id)
     {
         if (!$this->has($id)) {
-            $exceptionMessage = sprintf('Could not find entry %s in the options array', $id);
+            $exceptionMessage = sprintf('Could not find entry %s in the options array', esc_html($id));
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             throw new class($exceptionMessage) extends Exception implements NotFoundExceptionInterface
             {
             };

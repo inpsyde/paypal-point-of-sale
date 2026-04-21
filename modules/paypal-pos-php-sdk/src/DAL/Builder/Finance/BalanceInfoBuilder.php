@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\Balance
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\BalanceInfoFactory;
 class BalanceInfoBuilder implements BalanceInfoBuilderInterface
 {
-    /**
-     * @var BalanceInfoFactory
-     */
-    private $balanceInfoFactory;
+    private BalanceInfoFactory $balanceInfoFactory;
     /**
      * BalanceInfoBuilder constructor.
      * @param BalanceInfoFactory $balanceInfoFactory

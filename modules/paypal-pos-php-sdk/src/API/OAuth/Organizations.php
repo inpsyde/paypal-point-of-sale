@@ -3,23 +3,17 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\OAuth;
 
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 class Organizations
 {
-    private $uri;
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private UriInterface $uri;
+    private RestClientInterface $restClient;
+    private BuilderInterface $builder;
     /**
      * Organizations constructor.
      *

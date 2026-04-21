@@ -14,82 +14,29 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\V
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 /**
  * Class Product
- * phpcs:disable Inpsyde.CodeQuality.PropertyPerClassLimit.TooMuchProperties
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product
  */
 class Product implements ProductTransferInterface, PropertyChangeAwareInterface
 {
     use PropertyChangeAwareTrait;
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $description;
-    /**
-     * @var ImageCollection
-     */
-    private $images;
-    /**
-     * @var VariantCollection
-     */
-    private $variants;
-    /**
-     * @var Presentation|null
-     */
-    private $presentation;
-    /**
-     * @var string|null
-     */
-    private $externalReference;
-    /**
-     * @var string|null
-     */
-    private $etag;
-    /**
-     * @var DateTime|null
-     */
-    private $updatedAt;
-    /**
-     * @var string|null
-     */
-    private $updatedBy;
-    /**
-     * @var DateTime|null
-     */
-    private $createdAt;
-    /**
-     * @var Vat|null
-     */
-    private $vat;
-    /**
-     * @var bool|null
-     */
-    private $taxExempt;
-    /**
-     * @var bool|null
-     */
-    private $usesDefaultTax;
-    /**
-     * @var string|null
-     */
-    private $unitName;
-    /**
-     * @var Metadata|null
-     */
-    private $metadata;
-    /**
-     * @var VariantOptionDefinitions
-     */
-    private $variantOptionDefinitions;
+    private string $uuid;
+    private string $name;
+    private string $description;
+    private ImageCollection $images;
+    private VariantCollection $variants;
+    private ?Presentation $presentation = null;
+    private ?string $externalReference = null;
+    private ?string $etag = null;
+    private ?DateTime $updatedAt = null;
+    private ?string $updatedBy = null;
+    private ?DateTime $createdAt = null;
+    private ?Vat $vat = null;
+    private ?bool $taxExempt = null;
+    private ?bool $usesDefaultTax = null;
+    private ?string $unitName = null;
+    private ?Metadata $metadata = null;
+    private ?VariantOptionDefinitions $variantOptionDefinitions = null;
     /**
      * Product constructor.
      *

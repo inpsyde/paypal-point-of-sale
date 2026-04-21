@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Payment\VippsP
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 class VippsPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var VippsPaymentBuilder
-     */
-    private $vippsPaymentBuilder;
+    private VippsPaymentBuilder $vippsPaymentBuilder;
     /**
      * VippsPaymentHandler constructor.
      *

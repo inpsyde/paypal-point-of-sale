@@ -5,32 +5,16 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory
 
 /**
  * Class Transaction
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory
  */
 class Transaction
 {
-    /**
-     * @var string
-     */
-    private $productUuid;
-    /**
-     * @var string
-     */
-    private $variantUuid;
-    /**
-     * @var string
-     */
-    private $fromLocationUuid;
-    /**
-     * @var string
-     */
-    private $toLocationUuid;
-    /**
-     * @var int
-     */
-    private $change;
+    private string $productUuid;
+    private string $variantUuid;
+    private string $fromLocationUuid;
+    private string $toLocationUuid;
+    private int $change;
     public function __construct(string $productUuid, string $variantUuid, string $fromLocationUuid, string $toLocationUuid, int $change)
     {
         $this->productUuid = $productUuid;

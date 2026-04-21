@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 class SyncFinishedView implements OnboardingView
 {
     use ButtonRendererTrait;
-    /**
-     * @var array
-     */
-    private $zettleProductsLink;
+    private array $zettleProductsLink;
     /**
      * @param array $zettleProductsLink
      */
@@ -51,9 +48,9 @@ class SyncFinishedView implements OnboardingView
 
         <p>
             <a class="link"
-               rel="noopener noreferrer"
-               target="_blank"
-               href="<?php 
+                rel="noopener noreferrer"
+                target="_blank"
+                href="<?php 
         echo esc_url_raw($this->zettleProductsLink['url']);
         ?>">
                 <?php 

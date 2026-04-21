@@ -16,7 +16,7 @@ class InventoryTrackingStartedHandler implements WebhookHandler
     /**
      * @inheritDoc
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         // TODO: Implement handle() method.
     }

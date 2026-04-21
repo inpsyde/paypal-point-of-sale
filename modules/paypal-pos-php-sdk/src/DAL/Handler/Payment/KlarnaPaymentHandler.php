@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Payment\Klarna
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 class KlarnaPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var KlarnaPaymentBuilder
-     */
-    private $klarnaPaymentBuilder;
+    private KlarnaPaymentBuilder $klarnaPaymentBuilder;
     /**
      * KlarnaPaymentHandler constructor.
      *

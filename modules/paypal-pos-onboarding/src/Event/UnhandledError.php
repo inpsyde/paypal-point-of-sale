@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\GenericStateChange;
 use Throwable;
 class UnhandledError extends GenericStateChange
 {
-    /**
-     * @var Throwable
-     */
-    private $exception;
+    private Throwable $exception;
     public function __construct(Throwable $exception)
     {
         $this->exception = $exception;

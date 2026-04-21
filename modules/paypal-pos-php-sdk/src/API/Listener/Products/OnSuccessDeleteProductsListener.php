@@ -1,15 +1,16 @@
 <?php
 
 declare (strict_types=1);
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+// phpcs:disable Syde.Functions.ArgumentTypeDeclaration
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Listener\Products;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Listener\ApiRestListener;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\UnlinkImages;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 /**
  * Class OnSuccessDeleteProductsListener
  *
@@ -22,22 +23,13 @@ use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
  */
 class OnSuccessDeleteProductsListener implements ApiRestListener
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
     /**
      * @var callable
      */
     private $createJob;
-    /**
-     * @var JobRepository
-     */
-    private $jobRepository;
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    private JobRepository $jobRepository;
+    protected LoggerInterface $logger;
     /**
      * DeleteProductListener constructor.
      *

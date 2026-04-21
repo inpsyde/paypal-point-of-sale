@@ -6,10 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Handler\Payment;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 abstract class AbstractPaymentHandler implements PaymentHandlerInterface
 {
-    /**
-     * @var string
-     */
-    private $validPaymentType;
+    private string $validPaymentType;
     /**
      * AbstractPaymentHandler constructor.
      *

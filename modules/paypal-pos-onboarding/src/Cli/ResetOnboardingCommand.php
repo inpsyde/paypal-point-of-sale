@@ -6,26 +6,13 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Cli;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\QueueProcessor;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class ResetOnboardingCommand
 {
-    /**
-     * @var Job
-     */
-    private $resetOnboardingJob;
-    /**
-     * @var bool
-     */
-    private $isMultisite;
-    /**
-     * @var int
-     */
-    private $currentSiteId;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private Job $resetOnboardingJob;
+    private bool $isMultisite;
+    private int $currentSiteId;
+    private LoggerInterface $logger;
     /**
      * @param Job $resetOnboardingJob
      * @param bool $isMultisite
@@ -52,7 +39,7 @@ class ResetOnboardingCommand
      * @param array $args
      * @param array $assocArgs
      */
-    public function complete(array $args, array $assocArgs)
+    public function complete(array $args, array $assocArgs): void
     {
         $this->resetOnboardingJob->execute(Context::fromArray([]), new EphemeralJobRepository(), $this->logger);
     }
@@ -69,7 +56,7 @@ class ResetOnboardingCommand
      * @param array $args
      * @param array $assocArgs
      */
-    public function site(array $args, array $assocArgs)
+    public function site(array $args, array $assocArgs): void
     {
         if (!$this->isMultisite) {
             $this->logger->error("This Command is only available for Multisite Setups");

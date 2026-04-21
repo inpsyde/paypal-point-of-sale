@@ -3,7 +3,6 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Http;
 
-use Syde\Vendor\Zettle\Http\Discovery\Exception\NotFoundException;
 use Syde\Vendor\Zettle\Http\Discovery\Psr17FactoryDiscovery;
 use Syde\Vendor\Zettle\Http\Discovery\Psr18ClientDiscovery;
 use Syde\Vendor\Zettle\Inpsyde\Wp\HttpClient\Client as WpHttpClient;

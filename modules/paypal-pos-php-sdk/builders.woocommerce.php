@@ -3,9 +3,10 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle;
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 use Syde\Vendor\Zettle\Inpsyde\WcProductContracts\ProductType;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\AttributeSetBuilder;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface as B;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\CallbackBuilder;
@@ -39,7 +40,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Iterator\WcProductAttachmentIterator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Uuid\Uuid;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 $key = static function (string $className): string {
     return "paypal-pos.sdk.builder.woocommerce.{$className}";
 };

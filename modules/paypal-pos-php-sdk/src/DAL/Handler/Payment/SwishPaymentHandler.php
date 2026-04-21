@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Payment\SwishP
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 class SwishPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var SwishPaymentBuilder
-     */
-    private $swishPaymentBuilder;
+    private SwishPaymentBuilder $swishPaymentBuilder;
     /**
      * SwishPaymentHandler constructor.
      *

@@ -3,13 +3,13 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOptionDefinitions;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\EmptyVariantOptionCollectionException;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\EmptyVariantOptionDefinitionsException;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\MaximumVariantOptionDefinitionsAmountException;
 class VariantOptionDefinitionsValidator implements ValidatorInterface
 {
@@ -33,6 +33,7 @@ class VariantOptionDefinitionsValidator implements ValidatorInterface
         $emptyVariantOptions = $this->validateVariantOptionDefinitions($entity);
         if (!empty($emptyVariantOptions)) {
             throw new EmptyVariantOptionCollectionException($emptyVariantOptions);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         $amount = count($entity->definitions());
         /**
@@ -42,7 +43,11 @@ class VariantOptionDefinitionsValidator implements ValidatorInterface
          * Remove if this restriction got resolved by Zettle => IZET-285
          */
         if ($amount > self::MAXIMUM_DEFINITIONS_AMOUNT) {
-            throw new MaximumVariantOptionDefinitionsAmountException(self::MAXIMUM_DEFINITIONS_AMOUNT, $amount);
+            throw new MaximumVariantOptionDefinitionsAmountException(
+                self::MAXIMUM_DEFINITIONS_AMOUNT,
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                (int) $amount
+            );
         }
         return \true;
     }

@@ -6,14 +6,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 use Throwable;
 class TypeDelegatingFormatter implements ExceptionFormatter
 {
-    /**
-     * @var ExceptionFormatter
-     */
-    private $fallback;
-    /**
-     * @var array
-     */
-    private $formatters;
+    private ExceptionFormatter $fallback;
+    private array $formatters;
     public function __construct(ExceptionFormatter $fallback, array $formatters)
     {
         $this->fallback = $fallback;

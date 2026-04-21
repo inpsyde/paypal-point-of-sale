@@ -6,55 +6,35 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\HTTPlug;
 use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 use Syde\Vendor\Zettle\Http\Message\Authentication;
 use Syde\Vendor\Zettle\Http\Promise\Promise;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\AuthSuccessHandler;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
 use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\StreamFactoryInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\AuthSuccessHandler;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant\GrantType;
 /**
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
  */
 class ZettleAuthPlugin implements Plugin
 {
-    const OAUTH_URL = 'https://oauth.izettle.com/token';
-    /**
-     * @var Authentication
-     */
-    private $auth;
+    public const OAUTH_URL = 'https://oauth.izettle.com/token';
+    private Authentication $auth;
     /**
      * Flag attempted refreshes for each request.
-     *
-     * @var array
      */
-    private $chainStorage = [];
+    private array $chainStorage = [];
     /**
      * @var callable
      */
     private $shouldAuthenticate;
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
-    /**
-     * @var GrantType
-     */
-    private $authGrantType;
-    /**
-     * @var GrantType
-     */
-    private $refreshGrantType;
-    /**
-     * @var AuthSuccessHandler
-     */
-    private $authSuccessHandler;
+    private UriFactoryInterface $uriFactory;
+    private StreamFactoryInterface $streamFactory;
+    private GrantType $authGrantType;
+    private GrantType $refreshGrantType;
+    private AuthSuccessHandler $authSuccessHandler;
     public function __construct(Authentication $auth, callable $shouldAuthenticate, UriFactoryInterface $uriFactory, StreamFactoryInterface $streamFactory, GrantType $authGrantType, GrantType $refreshGrantType, AuthSuccessHandler $authSuccessHandler)
     {
         $this->auth = $auth;
@@ -142,7 +122,11 @@ class ZettleAuthPlugin implements Plugin
                 $body = $response->getBody();
                 $body->rewind();
                 $contents = $body->getContents();
-                throw new AuthenticationException("Authentication attempt rejected: '{$contents}'", $response->getStatusCode());
+                throw new AuthenticationException(
+                    "Authentication attempt rejected: '" . $contents . "'",
+                    // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                    $response->getStatusCode()
+                );
             }
             $this->authSuccessHandler->handle($response);
             return $response;

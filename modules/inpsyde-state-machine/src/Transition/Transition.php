@@ -5,18 +5,9 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition;
 
 class Transition implements TransitionInterface
 {
-    /**
-     * @var array
-     */
-    protected $from;
-    /**
-     * @var string
-     */
-    protected $to;
-    /**
-     * @var string
-     */
-    protected $name;
+    protected array $from;
+    protected string $to;
+    protected string $name;
     /**
      * Transition constructor.
      *

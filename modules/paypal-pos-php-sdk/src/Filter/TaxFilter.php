@@ -27,7 +27,7 @@ class TaxFilter implements FilterInterface
     }
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function accepts($entity, $payload): bool
     {
@@ -36,8 +36,8 @@ class TaxFilter implements FilterInterface
     }
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function filter($entity, $wcProduct)
     {
@@ -47,7 +47,7 @@ class TaxFilter implements FilterInterface
         $entity->setUsesDefaultTax(null);
         return $entity;
     }
-    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+    // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
     private function existsRemotely($entity): bool
     {
         // phpcs:enable

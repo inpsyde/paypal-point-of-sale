@@ -1,29 +1,19 @@
 <?php
 
 declare (strict_types=1);
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth;
 
 use Exception;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use Throwable;
 class CredentialsContainer implements ContainerInterface
 {
-    /**
-     * @var ParserInterface
-     */
-    private $tokenDecoder;
-    /**
-     * @var array
-     */
-    private $data;
-    /**
-     * @var ContainerInterface|null
-     */
-    private $inner;
+    private ParserInterface $tokenDecoder;
+    private array $data;
+    private ?ContainerInterface $inner = null;
     /**
      * CredentialsContainer constructor.
      *
@@ -57,7 +47,7 @@ class CredentialsContainer implements ContainerInterface
         if ($id === 'client_id' && $this->has('client_id')) {
             return $this->data[$id];
         }
-        throw new class(sprintf('%s not found in credentials container', $id)) extends Exception implements NotFoundExceptionInterface
+        throw new class(sprintf('%s not found in credentials container', esc_html($id))) extends Exception implements NotFoundExceptionInterface
         {
         };
     }

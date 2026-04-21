@@ -6,10 +6,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
 class WebRequest extends GenericStateChange
 {
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
     public function __construct(array $data)
     {
         $this->data = $data;

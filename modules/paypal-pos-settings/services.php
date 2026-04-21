@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings;
 
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
@@ -11,7 +12,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\Provider\SettingsPagePro
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\WC\SettingsPage;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegration;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegrationHeader;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 return ['paypal-pos.settings.url' => static function (C $container): string {
     return admin_url('admin.php?page=wc-settings&tab=zettle');
 }, 'paypal-pos.settings.is-integration-page' => static function (C $container): callable {

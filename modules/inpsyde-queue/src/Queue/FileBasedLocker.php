@@ -5,14 +5,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
 
 class FileBasedLocker implements Locker
 {
-    /**
-     * @var int
-     */
-    private $timeout;
-    /**
-     * @var string
-     */
-    private $file;
+    private int $timeout;
+    private string $file;
     /**
      * FileBasedLocker constructor.
      *

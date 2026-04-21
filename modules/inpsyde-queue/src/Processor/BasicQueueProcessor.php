@@ -5,16 +5,12 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Processor;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\InvalidJobException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueLockedException;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueRuntimeException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Logger\LoggerProviderInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRecord;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueRuntimeException;
-use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Locker;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\QueueWalker;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Psr\Log\LogLevel;
@@ -29,30 +25,15 @@ use Throwable;
  */
 class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
 {
-    /**
-     * @var JobRepository
-     */
-    private $jobRepository;
-    /**
-     * @var QueueWalker
-     */
-    private $walker;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    /**
-     * @var JobRecordFactoryInterface
-     */
-    private $recordFactory;
+    private JobRepository $jobRepository;
+    private QueueWalker $walker;
+    private LoggerInterface $logger;
+    private JobRecordFactoryInterface $recordFactory;
     /**
      * @var callable
      */
     private $exceptionHandler;
-    /**
-     * @var int
-     */
-    private $maxRetriesCount;
+    private int $maxRetriesCount;
     public function __construct(JobRepository $jobRepository, JobRecordFactoryInterface $recordFactory, QueueWalker $walker, LoggerInterface $logger, int $maxRetriesCount, ?callable $exceptionHandler = null)
     {
         $this->jobRepository = $jobRepository;
@@ -60,12 +41,11 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
         $this->walker = $walker;
         $this->logger = $logger;
         $this->maxRetriesCount = $maxRetriesCount;
-        $this->exceptionHandler = $exceptionHandler ?? static function () {
+        $this->exceptionHandler = $exceptionHandler ?? static function (): void {
         };
     }
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoSetter
      */
     public function setLogger(LoggerInterface $logger): void
     {

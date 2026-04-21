@@ -11,10 +11,7 @@ use WC_Product_Variation;
  */
 class VariationManageStockListener
 {
-    /**
-     * @var VariableManageStockListener
-     */
-    private $variableListener;
+    private VariableManageStockListener $variableListener;
     public function __construct(VariableManageStockListener $variableListener)
     {
         $this->variableListener = $variableListener;

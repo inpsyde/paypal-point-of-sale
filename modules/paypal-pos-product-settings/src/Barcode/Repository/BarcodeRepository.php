@@ -9,14 +9,8 @@ use WC_Product;
  */
 class BarcodeRepository implements BarcodeSaverInterface, BarcodeRetrieverInterface
 {
-    /**
-     * @var string
-     */
-    private $key;
-    /**
-     * @var string
-     */
-    private $filterName;
+    private string $key;
+    private string $filterName;
     /**
      * @param string $key Meta data key where barcode is stored.
      * @param string $filterName The name of WP filter that can be used

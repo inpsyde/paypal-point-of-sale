@@ -13,22 +13,13 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\SetInventoryTrackingJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
 class ProductExcludeHandler
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var TermManager
-     */
-    private $termManager;
+    private ProductRepositoryInterface $repository;
+    private TermManager $termManager;
     /**
      * @var callable
      */
     private $createJob;
-    /**
-     * @var JobRepository
-     */
-    private $jobRepository;
+    private JobRepository $jobRepository;
     /**
      * ProductExcludeHandler constructor.
      *

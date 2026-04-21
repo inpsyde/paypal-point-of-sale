@@ -9,7 +9,7 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class WebhookRegistrationJob implements Job
 {
-    const TYPE = 'webhook-registration';
+    public const TYPE = 'webhook-registration';
     /**
      * @var callable
      */

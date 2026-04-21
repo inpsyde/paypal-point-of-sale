@@ -5,18 +5,12 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Guard;
 
 class Guard implements GuardInterface
 {
-    /**
-     * @var string
-     */
-    private $transitionName;
+    private string $transitionName;
     /**
      * @var callable
      */
     private $callables;
-    /**
-     * @var string
-     */
-    private $fromState;
+    private ?string $fromState = null;
     public function __construct(string $transitionName, ?string $fromState = null, callable ...$callables)
     {
         $this->transitionName = $transitionName;

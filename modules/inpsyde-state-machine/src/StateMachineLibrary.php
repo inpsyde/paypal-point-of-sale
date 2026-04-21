@@ -19,14 +19,8 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
  */
 class StateMachineLibrary
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var StateMachineModule
-     */
-    private $module;
+    private ContainerInterface $container;
+    private StateMachineModule $module;
     /**
      * StateMachineLibrary constructor.
      *
@@ -42,14 +36,8 @@ class StateMachineLibrary
             $package->addModule(new class($factories, $extensions) implements ServiceModule, ExtendingModule
             {
                 use ModuleClassNameIdTrait;
-                /**
-                 * @var array
-                 */
-                private $factories;
-                /**
-                 * @var array
-                 */
-                private $extensions;
+                private array $factories;
+                private array $extensions;
                 public function __construct(array $factories, array $extensions)
                 {
                     $this->factories = $factories;
@@ -68,7 +56,7 @@ class StateMachineLibrary
         $package->build();
         $this->container = $package->container();
     }
-    public function initialize()
+    public function initialize(): void
     {
         $this->module->run($this->container());
     }

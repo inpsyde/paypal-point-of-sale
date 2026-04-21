@@ -6,7 +6,6 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Processor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueException;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Logger\LoggerProviderInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 /**
  * Class NetworkQueueProcessor
  *
@@ -18,10 +17,7 @@ use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class NetworkQueueProcessor implements QueueProcessor, LoggerProviderInterface
 {
     use DecoratingLoggingProviderTrait;
-    /**
-     * @var QueueProcessor
-     */
-    private $inner;
+    private QueueProcessor $inner;
     /**
      * @var callable The function returning NetworkState object
      */

@@ -6,9 +6,9 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt;
 class Token implements TokenInterface
 {
     /** @var array<string, mixed> */
-    protected $headers;
+    protected array $headers;
     /** @var array<string, mixed> */
-    protected $claims;
+    protected array $claims;
     /**
      * @param array<string, mixed> $headers
      * @param array<string, mixed> $claims

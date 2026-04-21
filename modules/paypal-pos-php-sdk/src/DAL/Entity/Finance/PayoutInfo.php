@@ -6,26 +6,11 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\Type\PeriodType;
 final class PayoutInfo
 {
-    /**
-     * @var float
-     */
-    private $totalBalance;
-    /**
-     * @var string
-     */
-    private $currencyId;
-    /**
-     * @var float
-     */
-    private $nextPayoutAmount;
-    /**
-     * @var float
-     */
-    private $discountRemaining;
-    /**
-     * @var PeriodType
-     */
-    private $period;
+    private float $totalBalance;
+    private string $currencyId;
+    private float $nextPayoutAmount;
+    private float $discountRemaining;
+    private PeriodType $period;
     /**
      * PayoutInfo constructor.
      * @param float $totalBalance

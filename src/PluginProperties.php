@@ -20,30 +20,12 @@ use Error;
 class PluginProperties
 {
     private const HEADER_PROPERTIES = ['name' => 'Name', 'pluginUri' => 'PluginURI', 'version' => 'Version', 'description' => 'Description', 'author' => 'Author', 'authorUri' => 'AuthorURI', 'textDomain' => 'TextDomain', 'domainPath' => 'DomainPath', 'network' => 'Network', 'requiresWp' => 'RequiresWP', 'requiresPhp' => 'RequiresPHP'];
-    /**
-     * @var string
-     */
-    private $basePath;
-    /**
-     * @var string
-     */
-    private $baseUrl;
-    /**
-     * @var string
-     */
-    private $basename;
-    /**
-     * @var array
-     */
-    private $data;
-    /**
-     * @var bool
-     */
-    private $debug;
-    /**
-     * @var int|null
-     */
-    private $lastUpdateTimestamp;
+    private string $basePath;
+    private string $baseUrl;
+    private string $basename;
+    private array $data;
+    private bool $debug;
+    private ?int $lastUpdateTimestamp = null;
     /**
      * @param string $pluginFile
      */
@@ -70,7 +52,7 @@ class PluginProperties
     {
         $key = self::HEADER_PROPERTIES[$name] ?? null;
         if (!$key) {
-            throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, $name));
+            throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, esc_html($name)));
         }
         return (string) ($this->data[$key] ?? '');
     }

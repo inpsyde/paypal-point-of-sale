@@ -4,6 +4,8 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 
 use Syde\Vendor\Zettle\Http\Message\UriFactory;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
@@ -38,7 +40,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\TransientCachingOrganizationProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\VatProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\WooCommerceVatProvider;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Vat\VatValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\DataMappingTable;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\Table;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
@@ -48,7 +49,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\CompoundFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\FilterInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\ImageConnectionFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\ProductConnectionFilter;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\StockQuantityFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\TaxFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\VariantConnectionFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Image\ExifImageFormatRetriever;
@@ -74,8 +74,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionDef
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator\WordPressImageValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Symfony\Component\Uid\Uuid;
 use wpdb;
 return array_merge([
@@ -280,15 +278,15 @@ return array_merge([
         return new OnSuccessDeleteProductsListener($container->get('paypal-pos.sdk.repository.zettle.product'), $container->get('inpsyde.queue.repository'), $container->get('inpsyde.queue.create-job-record'), $container->get('inpsyde.queue.logger'));
     },
     'paypal-pos.sdk.api.products.listener.update' => static function (C $container): callable {
-        //phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-        return static function (string $operation, $payload, bool $success) use ($container) {
+        //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+        return static function (string $operation, $payload, bool $success) use ($container): void {
             //Silence. This is only here so that extensions can add actual listeners
         };
         //phpcs:enable
     },
     'paypal-pos.sdk.api.products.listener.delete' => static function (C $container): callable {
-        //phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-        return static function (string $operation, $payload, bool $success) use ($container) {
+        //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+        return static function (string $operation, $payload, bool $success) use ($container): void {
             $productsDeleteListener = $container->get('paypal-pos.sdk.api.listener.delete.product');
             if (!$productsDeleteListener->accepts($operation, $payload, $success)) {
                 return;

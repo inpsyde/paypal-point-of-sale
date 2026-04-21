@@ -7,30 +7,12 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Discount\Discou
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 final class Library
 {
-    /**
-     * @var string
-     */
-    private $untilEventLogUuid;
-    /**
-     * @var string
-     */
-    private $fromEventLogUuid;
-    /**
-     * @var ProductCollection
-     */
-    private $products;
-    /**
-     * @var DiscountCollection
-     */
-    private $discounts;
-    /**
-     * @var ProductCollection|null
-     */
-    private $deletedProducts;
-    /**
-     * @var DiscountCollection|null
-     */
-    private $deletedDiscounts;
+    private string $untilEventLogUuid;
+    private string $fromEventLogUuid;
+    private ProductCollection $products;
+    private DiscountCollection $discounts;
+    private ?ProductCollection $deletedProducts = null;
+    private ?DiscountCollection $deletedDiscounts = null;
     /**
      * Library constructor.
      *

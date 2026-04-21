@@ -3,8 +3,6 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\CallbackValidator;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 /**
  * Checks that PHP extensions (functions) are available.
  */
@@ -13,7 +11,7 @@ class RequiredExtensionsValidator implements ValidatorInterface
     /**
      * @var array<string, string>
      */
-    protected $extensions;
+    protected array $extensions;
     /**
      * @param array<string, string> $extensions Keys - functions like {@see mb_strtolower()}',
      * values - human-friendly names.
@@ -23,7 +21,7 @@ class RequiredExtensionsValidator implements ValidatorInterface
         $this->extensions = $extensions;
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
     public function validate($value): void
     {

@@ -5,17 +5,14 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding;
 
 class RequestDataFilter
 {
-    /**
-     * @var array
-     */
-    private $requestData;
+    private array $requestData;
     public function __construct(array $requestData)
     {
         $this->requestData = $requestData;
     }
     /**
      * @param mixed ...$things
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return bool
      */
@@ -30,7 +27,7 @@ class RequestDataFilter
     }
     /**
      * @param $thing
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return bool
      */

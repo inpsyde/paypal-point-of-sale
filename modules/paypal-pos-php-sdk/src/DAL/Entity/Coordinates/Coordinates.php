@@ -5,18 +5,9 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinat
 
 final class Coordinates
 {
-    /**
-     * @var float
-     */
-    private $latitude;
-    /**
-     * @var float
-     */
-    private $longitude;
-    /**
-     * @var float
-     */
-    private $accuracyMeters;
+    private float $latitude;
+    private float $longitude;
+    private float $accuracyMeters;
     /**
      * Coordinates constructor.
      *

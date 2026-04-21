@@ -3,16 +3,16 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WpOptionContainer;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\CompositeValidator;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Http\PageReloader;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Http\PageReloaderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\Logger\CompoundLogger;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\CompositeValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\RequiredExtensionsValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\RequiredPluginsValidator;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use UnexpectedValueException;
 use WC_Tax;
 return ['paypal-pos.is-debug' => static function (C $container): bool {
@@ -91,7 +91,7 @@ return ['paypal-pos.is-debug' => static function (C $container): bool {
     $format = $container->get('paypal-pos.date-time-format');
     return static function (int $timestamp) use ($format): string {
         if (!is_string($date = wp_date($format, $timestamp))) {
-            throw new UnexpectedValueException(sprintf('Cannot get date with format "%1$s" for timestamp "%2$s"', $format, $timestamp));
+            throw new UnexpectedValueException(sprintf('Cannot get date with format "%1$s" for timestamp "%2$d"', esc_html($format), (int) $timestamp));
         }
         return $date;
     };

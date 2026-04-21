@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Or
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 class RestOrganizationProvider implements OrganizationProvider
 {
-    /**
-     * @var Organizations
-     */
-    private $client;
+    private Organizations $client;
     public function __construct(Organizations $client)
     {
         $this->client = $client;

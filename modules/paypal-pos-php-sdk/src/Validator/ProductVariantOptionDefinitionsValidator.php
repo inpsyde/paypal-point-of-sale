@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\VariantOptionAmountMismatchException;
 /**
  * The REST API will complain in Variants contain VariantOption,
@@ -60,7 +60,7 @@ class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
             $definitionsAmount = count($definitions);
             $currentOptionsAmount = count($options);
             if ($definitionsAmount !== $currentOptionsAmount) {
-                throw new VariantOptionAmountMismatchException($definitionsAmount, $currentOptionsAmount);
+                throw new VariantOptionAmountMismatchException((int) $definitionsAmount, (int) $currentOptionsAmount);
             }
         }
     }

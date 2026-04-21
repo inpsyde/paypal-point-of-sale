@@ -6,7 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOption;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOption\MaximumVariantOptionNameCharacterLengthException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOption\MinimumVariantOptionNameCharacterLengthException;
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 class VariantOptionValidator implements ValidatorInterface
 {
     public const MIN_NAME_LENGTH = 1;
@@ -28,10 +28,12 @@ class VariantOptionValidator implements ValidatorInterface
         /** @psalm-suppress RedundantCast */
         $nameLength = (int) mb_strlen($name);
         if ($nameLength < self::MIN_NAME_LENGTH) {
-            throw new MinimumVariantOptionNameCharacterLengthException($name, self::MIN_NAME_LENGTH);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new MinimumVariantOptionNameCharacterLengthException(esc_html($name), self::MIN_NAME_LENGTH);
         }
         if ($nameLength > self::MAX_NAME_LENGTH) {
-            throw new MaximumVariantOptionNameCharacterLengthException($name, self::MAX_NAME_LENGTH);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new MaximumVariantOptionNameCharacterLengthException(esc_html($name), self::MAX_NAME_LENGTH);
         }
         return \true;
     }

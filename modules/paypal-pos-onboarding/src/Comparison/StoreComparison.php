@@ -7,14 +7,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\DataProvider\Store\Sto
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationType;
 class StoreComparison
 {
-    /**
-     * @var StoreDataProvider
-     */
-    private $remoteStoreData;
-    /**
-     * @var StoreDataProvider
-     */
-    private $localStoreData;
+    private StoreDataProvider $remoteStoreData;
+    private StoreDataProvider $localStoreData;
     /**
      * VatCurrencyComparison constructor.
      *

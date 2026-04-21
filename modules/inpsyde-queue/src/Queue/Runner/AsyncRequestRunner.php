@@ -20,7 +20,7 @@ class AsyncRequestRunner implements Runner
     /**
      * @var string Path (not the full URL!) to our REST endpoint
      */
-    private $restPath;
+    private string $restPath;
     /**
      * AsyncRequestRunner constructor.
      *

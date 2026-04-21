@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 class SyncCommand
 {
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
+    private QueueProcessor $processor;
     /**
      * @var callable
      */
@@ -34,7 +31,7 @@ class SyncCommand
      *
      * @when after_wp_load
      */
-    public function product(array $args, array $assocArgs)
+    public function product(array $args, array $assocArgs): void
     {
         $this->processor->repository()->add(($this->createJobRecord)(ExportProductJob::TYPE, ['productId' => (int) $args[0]]));
         $this->processor->process();

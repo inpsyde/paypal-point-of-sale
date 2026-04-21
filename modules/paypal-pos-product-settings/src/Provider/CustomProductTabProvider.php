@@ -3,15 +3,12 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Provider;
 
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Components\ProductSettingsTab;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 class CustomProductTabProvider implements Provider
 {
-    /**
-     * @var ProductSettingsTab
-     */
-    private $settingsTab;
+    private ProductSettingsTab $settingsTab;
     /**
      * CustomProductTabProvider constructor.
      *

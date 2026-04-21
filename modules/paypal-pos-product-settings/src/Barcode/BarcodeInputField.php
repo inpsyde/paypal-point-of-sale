@@ -7,22 +7,10 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repositor
 use WC_Product;
 class BarcodeInputField
 {
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var BarcodeRetrieverInterface
-     */
-    private $barcodeRetriever;
-    /**
-     * @var string
-     */
-    private $label;
-    /**
-     * @var string
-     */
-    private $containerClasses;
+    private string $name;
+    private BarcodeRetrieverInterface $barcodeRetriever;
+    private string $label;
+    private string $containerClasses;
     /**
      * @param string $containerClasses Additional CSS classes for the container of input field.
      */
@@ -33,7 +21,7 @@ class BarcodeInputField
         $this->label = $label;
         $this->containerClasses = $containerClasses;
     }
-    // phpcs:ignore Inpsyde.CodeQuality.FunctionLength.TooLong
+    // phpcs:ignore Syde.Functions.FunctionLength.TooLong
     public function render(WC_Product $product, ?int $index = null): string
     {
         $name = $this->name . ($index !== null ? "[{$index}]" : '');
@@ -55,11 +43,11 @@ class BarcodeInputField
                     <input id="<?php 
         echo esc_attr($id);
         ?>"
-                           type="text"
-                           name="<?php 
+                            type="text"
+                            name="<?php 
         echo esc_attr($name);
         ?>"
-                           value="<?php 
+                            value="<?php 
         echo esc_attr($currentBarcode);
         ?>">
                     <button

@@ -13,18 +13,9 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestExcept
 use Throwable;
 class UnhandledErrorListener
 {
-    /**
-     * @var StateMachineInterface
-     */
-    private $stateMachine;
-    /**
-     * @var PageReloaderInterface
-     */
-    private $pageReloader;
-    /**
-     * @var bool
-     */
-    private $isDebugMode;
+    private StateMachineInterface $stateMachine;
+    private PageReloaderInterface $pageReloader;
+    private bool $isDebugMode;
     /**
      * @param StateMachineInterface $stateMachine
      * @param PageReloaderInterface $pageReloader
@@ -41,7 +32,7 @@ class UnhandledErrorListener
      * @throws DenyTransitionException
      * @throws Throwable if in debug mode
      */
-    public function __invoke(Throwable $error)
+    public function __invoke(Throwable $error): void
     {
         if ($this->isDebugMode) {
             throw $error;

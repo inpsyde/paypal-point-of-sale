@@ -16,7 +16,7 @@ trait ExceptionLoggingTrait
      * @param LoggerInterface $logger
      * @param string $logLevel
      */
-    protected function logException(Throwable $exception, LoggerInterface $logger, string $logLevel = LogLevel::WARNING)
+    protected function logException(Throwable $exception, LoggerInterface $logger, string $logLevel = LogLevel::WARNING): void
     {
         $isDebug = defined('WP_DEBUG') && \WP_DEBUG;
         $logger->log($logLevel, $isDebug ? $this->formatFullExceptionTrace($exception) : $this->formatShortExceptionTrace($exception));

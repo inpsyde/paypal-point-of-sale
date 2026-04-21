@@ -7,17 +7,14 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 class WipeRemoteProductsJob implements Job
 {
     use ExceptionLoggingTrait;
-    const TYPE = 'wipe-remote-products';
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    public const TYPE = 'wipe-remote-products';
+    private Products $productsClient;
     /**
      * WipeRemoteProductsJob constructor.
      *

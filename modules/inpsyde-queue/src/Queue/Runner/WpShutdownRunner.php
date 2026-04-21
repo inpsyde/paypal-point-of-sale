@@ -19,7 +19,7 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
  */
 class WpShutdownRunner implements Runner
 {
-    private $called = \false;
+    private bool $called = \false;
     /**
      * Hook the QueueProcessor into the shutdown action.
      * Ensures that the Runner is only being onvoked once even if the hook is called multiple times.
@@ -28,7 +28,7 @@ class WpShutdownRunner implements Runner
      */
     public function initialize(QueueProcessor $queueProcessor): void
     {
-        add_action('shutdown', function () use ($queueProcessor) {
+        add_action('shutdown', function () use ($queueProcessor): void {
             if ($this->called) {
                 return;
             }

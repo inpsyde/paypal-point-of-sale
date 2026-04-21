@@ -5,22 +5,10 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantIn
 
 final class VariantInventoryState
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var string
-     */
-    private $productUuid;
-    /**
-     * @var string
-     */
-    private $variantUuid;
-    /**
-     * @var int
-     */
-    private $balance;
+    private string $uuid;
+    private string $productUuid;
+    private string $variantUuid;
+    private int $balance;
     /**
      * VariantChangeHistory constructor.
      *

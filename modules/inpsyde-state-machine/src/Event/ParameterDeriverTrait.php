@@ -24,7 +24,7 @@ trait ParameterDeriverTrait
      * @return string
      *   The class the parameter is type hinted on.
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     protected function getParameterType($callable): string
     {
@@ -62,6 +62,7 @@ trait ParameterDeriverTrait
             $type = $rType->getName();
         } catch (ReflectionException $exception) {
             throw new RuntimeException('Type error registering listener.', 0, $exception);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         return $type;
     }
@@ -114,7 +115,7 @@ trait ParameterDeriverTrait
      * @param callable $callable
      * @return True if the callable represents a static method, false otherwise.
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     protected function isClassCallable($callable): bool
     {

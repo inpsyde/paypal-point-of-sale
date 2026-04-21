@@ -7,14 +7,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Category\Catego
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Category\CategoryCollectionFactory;
 class CategoryCollectionBuilder implements CategoryCollectionBuilderInterface
 {
-    /**
-     * @var CategoryCollectionFactory
-     */
-    private $categoryCollectionFactory;
-    /**
-     * @var CategoryBuilder
-     */
-    private $categoryBuilder;
+    private CategoryCollectionFactory $categoryCollectionFactory;
+    private CategoryBuilder $categoryBuilder;
     /**
      * CategoryCollectionBuilder constructor.
      *

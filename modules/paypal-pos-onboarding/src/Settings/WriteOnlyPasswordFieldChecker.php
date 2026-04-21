@@ -8,14 +8,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings;
  */
 class WriteOnlyPasswordFieldChecker
 {
-    /**
-     * @var string
-     */
-    protected $placeholderChar;
-    /**
-     * @var int
-     */
-    protected $maxPlaceholderLength;
+    protected string $placeholderChar;
+    protected int $maxPlaceholderLength;
     /**
      * @param string $placeholderChar The character used in the WriteOnlyPasswordFieldRenderer placeholder, such as '*'.
      * @param int $maxPlaceholderLength The max value length that can be considered a placeholder.

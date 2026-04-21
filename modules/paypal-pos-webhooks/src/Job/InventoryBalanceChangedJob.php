@@ -7,15 +7,12 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Inpsyde\WcEvents\Toggle;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\SyncStockJob;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\SyncStockJob;
 class InventoryBalanceChangedJob implements Job
 {
-    const TYPE = 'webhook-inventory-balance-changed';
-    /**
-     * @var Toggle
-     */
-    private $toggle;
+    public const TYPE = 'webhook-inventory-balance-changed';
+    private Toggle $toggle;
     /**
      * @var callable
      */

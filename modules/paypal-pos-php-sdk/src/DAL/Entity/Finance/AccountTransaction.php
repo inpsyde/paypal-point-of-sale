@@ -7,22 +7,10 @@ use DateTime;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\Type\TransactionType;
 final class AccountTransaction
 {
-    /**
-     * @var DateTime
-     */
-    private $timestamp;
-    /**
-     * @var int
-     */
-    private $amount;
-    /**
-     * @var TransactionType
-     */
-    private $originatorTransactionType;
-    /**
-     * @var string
-     */
-    private $originatingTransactionUuid;
+    private DateTime $timestamp;
+    private int $amount;
+    private TransactionType $originatorTransactionType;
+    private string $originatingTransactionUuid;
     /**
      * AccountTransaction constructor.
      *

@@ -9,61 +9,23 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\V
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 /**
  * Class Variant
- * phpcs:disable Inpsyde.CodeQuality.PropertyPerClassLimit.TooMuchProperties
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors *
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant
  */
 class Variant implements VariantTransferInterface, StockQuantityAwareInterface, PriceAwareInterface
 {
-    /**
-     * @var string
-     */
-    private $uuid;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $description;
-    /**
-     * @var string
-     */
-    private $sku;
-    /**
-     * @var Price|null
-     */
-    private $price;
-    /**
-     * @var Vat|null
-     */
-    private $vat;
-    /**
-     * @var int
-     */
-    private $defaultQuantity;
-    /**
-     * @var Presentation
-     */
-    private $presentation;
-    /**
-     * @var VariantOptionCollection
-     */
-    private $options;
-    /**
-     * @var string|null
-     */
-    private $unitName;
-    /**
-     * @var Price|null
-     */
-    private $costPrice;
-    /**
-     * @var string|null
-     */
-    private $barcode;
+    private string $uuid;
+    private string $name;
+    private string $description;
+    private string $sku;
+    private ?Price $price = null;
+    private ?Vat $vat = null;
+    private int $defaultQuantity;
+    private ?Presentation $presentation;
+    private ?VariantOptionCollection $options;
+    private ?string $unitName = null;
+    private ?Price $costPrice = null;
+    private ?string $barcode = null;
     /**
      * Variant constructor.
      *

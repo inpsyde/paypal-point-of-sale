@@ -11,7 +11,7 @@ class AttributeSet
     /**
      * @var array<string, string[]>
      */
-    protected $set = [];
+    protected array $set = [];
     /**
      * @param string $type
      * @param string $attribute

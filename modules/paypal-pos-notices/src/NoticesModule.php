@@ -7,8 +7,8 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 class NoticesModule implements ServiceModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;

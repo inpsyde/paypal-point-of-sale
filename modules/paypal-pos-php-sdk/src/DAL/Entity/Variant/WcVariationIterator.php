@@ -4,13 +4,9 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant;
 
 use Generator;
+use IteratorAggregate;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Attribute\AttributeAccessorUtilInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Attribute\AttributeFormatterUtilInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Variation\VariationAccessorUtilInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Variation\VariationCheckerUtilInterface;
-use IteratorAggregate;
 use WC_Product_Variable;
 use WC_Product_Variation;
 /**
@@ -23,18 +19,9 @@ use WC_Product_Variation;
  */
 class WcVariationIterator implements IteratorAggregate
 {
-    /**
-     * @var WC_Product_Variable
-     */
-    private $wcProduct;
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private WC_Product_Variable $wcProduct;
+    private BuilderInterface $builder;
+    private ProductRepositoryInterface $repository;
     /**
      * WcVariationIterator constructor.
      *

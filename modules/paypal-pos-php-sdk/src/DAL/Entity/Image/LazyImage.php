@@ -13,30 +13,12 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 class LazyImage implements ImageInterface
 {
     private const FALLBACK = 'https://placehold.co/200x200.jpg?text=WooProduct';
-    /**
-     * @var ImageInterface
-     */
-    private $image;
-    /**
-     * @var string
-     */
-    private $localUrl;
-    /**
-     * @var Images
-     */
-    private $imageClient;
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $map;
-    /**
-     * @var int
-     */
-    private $localId;
-    /**
-     * @var UrlProviderInterface
-     */
-    private $urlProvider;
+    private ?ImageInterface $image = null;
+    private string $localUrl = '';
+    private Images $imageClient;
+    private OneToOneMapInterface $map;
+    private int $localId;
+    private UrlProviderInterface $urlProvider;
     /**
      * LazyImage constructor.
      *
@@ -91,6 +73,7 @@ class LazyImage implements ImageInterface
                 $url = $this->urlProvider->provide((string) $this->localId);
                 $this->image = $this->syncImage($url);
             } catch (Exception $exception) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 throw new Exception("Failed to sync image {$this->localId}: {$exception->getMessage()}");
             }
             $this->map->createRecord($this->localId, $this->image->imageLookupKey());

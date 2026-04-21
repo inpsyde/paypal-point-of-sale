@@ -17,11 +17,8 @@ use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
  */
 class EnqueueProductSyncJob implements Job
 {
-    const TYPE = 'enqueue-products-to-sync';
-    /**
-     * @var array
-     */
-    private $productTypeWhitelist;
+    public const TYPE = 'enqueue-products-to-sync';
+    private array $productTypeWhitelist;
     /**
      * @var callable
      */

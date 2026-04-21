@@ -5,43 +5,25 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth;
 
 use Syde\Vendor\Zettle\Http\Client\Common\Plugin\HeaderSetPlugin;
 use Syde\Vendor\Zettle\Inpsyde\Http\HttpClientFactory;
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamFactoryInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\HTTPlug\ZettleAuthPlugin;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\AuthSuccessHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\EphemeralTokenStorage;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Grant\JwtGrant;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\ZettleOAuthHeader;
-use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\StreamFactoryInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
 class AuthenticatedClientFactory
 {
-    /**
-     * @var HttpClientFactory
-     */
-    private $clientFactory;
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
-    /**
-     * @var ParserInterface
-     */
-    private $jwtParser;
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
-    /**
-     * @var array
-     */
-    private $partnerAffiliationHeader;
-    /**
-     * @var string
-     */
-    private $clientId;
+    private HttpClientFactory $clientFactory;
+    private UriFactoryInterface $uriFactory;
+    private ParserInterface $jwtParser;
+    private StreamFactoryInterface $streamFactory;
+    private array $partnerAffiliationHeader;
+    private string $clientId;
     /**
      * @param HttpClientFactory $clientFactory
      * @param UriFactoryInterface $uriFactory
@@ -103,7 +85,7 @@ class AuthenticatedClientFactory
     {
         return $successHandler ?? new class implements AuthSuccessHandler
         {
-            public function handle(ResponseInterface $response)
+            public function handle(ResponseInterface $response): void
             {
                 // TODO: Implement handle() method.
             }

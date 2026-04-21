@@ -6,10 +6,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Type\PaymentType;
 final class CashPayment extends AbstractPaymentMethod
 {
-    /**
-     * @var float
-     */
-    private $handedAmount;
+    private float $handedAmount;
     /**
      * CashPayment constructor.
      *

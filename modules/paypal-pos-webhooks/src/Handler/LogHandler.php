@@ -3,14 +3,11 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 class LogHandler implements WebhookHandler
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -25,7 +22,7 @@ class LogHandler implements WebhookHandler
     /**
      * @inheritDoc
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         $this->logger->info("Received Webhook: {$payload->eventName()}", $payload->payload());
     }

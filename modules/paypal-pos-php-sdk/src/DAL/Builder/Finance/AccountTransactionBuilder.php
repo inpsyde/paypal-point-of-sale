@@ -7,10 +7,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\Account
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\AccountTransactionFactory;
 class AccountTransactionBuilder implements AccountTransactionBuilderInterface
 {
-    /**
-     * @var AccountTransactionFactory
-     */
-    private $accountTransactionFactory;
+    private AccountTransactionFactory $accountTransactionFactory;
     /**
      * AccountTransactionBuilder constructor.
      *

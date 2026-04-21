@@ -8,7 +8,7 @@ class VariantOptionDefinitions
     /**
      * @var VariantOptionCollection[]
      */
-    private $definitions = [];
+    private array $definitions = [];
     public function __construct()
     {
     }

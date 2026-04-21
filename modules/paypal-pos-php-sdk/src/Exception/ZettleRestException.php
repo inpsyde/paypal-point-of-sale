@@ -7,18 +7,12 @@ use Exception;
 use Throwable;
 class ZettleRestException extends Exception
 {
-    const TYPE_ENTITY_NOT_FOUND = 'ENTITY_NOT_FOUND';
-    const TYPE_PRODUCT_NOT_TRACKED = 'PRODUCT_NOT_TRACKED';
-    const TYPE_UNAUTHENTICATED = 'UNAUTHENTICATED';
-    const TYPE_UNKNOWN = 'UNKNOWN';
-    /**
-     * @var array
-     */
-    private $json;
-    /**
-     * @var array
-     */
-    private $payload;
+    public const TYPE_ENTITY_NOT_FOUND = 'ENTITY_NOT_FOUND';
+    public const TYPE_PRODUCT_NOT_TRACKED = 'PRODUCT_NOT_TRACKED';
+    public const TYPE_UNAUTHENTICATED = 'UNAUTHENTICATED';
+    public const TYPE_UNKNOWN = 'UNKNOWN';
+    private array $json;
+    private array $payload;
     public function __construct(string $message = "", int $code = 0, array $json = [], array $payload = [], ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);

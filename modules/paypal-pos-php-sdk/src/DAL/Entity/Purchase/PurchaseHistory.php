@@ -5,18 +5,9 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase;
 
 final class PurchaseHistory
 {
-    /**
-     * @var string
-     */
-    private $firstPurchaseHash;
-    /**
-     * @var string
-     */
-    private $lastPurchaseHash;
-    /**
-     * @var PurchaseCollection
-     */
-    private $purchaseCollection;
+    private string $firstPurchaseHash;
+    private string $lastPurchaseHash;
+    private PurchaseCollection $purchaseCollection;
     /**
      * PurchaseHistory constructor.
      *

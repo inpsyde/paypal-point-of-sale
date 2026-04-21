@@ -22,7 +22,7 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
         return require __DIR__ . '/../extensions.php';
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function run(C $container): bool
     {
@@ -37,7 +37,7 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
             }
             return $customColumn->add($columns);
         });
-        add_action('manage_posts_custom_column', static function ($columnName) use ($customColumn) {
+        add_action('manage_posts_custom_column', static function ($columnName) use ($customColumn): void {
             if (!is_admin()) {
                 return;
             }

@@ -5,10 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity;
 
 trait PropertyChangeAwareTrait
 {
-    /**
-     * @var array
-     */
-    protected $changedProperties = [];
+    protected array $changedProperties = [];
     /**
      * @inheritdoc
      */

@@ -19,11 +19,8 @@ class ProductEventListenerRegistry
     /**
      * @var array<callable(WC_Product,WC_Product):void> The full list of listeners
      */
-    private $listeners = [];
-    /**
-     * @var ParameterDeriver
-     */
-    private $parameterDeriver;
+    private array $listeners = [];
+    private ParameterDeriver $parameterDeriver;
     /**
      * ProductEventListenerRegistry constructor.
      *
@@ -37,7 +34,6 @@ class ProductEventListenerRegistry
      * Inspects the event and returns appropriate listeners.
      *
      * @param ProductChangeEvent $event
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
      *
      * @return array
      */
@@ -48,7 +44,7 @@ class ProductEventListenerRegistry
             if (!$this->shouldReturnListener($event->new(), $event->old(), $listener)) {
                 continue;
             }
-            $result[] = function (ProductChangeEvent $event) use ($listener) {
+            $result[] = function (ProductChangeEvent $event) use ($listener): void {
                 $this->createTypeMatchingGuard($listener)($event->new(), $event->old());
             };
         }
@@ -209,7 +205,7 @@ class ProductEventListenerRegistry
     public function onDelete(callable ...$callables): void
     {
         foreach ($callables as $callable) {
-            $this->listeners[] = function (WC_Product $new, WC_Product $old) use ($callable) {
+            $this->listeners[] = function (WC_Product $new, WC_Product $old) use ($callable): void {
                 if ($new->get_meta(self::DELETE_FLAG) !== \true) {
                     return;
                 }
@@ -226,7 +222,7 @@ class ProductEventListenerRegistry
     public function onTypeChange(callable ...$callables): void
     {
         foreach ($callables as $callable) {
-            $this->listeners[] = function (WC_Product $new, WC_Product $old) use ($callable) {
+            $this->listeners[] = function (WC_Product $new, WC_Product $old) use ($callable): void {
                 if (get_class($old) === get_class($new)) {
                     return;
                 }
@@ -247,7 +243,7 @@ class ProductEventListenerRegistry
      */
     private function createTypeMatchingGuard(callable $callable): callable
     {
-        return function (WC_Product $new, WC_Product $old) use ($callable) {
+        return function (WC_Product $new, WC_Product $old) use ($callable): void {
             $type1 = $this->parameterDeriver->parameterType($callable, 0);
             if (!$new instanceof $type1) {
                 return;
@@ -277,7 +273,7 @@ class ProductEventListenerRegistry
      */
     private function createPropertyGuard(string $property, callable $callable): callable
     {
-        return static function (WC_Product $new, WC_Product $old) use ($property, $callable) {
+        return static function (WC_Product $new, WC_Product $old) use ($property, $callable): void {
             $method = 'get_' . $property;
             if (!method_exists($new, $method) && !method_exists($old, $method)) {
                 return;
@@ -305,7 +301,7 @@ class ProductEventListenerRegistry
      */
     private function createStatusGuard(string $status, callable $callable): callable
     {
-        return static function (WC_Product $new, WC_Product $old) use ($status, $callable) {
+        return static function (WC_Product $new, WC_Product $old) use ($status, $callable): void {
             /**
              * Bail if new status does not match specified status
              */
@@ -335,7 +331,7 @@ class ProductEventListenerRegistry
      */
     private function createCatalogVisibilityGuard(string $visibility, callable $callable): callable
     {
-        return static function (WC_Product $new, WC_Product $old) use ($visibility, $callable) {
+        return static function (WC_Product $new, WC_Product $old) use ($visibility, $callable): void {
             if ($new->get_catalog_visibility() !== $visibility) {
                 return;
             }

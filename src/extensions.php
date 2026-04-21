@@ -6,10 +6,10 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 use Exception;
 use Syde\Vendor\Zettle\Inpsyde\Debug\DebugProxyFactory;
 use Syde\Vendor\Zettle\Inpsyde\WcStatusReport\ReportItemFactoryInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
 use Throwable;
 return [
     'inpsyde.debug.logger' => static function (LoggerInterface $previous, C $container): LoggerInterface {
@@ -34,7 +34,7 @@ return [
         return $proxyFactory->forInstanceMethods($client);
     },
     'inpsyde.queue.exception-handler' => static function (callable $previous, C $container): callable {
-        return static function (Throwable $exception) use ($previous, $container) {
+        return static function (Throwable $exception) use ($previous, $container): void {
             $previous($exception);
             $container->get('inpsyde.debug.exception-handler')->handle($exception);
         };

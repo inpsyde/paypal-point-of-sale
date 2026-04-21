@@ -15,10 +15,7 @@ use WP_Term;
 class AttributeSetBuilder implements BuilderInterface
 {
     use AttributeFormatterTrait;
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
     public function __construct(ProductRepositoryInterface $repository)
     {
         $this->repository = $repository;
@@ -26,13 +23,14 @@ class AttributeSetBuilder implements BuilderInterface
     /**
      * @inheritDoc
      *
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null): AttributeSet
     {
         if (!$payload instanceof WC_Product) {
             throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
         $attributeSet = new AttributeSet();
         if ($payload instanceof WC_Product_Variation) {
@@ -73,7 +71,7 @@ class AttributeSetBuilder implements BuilderInterface
      *
      * @return AttributeSet                         Return Updated AttributeSet
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * phpcs:disable Generic.Metrics.NestingLevel.MaxExceeded
      * phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh

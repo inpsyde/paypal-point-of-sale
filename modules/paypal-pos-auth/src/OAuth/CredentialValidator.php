@@ -3,20 +3,14 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\AuthenticatedClientFactory;
 use Syde\Vendor\Zettle\Psr\Http\Message\RequestFactoryInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\AuthenticatedClientFactory;
 use Throwable;
 class CredentialValidator
 {
-    const ENDPOINT = 'https://oauth.izettle.com/users/me';
-    /**
-     * @var AuthenticatedClientFactory
-     */
-    private $clientFactory;
-    /**
-     * @var RequestFactoryInterface
-     */
-    private $requestFactory;
+    public const ENDPOINT = 'https://oauth.izettle.com/users/me';
+    private AuthenticatedClientFactory $clientFactory;
+    private RequestFactoryInterface $requestFactory;
     public function __construct(AuthenticatedClientFactory $clientFactory, RequestFactoryInterface $requestFactory)
     {
         $this->clientFactory = $clientFactory;

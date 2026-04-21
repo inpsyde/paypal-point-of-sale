@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
+class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
 {
     public static $files = array (
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -695,7 +695,6 @@ class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Runner\\WpCronRunner' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Runner/WpCronRunner.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Runner\\WpHeartbeatRunner' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Runner/WpHeartbeatRunner.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Runner\\WpShutdownRunner' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Runner/WpShutdownRunner.php',
-        'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\SiteOptionLocker' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/SiteOptionLocker.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\StoppableQueueWalker' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/StoppableQueueWalker.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Stopper' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Stopper.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\TimeStopper' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/TimeStopper.php',
@@ -863,7 +862,6 @@ class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloader' => __DIR__ . '/../..' . '/src/Http/PageReloader.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloaderInterface' => __DIR__ . '/../..' . '/src/Http/PageReloaderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\CompoundLogger' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/Logger/CompoundLogger.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\FiFoLogger' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/Logger/FiFoLogger.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\WonoLogger' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/Logger/WonoLogger.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\WooCommerceLogger' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/Logger/WooCommerceLogger.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\ZettleLoggingModule' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/ZettleLoggingModule.php',
@@ -979,10 +977,6 @@ class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Category\\CategoryCollectionBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Category/CategoryCollectionBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Coordinates\\CoordinatesBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Coordinates/CoordinatesBuilder.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Coordinates\\CoordinatesBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Coordinates/CoordinatesBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Discount\\DiscountBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Discount/DiscountBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Discount\\DiscountBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Discount/DiscountBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Discount\\DiscountCollectionBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Discount/DiscountCollectionBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Discount\\DiscountCollectionBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Discount/DiscountCollectionBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Finance\\AccountTransactionBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Finance/AccountTransactionBuilder.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Finance\\AccountTransactionBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Finance/AccountTransactionBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Finance\\BalanceInfoBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Finance/BalanceInfoBuilder.php',
@@ -1212,7 +1206,6 @@ class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductAttachmentIterator' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductAttachmentIterator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductIterator' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductIterator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Iterator\\WcProductIteratorAggregate' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Iterator/WcProductIteratorAggregate.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\CachedIdMap' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/CachedIdMap.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\InMemoryMap' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/InMemoryMap.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\LocalIdProvider' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/LocalIdProvider.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\Map\\MapRecordCreator' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/Map/MapRecordCreator.php',
@@ -1388,9 +1381,9 @@ class ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit87b3b2a423e3bafdf0ff1b93e3e6e27d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4abf7116acee3d7ff506d043a9202972::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4abf7116acee3d7ff506d043a9202972::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit4abf7116acee3d7ff506d043a9202972::$classMap;
 
         }, null, ClassLoader::class);
     }

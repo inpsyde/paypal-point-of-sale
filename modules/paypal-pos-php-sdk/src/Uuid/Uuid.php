@@ -27,10 +27,7 @@ use const PHP_INT_SIZE;
  */
 class Uuid
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
     public function __construct(string $uuid)
     {
         $this->uuid = $uuid;
@@ -94,7 +91,6 @@ class Uuid
      * @param string $digits
      *
      * @return string
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     private static function toBinary(string $digits): string
     {

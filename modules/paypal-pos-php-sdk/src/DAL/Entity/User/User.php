@@ -5,14 +5,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User;
 
 final class User
 {
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var string
-     */
-    private $displayName;
+    private int $id;
+    private string $displayName;
     /**
      * User constructor.
      *

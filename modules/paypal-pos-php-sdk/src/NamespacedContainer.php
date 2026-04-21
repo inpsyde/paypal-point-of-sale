@@ -6,21 +6,15 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 /**
  * Class NamespacedContainer
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk
  */
 class NamespacedContainer implements ContainerInterface
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-    /**
-     * @var ContainerInterface
-     */
-    private $base;
+    private string $namespace;
+    private ContainerInterface $base;
     public function __construct(string $namespace, ContainerInterface $base)
     {
         $this->namespace = $namespace;

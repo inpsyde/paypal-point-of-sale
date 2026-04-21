@@ -6,14 +6,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Guard;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 class ContainerAwareGuard implements GuardInterface
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private string $namespace;
+    private ContainerInterface $container;
     public function __construct(string $namespace, ContainerInterface $container)
     {
         $this->namespace = $namespace;

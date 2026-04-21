@@ -4,27 +4,18 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenFactoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 /**
  * Stores Zettle access tokens in a child container.
  * We kind of expect the child container to offer some persistence...
  */
 class ContainerTokenStorage implements TokenPersistorInterface, TokenProviderInterface
 {
-    /**
-     * @var WritableContainerInterface
-     */
-    private $container;
-    /**
-     * @var string
-     */
-    private $key;
-    /**
-     * @var TokenFactoryInterface
-     */
-    private $tokenFactory;
+    private WritableContainerInterface $container;
+    private string $key;
+    private TokenFactoryInterface $tokenFactory;
     /**
      * SiteOptionTokenStorage constructor.
      *

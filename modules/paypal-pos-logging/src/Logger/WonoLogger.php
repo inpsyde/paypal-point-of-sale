@@ -17,7 +17,7 @@ class WonoLogger implements LoggerInterface
     /**
      * @var string the Monolog channel to use
      */
-    private $channel;
+    private string $channel;
     public function __construct(string $channel)
     {
         $this->channel = $channel;
@@ -32,7 +32,7 @@ class WonoLogger implements LoggerInterface
      * @param mixed $level
      * @param string $message
      * @param array $context
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function log($level, $message, array $context = [])
     {

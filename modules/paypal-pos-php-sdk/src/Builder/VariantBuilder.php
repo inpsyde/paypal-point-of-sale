@@ -22,18 +22,9 @@ class VariantBuilder implements BuilderInterface
      * @var callable
      */
     private $onException;
-    /**
-     * @var string
-     */
-    private $taxationType;
-    /**
-     * @var BarcodeRetrieverInterface
-     */
-    private $barcodeRetriever;
-    /**
-     * @var bool
-     */
-    private $priceSyncEnabled;
+    private string $taxationType;
+    private BarcodeRetrieverInterface $barcodeRetriever;
+    private bool $priceSyncEnabled;
     public function __construct(callable $onException, string $taxationType, bool $priceSyncEnabled, BarcodeRetrieverInterface $barcodeRetriever)
     {
         $this->onException = $onException;
@@ -48,8 +39,8 @@ class VariantBuilder implements BuilderInterface
      *
      * @return VariantInterface
      * @throws BuilderException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function build(string $className, $wcProduct, ?BuilderInterface $builder = null)
     {

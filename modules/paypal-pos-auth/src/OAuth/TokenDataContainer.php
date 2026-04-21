@@ -3,10 +3,9 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth;
 
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenPropertyException;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\Token;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenPropertyException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 /**
  * Class TokenContainer
  *
@@ -16,10 +15,7 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
  */
 class TokenDataContainer implements ContainerInterface
 {
-    /**
-     * @var array
-     */
-    private $accessors;
+    private array $accessors;
     /**
      * TokenContainer constructor.
      *
@@ -37,20 +33,20 @@ class TokenDataContainer implements ContainerInterface
     }
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function get(string $key)
     {
         if (!$this->has($key)) {
-            throw new InvalidTokenPropertyException("Property '{$key}' not found on Token");
+            throw new InvalidTokenPropertyException("Property '" . esc_html($key) . "' not found on Token");
         }
         return $this->accessors[$key]();
     }
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function has(string $key): bool
     {

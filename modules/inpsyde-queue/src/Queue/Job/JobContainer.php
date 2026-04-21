@@ -6,14 +6,8 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 class JobContainer implements ContainerInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $parent;
-    /**
-     * @var string
-     */
-    private $prefix;
+    private ContainerInterface $parent;
+    private string $prefix;
     public function __construct(ContainerInterface $parent, string $prefix)
     {
         $this->parent = $parent;

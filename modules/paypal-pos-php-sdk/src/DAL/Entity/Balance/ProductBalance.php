@@ -5,14 +5,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance;
 
 class ProductBalance
 {
-    /**
-     * @var string
-     */
-    private $locationUuid;
-    /**
-     * @var LocationBalanceCollection
-     */
-    private $variants;
+    private string $locationUuid;
+    private LocationBalanceCollection $variants;
     /**
      * ProductBalance constructor.
      * @param string $locationUuid

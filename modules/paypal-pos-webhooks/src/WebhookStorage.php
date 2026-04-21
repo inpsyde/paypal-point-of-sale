@@ -10,22 +10,10 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Webhoo
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\ZettleWebhook;
 class WebhookStorage implements WebhookStorageInterface
 {
-    /**
-     * @var WebhookFactory
-     */
-    private $webhookFactory;
-    /**
-     * @var WritableContainerInterface
-     */
-    private $optionContainer;
-    /**
-     * @var string
-     */
-    private $optionKey;
-    /**
-     * @var array
-     */
-    private $defaultConfig;
+    private WebhookFactory $webhookFactory;
+    private WritableContainerInterface $optionContainer;
+    private string $optionKey;
+    private array $defaultConfig;
     /**
      * WpOptionWebhookStorage constructor.
      *

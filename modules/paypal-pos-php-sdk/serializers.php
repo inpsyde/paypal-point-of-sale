@@ -3,7 +3,8 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle;
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Metadata\Metadata;
@@ -23,7 +24,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter\DescriptionLengthFilter;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Serializer\CallbackSerializer;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Serializer\SerializerInterface;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 $key = static function (string $className): string {
     return "paypal-pos.sdk.serializer.{$className}";
 };

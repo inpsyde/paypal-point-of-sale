@@ -14,14 +14,14 @@ class CallbackValidator implements ValidatorInterface
         $this->callback = $callback;
     }
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      * @param mixed $value
      */
     public function validate($value): void
     {
         $error = ($this->callback)($value);
         if ($error !== null) {
-            throw new ValidationFailedException((string) $error);
+            throw new ValidationFailedException(esc_html((string) $error));
         }
     }
 }

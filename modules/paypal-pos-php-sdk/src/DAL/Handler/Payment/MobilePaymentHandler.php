@@ -8,10 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Payment\Mobile
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 class MobilePaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var MobilePaymentBuilder
-     */
-    private $mobilePaymentBuilder;
+    private MobilePaymentBuilder $mobilePaymentBuilder;
     /**
      * MobilePaymentHandler constructor.
      *

@@ -4,6 +4,9 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\NullLogger;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Cli\WebhookCommand;
@@ -17,9 +20,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChan
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
-use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
-use Syde\Vendor\Zettle\Psr\Log\NullLogger;
 use Syde\Vendor\Zettle\Symfony\Component\Uid\Uuid;
 $job = static function (string $type): string {
     return "zettle.job.{$type}";

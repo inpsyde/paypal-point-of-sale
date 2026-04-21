@@ -5,14 +5,8 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance;
 
 class BalanceInfo
 {
-    /**
-     * @var float
-     */
-    private $totalBalance;
-    /**
-     * @var string
-     */
-    private $currencyId;
+    private float $totalBalance;
+    private string $currencyId;
     /**
      * BalanceInfo constructor.
      * @param float $totalBalance

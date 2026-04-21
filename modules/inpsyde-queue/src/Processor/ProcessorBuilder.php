@@ -20,42 +20,18 @@ use Syde\Vendor\Zettle\Psr\Log\NullLogger;
  */
 class ProcessorBuilder
 {
-    /**
-     * @var EphemeralJobRepository
-     */
-    private $repository;
-    /**
-     * @var Stopper|null
-     */
-    private $stopper;
-    /**
-     * @var array
-     */
-    private $types = [];
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    /**
-     * @var JobRecordFactoryInterface
-     */
-    private $jobRecordFactory;
-    /**
-     * @var Locker|null
-     */
-    private $locker;
-    /**
-     * @var bool
-     */
-    private $isMultisite = \false;
+    private JobRepository $repository;
+    private ?Stopper $stopper = null;
+    private array $types = [];
+    private LoggerInterface $logger;
+    private JobRecordFactoryInterface $jobRecordFactory;
+    private ?Locker $locker = null;
+    private bool $isMultisite = \false;
     /**
      * @var callable
      */
     private $exceptionHandler;
-    /**
-     * @var int
-     */
-    private $maxRetriesCount = 0;
+    private int $maxRetriesCount = 0;
     public function __construct(JobRecordFactoryInterface $jobRecordFactory)
     {
         $this->repository = new EphemeralJobRepository();
@@ -130,7 +106,7 @@ class ProcessorBuilder
     {
         $jobIterator = new JobIterator($this->repository, $this->types);
         $queueWalker = $this->createWalker($jobIterator);
-        $queueProcessor = new BasicQueueProcessor($this->repository, $this->jobRecordFactory, $queueWalker, $this->logger ?? new NullLogger(), $this->maxRetriesCount, $this->exceptionHandler ?? static function () {
+        $queueProcessor = new BasicQueueProcessor($this->repository, $this->jobRecordFactory, $queueWalker, $this->logger ?? new NullLogger(), $this->maxRetriesCount, $this->exceptionHandler ?? static function (): void {
         });
         if ($this->locker) {
             $queueProcessor = new LockingQueueProcessor($queueProcessor, $this->locker);

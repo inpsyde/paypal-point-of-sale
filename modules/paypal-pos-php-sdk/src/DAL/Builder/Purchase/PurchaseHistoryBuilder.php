@@ -7,14 +7,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purcha
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseHistoryFactory;
 class PurchaseHistoryBuilder implements PurchaseHistoryBuilderInterface
 {
-    /**
-     * @var PurchaseHistoryFactory
-     */
-    private $purchaseHistoryFactory;
-    /**
-     * @var PurchaseCollectionBuilder
-     */
-    private $purchaseCollectionBuilder;
+    private PurchaseHistoryFactory $purchaseHistoryFactory;
+    private PurchaseCollectionBuilder $purchaseCollectionBuilder;
     /**
      * PurchaseHistoryBuilder constructor.
      * @param PurchaseHistoryFactory $purchaseHistoryFactory
