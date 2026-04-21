@@ -8,11 +8,11 @@ use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ExtendingModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
+use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\TokenProviderInterface;
 use Syde\PayPal\PointOfSale\Auth\Rest\V1\EndpointInterface;
-use Psr\Container\ContainerInterface;
 
 class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
@@ -37,7 +37,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
     /**
      * @inheritDoc
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function run(ContainerInterface $container): bool
     {
@@ -48,7 +48,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 
         add_action(
             'inpsyde.zettle.settings.updated',
-            static function (array $changed) use ($container) {
+            static function (array $changed) use ($container): void {
                 if (empty($changed)) {
                     return;
                 }

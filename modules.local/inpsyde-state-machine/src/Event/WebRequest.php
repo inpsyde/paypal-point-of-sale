@@ -1,15 +1,13 @@
 <?php //phpcs:disable - There is a weird error on PHP7.4 which breaks phpcs when returning $_POST down below
+
+
 declare(strict_types=1);
 
 namespace Inpsyde\StateMachine\Event;
 
 class WebRequest extends GenericStateChange
 {
-
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
     public function __construct(array $data)
     {

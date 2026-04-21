@@ -1,6 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
 declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment;
@@ -10,7 +9,7 @@ final class PaymentCollection
     /**
      * @var AbstractPaymentMethod[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
      * AbstractPaymentMethodCollection constructor.

@@ -5,6 +5,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
 use Syde\PayPal\PointOfSale\PhpSdk\Tests\ClientMockHelper;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use Psr\Log\LoggerInterface;
+use function Brain\Monkey\Functions\when;
 
 class Psr18RestClientTest extends BrainMonkeyWpTestCase
 {
@@ -13,6 +14,8 @@ class Psr18RestClientTest extends BrainMonkeyWpTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        when('esc_html')->returnArg();
 
         $this->logger = Mockery::mock(LoggerInterface::class);
     }

@@ -6,37 +6,20 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory;
 
 /**
  * Class Transaction
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory
  */
 class Transaction
 {
+    private string $productUuid;
 
-    /**
-     * @var string
-     */
-    private $productUuid;
+    private string $variantUuid;
 
-    /**
-     * @var string
-     */
-    private $variantUuid;
+    private string $fromLocationUuid;
 
-    /**
-     * @var string
-     */
-    private $fromLocationUuid;
+    private string $toLocationUuid;
 
-    /**
-     * @var string
-     */
-    private $toLocationUuid;
-
-    /**
-     * @var int
-     */
-    private $change;
+    private int $change;
 
     public function __construct(
         string $productUuid,
@@ -45,6 +28,7 @@ class Transaction
         string $toLocationUuid,
         int $change
     ) {
+
         $this->productUuid = $productUuid;
         $this->variantUuid = $variantUuid;
         $this->fromLocationUuid = $fromLocationUuid;

@@ -8,30 +8,16 @@ use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
 use Psr\Log\LoggerInterface;
-use WP_CLI;
 
 class UnlinkCommand
 {
+    private Job $unlinkProductJob;
 
-    /**
-     * @var Job
-     */
-    private $unlinkProductJob;
+    private Job $unlinkVariantJob;
 
-    /**
-     * @var Job
-     */
-    private $unlinkVariantJob;
+    private Job $unlinkImagesJob;
 
-    /**
-     * @var Job
-     */
-    private $unlinkImagesJob;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * UnlinkCommand constructor.
@@ -47,6 +33,7 @@ class UnlinkCommand
         Job $unlinkImagesJob,
         LoggerInterface $logger
     ) {
+
         $this->unlinkProductJob = $unlinkProductJob;
         $this->unlinkVariantJob = $unlinkVariantJob;
         $this->unlinkImagesJob = $unlinkImagesJob;
@@ -67,7 +54,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function product(array $args, array $assocArgs)
+    public function product(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [
@@ -92,7 +79,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function variant(array $args, array $assocArgs)
+    public function variant(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [
@@ -121,7 +108,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function images(array $args, array $assocArgs)
+    public function images(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [
@@ -153,7 +140,7 @@ class UnlinkCommand
      *
      * @when after_wp_load
      */
-    public function image(array $args, array $assocArgs)
+    public function image(array $args, array $assocArgs): void
     {
         $context = Context::fromArray(
             [

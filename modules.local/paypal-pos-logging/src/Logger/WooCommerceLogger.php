@@ -33,10 +33,7 @@ class WooCommerceLogger implements LoggerInterface
         LogLevel::INFO,
         LogLevel::DEBUG,
     ];
-    /**
-     * @var WC_Logger_Interface
-     */
-    private $wcLogger;
+    private WC_Logger_Interface $wcLogger;
 
     public function __construct(WC_Logger_Interface $wcLogger)
     {
@@ -44,14 +41,14 @@ class WooCommerceLogger implements LoggerInterface
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @inheritDoc
      */
     public function log($level, $message, array $context = [])
     {
         if (!in_array($level, self::LOG_LEVELS, true)) {
-            throw new InvalidArgumentException("Unknown log level $level");
+            throw new InvalidArgumentException("Unknown log level " . esc_html($level));
         }
 
         if (!isset($context['source'])) {

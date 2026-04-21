@@ -6,16 +6,12 @@ namespace Inpsyde\Queue\Processor;
 
 use Inpsyde\Queue\Exception\InvalidJobException;
 use Inpsyde\Queue\Exception\QueueLockedException;
+use Inpsyde\Queue\Exception\QueueRuntimeException;
 use Inpsyde\Queue\Logger\LoggerProviderInterface;
 use Inpsyde\Queue\Queue\Job\Context;
-use Inpsyde\Queue\Queue\Job\ContextInterface;
-use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRecord;
 use Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
 use Inpsyde\Queue\Queue\Job\JobRepository;
-use Inpsyde\Queue\Exception\QueueRuntimeException;
-use Inpsyde\Queue\ExceptionLoggingTrait;
-use Inpsyde\Queue\Queue\Locker;
 use Inpsyde\Queue\Queue\QueueWalker;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -31,35 +27,20 @@ use Throwable;
  */
 class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
 {
-    /**
-     * @var JobRepository
-     */
-    private $jobRepository;
+    private JobRepository $jobRepository;
 
-    /**
-     * @var QueueWalker
-     */
-    private $walker;
+    private QueueWalker $walker;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var JobRecordFactoryInterface
-     */
-    private $recordFactory;
+    private JobRecordFactoryInterface $recordFactory;
 
     /**
      * @var callable
      */
     private $exceptionHandler;
 
-    /**
-     * @var int
-     */
-    private $maxRetriesCount;
+    private int $maxRetriesCount;
 
     public function __construct(
         JobRepository $jobRepository,
@@ -75,13 +56,12 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
         $this->walker = $walker;
         $this->logger = $logger;
         $this->maxRetriesCount = $maxRetriesCount;
-        $this->exceptionHandler = $exceptionHandler ?? static function () {
+        $this->exceptionHandler = $exceptionHandler ?? static function (): void {
         };
     }
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoSetter
      */
     public function setLogger(LoggerInterface $logger): void
     {

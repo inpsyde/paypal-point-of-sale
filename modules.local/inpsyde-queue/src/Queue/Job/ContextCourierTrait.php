@@ -9,10 +9,8 @@ use stdClass;
 
 trait ContextCourierTrait
 {
-    /**
-     * @var ContextInterface
-     */
-    protected $context;
+    protected ContextInterface $context;
+
     /**
      * @inheritDoc
      */

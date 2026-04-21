@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\VariantOptionAmountMismatchException;
 
 /**
@@ -20,7 +20,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\
  */
 class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -76,8 +75,8 @@ class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
 
             if ($definitionsAmount !== $currentOptionsAmount) {
                 throw new VariantOptionAmountMismatchException(
-                    $definitionsAmount,
-                    $currentOptionsAmount
+                    (int) $definitionsAmount,
+                    (int) $currentOptionsAmount
                 );
             }
         }

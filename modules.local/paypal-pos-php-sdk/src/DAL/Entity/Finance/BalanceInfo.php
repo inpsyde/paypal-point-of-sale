@@ -6,15 +6,9 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance;
 
 class BalanceInfo
 {
-    /**
-     * @var float
-     */
-    private $totalBalance;
+    private float $totalBalance;
 
-    /**
-     * @var string
-     */
-    private $currencyId;
+    private string $currencyId;
 
     /**
      * BalanceInfo constructor.

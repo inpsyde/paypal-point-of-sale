@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 
 class InventoryTrackingStartedHandler implements WebhookHandler
 {
-
     /**
      * @inheritDoc
      */
@@ -20,7 +19,7 @@ class InventoryTrackingStartedHandler implements WebhookHandler
     /**
      * @inheritDoc
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         // TODO: Implement handle() method.
     }

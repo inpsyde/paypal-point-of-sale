@@ -4,32 +4,22 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Auth\OAuth\Grant;
 
-use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
-use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
+use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
+use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 
 class JwtGrant implements GrantType
 {
-
     public const KEY = 'urn:ietf:params:oauth:grant-type:jwt-bearer';
 
-    /**
-     * @var ContainerInterface
-     */
-    private $credentials;
+    private ContainerInterface $credentials;
 
-    /**
-     * @var ParserInterface
-     */
-    private $tokenDecoder;
+    private ParserInterface $tokenDecoder;
 
-    /**
-     * @var string
-     */
-    private $clientId;
+    private string $clientId;
 
     /**
      * @param ContainerInterface $credentials
@@ -41,6 +31,7 @@ class JwtGrant implements GrantType
         ParserInterface $tokenDecoder,
         string $clientId
     ) {
+
         $this->credentials = $credentials;
         $this->tokenDecoder = $tokenDecoder;
         $this->clientId = $clientId;
@@ -68,7 +59,7 @@ class JwtGrant implements GrantType
 
             $token = $this->tokenDecoder->parse($apiKey);
         } catch (NotFoundExceptionInterface | InvalidArgumentException | RuntimeException $exception) {
-            throw new InvalidTokenException('Failed to create JWT token data', 0, $exception);
+            throw new InvalidTokenException('Failed to create JWT token data', 0, $exception); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
 
         return [

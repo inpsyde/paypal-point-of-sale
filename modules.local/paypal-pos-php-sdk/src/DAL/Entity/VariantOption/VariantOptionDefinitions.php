@@ -6,11 +6,10 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption;
 
 class VariantOptionDefinitions
 {
-
     /**
      * @var VariantOptionCollection[]
      */
-    private $definitions = [];
+    private array $definitions = [];
 
     public function __construct()
     {
@@ -43,6 +42,7 @@ class VariantOptionDefinitions
         string $name,
         VariantOptionCollection $collection
     ): self {
+
         if (!array_key_exists($name, $this->definitions())) {
             return $this->addDefinition($name, $collection);
         }

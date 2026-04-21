@@ -14,13 +14,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 /**
  * Trait ProductSetterDecoratorTrait
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product
  */
 trait ProductSetterDecoratorTrait
 {
-
     abstract protected function baseWritableProduct(): WritableProductInterface;
 
     public function setUuid(string $uuid): void

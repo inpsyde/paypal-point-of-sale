@@ -9,8 +9,7 @@ use Psr\EventDispatcher\StoppableEventInterface;
 
 interface StateChange extends StoppableEventInterface
 {
-
-    public function prepare(StateMachineInterface $stateMachine);
+    public function prepare(StateMachineInterface $stateMachine): void;
 
     public function currentState(): string;
 

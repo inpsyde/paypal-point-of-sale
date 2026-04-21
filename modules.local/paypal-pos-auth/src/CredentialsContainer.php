@@ -2,34 +2,23 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration
 
 namespace Syde\PayPal\PointOfSale\Auth;
 
 use Exception;
-use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use Throwable;
 
 class CredentialsContainer implements ContainerInterface
 {
+    private ParserInterface $tokenDecoder;
 
-    /**
-     * @var ParserInterface
-     */
-    private $tokenDecoder;
+    private array $data;
 
-    /**
-     * @var array
-     */
-    private $data;
-
-    /**
-     * @var ContainerInterface|null
-     */
-    private $inner;
+    private ?ContainerInterface $inner = null;
 
     /**
      * CredentialsContainer constructor.
@@ -43,6 +32,7 @@ class CredentialsContainer implements ContainerInterface
         array $data,
         ?ContainerInterface $inner = null
     ) {
+
         $this->tokenDecoder = $tokenDecoder;
         $this->data = $data;
         $this->inner = $inner;
@@ -72,9 +62,8 @@ class CredentialsContainer implements ContainerInterface
         }
 
         throw new class (
-            sprintf('%s not found in credentials container', $id)
+            sprintf('%s not found in credentials container', esc_html($id))
         ) extends Exception implements NotFoundExceptionInterface {
-
         };
     }
 

@@ -8,5 +8,4 @@ use Exception;
 
 class InvalidJobException extends Exception implements QueueException
 {
-
 }

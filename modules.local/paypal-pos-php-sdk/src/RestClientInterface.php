@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 
 interface RestClientInterface
 {
-
     /**
      * @param string $url
      * @param array $payload

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Inpsyde\Queue\Queue\Job;
 
-use DateTime;
 use Psr\Log\LoggerInterface;
 use stdClass;
 
@@ -24,7 +23,6 @@ use stdClass;
  */
 class NullJob implements Job
 {
-
     /**
      * @return bool
      */
@@ -33,6 +31,7 @@ class NullJob implements Job
         JobRepository $repository,
         LoggerInterface $logger
     ): bool {
+
         return true;
     }
 

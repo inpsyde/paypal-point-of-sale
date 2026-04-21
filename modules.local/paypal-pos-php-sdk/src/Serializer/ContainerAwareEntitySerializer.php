@@ -8,11 +8,7 @@ use Psr\Container\ContainerInterface;
 
 class ContainerAwareEntitySerializer implements SerializerInterface
 {
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -22,7 +18,7 @@ class ContainerAwareEntitySerializer implements SerializerInterface
     /**
      * @param $entity
      * @param SerializerInterface|null $serializer
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return array
      */

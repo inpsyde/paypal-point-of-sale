@@ -10,7 +10,6 @@ use WP_CLI\ExitException;
 
 class WpCliLogger implements LoggerInterface
 {
-
     /**
      * @inheritDoc
      */

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
 use Http\Message\UriFactory;
+use Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
@@ -39,7 +41,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\RestOrganizationPro
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\TransientCachingOrganizationProvider;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\VatProvider;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\WooCommerceVatProvider;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Vat\VatValidator;
 use Syde\PayPal\PointOfSale\PhpSdk\DB\DataMappingTable;
 use Syde\PayPal\PointOfSale\PhpSdk\DB\Table;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
@@ -49,7 +50,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Filter\CompoundFilter;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\FilterInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\ImageConnectionFilter;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\ProductConnectionFilter;
-use Syde\PayPal\PointOfSale\PhpSdk\Filter\StockQuantityFilter;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\TaxFilter;
 use Syde\PayPal\PointOfSale\PhpSdk\Filter\VariantConnectionFilter;
 use Syde\PayPal\PointOfSale\PhpSdk\Image\ExifImageFormatRetriever;
@@ -75,8 +75,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionDefinitionsValidator;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\VariantOptionValidator;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\WordPressImageValidator;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface;
-use Psr\Container\ContainerInterface as C;
 use Symfony\Component\Uid\Uuid;
 use wpdb;
 
@@ -436,16 +434,16 @@ return array_merge(
                 );
             },
         'paypal-pos.sdk.api.products.listener.update' => static function (C $container): callable {
-            //phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-            return static function (string $operation, $payload, bool $success) use ($container) {
+            //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+            return static function (string $operation, $payload, bool $success) use ($container): void {
                 //Silence. This is only here so that extensions can add actual listeners
             };
             //phpcs:enable
         },
         'paypal-pos.sdk.api.products.listener.delete' => static function (C $container): callable {
-            //phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+            //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
-            return static function (string $operation, $payload, bool $success) use ($container) {
+            return static function (string $operation, $payload, bool $success) use ($container): void {
                 $productsDeleteListener = $container->get('paypal-pos.sdk.api.listener.delete.product');
 
                 if (!$productsDeleteListener->accepts($operation, $payload, $success)) {

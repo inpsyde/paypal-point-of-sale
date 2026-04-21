@@ -9,10 +9,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 
 class UserBuilder implements UserBuilderInterface
 {
-    /**
-     * @var UserFactory
-     */
-    private $userFactory;
+    private UserFactory $userFactory;
 
     /**
      * UserBuilder constructor.

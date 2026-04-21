@@ -12,15 +12,9 @@ class LockingQueueProcessor implements QueueProcessor
 {
     use DecoratingLoggingProviderTrait;
 
-    /**
-     * @var QueueProcessor
-     */
-    private $inner;
+    private QueueProcessor $inner;
 
-    /**
-     * @var Locker
-     */
-    private $locker;
+    private Locker $locker;
 
     public function __construct(QueueProcessor $inner, Locker $locker)
     {
@@ -39,7 +33,7 @@ class LockingQueueProcessor implements QueueProcessor
             throw new QueueLockedException(
                 sprintf(
                     'The queue is currently locked by %s',
-                    get_class($this->locker)
+                    get_class($this->locker) // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }

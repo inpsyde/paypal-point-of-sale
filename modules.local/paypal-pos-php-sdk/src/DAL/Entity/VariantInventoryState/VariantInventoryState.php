@@ -6,26 +6,13 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantInventoryState;
 
 final class VariantInventoryState
 {
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $productUuid;
 
-    /**
-     * @var string
-     */
-    private $productUuid;
+    private string $variantUuid;
 
-    /**
-     * @var string
-     */
-    private $variantUuid;
-
-    /**
-     * @var int
-     */
-    private $balance;
+    private int $balance;
 
     /**
      * VariantChangeHistory constructor.
@@ -42,6 +29,7 @@ final class VariantInventoryState
         string $variantUuid,
         int $balance
     ) {
+
         $this->uuid = $locationUuid;
         $this->productUuid = $productUuid;
         $this->variantUuid = $variantUuid;

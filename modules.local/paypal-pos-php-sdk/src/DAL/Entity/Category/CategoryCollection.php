@@ -9,7 +9,7 @@ final class CategoryCollection
     /**
      * @var Category[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
      * CategoryCollection constructor.

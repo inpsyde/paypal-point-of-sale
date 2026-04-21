@@ -5,38 +5,29 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Settings\WC;
 
 use Exception;
+use RuntimeException;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState as S;
 use Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
-use RuntimeException;
 use WC_Settings_API;
 
 class ZettleIntegration extends WC_Settings_API
 {
-    /**
-     * @var ZettleIntegrationTemplate
-     */
-    private $header;
+    private ZettleIntegrationTemplate $header;
 
-    /**
-     * @var string
-     */
-    private $currentState;
+    private string $currentState;
 
     /**
      * @var FieldRendererInterface[]
      */
-    private $renderers;
+    private array $renderers;
 
     /**
      * @var string[]
      */
-    private $readonlyFieldTypes = ['title', 'zettle-onboarding'];
+    private array $readonlyFieldTypes = ['title', 'zettle-onboarding'];
 
-    /**
-     * @var WritableContainerInterface
-     */
-    private $container;
+    private WritableContainerInterface $container;
 
     public function __construct(
         string $id,
@@ -72,8 +63,7 @@ class ZettleIntegration extends WC_Settings_API
 
     /**
      * @return string
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
     public function get_option_key()
@@ -87,7 +77,7 @@ class ZettleIntegration extends WC_Settings_API
      *
      * @return mixed|string
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function get_option($key, $emptyValue = null)
     {
@@ -107,7 +97,6 @@ class ZettleIntegration extends WC_Settings_API
     /**
      * @return bool|void
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
      */
     public function process_admin_options()
     {
@@ -168,7 +157,7 @@ class ZettleIntegration extends WC_Settings_API
         // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
         // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 
-        echo sprintf(
+        printf(
             '<div class="zettle-settings %s">',
             ($this->currentState === S::ONBOARDING_COMPLETED)
                 ? 'is--completed'
@@ -192,10 +181,9 @@ class ZettleIntegration extends WC_Settings_API
      * @param bool $echo
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      *
      * @return string
      */
@@ -275,8 +263,8 @@ class ZettleIntegration extends WC_Settings_API
      *
      * @return bool was anything saved?
      * @since 3.4.0
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
     public function update_option($key, $value = '')

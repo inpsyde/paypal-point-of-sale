@@ -15,11 +15,7 @@ use WP_REST_Request;
  */
 class SignatureVerifier implements Verifier
 {
-
-    /**
-     * @var string
-     */
-    private $signingKey;
+    private string $signingKey;
 
     public function __construct(string $signingKey)
     {

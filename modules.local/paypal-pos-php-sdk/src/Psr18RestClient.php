@@ -4,47 +4,31 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
-use Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
-use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\LoggerInterface;
+use Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 
 class Psr18RestClient implements RestClientInterface
 {
+    private LoggerInterface $logger;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private ClientInterface $client;
 
-    /**
-     * @var ClientInterface
-     */
-    private $client;
+    private UriFactoryInterface $uriFactory;
 
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
+    private RequestFactoryInterface $requestFactory;
 
-    /**
-     * @var RequestFactoryInterface
-     */
-    private $requestFactory;
-
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
     /**
      * @var callable[]
      */
-    private $listeners;
+    private array $listeners;
 
     /**
      * Psr18RestClient constructor.
@@ -120,7 +104,7 @@ class Psr18RestClient implements RestClientInterface
      *
      * @throws ZettleRestException
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     private function sendRequest(
         string $method,
@@ -128,6 +112,7 @@ class Psr18RestClient implements RestClientInterface
         array $payload,
         ?callable $modifyRequest = null
     ): array {
+
         $body = json_encode($payload) ?: '';
         if (in_array($method, ['GET', 'HEAD', 'TRACE'], true)) {
             $body = '';
@@ -152,17 +137,17 @@ class Psr18RestClient implements RestClientInterface
                 ];
             }
             throw new ZettleRestException(
-                $exception->getMessage(),
-                $exception->getCode(),
-                $data,
-                $payload,
-                $exception
+                $exception->getMessage(), // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                (int) $exception->getCode(),
+                $data, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 
         array_walk(
             $this->listeners,
-            static function (callable $listener) use ($response, $request) {
+            static function (callable $listener) use ($response, $request): void {
                 $listener($response, $request);
             }
         );
@@ -182,10 +167,10 @@ class Psr18RestClient implements RestClientInterface
                 ];
             }
             throw new ZettleRestException(
-                $message,
-                $status,
-                (array) $json,
-                $payload
+                $message, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                (int) $status,
+                (array) $json, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                $payload // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
 

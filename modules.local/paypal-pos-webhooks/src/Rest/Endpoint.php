@@ -8,7 +8,6 @@ use WP_REST_Request;
 
 interface Endpoint
 {
-
     /**
      * Return supported Endpoint CRUD Methods
      *

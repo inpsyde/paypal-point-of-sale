@@ -8,6 +8,7 @@ use Exception;
 use Inpsyde\Queue\Processor\ProcessorBuilder;
 use Inpsyde\Queue\Processor\QueueProcessor;
 use Inpsyde\Queue\Queue\Job\Job;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationType;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\OrganizationProvider;
@@ -46,7 +47,6 @@ use Syde\PayPal\PointOfSale\Sync\Listener\VariationManageStockListener;
 use Syde\PayPal\PointOfSale\Sync\Status\StatusCodeMatcher;
 use Syde\PayPal\PointOfSale\Sync\Status\SyncStatusCodes;
 use Syde\PayPal\PointOfSale\Sync\Validator\ProductValidator;
-use Psr\Container\ContainerInterface as C;
 use Throwable;
 use WC_Product_Variation;
 
@@ -221,7 +221,7 @@ return [
             };
         },
     'paypal-pos.sync.queue-processor.cli.exception-handler' => static function (): callable {
-        return static function (Throwable $exception) {
+        return static function (Throwable $exception): void {
             // phpcs:ignore WordPress.Security.EscapeOutput
             echo $exception;
         };
@@ -262,7 +262,7 @@ return [
         );
     },
     'paypal-pos.sync.enqueue-initial-sync' => static function (C $container): callable {
-        return static function () use ($container) {
+        return static function () use ($container): void {
             $enqueue = $container->get('inpsyde.queue.enqueue-job');
             assert(is_callable($enqueue));
             $enqueue(EnqueueProductSyncJob::TYPE);

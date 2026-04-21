@@ -16,11 +16,7 @@ use Throwable;
  */
 class WpCronRunner implements Runner
 {
-
-    /**
-     * @var string
-     */
-    private $namespace;
+    private string $namespace;
 
     /**
      * WpCronRunner constructor.

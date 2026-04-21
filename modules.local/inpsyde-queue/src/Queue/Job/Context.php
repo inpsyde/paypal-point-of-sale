@@ -8,31 +8,15 @@ use DateTime;
 
 class Context implements ContextInterface
 {
+    private object $args;
 
-    /**
-     * @var object
-     */
-    private $args;
+    private DateTime $created;
 
-    /**
-     * @var DateTime
-     */
-    private $created;
+    private int $siteId;
 
-    /**
-     * @var int
-     */
-    private $siteId;
+    private int $id;
 
-    /**
-     * @var int
-     */
-    private $id;
-
-    /**
-     * @var int
-     */
-    private $retryCount;
+    private int $retryCount;
 
     public function __construct(
         object $args,

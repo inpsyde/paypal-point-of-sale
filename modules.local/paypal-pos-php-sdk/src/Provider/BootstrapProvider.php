@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Provider;
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Bootstrap;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
 
 class BootstrapProvider implements Provider
 {
-
-    /**
-     * @var Bootstrap
-     */
-    private $boostrap;
+    private Bootstrap $boostrap;
 
     /**
      * BootstrapProvider constructor.

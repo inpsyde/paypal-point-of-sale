@@ -6,15 +6,9 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Metadata;
 
 class Metadata
 {
-    /**
-     * @var bool
-     */
-    private $inPos;
+    private bool $inPos;
 
-    /**
-     * @var Source
-     */
-    private $source;
+    private Source $source;
 
     /**
      * @param bool $inPos

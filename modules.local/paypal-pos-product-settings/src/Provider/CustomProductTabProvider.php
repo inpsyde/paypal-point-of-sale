@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductSettings\Provider;
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\ProductSettings\Components\ProductSettingsTab;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
 
 class CustomProductTabProvider implements Provider
 {
-
-    /**
-     * @var ProductSettingsTab
-     */
-    private $settingsTab;
+    private ProductSettingsTab $settingsTab;
 
     /**
      * CustomProductTabProvider constructor.

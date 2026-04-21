@@ -17,7 +17,6 @@ use Psr\Log\LoggerInterface;
  */
 interface Job
 {
-
     /**
      * Executes the specific job.
      *

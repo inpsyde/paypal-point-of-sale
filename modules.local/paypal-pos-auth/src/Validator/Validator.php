@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Auth\Validator;
 
-use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use InvalidArgumentException;
 use RuntimeException;
+use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 
 class Validator implements ValidatorInterface
 {
-    /** @var ParserInterface */
-    private $parser;
+    private ParserInterface $parser;
 
     /**
      * Validator constructor.

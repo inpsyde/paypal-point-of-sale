@@ -10,11 +10,7 @@ use ReflectionMethod;
 
 class DebugProxyFactory
 {
-
-    /**
-     * @var ExceptionHandler
-     */
-    private $handler;
+    private ExceptionHandler $handler;
 
     public function __construct(ExceptionHandler $handler)
     {
@@ -31,8 +27,8 @@ class DebugProxyFactory
      *
      * @param $subject
      * @param string ...$methods
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      *
      * @return mixed

@@ -177,7 +177,7 @@ class BuildProductFromWooTest extends ZettlePhpSdkStandaloneTestCase
         $wcProduct->shouldReceive('managing_stock')->andReturn(true);
         $wcProduct->shouldReceive('is_purchasable')->andReturn(true);
         $wcProduct->shouldReceive('get_description')->andReturn('Ipsum');
-        $wcProduct->shouldReceive('get_image_id')->andReturn(1);
+        $wcProduct->shouldReceive('get_image_id')->andReturn('1');
         $wcProduct->shouldReceive('get_children')->andReturn([]);
         $wcProduct->shouldReceive('get_gallery_image_ids')->andReturn([2, 3, 4]);
         $wcProduct->shouldReceive('get_date_created')->andReturn(new DateTime());
@@ -216,7 +216,7 @@ class BuildProductFromWooTest extends ZettlePhpSdkStandaloneTestCase
         $wcProduct->shouldReceive('managing_stock')->andReturn(true);
         $wcProduct->shouldReceive('is_purchasable')->andReturn(true);
         $wcProduct->shouldReceive('get_description')->andReturn('Ipsum');
-        $wcProduct->shouldReceive('get_image_id')->andReturn(1);
+        $wcProduct->shouldReceive('get_image_id')->andReturn('1');
         $wcProduct->shouldReceive('get_gallery_image_ids')->andReturn([2, 3, 4]);
         $wcProduct->shouldReceive('get_date_created')->andReturn(new DateTime());
         $wcProduct->shouldReceive('get_tax_class')->andReturn('');

@@ -18,6 +18,7 @@ class PurchaseHistoryFactory
         string $lastPurchaseHash,
         PurchaseCollection $purchaseCollection
     ): PurchaseHistory {
+
         return new PurchaseHistory(
             $firstPurchaseHash,
             $lastPurchaseHash,

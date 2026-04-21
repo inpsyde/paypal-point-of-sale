@@ -5,18 +5,14 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Onboarding\Provider;
 
 use Exception;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\Cli\ResetOnboardingCommand;
 use Syde\PayPal\PointOfSale\Provider;
-use Psr\Container\ContainerInterface as C;
 use WP_CLI;
 
 class ResetCommandProvider implements Provider
 {
-
-    /**
-     * @var ResetOnboardingCommand
-     */
-    private $resetOnboardingCommand;
+    private ResetOnboardingCommand $resetOnboardingCommand;
 
     /**
      * CliCommandProvider constructor.

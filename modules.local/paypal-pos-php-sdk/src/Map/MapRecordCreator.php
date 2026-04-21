@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 
 interface MapRecordCreator
 {
-
     /**
      * @param int $localId
      * @param string $remoteId

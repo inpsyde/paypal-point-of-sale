@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Webhooks\Handler;
 
-use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Psr\Log\LoggerInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 
 class LogHandler implements WebhookHandler
 {
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {
@@ -31,7 +27,7 @@ class LogHandler implements WebhookHandler
     /**
      * @inheritDoc
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         $this->logger->info("Received Webhook: {$payload->eventName()}", $payload->payload());
     }

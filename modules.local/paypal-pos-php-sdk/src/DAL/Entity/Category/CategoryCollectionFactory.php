@@ -10,10 +10,7 @@ use WP_Term;
 
 class CategoryCollectionFactory
 {
-    /**
-     * @var CategoryFactory
-     */
-    private $categoryFactory;
+    private CategoryFactory $categoryFactory;
 
     public function __construct(CategoryFactory $categoryFactory)
     {
@@ -38,6 +35,7 @@ class CategoryCollectionFactory
     public function createFromWcProductVariable(
         WC_Product_Variable $wcProductVariable
     ): CategoryCollection {
+
         $categoryCollection = $this->create();
 
         $terms = wp_get_post_terms(

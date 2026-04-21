@@ -4,31 +4,25 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Auth\OAuth;
 
-use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Syde\PayPal\PointOfSale\Auth\OAuth\Token\TokenFactoryInterface;
 
 class TokenPersistingAuthSuccessHandler implements AuthSuccessHandler
 {
+    private TokenPersistorInterface $tokenPersistor;
 
-    /**
-     * @var TokenPersistorInterface
-     */
-    private $tokenPersistor;
-
-    /**
-     * @var TokenFactoryInterface
-     */
-    private $tokenFactory;
+    private TokenFactoryInterface $tokenFactory;
 
     public function __construct(
         TokenPersistorInterface $tokenPersistor,
         TokenFactoryInterface $tokenFactory
     ) {
+
         $this->tokenPersistor = $tokenPersistor;
         $this->tokenFactory = $tokenFactory;
     }
 
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response): void
     {
         $body = $response->getBody();
         $body->rewind();

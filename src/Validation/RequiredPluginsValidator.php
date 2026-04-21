@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Validation;
 
-use Syde\PayPal\PointOfSale\Validation\CallbackValidator;
-use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
-
 use function is_plugin_active;
 use function is_plugin_active_for_network;
 
@@ -18,7 +15,7 @@ class RequiredPluginsValidator implements ValidatorInterface
     /**
      * @var array<string, string>
      */
-    protected $plugins;
+    protected array $plugins;
 
     /**
      * @param array<string, string> $plugins Keys - paths like 'woocommerce/woocommerce.php',
@@ -30,7 +27,7 @@ class RequiredPluginsValidator implements ValidatorInterface
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
     public function validate($value): void
     {

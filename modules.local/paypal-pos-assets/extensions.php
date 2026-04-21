@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Assets;
 
-use Inpsyde\Assets\Asset;
 use Inpsyde\Assets\BaseAsset;
 use Inpsyde\Assets\Script;
 use Inpsyde\Assets\Style;
 use Inpsyde\Queue\Queue\Job\JobRepository;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\PayPal\PointOfSale\Onboarding\Counter\ProductSyncJobsCounter;
-use Psr\Container\ContainerInterface as C;
 
 return [
     'inpsyde.assets.registry' => static function (array $previous, C $container): array {

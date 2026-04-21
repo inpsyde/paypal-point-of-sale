@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\ProductSettings\Components;
 
 use Exception;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeSaverInterface;
-use Psr\Log\LoggerInterface;
 
 class ProductSettingsTab
 {
-
     public const SECTION_KEY = 'zettle-integration';
 
     public const SYNC_EXCLUSION_ID = '_zettle_exclude_from_sync';
@@ -21,30 +20,15 @@ class ProductSettingsTab
 
     public const NONCE_FIELD = 'zettle_integration_settings';
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var TermManager
-     */
-    private $termManager;
+    private TermManager $termManager;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $wcProductRepository;
+    private ProductRepositoryInterface $wcProductRepository;
 
-    /**
-     * @var BarcodeInputField
-     */
-    private $barcodeField;
+    private BarcodeInputField $barcodeField;
 
-    /**
-     * @var BarcodeSaverInterface
-     */
-    private $barcodeSaver;
+    private BarcodeSaverInterface $barcodeSaver;
 
     public function __construct(
         LoggerInterface $logger,
@@ -53,6 +37,7 @@ class ProductSettingsTab
         BarcodeInputField $barcodeField,
         BarcodeSaverInterface $barcodeSaver
     ) {
+
         $this->logger = $logger;
         $this->termManager = $termManager;
         $this->wcProductRepository = $wcProductRepository;
@@ -102,8 +87,8 @@ class ProductSettingsTab
      *
      * @return mixed
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
     public function addTab($tabs)
     {
@@ -142,7 +127,7 @@ class ProductSettingsTab
      *
      * @return void
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function renderSettings(bool $addBarcodeInput): void
     {
@@ -206,7 +191,7 @@ class ProductSettingsTab
 
         try {
             $this->validateRequest($data);
-        } catch (Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->logger->warning(sprintf(
                 'Product settings validation failed: %1$s',
                 $exception->getMessage()

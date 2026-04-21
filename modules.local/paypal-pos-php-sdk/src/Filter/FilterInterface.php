@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Filter;
 
 interface FilterInterface
 {
-
     /**
      * @param mixed $entity
      * @param mixed $payload

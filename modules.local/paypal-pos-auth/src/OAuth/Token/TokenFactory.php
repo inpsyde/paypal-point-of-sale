@@ -8,7 +8,6 @@ use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
 
 class TokenFactory implements TokenFactoryInterface
 {
-
     /**
      * @param array $data
      *
@@ -23,7 +22,7 @@ class TokenFactory implements TokenFactoryInterface
         foreach (['access_token', 'expires_in'] as $required) {
             if (!array_key_exists($required, $data)) {
                 throw new InvalidTokenException(
-                    sprintf('Property %s not found in received token data', $required)
+                    sprintf('Property %s not found in received token data', esc_html($required))
                 );
             }
         }

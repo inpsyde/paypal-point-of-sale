@@ -4,29 +4,17 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Factory;
 
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\Zettle\Product\ProductRepositoryInterface;
 use WC_Product;
 
 class WcProductFactory implements WcProductFactoryInterface
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $izProductRepository;
+    private ProductRepositoryInterface $izProductRepository;
 
-    /**
-     * @var WcProductRepositoryInterface
-     */
-    private $wcProductRepository;
+    private WcProductRepositoryInterface $wcProductRepository;
 
-    /**
-     * ProductRepository constructor.
-     *
-     * @param ProductRepositoryInterface $izProductRepository
-     * @param WcProductRepositoryInterface $wcProductRepository
-     */
     public function __construct(
         ProductRepositoryInterface $izProductRepository,
         WcProductRepositoryInterface $wcProductRepository

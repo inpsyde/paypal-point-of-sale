@@ -6,25 +6,13 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax;
 
 class TaxRate
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $label;
+    private string $label;
 
-    /**
-     * @var float|null
-     */
-    private $percentage;
+    private ?float $percentage = null;
 
-    /**
-     * @var bool|null
-     */
-    private $default;
+    private ?bool $default = null;
 
     public function __construct(string $uuid, string $label, ?float $percentage, ?bool $default)
     {

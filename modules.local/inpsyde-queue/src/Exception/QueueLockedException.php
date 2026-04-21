@@ -8,5 +8,4 @@ use Exception;
 
 class QueueLockedException extends Exception implements QueueException
 {
-
 }

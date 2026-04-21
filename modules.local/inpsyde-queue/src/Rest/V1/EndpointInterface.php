@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-# -*- coding: utf-8 -*-
-
 namespace Inpsyde\Queue\Rest\V1;
 
 use WP_REST_Request;

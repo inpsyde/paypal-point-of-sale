@@ -15,16 +15,15 @@ use WC_Product_Variable;
 
 class VariantOptionDefinitionsBuilder implements BuilderInterface
 {
-
     /**
      * @inheritDoc
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null): Definitions
     {
         if (!$payload instanceof WC_Product) {
-            throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload);
+            throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
 
         $definitions = new Definitions();

@@ -8,40 +8,19 @@ use Inpsyde\StateMachine\State\State;
 
 class OnboardingStepper
 {
-    /**
-     * @var array
-     */
-    private $states;
+    private array $states;
 
-    /**
-     * @var string
-     */
-    private $currentStep;
+    private string $currentStep;
 
-    /**
-     * @var array
-     */
-    private $exclude;
+    private array $exclude;
 
-    /**
-     * @var string
-     */
-    private $stepLabel;
+    private string $stepLabel;
 
-    /**
-     * @var string
-     */
-    private $stepsTemplate;
+    private string $stepsTemplate;
 
-    /**
-     * @var array
-     */
-    private $steppableMap;
+    private array $steppableMap;
 
-    /**
-     * @var int
-     */
-    private $currentPosition;
+    private int $currentPosition;
 
     /**
      * OnboardingStepper constructor.
@@ -59,6 +38,7 @@ class OnboardingStepper
         string $stepLabel,
         string $stepsTemplate = '%1$d/%2$d'
     ) {
+
         $this->states = $states;
         $this->currentStep = $currentStep;
         $this->exclude = $exclude;

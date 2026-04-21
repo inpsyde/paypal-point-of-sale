@@ -13,16 +13,9 @@ use Psr\Container\ContainerInterface;
 
 class QueueLibrary
 {
+    private ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var QueueModule
-     */
-    private $module;
+    private QueueModule $module;
 
     /**
      * QueueLibrary constructor.
@@ -41,15 +34,9 @@ class QueueLibrary
                 new class ($factories, $extensions) implements ServiceModule, ExtendingModule {
                     use ModuleClassNameIdTrait;
 
-                    /**
-                     * @var array
-                     */
-                    private $factories;
+                    private array $factories;
 
-                    /**
-                     * @var array
-                     */
-                    private $extensions;
+                    private array $extensions;
 
                     public function __construct(array $factories, array $extensions)
                     {
@@ -74,7 +61,7 @@ class QueueLibrary
         $this->container = $package->container();
     }
 
-    public function initialize()
+    public function initialize(): void
     {
         $this->module->run($this->container());
     }

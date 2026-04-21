@@ -6,50 +6,31 @@ namespace Syde\PayPal\PointOfSale\Auth;
 
 use Http\Client\Common\Plugin\HeaderSetPlugin;
 use Inpsyde\Http\HttpClientFactory;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Syde\PayPal\PointOfSale\Auth\HTTPlug\ZettleAuthPlugin;
 use Syde\PayPal\PointOfSale\Auth\Jwt\ParserInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\AuthSuccessHandler;
 use Syde\PayPal\PointOfSale\Auth\OAuth\EphemeralTokenStorage;
 use Syde\PayPal\PointOfSale\Auth\OAuth\Grant\JwtGrant;
 use Syde\PayPal\PointOfSale\Auth\OAuth\ZettleOAuthHeader;
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UriFactoryInterface;
 
 class AuthenticatedClientFactory
 {
+    private HttpClientFactory $clientFactory;
 
-    /**
-     * @var HttpClientFactory
-     */
-    private $clientFactory;
+    private UriFactoryInterface $uriFactory;
 
-    /**
-     * @var UriFactoryInterface
-     */
-    private $uriFactory;
+    private ParserInterface $jwtParser;
 
-    /**
-     * @var ParserInterface
-     */
-    private $jwtParser;
+    private StreamFactoryInterface $streamFactory;
 
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
+    private array $partnerAffiliationHeader;
 
-    /**
-     * @var array
-     */
-    private $partnerAffiliationHeader;
-
-    /**
-     * @var string
-     */
-    private $clientId;
+    private string $clientId;
 
     /**
      * @param HttpClientFactory $clientFactory
@@ -89,6 +70,7 @@ class AuthenticatedClientFactory
         string $token,
         ?AuthSuccessHandler $successHandler = null
     ): ClientInterface {
+
         $authentication = new ZettleOAuthHeader(new EphemeralTokenStorage());
 
         $jwtGrant = new JwtGrant(
@@ -146,9 +128,9 @@ class AuthenticatedClientFactory
     private function ensureSuccessHandler(
         ?AuthSuccessHandler $successHandler = null
     ): AuthSuccessHandler {
-        return $successHandler ?? new class implements AuthSuccessHandler {
 
-            public function handle(ResponseInterface $response)
+        return $successHandler ?? new class implements AuthSuccessHandler {
+            public function handle(ResponseInterface $response): void
             {
                 // TODO: Implement handle() method.
             }

@@ -11,7 +11,6 @@ namespace Inpsyde\Queue\Queue\Job;
  */
 interface JobRepository
 {
-
     /**
      * Adds a QueueJob to the repository
      *

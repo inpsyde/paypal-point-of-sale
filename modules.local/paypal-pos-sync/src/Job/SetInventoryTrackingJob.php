@@ -9,6 +9,7 @@ use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Inpsyde\WcProductContracts\ProductType;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\LazyProduct;
@@ -16,7 +17,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class SetInventoryTrackingJob
@@ -32,25 +32,13 @@ class SetInventoryTrackingJob implements Job
 
     public const TYPE = 'set-inventory-tracking';
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
 
-    /**
-     * @var Inventory
-     */
-    private $inventoryClient;
+    private Inventory $inventoryClient;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var OneToManyMapInterface
-     */
-    private $variantMap;
+    private OneToManyMapInterface $variantMap;
 
     /**
      * SetInventoryTrackingJob constructor.

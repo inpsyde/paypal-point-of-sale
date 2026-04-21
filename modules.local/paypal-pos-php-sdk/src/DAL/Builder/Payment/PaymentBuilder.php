@@ -15,7 +15,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
     /**
      * @var PaymentHandlerInterface[]
      */
-    private $paymentHandlers;
+    private array $paymentHandlers;
 
     /**
      * Payment constructor.
@@ -35,7 +35,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
         if (!in_array($payment->type()->getValue(), PaymentType::getValidOptions(), true)) {
             throw new InvalidPaymentTypeException(sprintf(
                 'Given Payment Entity has no valid Payment Type: %s',
-                $payment->type()->getValue()
+                esc_html($payment->type()->getValue())
             ));
         }
 
@@ -54,7 +54,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
         if (!in_array($data['type'], PaymentType::getValidOptions(), true)) {
             throw new InvalidPaymentTypeException(sprintf(
                 'Given Payment Entity has no valid Payment Type: %s',
-                $data['type']
+                esc_html($data['type'])
             ));
         }
 

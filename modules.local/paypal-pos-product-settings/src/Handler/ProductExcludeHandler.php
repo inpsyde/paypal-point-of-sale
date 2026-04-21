@@ -15,26 +15,16 @@ use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
 
 class ProductExcludeHandler
 {
+    private ProductRepositoryInterface $repository;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
-
-    /**
-     * @var TermManager
-     */
-    private $termManager;
+    private TermManager $termManager;
 
     /**
      * @var callable
      */
     private $createJob;
 
-    /**
-     * @var JobRepository
-     */
-    private $jobRepository;
+    private JobRepository $jobRepository;
 
     /**
      * ProductExcludeHandler constructor.

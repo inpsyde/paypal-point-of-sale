@@ -9,11 +9,10 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 class EventDispatcher implements EventDispatcherInterface
 {
-
     /**
      * @var ListenerProviderInterface[]
      */
-    private $listenerProviders;
+    private array $listenerProviders;
 
     public function __construct(ListenerProviderInterface ...$listenerProviders)
     {

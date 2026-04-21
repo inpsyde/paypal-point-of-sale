@@ -10,7 +10,6 @@ use WC_Product_Variation;
 
 interface ProductRepositoryInterface
 {
-
     /**
      * @param int $id
      *

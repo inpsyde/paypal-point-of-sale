@@ -9,11 +9,10 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderNotFoundException;
 
 class TypeDelegatingBuilder implements BuilderInterface
 {
-
     /**
      * @var TypeSpecificBuilderInterface[]
      */
-    private $builders;
+    private array $builders;
 
     public function __construct(TypeSpecificBuilderInterface ...$builders)
     {
@@ -22,8 +21,8 @@ class TypeDelegatingBuilder implements BuilderInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * @throws BuilderException
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null)
@@ -36,7 +35,7 @@ class TypeDelegatingBuilder implements BuilderInterface
             return $typeSpecificBuilder->build($className, $payload, $builder ?? $this);
         }
         $type = $this->inferType($payload);
-        throw new BuilderNotFoundException("No Builder found for type '{$type}'");
+        throw new BuilderNotFoundException("No Builder found for type '" . esc_html($type) . "'");
     }
 
     private function inferType($payload): string

@@ -16,16 +16,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\Validator\ValidatorInterface;
  */
 class ValidatableBuilder implements BuilderInterface
 {
+    private BuilderInterface $builder;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
     public function __construct(BuilderInterface $builder, ValidatorInterface $validator)
     {
@@ -35,8 +28,8 @@ class ValidatableBuilder implements BuilderInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null)
     {
@@ -49,7 +42,7 @@ class ValidatableBuilder implements BuilderInterface
 
             $this->validator->validate($result);
         } catch (ValidatorException $exception) {
-            throw new InvalidBuilderPayloadException($className, $payload, $exception->errorCodes(), $exception);
+            throw new InvalidBuilderPayloadException($className, $payload, $exception->errorCodes(), $exception); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
 
         return $result;

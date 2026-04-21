@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\OAuth;
 
+use Psr\Http\Message\UriInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Psr\Http\Message\UriInterface;
 
 class Organizations
 {
+    private UriInterface $uri;
 
-    private $uri;
+    private RestClientInterface $restClient;
 
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
-
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
     /**
      * Organizations constructor.
@@ -66,7 +59,7 @@ class Organizations
                 0,
                 [],
                 [],
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
     }

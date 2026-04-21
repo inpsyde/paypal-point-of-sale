@@ -6,10 +6,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DB;
 
 class DataMappingTable implements Table
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
     /**
      * DataMappingTable constructor.
@@ -35,8 +32,7 @@ class DataMappingTable implements Table
     public function schema(): string
     {
         /** @lang SQL */
-        return
-        '
+        return '
             `ID` BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
             `remote_id` VARCHAR(255) NOT NULL,
             `local_id` BIGINT(20) NOT NULL,

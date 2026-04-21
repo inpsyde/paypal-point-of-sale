@@ -27,7 +27,7 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function run(C $container): bool
     {
@@ -64,7 +64,7 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
 
         add_action(
             'manage_posts_custom_column',
-            static function ($columnName) use ($customColumn) {
+            static function ($columnName) use ($customColumn): void {
                 if (!is_admin()) {
                     return;
                 }

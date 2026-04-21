@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-# -*- coding: utf-8 -*-
-
 namespace Syde\PayPal\PointOfSale\Auth\Rest\V1;
 
 use Syde\PayPal\PointOfSale\Auth\Validator\ValidatorInterface;
@@ -15,10 +13,7 @@ class ValidationEndpoint implements EndpointInterface
 {
     public const ERROR_WRITE_ONLY_PASSWORD_NOT_FILLED = 'write_only_password_not_filled';
 
-    /**
-     * @var ValidatorInterface
-     */
-    protected $validator;
+    protected ValidatorInterface $validator;
 
     /**
      * @var callable(string):bool
@@ -61,8 +56,8 @@ class ValidationEndpoint implements EndpointInterface
     /** @inheritDoc */
     public function args(): array
     {
-        // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-        // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+        // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return [
             'value' => [
                 'type' => 'string',

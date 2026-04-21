@@ -13,10 +13,7 @@ use WC_Product;
  */
 class NotSyncableListener
 {
-    /**
-     * @var DePublishListener
-     */
-    private $depublishListener;
+    private DePublishListener $depublishListener;
 
     /**
      * @var callable(int):bool
@@ -31,6 +28,7 @@ class NotSyncableListener
         DePublishListener $depublishListener,
         callable $isSyncable
     ) {
+
         $this->depublishListener = $depublishListener;
         $this->isSyncable = $isSyncable;
     }

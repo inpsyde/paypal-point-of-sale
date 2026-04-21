@@ -57,6 +57,7 @@ final class PurchaseFactory
         ?SourceType $sourceType = null,
         ?bool $published = null
     ): Purchase {
+
         return new Purchase(
             $uuid,
             Uuid::v1(),

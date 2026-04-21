@@ -10,10 +10,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class ArrayContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
     public function __construct(array $options)
     {
@@ -28,10 +25,10 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
         if (!$this->has($id)) {
             $exceptionMessage = sprintf(
                 'Could not find entry %s in the options array',
-                $id
+                esc_html($id)
             );
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             throw new class ($exceptionMessage) extends Exception implements NotFoundExceptionInterface {
-
             };
         }
         return $this->options[$id];

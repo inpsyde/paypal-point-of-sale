@@ -8,11 +8,7 @@ use Inpsyde\Queue\Processor\QueueProcessor;
 
 class QueueCommand
 {
-
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
+    private QueueProcessor $processor;
 
     public function __construct(QueueProcessor $processor)
     {
@@ -36,7 +32,7 @@ class QueueCommand
      *
      * @when after_wp_load
      */
-    public function process(array $args, array $assocArgs)
+    public function process(array $args, array $assocArgs): void
     {
         $this->processor->process();
     }
@@ -58,7 +54,7 @@ class QueueCommand
      *
      * @when after_wp_load
      */
-    public function live(array $args, array $assocArgs)
+    public function live(array $args, array $assocArgs): void
     {
         while (true) {
             $this->processor->process();

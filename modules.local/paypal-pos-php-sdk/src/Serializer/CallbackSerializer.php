@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Serializer;
 
 class CallbackSerializer implements SerializerInterface
 {
-
     /**
      * @var callable
      */
@@ -19,7 +18,7 @@ class CallbackSerializer implements SerializerInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function serialize($entity, ?SerializerInterface $serializer = null): array
     {

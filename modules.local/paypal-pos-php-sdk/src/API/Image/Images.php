@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Image;
 
 use Exception;
+use Psr\Http\Message\UriInterface;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
@@ -13,35 +15,19 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Image\ImageFormat;
 use Syde\PayPal\PointOfSale\PhpSdk\Image\ImageFormatRetrieverInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Psr\Http\Message\UriInterface;
-use Psr\Log\LoggerInterface;
 use UnexpectedValueException;
 
 class Images
 {
+    private UriInterface $uri;
 
-    /**
-     * @var UriInterface
-     */
-    private $uri;
+    private RestClientInterface $restClient;
 
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
+    private BuilderInterface $builder;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private ImageFormatRetrieverInterface $imageFormatRetriever;
 
-    /** @var ImageFormatRetrieverInterface */
-    private $imageFormatRetriever;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         UriInterface $uri,
@@ -50,6 +36,7 @@ class Images
         ImageFormatRetrieverInterface $imageFormatRetriever,
         LoggerInterface $logger
     ) {
+
         $this->uri = $uri;
         $this->restClient = $restClient;
         $this->builder = $builder;

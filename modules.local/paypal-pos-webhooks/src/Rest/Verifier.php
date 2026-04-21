@@ -8,7 +8,6 @@ use WP_REST_Request;
 
 interface Verifier
 {
-
     /**
      * @param WP_REST_Request $request
      *

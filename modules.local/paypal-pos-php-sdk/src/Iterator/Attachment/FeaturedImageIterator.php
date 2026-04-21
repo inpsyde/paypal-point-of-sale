@@ -14,21 +14,17 @@ use WC_Product;
  */
 class FeaturedImageIterator implements WcProductIterator
 {
-
     /**
-     * @var int The featured image attachment ID
+     * @var string The featured image attachment ID
      */
-    private $attachmentId;
+    private string $attachmentId;
 
     /**
      * @var bool Used to check if the attachment ID has already been returned
      */
-    private $called = false;
+    private bool $called = false;
 
-    /**
-     * @var WC_Product
-     */
-    private $product;
+    private WC_Product $product;
 
     public function __construct(WC_Product $product)
     {

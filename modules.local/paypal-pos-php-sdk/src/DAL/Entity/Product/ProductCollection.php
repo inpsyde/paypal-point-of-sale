@@ -6,11 +6,10 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product;
 
 final class ProductCollection
 {
-
     /**
      * @var ProductInterface[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
      * ProductCollection constructor.

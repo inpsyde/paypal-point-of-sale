@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Exception\EntityFactoryException;
 
 class MobilePaymentBuilder implements MobilePaymentBuilderInterface
 {
-    /**
-     * @var PaymentFactory
-     */
-    private $paymentFactory;
+    private PaymentFactory $paymentFactory;
 
     /**
      * CardOnlinePaymentBuilder constructor.

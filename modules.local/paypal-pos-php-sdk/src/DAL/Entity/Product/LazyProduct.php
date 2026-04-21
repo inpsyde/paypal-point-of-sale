@@ -19,30 +19,15 @@ class LazyProduct implements ProductTransferInterface
     use ProductGetterDecoratorTrait;
     use ProductSetterDecoratorTrait;
 
-    /**
-     * @var ProductTransferInterface
-     */
-    private $base;
+    private ProductTransferInterface $base;
 
-    /**
-     * @var string
-     */
-    private $syncedUuid;
+    private ?string $syncedUuid = null;
 
-    /**
-     * @var Products
-     */
-    private $productClient;
+    private Products $productClient;
 
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $map;
+    private OneToOneMapInterface|MapRecordCreator $map;
 
-    /**
-     * @var int
-     */
-    private $localId;
+    private int $localId;
 
     public function __construct(
         int $localId,

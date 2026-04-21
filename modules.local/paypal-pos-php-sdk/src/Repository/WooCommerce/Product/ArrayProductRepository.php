@@ -11,11 +11,10 @@ use WC_Product_Variation;
 
 class ArrayProductRepository implements ProductRepositoryInterface
 {
-
     /**
      * @var array<int, WC_Product>
      */
-    private $repository;
+    private array $repository;
 
     /**
      * ArrayProductRepository constructor.
@@ -97,6 +96,7 @@ class ArrayProductRepository implements ProductRepositoryInterface
         string $status = ProductState::PUBLISH,
         int $limit = -1
     ): array {
+
         $products = [];
 
         foreach ($this->repository as $id => $product) {

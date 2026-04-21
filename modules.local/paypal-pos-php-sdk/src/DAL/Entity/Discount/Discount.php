@@ -10,60 +10,27 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 
 class Discount
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $description;
+    private string $description;
 
-    /**
-     * @var ImageCollection|null
-     */
-    private $imageCollection;
+    private ?ImageCollection $imageCollection = null;
 
-    /**
-     * @var Price|null
-     */
-    private $amount;
+    private ?Price $amount = null;
 
-    /**
-     * @var float|null
-     */
-    private $percentage;
+    private ?float $percentage = null;
 
-    /**
-     * @var string|null
-     */
-    private $externalReference;
+    private ?string $externalReference = null;
 
-    /**
-     * @var string|null
-     */
-    private $etag;
+    private ?string $etag = null;
 
-    /**
-     * @var DateTime|null
-     */
-    private $updatedAt;
+    private ?DateTime $updatedAt = null;
 
-    /**
-     * @var string|null
-     */
-    private $updatedBy;
+    private ?string $updatedBy = null;
 
-    /**
-     * @var DateTime|null
-     */
-    private $createdAt;
+    private ?DateTime $createdAt = null;
 
     /**
      * Discount constructor.

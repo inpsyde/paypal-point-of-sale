@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Taxes;
 
+use Psr\Http\Message\UriInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Psr\Http\Message\UriInterface;
 
 class Taxes
 {
-    private $baseUri;
+    private UriInterface $baseUri;
 
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
+    private RestClientInterface $restClient;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
     public function __construct(
         UriInterface $baseUri,

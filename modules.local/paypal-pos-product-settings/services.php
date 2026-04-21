@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductSettings;
 
+use MetaboxOrchestra\BoxAction;
+use MetaboxOrchestra\BoxView;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeRepository;
@@ -19,9 +22,6 @@ use Syde\PayPal\PointOfSale\ProductSettings\Provider\ProductExcludeProvider;
 use Syde\PayPal\PointOfSale\ProductSettings\Provider\SyncVisibilityTaxonomyProvider;
 use Syde\PayPal\PointOfSale\ProductSettings\Taxonomy\ZettleSyncVisibilityTaxonomy;
 use Syde\PayPal\PointOfSale\Provider;
-use MetaboxOrchestra\BoxAction;
-use MetaboxOrchestra\BoxView;
-use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.product-settings.taxonomy.sync-visibility.key' =>

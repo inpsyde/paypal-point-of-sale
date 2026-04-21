@@ -9,25 +9,13 @@ use WC_Product;
 
 class BarcodeInputField
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var BarcodeRetrieverInterface
-     */
-    private $barcodeRetriever;
+    private BarcodeRetrieverInterface $barcodeRetriever;
 
-    /**
-     * @var string
-     */
-    private $label;
+    private string $label;
 
-    /**
-     * @var string
-     */
-    private $containerClasses;
+    private string $containerClasses;
 
     /**
      * @param string $containerClasses Additional CSS classes for the container of input field.
@@ -38,13 +26,14 @@ class BarcodeInputField
         string $label,
         string $containerClasses = ''
     ) {
+
         $this->name = $name;
         $this->barcodeRetriever = $barcodeRetriever;
         $this->label = $label;
         $this->containerClasses = $containerClasses;
     }
 
-    // phpcs:ignore Inpsyde.CodeQuality.FunctionLength.TooLong
+    // phpcs:ignore Syde.Functions.FunctionLength.TooLong
     public function render(WC_Product $product, ?int $index = null): string
     {
         $name = $this->name . ($index !== null ? "[$index]" : '');
@@ -59,9 +48,9 @@ class BarcodeInputField
                 <label for="<?= esc_attr($id) ?>"><?= esc_html($this->label) ?></label>
                 <span>
                     <input id="<?= esc_attr($id) ?>"
-                           type="text"
-                           name="<?= esc_attr($name) ?>"
-                           value="<?= esc_attr($currentBarcode) ?>">
+                            type="text"
+                            name="<?= esc_attr($name) ?>"
+                            value="<?= esc_attr($currentBarcode) ?>">
                     <button
                             type="button"
                             aria-label="<?= esc_attr__('Scan barcode', 'paypal-point-of-sale') ?>">

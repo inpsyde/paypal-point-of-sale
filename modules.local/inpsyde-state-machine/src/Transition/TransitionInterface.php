@@ -6,7 +6,6 @@ namespace Inpsyde\StateMachine\Transition;
 
 interface TransitionInterface
 {
-
     /**
      * @return string
      */

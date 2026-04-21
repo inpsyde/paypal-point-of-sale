@@ -21,11 +21,11 @@ class CoordinatesValidator
     public function validate(string $latitude, string $longitude): bool
     {
         if ($this->validateLatitude($latitude)) {
-            throw new InvalidLatitudeException(sprintf('Given %s is not a valid latitude', $latitude));
+            throw new InvalidLatitudeException(sprintf('Given %s is not a valid latitude', esc_html($latitude)));
         }
 
         if ($this->validateLongitude($longitude)) {
-            throw new InvalidLongitudeException(sprintf('Given %s is not a valid longitude', $longitude));
+            throw new InvalidLongitudeException(sprintf('Given %s is not a valid longitude', esc_html($longitude)));
         }
 
         return true;

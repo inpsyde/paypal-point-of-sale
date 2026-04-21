@@ -15,11 +15,11 @@ use Inpsyde\StateMachine\StateMachineInterface;
  */
 class StateQueryInitializer implements InitializerInterface
 {
-
     public function initialize(
         StateMachineInterface $stateMachine,
         StateInterface ...$states
     ): StateInterface {
+
         if (empty($states)) {
             $state = $stateMachine->currentState();
         }

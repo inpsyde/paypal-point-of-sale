@@ -6,15 +6,9 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User;
 
 final class User
 {
-    /**
-     * @var int
-     */
-    private $id;
+    private int $id;
 
-    /**
-     * @var string
-     */
-    private $displayName;
+    private string $displayName;
 
     /**
      * User constructor.

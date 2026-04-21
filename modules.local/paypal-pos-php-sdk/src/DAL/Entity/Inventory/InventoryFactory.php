@@ -16,6 +16,7 @@ class InventoryFactory
     public function create(
         VariantInventoryState $variants
     ): Inventory {
+
         return new Inventory(
             $variants
         );

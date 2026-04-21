@@ -9,15 +9,9 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Settings;
  */
 class WriteOnlyPasswordFieldChecker
 {
-    /**
-     * @var string
-     */
-    protected $placeholderChar;
+    protected string $placeholderChar;
 
-    /**
-     * @var int
-     */
-    protected $maxPlaceholderLength;
+    protected int $maxPlaceholderLength;
 
     /**
      * @param string $placeholderChar The character used in the WriteOnlyPasswordFieldRenderer placeholder, such as '*'.

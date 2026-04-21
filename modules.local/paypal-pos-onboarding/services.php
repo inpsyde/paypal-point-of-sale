@@ -6,6 +6,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding;
 
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\StateMachine\StateMachineInterface;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\Cli\ResetOnboardingCommand;
 use Syde\PayPal\PointOfSale\Onboarding\Comparison\StoreComparison;
 use Syde\PayPal\PointOfSale\Onboarding\Counter\ProductSyncJobsCounter;
@@ -38,15 +39,14 @@ use Syde\PayPal\PointOfSale\Onboarding\Settings\View\SyncVatParamView;
 use Syde\PayPal\PointOfSale\Onboarding\Settings\WriteOnlyPasswordFieldChecker;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface as WcProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\Provider;
 use Syde\PayPal\PointOfSale\Settings\FieldRenderer\FieldRendererInterface;
-use Psr\Container\ContainerInterface as C;
 use WC_Admin_Settings;
 use wpdb;
 
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 
 $job = static function (string $type): string {
     return "paypal-pos.job.{$type}";
@@ -71,7 +71,7 @@ return [
         return $optionContainer->get($key);
     },
     'paypal-pos.onboarding.set-state' => static function (C $container): callable {
-        return static function (string $state) use ($container) {
+        return static function (string $state) use ($container): void {
             $container->get('paypal-pos.settings')->set(
                 $container->get('paypal-pos.onboarding.option.state'),
                 $state

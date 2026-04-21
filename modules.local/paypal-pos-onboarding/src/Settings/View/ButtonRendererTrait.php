@@ -29,6 +29,7 @@ trait ButtonRendererTrait
         ?string $label = null,
         array $params = []
     ): string {
+
         if ($label === null) {
             $label = $this->getDefaultButtonLabel($action);
         }
@@ -56,7 +57,7 @@ trait ButtonRendererTrait
                 style="<?php echo $hidden ? 'display: none;' : ''; ?>"
                 type="<?= esc_attr($type) ?>"
                 value="<?= esc_attr($value) ?>"
-                <?= $attributesHtml // WPCS: xss ok. ?>>
+                <?= $attributesHtml // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             <?php echo esc_attr($label); ?>
         </button>
 

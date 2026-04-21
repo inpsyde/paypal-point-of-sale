@@ -11,10 +11,7 @@ use WC_Product;
 
 class VariantBuilderRepository implements VariantBuilderRepositoryInterface
 {
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
     /**
      * VariantBuilderRepository constructor.
@@ -33,6 +30,7 @@ class VariantBuilderRepository implements VariantBuilderRepositoryInterface
         WC_Product $wcProduct,
         VariantCollection $collection
     ): VariantCollection {
+
         $variant = $this->builder->build(VariantInterface::class, $wcProduct);
 
         $collection->add($variant);

@@ -8,28 +8,15 @@ use Psr\Http\Message\UriInterface;
 
 class ZettleWebhook implements Webhook
 {
+    public const TRANSPORT_NAME = 'WEBHOOK';
 
-    const TRANSPORT_NAME = 'WEBHOOK';
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $uuid;
+    private array $eventNames;
 
-    /**
-     * @var array
-     */
-    private $eventNames;
+    private UriInterface $destination;
 
-    /**
-     * @var UriInterface
-     */
-    private $destination;
-
-    /**
-     * @var string
-     */
-    private $contactEmail;
+    private string $contactEmail;
 
     public function __construct(
         string $uuid,
@@ -37,6 +24,7 @@ class ZettleWebhook implements Webhook
         UriInterface $destination,
         string $contactEmail
     ) {
+
         $this->uuid = $uuid;
         $this->eventNames = $eventNames;
         $this->destination = $destination;

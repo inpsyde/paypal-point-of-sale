@@ -12,16 +12,12 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Builder;
  */
 class ArrayBuilder implements TypeSpecificBuilderInterface
 {
-
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function __construct(BuilderInterface $builder)
     {
@@ -38,7 +34,7 @@ class ArrayBuilder implements TypeSpecificBuilderInterface
 
     /**
      * @param $payload
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      *
      * @return bool
      */

@@ -8,5 +8,4 @@ use Inpsyde\StateMachine\Event\GenericStateChange;
 
 class AuthFailed extends GenericStateChange
 {
-
 }

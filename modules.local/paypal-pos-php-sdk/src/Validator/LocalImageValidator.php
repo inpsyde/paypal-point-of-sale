@@ -20,45 +20,24 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\UnsupportedImageFil
  */
 class LocalImageValidator implements ValidatorInterface
 {
-    /**
-     * @var UrlProviderInterface
-     */
-    private $filePathProvider;
+    private UrlProviderInterface $filePathProvider;
 
     /**
      * @var array<int, string>
      */
-    protected $supportedImageTypes;
+    protected array $supportedImageTypes;
 
-    /**
-     * @var int
-     */
-    protected $minFileSize;
+    protected int $minFileSize;
 
-    /**
-     * @var int
-     */
-    protected $maxFileSize;
+    protected int $maxFileSize;
 
-    /**
-     * @var int
-     */
-    protected $minWidth;
+    protected int $minWidth;
 
-    /**
-     * @var int
-     */
-    protected $minHeight;
+    protected int $minHeight;
 
-    /**
-     * @var int
-     */
-    protected $maxWidth;
+    protected int $maxWidth;
 
-    /**
-     * @var int
-     */
-    protected $maxHeight;
+    protected int $maxHeight;
 
     /**
      * @param array<int, string> $supportedImageTypes Key - type of exif_imagetype such as IMAGETYPE_JPEG,
@@ -74,6 +53,7 @@ class LocalImageValidator implements ValidatorInterface
         int $maxWidth,
         int $maxHeight
     ) {
+
         $this->filePathProvider = $filePathProvider;
         $this->supportedImageTypes = $supportedImageTypes;
         $this->minFileSize = $minFileSize;
@@ -86,7 +66,7 @@ class LocalImageValidator implements ValidatorInterface
 
     /**
      * {@inheritDoc}
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function accepts($entity): bool
     {
@@ -95,7 +75,7 @@ class LocalImageValidator implements ValidatorInterface
 
     /**
      * {@inheritDoc}
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function validate($entity): bool
     {
@@ -121,8 +101,8 @@ class LocalImageValidator implements ValidatorInterface
             throw new UnsupportedImageFileSizeException(
                 sprintf(
                     'Maximum image file size is %d bytes. [%s]',
-                    $this->maxFileSize,
-                    $filePath
+                    (int) $this->maxFileSize,
+                    esc_html($filePath)
                 )
             );
         }
@@ -131,8 +111,8 @@ class LocalImageValidator implements ValidatorInterface
             throw new UnsupportedImageFileSizeException(
                 sprintf(
                     'Minimum image file size is %d bytes. [%s]',
-                    $this->minFileSize,
-                    $filePath
+                    (int) $this->minFileSize,
+                    esc_html($filePath)
                 )
             );
         }
@@ -150,10 +130,10 @@ class LocalImageValidator implements ValidatorInterface
         if (!array_key_exists($type, $this->supportedImageTypes)) {
             throw new UnsupportedImageFileTypeException(
                 sprintf(
-                    'Filetype %s is not supported. Must be one of %s. [%s]',
-                    $type,
-                    implode(', ', array_unique($this->supportedImageTypes)),
-                    $filePath
+                    'Filetype %d is not supported. Must be one of %s. [%s]',
+                    (int) $type,
+                    esc_html(implode(', ', array_unique($this->supportedImageTypes))),
+                    esc_html($filePath)
                 )
             );
         }
@@ -172,9 +152,9 @@ class LocalImageValidator implements ValidatorInterface
             throw new InvalidImageSizeException(
                 sprintf(
                     'Image too small. Must be at least: \'%dx%d\'. [%s]',
-                    $this->minWidth,
-                    $this->minHeight,
-                    $filePath
+                    (int) $this->minWidth,
+                    (int) $this->minHeight,
+                    esc_html($filePath)
                 )
             );
         }
@@ -183,9 +163,9 @@ class LocalImageValidator implements ValidatorInterface
             throw new InvalidImageSizeException(
                 sprintf(
                     'Image too large. Must be at most: \'%dx%d\'. [%s]',
-                    $this->maxWidth,
-                    $this->maxHeight,
-                    $filePath
+                    (int) $this->maxWidth,
+                    (int) $this->maxHeight,
+                    esc_html($filePath)
                 )
             );
         }

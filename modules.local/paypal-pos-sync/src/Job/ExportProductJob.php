@@ -11,6 +11,8 @@ use Inpsyde\Queue\Processor\QueueProcessor;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\LazyProduct;
@@ -22,8 +24,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\Sync\VariableInventoryChecker;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
 use Throwable;
 use WC_Product;
 use WC_Product_Simple;
@@ -44,22 +44,13 @@ class ExportProductJob implements Job
     use ExceptionLoggingTrait;
     use VariableInventoryChecker;
 
-    const TYPE = 'sync-product';
+    public const TYPE = 'sync-product';
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    private Products $productsClient;
 
     /**
      * We are using a custom QueueProcessor for executing follow-up jobs directly
@@ -70,19 +61,15 @@ class ExportProductJob implements Job
      *
      * This instance should therefore run on a separate JobRepository
      *
-     * @var QueueProcessor
      */
-    private $processor;
+    private QueueProcessor $processor;
 
     /**
      * @var callable
      */
     private $createJobRecord;
 
-    /**
-     * @var RemoteIdProvider
-     */
-    private $remoteIdProvider;
+    private RemoteIdProvider $remoteIdProvider;
 
     /**
      * @var callable(int):bool
@@ -130,7 +117,7 @@ class ExportProductJob implements Job
     /**
      * @inheritDoc
      *
-     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function execute(
         ContextInterface $context,
@@ -202,7 +189,7 @@ class ExportProductJob implements Job
             $product,
             $productId,
             $logger,
-            function () use ($wcProduct) {
+            function () use ($wcProduct): void {
                 $this->afterCreate($wcProduct);
             }
         );
@@ -417,12 +404,12 @@ class ExportProductJob implements Job
             throw new QueueRuntimeException(
                 sprintf(
                     "Couldn't update the Product %d - API returned with Code %d and message %s",
-                    $product->localId(),
-                    $exception->getCode(),
-                    $exception->getMessage()
+                    (int) $product->localId(),
+                    (int) $exception->getCode(),
+                    $exception->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 ),
                 500,
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
     }

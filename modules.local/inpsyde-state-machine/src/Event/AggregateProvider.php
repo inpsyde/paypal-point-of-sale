@@ -8,15 +8,8 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 class AggregateProvider implements ListenerProviderInterface
 {
+    protected array $providers = [];
 
-    /**
-     * @var array
-     */
-    protected $providers = [];
-
-    /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     */
     public function getListenersForEvent(object $event): iterable
     {
         /** @var ListenerProviderInterface $provider */

@@ -10,12 +10,11 @@ use WP_Term;
 
 trait AttributeFormatterTrait
 {
-
     /**
      * @param WC_Product_Attribute|string $attribute
      *
      * @return string
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     protected function attributeName($attribute): string
     {

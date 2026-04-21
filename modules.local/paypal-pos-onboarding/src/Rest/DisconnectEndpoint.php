@@ -15,15 +15,9 @@ use WP_REST_Server;
 
 class DisconnectEndpoint implements EndpointInterface
 {
-    /**
-     * @var Job
-     */
-    protected $onboardingResetJob;
+    protected Job $onboardingResetJob;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(Job $onboardingResetJob, LoggerInterface $logger)
     {

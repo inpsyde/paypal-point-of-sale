@@ -4,32 +4,20 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\ProductSettings\Barcode;
 
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeSaverInterface;
-use Psr\Log\LoggerInterface;
 use WC_Product_Variation;
 
 class VariantBarcodeSaveHandler
 {
-    /**
-     * @var BarcodeSaverInterface
-     */
-    private $barcodeSaver;
+    private BarcodeSaverInterface $barcodeSaver;
 
-    /**
-     * @var BarcodeInputField
-     */
-    private $barcodeField;
+    private BarcodeInputField $barcodeField;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $wcProductRepository;
+    private ProductRepositoryInterface $wcProductRepository;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         BarcodeSaverInterface $barcodeSaver,
@@ -37,13 +25,14 @@ class VariantBarcodeSaveHandler
         ProductRepositoryInterface $wcProductRepository,
         LoggerInterface $logger
     ) {
+
         $this->barcodeSaver = $barcodeSaver;
         $this->barcodeField = $barcodeField;
         $this->wcProductRepository = $wcProductRepository;
         $this->logger = $logger;
     }
 
-    public function save(int $variationId, int $variantIndex)
+    public function save(int $variationId, int $variantIndex): void
     {
         $variation = $this->wcProductRepository->findById($variationId);
         if (!($variation instanceof WC_Product_Variation)) {

@@ -11,73 +11,34 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 /**
  * Class Variant
- * phpcs:disable Inpsyde.CodeQuality.PropertyPerClassLimit.TooMuchProperties
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors *
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant
  */
 class Variant implements VariantTransferInterface, StockQuantityAwareInterface, PriceAwareInterface
 {
+    private string $uuid;
 
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $description;
 
-    /**
-     * @var string
-     */
-    private $description;
+    private string $sku;
 
-    /**
-     * @var string
-     */
-    private $sku;
+    private ?Price $price = null;
 
-    /**
-     * @var Price|null
-     */
-    private $price;
+    private ?Vat $vat = null;
 
-    /**
-     * @var Vat|null
-     */
-    private $vat;
+    private int $defaultQuantity;
 
-    /**
-     * @var int
-     */
-    private $defaultQuantity;
+    private ?Presentation $presentation;
 
-    /**
-     * @var Presentation
-     */
-    private $presentation;
+    private ?VariantOptionCollection $options;
 
-    /**
-     * @var VariantOptionCollection
-     */
-    private $options;
+    private ?string $unitName = null;
 
-    /**
-     * @var string|null
-     */
-    private $unitName;
+    private ?Price $costPrice = null;
 
-    /**
-     * @var Price|null
-     */
-    private $costPrice;
-
-    /**
-     * @var string|null
-     */
-    private $barcode;
+    private ?string $barcode = null;
 
     /**
      * Variant constructor.
@@ -109,6 +70,7 @@ class Variant implements VariantTransferInterface, StockQuantityAwareInterface, 
         ?Price $costPrice = null,
         ?string $barcode = null
     ) {
+
         $this->uuid = $uuid;
         $this->name = $name;
         $this->description = $description;

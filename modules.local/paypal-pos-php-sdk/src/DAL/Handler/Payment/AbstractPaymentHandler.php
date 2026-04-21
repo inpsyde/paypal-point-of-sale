@@ -8,10 +8,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 abstract class AbstractPaymentHandler implements PaymentHandlerInterface
 {
-    /**
-     * @var string
-     */
-    private $validPaymentType;
+    private string $validPaymentType;
 
     /**
      * AbstractPaymentHandler constructor.

@@ -8,8 +8,8 @@ use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Inpsyde\StateMachine\StateMachineInterface;
-use Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 use Psr\Container\ContainerInterface as C;
+use Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 
 class NoticesModule implements ServiceModule, ExecutableModule
 {

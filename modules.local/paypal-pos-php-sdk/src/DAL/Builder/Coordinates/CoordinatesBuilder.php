@@ -1,6 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
 declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates;
@@ -10,10 +9,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\CoordinatesFactory;
 
 final class CoordinatesBuilder implements CoordinatesBuilderInterface
 {
-    /**
-     * @var CoordinatesFactory
-     */
-    private $coordinatesFactory;
+    private CoordinatesFactory $coordinatesFactory;
 
     /**
      * CoordinatesBuilder constructor.
@@ -39,9 +35,9 @@ final class CoordinatesBuilder implements CoordinatesBuilderInterface
     public function createDataArray(Coordinates $coordinates): array
     {
         return [
-           'latitude' => $coordinates->latitude(),
-           'longitude' => $coordinates->longitude(),
-           'accuracyMeters' => $coordinates->accuracyMeters(),
+            'latitude' => $coordinates->latitude(),
+            'longitude' => $coordinates->longitude(),
+            'accuracyMeters' => $coordinates->accuracyMeters(),
         ];
     }
 

@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface as B;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\CallbackBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\ImageBuilder;
@@ -32,7 +33,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantInventoryState\VariantInven
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOption;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOptionCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
-use Psr\Container\ContainerInterface as C;
 
 $key = static function (string $className): string {
     return "paypal-pos.sdk.builder.array.{$className}";
@@ -70,7 +70,7 @@ return [
     },
     $key(ImageCollection::class) => $builder(
         static function (array $payload, B $builder): ImageCollection {
-            // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+            // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
             $images = array_map(
                 static function ($imagePayload) use ($builder) {
                     return $builder->build(ImageInterface::class, (array) $imagePayload);
@@ -78,7 +78,7 @@ return [
                 $payload
             );
 
-            // phpcs:enable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+            // phpcs:enable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
             return new ImageCollection(...$images);
         }

@@ -9,38 +9,22 @@ use Inpsyde\Queue\Exception\QueueRuntimeException;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\DB\Table as IdMapTable;
-use Psr\Log\LoggerInterface;
 use WP_CLI;
 
 class ResetCommand
 {
+    private Products $productsClient;
 
-    /**
-     * @var Products
-     */
-    private $productsClient;
+    private IdMapTable $idMapTable;
 
-    /**
-     * @var IdMapTable
-     */
-    private $idMapTable;
+    private QueueTable $queueTable;
 
-    /**
-     * @var QueueTable
-     */
-    private $queueTable;
+    private Job $wipeRemoteJob;
 
-    /**
-     * @var Job
-     */
-    private $wipeRemoteJob;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         Job $wipeRemoteJob,
@@ -68,7 +52,7 @@ class ResetCommand
      * @when after_wp_load
      * @throws QueueRuntimeException
      */
-    public function products(array $args, array $assocArgs)
+    public function products(array $args, array $assocArgs): void
     {
         if (!(isset($assocArgs['noconfirm']) && $assocArgs['noconfirm'] === true)) {
             WP_CLI::log("This command will delete ALL PayPal Point of Sale products in your merchant account.");

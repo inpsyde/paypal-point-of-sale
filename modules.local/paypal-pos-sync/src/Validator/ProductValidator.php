@@ -28,35 +28,20 @@ use WC_Product;
  */
 class ProductValidator
 {
-    /**
-     * @var OneToOneMapInterface
-     */
-    private $productMap;
+    private OneToOneMapInterface $productMap;
 
-    /**
-     * @var TermManager
-     */
-    private $termManager;
+    private TermManager $termManager;
 
     /**
      * @var string[]
      */
-    private $allowedProductTypes;
+    private array $allowedProductTypes;
 
-    /**
-     * @var bool
-     */
-    private $isBuildingAllowed;
+    private bool $isBuildingAllowed;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var ExceptionHandler
-     */
-    private $exceptionHandler;
+    private ExceptionHandler $exceptionHandler;
 
     /**
      * @param bool $isBuildingAllowed Whether it can try to build the product using $builder

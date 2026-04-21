@@ -9,15 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Category\CategoryCollectionFactory
 
 class CategoryCollectionBuilder implements CategoryCollectionBuilderInterface
 {
-    /**
-     * @var CategoryCollectionFactory
-     */
-    private $categoryCollectionFactory;
+    private CategoryCollectionFactory $categoryCollectionFactory;
 
-    /**
-     * @var CategoryBuilder
-     */
-    private $categoryBuilder;
+    private CategoryBuilder $categoryBuilder;
 
     /**
      * CategoryCollectionBuilder constructor.
@@ -29,6 +23,7 @@ class CategoryCollectionBuilder implements CategoryCollectionBuilderInterface
         CategoryCollectionFactory $categoryCollectionFactory,
         CategoryBuilderInterface $categoryBuilder
     ) {
+
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->categoryBuilder = $categoryBuilder;
     }

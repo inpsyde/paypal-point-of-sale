@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Settings;
 
 use Inpsyde\StateMachine\StateMachineInterface;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\PayPal\PointOfSale\Onboarding\Settings\ButtonAction;
 use Syde\PayPal\PointOfSale\Provider;
@@ -12,7 +13,6 @@ use Syde\PayPal\PointOfSale\Settings\Provider\SettingsPageProvider;
 use Syde\PayPal\PointOfSale\Settings\WC\SettingsPage;
 use Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegration;
 use Syde\PayPal\PointOfSale\Settings\WC\ZettleIntegrationHeader;
-use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.settings.url' => static function (C $container): string {

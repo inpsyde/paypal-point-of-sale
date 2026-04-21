@@ -8,35 +8,17 @@ class Variant
 {
     public const TYPE = 'variant';
 
-    /**
-     * @var int
-     */
-    private $id;
+    private int $id;
 
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var int
-     */
-    private $localId;
+    private int $localId;
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
-    /**
-     * @var int
-     */
-    private $siteId;
+    private int $siteId;
 
-    /**
-     * @var array
-     */
-    private $meta;
+    private array $meta;
 
     /**
      * Variant constructor.

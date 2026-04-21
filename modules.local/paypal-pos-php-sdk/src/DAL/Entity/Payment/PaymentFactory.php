@@ -13,10 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 
 class PaymentFactory
 {
-    /**
-     * @var PaymentValidator
-     */
-    private $paymentValidator;
+    private PaymentValidator $paymentValidator;
 
     /**
      * PaymentFactory constructor.
@@ -42,6 +39,7 @@ class PaymentFactory
         float $amount,
         string $paymentType
     ): CardOnlinePayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CARD_ONLINE,
@@ -52,7 +50,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CardOnlinePayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -90,6 +88,7 @@ class PaymentFactory
         ?string $terminalVerificationResults = null,
         ?int $numberOfInstallments = null
     ): CardPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CARD,
@@ -100,7 +99,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CardPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -135,6 +134,7 @@ class PaymentFactory
         string $amount,
         string $handedAmount
     ): CashPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CASH,
@@ -145,7 +145,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CashPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -171,6 +171,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): CustomPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::CUSTOM,
@@ -181,7 +182,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     CustomPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -190,19 +191,14 @@ class PaymentFactory
     }
 
     /**
-     * @param string $uuid
-     * @param string $paymentType
-     * @param float $amount
-     *
-     * @return GiftcardPayment
-     *
      * @throws EntityFactoryException
      */
     public function createGiftcardPayment(
         string $uuid,
         string $paymentType,
         float $amount
-    ): GiftcardPayment {
+    ): GiftCardPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::GIFTCARD,
@@ -212,13 +208,13 @@ class PaymentFactory
             throw new EntityFactoryException(
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
-                    GiftcardPayment::class,
-                    $validatorException->getMessage()
+                    GiftCardPayment::class,
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
 
-        return new GiftcardPayment($uuid, $amount);
+        return new GiftCardPayment($uuid, $amount);
     }
 
     /**
@@ -242,6 +238,7 @@ class PaymentFactory
         string $invoiceNumber,
         string $dueDate
     ): InvoicePayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::INVOICE,
@@ -252,7 +249,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     InvoicePayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -280,6 +277,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): KlarnaPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::KLARNA,
@@ -290,7 +288,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     KlarnaPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -312,6 +310,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): MobilePayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::MOBILE,
@@ -322,7 +321,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     MobilePayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -344,6 +343,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): PaypalPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::PAYPAL,
@@ -354,7 +354,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     PaypalPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -376,6 +376,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): StoreCreditPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::STORE_CREDIT,
@@ -386,7 +387,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     StoreCreditPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -408,6 +409,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): SwishPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::SWISH,
@@ -418,7 +420,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     SwishPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }
@@ -440,6 +442,7 @@ class PaymentFactory
         string $paymentType,
         float $amount
     ): VippsPayment {
+
         try {
             $this->paymentValidator->validate(
                 PaymentType::VIPPS,
@@ -450,7 +453,7 @@ class PaymentFactory
                 sprintf(
                     '%s Entity cannot be created, because of: %s',
                     VippsPayment::class,
-                    $validatorException->getMessage()
+                    $validatorException->getMessage() // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 )
             );
         }

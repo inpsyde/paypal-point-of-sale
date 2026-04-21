@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Sync;
 
-use Syde\PayPal\PointOfSale\Onboarding\SyncCollisionStrategy;
-use Syde\PayPal\PointOfSale\PhpSdk\Filter\PriceFilter;
-use Syde\PayPal\PointOfSale\PhpSdk\Filter\VatFilter;
 use Inpsyde\WcEvents\Event\ProductEventListenerRegistry;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Onboarding\SyncCollisionStrategy;
+use Syde\PayPal\PointOfSale\PhpSdk\Filter\PriceFilter;
 
 return [
     'paypal-pos.settings.fields.registry' =>

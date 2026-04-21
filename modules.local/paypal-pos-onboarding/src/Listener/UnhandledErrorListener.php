@@ -15,20 +15,11 @@ use Throwable;
 
 class UnhandledErrorListener
 {
-    /**
-     * @var StateMachineInterface
-     */
-    private $stateMachine;
+    private StateMachineInterface $stateMachine;
 
-    /**
-     * @var PageReloaderInterface
-     */
-    private $pageReloader;
+    private PageReloaderInterface $pageReloader;
 
-    /**
-     * @var bool
-     */
-    private $isDebugMode;
+    private bool $isDebugMode;
 
     /**
      * @param StateMachineInterface $stateMachine
@@ -51,7 +42,7 @@ class UnhandledErrorListener
      * @throws DenyTransitionException
      * @throws Throwable if in debug mode
      */
-    public function __invoke(Throwable $error)
+    public function __invoke(Throwable $error): void
     {
         if ($this->isDebugMode) {
             throw $error;

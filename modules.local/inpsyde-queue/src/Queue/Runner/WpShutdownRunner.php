@@ -21,8 +21,7 @@ use Inpsyde\Queue\Processor\QueueProcessor;
  */
 class WpShutdownRunner implements Runner
 {
-
-    private $called = false;
+    private bool $called = false;
 
     /**
      * Hook the QueueProcessor into the shutdown action.
@@ -34,7 +33,7 @@ class WpShutdownRunner implements Runner
     {
         add_action(
             'shutdown',
-            function () use ($queueProcessor) {
+            function () use ($queueProcessor): void {
                 if ($this->called) {
                     return;
                 }

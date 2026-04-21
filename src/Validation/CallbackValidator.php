@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\Validation;
 
 class CallbackValidator implements ValidatorInterface
 {
-
     /**
      * @var callable
      */
@@ -18,7 +17,7 @@ class CallbackValidator implements ValidatorInterface
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      * @param mixed $value
      */
     public function validate($value): void
@@ -26,7 +25,7 @@ class CallbackValidator implements ValidatorInterface
         $error = ($this->callback)($value);
 
         if ($error !== null) {
-            throw new ValidationFailedException((string) $error);
+            throw new ValidationFailedException(esc_html((string) $error));
         }
     }
 }

@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity;
 
 interface Payload
 {
-
     /**
      * @return string
      */

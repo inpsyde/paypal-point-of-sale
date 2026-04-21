@@ -21,26 +21,13 @@ class WpdbMap implements
     Countable,
     RecordMetaProvider
 {
+    private wpdb $wpdb;
 
-    /**
-     * @var wpdb
-     */
-    private $wpdb;
+    private Table $table;
 
-    /**
-     * @var Table
-     */
-    private $table;
+    private string $type;
 
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var int
-     */
-    private $siteId;
+    private int $siteId;
 
     /**
      * WpdbMap constructor.
@@ -89,7 +76,7 @@ class WpdbMap implements
         );
 
         if ($result === null) {
-            throw new IdNotFoundException("No remote ID found for local ID {$localId}");
+            throw new IdNotFoundException(sprintf("No remote ID found for local ID %d", (int) $localId));
         }
 
         return $result;
@@ -121,7 +108,7 @@ class WpdbMap implements
         );
 
         if ($result === null) {
-            throw new IdNotFoundException("No remote IDs found for local ID {$localId}");
+            throw new IdNotFoundException(sprintf("No remote IDs found for local ID %d", (int) $localId));
         }
 
         return array_column($result, 'remote_id');
@@ -157,7 +144,7 @@ class WpdbMap implements
         );
 
         if ($result === null) {
-            throw new IdNotFoundException("No local ID found for remote ID {$remoteId}");
+            throw new IdNotFoundException("No local ID found for remote ID " . esc_html($remoteId));
         }
 
         return (int) $result;
@@ -223,9 +210,9 @@ class WpdbMap implements
             throw new IdNotFoundException(
                 sprintf(
                     'Cannot delete record of type: %s with remote ID %s and local ID %s',
-                    $this->type,
-                    $remoteId,
-                    $localId
+                    esc_html($this->type),
+                    esc_html($remoteId),
+                    (int) $localId
                 )
             );
         }
@@ -287,6 +274,7 @@ class WpdbMap implements
         );
 
         if ($result === null) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             throw new Exception(sprintf('Count query failed: %s.', $this->wpdb->last_error));
         }
 

@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 class SwishPaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var SwishPaymentBuilder
-     */
-    private $swishPaymentBuilder;
+    private SwishPaymentBuilder $swishPaymentBuilder;
 
     /**
      * SwishPaymentHandler constructor.
@@ -25,6 +22,7 @@ class SwishPaymentHandler extends AbstractPaymentHandler
         string $validPaymentType,
         SwishPaymentBuilderInterface $swishPaymentBuilder
     ) {
+
         parent::__construct($validPaymentType);
         $this->swishPaymentBuilder = $swishPaymentBuilder;
     }

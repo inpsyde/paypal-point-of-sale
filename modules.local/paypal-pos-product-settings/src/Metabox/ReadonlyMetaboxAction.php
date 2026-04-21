@@ -9,7 +9,6 @@ use MetaboxOrchestra\BoxAction;
 
 class ReadonlyMetaboxAction implements BoxAction
 {
-
     /**
      * @inheritDoc
      */

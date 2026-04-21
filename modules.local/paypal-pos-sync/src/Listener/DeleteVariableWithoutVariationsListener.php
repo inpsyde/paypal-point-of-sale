@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Sync\Listener;
 
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantTransferInterface;
@@ -11,7 +12,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
-use Psr\Log\LoggerInterface;
 use WC_Product_Variable;
 
 /**
@@ -21,26 +21,13 @@ use WC_Product_Variable;
  */
 class DeleteVariableWithoutVariationsListener
 {
+    private OneToOneMapInterface|MapRecordCreator $productMap;
 
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $productMap;
+    private OneToOneMapInterface|MapRecordCreator $variantMap;
 
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $variantMap;
+    private Products $productsClient;
 
-    /**
-     * @var Products
-     */
-    private $productsClient;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * DeleteVariableProductWithoutVariationsListener constructor.

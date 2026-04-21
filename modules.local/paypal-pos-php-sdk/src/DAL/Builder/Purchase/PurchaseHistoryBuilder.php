@@ -9,15 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseHistoryFactory;
 
 class PurchaseHistoryBuilder implements PurchaseHistoryBuilderInterface
 {
-    /**
-     * @var PurchaseHistoryFactory
-     */
-    private $purchaseHistoryFactory;
+    private PurchaseHistoryFactory $purchaseHistoryFactory;
 
-    /**
-     * @var PurchaseCollectionBuilder
-     */
-    private $purchaseCollectionBuilder;
+    private PurchaseCollectionBuilder $purchaseCollectionBuilder;
 
     /**
      * PurchaseHistoryBuilder constructor.
@@ -28,6 +22,7 @@ class PurchaseHistoryBuilder implements PurchaseHistoryBuilderInterface
         PurchaseHistoryFactory $purchaseHistoryFactory,
         PurchaseCollectionBuilderInterface $purchaseCollectionBuilder
     ) {
+
         $this->purchaseHistoryFactory = $purchaseHistoryFactory;
         $this->purchaseCollectionBuilder = $purchaseCollectionBuilder;
     }

@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant;
 
 use Generator;
+use IteratorAggregate;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Attribute\AttributeAccessorUtilInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Attribute\AttributeFormatterUtilInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Variation\VariationAccessorUtilInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\Util\WooCommerce\Variation\VariationCheckerUtilInterface;
-use IteratorAggregate;
 use WC_Product_Variable;
 use WC_Product_Variation;
 
@@ -25,20 +21,11 @@ use WC_Product_Variation;
  */
 class WcVariationIterator implements IteratorAggregate
 {
-    /**
-     * @var WC_Product_Variable
-     */
-    private $wcProduct;
+    private WC_Product_Variable $wcProduct;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
+    private ProductRepositoryInterface $repository;
 
     /**
      * WcVariationIterator constructor.

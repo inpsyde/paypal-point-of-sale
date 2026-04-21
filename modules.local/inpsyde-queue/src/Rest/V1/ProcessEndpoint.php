@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-# -*- coding: utf-8 -*-
-
 namespace Inpsyde\Queue\Rest\V1;
 
 use Inpsyde\Queue\Exception\QueueLockedException;
@@ -11,11 +9,9 @@ use Inpsyde\Queue\ExceptionLoggingTrait;
 use Inpsyde\Queue\Log\ArrayLogger;
 use Inpsyde\Queue\Logger\LoggerProviderInterface;
 use Inpsyde\Queue\Processor\ProcessorBuilder;
-use Inpsyde\Queue\Processor\QueueProcessor;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Inpsyde\Queue\Queue\Locker;
 use Inpsyde\Queue\Queue\TimeStopper;
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use WP_REST_Request;
@@ -31,40 +27,23 @@ class ProcessEndpoint implements EndpointInterface
     public const ROUTE = '/process';
     public const DEFAULT_EXECUTION_TIME = 10;
 
-    /**
-     * @var ProcessorBuilder
-     */
-    private $builder;
+    private ProcessorBuilder $builder;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var callable
      */
     private $metaCallback;
 
-    /**
-     * @var Locker
-     */
-    private $locker;
+    private Locker $locker;
 
-    /**
-     * @var JobRepository
-     */
-    private $repository;
+    private JobRepository $repository;
 
-    /**
-     * @var bool
-     */
-    private $isMultisite;
+    private bool $isMultisite;
 
-    /**
-     * @var int
-     */
-    private $maxRetriesCount;
+    private int $maxRetriesCount;
+
     public function __construct(
         ProcessorBuilder $processorBuilder,
         JobRepository $repository,
@@ -111,8 +90,8 @@ class ProcessEndpoint implements EndpointInterface
     /** @inheritDoc */
     public function args(): array
     {
-        // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-        // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+        // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return [
             'types' => [
                 'types' => 'array',

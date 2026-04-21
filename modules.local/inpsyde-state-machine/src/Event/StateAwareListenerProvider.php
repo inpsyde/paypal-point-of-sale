@@ -8,11 +8,10 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 class StateAwareListenerProvider implements ListenerProviderInterface
 {
-
     /**
      * @var ListenerProvider[]
      */
-    private $listeners = [];
+    private array $listeners = [];
 
     public function listen(string $state, callable $listener)
     {
@@ -23,8 +22,7 @@ class StateAwareListenerProvider implements ListenerProviderInterface
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.InvalidGeneratorManyReturns
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function getListenersForEvent(object $event): iterable
     {

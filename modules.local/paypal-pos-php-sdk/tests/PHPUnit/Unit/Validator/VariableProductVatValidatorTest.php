@@ -9,6 +9,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\DifferentVariantVatException;
 use Syde\PayPal\PointOfSale\PhpSdk\Validator\VariableProductVatValidator;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Functions\when;
 
 class VariableProductVatValidatorTest extends BrainMonkeyWpTestCase
 {
@@ -19,6 +20,8 @@ class VariableProductVatValidatorTest extends BrainMonkeyWpTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        when('esc_html')->returnArg();
 
         $this->sut = new VariableProductVatValidator();
     }

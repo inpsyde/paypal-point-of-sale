@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Inventory;
 
+use Psr\Http\Message\UriInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Inventory as InventoryEntity;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Transaction;
@@ -11,37 +12,23 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Location\Location;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
-use Psr\Http\Message\UriInterface;
 
 class Inventory
 {
+    private UriInterface $uri;
 
-    private $uri;
+    private RestClientInterface $restClient;
 
-    /**
-     * @var RestClientInterface
-     */
-    private $restClient;
-
-    /**
-     * @var Locations
-     */
-    private $locationsClient;
+    private Locations $locationsClient;
 
     /**
      * @var Location[]
      */
-    private $locations;
+    private array $locations;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
+    private BuilderInterface $builder;
 
-    /**
-     * @var string
-     */
-    private $integrationUuid;
+    private string $integrationUuid;
 
     public function __construct(
         UriInterface $uri,
@@ -234,12 +221,12 @@ class Inventory
             throw new ZettleRestException(
                 sprintf(
                     'Could not build Inventory entity of product %s after fetching it',
-                    $productUuid
+                    esc_html($productUuid)
                 ),
                 0,
-                $result,
+                $result, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
                 [],
-                $exception
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
             );
         }
     }

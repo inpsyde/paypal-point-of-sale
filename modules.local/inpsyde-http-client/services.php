@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Inpsyde\Http;
 
-use Http\Discovery\Exception\NotFoundException;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Inpsyde\Wp\HttpClient\Client as WpHttpClient;

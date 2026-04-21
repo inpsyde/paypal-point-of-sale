@@ -11,7 +11,8 @@ class ListenerProvider implements ListenerProviderInterface
 {
     use ParameterDeriverTrait;
 
-    private $listeners;
+    /** @var array<callable> */
+    private array $listeners;
 
     public function __construct(callable ...$listeners)
     {
@@ -23,9 +24,6 @@ class ListenerProvider implements ListenerProviderInterface
         $this->listeners[] = $listener;
     }
 
-    /**
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     */
     public function getListenersForEvent(object $event): iterable
     {
         $eventType = get_class($event);

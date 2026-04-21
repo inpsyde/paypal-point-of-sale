@@ -11,10 +11,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    /**
-     * @var OneToOneMapInterface|OneToManyMapInterface|MapRecordCreator
-     */
-    private $productMap;
+    private OneToOneMapInterface|OneToManyMapInterface|MapRecordCreator $productMap;
 
     /**
      * ProductRepository constructor.

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks\Rest;
 
 use Inpsyde\Queue\ExceptionLoggingTrait;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\PayloadFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
-use Psr\Log\LoggerInterface;
 use Throwable;
 use WP_REST_Request;
 use WP_REST_Server;
@@ -17,25 +17,16 @@ class WebhookListenerEndpoint implements Endpoint
 {
     use ExceptionLoggingTrait;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var PayloadFactory
-     */
-    private $payloadFactory;
+    private PayloadFactory $payloadFactory;
 
     /**
      * @var WebhookHandler[]
      */
-    private $handlers;
+    private array $handlers;
 
-    /**
-     * @var bool
-     */
-    private static $shutDownCalled = false;
+    private static bool $shutDownCalled = false;
 
     public function __construct(
         LoggerInterface $logger,

@@ -19,13 +19,9 @@ use Psr\Log\LoggerInterface;
  */
 class EnqueueProductSyncJob implements Job
 {
+    public const TYPE = 'enqueue-products-to-sync';
 
-    const TYPE = 'enqueue-products-to-sync';
-
-    /**
-     * @var array
-     */
-    private $productTypeWhitelist;
+    private array $productTypeWhitelist;
 
     /**
      * @var callable
@@ -49,6 +45,7 @@ class EnqueueProductSyncJob implements Job
         callable $createJobRecord,
         callable $productCanSynced
     ) {
+
         $this->productTypeWhitelist = $productTypeWhitelist;
         $this->createJobRecord = $createJobRecord;
         $this->productCanSynced = $productCanSynced;
@@ -62,6 +59,7 @@ class EnqueueProductSyncJob implements Job
         JobRepository $repository,
         LoggerInterface $logger
     ): bool {
+
         $products = wc_get_products(
             [
                 'return' => 'ids',

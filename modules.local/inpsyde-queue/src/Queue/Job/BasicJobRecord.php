@@ -6,16 +6,9 @@ namespace Inpsyde\Queue\Queue\Job;
 
 class BasicJobRecord implements JobRecord
 {
+    private Job $job;
 
-    /**
-     * @var Job
-     */
-    private $job;
-
-    /**
-     * @var ContextInterface
-     */
-    private $context;
+    private ContextInterface $context;
 
     public function __construct(Job $job, ContextInterface $context)
     {

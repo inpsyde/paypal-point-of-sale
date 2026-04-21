@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Auth\OAuth;
 
 use Http\Message\Authentication;
-use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
 use Psr\Http\Message\RequestInterface;
+use Syde\PayPal\PointOfSale\Auth\Exception\InvalidTokenException;
 
 class ZettleOAuthHeader implements Authentication
 {
-
-    /**
-     * @var TokenProviderInterface
-     */
-    private $tokenStorage;
+    private TokenProviderInterface $tokenStorage;
 
     public function __construct(TokenProviderInterface $tokenStorage)
     {

@@ -9,7 +9,6 @@ use WC_Product_Variation;
 
 trait VariableInventoryChecker
 {
-
     /**
      * @param WC_Product_Variable $product
      *

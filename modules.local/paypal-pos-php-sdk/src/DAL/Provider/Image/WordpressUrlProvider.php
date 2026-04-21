@@ -6,7 +6,6 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image;
 
 class WordpressUrlProvider implements UrlProviderInterface
 {
-
     /**
      * @param string $attachmentId
      *

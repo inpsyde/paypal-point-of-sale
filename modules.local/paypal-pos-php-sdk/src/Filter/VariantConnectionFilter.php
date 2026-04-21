@@ -18,16 +18,12 @@ use WC_Product;
  * If none is found, it will wrap the Variant into a LazyVariant that will automatically
  * create a new entry as soon as required (when accessing its UUID)
  *
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
  */
 class VariantConnectionFilter implements FilterInterface
 {
-
-    /**
-     * @var OneToOneMapInterface|MapRecordCreator
-     */
-    private $idMap;
+    private OneToOneMapInterface|MapRecordCreator $idMap;
 
     private $lazyPool = [];
 

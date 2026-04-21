@@ -7,10 +7,10 @@ namespace Syde\PayPal\PointOfSale;
 use Exception;
 use Inpsyde\Debug\DebugProxyFactory;
 use Inpsyde\WcStatusReport\ReportItemFactoryInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
-use Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
 use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
+use Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
 use Throwable;
 
 return [
@@ -51,7 +51,7 @@ return [
         },
     'inpsyde.queue.exception-handler' =>
         static function (callable $previous, C $container): callable {
-            return static function (Throwable $exception) use ($previous, $container) {
+            return static function (Throwable $exception) use ($previous, $container): void {
                 $previous($exception);
                 $container->get('inpsyde.debug.exception-handler')->handle($exception);
             };

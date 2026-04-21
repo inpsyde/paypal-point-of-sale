@@ -16,7 +16,6 @@ namespace Inpsyde\Queue\Queue;
  */
 interface Stopper
 {
-
     /**
      * This method can be used to perform initialization logic ie. storing a timestamp
      * It will be called whenever a "stoppable" process starts

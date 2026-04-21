@@ -10,5 +10,4 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Map;
  */
 interface OneToOneMapInterface extends LocalIdProvider, RemoteIdProvider
 {
-
 }

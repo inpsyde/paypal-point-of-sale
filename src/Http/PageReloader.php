@@ -15,7 +15,7 @@ class PageReloader implements PageReloaderInterface
     {
         $key = 'REQUEST_URI';
         if (!is_string($requestUrl = filter_input(INPUT_SERVER, $key, FILTER_SANITIZE_URL))) {
-            throw new UnexpectedValueException(sprintf('Could not retrieve server variable "%1$s"', $key));
+            throw new UnexpectedValueException(sprintf('Could not retrieve server variable "%1$s"', esc_html($key)));
         }
 
         wp_safe_redirect($requestUrl);

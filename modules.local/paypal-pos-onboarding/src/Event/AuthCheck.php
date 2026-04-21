@@ -8,5 +8,4 @@ use Inpsyde\StateMachine\Event\GenericStateChange;
 
 class AuthCheck extends GenericStateChange
 {
-
 }

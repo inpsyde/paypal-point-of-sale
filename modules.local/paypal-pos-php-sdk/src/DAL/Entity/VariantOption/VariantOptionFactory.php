@@ -16,6 +16,7 @@ class VariantOptionFactory
         string $name,
         string $value
     ): VariantOption {
+
         return new VariantOption(
             $name,
             $value

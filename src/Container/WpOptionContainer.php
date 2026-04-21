@@ -10,16 +10,9 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class WpOptionContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
+    private array $options;
 
-    /**
-     * @var array
-     */
-    private $options;
-
-    /**
-     * @var string
-     */
-    private $optionKey;
+    private string $optionKey;
 
     public function __construct(string $optionKey)
     {
@@ -39,11 +32,11 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
         }
         $exceptionMessage = sprintf(
             'Could not find entry %s in the "%s" wp options array',
-            $id,
-            $this->optionKey
+            esc_html($id),
+            esc_html($this->optionKey)
         );
+        // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         throw new class ($exceptionMessage) extends Exception implements NotFoundExceptionInterface {
-
         };
     }
 

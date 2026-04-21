@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks;
 
 use Inpsyde\Queue\Queue\Job\Job;
+use Psr\Container\ContainerInterface as C;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
 use Syde\PayPal\PointOfSale\Webhooks\Cli\WebhookCommand;
@@ -18,9 +21,6 @@ use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
-use Psr\Container\ContainerInterface as C;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Symfony\Component\Uid\Uuid;
 
 $job = static function (string $type): string {

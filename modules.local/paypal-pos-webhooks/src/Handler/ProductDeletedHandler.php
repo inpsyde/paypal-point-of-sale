@@ -6,27 +6,21 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Handler;
 
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
-use Psr\Log\LoggerInterface;
 
 class ProductDeletedHandler implements WebhookHandler
 {
+    private UnlinkProductJob $unlinkProductJob;
 
-    /**
-     * @var UnlinkProductJob
-     */
-    private $unlinkProductJob;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         UnlinkProductJob $unlinkProductJob,
         LoggerInterface $logger
     ) {
+
         $this->unlinkProductJob = $unlinkProductJob;
         $this->logger = $logger;
     }
@@ -42,7 +36,7 @@ class ProductDeletedHandler implements WebhookHandler
     /**
      * @inheritDoc
      */
-    public function handle(Payload $payload)
+    public function handle(Payload $payload): void
     {
         $productData = $payload->payload();
         $this->logger->info(

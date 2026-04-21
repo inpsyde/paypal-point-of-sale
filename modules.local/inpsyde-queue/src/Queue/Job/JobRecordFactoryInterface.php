@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inpsyde\Queue\Queue\Job;
 
-use DateTime;
 use Inpsyde\Queue\Exception\InvalidJobException;
-use stdClass;
 
 interface JobRecordFactoryInterface
 {
-
     /**
      * @param string $class
      * @param ContextInterface $context

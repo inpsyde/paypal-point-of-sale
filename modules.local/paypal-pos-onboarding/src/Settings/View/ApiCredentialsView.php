@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+// phpcs:disable Syde.Functions.FunctionLength.TooLong
 
 namespace Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
@@ -11,10 +11,7 @@ use WC_Settings_API;
 
 class ApiCredentialsView extends SettingsFieldView implements OnboardingView
 {
-    /**
-     * @var array
-     */
-    private $apiKeyCreationLink;
+    private array $apiKeyCreationLink;
 
     /**
      * ApiCredentialsView constructor.
@@ -36,6 +33,7 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
         string $notice = '',
         array $allowedFieldTags = []
     ) {
+
         $this->apiKeyCreationLink = $apiKeyCreationLink;
 
         parent::__construct(
@@ -70,7 +68,7 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
         <?php endif; ?>
 
         <p>
-            <?php echo sprintf(
+            <?php printf(
                 "%s %s %s",
                 esc_html__('1.', 'paypal-point-of-sale'),
                 sprintf(

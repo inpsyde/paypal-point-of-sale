@@ -9,35 +9,17 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 
 final class Library
 {
-    /**
-     * @var string
-     */
-    private $untilEventLogUuid;
+    private string $untilEventLogUuid;
 
-    /**
-     * @var string
-     */
-    private $fromEventLogUuid;
+    private string $fromEventLogUuid;
 
-    /**
-     * @var ProductCollection
-     */
-    private $products;
+    private ProductCollection $products;
 
-    /**
-     * @var DiscountCollection
-     */
-    private $discounts;
+    private DiscountCollection $discounts;
 
-    /**
-     * @var ProductCollection|null
-     */
-    private $deletedProducts;
+    private ?ProductCollection $deletedProducts = null;
 
-    /**
-     * @var DiscountCollection|null
-     */
-    private $deletedDiscounts;
+    private ?DiscountCollection $deletedDiscounts = null;
 
     /**
      * Library constructor.

@@ -8,16 +8,9 @@ use Throwable;
 
 class TypeDelegatingFormatter implements ExceptionFormatter
 {
+    private ExceptionFormatter $fallback;
 
-    /**
-     * @var ExceptionFormatter
-     */
-    private $fallback;
-
-    /**
-     * @var array
-     */
-    private $formatters;
+    private array $formatters;
 
     public function __construct(ExceptionFormatter $fallback, array $formatters)
     {

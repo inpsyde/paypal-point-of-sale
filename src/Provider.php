@@ -11,7 +11,6 @@ use Psr\Container\ContainerInterface as C;
  */
 interface Provider
 {
-
     /**
      * @param C $container
      *

@@ -5,54 +5,38 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Onboarding\Job;
 
 use Exception;
-use Syde\PayPal\PointOfSale\Container\ClearableContainerInterface;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
-use Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
 use Psr\Log\LoggerInterface;
+use Syde\PayPal\PointOfSale\Auth\OAuth\TokenPersistorInterface;
+use Syde\PayPal\PointOfSale\Container\ClearableContainerInterface;
 use Throwable;
 use wpdb;
 
 class ResetOnboardingJob implements Job
 {
-
     public const TYPE = 'reset-onboarding';
 
-    /**
-     * @var wpdb
-     */
-    private $database;
+    private wpdb $database;
 
-    /**
-     * @var ClearableContainerInterface
-     */
-    private $optionContainer;
+    private ClearableContainerInterface $optionContainer;
 
-    /**
-     * @var ClearableContainerInterface
-     */
-    private $setupInfoContainer;
+    private ClearableContainerInterface $setupInfoContainer;
 
-    /**
-     * @var TokenPersistorInterface
-     */
-    private $tokenStorage;
+    private TokenPersistorInterface $tokenStorage;
 
-    /**
-     * @var array
-     */
-    private $tables;
+    private array $tables;
 
     /**
      * @var string[]
      */
-    private $transients;
+    private array $transients;
 
     /**
      * @var string[]
      */
-    private $options;
+    private array $options;
 
     /**
      * @var callable

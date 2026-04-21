@@ -9,25 +9,13 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Finance\Type\TransactionType;
 
 final class AccountTransaction
 {
-    /**
-     * @var DateTime
-     */
-    private $timestamp;
+    private DateTime $timestamp;
 
-    /**
-     * @var int
-     */
-    private $amount;
+    private int $amount;
 
-    /**
-     * @var TransactionType
-     */
-    private $originatorTransactionType;
+    private TransactionType $originatorTransactionType;
 
-    /**
-     * @var string
-     */
-    private $originatingTransactionUuid;
+    private string $originatingTransactionUuid;
 
     /**
      * AccountTransaction constructor.

@@ -1,4 +1,6 @@
 <?php // phpcs:disable - There is a weird error on PHP7.4 which breaks phpcs when returning $_POST down below
+
+
 declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Onboarding;
@@ -11,6 +13,8 @@ use Inpsyde\StateMachine\Event\PostTransition;
 use Inpsyde\StateMachine\State\State;
 use Inpsyde\StateMachine\State\StateInterface;
 use Inpsyde\StateMachine\Transition\Transition;
+use Psr\Container\ContainerInterface as C;
+use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\Auth\OAuth\CredentialValidator;
 use Syde\PayPal\PointOfSale\Auth\Validator\Validator;
 use Syde\PayPal\PointOfSale\Onboarding\Event\AuthCheck;
@@ -27,8 +31,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
 use Syde\PayPal\PointOfSale\Sync\PriceSyncMode;
-use Psr\Container\ContainerInterface as C;
-use Psr\Log\LoggerInterface;
 use Throwable;
 
 return [
@@ -158,17 +160,17 @@ return [
              * Start Onboarding flow if the proceed button is pressed
              * -> Move to App Credentials
              */
-            S::WELCOME => static function (ProceedButtonPressed $event) {
+            S::WELCOME => static function (ProceedButtonPressed $event): void {
                 $event->transitionTo(S::API_CREDENTIALS);
             },
             S::API_CREDENTIALS => [
                 /**
                  * Move back to Welcome to start over entering credentials
                  */
-                static function (BackButtonPressed $event) {
+                static function (BackButtonPressed $event): void {
                     $event->transitionTo(S::WELCOME);
                 },
-                static function (ProceedButtonPressed $event) use ($container, $validateField) {
+                static function (ProceedButtonPressed $event) use ($container, $validateField): void {
                     $data = $event->data();
 
                     $addErrorMessageCallback = $container->get('paypal-pos.onboarding.message.add.error');
@@ -223,7 +225,7 @@ return [
                 /**
                  * Start over Button: Move back to Credentials to start over entering credentials
                  */
-                static function (ProceedButtonPressed $event) use ($container) {
+                static function (ProceedButtonPressed $event) use ($container): void {
                     $settings = $container->get('paypal-pos.settings');
 
                     if ($settings->has('api_key')) {
@@ -245,13 +247,13 @@ return [
                 /**
                  * Move back
                  */
-                static function (BackButtonPressed $event) {
+                static function (BackButtonPressed $event): void {
                     $event->transitionTo(S::API_CREDENTIALS);
                 },
                 /**
                  * Move to SYNC_PARAM_VAT
                  */
-                static function (ProceedButtonPressed $event) {
+                static function (ProceedButtonPressed $event): void {
                     $data = $event->data();
 
                     if (!isset($data['woocommerce_zettle_sync_collision_strategy'])) {
@@ -265,13 +267,13 @@ return [
                 /**
                  * Move back
                  */
-                static function (BackButtonPressed $event) {
+                static function (BackButtonPressed $event): void {
                     $event->transitionTo(S::SYNC_PARAM_PRODUCTS);
                 },
                 /**
                  * With all information gathered, we can proceed to the review screen
                  */
-                static function (ProceedButtonPressed $event) use ($container) {
+                static function (ProceedButtonPressed $event) use ($container): void {
                     $data = $event->data();
                     $syncTaxStrategy = $data['woocommerce_zettle_sync_price_strategy'] ?? null;
                     $addErrorMessage = $container->get('paypal-pos.onboarding.message.add.error');
@@ -304,32 +306,32 @@ return [
                  * Move back to SYNC_PARAM_VAT
                  * TODO: Needed? Most definitely not
                  */
-                static function (BackButtonPressed $event) {
+                static function (BackButtonPressed $event): void {
                     $event->transitionTo(OnboardingState::SYNC_PARAM_VAT);
                 },
                 /**
                  * The button will be kept disabled until the JS workers have completed
                  * syncing via REST calls. Then we can simply move on.
                  */
-                static function (ProceedButtonPressed $event) {
+                static function (ProceedButtonPressed $event): void {
                     $event->transitionTo(S::SYNC_FINISHED);
                 },
                 /**
                  * If the cancel button was pressed, the user likely wants to
                  * revisit all sync params
                  */
-                static function (CancelButtonPressed $event) {
+                static function (CancelButtonPressed $event): void {
                     $event->transitionTo(S::SYNC_PARAM_PRODUCTS);
                 },
             ],
             /** Oh boy we're finally done. */
-            S::SYNC_FINISHED => static function (ProceedButtonPressed $event) {
+            S::SYNC_FINISHED => static function (ProceedButtonPressed $event): void {
                 $event->transitionTo(S::ONBOARDING_COMPLETED);
             },
             S::ONBOARDING_COMPLETED => [
             ],
             S::UNHANDLED_ERROR => [
-                static function (DeleteButtonPressed $event) {
+                static function (DeleteButtonPressed $event): void {
                     $event->transitionTo(S::WELCOME);
                 },
             ],
@@ -342,11 +344,11 @@ return [
      */
     'paypal-pos.onboarding.state-machine.transition-events' => static function (C $container): array {
         return [
-            T::TO_API_CREDENTIALS => static function (PostTransition $event) use ($container) {
+            T::TO_API_CREDENTIALS => static function (PostTransition $event) use ($container): void {
                 $tokenStorage = $container->get('paypal-pos.oauth.token-storage');
                 $tokenStorage->clear();
             },
-            T::TO_SYNC_PARAM_PRODUCTS => static function (PostTransition $event) use ($container) {
+            T::TO_SYNC_PARAM_PRODUCTS => static function (PostTransition $event) use ($container): void {
                 if ($event->fromState() === S::SYNC_PROGRESS) {
                     /**
                      * Sync was cancelled and the user will now re-enter the sync params.
@@ -360,7 +362,7 @@ return [
             /**
              * Enqueue our synchronization background jobs when we start syncing
              */
-            T::TO_SYNC_PROGRESS => static function (PostTransition $event) use ($container) {
+            T::TO_SYNC_PROGRESS => static function (PostTransition $event) use ($container): void {
                 $enqueue = $container->get('inpsyde.queue.enqueue-job');
                 $settings = $container->get('paypal-pos.settings');
 
@@ -378,7 +380,7 @@ return [
 
                 $setupInfo->set('first_import_timestamp', time());
             },
-            T::TO_ONBOARDING_COMPLETED => static function (PostTransition $event) use ($container) {
+            T::TO_ONBOARDING_COMPLETED => static function (PostTransition $event) use ($container): void {
                 $webhookRegistration = $container->get('paypal-pos.webhook.register');
 
                 assert(is_callable($webhookRegistration));
@@ -401,7 +403,7 @@ return [
             /**
              * Destroy everything when we disconnect the account
              */
-            T::TO_WELCOME => static function (PostTransition $event) use ($container) {
+            T::TO_WELCOME => static function (PostTransition $event) use ($container): void {
                 if (!in_array($event->fromState(), [S::UNHANDLED_ERROR], true)) {
                     return;
                 }
@@ -425,7 +427,7 @@ return [
         ];
     },
     'paypal-pos.onboarding.repository.auth-check-event' => static function (C $container): callable {
-        return static function (AuthCheck $event) use ($container) {
+        return static function (AuthCheck $event) use ($container): void {
             $notAllowedStates = $container->get('paypal-pos.onboarding.auth.failure.not-allowed-states');
             if (in_array($event->currentState(), $notAllowedStates, true)) {
                 return;
@@ -439,7 +441,7 @@ return [
         };
     },
     'paypal-pos.onboarding.repository.auth-failed-event' => static function (C $container): callable {
-        return static function (AuthFailed $event) use ($container) {
+        return static function (AuthFailed $event) use ($container): void {
             $notAllowedStates = $container->get('paypal-pos.onboarding.auth.failure.not-allowed-states');
             if (in_array($event->currentState(), $notAllowedStates, true)) {
                 return;
@@ -450,7 +452,7 @@ return [
     },
     'paypal-pos.onboarding.repository.unhandled-error-event' =>
         static function (C $container): callable {
-            return static function (UnhandledError $event) use ($container) {
+            return static function (UnhandledError $event) use ($container): void {
                 $notAllowedStates = $container->get('paypal-pos.onboarding.failure.excluded-states');
                 if (in_array($event->currentState(), $notAllowedStates, true)) {
                     return;

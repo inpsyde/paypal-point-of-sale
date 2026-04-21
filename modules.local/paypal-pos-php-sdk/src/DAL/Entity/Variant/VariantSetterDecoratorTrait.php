@@ -11,13 +11,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 /**
  * Trait VariantSetterDecoratorTrait
- * phpcs:disable Inpsyde.CodeQuality.NoAccessors
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant
  */
 trait VariantSetterDecoratorTrait
 {
-
     abstract protected function baseWritableVariant(): WritableVariantInterface;
 
     public function setUuid(string $uuid): void

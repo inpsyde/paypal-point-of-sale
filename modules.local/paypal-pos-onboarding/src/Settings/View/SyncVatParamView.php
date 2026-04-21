@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+// phpcs:disable Syde.Functions.FunctionLength.TooLong
 
 namespace Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
@@ -16,25 +16,16 @@ class SyncVatParamView implements OnboardingView
 {
     use ButtonRendererTrait;
 
-    /**
-     * @var StoreComparison
-     */
-    private $storeComparison;
+    private StoreComparison $storeComparison;
 
-    /**
-     * @var StoreDataProvider
-     */
-    private $remoteStoreData;
+    private StoreDataProvider $remoteStoreData;
 
-    /**
-     * @var StoreDataProvider
-     */
-    private $localStoreData;
+    private StoreDataProvider $localStoreData;
 
     /**
      * @var TaxRate[]|null
      */
-    private $defaultTaxRates;
+    private ?array $defaultTaxRates = null;
 
     /**
      * @param TaxRate[]|null $defaultTaxRates
@@ -45,6 +36,7 @@ class SyncVatParamView implements OnboardingView
         StoreDataProvider $localStoreData,
         ?array $defaultTaxRates
     ) {
+
         $this->storeComparison = $storeComparison;
         $this->remoteStoreData = $remoteStoreData;
         $this->localStoreData = $localStoreData;
@@ -216,8 +208,8 @@ class SyncVatParamView implements OnboardingView
                 <?php echo $disabled ? ' disabled' : ''; ?>">
                 <div class="form-choice-selector-input">
                     <input id="zettle-include-tax-prices" type="radio" name="woocommerce_zettle_sync_price_strategy"
-                           value="<?= esc_attr(PriceSyncMode::ENABLED) ?>"
-                           <?= $disabled ? 'disabled' : ($syncByDefault ? 'checked' : '') ?>
+                            value="<?= esc_attr(PriceSyncMode::ENABLED) ?>"
+                            <?= $disabled ? 'disabled' : ($syncByDefault ? 'checked' : '') ?>
                     >
                 </div>
 
@@ -238,8 +230,8 @@ class SyncVatParamView implements OnboardingView
             <div class="form-choice-selector<?= !$syncByDefault ? ' active' : '' ?>">
                 <div class="form-choice-selector-input">
                     <input id="zettle-zero-prices" type="radio" name="woocommerce_zettle_sync_price_strategy"
-                           value="<?= esc_attr(PriceSyncMode::DISABLED) ?>"
-                           <?= !$syncByDefault ? 'checked' : ''; ?>>
+                            value="<?= esc_attr(PriceSyncMode::DISABLED) ?>"
+                            <?= !$syncByDefault ? 'checked' : ''; ?>>
                 </div>
 
                 <div class="form-choice-selector-content">

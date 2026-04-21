@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 use Inpsyde\WcProductContracts\ProductType;
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\AttributeSetBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface as B;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\CallbackBuilder;
@@ -38,7 +39,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Iterator\WcProductAttachmentIterator;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Uuid\Uuid;
-use Psr\Container\ContainerInterface as C;
 
 $key = static function (string $className): string {
     return "paypal-pos.sdk.builder.woocommerce.{$className}";

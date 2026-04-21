@@ -17,16 +17,9 @@ class InMemoryMap implements
     MapRecordCreator,
     RecordMetaProvider
 {
+    private array $map;
 
-    /**
-     * @var array
-     */
-    private $map;
-
-    /**
-     * @var array
-     */
-    private $meta = [];
+    private array $meta = [];
 
     /**
      * InMemoryMap constructor.
@@ -44,7 +37,7 @@ class InMemoryMap implements
     public function remoteId(int $localId): string
     {
         if (!array_key_exists($localId, $this->map)) {
-            throw new IdNotFoundException("No remote ID found for local ID {$localId}");
+            throw new IdNotFoundException(sprintf("No remote ID found for local ID %d", (int) $localId));
         }
 
         if (is_array($this->map[$localId])) {
@@ -69,7 +62,7 @@ class InMemoryMap implements
             }
         }
 
-        throw new IdNotFoundException("No local ID found for remote ID {$remoteId}");
+        throw new IdNotFoundException("No local ID found for remote ID " . esc_html($remoteId));
     }
 
     /**
@@ -127,7 +120,7 @@ class InMemoryMap implements
     public function remoteIds(int $localId): array
     {
         if (!array_key_exists($localId, $this->map)) {
-            throw new IdNotFoundException("No remote ID found for local ID {$localId}");
+            throw new IdNotFoundException(sprintf("No remote ID found for local ID %d", (int) $localId));
         }
 
         return (array) $this->map[$localId];

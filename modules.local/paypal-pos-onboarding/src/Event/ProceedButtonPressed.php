@@ -8,5 +8,4 @@ use Inpsyde\StateMachine\Event\WebRequest;
 
 class ProceedButtonPressed extends WebRequest
 {
-
 }

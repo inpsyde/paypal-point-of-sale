@@ -10,17 +10,17 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\UnexpectedImageUrlE
 
 class ImageBuilder implements BuilderInterface
 {
-
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(
         string $className,
         $payload,
         ?BuilderInterface $builder = null
     ): ImageInterface {
+
         assert(is_array($payload));
         $lookupKey = $this->findLookupKey($payload);
 
@@ -61,7 +61,8 @@ class ImageBuilder implements BuilderInterface
         );
 
         if (!$result) {
-            throw new UnexpectedImageUrlException("Could not parse image url {$url}");
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new UnexpectedImageUrlException("Could not parse image url " . $url);
         }
 
         return $matches[1];

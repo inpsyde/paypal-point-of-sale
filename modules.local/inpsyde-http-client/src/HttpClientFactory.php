@@ -10,10 +10,7 @@ use Psr\Http\Client\ClientInterface;
 
 class HttpClientFactory
 {
-    /**
-     * @var ClientInterface
-     */
-    protected $innerClient;
+    protected ClientInterface $innerClient;
 
     public function __construct(ClientInterface $innerClient)
     {

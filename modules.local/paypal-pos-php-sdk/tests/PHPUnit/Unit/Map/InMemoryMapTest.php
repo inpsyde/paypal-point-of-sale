@@ -4,9 +4,16 @@ declare(strict_types=1);
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\InMemoryMap;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Functions\when;
 
 class InMemoryMapTest extends BrainMonkeyWpTestCase
 {
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        when('esc_html')->returnArg();
+    }
 
     public function testFailsForMissingRemoteId()
     {

@@ -10,10 +10,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\AbstractPaymentMethod;
 
 class CardOnlinePaymentHandler extends AbstractPaymentHandler
 {
-    /**
-     * @var CardOnlinePaymentBuilder
-     */
-    private $cardOnlinePaymentBuilder;
+    private CardOnlinePaymentBuilder $cardOnlinePaymentBuilder;
 
     /**
      * CardOnlinePaymentHandler constructor.
@@ -25,6 +22,7 @@ class CardOnlinePaymentHandler extends AbstractPaymentHandler
         string $validPaymentType,
         CardOnlinePaymentBuilderInterface $cardOnlinePaymentBuilder
     ) {
+
         parent::__construct($validPaymentType);
         $this->cardOnlinePaymentBuilder = $cardOnlinePaymentBuilder;
     }

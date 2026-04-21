@@ -9,15 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\PaymentCollectionFactory;
 
 class PaymentCollectionBuilder implements PaymentCollectionBuilderInterface
 {
-    /**
-     * @var PaymentCollectionFactory
-     */
-    private $paymentCollectionFactory;
+    private PaymentCollectionFactory $paymentCollectionFactory;
 
-    /**
-     * @var PaymentBuilderInterface
-     */
-    private $paymentBuilder;
+    private PaymentBuilderInterface $paymentBuilder;
 
     /**
      * PaymentCollectionBuilder constructor.
@@ -29,6 +23,7 @@ class PaymentCollectionBuilder implements PaymentCollectionBuilderInterface
         PaymentCollectionFactory $paymentCollectionFactory,
         PaymentBuilderInterface $paymentBuilder
     ) {
+
         $this->paymentCollectionFactory = $paymentCollectionFactory;
         $this->paymentBuilder = $paymentBuilder;
     }

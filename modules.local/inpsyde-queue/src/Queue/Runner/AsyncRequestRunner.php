@@ -17,14 +17,13 @@ use WP_Http_Cookie;
  */
 class AsyncRequestRunner implements Runner
 {
-
     public const DEFAULT_TIMEOUT = 0.01;
     public const DEFAULT_IS_BLOCKING = false;
 
     /**
      * @var string Path (not the full URL!) to our REST endpoint
      */
-    private $restPath;
+    private string $restPath;
 
     /**
      * AsyncRequestRunner constructor.

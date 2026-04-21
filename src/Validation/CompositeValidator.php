@@ -6,11 +6,10 @@ namespace Syde\PayPal\PointOfSale\Validation;
 
 class CompositeValidator implements ValidatorInterface
 {
-
     /**
      * @var ValidatorInterface[]
      */
-    private $validators;
+    private array $validators;
 
     /**
      * @param ValidatorInterface[] $validators
@@ -21,7 +20,7 @@ class CompositeValidator implements ValidatorInterface
     }
 
     /**
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      * @param mixed $value
      */
     public function validate($value): void
@@ -37,7 +36,7 @@ class CompositeValidator implements ValidatorInterface
         }
 
         if ($errors) {
-            throw new ValidationFailedException('Validation failed', $errors);
+            throw new ValidationFailedException('Validation failed', $errors); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
     }
 }

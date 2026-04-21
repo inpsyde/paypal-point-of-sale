@@ -8,11 +8,10 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 
 class VariantInventoryStateCollection
 {
-
     /**
      * @var VariantInventoryState[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
      * VariantChangeHistoryCollection constructor.
@@ -61,7 +60,7 @@ class VariantInventoryStateCollection
     public function get(string $uuid): VariantInventoryState
     {
         if (!array_key_exists($uuid, $this->collection)) {
-            throw new IdNotFoundException("Variant-UUID {$uuid} not found in Inventory");
+            throw new IdNotFoundException("Variant-UUID " . esc_html($uuid) . " not found in Inventory");
         }
 
         return $this->collection[(string) $uuid];

@@ -9,5 +9,4 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class SettingNotFoundException extends Exception implements NotFoundExceptionInterface
 {
-
 }

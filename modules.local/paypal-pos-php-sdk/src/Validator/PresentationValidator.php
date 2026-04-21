@@ -13,13 +13,12 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
  * Class PresentationValidator
  *
  * Verifies that a Presentation's color values are 6-digit hex strings
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\Validator
  */
 class PresentationValidator implements ValidatorInterface
 {
-
     public const HEX_COLOR_LENGTH = 6;
 
     /**
@@ -49,16 +48,16 @@ class PresentationValidator implements ValidatorInterface
      *
      * @throws ValidatorException
      */
-    private function assertValidLongHexValue(string $string)
+    private function assertValidLongHexValue(string $string): void
     {
         $color = ltrim($string, '#');
 
         if (function_exists('ctype_xdigit') && !ctype_xdigit($color)) {
-            throw new InvalidHexColorException($color);
+            throw new InvalidHexColorException(esc_html($color));
         }
 
         if (strlen($color) < self::HEX_COLOR_LENGTH) {
-            throw new ShortHexColorException($color, 'Presentation');
+            throw new ShortHexColorException(esc_html($color), 'Presentation');
         }
     }
 }

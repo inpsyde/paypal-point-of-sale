@@ -6,15 +6,9 @@ namespace Syde\PayPal\PointOfSale\ProductSettings\Taxonomy;
 
 class ZettleSyncVisibilityTaxonomy
 {
-    /**
-     * @var string
-     */
-    private $key;
+    private string $key;
 
-    /**
-     * @var string
-     */
-    private $attachedPostType;
+    private string $attachedPostType;
 
     public function __construct(string $key, string $attachedPostType)
     {
@@ -38,7 +32,7 @@ class ZettleSyncVisibilityTaxonomy
         return $this->attachedPostType;
     }
 
-    public function create()
+    public function create(): void
     {
         $labels = [
             'name' => _x('PayPal Point of Sale Sync Visibilities', 'paypal-point-of-sale'),

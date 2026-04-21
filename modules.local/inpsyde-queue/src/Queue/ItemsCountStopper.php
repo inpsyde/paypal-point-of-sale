@@ -19,15 +19,9 @@ namespace Inpsyde\Queue\Queue;
  */
 class ItemsCountStopper implements Stopper
 {
-    /**
-     * @var int
-     */
-    private $processedItems = 0;
+    private int $processedItems = 0;
 
-    /**
-     * @var int
-     */
-    private $maxItems = 0;
+    private int $maxItems = 0;
 
     /**
      * ItemsCountStopper constructor.
@@ -44,7 +38,7 @@ class ItemsCountStopper implements Stopper
     public function start(): bool
     {
         $this->processedItems = 0;
-        return 0 === $this->processedItems;
+        return $this->processedItems === 0;
     }
 
     /**

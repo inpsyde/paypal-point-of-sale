@@ -11,10 +11,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidato
 
 class CoordinatesFactory
 {
-    /**
-     * @var CoordinatesValidator
-     */
-    private $coordinatesValidator;
+    private CoordinatesValidator $coordinatesValidator;
 
     /**
      * CoordinatesFactory constructor.
@@ -42,6 +39,7 @@ class CoordinatesFactory
         string $longitude,
         string $accuracyMeters
     ): Coordinates {
+
         $this->coordinatesValidator->validate($latitude, $longitude);
 
         return new Coordinates(

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 
 interface ValidatorInterface
 {
-
     /**
      * @param $entity
      *

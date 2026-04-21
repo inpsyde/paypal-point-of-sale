@@ -6,10 +6,7 @@ namespace Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 
 class WelcomeView implements OnboardingView
 {
-    /**
-     * @var array
-     */
-    protected $zettleLink;
+    protected array $zettleLink;
 
     /**
      * @param array $zettleLink
@@ -62,9 +59,9 @@ class WelcomeView implements OnboardingView
             ); ?>
 
             <a class="link"
-               rel="noopener noreferrer"
-               target="_blank"
-               href="<?php echo esc_url_raw($this->zettleLink['url']); ?>">
+                rel="noopener noreferrer"
+                target="_blank"
+                href="<?php echo esc_url_raw($this->zettleLink['url']); ?>">
                 <?php echo esc_html($this->zettleLink['title']); ?></a>.
         </p>
 
@@ -89,8 +86,8 @@ class WelcomeView implements OnboardingView
         <div class="zettle-settings-onboarding-content-get-started-container columns-3">
             <div class="column">
                 <img src="<?php echo esc_url_raw("{$imgResources}/connect.jpg") ?>"
-                     alt="<?php esc_attr_e('Connect in minutes', 'paypal-point-of-sale') ?>"
-                     title="<?php esc_attr_e('Connect in minutes', 'paypal-point-of-sale') ?>">
+                    alt="<?php esc_attr_e('Connect in minutes', 'paypal-point-of-sale') ?>"
+                    title="<?php esc_attr_e('Connect in minutes', 'paypal-point-of-sale') ?>">
 
                 <h4><?php esc_html_e('Connect in minutes', 'paypal-point-of-sale') ?></h4>
                 <p>
@@ -102,8 +99,8 @@ class WelcomeView implements OnboardingView
             </div>
             <div class="column">
                 <img src="<?php echo esc_url_raw("{$imgResources}/zettle.jpg") ?>"
-                     alt="<?php esc_attr_e('Manage products in one place', 'paypal-point-of-sale') ?>"
-                     title="<?php esc_attr_e('Manage products in one place', 'paypal-point-of-sale') ?>">
+                    alt="<?php esc_attr_e('Manage products in one place', 'paypal-point-of-sale') ?>"
+                    title="<?php esc_attr_e('Manage products in one place', 'paypal-point-of-sale') ?>">
                 <h4><?php esc_html_e('Manage products in one place', 'paypal-point-of-sale') ?></h4>
                 <p>
                     <?php esc_html_e(
@@ -114,8 +111,8 @@ class WelcomeView implements OnboardingView
             </div>
             <div class="column">
                 <img src="<?php echo esc_url_raw("{$imgResources}/sync.jpg") ?>"
-                     alt="<?php esc_attr_e('Sync in real-time', 'paypal-point-of-sale') ?>"
-                     title="<?php esc_attr_e('Sync in real-time', 'paypal-point-of-sale') ?>">
+                    alt="<?php esc_attr_e('Sync in real-time', 'paypal-point-of-sale') ?>"
+                    title="<?php esc_attr_e('Sync in real-time', 'paypal-point-of-sale') ?>">
                 <h4><?php esc_html_e('Sync in real-time', 'paypal-point-of-sale') ?></h4>
                 <p>
                     <?php esc_html_e(

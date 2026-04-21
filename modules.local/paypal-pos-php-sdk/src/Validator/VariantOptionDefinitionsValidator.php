@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\Validator;
 
-// phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOptionDefinitions;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\EmptyVariantOptionCollectionException;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\EmptyVariantOptionDefinitionsException;
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\MaximumVariantOptionDefinitionsAmountException;
 
 class VariantOptionDefinitionsValidator implements ValidatorInterface
 {
-
     public const MAXIMUM_DEFINITIONS_AMOUNT = 3;
 
     /**
@@ -41,7 +40,7 @@ class VariantOptionDefinitionsValidator implements ValidatorInterface
         $emptyVariantOptions = $this->validateVariantOptionDefinitions($entity);
 
         if (!empty($emptyVariantOptions)) {
-            throw new EmptyVariantOptionCollectionException($emptyVariantOptions);
+            throw new EmptyVariantOptionCollectionException($emptyVariantOptions); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
 
         $amount = count($entity->definitions());
@@ -54,8 +53,8 @@ class VariantOptionDefinitionsValidator implements ValidatorInterface
          */
         if ($amount > self::MAXIMUM_DEFINITIONS_AMOUNT) {
             throw new MaximumVariantOptionDefinitionsAmountException(
-                self::MAXIMUM_DEFINITIONS_AMOUNT,
-                $amount
+                self::MAXIMUM_DEFINITIONS_AMOUNT, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                (int) $amount
             );
         }
 

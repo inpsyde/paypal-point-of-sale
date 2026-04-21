@@ -14,16 +14,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\Filter\FilterInterface;
  */
 class FilterableBuilder implements BuilderInterface
 {
+    private BuilderInterface $builder;
 
-    /**
-     * @var BuilderInterface
-     */
-    private $builder;
-
-    /**
-     * @var FilterInterface
-     */
-    private $filter;
+    private FilterInterface $filter;
 
     public function __construct(BuilderInterface $builder, FilterInterface $filter)
     {
@@ -33,8 +26,8 @@ class FilterableBuilder implements BuilderInterface
 
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
     public function build(string $className, $payload, ?BuilderInterface $builder = null)
     {

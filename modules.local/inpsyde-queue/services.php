@@ -18,11 +18,11 @@ use Inpsyde\Queue\Queue\Job\JobIterator;
 use Inpsyde\Queue\Queue\Job\JobRecord;
 use Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
 use Inpsyde\Queue\Queue\Job\JobRepository;
-use Inpsyde\Queue\Queue\Job\WpDbJobRepository;
 use Inpsyde\Queue\Queue\Job\NullJob;
+use Inpsyde\Queue\Queue\Job\WpDbJobRepository;
 use Inpsyde\Queue\Queue\Locker;
-use Inpsyde\Queue\Queue\Runner\AsyncRequestRunner;
 use Inpsyde\Queue\Queue\Runner\AggregateRunner;
+use Inpsyde\Queue\Queue\Runner\AsyncRequestRunner;
 use Inpsyde\Queue\Queue\Runner\Runner;
 use Inpsyde\Queue\Queue\Runner\WpCronRunner;
 use Inpsyde\Queue\Queue\Runner\WpHeartbeatRunner;
@@ -41,7 +41,7 @@ use wpdb;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
 
-    //phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
     return static function (C $container) use ($class, $parts) {
         return new $class(
             ...array_map(
@@ -54,8 +54,8 @@ $wire = static function (string ...$parts): callable {
     };
     //phpcs:enable
 };
-//phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-//phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+//phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+//phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 $scalar = static function ($thing): callable {
     return static function () use ($thing) {
         return $thing;
@@ -100,7 +100,7 @@ return [
         'inpsyde.queue.logger'
     ),
     'inpsyde.queue.exception-handler' => static function (): callable {
-        return static function (Throwable $exception) {
+        return static function (Throwable $exception): void {
             //Silence. This is intended to be overwritten/extended by clients
         };
     },
@@ -257,7 +257,7 @@ return [
         return static function (
             JobRecord $jobRecord,
             ?JobRepository $repository = null
-        ) use ($container) {
+        ) use ($container): void {
             /**
              * @var JobRepository $jobRepository
              */

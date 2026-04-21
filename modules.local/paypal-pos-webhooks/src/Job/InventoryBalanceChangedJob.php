@@ -8,18 +8,14 @@ use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Inpsyde\WcEvents\Toggle;
-use Syde\PayPal\PointOfSale\Sync\Job\SyncStockJob;
 use Psr\Log\LoggerInterface;
+use Syde\PayPal\PointOfSale\Sync\Job\SyncStockJob;
 
 class InventoryBalanceChangedJob implements Job
 {
+    public const TYPE = 'webhook-inventory-balance-changed';
 
-    const TYPE = 'webhook-inventory-balance-changed';
-
-    /**
-     * @var Toggle
-     */
-    private $toggle;
+    private Toggle $toggle;
 
     /**
      * @var callable

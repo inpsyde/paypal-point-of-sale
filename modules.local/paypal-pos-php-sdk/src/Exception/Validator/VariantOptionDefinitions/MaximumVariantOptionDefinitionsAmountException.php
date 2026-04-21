@@ -9,10 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidationErrorCodes;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 use Throwable;
 
-// phpcs:ignore Inpsyde.CodeQuality.LineLength.TooLong
+// phpcs:ignore Syde.Files.LineLength.TooLong
 class MaximumVariantOptionDefinitionsAmountException extends Exception implements ValidatorException
 {
-
     /**
      * @param int $limit                Maximum amount of VariantOptionDefinitions
      * @param int $amount               VariantOptionDefinitions amount provided

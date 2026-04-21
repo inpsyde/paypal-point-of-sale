@@ -20,9 +20,12 @@
 <!--	https://github.com/inpsyde/php-coding-standards/issues/21#issuecomment-604323233 -->
 	    <exclude-pattern>*/repositories-*.php</exclude-pattern>
 
-    	<rule ref="Inpsyde">
-			<exclude name="Inpsyde.CodeQuality.PropertyPerClassLimit.TooMuchProperties" />
-			<exclude name="Inpsyde.CodeQuality.FunctionBodyStart.WrongForMultiLineDeclaration" />
-			<exclude name="Inpsyde.CodeQuality.NoAccessors.NoSetter" />
+    	<rule ref="Syde-Extra">
+			<exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" />
+			<exclude name="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly.ReferencedGeneralException" />
+			<exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingTraversableTypeHintSpecification" />
+			<exclude name="Syde.Classes.DisallowGetterSetter" />
+			<exclude name="Syde.Files.LineLength.TooLong" />
+			<exclude name="Syde.Classes.PropertyLimit.TooManyProperties" />
 		</rule>
 </ruleset>

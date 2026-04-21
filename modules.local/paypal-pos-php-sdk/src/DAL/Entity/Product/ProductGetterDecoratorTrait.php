@@ -14,7 +14,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 
 trait ProductGetterDecoratorTrait
 {
-
     abstract protected function baseProduct(): ProductInterface;
 
     public function uuid(): string

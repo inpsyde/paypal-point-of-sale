@@ -9,5 +9,4 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class InvalidTokenPropertyException extends Exception implements NotFoundExceptionInterface
 {
-
 }

@@ -6,20 +6,11 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance;
 
 class Balance
 {
-    /**
-     * @var string
-     */
-    private $productUuid;
+    private string $productUuid;
 
-    /**
-     * @var string
-     */
-    private $variantUuid;
+    private string $variantUuid;
 
-    /**
-     * @var int
-     */
-    private $balance;
+    private int $balance;
 
     /**
      * Balance constructor.

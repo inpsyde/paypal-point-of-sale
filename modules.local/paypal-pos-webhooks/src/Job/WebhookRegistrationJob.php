@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 
 class WebhookRegistrationJob implements Job
 {
-    const TYPE = 'webhook-registration';
+    public const TYPE = 'webhook-registration';
 
     /**
      * @var callable
@@ -37,6 +37,7 @@ class WebhookRegistrationJob implements Job
         JobRepository $repository,
         LoggerInterface $logger
     ): bool {
+
         if (!($this->canRegisterWebhooks)()) {
             return true;
         }

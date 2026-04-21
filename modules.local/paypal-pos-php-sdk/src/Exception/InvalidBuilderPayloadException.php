@@ -8,9 +8,9 @@ use Exception;
 use Throwable;
 
 /**
- * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
- * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
- * phpcs:disable Inpsyde.CodeQuality.LineLength.TooLong
+ * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+ * phpcs:disable Syde.Files.LineLength.TooLong
  */
 class InvalidBuilderPayloadException extends Exception implements BuilderException, ValidatorException
 {
@@ -19,7 +19,7 @@ class InvalidBuilderPayloadException extends Exception implements BuilderExcepti
     /**
      * @var string[]
      */
-    protected $errorCodes;
+    protected array $errorCodes;
 
     /**
      * @param string[] $errorCodes Values of ValidationErrorCodes.

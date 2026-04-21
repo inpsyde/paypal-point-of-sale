@@ -11,7 +11,7 @@ abstract class AbstractBuilder
      * @param array $data
      * @return mixed|null
      */
-    // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
     protected function getDataFromKey(string $key, array $data)
     {
         // phpcs:enable

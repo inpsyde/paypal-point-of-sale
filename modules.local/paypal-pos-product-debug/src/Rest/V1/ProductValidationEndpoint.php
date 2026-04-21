@@ -23,7 +23,6 @@ use WP_REST_Server;
  */
 class ProductValidationEndpoint implements EndpointInterface
 {
-
     public const METHODS = WP_REST_Server::READABLE;
     public const VERSION = 'v1';
     public const ROUTE = '/validate';
@@ -31,7 +30,7 @@ class ProductValidationEndpoint implements EndpointInterface
     public const STRATEGY_DEFAULT = 'default';
     public const STRATEGY_LOCAL_DB_CHECK = 'local-db-check';
 
-    private $productValidator;
+    private ProductValidator $productValidator;
 
     public function __construct(ProductValidator $productValidator)
     {
@@ -75,8 +74,8 @@ class ProductValidationEndpoint implements EndpointInterface
      */
     public function args(): array
     {
-        // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-        // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+        // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+        // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
         return [
             'ids' => [
                 'type' => 'array',

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Assets;
 
+use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Onboarding\SyncCollisionStrategy;
 use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
-use Psr\Container\ContainerInterface as C;
 
 return [
     'paypal-pos.assets.sync-job-types' => static function (C $container): array {

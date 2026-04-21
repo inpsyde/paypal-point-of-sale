@@ -13,27 +13,18 @@ use Psr\Container\ContainerInterface;
 
 class ContainerLoader implements LoaderInterface
 {
+    private string $namespace;
 
-    /**
-     * @var string
-     */
-    private $namespace;
+    private ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var InitializerInterface
-     */
-    private $initializer;
+    private InitializerInterface $initializer;
 
     public function __construct(
         string $namespace,
         InitializerInterface $initializer,
         ContainerInterface $container
     ) {
+
         $this->namespace = $namespace;
         $this->initializer = $initializer;
         $this->container = $container;
@@ -48,7 +39,7 @@ class ContainerLoader implements LoaderInterface
         return $stateMachine;
     }
 
-    private function loadStates(StateMachineInterface $stateMachine)
+    private function loadStates(StateMachineInterface $stateMachine): void
     {
         $key = "{$this->namespace}.states";
         if (!$this->container->has($key)) {
@@ -63,7 +54,7 @@ class ContainerLoader implements LoaderInterface
         $this->initializer->initialize($stateMachine, ...$states);
     }
 
-    private function loadTransitions(StateMachineInterface $stateMachine)
+    private function loadTransitions(StateMachineInterface $stateMachine): void
     {
         $key = "{$this->namespace}.transitions";
         if (!$this->container->has($key)) {
@@ -77,7 +68,7 @@ class ContainerLoader implements LoaderInterface
         }
     }
 
-    private function loadGuards(StateMachineInterface $stateMachine)
+    private function loadGuards(StateMachineInterface $stateMachine): void
     {
         $guards = [
             $this->container->get("inpsyde.state-machine.guards.container-aware"),

@@ -9,20 +9,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 
 final class LocationInventory
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private string $uuid;
 
-    /**
-     * @var ProductCollection
-     */
-    private $trackedProducts;
+    private ProductCollection $trackedProducts;
 
-    /**
-     * @var LocationBalanceCollection
-     */
-    private $locationBalances;
+    private LocationBalanceCollection $locationBalances;
 
     /**
      * LocationInventory constructor.

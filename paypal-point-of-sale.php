@@ -1,6 +1,8 @@
 <?php
 
 //phpcs:disable PSR12.Files.FileHeader.IncorrectOrder
+
+
 declare(strict_types=1);
 
 /**
@@ -23,6 +25,7 @@ declare(strict_types=1);
 /**
  * phpcs:disable PSR1.Files.SideEffects
  * phpcs:disable Squiz.PHP.CommentedOutCode.Found
+ * phpcs:disable Squiz.PHP.InnerFunctions.NotAllowed
  */
 
 namespace Syde\PayPal\PointOfSale;
@@ -30,7 +33,7 @@ namespace Syde\PayPal\PointOfSale;
 use Inpsyde\Modularity\Package;
 use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
 
-(static function () {
+(static function (): void {
     /**
      * Display an error message in the WP admin
      *
@@ -38,7 +41,7 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
      *
      * @return void
      */
-    function errorNotice(string $message)
+    function errorNotice(string $message): void
     {
         add_action(
             'all_admin_notices',
@@ -114,7 +117,7 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
 
     add_action(
         'plugins_loaded',
-        static function () {
+        static function (): void {
             $package = init();
 
             if (!$package) {
@@ -135,14 +138,14 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
     );
     register_activation_hook(
         __FILE__,
-        static function () {
+        static function (): void {
             init();
             do_action('paypal-point-of-sale.activate');
         }
     );
     register_deactivation_hook(
         __FILE__,
-        static function () {
+        static function (): void {
             init();
             do_action('paypal-point-of-sale.deactivate');
         }
