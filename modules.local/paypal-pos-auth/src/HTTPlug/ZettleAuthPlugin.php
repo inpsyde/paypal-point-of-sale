@@ -185,7 +185,7 @@ class ZettleAuthPlugin implements Plugin
             );
 
         return $first($authRequest)->then(
-            function (ResponseInterface $response) use ($grant) {
+            function (ResponseInterface $response) {
                 if ($response->getStatusCode() !== 200) {
                     $body = $response->getBody();
                     $body->rewind();

@@ -196,7 +196,7 @@ return [
      * It is important that these are separate instances, even if they have the same configuration
      */
     'paypal-pos.sync.queue-processor.cli' =>
-        static function (C $container) use ($job): QueueProcessor {
+        static function (C $container): QueueProcessor {
             $processorBuilder = new ProcessorBuilder(
                 $container->get('inpsyde.queue.factory')
             );
@@ -208,7 +208,7 @@ return [
                 ->build();
         },
     'paypal-pos.sync.queue-processor.job.factory' =>
-        static function (C $container) use ($job): callable {
+        static function (C $container): callable {
             return static function () use ($container): QueueProcessor {
                 $processorBuilder = new ProcessorBuilder(
                     $container->get('inpsyde.queue.factory')
@@ -226,7 +226,7 @@ return [
             echo $exception;
         };
     },
-    'paypal-pos.sync.cli.sync-product' => static function (C $container) use ($job): SyncCommand {
+    'paypal-pos.sync.cli.sync-product' => static function (C $container): SyncCommand {
         return new SyncCommand(
             $container->get('paypal-pos.sync.queue-processor.cli'),
             $container->get('inpsyde.queue.create-job-record')
@@ -240,7 +240,7 @@ return [
             $container->get('inpsyde.queue.logger')
         );
     },
-    'paypal-pos.sync.cli.export' => static function (C $container) use ($job): ExportCommand {
+    'paypal-pos.sync.cli.export' => static function (C $container): ExportCommand {
         return new ExportCommand(
             $container->get('paypal-pos.sync.queue-processor.cli'),
             $container->get('inpsyde.queue.create-job-record')

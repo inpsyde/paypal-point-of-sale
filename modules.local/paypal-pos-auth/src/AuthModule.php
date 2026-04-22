@@ -48,7 +48,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 
         add_action(
             'inpsyde.zettle.settings.updated',
-            static function (array $changed) use ($container): void {
+            static function (array $changed): void {
                 if (empty($changed)) {
                     return;
                 }
@@ -88,7 +88,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
 
         add_action(
             'woocommerce_init',
-            static function () use ($container) {
+            static function () {
             }
         );
 
