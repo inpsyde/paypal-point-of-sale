@@ -76,7 +76,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a function, false otherwise.
+     * @return bool True if the callable represents a function, false otherwise.
      */
     protected function isFunctionCallable(callable $callable): bool
     {
@@ -88,7 +88,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a closure object, false otherwise.
+     * @return bool True if the callable represents a closure object, false otherwise.
      */
     protected function isClosureCallable(callable $callable): bool
     {
@@ -99,7 +99,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a method object, false otherwise.
+     * @return bool True if the callable represents a method object, false otherwise.
      */
     protected function isObjectCallable(callable $callable): bool
     {
@@ -120,7 +120,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a static method, false otherwise.
+     * @return bool True if the callable represents a static method, false otherwise.
      */
     protected function isClassCallable($callable): bool
     {
@@ -131,7 +131,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents an invokable object, false otherwise.
+     * @return bool True if the callable represents an invokable object, false otherwise.
      */
     private function isInvokable(callable $callable): bool
     {

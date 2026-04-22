@@ -30,7 +30,7 @@ interface ContextInterface
     public function retryCount(): int;
     /**
      * Returns a new instance of ContextInterface with the retry count incremented by 1
-     * @return $this
+     * @return static
      */
     public function withIncrementedRetryCount(): self;
 }

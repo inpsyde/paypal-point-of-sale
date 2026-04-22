@@ -160,7 +160,7 @@ class ProductHooks
                  * we inject a little meta flag into the product, so it can later be checked against
                  * @psalm-suppress InvalidArgument
                  */
-                $new->update_meta_data(ProductEventListenerRegistry::DELETE_FLAG, \true);
+                $new->update_meta_data(ProductEventListenerRegistry::DELETE_FLAG, wc_bool_to_string(\true));
             }
             $this->afterSave($new, $old);
         };

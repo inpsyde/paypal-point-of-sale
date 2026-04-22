@@ -22,7 +22,7 @@ class Subscriptions
         $this->webhookFactory = $webhookFactory;
     }
     /**
-     * @return ZettleWebhook[]
+     * @return Webhook[]
      *
      * @throws WebhookException|ZettleRestException
      */

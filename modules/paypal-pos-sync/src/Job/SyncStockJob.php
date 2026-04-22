@@ -225,7 +225,7 @@ class SyncStockJob implements Job
      * @param WC_Product $product
      * @param LoggerInterface $logger
      *
-     * @return string[]
+     * @return array<string, int>
      *
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh

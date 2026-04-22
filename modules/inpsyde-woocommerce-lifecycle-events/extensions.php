@@ -13,15 +13,21 @@ return ['inpsyde.wc-lifecycle-events.products.listener-provider' => static funct
      * The following hooks are temporarily left here for testing and
      * debugging purposes. They should be removed later.
      */
-    $provider->onChange(static function (WC_Product $new, WC_Product $old): void {
-        $success = 'Some product has changed!';
-    }, static function (WC_Product_Simple $new, WC_Product_Simple $old): void {
-        $success = 'A simple product has changed!';
-    }, static function (WC_Product_Variable $new, WC_Product_Variable $old): void {
-        $oldChildren = $old->get_children();
-        $newChildren = $new->get_children();
-        $success = 'A variable product has changed!';
-    });
+    $provider->onChange(
+        static function (WC_Product $new, WC_Product $old): void {
+            $success = 'Some product has changed!';
+        },
+        // @phpstan-ignore argument.type
+        static function (WC_Product_Simple $new, WC_Product_Simple $old): void {
+            $success = 'A simple product has changed!';
+        },
+        // @phpstan-ignore argument.type
+        static function (WC_Product_Variable $new, WC_Product_Variable $old): void {
+            $oldChildren = $old->get_children();
+            $newChildren = $new->get_children();
+            $success = 'A variable product has changed!';
+        }
+    );
     $provider->onPublish(static function (WC_Product $new, WC_Product $old): void {
         $success = 'A product was published!';
     });
