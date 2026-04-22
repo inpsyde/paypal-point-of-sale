@@ -233,7 +233,8 @@ class ProductEventListenerRegistry
     {
         foreach ($callables as $callable) {
             $this->listeners[] = function (WC_Product $new, WC_Product $old) use ($callable): void {
-                if ($new->get_meta(self::DELETE_FLAG) !== true) {
+                $deleteFlag = $new->get_meta(self::DELETE_FLAG);
+                if ((is_string($deleteFlag) || is_bool($deleteFlag)) && !wc_string_to_bool($deleteFlag)) {
                     return;
                 }
                 $this->createTypeMatchingGuard($callable)($new, $old);
