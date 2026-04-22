@@ -128,7 +128,7 @@ class UnlinkImages implements Job
     private function removeFromProduct(WC_Product $product, LoggerInterface $logger): void
     {
         $attachmentId = (int) $product->get_image_id();
-        if ($attachmentId === null) {
+        if ($attachmentId === 0) {
             $logger->warning(sprintf('No attachment image ID found in %s %d', get_class($product), $product->get_id()));
             return;
         }

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image;
 
+use OutOfBoundsException;
 final class ImageCollection
 {
     /**
@@ -47,6 +48,7 @@ final class ImageCollection
                 return $item;
             }
         }
+        throw new OutOfBoundsException('Image "' . esc_html($imageLookupkey) . '" not found.');
     }
     /**
      * @return ImageInterface[]

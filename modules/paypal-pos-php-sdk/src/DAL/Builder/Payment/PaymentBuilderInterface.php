@@ -13,10 +13,5 @@ interface PaymentBuilderInterface extends BuilderInterface
      * @return AbstractPaymentMethod
      */
     public function buildFromArray(array $data): AbstractPaymentMethod;
-    /**
-     * @param AbstractPaymentMethod $paymentMethod
-     *
-     * @return array
-     */
     public function createDataArray(AbstractPaymentMethod $paymentMethod): array;
 }

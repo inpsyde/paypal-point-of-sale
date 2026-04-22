@@ -35,18 +35,14 @@ final class VariantCollection
         unset($this->collection[spl_object_hash($variant)]);
         return $this;
     }
-    /**
-     * @param string $uuid
-     *
-     * @return VariantInterface
-     */
-    public function get(string $uuid): VariantInterface
+    public function get(string $uuid): ?VariantInterface
     {
         foreach ($this->collection as $item) {
             if ((string) $item->uuid() === $uuid) {
                 return $item;
             }
         }
+        return null;
     }
     /**
      * @return Variant[]

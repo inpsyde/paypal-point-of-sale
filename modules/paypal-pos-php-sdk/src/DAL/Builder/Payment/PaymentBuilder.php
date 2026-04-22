@@ -21,16 +21,17 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
     /**
      * @inheritDoc
      */
-    public function createDataArray(AbstractPaymentMethod $payment): array
+    public function createDataArray(AbstractPaymentMethod $paymentMethod): array
     {
-        if (!in_array($payment->type()->getValue(), PaymentType::getValidOptions(), \true)) {
-            throw new InvalidPaymentTypeException(sprintf('Given Payment Entity has no valid Payment Type: %s', esc_html($payment->type()->getValue())));
+        if (!in_array($paymentMethod->type()->getValue(), PaymentType::getValidOptions(), \true)) {
+            throw new InvalidPaymentTypeException(sprintf('Given Payment Entity has no valid Payment Type: %s', esc_html($paymentMethod->type()->getValue())));
         }
         foreach ($this->paymentHandlers as $paymentHandler) {
-            if ($paymentHandler->accepts($payment->type()->getValue())) {
-                return $paymentHandler->serialize($payment);
+            if ($paymentHandler->accepts($paymentMethod->type()->getValue())) {
+                return $paymentHandler->serialize($paymentMethod);
             }
         }
+        throw new InvalidPaymentTypeException('No Payment Handler for Payment Type: ' . esc_html($paymentMethod->type()->getValue()));
     }
     /**
      * @inheritDoc
@@ -38,12 +39,13 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
     public function buildFromArray(array $data): AbstractPaymentMethod
     {
         if (!in_array($data['type'], PaymentType::getValidOptions(), \true)) {
-            throw new InvalidPaymentTypeException(sprintf('Given Payment Entity has no valid Payment Type: %s', esc_html($data['type'])));
+            throw new InvalidPaymentTypeException('Given Payment Entity has no valid Payment Type: ' . esc_html($data['type']));
         }
         foreach ($this->paymentHandlers as $paymentHandler) {
             if ($paymentHandler->accepts($data['type'])) {
                 return $paymentHandler->deserialize($data);
             }
         }
+        throw new InvalidPaymentTypeException('No Payment Handler for Payment Type: ' . esc_html($data['type']));
     }
 }

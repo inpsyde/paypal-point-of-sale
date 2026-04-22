@@ -35,18 +35,14 @@ final class ProductCollection
         unset($this->collection[spl_object_hash($product)]);
         return $this;
     }
-    /**
-     * @param string $uuid
-     *
-     * @return ProductInterface
-     */
-    public function get(string $uuid): ProductInterface
+    public function get(string $uuid): ?ProductInterface
     {
         foreach ($this->collection as $item) {
-            if ($item->uuid() === (string) $uuid) {
+            if ($item->uuid() === $uuid) {
                 return $item;
             }
         }
+        return null;
     }
     /**
      * @return ProductInterface[]

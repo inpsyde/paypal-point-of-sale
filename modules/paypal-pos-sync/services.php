@@ -108,11 +108,11 @@ return [
      * Configure 2 separate Queue processors.
      * It is important that these are separate instances, even if they have the same configuration
      */
-    'paypal-pos.sync.queue-processor.cli' => static function (C $container) use ($job): QueueProcessor {
+    'paypal-pos.sync.queue-processor.cli' => static function (C $container): QueueProcessor {
         $processorBuilder = new ProcessorBuilder($container->get('inpsyde.queue.factory'));
         return $processorBuilder->withLogger($container->get('inpsyde.queue.logger'))->withExceptionHandler($container->get('paypal-pos.sync.queue-processor.cli.exception-handler'))->withMaxRetriesCount($container->get('inpsyde.queue.failed.retry.count'))->build();
     },
-    'paypal-pos.sync.queue-processor.job.factory' => static function (C $container) use ($job): callable {
+    'paypal-pos.sync.queue-processor.job.factory' => static function (C $container): callable {
         return static function () use ($container): QueueProcessor {
             $processorBuilder = new ProcessorBuilder($container->get('inpsyde.queue.factory'));
             return $processorBuilder->withLogger($container->get('inpsyde.queue.logger'))->withMaxRetriesCount($container->get('inpsyde.queue.failed.retry.count'))->build();
@@ -124,13 +124,13 @@ return [
             echo $exception;
         };
     },
-    'paypal-pos.sync.cli.sync-product' => static function (C $container) use ($job): SyncCommand {
+    'paypal-pos.sync.cli.sync-product' => static function (C $container): SyncCommand {
         return new SyncCommand($container->get('paypal-pos.sync.queue-processor.cli'), $container->get('inpsyde.queue.create-job-record'));
     },
     'paypal-pos.sync.cli.unlink-product' => static function (C $container) use ($job): UnlinkCommand {
         return new UnlinkCommand($container->get($job(UnlinkProductJob::TYPE)), $container->get($job(UnlinkVariantJob::TYPE)), $container->get($job(UnlinkImages::TYPE)), $container->get('inpsyde.queue.logger'));
     },
-    'paypal-pos.sync.cli.export' => static function (C $container) use ($job): ExportCommand {
+    'paypal-pos.sync.cli.export' => static function (C $container): ExportCommand {
         return new ExportCommand($container->get('paypal-pos.sync.queue-processor.cli'), $container->get('inpsyde.queue.create-job-record'));
     },
     'paypal-pos.sync.cli.reset' => static function (C $container) use ($job): ResetCommand {
