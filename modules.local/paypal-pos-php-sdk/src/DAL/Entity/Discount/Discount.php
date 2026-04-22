@@ -154,10 +154,7 @@ class Discount
         return $this;
     }
 
-    /**
-     * @return Price|null
-     */
-    public function amount(): ?float
+    public function amount(): ?Price
     {
         return $this->amount;
     }

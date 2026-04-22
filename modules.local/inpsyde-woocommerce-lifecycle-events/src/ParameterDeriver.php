@@ -10,6 +10,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionObject;
 use RuntimeException;
 
@@ -60,7 +61,7 @@ class ParameterDeriver
                 throw new InvalidArgumentException('Listeners must declare a sufficient amount of parameters.');
             }
             $rType = $params[$param]->getType();
-            if ($rType === null) {
+            if (!$rType instanceof ReflectionNamedType) {
                 throw new InvalidArgumentException('Listeners must declare an object type they can accept.');
             }
             $type = $rType->getName();

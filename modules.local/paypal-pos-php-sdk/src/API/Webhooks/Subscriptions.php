@@ -83,7 +83,7 @@ class Subscriptions
      */
     public function update(Webhook $webhook): void
     {
-        $uuid = $webhook->uuid()->toString();
+        $uuid = $webhook->uuid();
 
         $payload = [
             'transportName' => ZettleWebhook::TRANSPORT_NAME,

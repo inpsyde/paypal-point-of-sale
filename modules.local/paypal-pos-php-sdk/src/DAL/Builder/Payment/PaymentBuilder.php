@@ -39,6 +39,8 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
                 return $paymentHandler->serialize($payment);
             }
         }
+
+        throw new InvalidPaymentTypeException('No Payment Handler for Payment Type: ' . esc_html($payment->type()->getValue()));
     }
 
     /**
@@ -47,10 +49,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
     public function buildFromArray(array $data): AbstractPaymentMethod
     {
         if (!in_array($data['type'], PaymentType::getValidOptions(), true)) {
-            throw new InvalidPaymentTypeException(sprintf(
-                'Given Payment Entity has no valid Payment Type: %s',
-                esc_html($data['type'])
-            ));
+            throw new InvalidPaymentTypeException('Given Payment Entity has no valid Payment Type: ' . esc_html($data['type']));
         }
 
         foreach ($this->paymentHandlers as $paymentHandler) {
@@ -58,5 +57,7 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
                 return $paymentHandler->deserialize($data);
             }
         }
+
+        throw new InvalidPaymentTypeException('No Payment Handler for Payment Type: ' . esc_html($data['type']));
     }
 }
