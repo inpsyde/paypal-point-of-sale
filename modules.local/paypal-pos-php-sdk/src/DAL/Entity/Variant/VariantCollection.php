@@ -11,17 +11,10 @@ final class VariantCollection
      */
     private array $collection = [];
 
-    /**
-     * VariantCollection constructor.
-     *
-     * @param VariantInterface[] $variants
-     */
     public function __construct(VariantInterface ...$variants)
     {
         foreach ($variants as $variant) {
-            if ($variant instanceof VariantInterface) {
-                $this->add($variant);
-            }
+            $this->add($variant);
         }
     }
 

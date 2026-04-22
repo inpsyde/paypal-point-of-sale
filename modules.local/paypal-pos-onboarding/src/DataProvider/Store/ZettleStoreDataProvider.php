@@ -90,6 +90,5 @@ class ZettleStoreDataProvider implements StoreDataProvider
     {
         // TODO: if later we retrieve tax rates from Zettle, could be a good idea to check that they match
         throw new Exception('Not implemented');
-        return [];
     }
 }
