@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Cli;
 
 use Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
-use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\ZettleWebhook;
+use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Webhook;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Subscriptions;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
@@ -81,7 +81,7 @@ class WebhookCommand
             $result = $this->subscriptions->list();
 
             $table = array_map(
-                static function (ZettleWebhook $webhook): array {
+                static function (Webhook $webhook): array {
                     $status = 'UNREGISTERED';
 
                     if ($webhook instanceof RegisteredWebhook) {
