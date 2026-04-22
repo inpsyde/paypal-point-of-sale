@@ -47,7 +47,7 @@ class ImageBuilder implements BuilderInterface
     /**
      * @param string $url
      *
-     * @return ConcreteImage
+     * @return string
      * @throws UnexpectedImageUrlException
      */
     private function lookupKeyFromZettleUrl(string $url): string

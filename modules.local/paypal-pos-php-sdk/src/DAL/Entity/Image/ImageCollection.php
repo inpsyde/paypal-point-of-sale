@@ -11,11 +11,6 @@ final class ImageCollection
      */
     private array $collection = [];
 
-    /**
-     * ImageCollection constructor.
-     *
-     * @param ImageInterface[] $images
-     */
     public function __construct(ImageInterface ...$images)
     {
         foreach ($images as $image) {

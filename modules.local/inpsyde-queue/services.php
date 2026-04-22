@@ -258,9 +258,6 @@ return [
             JobRecord $jobRecord,
             ?JobRepository $repository = null
         ) use ($container): void {
-            /**
-             * @var JobRepository $jobRepository
-             */
             $repository = $repository ?? $container->get('inpsyde.queue.repository');
             assert($repository instanceof JobRepository);
             $repository->add($jobRecord);

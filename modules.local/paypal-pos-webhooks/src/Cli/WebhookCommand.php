@@ -21,10 +21,7 @@ class WebhookCommand
 {
     private Subscriptions $subscriptions;
 
-    /**
-     * @var callable
-     */
-    private $webhookStorage;
+    private WebhookStorageInterface $webhookStorage;
 
     private WebhookRegistration $webhookRegistration;
 

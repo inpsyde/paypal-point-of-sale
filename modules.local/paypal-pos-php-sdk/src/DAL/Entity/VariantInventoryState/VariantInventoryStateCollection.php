@@ -27,11 +27,6 @@ class VariantInventoryStateCollection
         }
     }
 
-    /**
-     * @param VariantInventoryState $variantInventoryState
-     *
-     * @return VariantInventoryState
-     */
     public function add(VariantInventoryState $variantInventoryState): self
     {
         $this->collection[(string) $variantInventoryState->variantUuid()] = $variantInventoryState;
@@ -39,11 +34,6 @@ class VariantInventoryStateCollection
         return $this;
     }
 
-    /**
-     * @param VariantInventoryState $variantInventoryState
-     *
-     * @return VariantInventoryState
-     */
     public function remove(VariantInventoryState $variantInventoryState): self
     {
         unset($this->collection[(string) $variantInventoryState->variantUuid()]);
@@ -74,9 +64,6 @@ class VariantInventoryStateCollection
         return $this->collection;
     }
 
-    /**
-     * @return VariantInventoryState
-     */
     public function reset(): self
     {
         $this->collection = [];

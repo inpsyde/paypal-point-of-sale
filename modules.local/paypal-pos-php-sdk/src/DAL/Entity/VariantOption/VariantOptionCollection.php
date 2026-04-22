@@ -11,11 +11,6 @@ class VariantOptionCollection
      */
     private array $collection = [];
 
-    /**
-     * VariantOptionCollection constructor.
-     *
-     * @param VariantOption[] $variantOptions
-     */
     public function __construct(VariantOption ...$variantOptions)
     {
         foreach ($variantOptions as $variantOption) {

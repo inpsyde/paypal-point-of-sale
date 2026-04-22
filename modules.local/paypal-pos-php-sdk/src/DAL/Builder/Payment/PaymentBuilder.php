@@ -17,11 +17,6 @@ final class PaymentBuilder extends AbstractBuilder implements PaymentBuilderInte
      */
     private array $paymentHandlers;
 
-    /**
-     * Payment constructor.
-     *
-     * @param PaymentHandlerInterface[] $paymentHandlers
-     */
     public function __construct(PaymentHandlerInterface ...$paymentHandlers)
     {
         $this->paymentHandlers = $paymentHandlers;

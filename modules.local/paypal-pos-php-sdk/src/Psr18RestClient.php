@@ -30,16 +30,6 @@ class Psr18RestClient implements RestClientInterface
      */
     private array $listeners;
 
-    /**
-     * Psr18RestClient constructor.
-     *
-     * @param LoggerInterface $logger
-     * @param ClientInterface $client
-     * @param UriFactoryInterface $uriFactory
-     * @param RequestFactoryInterface $requestFactory
-     * @param StreamFactoryInterface $streamFactory
-     * @param callable[] $listeners
-     */
     public function __construct(
         LoggerInterface $logger,
         ClientInterface $client,

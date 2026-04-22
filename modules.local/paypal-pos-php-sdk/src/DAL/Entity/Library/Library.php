@@ -56,10 +56,7 @@ final class Library
         return $this->untilEventLogUuid;
     }
 
-    /**
-     * @return string|null
-     */
-    public function fromEventLogUuid(): ?string
+    public function fromEventLogUuid(): string
     {
         return $this->fromEventLogUuid;
     }

@@ -62,8 +62,6 @@ class AsyncRequestRunner implements Runner
                 continue;
             }
 
-            assert(is_string($cookieName));
-
             $cookies[] = new WP_Http_Cookie(
                 [
                     'name' => $cookieName,

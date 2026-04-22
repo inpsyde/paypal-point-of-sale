@@ -11,11 +11,6 @@ final class ProductCollection
      */
     private array $collection = [];
 
-    /**
-     * ProductCollection constructor.
-     *
-     * @param array $products
-     */
     public function __construct(ProductInterface ...$products)
     {
         foreach ($products as $product) {

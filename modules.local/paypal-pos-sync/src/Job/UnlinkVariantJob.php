@@ -22,7 +22,7 @@ class UnlinkVariantJob implements Job
     /**
      * VariantRepository constructor.
      *
-     * @param OneToOneMapInterface|MapRecordCreator $variantMap
+     * @param OneToOneMapInterface&MapRecordCreator $variantMap
      */
     public function __construct(
         OneToOneMapInterface $variantMap

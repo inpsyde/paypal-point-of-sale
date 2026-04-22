@@ -59,7 +59,7 @@ class Inventory
     }
 
     /**
-     * @param Transaction[] $transactions
+     * @param Transaction ...$transactions
      *
      * @throws ZettleRestException
      */

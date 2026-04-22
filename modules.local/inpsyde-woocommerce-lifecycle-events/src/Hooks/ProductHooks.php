@@ -351,12 +351,12 @@ class ProductHooks
      * Returns a function that will ensure its inner $callable is called with a
      * WC_Product instance as its first parameter
      *
-     * @param callable(WC_Product):void $callable
+     * @param callable(WC_Product): void $callable
      *
      * @param int $argPosition
      * The position of the WC_Product instance|id in the 'outer' callback signature
      *
-     * @return callable:void
+     * @return callable(): void
      */
     private function createWcProductGuard(callable $callable, int $argPosition = 0): callable
     {

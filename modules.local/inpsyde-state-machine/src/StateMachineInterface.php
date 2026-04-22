@@ -11,9 +11,6 @@ use Inpsyde\StateMachine\Transition\TransitionInterface;
 
 interface StateMachineInterface
 {
-    /**
-     * @param string $initialStateName
-     */
     public function initialize(string $initialStateName): void;
 
     /**
@@ -24,11 +21,6 @@ interface StateMachineInterface
      */
     public function handle($event);
 
-    /**
-     * @param TransitionInterface $transition
-     *
-     * @return mixed
-     */
     public function addTransition(TransitionInterface $transition): StateMachineInterface;
 
     public function addState(StateInterface $state): StateMachineInterface;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
-use Http\Message\UriFactory;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
@@ -402,7 +402,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.oauth.users' => static function (C $container): Users {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -414,7 +414,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.oauth.organizations' => static function (C $container): Organizations {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -456,7 +456,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.products' => static function (C $container): Products {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -471,7 +471,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.images' => static function (C $container): Images {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -488,7 +488,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.webhooks' => static function (C $container): Subscriptions {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -503,7 +503,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.inventory' => static function (C $container): Inventory {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -517,7 +517,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.taxes' => static function (C $container): Taxes {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -529,7 +529,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.inventory.locations' => static function (C $container): Locations {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 

@@ -11,11 +11,6 @@ class NoticeDelegator
      */
     private array $notices;
 
-    /**
-     * NoticeDelegator constructor.
-     *
-     * @param NoticeInterface[] $notices
-     */
     public function __construct(NoticeInterface ...$notices)
     {
         $this->notices = $notices;
