@@ -1,0 +1,70 @@
+<?php
+
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Loader;
+
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Guard\GuardInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer\InitializerInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+class ContainerLoader implements LoaderInterface
+{
+    private string $namespace;
+    private ContainerInterface $container;
+    private InitializerInterface $initializer;
+    public function __construct(string $namespace, InitializerInterface $initializer, ContainerInterface $container)
+    {
+        $this->namespace = $namespace;
+        $this->initializer = $initializer;
+        $this->container = $container;
+    }
+    public function load(StateMachineInterface $stateMachine): StateMachineInterface
+    {
+        $this->loadStates($stateMachine);
+        $this->loadTransitions($stateMachine);
+        $this->loadGuards($stateMachine);
+        return $stateMachine;
+    }
+    private function loadStates(StateMachineInterface $stateMachine): void
+    {
+        $key = "{$this->namespace}.states";
+        if (!$this->container->has($key)) {
+            return;
+        }
+        $states = $this->container->get($key);
+        assert(is_array($states));
+        foreach ($states as $state) {
+            assert($state instanceof StateInterface);
+            $stateMachine->addState($state);
+        }
+        $this->initializer->initialize($stateMachine, ...$states);
+    }
+    private function loadTransitions(StateMachineInterface $stateMachine): void
+    {
+        $key = "{$this->namespace}.transitions";
+        if (!$this->container->has($key)) {
+            return;
+        }
+        $states = $this->container->get($key);
+        assert(is_array($states));
+        foreach ($states as $state) {
+            assert($state instanceof TransitionInterface);
+            $stateMachine->addTransition($state);
+        }
+    }
+    private function loadGuards(StateMachineInterface $stateMachine): void
+    {
+        $guards = [$this->container->get("inpsyde.state-machine.guards.container-aware")];
+        $key = "{$this->namespace}.guards";
+        if ($this->container->has($key)) {
+            $guards = $this->container->get($key);
+        }
+        assert(is_array($guards));
+        foreach ($guards as $guard) {
+            assert($guard instanceof GuardInterface);
+            $stateMachine->addGuard($guard);
+        }
+    }
+}
