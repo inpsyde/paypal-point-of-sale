@@ -139,7 +139,7 @@ class ZettleAuthPlugin implements Plugin
 
                 return $response;
             },
-            static function (ClientExceptionInterface $exception) use ($request, $next, $first) {
+            static function (ClientExceptionInterface $exception) use ($request, $first) {
                 //TODO: This block is unimplemented and is merely a draft
                 if ($exception->getCode() !== 401) {
                     throw $exception;
