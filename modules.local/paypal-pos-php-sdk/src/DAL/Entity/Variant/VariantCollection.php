@@ -54,7 +54,7 @@ final class VariantCollection
     }
 
     /**
-     * @return Variant[]
+     * @return VariantInterface[]
      */
     public function all(): array
     {

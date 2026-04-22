@@ -32,7 +32,7 @@ class Subscriptions
     }
 
     /**
-     * @return ZettleWebhook[]
+     * @return Webhook[]
      *
      * @throws WebhookException|ZettleRestException
      */

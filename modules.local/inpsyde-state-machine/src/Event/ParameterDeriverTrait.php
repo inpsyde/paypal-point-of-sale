@@ -78,7 +78,7 @@ trait ParameterDeriverTrait
      * Or at least a reasonable approximation, since a function name may not be defined yet.
      *
      * @param callable $callable
-     * @return True if the callable represents a function, false otherwise.
+     * @return bool True if the callable represents a function, false otherwise.
      */
     protected function isFunctionCallable(callable $callable): bool
     {
@@ -90,7 +90,7 @@ trait ParameterDeriverTrait
      * Determines if a callable represents a closure/anonymous function.
      *
      * @param callable $callable
-     * @return True if the callable represents a closure object, false otherwise.
+     * @return bool True if the callable represents a closure object, false otherwise.
      */
     protected function isClosureCallable(callable $callable): bool
     {
@@ -101,7 +101,7 @@ trait ParameterDeriverTrait
      * Determines if a callable represents a method on an object.
      *
      * @param callable $callable
-     * @return True if the callable represents a method object, false otherwise.
+     * @return bool True if the callable represents a method object, false otherwise.
      */
     protected function isObjectCallable(callable $callable): bool
     {
@@ -122,7 +122,7 @@ trait ParameterDeriverTrait
      * the callable type hint but it would pass `is_callable()`.  Because PHP.
      *
      * @param callable $callable
-     * @return True if the callable represents a static method, false otherwise.
+     * @return bool True if the callable represents a static method, false otherwise.
      *
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
@@ -137,7 +137,7 @@ trait ParameterDeriverTrait
      * Determines if a callable is a class that has __invoke() method
      *
      * @param callable $callable
-     * @return True if the callable represents an invokable object, false otherwise.
+     * @return bool True if the callable represents an invokable object, false otherwise.
      */
     private function isInvokable(callable $callable): bool
     {
