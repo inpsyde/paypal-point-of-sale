@@ -1,0 +1,27 @@
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/swissspidy/phpstan-no-private/rules.neon
+parameters:
+    level: 5
+    reportUnmatchedIgnoredErrors: false
+    scanFiles:
+        - .psalm/stubs.php
+        - vendor/inpsyde/wp-stubs-versions/latest.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    paths:
+        - src/
+        - modules.local/
+        - packages.local/
+        - bootstrap.php
+        - modules.php
+        - uninstall.php
+        - paypal-point-of-sale.php
+    excludePaths:
+        - modules.local/*/tests/*
+        - modules.local/*/vendor/*
+        - modules.local/*/assets/*
+        - modules.local/*/resources/*
+        - modules.local/*/node_modules/*
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - identifier: missingType.iterableValue

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4abf7116acee3d7ff506d043a9202972",
+    "content-hash": "c34c8b93dcdf44ddd697b02f3a8694d8",
     "packages": [
         {
             "name": "brain/nonces",
@@ -472,7 +472,7 @@
         },
         {
             "name": "inpsyde/inpsyde-debug",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-debug",
@@ -506,7 +506,7 @@
         },
         {
             "name": "inpsyde/inpsyde-http-client",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-http-client",
@@ -533,7 +533,7 @@
         },
         {
             "name": "inpsyde/inpsyde-queue",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-queue",
@@ -566,7 +566,7 @@
         },
         {
             "name": "inpsyde/inpsyde-state-machine",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-state-machine",
@@ -598,7 +598,7 @@
         },
         {
             "name": "inpsyde/inpsyde-woocommerce-lifecycle-events",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-woocommerce-lifecycle-events",
@@ -765,7 +765,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-assets",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-assets",
@@ -787,7 +787,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-auth",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-auth",
@@ -814,11 +814,11 @@
         },
         {
             "name": "inpsyde/paypal-pos-logging",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-logging",
-                "reference": "b19d1f4680e00526a7f260dfc87e29a8aad5876b"
+                "reference": "52cabdd308b25e2bb658ebd5f427fa05295dbf79"
             },
             "require": {
                 "ext-json": "*",
@@ -826,6 +826,7 @@
                 "psr/log": "^1.1"
             },
             "require-dev": {
+                "brain/monkey": "2.*",
                 "brianium/paratest": "^4.0 || ^6.0",
                 "mockery/mockery": "^1.0",
                 "phpunit/phpunit": "^8.0 || ^9.0"
@@ -850,7 +851,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-notices",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-notices",
@@ -871,7 +872,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-onboarding",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-onboarding",
@@ -906,7 +907,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-php-sdk",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-php-sdk",
@@ -944,7 +945,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-product-debug",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-product-debug",
@@ -965,7 +966,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-product-settings",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-product-settings",
@@ -987,7 +988,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-queue",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-queue",
@@ -1009,7 +1010,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-settings",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-settings",
@@ -1030,7 +1031,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-sync",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-sync",
@@ -1052,7 +1053,7 @@
         },
         {
             "name": "inpsyde/paypal-pos-webhooks",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-webhooks",
@@ -1163,7 +1164,7 @@
         },
         {
             "name": "inpsyde/wc-product-contracts",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./packages.local/wc-product-contracts",
@@ -1194,7 +1195,7 @@
         },
         {
             "name": "inpsyde/wc-status-report",
-            "version": "dev-dev/IZET-543-fix-phpcs",
+            "version": "dev-dev/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": "./modules.local/inpsyde-wc-status-report",
@@ -2423,16 +2424,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v7.4.0",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "b38026df55197f9e39a44f3215788edf83187b80"
+                "reference": "2888fcdc4dc2fd5f7c7397be78631e8af12e02b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/b38026df55197f9e39a44f3215788edf83187b80",
-                "reference": "b38026df55197f9e39a44f3215788edf83187b80",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/2888fcdc4dc2fd5f7c7397be78631e8af12e02b4",
+                "reference": "2888fcdc4dc2fd5f7c7397be78631e8af12e02b4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2476,7 +2477,7 @@
                 "options"
             ],
             "support": {
-                "source": "https://github.com/symfony/options-resolver/tree/v7.4.0"
+                "source": "https://github.com/symfony/options-resolver/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -2496,20 +2497,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-12T15:39:26+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.33.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "0cc9dd0f17f61d8131e7df6b84bd344899fe2608"
+                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/0cc9dd0f17f61d8131e7df6b84bd344899fe2608",
-                "reference": "0cc9dd0f17f61d8131e7df6b84bd344899fe2608",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
+                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2566,7 +2567,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -2586,20 +2587,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-02T08:10:11+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/polyfill-uuid",
-            "version": "v1.33.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-uuid.git",
-                "reference": "21533be36c24be3f4b1669c4725c7d1d2bab4ae2"
+                "reference": "26dfec253c4cf3e51b541b52ddf7e42cb0908e94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/21533be36c24be3f4b1669c4725c7d1d2bab4ae2",
-                "reference": "21533be36c24be3f4b1669c4725c7d1d2bab4ae2",
+                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/26dfec253c4cf3e51b541b52ddf7e42cb0908e94",
+                "reference": "26dfec253c4cf3e51b541b52ddf7e42cb0908e94",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2655,7 +2656,7 @@
                 "uuid"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-uuid/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-uuid/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -2675,7 +2676,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T11:45:10+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/uid",
@@ -3990,6 +3991,23 @@
             "time": "2025-04-30T06:54:44+00:00"
         },
         {
+            "name": "inpsyde/wp-stubs-versions",
+            "version": "dev-latest",
+            "dist": {
+                "type": "file",
+                "url": "https://raw.githubusercontent.com/inpsyde/wp-stubs/66228ab34637d6e7091978b82c495474f18bdb0d/stubs/latest.php",
+                "reference": "66228ab34637d6e7091978b82c495474f18bdb0d",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "library",
+            "notification-url": "https://repo.packagist.com/inpsyde/downloads/"
+        },
+        {
             "name": "mockery/mockery",
             "version": "1.6.12",
             "source": {
@@ -5096,6 +5114,121 @@
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.2"
             },
             "time": "2026-01-25T14:56:51+00:00"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "version": "2.1.51",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/dc3b523c45e714c70de2ac5113b958223b55dc59",
+                "reference": "dc3b523c45e714c70de2ac5113b958223b55dc59",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7.4|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
+            "support": {
+                "docs": "https://phpstan.org/user-guide/getting-started",
+                "forum": "https://github.com/phpstan/phpstan/discussions",
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "security": "https://github.com/phpstan/phpstan/security/policy",
+                "source": "https://github.com/phpstan/phpstan-src"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-04-21T18:22:01+00:00"
+        },
+        {
+            "name": "phpstan/phpstan-deprecation-rules",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
+                "reference": "6b5571001a7f04fa0422254c30a0017ec2f2cacc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/6b5571001a7f04fa0422254c30a0017ec2f2cacc",
+                "reference": "6b5571001a7f04fa0422254c30a0017ec2f2cacc",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^2.1.39"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
+            "keywords": [
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/phpstan/phpstan-deprecation-rules/issues",
+                "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/2.0.4"
+            },
+            "time": "2026-02-09T13:21:14+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6963,6 +7096,64 @@
             "time": "2025-11-04T16:30:35+00:00"
         },
         {
+            "name": "swissspidy/phpstan-no-private",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swissspidy/phpstan-no-private.git",
+                "reference": "559cb0e8d092df7314ed4254db83db0427440af2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swissspidy/phpstan-no-private/zipball/559cb0e8d092df7314ed4254db83db0427440af2",
+                "reference": "559cb0e8d092df7314ed4254db83db0427440af2",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/inpsyde/dists/%package%/%version%/r%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^2.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
+                "nikic/php-parser": "^v5.3.1",
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^9.5",
+                "slevomat/coding-standard": "^8.8.0",
+                "squizlabs/php_codesniffer": "^3.5.3"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Swissspidy\\PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://repo.packagist.com/inpsyde/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan rules for detecting usage of pseudo-private functions, classes, and methods.",
+            "support": {
+                "issues": "https://github.com/swissspidy/phpstan-no-private/issues",
+                "source": "https://github.com/swissspidy/phpstan-no-private/tree/v1.0.0"
+            },
+            "time": "2024-11-11T11:04:45+00:00"
+        },
+        {
             "name": "syde/phpcs",
             "version": "1.0.1",
             "source": {
@@ -7067,16 +7258,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.4.7",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "e1e6770440fb9c9b0cf725f81d1361ad1835329d"
+                "reference": "1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/e1e6770440fb9c9b0cf725f81d1361ad1835329d",
-                "reference": "e1e6770440fb9c9b0cf725f81d1361ad1835329d",
+                "url": "https://api.github.com/repos/symfony/console/zipball/1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707",
+                "reference": "1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7147,7 +7338,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.4.7"
+                "source": "https://github.com/symfony/console/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -7167,20 +7358,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-06T14:06:20+00:00"
+            "time": "2026-03-30T13:54:39+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v7.4.6",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "3ebc794fa5315e59fd122561623c2e2e4280538e"
+                "reference": "58b9790d12f9670b7f53a1c1738febd3108970a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/3ebc794fa5315e59fd122561623c2e2e4280538e",
-                "reference": "3ebc794fa5315e59fd122561623c2e2e4280538e",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/58b9790d12f9670b7f53a1c1738febd3108970a5",
+                "reference": "58b9790d12f9670b7f53a1c1738febd3108970a5",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7223,7 +7414,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v7.4.6"
+                "source": "https://github.com/symfony/filesystem/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -7243,20 +7434,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-25T16:50:00+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.33.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638"
+                "reference": "141046a8f9477948ff284fa65be2095baafb94f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/a3cc8b044a6ea513310cbd48ef7333b384945638",
-                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/141046a8f9477948ff284fa65be2095baafb94f2",
+                "reference": "141046a8f9477948ff284fa65be2095baafb94f2",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7312,7 +7503,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -7332,20 +7523,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T11:45:10+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.33.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
-                "reference": "380872130d3a5dd3ace2f4010d95125fde5d5c70"
+                "reference": "ad1b7b9092976d6c948b8a187cec9faaea9ec1df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/380872130d3a5dd3ace2f4010d95125fde5d5c70",
-                "reference": "380872130d3a5dd3ace2f4010d95125fde5d5c70",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/ad1b7b9092976d6c948b8a187cec9faaea9ec1df",
+                "reference": "ad1b7b9092976d6c948b8a187cec9faaea9ec1df",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7400,7 +7591,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -7420,11 +7611,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-06-27T09:58:17+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.33.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
@@ -7491,7 +7682,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -7515,16 +7706,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.33.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
+                "reference": "6a21eb99c6973357967f6ce3708cd55a6bec6315"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6a21eb99c6973357967f6ce3708cd55a6bec6315",
+                "reference": "6a21eb99c6973357967f6ce3708cd55a6bec6315",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7582,7 +7773,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -7602,7 +7793,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-23T08:48:59+00:00"
+            "time": "2026-04-10T17:25:58+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -7699,16 +7890,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v7.4.6",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "9f209231affa85aa930a5e46e6eb03381424b30b"
+                "reference": "114ac57257d75df748eda23dd003878080b8e688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/9f209231affa85aa930a5e46e6eb03381424b30b",
-                "reference": "9f209231affa85aa930a5e46e6eb03381424b30b",
+                "url": "https://api.github.com/repos/symfony/string/zipball/114ac57257d75df748eda23dd003878080b8e688",
+                "reference": "114ac57257d75df748eda23dd003878080b8e688",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -7772,7 +7963,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v7.4.6"
+                "source": "https://github.com/symfony/string/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -7792,7 +7983,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-09T09:33:46+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -8347,6 +8538,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "fakerphp/faker": 20,
+        "inpsyde/wp-stubs-versions": 20,
         "webmozart/path-util": 0
     },
     "prefer-stable": true,
