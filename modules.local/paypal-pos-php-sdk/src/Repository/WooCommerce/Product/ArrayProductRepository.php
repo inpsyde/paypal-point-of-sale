@@ -92,7 +92,7 @@ class ArrayProductRepository implements ProductRepositoryInterface
         int $limit = -1
     ): array {
 
-        $products = [];
+        $ids = [];
 
         foreach ($this->repository as $id => $product) {
             assert($product instanceof WC_Product);
@@ -105,13 +105,13 @@ class ArrayProductRepository implements ProductRepositoryInterface
                 continue;
             }
 
-            if ($limit !== -1 && count($products) >= $limit) {
-                return $products;
+            if ($limit !== -1 && count($ids) >= $limit) {
+                return $ids;
             }
 
-            $products[] = $product;
+            $ids[] = (int) $id;
         }
 
-        return $products;
+        return $ids;
     }
 }
