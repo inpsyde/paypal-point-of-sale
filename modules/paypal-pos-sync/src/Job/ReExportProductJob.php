@@ -6,7 +6,6 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
-use InvalidArgumentException;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
@@ -23,24 +22,13 @@ class ReExportProductJob implements Job
     public const TYPE = 're-export-product';
     private ProductRepositoryInterface $repository;
     private WcProductRepositoryInterface $wcRepository;
-    private OneToOneMapInterface|MapRecordCreator $variantMap;
+    private OneToOneMapInterface&MapRecordCreator $variantMap;
     /**
      * @var callable
      */
     private $createJobRecord;
-    /**
-     * ProductTypeChangeJob constructor.
-     *
-     * @param ProductRepositoryInterface $repository
-     * @param WcProductRepositoryInterface $wcRepository
-     * @param OneToOneMapInterface $variantMap
-     * @param callable $createJobRecord
-     */
-    public function __construct(ProductRepositoryInterface $repository, WcProductRepositoryInterface $wcRepository, OneToOneMapInterface $variantMap, callable $createJobRecord)
+    public function __construct(ProductRepositoryInterface $repository, WcProductRepositoryInterface $wcRepository, OneToOneMapInterface&MapRecordCreator $variantMap, callable $createJobRecord)
     {
-        if (!$variantMap instanceof MapRecordCreator) {
-            throw new InvalidArgumentException(sprintf('Expected ID-Map of type %s to implement %s.', esc_html(get_class($variantMap)), MapRecordCreator::class));
-        }
         $this->repository = $repository;
         $this->wcRepository = $wcRepository;
         $this->variantMap = $variantMap;
