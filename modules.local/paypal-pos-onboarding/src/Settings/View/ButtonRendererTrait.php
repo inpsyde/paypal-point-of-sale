@@ -61,7 +61,7 @@ trait ButtonRendererTrait
             <?php echo esc_attr($label); ?>
         </button>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     protected function getDefaultButtonLabel(string $action): string

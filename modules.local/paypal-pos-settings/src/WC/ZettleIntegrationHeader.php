@@ -106,7 +106,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             </div>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -143,7 +143,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             </g>
         </svg>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -185,7 +185,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             <?php echo wp_kses_post($this->description); ?>
         </p>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
         // phpcs:enable
     }
 
@@ -290,7 +290,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             // phpcs:enable
         }
 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
 
     /**
@@ -322,7 +322,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             <?php echo $this->renderLabel($label, esc_html($labelClass), $withIcon); // phpcs:ignore WordPress.Security.EscapeOutput ?>
         </a>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -361,7 +361,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             <?php echo $this->renderLabel($label, esc_html($labelClass), $withIcon); // phpcs:ignore WordPress.Security.EscapeOutput ?>
         </button>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -378,7 +378,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         if (!$withIcon) {
             echo esc_html($label);
 
-            return ob_get_clean();
+            return (string) ob_get_clean();
         } ?>
 
         <span class="<?php echo esc_attr("{$class}-label"); ?>">
@@ -389,7 +389,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             <?php echo $this->renderIconExternalLink(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
         </span>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -416,7 +416,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             </g>
         </svg>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -462,7 +462,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             </div>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     private function email(): ?string

@@ -55,7 +55,7 @@ class SyncProgressView implements OnboardingView
             <?php esc_html_e('Initial sync in progress', 'paypal-point-of-sale'); ?>
         </h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -122,7 +122,7 @@ class SyncProgressView implements OnboardingView
             </div>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**

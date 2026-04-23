@@ -159,7 +159,7 @@ class SyncVatParamView implements OnboardingView
             </div>
         <?php endif; ?>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -190,7 +190,7 @@ class SyncVatParamView implements OnboardingView
 
         $this->renderFormChoiceSelection();
 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
 
     /**
@@ -249,7 +249,7 @@ class SyncVatParamView implements OnboardingView
             </div>
         </div>
 
-        <?php return ob_get_contents();
+        <?php return (string) ob_get_contents();
     }
 
     /**

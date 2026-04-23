@@ -92,7 +92,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             </td>
         </tr>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -129,7 +129,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             <?php endif; ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -157,6 +157,6 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 }
