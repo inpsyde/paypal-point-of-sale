@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use WC_Product;
 use WC_Product_Variable;
@@ -31,18 +32,12 @@ class UnlinkImages implements Job
 
     public const VARIANT_TYPE = 'variant';
 
-    private MapRecordCreator|OneToManyMapInterface $imageIdMap;
+    private MapRecordCreator&OneToManyMapInterface&RemoteIdProvider $imageIdMap;
 
     private ProductRepositoryInterface $repository;
 
-    /**
-     * UnlinkProductJob constructor.
-     *
-     * @param OneToManyMapInterface $imageIdMap
-     * @param ProductRepositoryInterface $repository
-     */
     public function __construct(
-        OneToManyMapInterface $imageIdMap,
+        MapRecordCreator&OneToManyMapInterface&RemoteIdProvider $imageIdMap,
         ProductRepositoryInterface $repository
     ) {
 

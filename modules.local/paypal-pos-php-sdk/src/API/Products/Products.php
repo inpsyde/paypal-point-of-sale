@@ -12,6 +12,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\WritableProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
@@ -194,14 +195,9 @@ class Products
     }
 
     /**
-     * @param ProductInterface $product
-     * @param bool $withListeners
-     *
-     * @return ProductInterface
-     *
      * @throws ZettleRestException
      */
-    public function update(ProductInterface $product, bool $withListeners = true): ProductInterface
+    public function update(ProductInterface&WritableProductInterface $product, bool $withListeners = true): ProductInterface
     {
         $url = (string) $this->uri->withPath("/organizations/self/products/v2/{$product->uuid()}");
 
