@@ -4,6 +4,9 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Status;
 
 use ArrayAccess;
+/**
+ * @implements ArrayAccess<string, string>
+ */
 class StatusCodeMatcher implements ArrayAccess
 {
     /**

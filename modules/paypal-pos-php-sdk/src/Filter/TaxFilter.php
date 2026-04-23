@@ -25,21 +25,12 @@ class TaxFilter implements FilterInterface
     {
         $this->taxationType = $taxationType;
     }
-    /**
-     * @inheritDoc
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
         // phpcs:enable
         return $entity instanceof WritableProductInterface && $this->existsRemotely($entity);
     }
-    /**
-     * @inheritDoc
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     */
-    public function filter($entity, $wcProduct)
+    public function filter(mixed $entity, mixed $wcProduct): WritableProductInterface
     {
         // phpcs:enable
         assert($entity instanceof WritableProductInterface);
@@ -47,8 +38,7 @@ class TaxFilter implements FilterInterface
         $entity->setUsesDefaultTax(null);
         return $entity;
     }
-    // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-    private function existsRemotely($entity): bool
+    private function existsRemotely(mixed $entity): bool
     {
         // phpcs:enable
         return !$entity instanceof LazyProduct;

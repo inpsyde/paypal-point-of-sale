@@ -110,9 +110,8 @@ class ZettleIntegration extends WC_Settings_API
     }
     /**
      * Output the gateway settings screen.
-     * @psalm-suppress MissingReturnType
      */
-    public function admin_options()
+    public function admin_options(): void
     {
         // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
         // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped

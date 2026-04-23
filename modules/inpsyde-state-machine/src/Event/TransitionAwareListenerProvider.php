@@ -10,12 +10,7 @@ class TransitionAwareListenerProvider implements ListenerProviderInterface
      * @var ListenerProvider[]
      */
     private array $listeners = [];
-    /**
-     * @param string $state
-     * @param $listener
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function listen(string $state, $listener)
+    public function listen(string $state, callable $listener): void
     {
         if (!isset($this->listeners[$state])) {
             $this->listeners[$state] = new ListenerProvider();

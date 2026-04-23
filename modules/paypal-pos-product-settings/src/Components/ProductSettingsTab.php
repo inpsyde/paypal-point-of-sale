@@ -59,15 +59,7 @@ class ProductSettingsTab
     {
         return self::NONCE_FIELD;
     }
-    /**
-     * @param $tabs
-     *
-     * @return mixed
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     */
-    public function addTab($tabs)
+    public function addTab(array $tabs): array
     {
         if (!isset($tabs[$this->sectionKey()])) {
             $tabs[$this->sectionKey()] = ['label' => __('PayPal Point of Sale', 'paypal-point-of-sale'), 'target' => 'zettle_integration_panel', 'priority' => 80];
@@ -145,7 +137,7 @@ class ProductSettingsTab
         </div>
         <?php 
     }
-    public function saveFields($postId): void
+    public function saveFields(mixed $postId): void
     {
         $data = $this->parseRequest();
         try {

@@ -11,14 +11,7 @@ class ContainerAwareEntitySerializer implements SerializerInterface
     {
         $this->container = $container;
     }
-    /**
-     * @param $entity
-     * @param SerializerInterface|null $serializer
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return array
-     */
-    public function serialize($entity, ?SerializerInterface $serializer = null): array
+    public function serialize(object $entity, ?SerializerInterface $serializer = null): array
     {
         $className = get_class($entity);
         /**

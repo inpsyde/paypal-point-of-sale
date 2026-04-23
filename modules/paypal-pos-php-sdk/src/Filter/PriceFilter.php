@@ -9,23 +9,12 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\PriceAw
  */
 class PriceFilter implements FilterInterface
 {
-    /**
-     * @inheritDoc
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
-        // phpcs:enable
         return $entity instanceof PriceAwareInterface;
     }
-    /**
-     * @inheritDoc
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     */
-    public function filter($variant, $wcProduct)
+    public function filter(mixed $variant, mixed $wcProduct): PriceAwareInterface
     {
-        // phpcs:enable
         assert($variant instanceof PriceAwareInterface);
         $variant->setPrice(null);
         return $variant;

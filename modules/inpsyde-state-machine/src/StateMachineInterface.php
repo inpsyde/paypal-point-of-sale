@@ -10,24 +10,14 @@ use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 interface StateMachineInterface
 {
     public function initialize(string $initialStateName): void;
-    /**
-     * @param $event
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return mixed
-     */
-    public function handle($event);
+    public function handle(object $event): void;
     public function addTransition(TransitionInterface $transition): StateMachineInterface;
     public function addState(StateInterface $state): StateMachineInterface;
     public function addGuard(GuardInterface $state): StateMachineInterface;
     /**
-     * @param $transition
-     *
-     * @return StateMachineInterface
      * @throws DenyTransitionException
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
-    public function apply($transition): StateMachineInterface;
+    public function apply(string|TransitionInterface $transition): StateMachineInterface;
     /**
      * @param string|TransitionInterface $transition
      *

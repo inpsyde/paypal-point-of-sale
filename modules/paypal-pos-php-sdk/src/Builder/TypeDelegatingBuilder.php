@@ -32,17 +32,13 @@ class TypeDelegatingBuilder implements BuilderInterface
         $type = $this->inferType($payload);
         throw new BuilderNotFoundException("No Builder found for type '" . esc_html($type) . "'");
     }
-    private function inferType($payload): string
+    private function inferType(mixed $payload): string
     {
         if (is_null($payload)) {
             return 'null';
         }
-        $className = get_class($payload);
-        /**
-         * @psalm-suppress RedundantCondition
-         */
-        if ($className) {
-            return $className;
+        if (is_object($payload)) {
+            return get_class($payload);
         }
         return 'something';
     }

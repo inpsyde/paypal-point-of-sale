@@ -44,19 +44,11 @@ class LocalImageValidator implements ValidatorInterface
         $this->maxWidth = $maxWidth;
         $this->maxHeight = $maxHeight;
     }
-    /**
-     * {@inheritDoc}
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof LazyImage;
     }
-    /**
-     * {@inheritDoc}
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof LazyImage);
         $filePath = $this->filePathProvider->provide((string) $entity->localId());

@@ -14,7 +14,7 @@ class ListenerProvider implements ListenerProviderInterface
     {
         $this->listeners = $listeners;
     }
-    public function addListener(callable $listener)
+    public function addListener(callable $listener): void
     {
         $this->listeners[] = $listener;
     }

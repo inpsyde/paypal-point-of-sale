@@ -5,21 +5,13 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter;
 
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use WC_Product;
-// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
 class ImageConnectionFilter implements FilterInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
         return $entity instanceof ImageInterface and $payload instanceof WC_Product;
     }
-    /**
-     * @inheritDoc
-     */
-    public function filter($image, $payload)
+    public function filter(mixed $image, mixed $payload): mixed
     {
         return $image;
     }

@@ -28,13 +28,7 @@ class ArrayBuilder implements TypeSpecificBuilderInterface
     {
         return $this->builder->build($className, $payload, $builder ?? $this);
     }
-    /**
-     * @param $payload
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return bool
-     */
-    public function accepts($payload): bool
+    public function accepts(mixed $payload): bool
     {
         return is_array($payload);
     }
