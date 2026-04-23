@@ -10,6 +10,8 @@ use Iterator;
  * Class QueueJobIterator
  *
  * @package Inpsyde\Queue\Queue
+ *
+ * @implements Iterator<int, JobRecord>
  */
 class JobIterator implements Iterator
 {

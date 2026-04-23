@@ -6,6 +6,9 @@ namespace Syde\PayPal\PointOfSale\Sync\Status;
 
 use ArrayAccess;
 
+/**
+ * @implements ArrayAccess<string, string>
+ */
 class StatusCodeMatcher implements ArrayAccess
 {
     /**

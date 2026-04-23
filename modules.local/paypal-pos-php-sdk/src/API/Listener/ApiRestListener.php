@@ -24,19 +24,7 @@ interface ApiRestListener
 
     public const DELETE = 'delete';
 
-    /**
-     * @param string $operation
-     * @param $payload
-     * @param bool $success
-     *
-     * @return bool
-     */
-    public function accepts(string $operation, $payload, bool $success): bool;
+    public function accepts(string $operation, mixed $payload, bool $success): bool;
 
-    /**
-     * @param $payload
-     *
-     * @return bool
-     */
-    public function execute($payload): bool;
+    public function execute(mixed $payload): bool;
 }

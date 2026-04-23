@@ -13,13 +13,7 @@ class RequestDataFilter
         $this->requestData = $requestData;
     }
 
-    /**
-     * @param mixed ...$things
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return bool
-     */
-    public function guard(...$things): bool
+    public function guard(mixed ...$things): bool
     {
         foreach ($things as $thing) {
             if (!$this->guardField($thing)) {
@@ -30,13 +24,7 @@ class RequestDataFilter
         return true;
     }
 
-    /**
-     * @param $thing
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return bool
-     */
-    private function guardField($thing): bool
+    private function guardField(mixed $thing): bool
     {
         if (is_string($thing)) {
             $found = array_key_exists($thing, $this->requestData);

@@ -27,7 +27,10 @@ class ProductConnectionFilter implements FilterInterface
 {
     private OneToOneMapInterface $idMap;
 
-    private $lazyPool = [];
+    /**
+     * @var array<int, ProductInterface>
+     */
+    private array $lazyPool = [];
 
     /**
      * @var callable
@@ -47,18 +50,12 @@ class ProductConnectionFilter implements FilterInterface
         });
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
         return $entity instanceof Product and $payload instanceof WC_Product;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filter($product, $wcProduct)
+    public function filter(mixed $product, mixed $wcProduct): mixed
     {
         assert($wcProduct instanceof WC_Product);
         assert($product instanceof ProductTransferInterface);

@@ -82,15 +82,7 @@ class ProductSettingsTab
         return self::NONCE_FIELD;
     }
 
-    /**
-     * @param $tabs
-     *
-     * @return mixed
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     */
-    public function addTab($tabs)
+    public function addTab(array $tabs): array
     {
         if (!isset($tabs[$this->sectionKey()])) {
             $tabs[$this->sectionKey()] = [
@@ -185,7 +177,7 @@ class ProductSettingsTab
         <?php
     }
 
-    public function saveFields($postId): void
+    public function saveFields(mixed $postId): void
     {
         $data = $this->parseRequest();
 

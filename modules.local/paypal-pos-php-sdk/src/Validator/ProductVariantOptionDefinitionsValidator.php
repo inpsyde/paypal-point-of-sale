@@ -20,18 +20,12 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\VariantOptionDefinitions\
  */
 class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof ProductInterface;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof ProductInterface);
 

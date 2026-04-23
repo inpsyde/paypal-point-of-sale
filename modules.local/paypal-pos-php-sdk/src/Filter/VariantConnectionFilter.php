@@ -26,7 +26,10 @@ class VariantConnectionFilter implements FilterInterface
 {
     private OneToOneMapInterface&MapRecordCreator $idMap;
 
-    private $lazyPool = [];
+    /**
+     * @var array<int, VariantInterface>
+     */
+    private array $lazyPool = [];
 
     public function __construct(
         OneToOneMapInterface&MapRecordCreator $idMap
@@ -39,10 +42,7 @@ class VariantConnectionFilter implements FilterInterface
         });
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
         return $entity instanceof Variant and $payload instanceof WC_Product;
     }
@@ -50,7 +50,7 @@ class VariantConnectionFilter implements FilterInterface
     /**
      * @inheritDoc
      */
-    public function filter($variant, $wcProduct)
+    public function filter(mixed $variant, mixed $wcProduct): object
     {
         assert($wcProduct instanceof WC_Product);
         assert($variant instanceof VariantTransferInterface);
