@@ -23,6 +23,15 @@ parameters:
         - modules.local/*/resources/*
         - modules.local/*/node_modules/*
     treatPhpDocTypesAsCertain: false
+    dynamicConstantNames:
+        - WP_DEBUG
+        - WP_DEBUG_DISPLAY
+        - WP_DEBUG_LOG
+        - WP_DEBUG_LOG_PATH
+        - SCRIPT_DEBUG
+        - DOING_CRON
+        - DOING_AJAX
+        - WP_CLI
     ignoreErrors:
         - identifier: missingType.iterableValue
         # Used via reflection.
