@@ -93,10 +93,10 @@ return [
         return new SetStateJob($setState);
     },
     $job(SyncStockJob::TYPE) => static function (C $container) use ($job): Job {
-        return new SyncStockJob($container->get('paypal-pos.sdk.api.inventory'), $container->get('paypal-pos.sdk.builder'), $container->get('paypal-pos.sdk.id-map.variant'), $container->get('paypal-pos.sync.queue-processor.job.factory')(), $container->get('paypal-pos.sdk.validator.stock.max'), $container->get($job(SetInventoryTrackingJob::TYPE)));
+        return new SyncStockJob($container->get('paypal-pos.sdk.api.inventory'), $container->get('paypal-pos.sdk.builder'), $container->get('paypal-pos.sdk.id-map.variant'), $container->get('paypal-pos.sdk.validator.stock.max'), $container->get($job(SetInventoryTrackingJob::TYPE)));
     },
     $job(SetInventoryTrackingJob::TYPE) => static function (C $container): Job {
-        return new SetInventoryTrackingJob($container->get('paypal-pos.sdk.repository.woocommerce.product'), $container->get('paypal-pos.sdk.api.inventory'), $container->get('paypal-pos.sdk.builder'), $container->get('paypal-pos.sdk.id-map.variant'));
+        return new SetInventoryTrackingJob($container->get('paypal-pos.sdk.repository.woocommerce.product'), $container->get('paypal-pos.sdk.api.inventory'), $container->get('paypal-pos.sdk.builder'));
     },
     $job(UnlinkImages::TYPE) => static function (C $container): Job {
         return new UnlinkImages($container->get('paypal-pos.sdk.id-map.image'), $container->get('paypal-pos.sdk.repository.woocommerce.product'));

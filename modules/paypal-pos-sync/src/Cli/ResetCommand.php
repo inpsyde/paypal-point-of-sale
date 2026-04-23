@@ -14,7 +14,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\Table as IdMapTable;
 use Syde\Vendor\Zettle\WP_CLI;
 class ResetCommand
 {
-    private Products $productsClient;
     private IdMapTable $idMapTable;
     private QueueTable $queueTable;
     private Job $wipeRemoteJob;

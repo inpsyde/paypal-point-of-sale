@@ -63,7 +63,7 @@ return ['paypal-pos.oauth.token-storage.key' => static function (C $container): 
         return \true;
     }, $container->get('inpsyde.http-client.uri-factory'), $container->get('inpsyde.http-client.stream-factory'), $container->get('paypal-pos.oauth.auth-grant'), $container->get('paypal-pos.oauth.refresh-grant'), new TokenPersistingAuthSuccessHandler($container->get('paypal-pos.oauth.token-storage'), new TokenFactory()));
 }, 'paypal-pos.http-plug.plugin.chaos-monkey' => static function (C $container): Plugin {
-    return new ChaosMonkeyPlugin($container->get('inpsyde.http-client.response-factory'), $container->get('inpsyde.http-client.stream-factory'));
+    return new ChaosMonkeyPlugin($container->get('inpsyde.http-client.response-factory'));
 }, 'paypal-pos.auth.is-failed' => static function (C $container): bool {
     return (bool) get_option($container->get('paypal-pos.auth.is-failed.key'));
 }, 'paypal-pos.auth.is-failed.key' => static function (): string {

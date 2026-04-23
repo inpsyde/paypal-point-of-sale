@@ -8,7 +8,6 @@ use Syde\Vendor\Zettle\Http\Promise\FulfilledPromise;
 use Syde\Vendor\Zettle\Http\Promise\Promise;
 use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\ResponseFactoryInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\StreamFactoryInterface;
 use Syde\Vendor\Zettle\Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * This is a little helper to help test error scenarios
@@ -25,18 +24,9 @@ class ChaosMonkeyPlugin implements Plugin
      */
     private array $statusProbability = [];
     private ResponseFactoryInterface $responseFactory;
-    private StreamFactoryInterface $streamFactory;
-    /**
-     * ChaosMonkeyPlugin constructor.
-     *
-     * @param ResponseFactoryInterface $responseFactory
-     * @param StreamFactoryInterface $streamFactory
-     * @param array $config
-     */
-    public function __construct(ResponseFactoryInterface $responseFactory, StreamFactoryInterface $streamFactory, array $config = [])
+    public function __construct(ResponseFactoryInterface $responseFactory, array $config = [])
     {
         $this->responseFactory = $responseFactory;
-        $this->streamFactory = $streamFactory;
         $resolver = new OptionsResolver();
         $statusProbabilityKey = 'probability.status';
         $statusProbability = [401 => 20, 500 => 20];

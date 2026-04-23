@@ -31,21 +31,11 @@ class SetInventoryTrackingJob implements Job
     private ProductRepositoryInterface $repository;
     private Inventory $inventoryClient;
     private BuilderInterface $builder;
-    private OneToManyMapInterface $variantMap;
-    /**
-     * SetInventoryTrackingJob constructor.
-     *
-     * @param ProductRepositoryInterface $repository
-     * @param Inventory $inventoryClient
-     * @param BuilderInterface $builder
-     * @param OneToManyMapInterface $variantMap
-     */
-    public function __construct(ProductRepositoryInterface $repository, Inventory $inventoryClient, BuilderInterface $builder, OneToManyMapInterface $variantMap)
+    public function __construct(ProductRepositoryInterface $repository, Inventory $inventoryClient, BuilderInterface $builder)
     {
         $this->repository = $repository;
         $this->inventoryClient = $inventoryClient;
         $this->builder = $builder;
-        $this->variantMap = $variantMap;
     }
     /**
      * @inheritDoc

@@ -258,14 +258,14 @@ return array_merge([
         return new WooCommerceVatProvider($container->get('paypal-pos.wc.shop.location'));
     },
     'paypal-pos.sdk.rest-client' => static function (C $container): RestClientInterface {
-        return new Psr18RestClient($container->get('paypal-pos.logger.woocommerce'), $container->get('inpsyde.http-client'), $container->get('inpsyde.http-client.uri-factory'), $container->get('inpsyde.http-client.request-factory'), $container->get('inpsyde.http-client.stream-factory'));
+        return new Psr18RestClient($container->get('inpsyde.http-client'), $container->get('inpsyde.http-client.request-factory'), $container->get('inpsyde.http-client.stream-factory'));
     },
     'paypal-pos.sdk.api.oauth.users' => static function (C $container): Users {
         /**
          * @var UriFactoryInterface $uriFactory
          */
         $uriFactory = $container->get('inpsyde.http-client.uri-factory');
-        return new Users($container->get('paypal-pos.logger.woocommerce'), $uriFactory->createUri('https://oauth.izettle.com'), $container->get('paypal-pos.sdk.rest-client'));
+        return new Users($uriFactory->createUri('https://oauth.izettle.com'), $container->get('paypal-pos.sdk.rest-client'));
     },
     'paypal-pos.sdk.api.oauth.organizations' => static function (C $container): Organizations {
         /**

@@ -19,24 +19,11 @@ class OnboardingFieldRenderer implements FieldRendererInterface
     private string $currentState;
     private OnboardingView $view;
     private OnboardingStepper $stepper;
-    /**
-     * @var callable
-     */
-    private $isIntegrationPage;
-    /**
-     * OnboardingFieldRenderer constructor.
-     *
-     * @param string $currentState
-     * @param OnboardingView $view
-     * @param OnboardingStepper $stepper
-     * @param callable $isIntegrationPage
-     */
-    public function __construct(string $currentState, OnboardingView $view, OnboardingStepper $stepper, callable $isIntegrationPage)
+    public function __construct(string $currentState, OnboardingView $view, OnboardingStepper $stepper)
     {
         $this->view = $view;
         $this->currentState = $currentState;
         $this->stepper = $stepper;
-        $this->isIntegrationPage = $isIntegrationPage;
     }
     /**
      * @param string $fieldId

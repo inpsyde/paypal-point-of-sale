@@ -34,18 +34,16 @@ class SyncStockJob implements Job
     private BuilderInterface $builder;
     private OneToManyMapInterface $map;
     private int $maxStockChange;
-    private QueueProcessor $processor;
     private Job $setInventoryTrackingJob;
     /**
-     * @param int $maxStockChange iZ API does not allow transactions larger than 100.000
+     * @param int $maxStockChange The API does not allow transactions larger than 100.000
      */
-    public function __construct(Inventory $inventoryClient, BuilderInterface $builder, OneToManyMapInterface $map, QueueProcessor $processor, int $maxStockChange, Job $setInventoryTrackingJob)
+    public function __construct(Inventory $inventoryClient, BuilderInterface $builder, OneToManyMapInterface $map, int $maxStockChange, Job $setInventoryTrackingJob)
     {
         $this->inventoryClient = $inventoryClient;
         $this->builder = $builder;
         $this->map = $map;
         $this->maxStockChange = $maxStockChange;
-        $this->processor = $processor;
         $this->setInventoryTrackingJob = $setInventoryTrackingJob;
     }
     /**
