@@ -164,7 +164,6 @@ return [
             $container->get('paypal-pos.sdk.api.inventory'),
             $container->get('paypal-pos.sdk.builder'),
             $container->get('paypal-pos.sdk.id-map.variant'),
-            $container->get('paypal-pos.sync.queue-processor.job.factory')(),
             $container->get('paypal-pos.sdk.validator.stock.max'),
             $container->get($job(SetInventoryTrackingJob::TYPE))
         );
@@ -173,8 +172,7 @@ return [
         return new SetInventoryTrackingJob(
             $container->get('paypal-pos.sdk.repository.woocommerce.product'),
             $container->get('paypal-pos.sdk.api.inventory'),
-            $container->get('paypal-pos.sdk.builder'),
-            $container->get('paypal-pos.sdk.id-map.variant')
+            $container->get('paypal-pos.sdk.builder')
         );
     },
     $job(UnlinkImages::TYPE) => static function (C $container): Job {

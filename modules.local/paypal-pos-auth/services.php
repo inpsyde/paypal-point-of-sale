@@ -109,8 +109,7 @@ return [
     },
     'paypal-pos.http-plug.plugin.chaos-monkey' => static function (C $container): Plugin {
         return new ChaosMonkeyPlugin(
-            $container->get('inpsyde.http-client.response-factory'),
-            $container->get('inpsyde.http-client.stream-factory')
+            $container->get('inpsyde.http-client.response-factory')
         );
     },
 

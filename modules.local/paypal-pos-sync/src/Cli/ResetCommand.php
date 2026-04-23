@@ -16,8 +16,6 @@ use WP_CLI;
 
 class ResetCommand
 {
-    private Products $productsClient;
-
     private IdMapTable $idMapTable;
 
     private QueueTable $queueTable;

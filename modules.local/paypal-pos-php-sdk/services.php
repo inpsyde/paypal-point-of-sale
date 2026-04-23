@@ -393,9 +393,7 @@ return array_merge(
         },
         'paypal-pos.sdk.rest-client' => static function (C $container): RestClientInterface {
             return new Psr18RestClient(
-                $container->get('paypal-pos.logger.woocommerce'),
                 $container->get('inpsyde.http-client'),
-                $container->get('inpsyde.http-client.uri-factory'),
                 $container->get('inpsyde.http-client.request-factory'),
                 $container->get('inpsyde.http-client.stream-factory')
             );
@@ -407,7 +405,6 @@ return array_merge(
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
             return new Users(
-                $container->get('paypal-pos.logger.woocommerce'),
                 $uriFactory->createUri('https://oauth.izettle.com'),
                 $container->get('paypal-pos.sdk.rest-client')
             );

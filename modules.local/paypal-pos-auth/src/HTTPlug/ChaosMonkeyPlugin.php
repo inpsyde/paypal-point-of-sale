@@ -9,7 +9,6 @@ use Http\Promise\FulfilledPromise;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -29,23 +28,12 @@ class ChaosMonkeyPlugin implements Plugin
 
     private ResponseFactoryInterface $responseFactory;
 
-    private StreamFactoryInterface $streamFactory;
-
-    /**
-     * ChaosMonkeyPlugin constructor.
-     *
-     * @param ResponseFactoryInterface $responseFactory
-     * @param StreamFactoryInterface $streamFactory
-     * @param array $config
-     */
     public function __construct(
         ResponseFactoryInterface $responseFactory,
-        StreamFactoryInterface $streamFactory,
         array $config = []
     ) {
 
         $this->responseFactory = $responseFactory;
-        $this->streamFactory = $streamFactory;
         $resolver = new OptionsResolver();
         $statusProbabilityKey = 'probability.status';
         $statusProbability = [

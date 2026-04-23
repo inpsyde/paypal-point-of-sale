@@ -8,18 +8,12 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UriFactoryInterface;
-use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 
 class Psr18RestClient implements RestClientInterface
 {
-    private LoggerInterface $logger;
-
     private ClientInterface $client;
-
-    private UriFactoryInterface $uriFactory;
 
     private RequestFactoryInterface $requestFactory;
 
@@ -31,17 +25,13 @@ class Psr18RestClient implements RestClientInterface
     private array $listeners;
 
     public function __construct(
-        LoggerInterface $logger,
         ClientInterface $client,
-        UriFactoryInterface $uriFactory,
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory,
         callable ...$listeners
     ) {
 
-        $this->logger = $logger;
         $this->client = $client;
-        $this->uriFactory = $uriFactory;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
         $this->listeners = $listeners;
