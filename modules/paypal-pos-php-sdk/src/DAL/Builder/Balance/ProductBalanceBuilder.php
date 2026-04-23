@@ -8,7 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Balance\Product
 class ProductBalanceBuilder implements ProductBalanceBuilderInterface
 {
     private ProductBalanceFactory $productBalanceFactory;
-    private LocationBalanceCollectionBuilder $locationBalanceCollectionBuilder;
+    private LocationBalanceCollectionBuilderInterface $locationBalanceCollectionBuilder;
     /**
      * ProductBalanceBuilder constructor.
      *

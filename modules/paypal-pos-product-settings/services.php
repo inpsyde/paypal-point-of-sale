@@ -86,7 +86,9 @@ return ['paypal-pos.product-settings.taxonomy.sync-visibility.key' => static fun
     };
 }, 'paypal-pos.product-settings.product-editor.product-from-url' => static function (C $container): callable {
     return static function (int $method = \INPUT_GET): int {
-        /** @psalm-suppress ArgumentTypeCoercion */
+        if (!in_array($method, [\INPUT_GET, \INPUT_POST, \INPUT_COOKIE, \INPUT_SERVER, \INPUT_ENV], \true)) {
+            $method = \INPUT_GET;
+        }
         return (int) filter_input($method, 'post', \FILTER_VALIDATE_INT);
     };
 }, 'paypal-pos.product-settings.product.is-product' => static function (C $container): callable {
