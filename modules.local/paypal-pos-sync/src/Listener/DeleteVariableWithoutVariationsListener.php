@@ -97,7 +97,7 @@ class DeleteVariableWithoutVariationsListener
                 $this->dissolveVariantsMapping($variantUuids);
             }
         } catch (ZettleRestException $exception) {
-            $this->logger->warning($exception);
+            $this->logger->warning($exception->getMessage());
         }
     }
 
