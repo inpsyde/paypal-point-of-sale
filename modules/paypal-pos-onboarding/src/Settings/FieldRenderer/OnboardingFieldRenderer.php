@@ -69,7 +69,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         </tr>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @param string $fieldKey
@@ -116,7 +116,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         </div>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @return string
@@ -155,6 +155,6 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         </div>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
 }

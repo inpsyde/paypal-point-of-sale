@@ -126,7 +126,7 @@ class SyncVatParamView implements OnboardingView
         ?>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @inheritDoc
@@ -151,7 +151,7 @@ class SyncVatParamView implements OnboardingView
             <?php 
         }
         $this->renderFormChoiceSelection();
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @return string
@@ -226,7 +226,7 @@ class SyncVatParamView implements OnboardingView
         </div>
 
         <?php 
-        return ob_get_contents();
+        return (string) ob_get_contents();
     }
     /**
      * @inheritDoc

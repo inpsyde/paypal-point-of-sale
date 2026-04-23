@@ -8,6 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductTransferInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use WC_Product;
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
@@ -22,7 +23,7 @@ use WC_Product;
  */
 class ProductConnectionFilter implements FilterInterface
 {
-    private OneToOneMapInterface $idMap;
+    private OneToOneMapInterface&MapRecordCreator $idMap;
     /**
      * @var array<int, ProductInterface>
      */
@@ -31,7 +32,7 @@ class ProductConnectionFilter implements FilterInterface
      * @var callable
      */
     private $productClientProvider;
-    public function __construct(OneToOneMapInterface $idMap, callable $productClientProvider)
+    public function __construct(OneToOneMapInterface&MapRecordCreator $idMap, callable $productClientProvider)
     {
         $this->idMap = $idMap;
         $this->productClientProvider = $productClientProvider;

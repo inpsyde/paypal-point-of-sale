@@ -86,7 +86,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </div>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @return string
@@ -124,7 +124,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </svg>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @return string
@@ -164,7 +164,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </p>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
         // phpcs:enable
     }
     // phpcs:ignore Syde.Functions.FunctionLength.TooLong
@@ -244,7 +244,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             });
             // phpcs:enable
         }
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @param string $url
@@ -280,7 +280,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </a>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @param string $label
@@ -322,7 +322,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </button>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @param string $label
@@ -336,7 +336,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ob_start();
         if (!$withIcon) {
             echo esc_html($label);
-            return ob_get_clean();
+            return (string) ob_get_clean();
         }
         ?>
 
@@ -358,7 +358,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </span>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @return string
@@ -386,7 +386,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </svg>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @param array<array{action: string, label: string, params?: array}> $buttons
@@ -432,7 +432,7 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </div>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     private function email(): ?string
     {

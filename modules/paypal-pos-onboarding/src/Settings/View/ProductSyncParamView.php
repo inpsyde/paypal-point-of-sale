@@ -62,7 +62,7 @@ class ProductSyncParamView implements OnboardingView
         </p>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @inheritDoc
@@ -128,7 +128,7 @@ class ProductSyncParamView implements OnboardingView
         </div>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * @inheritDoc

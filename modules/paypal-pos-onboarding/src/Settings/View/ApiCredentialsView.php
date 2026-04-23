@@ -37,7 +37,7 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
         </h2>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     public function renderContent(): string
     {
@@ -86,7 +86,7 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
         </div>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     public function renderProceedButton(): string
     {

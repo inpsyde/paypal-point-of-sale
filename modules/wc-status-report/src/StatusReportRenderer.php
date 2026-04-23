@@ -46,6 +46,6 @@ class StatusReportRenderer implements StatusReportRendererInterface
             </tbody>
         </table>
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
 }

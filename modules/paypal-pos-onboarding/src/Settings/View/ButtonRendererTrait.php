@@ -70,7 +70,7 @@ trait ButtonRendererTrait
         </button>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     protected function getDefaultButtonLabel(string $action): string
     {

@@ -46,7 +46,7 @@ class SyncProgressView implements OnboardingView
         </h2>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     public function renderContent(): string
     {
@@ -121,7 +121,7 @@ class SyncProgressView implements OnboardingView
         </div>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     /**
      * Format a tooltip with information about the
