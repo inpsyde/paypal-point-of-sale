@@ -14,6 +14,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\StockQuantityAwareInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\Variant;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantInterface;
@@ -78,7 +79,7 @@ return [$key(ProductInterface::class) => $serializer(static function (ProductInt
         $data[] = $serializer->serialize($product);
     }
     return $data;
-}), $key(VariantInterface::class) => $serializer(static function (VariantInterface $variant, SerializerInterface $serializer) {
+}), $key(VariantInterface::class) => $serializer(static function (VariantInterface&StockQuantityAwareInterface $variant, SerializerInterface $serializer) {
     $data = ['uuid' => $variant->uuid(), 'name' => $variant->name(), 'sku' => $variant->sku(), 'defaultQuantity' => $variant->defaultQuantity()];
     if ($variant->unitName()) {
         $data['unitName'] = $variant->unitName();

@@ -38,6 +38,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\VatProvid
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Iterator\WcProductAttachmentIterator;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Uuid\Uuid;
 $key = static function (string $className): string {
@@ -108,6 +109,7 @@ return [$key(ProductInterface::class) => $builder(static function (\WC_Product $
 }, $key(ImageInterface::class) => $builder(static function (\WC_Product $wcProduct, B $builder, C $container) {
     $imageIdMap = $container->get('paypal-pos.sdk.id-map.image');
     \assert($imageIdMap instanceof OneToOneMapInterface);
+    \assert($imageIdMap instanceof MapRecordCreator);
     $imageId = (int) $wcProduct->get_image_id();
     try {
         return new ConcreteImage($imageIdMap->remoteId($imageId));
@@ -121,6 +123,7 @@ return [$key(ProductInterface::class) => $builder(static function (\WC_Product $
     $urlProvider = $container->get('paypal-pos.sdk.dal.provider.image.url');
     $imageClient = $container->get('paypal-pos.sdk.api.images');
     \assert($imageIdMap instanceof OneToOneMapInterface);
+    \assert($imageIdMap instanceof MapRecordCreator);
     \assert($urlProvider instanceof UrlProviderInterface);
     $imageIds = new WcProductAttachmentIterator($wcProduct, 10);
     $images = [];

@@ -25,3 +25,5 @@ parameters:
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
         - identifier: missingType.iterableValue
+        # Used via reflection.
+        - '#Constant .+LocationType\:\:.+ is unused.#'

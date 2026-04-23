@@ -10,6 +10,7 @@ use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use WC_Product;
 use WC_Product_Variable;
@@ -26,15 +27,9 @@ class UnlinkImages implements Job
     public const TYPE = 'unlink-images';
     public const PRODUCT_TYPE = 'product';
     public const VARIANT_TYPE = 'variant';
-    private MapRecordCreator|OneToManyMapInterface $imageIdMap;
+    private MapRecordCreator&OneToManyMapInterface&RemoteIdProvider $imageIdMap;
     private ProductRepositoryInterface $repository;
-    /**
-     * UnlinkProductJob constructor.
-     *
-     * @param OneToManyMapInterface $imageIdMap
-     * @param ProductRepositoryInterface $repository
-     */
-    public function __construct(OneToManyMapInterface $imageIdMap, ProductRepositoryInterface $repository)
+    public function __construct(MapRecordCreator&OneToManyMapInterface&RemoteIdProvider $imageIdMap, ProductRepositoryInterface $repository)
     {
         $this->imageIdMap = $imageIdMap;
         $this->repository = $repository;
