@@ -11,7 +11,7 @@ class CategoryCollectionBuilder implements CategoryCollectionBuilderInterface
 {
     private CategoryCollectionFactory $categoryCollectionFactory;
 
-    private CategoryBuilder $categoryBuilder;
+    private CategoryBuilderInterface $categoryBuilder;
 
     /**
      * CategoryCollectionBuilder constructor.
