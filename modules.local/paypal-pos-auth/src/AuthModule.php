@@ -42,7 +42,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
     public function run(ContainerInterface $container): bool
     {
         /**
-         * @var TokenProviderInterface|TokenPersistorInterface $tokenStorage
+         * @var TokenProviderInterface&TokenPersistorInterface $tokenStorage
          */
         $tokenStorage = $container->get('paypal-pos.oauth.token-storage');
 

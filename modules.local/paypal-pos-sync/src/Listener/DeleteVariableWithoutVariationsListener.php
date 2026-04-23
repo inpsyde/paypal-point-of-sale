@@ -21,25 +21,17 @@ use WC_Product_Variable;
  */
 class DeleteVariableWithoutVariationsListener
 {
-    private OneToOneMapInterface|MapRecordCreator $productMap;
+    private OneToOneMapInterface&MapRecordCreator $productMap;
 
-    private OneToOneMapInterface|MapRecordCreator $variantMap;
+    private OneToOneMapInterface&MapRecordCreator $variantMap;
 
     private Products $productsClient;
 
     private LoggerInterface $logger;
 
-    /**
-     * DeleteVariableProductWithoutVariationsListener constructor.
-     *
-     * @param OneToOneMapInterface $productMap
-     * @param OneToOneMapInterface $variantMap
-     * @param Products $productsClient
-     * @param LoggerInterface $logger
-     */
     public function __construct(
-        OneToOneMapInterface $productMap,
-        OneToOneMapInterface $variantMap,
+        OneToOneMapInterface&MapRecordCreator $productMap,
+        OneToOneMapInterface&MapRecordCreator $variantMap,
         Products $productsClient,
         LoggerInterface $logger
     ) {

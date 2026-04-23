@@ -9,6 +9,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductTransferInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
+use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use WC_Product;
 
@@ -25,7 +26,7 @@ use WC_Product;
  */
 class ProductConnectionFilter implements FilterInterface
 {
-    private OneToOneMapInterface $idMap;
+    private OneToOneMapInterface&MapRecordCreator $idMap;
 
     /**
      * @var array<int, ProductInterface>
@@ -38,7 +39,7 @@ class ProductConnectionFilter implements FilterInterface
     private $productClientProvider;
 
     public function __construct(
-        OneToOneMapInterface $idMap,
+        OneToOneMapInterface&MapRecordCreator $idMap,
         callable $productClientProvider
     ) {
 
