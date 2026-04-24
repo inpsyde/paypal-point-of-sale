@@ -251,7 +251,7 @@ class ProductSettingsTab
 
     private function sanitizeText(string $text): string
     {
-        return sanitize_text_field(wp_unslash($text));
+        return sanitize_text_field(stripslashes($text));
     }
 
     private function validateRequest(array $data): void
