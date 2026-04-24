@@ -120,14 +120,16 @@ class Uuid
     private static function toBinary(string $digits): string
     {
         $bytes = '';
-        $count = strlen($digits);
+        /** @var int[] $values */
+        $values = array_map('intval', str_split($digits));
+        $count = count($values);
 
         while ($count) {
             $quotient = [];
             $remainder = 0;
 
             for ($i = 0; $i !== $count; ++$i) {
-                $carry = $digits[$i] + $remainder * 10;
+                $carry = $values[$i] + $remainder * 10;
                 $digit = $carry >> 8;
                 $remainder = $carry & 0xFF;
 
@@ -137,7 +139,8 @@ class Uuid
             }
 
             $bytes = chr($remainder) . $bytes;
-            $count = count($digits = $quotient);
+            $values = $quotient;
+            $count = count($values);
         }
 
         return $bytes;

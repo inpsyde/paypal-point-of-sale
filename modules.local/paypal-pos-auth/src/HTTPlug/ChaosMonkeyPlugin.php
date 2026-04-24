@@ -68,14 +68,14 @@ class ChaosMonkeyPlugin implements Plugin
         return new FulfilledPromise($response);
     }
 
-    private function determineError(): int
+    private function determineError(): int|false
     {
         $error = false;
         $highestP = 0;
         foreach ($this->statusProbability as $status => $probability) {
             $curP = rand(0, 99);
             if ($curP < $probability && $curP > $highestP) {
-                $error = $status;
+                $error = (int) $status;
             }
         }
 
