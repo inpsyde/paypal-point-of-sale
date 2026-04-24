@@ -9,7 +9,6 @@ use WC_Product_Simple;
 
 use function chr;
 use function count;
-use function strlen;
 
 use const PHP_INT_SIZE;
 

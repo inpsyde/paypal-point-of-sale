@@ -28,7 +28,6 @@ class LazyImage implements ImageInterface
 
     private UrlProviderInterface $urlProvider;
 
-
     public function __construct(
         int $localId,
         UrlProviderInterface $urlProvider,

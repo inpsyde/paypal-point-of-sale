@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\UriFactoryInterface;
 use Psr\Container\ContainerInterface as C;
+use Psr\Http\Message\UriFactoryInterface;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;

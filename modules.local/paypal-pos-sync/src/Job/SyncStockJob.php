@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Sync\Job;
 
 use Inpsyde\Queue\ExceptionLoggingTrait;
-use Inpsyde\Queue\Processor\QueueProcessor;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
