@@ -82,7 +82,6 @@
         "php-stubs\/wordpress-stubs": "^5.4",
         "phpunit\/phpunit": "^8.0 || ^9.0",
         "symfony\/var-dumper": "^5.0",
-        "vimeo\/psalm": "^5",
         "vlucas\/phpdotenv": "^4.1",
         "webmozart\/path-util": "^2.3@stable",
         "phpstan\/phpstan": "^2.1",
@@ -142,5 +141,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "0.0.0+izet-522-phpstan.bf6634c"
+    "version": "0.0.0+izet-522-phpstan.fc2f208"
 }
