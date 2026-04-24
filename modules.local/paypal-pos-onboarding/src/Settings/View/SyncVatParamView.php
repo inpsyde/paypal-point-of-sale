@@ -45,6 +45,8 @@ class SyncVatParamView implements OnboardingView
 
     /**
      * @inheritDoc
+     *
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     public function renderHeader(): string
     {

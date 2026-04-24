@@ -200,6 +200,8 @@ class ProductsCommand
      * @param int $limit
      *
      * @return array
+     *
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     private function processExceptions(array $exceptions, int $limit = 10): array
     {
@@ -211,13 +213,16 @@ class ProductsCommand
                 continue;
             }
 
-            // phpcs:disable WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
-            while ($exception = $exception->getPrevious()) {
+            for (
+                $current = $exception->getPrevious();
+                $current !== null;
+                $current = $current->getPrevious()
+            ) {
                 if ($index > $limit) {
                     break;
                 }
 
-                $message = $exception->getMessage();
+                $message = $current->getMessage();
 
                 // Strip out the not really helpful exception messages
                 if (strpos($message, 'from the given payload') !== false) {

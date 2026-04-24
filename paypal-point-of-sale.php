@@ -26,6 +26,7 @@ declare(strict_types=1);
  * phpcs:disable PSR1.Files.SideEffects
  * phpcs:disable Squiz.PHP.CommentedOutCode.Found
  * phpcs:disable Squiz.PHP.InnerFunctions.NotAllowed
+ * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
  */
 
 namespace Syde\PayPal\PointOfSale;
