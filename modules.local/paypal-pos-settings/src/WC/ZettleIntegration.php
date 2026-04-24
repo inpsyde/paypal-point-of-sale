@@ -78,6 +78,7 @@ class ZettleIntegration extends WC_Settings_API
      * @return mixed|string
      *
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
     public function get_option($key, $emptyValue = null)
     {
@@ -183,6 +184,7 @@ class ZettleIntegration extends WC_Settings_API
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      *
      * @return string
      */
@@ -265,6 +267,7 @@ class ZettleIntegration extends WC_Settings_API
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+     * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
     public function update_option($key, $value = '')
     {
