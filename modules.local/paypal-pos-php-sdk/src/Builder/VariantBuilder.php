@@ -139,7 +139,7 @@ class VariantBuilder implements BuilderInterface
         foreach ($product->get_visible_children() as $variationId) {
             $variation = wc_get_product($variationId);
 
-            if ($variation === null) {
+            if (!$variation) {
                 continue;
             }
 

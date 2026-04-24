@@ -75,12 +75,13 @@ class ProductsCommand
             ]
         );
 
-        if (!$productIds) {
+        if (!is_array($productIds) || $productIds === []) {
             WP_CLI::line('No Products found.');
 
             return;
         }
 
+        /** @var int[] $productIds */
         $unSyncableProducts = $this->processProducts($productIds);
 
         if (!$unSyncableProducts) {
@@ -126,6 +127,10 @@ class ProductsCommand
             $problems = $this->statusCodeMatcher->match($statusCodes);
 
             $product = wc_get_product($productId);
+
+            if (!$product instanceof WC_Product) {
+                continue;
+            }
 
             $notSyncedProducts[] = [
                 'ID' => $productId,

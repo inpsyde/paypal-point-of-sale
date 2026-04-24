@@ -31,10 +31,10 @@ class CategoryFactory
     ): Category {
 
         $createdAt = $createdAt
-            ? DateTime::createFromFormat('Y-m-d', $createdAt)
+            ? (DateTime::createFromFormat('Y-m-d', $createdAt) ?: null)
             : new DateTime();
         $updatedAt = $updatedAt
-            ? DateTime::createFromFormat('Y-m-d', $updatedAt)
+            ? (DateTime::createFromFormat('Y-m-d', $updatedAt) ?: null)
             : new DateTime();
 
         return new Category(

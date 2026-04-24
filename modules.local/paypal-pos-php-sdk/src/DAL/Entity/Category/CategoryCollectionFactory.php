@@ -6,6 +6,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Category;
 
 use Exception;
 use WC_Product_Variable;
+use WP_Error;
 use WP_Term;
 
 class CategoryCollectionFactory
@@ -43,7 +44,7 @@ class CategoryCollectionFactory
             'product_cat'
         );
 
-        if (count($terms) === 0) {
+        if ($terms instanceof WP_Error || count($terms) === 0) {
             return $categoryCollection;
         }
 

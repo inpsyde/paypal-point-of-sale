@@ -249,7 +249,7 @@ class WpDbJobRepository implements JobRepository
             )
         );
 
-        if (!$result) {
+        if (!is_array($result) || $result === []) {
             return [];
         }
 

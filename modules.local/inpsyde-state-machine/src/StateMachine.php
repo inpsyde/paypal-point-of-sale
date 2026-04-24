@@ -248,6 +248,9 @@ class StateMachine implements StateMachineInterface
             $event->prepare($this);
         }
         $this->eventDispatcher->dispatch($event);
+        if (!$event instanceof StateChange) {
+            return;
+        }
         $targetState = $event->targetState();
         if ($targetState === $this->currentState()->name()) {
             return;

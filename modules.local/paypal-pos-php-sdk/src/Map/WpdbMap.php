@@ -107,7 +107,7 @@ class WpdbMap implements
             )
         );
 
-        if ($result === null) {
+        if (!is_array($result) || $result === []) {
             throw new IdNotFoundException(sprintf("No remote IDs found for local ID %d", (int) $localId));
         }
 

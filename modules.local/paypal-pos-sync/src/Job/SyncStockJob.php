@@ -120,6 +120,9 @@ class SyncStockJob implements Job
             ) as $variantUuid => $localId
         ) {
             $wcProduct = wc_get_product($localId);
+            if (!$wcProduct) {
+                continue;
+            }
             $newStock = (int) $wcProduct->get_stock_quantity();
 
             $remoteStock = $this->fetchRemoteStock(
