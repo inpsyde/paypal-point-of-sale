@@ -141,5 +141,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "0.0.0+izet-522-phpstan.fc2f208"
+    "version": "0.0.0+izet-522-phpstan.d6379a5"
 }

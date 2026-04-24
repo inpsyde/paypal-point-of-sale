@@ -6,7 +6,7 @@ declare (strict_types=1);
  * Plugin Name: PayPal Point of Sale
  * Plugin URI:  https://zettle.inpsyde.com/
  * Description: PayPal Point of Sale Integration for WooCommerce
- * Version: 0.0.0+izet-522-phpstan.fc2f208
+ * Version: 0.0.0+izet-522-phpstan.d6379a5
  * Requires at least: 6.8
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
@@ -66,7 +66,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidationFailedExcept
             try {
                 $package = (require __DIR__ . '/bootstrap.php')(__FILE__, \true);
             } catch (ValidationFailedException $exc) {
-                $messages = array_map(static function ($error): string {
+                $messages = array_map(static function (mixed $error): string {
                     if ($error instanceof ValidationFailedException) {
                         return $error->getMessage();
                     }

@@ -8,12 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInte
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\UnexpectedImageUrlException;
 class ImageBuilder implements BuilderInterface
 {
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null): ImageInterface
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): ImageInterface
     {
         assert(is_array($payload));
         $lookupKey = $this->findLookupKey($payload);

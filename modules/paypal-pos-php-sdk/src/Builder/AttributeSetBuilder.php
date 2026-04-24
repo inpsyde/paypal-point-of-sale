@@ -20,13 +20,7 @@ class AttributeSetBuilder implements BuilderInterface
     {
         $this->repository = $repository;
     }
-    /**
-     * @inheritDoc
-     *
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null): AttributeSet
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): AttributeSet
     {
         if (!$payload instanceof WC_Product) {
             throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload);

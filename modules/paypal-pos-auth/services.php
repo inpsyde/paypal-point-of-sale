@@ -42,7 +42,7 @@ return ['paypal-pos.oauth.token-storage.key' => static function (C $container): 
         $container->get('paypal-pos.oauth.token-storage.key'),
         new TokenFactory()
     );
-}, 'paypal-pos.oauth.authentication' => $wire(ZettleOAuthHeader::class, 'paypal-pos.oauth.token-storage'), 'paypal-pos.oauth.credentials.parent' => static function (C $container) {
+}, 'paypal-pos.oauth.authentication' => $wire(ZettleOAuthHeader::class, 'paypal-pos.oauth.token-storage'), 'paypal-pos.oauth.credentials.parent' => static function (C $container): ?ContainerInterface {
     return null;
 }, 'paypal-pos.oauth.credentials' => static function (C $container): ContainerInterface {
     return new CredentialsContainer($container->get('paypal-pos.oauth.jwt.parser'), [], $container->get('paypal-pos.oauth.credentials.parent'));

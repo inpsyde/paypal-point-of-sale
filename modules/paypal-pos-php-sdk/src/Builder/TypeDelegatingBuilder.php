@@ -16,12 +16,9 @@ class TypeDelegatingBuilder implements BuilderInterface
         $this->builders = $builders;
     }
     /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * @throws BuilderException
      */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         foreach ($this->builders as $typeSpecificBuilder) {
             if (!$typeSpecificBuilder->accepts($payload)) {

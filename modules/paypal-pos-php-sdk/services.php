@@ -279,14 +279,14 @@ return array_merge([
     },
     'paypal-pos.sdk.api.products.listener.update' => static function (C $container): callable {
         //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-        return static function (string $operation, $payload, bool $success): void {
+        return static function (string $operation, mixed $payload, bool $success): void {
             //Silence. This is only here so that extensions can add actual listeners
         };
         //phpcs:enable
     },
     'paypal-pos.sdk.api.products.listener.delete' => static function (C $container): callable {
         //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-        return static function (string $operation, $payload, bool $success) use ($container): void {
+        return static function (string $operation, mixed $payload, bool $success) use ($container): void {
             $productsDeleteListener = $container->get('paypal-pos.sdk.api.listener.delete.product');
             if (!$productsDeleteListener->accepts($operation, $payload, $success)) {
                 return;

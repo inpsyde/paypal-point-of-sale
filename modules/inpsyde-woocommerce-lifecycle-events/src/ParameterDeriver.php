@@ -29,7 +29,7 @@ class ParameterDeriver
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      */
-    public function parameterType($callable, int $param): string
+    public function parameterType(callable $callable, int $param): string
     {
         // This try-catch is only here to keep OCD linters happy about uncaught reflection exceptions.
         try {
@@ -122,7 +122,7 @@ class ParameterDeriver
      *
      * @return bool True if the callable represents a static method, false otherwise.
      */
-    protected function isClassCallable($callable): bool
+    protected function isClassCallable(callable $callable): bool
     {
         return is_array($callable) && is_string($callable[0]) && class_exists($callable[0]);
     }

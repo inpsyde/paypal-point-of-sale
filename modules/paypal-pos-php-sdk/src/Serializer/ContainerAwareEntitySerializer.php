@@ -27,7 +27,7 @@ class ContainerAwareEntitySerializer implements SerializerInterface
          * Since there can be multiple interfaces, we will merge all of them into one array lol
          */
         $interfaces = class_implements($className);
-        return array_merge(...array_values(array_map(function ($interface) use ($entity): array {
+        return array_merge(...array_values(array_map(function (string $interface) use ($entity): array {
             if (!$this->container->has($interface)) {
                 return [];
             }
