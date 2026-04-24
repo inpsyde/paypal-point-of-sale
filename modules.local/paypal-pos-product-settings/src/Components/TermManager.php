@@ -148,7 +148,7 @@ class TermManager
             $this->name(),
             $this->taxonomy(),
             array_merge(
-                $args,
+                $args ?? [],
                 [
                     'slug' => $this->slug(),
                 ]

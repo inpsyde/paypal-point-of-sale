@@ -127,8 +127,9 @@ return [
                 $data['price'] = $serializer->serialize($variant->price());
             }
 
-            if ($variant->options()->all()) {
-                $data['options'] = $serializer->serialize($variant->options());
+            $variantOptions = $variant->options();
+            if ($variantOptions !== null && $variantOptions->all()) {
+                $data['options'] = $serializer->serialize($variantOptions);
             }
 
             if ($variant->presentation()) {
