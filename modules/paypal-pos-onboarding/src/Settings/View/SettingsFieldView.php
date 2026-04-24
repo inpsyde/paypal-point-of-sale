@@ -74,6 +74,8 @@ class SettingsFieldView implements OnboardingView
                 $fieldConfig = $this->settingsApi->form_fields[$fieldId];
                 unset($fieldConfig['custom_attributes'], $fieldConfig['zettle_hide']);
                 $field = $this->settingsApi->generate_settings_html([$fieldId => $fieldConfig], \false);
+                // Output comes from WC_Settings_API::generate_settings_html, a trusted source.
+                // phpcs:ignore WordPressVIPMinimum.Functions.StripTags.StripTagsTwoParameters
                 $strippedField = strip_tags($field, sprintf('<%s>', implode('><', $this->allowedFieldTags)));
                 echo '<div class="zettle-client-id field-row">';
                 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped

@@ -16,7 +16,7 @@ return ['paypal-pos.settings.url' => static function (C $container): string {
     return admin_url('admin.php?page=wc-settings&tab=zettle');
 }, 'paypal-pos.settings.is-integration-page' => static function (C $container): callable {
     return static function (): bool {
-        return filter_input(\INPUT_GET, 'tab') === 'zettle';
+        return filter_input(\INPUT_GET, 'tab', \FILTER_SANITIZE_FULL_SPECIAL_CHARS) === 'zettle';
     };
 }, 'paypal-pos.settings.shop-link' => static function (C $container): array {
     return ['title' => esc_html__('Order PayPal Point of Sale Hardware', 'paypal-point-of-sale'), 'url' => esc_url_raw('https://shop.zettle.com/'), 'icon' => \true];
@@ -87,7 +87,7 @@ return ['paypal-pos.settings.url' => static function (C $container): string {
     assert($stateMachine instanceof StateMachineInterface);
     return new ZettleIntegration($container->get('paypal-pos.settings.wc-integration.id'), $container->get('paypal-pos.settings.wc-integration.header'), $stateMachine->currentState()->name(), $container->get('paypal-pos.settings.fields'), $container->get('paypal-pos.settings.is-integration-page'), $container->get('paypal-pos.settings'), ...$container->get('paypal-pos.settings.field-renderers'));
 }, 'paypal-pos.settings.is-settings-save-request' => static function (C $container): bool {
-    return filter_input(\INPUT_POST, 'save') && $container->get('paypal-pos.settings.is-integration-page')();
+    return filter_input(\INPUT_POST, 'save', \FILTER_SANITIZE_FULL_SPECIAL_CHARS) && $container->get('paypal-pos.settings.is-integration-page')();
 }, 'paypal-pos.settings.page.factory' => static function (C $container): callable {
     return static function () use ($container): SettingsPage {
         return new SettingsPage($container->get('paypal-pos.settings.wc-integration'), $container->get('paypal-pos.settings.wc-integration.id'), $container->get('paypal-pos.settings.wc-integration.title'), $container->get('paypal-pos.logger.woocommerce'), $container->get('paypal-pos.throw-unhandled-errors'));

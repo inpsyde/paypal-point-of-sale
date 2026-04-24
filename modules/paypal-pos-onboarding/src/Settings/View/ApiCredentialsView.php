@@ -74,6 +74,8 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
                 unset($fieldConfig['zettle_hide']);
                 $fieldConfig['custom_attributes'] = $this->filterCustomAttributes($fieldConfig['custom_attributes']);
                 $field = $this->settingsApi->generate_settings_html([$fieldId => $fieldConfig], \false);
+                // Output comes from WC_Settings_API::generate_settings_html, a trusted source.
+                // phpcs:ignore WordPressVIPMinimum.Functions.StripTags.StripTagsTwoParameters
                 $strippedField = strip_tags($field, sprintf('<%s>', implode('><', $this->allowedFieldTags)));
                 echo '<div class="zettle-api-key field-row">';
                 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped

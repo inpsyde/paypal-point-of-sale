@@ -33,7 +33,7 @@ class RequestDataFilter
                 return \false;
             }
             $compare = $thing[1];
-            $found = filter_var($this->requestData[$key]);
+            $found = filter_var($this->requestData[$key], \FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             if ($found !== $compare) {
                 return \false;
             }

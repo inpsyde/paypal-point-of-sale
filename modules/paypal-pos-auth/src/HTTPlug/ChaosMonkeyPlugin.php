@@ -56,7 +56,7 @@ class ChaosMonkeyPlugin implements Plugin
         $error = \false;
         $highestP = 0;
         foreach ($this->statusProbability as $status => $probability) {
-            $curP = rand(0, 99);
+            $curP = wp_rand(0, 99);
             if ($curP < $probability && $curP > $highestP) {
                 $error = (int) $status;
             }

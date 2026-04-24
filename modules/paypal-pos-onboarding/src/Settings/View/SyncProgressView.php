@@ -131,7 +131,7 @@ class SyncProgressView implements OnboardingView
     public function navigationNotice(): string
     {
         return wc_help_tip(sprintf(
-            /** translators: %1$s: Shortname of the Plugin */
+            /* translators: %1$s: Shortname of the Plugin */
             esc_html__('If you navigate away during sync, you can always come back and continue.
                         However, %1$s will only start working correctly once it is finished.', 'paypal-point-of-sale'),
             $this->pluginTitle

@@ -23,6 +23,8 @@ class FileBasedLocker implements Locker
      */
     public function lock(): bool
     {
+        // Low-level file lock; WP_Filesystem is unavailable in queue runner context.
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
         return (bool) file_put_contents($this->file, (string) time());
     }
     /**
@@ -33,6 +35,7 @@ class FileBasedLocker implements Locker
         if (!file_exists($this->file)) {
             return \true;
         }
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
         return unlink($this->file);
     }
     /**
