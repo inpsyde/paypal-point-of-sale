@@ -5,6 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Category;
 
 use Exception;
 use WC_Product_Variable;
+use WP_Error;
 use WP_Term;
 class CategoryCollectionFactory
 {
@@ -31,7 +32,7 @@ class CategoryCollectionFactory
     {
         $categoryCollection = $this->create();
         $terms = wp_get_post_terms($wcProductVariable->get_id(), 'product_cat');
-        if (count($terms) === 0) {
+        if ($terms instanceof WP_Error || count($terms) === 0) {
             return $categoryCollection;
         }
         /** @var WP_Term $term */

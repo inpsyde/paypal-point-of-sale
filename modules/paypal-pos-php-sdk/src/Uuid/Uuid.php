@@ -7,7 +7,6 @@ use WC_Product;
 use WC_Product_Simple;
 use function chr;
 use function count;
-use function strlen;
 use const PHP_INT_SIZE;
 /**
  * This class produces valid UUIDv1 strings based on a WC_Product.
@@ -95,12 +94,14 @@ class Uuid
     private static function toBinary(string $digits): string
     {
         $bytes = '';
-        $count = strlen($digits);
+        /** @var int[] $values */
+        $values = array_map('intval', str_split($digits));
+        $count = count($values);
         while ($count) {
             $quotient = [];
             $remainder = 0;
             for ($i = 0; $i !== $count; ++$i) {
-                $carry = $digits[$i] + $remainder * 10;
+                $carry = $values[$i] + $remainder * 10;
                 $digit = $carry >> 8;
                 $remainder = $carry & 0xff;
                 if ($digit || $quotient) {
@@ -108,7 +109,8 @@ class Uuid
                 }
             }
             $bytes = chr($remainder) . $bytes;
-            $count = count($digits = $quotient);
+            $values = $quotient;
+            $count = count($values);
         }
         return $bytes;
     }

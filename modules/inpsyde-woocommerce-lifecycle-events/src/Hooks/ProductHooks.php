@@ -17,7 +17,7 @@ use WC_Product_Variable;
 class ProductHooks
 {
     /**
-     * @var WC_Product[]
+     * @var array<int, array<string, callable[]>>
      */
     private array $snapshots = [];
     private EventDispatcher $dispatcher;
@@ -106,6 +106,9 @@ class ProductHooks
     {
         $id = $old->get_id();
         $hookName = current_action();
+        if (!is_string($hookName)) {
+            return;
+        }
         /**
          * Allow multiple instances on THE SAME entrypoint. The idea here is that
          * we might be seeing a nested update of the same product here
@@ -137,7 +140,6 @@ class ProductHooks
             }
         }
         $this->preWarmCaches($old);
-        /** @psalm-suppress UndefinedMethod */
         $this->snapshots[$id][$hookName][] = $hook;
     }
     /**

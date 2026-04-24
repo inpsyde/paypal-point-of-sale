@@ -160,19 +160,15 @@ class StateMachine implements StateMachineInterface
         return $this->transitions;
     }
     /**
-     * @param string|StateInterface $state
-     *
-     * @return StateInterface
      * @throws UnexpectedValueException
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
-    private function getState($state): StateInterface
+    private function getState(string|StateInterface $state): StateInterface
     {
         $stateName = is_string($state) ? $state : $state->name();
         if (!array_key_exists($stateName, $this->states)) {
             throw new UnexpectedValueException("can't find {$stateName} in states");
         }
-        return $this->states[$state];
+        return $this->states[$stateName];
     }
     public function initialState(): ?StateInterface
     {
@@ -195,6 +191,9 @@ class StateMachine implements StateMachineInterface
             $event->prepare($this);
         }
         $this->eventDispatcher->dispatch($event);
+        if (!$event instanceof StateChange) {
+            return;
+        }
         $targetState = $event->targetState();
         if ($targetState === $this->currentState()->name()) {
             return;

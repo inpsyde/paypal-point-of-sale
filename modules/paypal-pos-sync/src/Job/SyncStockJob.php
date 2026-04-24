@@ -6,7 +6,6 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
@@ -79,6 +78,9 @@ class SyncStockJob implements Job
         }
         foreach ($this->fetchVariantUuids($wcProduct, $logger) as $variantUuid => $localId) {
             $wcProduct = wc_get_product($localId);
+            if (!$wcProduct) {
+                continue;
+            }
             $newStock = (int) $wcProduct->get_stock_quantity();
             $remoteStock = $this->fetchRemoteStock($inventory, $variantUuid);
             $stockChange = $newStock - $remoteStock;

@@ -21,8 +21,8 @@ class CategoryFactory
      */
     public function create(string $name, ?string $uuid = null, ?string $etag = null, ?string $createdAt = null, ?string $updatedAt = null, ?string $updatedBy = null): Category
     {
-        $createdAt = $createdAt ? DateTime::createFromFormat('Y-m-d', $createdAt) : new DateTime();
-        $updatedAt = $updatedAt ? DateTime::createFromFormat('Y-m-d', $updatedAt) : new DateTime();
+        $createdAt = $createdAt ? DateTime::createFromFormat('Y-m-d', $createdAt) ?: null : new DateTime();
+        $updatedAt = $updatedAt ? DateTime::createFromFormat('Y-m-d', $updatedAt) ?: null : new DateTime();
         return new Category($name, $uuid ?? (string) Uuid::v1(), $etag, $createdAt, $updatedAt, $updatedBy ?? (string) Uuid::v1());
     }
     /**

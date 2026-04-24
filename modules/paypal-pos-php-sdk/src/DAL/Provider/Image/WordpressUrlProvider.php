@@ -12,6 +12,6 @@ class WordpressUrlProvider implements UrlProviderInterface
      */
     public function provide(string $attachmentId): string
     {
-        return str_replace('http://', 'https://', utf8_uri_encode(wp_get_attachment_image_url((int) $attachmentId, 'full')));
+        return str_replace('http://', 'https://', utf8_uri_encode((string) wp_get_attachment_image_url((int) $attachmentId, 'full')));
     }
 }

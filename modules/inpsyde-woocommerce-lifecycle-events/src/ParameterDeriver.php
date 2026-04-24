@@ -35,21 +35,21 @@ class ParameterDeriver
         try {
             switch (\true) {
                 // See note on isClassCallable() for why this must be the first case.
-                case $this->isClassCallable($callable):
+                case is_array($callable) && $this->isClassCallable($callable):
                     $reflect = new ReflectionClass($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isFunctionCallable($callable):
-                case $this->isClosureCallable($callable):
+                case is_string($callable) && $this->isFunctionCallable($callable):
+                case $callable instanceof Closure && $this->isClosureCallable($callable):
                     /** @psalm-suppress ArgumentTypeCoercion */
                     $reflect = new ReflectionFunction($callable);
                     $params = $reflect->getParameters();
                     break;
-                case $this->isObjectCallable($callable):
+                case is_array($callable) && $this->isObjectCallable($callable):
                     $reflect = new ReflectionObject($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isInvokable($callable):
+                case is_object($callable) && $this->isInvokable($callable):
                     $params = (new ReflectionMethod($callable, '__invoke'))->getParameters();
                     break;
                 default:

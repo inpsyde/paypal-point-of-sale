@@ -90,7 +90,7 @@ class VariantBuilder implements BuilderInterface
         $childrenWithStock = [];
         foreach ($product->get_visible_children() as $variationId) {
             $variation = wc_get_product($variationId);
-            if ($variation === null) {
+            if (!$variation) {
                 continue;
             }
             if (!$variation->is_purchasable()) {

@@ -31,7 +31,7 @@ class GalleryImageIterator implements WcProductIterator
     #[\ReturnTypeWillChange]
     public function key()
     {
-        return key($this->galleryIds);
+        return (int) key($this->galleryIds);
     }
     public function valid(): bool
     {

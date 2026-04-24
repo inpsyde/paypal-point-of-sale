@@ -50,10 +50,11 @@ class ProductsCommand
     public function validate(array $args, array $assocArgs): void
     {
         $productIds = wc_get_products(['return' => 'ids', 'limit' => -1, 'status' => ProductState::PUBLISH, 'type' => $this->productTypeWhitelist]);
-        if (!$productIds) {
+        if (!is_array($productIds) || $productIds === []) {
             WP_CLI::line('No Products found.');
             return;
         }
+        /** @var int[] $productIds */
         $unSyncableProducts = $this->processProducts($productIds);
         if (!$unSyncableProducts) {
             WP_CLI::line('No unsyncable Products found. All Products are valid and synced.');
@@ -79,6 +80,9 @@ class ProductsCommand
             }
             $problems = $this->statusCodeMatcher->match($statusCodes);
             $product = wc_get_product($productId);
+            if (!$product instanceof WC_Product) {
+                continue;
+            }
             $notSyncedProducts[] = ['ID' => $productId, 'Name' => (string) $product->get_name(), 'Errors' => $this->renderProblems($problems, $this->trySync($product))];
         }
         return $notSyncedProducts;

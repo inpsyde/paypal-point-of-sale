@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk;
 
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;

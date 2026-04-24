@@ -54,7 +54,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     public function remoteIds(int $localId): array
     {
         $result = $this->wpdb->get_results($this->wpdb->prepare("\n            SELECT\n                `remote_id`\n            FROM\n                {$this->tableName()}\n            WHERE\n                `local_id` = %d\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $localId, $this->type, $this->siteId));
-        if ($result === null) {
+        if (!is_array($result) || $result === []) {
             throw new IdNotFoundException(sprintf("No remote IDs found for local ID %d", (int) $localId));
         }
         return array_column($result, 'remote_id');

@@ -150,7 +150,7 @@ class WpDbJobRepository implements JobRepository
         /** @lang sql */
         $sql = "\n            SELECT\n                `ID` as `id`,\n                `type`,\n                `args`,\n                `site_id`,\n                `created`,\n                `retry_count`\n            FROM\n                {$this->database->prefix}{$this->queueTable->name()}\n            WHERE\n                {$where}\n            LIMIT 0,%d\n        ";
         $result = $this->database->get_results($this->database->prepare($sql, $limit));
-        if (!$result) {
+        if (!is_array($result) || $result === []) {
             return [];
         }
         /** @psalm-suppress PossiblyInvalidArgument */
