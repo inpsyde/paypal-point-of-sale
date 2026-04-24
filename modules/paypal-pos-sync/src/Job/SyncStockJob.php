@@ -49,6 +49,7 @@ class SyncStockJob implements Job
      * @inheritDoc
      *
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     public function execute(ContextInterface $context, JobRepository $repository, LoggerInterface $logger): bool
     {
