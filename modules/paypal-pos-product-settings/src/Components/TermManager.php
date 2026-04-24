@@ -121,6 +121,6 @@ class TermManager
         /**
          * @psalm-suppress InvalidReturnStatement
          */
-        return wp_insert_term($this->name(), $this->taxonomy(), array_merge($args, ['slug' => $this->slug()]));
+        return wp_insert_term($this->name(), $this->taxonomy(), array_merge($args ?? [], ['slug' => $this->slug()]));
     }
 }

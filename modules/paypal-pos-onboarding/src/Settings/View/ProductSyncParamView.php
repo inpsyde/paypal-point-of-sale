@@ -204,9 +204,9 @@ class ProductSyncParamView implements OnboardingView
     private function zettleProductsCount(): int
     {
         if ($this->zettleProductsCount === null) {
-            $this->zettleProductsCount = ($this->zettleProductsCountQuery)();
+            $this->zettleProductsCount = (int) ($this->zettleProductsCountQuery)();
         }
-        return $this->zettleProductsCount;
+        return (int) $this->zettleProductsCount;
     }
     /**
      * @return int
@@ -214,9 +214,9 @@ class ProductSyncParamView implements OnboardingView
     private function totalWcProductsCount(): int
     {
         if ($this->totalWcProductsCount === null) {
-            $this->totalWcProductsCount = ($this->totalWcProductsCountQuery)();
+            $this->totalWcProductsCount = (int) ($this->totalWcProductsCountQuery)();
         }
-        return $this->totalWcProductsCount;
+        return (int) $this->totalWcProductsCount;
     }
     /**
      * @return int
@@ -224,8 +224,8 @@ class ProductSyncParamView implements OnboardingView
     private function supportedWcProductsCount(): int
     {
         if ($this->supportedWcProductsCount === null) {
-            $this->supportedWcProductsCount = ($this->supportedWcProductsCountQuery)();
+            $this->supportedWcProductsCount = (int) ($this->supportedWcProductsCountQuery)();
         }
-        return $this->supportedWcProductsCount;
+        return (int) $this->supportedWcProductsCount;
     }
 }

@@ -27,7 +27,8 @@ class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
         $options = [];
         $variantOptionDefinitions = $entity->variantOptionDefinitions();
         foreach ($entity->variants()->all() as $variant) {
-            $currentOptions = $variant->options()->all();
+            $variantOptions = $variant->options();
+            $currentOptions = $variantOptions !== null ? $variantOptions->all() : [];
             foreach ($currentOptions as $currentOption) {
                 $options[$currentOption->name()][] = $currentOption->value();
             }
@@ -48,9 +49,11 @@ class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
      */
     private function assertVariantOptionAmounts(ProductInterface $product): void
     {
-        $definitions = $product->variantOptionDefinitions()->definitions();
+        $variantOptionDefinitions = $product->variantOptionDefinitions();
+        $definitions = $variantOptionDefinitions !== null ? $variantOptionDefinitions->definitions() : [];
         foreach ($product->variants()->all() as $variant) {
-            $options = $variant->options()->all();
+            $variantOptions = $variant->options();
+            $options = $variantOptions !== null ? $variantOptions->all() : [];
             $definitionsAmount = count($definitions);
             $currentOptionsAmount = count($options);
             if ($definitionsAmount !== $currentOptionsAmount) {

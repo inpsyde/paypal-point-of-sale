@@ -33,7 +33,7 @@ class StatusCodeMatcher implements ArrayAccess
                 $statusCode = SyncStatusCodes::UNDEFINED;
                 $message = $this[$statusCode];
             }
-            $map[$statusCode] = $message;
+            $map[$statusCode] = (string) $message;
         }
         return $map;
     }

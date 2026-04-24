@@ -159,7 +159,7 @@ class Products
         $url = (string) $this->uri->withPath("/organizations/self/products/v2/{$product->uuid()}");
         $success = \true;
         $existingProduct = $this->read((string) $product->uuid());
-        $etag = $existingProduct->etag();
+        $etag = (string) $existingProduct->etag();
         $product->setEtag($etag);
         $payload = $this->serializer->serialize($product);
         try {

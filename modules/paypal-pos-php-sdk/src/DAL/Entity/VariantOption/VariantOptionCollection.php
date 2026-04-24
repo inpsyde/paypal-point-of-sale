@@ -79,7 +79,7 @@ class VariantOptionCollection
     /**
      * @return VariantOption[]
      */
-    public function all(): ?array
+    public function all(): array
     {
         return $this->collection;
     }

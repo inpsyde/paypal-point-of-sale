@@ -49,6 +49,9 @@ class DeleteVariableWithoutVariationsListener
         }
         $productId = (int) $new->get_id();
         $uuid = $this->uuidFromId($productId);
+        if ($uuid === null) {
+            return;
+        }
         /**
          * We now know that a remote products exists AND we just got rid of all Variations.
          * This means that we can no longer use our LOCAL data to clean up the id-map since

@@ -8,6 +8,7 @@ use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeSaverInterface;
+use WC_Product;
 class ProductSettingsTab
 {
     public const SECTION_KEY = 'zettle-integration';
@@ -95,6 +96,9 @@ class ProductSettingsTab
     {
         global $post;
         $product = $this->wcProductRepository->findById((int) $post->ID);
+        if (!$product instanceof WC_Product) {
+            return;
+        }
         ?>
         <div id="zettle_integration_panel" class="panel woocommerce_options_panel">
             <h2>

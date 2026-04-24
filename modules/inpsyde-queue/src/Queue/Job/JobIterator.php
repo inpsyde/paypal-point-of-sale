@@ -76,6 +76,7 @@ class JobIterator implements Iterator
      */
     public function current(): JobRecord
     {
+        assert($this->current !== null);
         return $this->current;
     }
     /**

@@ -45,6 +45,7 @@ class VariantBuilder implements BuilderInterface
     public function build(string $className, $wcProduct, ?BuilderInterface $builder = null)
     {
         assert($wcProduct instanceof WC_Product);
+        assert($builder instanceof BuilderInterface);
         $imageId = (int) $wcProduct->get_image_id();
         $presentation = null;
         if ($imageId) {

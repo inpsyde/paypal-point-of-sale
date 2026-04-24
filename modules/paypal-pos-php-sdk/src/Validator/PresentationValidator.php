@@ -25,8 +25,8 @@ class PresentationValidator implements ValidatorInterface
     public function validate(mixed $entity): bool
     {
         assert($entity instanceof Presentation);
-        $this->assertValidLongHexValue($entity->backgroundColor());
-        $this->assertValidLongHexValue($entity->textColor());
+        $this->assertValidLongHexValue((string) $entity->backgroundColor());
+        $this->assertValidLongHexValue((string) $entity->textColor());
         return \true;
     }
     /**

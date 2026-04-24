@@ -54,7 +54,7 @@ class SyncStockJob implements Job
     {
         $productId = $context->args()->productId;
         $wcProduct = wc_get_product($productId);
-        if ($wcProduct === \false) {
+        if (!$wcProduct instanceof WC_Product) {
             $logger->error("Cant find Product with ProductID: {$productId}");
             return \false;
         }

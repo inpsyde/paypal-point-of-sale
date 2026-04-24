@@ -202,6 +202,7 @@ class ProductHooks
              * Remove the hook again so we can be sure events are executed
              * only once for each product
              */
+            assert($hook !== null);
             foreach ($this->afterSaveHookNames() as $hookName) {
                 remove_action($hookName, $hook);
             }
@@ -286,8 +287,6 @@ class ProductHooks
      *
      * @param int $argPosition
      * The position of the WC_Product instance|id in the 'outer' callback signature
-     *
-     * @return callable(): void
      */
     private function createWcProductGuard(callable $callable, int $argPosition = 0): callable
     {

@@ -17,7 +17,7 @@ class VariantInventoryStateCollection
      */
     public function __construct(?array $inventoryStates = [])
     {
-        foreach ($inventoryStates as $inventoryState) {
+        foreach ($inventoryStates ?? [] as $inventoryState) {
             if ($inventoryState instanceof VariantInventoryState) {
                 $this->add($inventoryState);
             }
