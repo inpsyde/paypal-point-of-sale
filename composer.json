@@ -102,7 +102,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "cs": "@php ./vendor/bin/phpcs -n -s --parallel=24",
+        "cs": "@php ./vendor/bin/phpcs -s --parallel=24",
         "cs:phpcbf": "@php ./vendor/bin/phpcbf  --parallel=24;exit 0",
         "cs:interactive": "@php ./vendor/bin/phpcs -a",
         "cs:dev": [
