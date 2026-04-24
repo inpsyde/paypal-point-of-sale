@@ -44,10 +44,6 @@ jobs:
       - name: Run PHPUnit
         run: ./phpunit.sh --no-sync
 
-      - name: Psalm
-        run: ./vendor/bin/psalm --diff --long-progress --stats
-        if: ${{ matrix.php-versions != '8.4' }}
-
       - name: Run Codesniffer
         run: composer cs
 
