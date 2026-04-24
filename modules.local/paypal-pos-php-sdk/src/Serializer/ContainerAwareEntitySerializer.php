@@ -36,7 +36,7 @@ class ContainerAwareEntitySerializer implements SerializerInterface
         return array_merge(
             ...array_values(
                 array_map(
-                    function ($interface) use ($entity): array {
+                    function (string $interface) use ($entity): array {
                         if (!$this->container->has($interface)) {
                             return [];
                         }

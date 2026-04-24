@@ -95,7 +95,7 @@ use Syde\PayPal\PointOfSale\Validation\ValidationFailedException;
             try {
                 $package = (require __DIR__ . '/bootstrap.php')(__FILE__, true);
             } catch (ValidationFailedException $exc) {
-                $messages = array_map(static function ($error): string {
+                $messages = array_map(static function (mixed $error): string {
                     if ($error instanceof ValidationFailedException) {
                         return $error->getMessage();
                     }

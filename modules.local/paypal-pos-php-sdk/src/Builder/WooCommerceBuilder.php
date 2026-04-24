@@ -21,12 +21,7 @@ class WooCommerceBuilder implements TypeSpecificBuilderInterface
         $this->builder = $builder;
     }
 
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         return $this->builder->build($className, $payload, $builder ?? $this);
     }

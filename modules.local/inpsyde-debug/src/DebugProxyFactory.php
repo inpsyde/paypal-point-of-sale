@@ -34,7 +34,7 @@ class DebugProxyFactory
             $methodsToProxy = $this->determineProxyMethods($subject, array_values($methods));
 
             $methods = array_map(
-                function (string $name) use ($subject, $methodsToProxy) {
+                function (string $name) use ($subject, $methodsToProxy): string {
                     if ($name === '__construct') {
                         return '';
                     }

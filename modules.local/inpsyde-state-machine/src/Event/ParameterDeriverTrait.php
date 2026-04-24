@@ -26,10 +26,8 @@ trait ParameterDeriverTrait
      *   The callable for which we want the parameter type.
      * @return string
      *   The class the parameter is type hinted on.
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
-    protected function getParameterType($callable): string
+    protected function getParameterType(callable $callable): string
     {
         // phpcs:enable
         // We can't type hint $callable as it could be an array, and arrays are not callable.
@@ -125,7 +123,7 @@ trait ParameterDeriverTrait
      *
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
-    protected function isClassCallable($callable): bool
+    protected function isClassCallable(callable $callable): bool
     {
         // phpcs:enable
 

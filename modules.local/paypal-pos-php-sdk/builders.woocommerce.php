@@ -48,7 +48,7 @@ $key = static function (string $className): string {
 $builder = static function (callable $callable) {
     return static function (C $container) use ($callable): B {
         return new CallbackBuilder(
-            static function (string $className, $payload, B $builder) use ($callable, $container) {
+            static function (string $className, mixed $payload, B $builder) use ($callable, $container) {
                 return $callable($payload, $builder, $container);
             }
         );

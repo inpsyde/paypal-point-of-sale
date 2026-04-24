@@ -58,7 +58,7 @@ return [
         ZettleOAuthHeader::class,
         'paypal-pos.oauth.token-storage'
     ),
-    'paypal-pos.oauth.credentials.parent' => static function (C $container) {
+    'paypal-pos.oauth.credentials.parent' => static function (C $container): ?ContainerInterface {
         return null;
     },
     'paypal-pos.oauth.credentials' => static function (C $container): ContainerInterface {
