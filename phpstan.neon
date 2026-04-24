@@ -5,8 +5,8 @@ parameters:
     level: 8
     reportUnmatchedIgnoredErrors: false
     scanFiles:
-        - .psalm/stubs.php
-        - .psalm/wpcli.php
+        - stubs/stubs.php
+        - stubs/wpcli.php
         - vendor/inpsyde/wp-stubs-versions/latest.php
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
     paths:
