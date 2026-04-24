@@ -177,7 +177,7 @@ class WpDbJobRepository implements JobRepository
         }
         $sanitizedHashes = array_map(
             function (string $hash): string {
-                return $this->database->prepare('%s', $hash);
+                return (string) $this->database->prepare('%s', $hash);
             },
             $hashes
         );
@@ -206,7 +206,7 @@ class WpDbJobRepository implements JobRepository
         if ($id === 0) {
             return false;
         }
-        $sql = $this->database->prepare(
+        $sql = (string) $this->database->prepare(
             "DELETE FROM {$this->database->prefix}{$this->queueTable->name()} WHERE `ID` = %d",
             $id
         );
@@ -273,7 +273,7 @@ class WpDbJobRepository implements JobRepository
         if (!empty($types)) {
             $sanitizedTypes = array_map(
                 function (string $type): string {
-                    return $this->database->prepare('%s', $type);
+                    return (string) $this->database->prepare('%s', $type);
                 },
                 $types
             );

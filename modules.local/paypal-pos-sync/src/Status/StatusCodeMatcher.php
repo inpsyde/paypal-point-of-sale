@@ -40,7 +40,7 @@ class StatusCodeMatcher implements ArrayAccess
                 $message = $this[$statusCode];
             }
 
-            $map[$statusCode] = $message;
+            $map[$statusCode] = (string) $message;
         }
 
         return $map;

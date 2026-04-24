@@ -205,7 +205,7 @@ class Products
 
         $existingProduct = $this->read((string) $product->uuid());
 
-        $etag = $existingProduct->etag();
+        $etag = (string) $existingProduct->etag();
         $product->setEtag($etag);
 
         $payload = $this->serializer->serialize($product);
