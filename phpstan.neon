@@ -2,7 +2,7 @@ includes:
     - vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - vendor/swissspidy/phpstan-no-private/rules.neon
 parameters:
-    level: 7
+    level: 8
     reportUnmatchedIgnoredErrors: false
     scanFiles:
         - .psalm/stubs.php
