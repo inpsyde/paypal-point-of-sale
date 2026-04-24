@@ -142,10 +142,9 @@ class StateMachine implements StateMachineInterface
         if (is_string($transition)) {
             $transitionName = $transition;
             $transition = $this->transition($transition);
-        } else {
-            assert($transition instanceof TransitionInterface);
-            $transitionName = $transition->name();
         }
+
+        $transitionName ??= $transition->name();
 
         $guards = [];
         foreach ($this->guards as $guard) {
@@ -177,17 +176,18 @@ class StateMachine implements StateMachineInterface
 
     protected function setCurrentState(string|StateInterface $state): StateMachineInterface
     {
-        if ($state instanceof StateInterface) {
-            if (!in_array($state, $this->states, true)) {
-                throw new UnexpectedValueException("can't find object {$state->name()} in states");
-            }
-        } else {
+        if (!($state instanceof StateInterface)) {
             $state = $this->getState($state);
         }
 
+        if (!in_array($state, $this->states, true)) {
+            throw new UnexpectedValueException("can't find object {$state->name()} in states");
+        }
+
         $this->currentState = $state;
-        // phpcs:disable NeutronStandard.Functions.DisallowCallUserFunc.CallUserFunc
-        $this->stateHandler && call_user_func_array($this->stateHandler, [$state]);
+        if ($this->stateHandler !== null) {
+            ($this->stateHandler)($state);
+        }
 
         return $this;
     }
