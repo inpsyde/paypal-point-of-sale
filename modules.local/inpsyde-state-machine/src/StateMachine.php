@@ -209,13 +209,9 @@ class StateMachine implements StateMachineInterface
     }
 
     /**
-     * @param string|StateInterface $state
-     *
-     * @return StateInterface
      * @throws UnexpectedValueException
-	 * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
-    private function getState($state): StateInterface
+    private function getState(string|StateInterface $state): StateInterface
     {
         $stateName = is_string($state)
             ? $state
@@ -224,7 +220,7 @@ class StateMachine implements StateMachineInterface
             throw new UnexpectedValueException("can't find {$stateName} in states");
         }
 
-        return $this->states[$state];
+        return $this->states[$stateName];
     }
 
     public function initialState(): ?StateInterface
