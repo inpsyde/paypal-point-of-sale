@@ -4,8 +4,7 @@ on:
   push:
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -15,7 +14,6 @@ jobs:
       IZETTLE_PLACEHOLDER_IMAGES_ENABLED: 1
 
     steps:
-      # Ubuntu will already ship composer 2 which currently breaks our tools. Remove this when it's no longer needed
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
@@ -32,20 +30,8 @@ jobs:
       - name: Validate composer.json
         run: composer validate
 
-      - name: Remove Psalm for PHP 8.4
-        run: composer remove --dev vimeo/psalm
-        if: ${{ matrix.php-versions == '8.4' }}
-
-      - name: Install dependencies
-        uses: ramsey/composer-install@v1
-        with:
-          composer-options: "--prefer-dist"
-
       - name: Run PHPUnit
         run: ./phpunit.sh --no-sync
-
-      - name: Run Codesniffer
-        run: composer cs
 
       - uses: 8398a7/action-slack@v2
         with:
@@ -53,3 +39,17 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: failure() && ( steps.git.outputs.branch == 'master' || steps.git.outputs.branch == 'development' )
+  coding-standards-analysis-php:
+      uses: inpsyde/reusable-workflows/.github/workflows/coding-standards-php.yml@main
+      secrets:
+          COMPOSER_AUTH_JSON: ${{secrets.PACKAGIST_AUTH_JSON}}
+      with:
+          PHP_VERSION: '8.2'
+          PHPCS_ARGS: '--report-full --runtime-set ignore_warnings_on_exit 1'
+  static-code-analysis-php:
+      uses: inpsyde/reusable-workflows/.github/workflows/static-analysis-php.yml@main
+      secrets:
+          COMPOSER_AUTH_JSON: ${{secrets.PACKAGIST_AUTH_JSON}}
+      with:
+          PHP_VERSION: '8.2'
+          PHPSTAN_ARGS: '--no-progress --memory-limit=2G'
