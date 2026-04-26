@@ -17,10 +17,6 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-      # Save the current branch name in an environment variable, to be used for conditional logic below
-      - name: Extract branch name into env
-        id: git
-        run: echo "::set-output name=branch::$(echo ${GITHUB_REF##*/})"
 
       - uses: actions/checkout@v1
 
@@ -32,13 +28,6 @@ jobs:
 
       - name: Run PHPUnit
         run: ./phpunit.sh --no-sync
-
-      - uses: 8398a7/action-slack@v2
-        with:
-          status: ${{ job.status }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: failure() && ( steps.git.outputs.branch == 'master' || steps.git.outputs.branch == 'development' )
   coding-standards-analysis-php:
       uses: inpsyde/reusable-workflows/.github/workflows/coding-standards-php.yml@main
       secrets:
