@@ -15,15 +15,8 @@ class CustomColumn
 
     /**
      * Add Custom Column - if it's not existing
-     *
-     * @param $columns
-     *
-     * @return mixed
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
-    public function add($columns)
+    public function add(array $columns): array
     {
         if (!isset($columns[$this->key])) {
             $columns[$this->key] = __('PayPal Point of Sale Status', 'paypal-point-of-sale');

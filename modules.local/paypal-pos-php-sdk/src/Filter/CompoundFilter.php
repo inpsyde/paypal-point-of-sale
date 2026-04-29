@@ -18,10 +18,7 @@ class CompoundFilter implements FilterInterface
         $this->filters = $filters;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
         foreach ($this->filters as $filter) {
             if ($filter->accepts($entity, $payload)) {
@@ -32,10 +29,7 @@ class CompoundFilter implements FilterInterface
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filter($entity, $payload)
+    public function filter(mixed $entity, mixed $payload): mixed
     {
         foreach ($this->filters as $filter) {
             if ($filter->accepts($entity, $payload)) {

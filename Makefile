@@ -24,11 +24,8 @@ test:
 	ddev exec ./phpunit.sh
 
 lint:
-	ddev exec phpcs --parallel=8 -n -s --runtime-set ignore_warnings_on_exit 1
-	ddev exec psalm --threads=8
-
-lint-more:
-	ddev exec psalm --threads=8 -- --show-info=true
+	ddev exec phpcs --parallel=8 -s --runtime-set ignore_warnings_on_exit 1
+	ddev exec phpstan analyze --memory-limit=2G
 
 fix-lint:
 	ddev exec phpcbf

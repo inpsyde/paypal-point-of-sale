@@ -28,9 +28,7 @@ class Psr18RestClientTest extends BrainMonkeyWpTestCase
 
         $baseMock = new ClientMockHelper('GET', $url);
         $testee = new Psr18RestClient(
-            $this->logger,
             $baseMock->getClient($responseStatus, $responseJson),
-            $baseMock->getUriFactory(),
             $baseMock->getRequestFactory(),
             $baseMock->getStreamFactory()
         );
@@ -47,9 +45,7 @@ class Psr18RestClientTest extends BrainMonkeyWpTestCase
         $baseMock = new ClientMockHelper('POST', $url);
 
         $testee = new Psr18RestClient(
-            $this->logger,
             $baseMock->getClient($responseStatus, $responseJson),
-            $baseMock->getUriFactory(),
             $baseMock->getRequestFactory(),
             $baseMock->getStreamFactory()
         );
@@ -65,9 +61,7 @@ class Psr18RestClientTest extends BrainMonkeyWpTestCase
         $baseMock = new ClientMockHelper('GET', $url);
 
         $testee = new Psr18RestClient(
-            $this->logger,
             $baseMock->getClient($responseStatus, $responseJson),
-            $baseMock->getUriFactory(),
             $baseMock->getRequestFactory(),
             $baseMock->getStreamFactory()
         );
@@ -88,9 +82,7 @@ class Psr18RestClientTest extends BrainMonkeyWpTestCase
         };
 
         $testee = new Psr18RestClient(
-            $this->logger,
             $baseMock->getClient($responseStatus, $responseJson),
-            $baseMock->getUriFactory(),
             $baseMock->getRequestFactory(),
             $baseMock->getStreamFactory(),
             $incr,

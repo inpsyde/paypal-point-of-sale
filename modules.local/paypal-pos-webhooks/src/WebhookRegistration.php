@@ -19,10 +19,7 @@ class WebhookRegistration
 
     private Subscriptions $subscriptions;
 
-    /**
-     * @var callable
-     */
-    private $webhookDeletion;
+    private WebhookDeletion $webhookDeletion;
 
     private LoggerInterface $logger;
 

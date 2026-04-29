@@ -91,7 +91,6 @@ class WooCommerceStoreDataProvider implements StoreDataProvider
     public function taxationType(): string
     {
         throw new Exception('Not implemented');
-        return '';
     }
 
     /**

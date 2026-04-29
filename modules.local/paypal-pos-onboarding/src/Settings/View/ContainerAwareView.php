@@ -87,12 +87,15 @@ class ContainerAwareView implements OnboardingView
                 break;
             case OnboardingState::SYNC_PARAM_VAT:
                 $this->view = $this->container->get('paypal-pos.onboarding.settings.view.sync-vat-param');
+                assert($this->view instanceof SyncVatParamView);
                 break;
             case OnboardingState::SYNC_PARAM_PRODUCTS:
                 $this->view = $this->container->get('paypal-pos.onboarding.settings.view.product-sync-params');
+                assert($this->view instanceof ProductSyncParamView);
                 break;
             case OnboardingState::SYNC_PROGRESS:
                 $this->view = $this->container->get('paypal-pos.onboarding.settings.view.sync-progress');
+                assert($this->view instanceof SyncProgressView);
                 break;
             case OnboardingState::SYNC_FINISHED:
                 $this->view = new SyncFinishedView(
@@ -101,6 +104,7 @@ class ContainerAwareView implements OnboardingView
                 break;
             case OnboardingState::ONBOARDING_COMPLETED:
                 $this->view = $this->container->get('paypal-pos.onboarding.settings.view.onboarding-completed');
+                assert($this->view instanceof OnboardingCompletedView);
                 break;
             case OnboardingState::UNHANDLED_ERROR:
                 $this->view = new UnhandledErrorView();
