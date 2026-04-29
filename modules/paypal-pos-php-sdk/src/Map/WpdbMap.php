@@ -54,7 +54,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     public function remoteIds(int $localId): array
     {
         $result = $this->wpdb->get_results($this->wpdb->prepare("\n            SELECT\n                `remote_id`\n            FROM\n                {$this->tableName()}\n            WHERE\n                `local_id` = %d\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $localId, $this->type, $this->siteId));
-        if ($result === null) {
+        if (!is_array($result) || $result === []) {
             throw new IdNotFoundException(sprintf("No remote IDs found for local ID %d", (int) $localId));
         }
         return array_column($result, 'remote_id');
@@ -87,7 +87,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
     public function createRecord(int $localId, string $remoteId, array $arguments = []): bool
     {
         $meta = json_encode($arguments);
-        $result = $this->wpdb->query($this->wpdb->prepare("\n            INSERT INTO {$this->tableName()}\n            (remote_id,local_id,type,site_id,meta)\n            VALUES (%s,%d,%s,%d,%s)\n        ", $remoteId, $localId, $this->type, $this->siteId, $meta));
+        $result = $this->wpdb->query((string) $this->wpdb->prepare("\n            INSERT INTO {$this->tableName()}\n            (remote_id,local_id,type,site_id,meta)\n            VALUES (%s,%d,%s,%d,%s)\n        ", $remoteId, $localId, $this->type, $this->siteId, $meta));
         return (bool) $result;
     }
     /**
@@ -95,7 +95,7 @@ class WpdbMap implements OneToOneMapInterface, OneToManyMapInterface, MapRecordC
      */
     public function deleteRecord(int $localId, string $remoteId): bool
     {
-        $result = $this->wpdb->query($this->wpdb->prepare("\n            DELETE FROM\n                {$this->tableName()}\n            WHERE\n                `remote_id` = %s\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $remoteId, $this->type, $this->siteId));
+        $result = $this->wpdb->query((string) $this->wpdb->prepare("\n            DELETE FROM\n                {$this->tableName()}\n            WHERE\n                `remote_id` = %s\n            AND\n                `type` = %s\n            AND\n                `site_id` = %d\n        ", $remoteId, $this->type, $this->siteId));
         if ($result === null) {
             throw new IdNotFoundException(sprintf('Cannot delete record of type: %s with remote ID %s and local ID %s', esc_html($this->type), esc_html($remoteId), (int) $localId));
         }

@@ -10,7 +10,7 @@ class StateAwareListenerProvider implements ListenerProviderInterface
      * @var ListenerProvider[]
      */
     private array $listeners = [];
-    public function listen(string $state, callable $listener)
+    public function listen(string $state, callable $listener): void
     {
         if (!isset($this->listeners[$state])) {
             $this->listeners[$state] = new ListenerProvider();

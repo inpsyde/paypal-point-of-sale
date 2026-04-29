@@ -26,7 +26,7 @@ class ZettleProductLibraryLinkView implements BoxView
         </a>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     private function productLink(string $productUuid): string
     {

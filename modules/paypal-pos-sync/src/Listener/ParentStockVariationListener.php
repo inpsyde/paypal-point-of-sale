@@ -35,9 +35,6 @@ class ParentStockVariationListener
     {
         $parentId = (int) $new->get_parent_id();
         $parentProduct = new WC_Product_Variable($parentId);
-        if ($parentProduct === null) {
-            return;
-        }
         /** Check if Product and Variation is Syncable */
         if (!($this->isSyncable)((int) $new->get_id())) {
             return;

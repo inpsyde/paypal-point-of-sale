@@ -51,6 +51,7 @@ class QueueCommand
      */
     public function live(array $args, array $assocArgs): void
     {
+        // @phpstan-ignore while.alwaysTrue
         while (\true) {
             $this->processor->process();
             sleep(2);

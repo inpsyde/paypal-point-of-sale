@@ -8,6 +8,8 @@ use Iterator;
  * Class QueueJobIterator
  *
  * @package Inpsyde\Queue\Queue
+ *
+ * @implements Iterator<int, JobRecord>
  */
 class JobIterator implements Iterator
 {
@@ -64,16 +66,17 @@ class JobIterator implements Iterator
      */
     public function valid(): bool
     {
-        return $this->current !== null && $this->current instanceof JobRecord;
+        return $this->current !== null;
     }
     /**
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * @return JobRecord
      * @since 5.0.0
      */
     public function current(): JobRecord
     {
+        assert($this->current !== null);
         return $this->current;
     }
     /**

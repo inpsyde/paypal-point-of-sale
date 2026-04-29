@@ -33,7 +33,7 @@ class ItemsCountStopper implements Stopper
     public function start(): bool
     {
         $this->processedItems = 0;
-        return $this->processedItems === 0;
+        return \true;
     }
     /**
      * @return bool

@@ -8,6 +8,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductTransferInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use WC_Product;
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
@@ -22,13 +23,16 @@ use WC_Product;
  */
 class ProductConnectionFilter implements FilterInterface
 {
-    private OneToOneMapInterface $idMap;
-    private $lazyPool = [];
+    private OneToOneMapInterface&MapRecordCreator $idMap;
+    /**
+     * @var array<int, ProductInterface>
+     */
+    private array $lazyPool = [];
     /**
      * @var callable
      */
     private $productClientProvider;
-    public function __construct(OneToOneMapInterface $idMap, callable $productClientProvider)
+    public function __construct(OneToOneMapInterface&MapRecordCreator $idMap, callable $productClientProvider)
     {
         $this->idMap = $idMap;
         $this->productClientProvider = $productClientProvider;
@@ -36,17 +40,11 @@ class ProductConnectionFilter implements FilterInterface
             $this->lazyPool = [];
         });
     }
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
         return $entity instanceof Product and $payload instanceof WC_Product;
     }
-    /**
-     * @inheritDoc
-     */
-    public function filter($product, $wcProduct)
+    public function filter(mixed $product, mixed $wcProduct): mixed
     {
         assert($wcProduct instanceof WC_Product);
         assert($product instanceof ProductTransferInterface);

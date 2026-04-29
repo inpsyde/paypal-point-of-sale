@@ -43,17 +43,11 @@ class WordPressImageValidator implements ValidatorInterface
         $this->maxWidth = $maxWidth;
         $this->maxHeight = $maxHeight;
     }
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof LazyImage;
     }
-    /**
-     * @inheritDoc
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof LazyImage);
         $attachment = wp_prepare_attachment_for_js($entity->localId());

@@ -9,11 +9,6 @@ class VariantOptionCollection
      * @var VariantOption[]
      */
     private array $collection = [];
-    /**
-     * VariantOptionCollection constructor.
-     *
-     * @param VariantOption[] $variantOptions
-     */
     public function __construct(VariantOption ...$variantOptions)
     {
         foreach ($variantOptions as $variantOption) {
@@ -84,7 +79,7 @@ class VariantOptionCollection
     /**
      * @return VariantOption[]
      */
-    public function all(): ?array
+    public function all(): array
     {
         return $this->collection;
     }

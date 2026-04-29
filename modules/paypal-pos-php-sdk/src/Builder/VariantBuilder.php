@@ -33,18 +33,12 @@ class VariantBuilder implements BuilderInterface
         $this->barcodeRetriever = $barcodeRetriever;
     }
     /**
-     * @param string $className
-     * @param mixed $wcProduct
-     * @param BuilderInterface|null $builder
-     *
-     * @return VariantInterface
      * @throws BuilderException
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
-    public function build(string $className, $wcProduct, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $wcProduct, ?BuilderInterface $builder = null): VariantInterface
     {
         assert($wcProduct instanceof WC_Product);
+        assert($builder instanceof BuilderInterface);
         $imageId = (int) $wcProduct->get_image_id();
         $presentation = null;
         if ($imageId) {
@@ -60,8 +54,7 @@ class VariantBuilder implements BuilderInterface
         }
         $vat = $this->taxationType === TaxationType::VAT && $this->priceSyncEnabled ? $builder->build(Vat::class, $wcProduct) : null;
         $barcode = $this->barcodeRetriever->get($wcProduct);
-        $variant = new Variant((string) Uuid::fromWcProduct($wcProduct), $wcProduct->get_name(), $wcProduct->get_description(), $wcProduct->get_sku(), $this->stockQuantity($wcProduct), $builder->build(Price::class, $wcProduct), $vat, $presentation, $options, null, null, $barcode);
-        return $variant;
+        return new Variant((string) Uuid::fromWcProduct($wcProduct), $wcProduct->get_name(), $wcProduct->get_description(), $wcProduct->get_sku(), $this->stockQuantity($wcProduct), $builder->build(Price::class, $wcProduct), $vat, $presentation, $options, null, null, $barcode);
     }
     /**
      * @param WC_Product $product
@@ -90,7 +83,7 @@ class VariantBuilder implements BuilderInterface
         $childrenWithStock = [];
         foreach ($product->get_visible_children() as $variationId) {
             $variation = wc_get_product($variationId);
-            if ($variation === null) {
+            if (!$variation) {
                 continue;
             }
             if (!$variation->is_purchasable()) {

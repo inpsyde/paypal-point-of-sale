@@ -23,7 +23,12 @@ class CustomProductTabProvider implements Provider
      */
     public function boot(C $container): bool
     {
-        add_filter('woocommerce_product_data_tabs', [$this->settingsTab, 'addTab']);
+        add_filter('woocommerce_product_data_tabs', function (mixed $tabs): mixed {
+            if (!is_array($tabs)) {
+                return $tabs;
+            }
+            return $this->settingsTab->addTab($tabs);
+        });
         add_action('admin_head', [$this->settingsTab, 'addCustomTabIcon']);
         add_action('woocommerce_process_product_meta', [$this->settingsTab, 'saveFields']);
         $addBarcodeInput = $container->get('paypal-pos.product-settings.barcode.standard-ui-enabled');

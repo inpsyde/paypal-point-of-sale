@@ -28,7 +28,7 @@ class ZettleProductLibraryLink implements PostMetabox
     /**
      * @inheritDoc
      */
-    public function create_info(string $show_or_save, Entity $entity): BoxInfo
+    public function create_info(string $showOrSave, Entity $entity): BoxInfo
     {
         $boxInfo = new BoxInfo($this->title, self::ID, BoxInfo::CONTEXT_SIDE, BoxInfo::PRIORITY_SORTED);
         $boxInfo['uuid'] = (string) $this->repository->findById($entity->id());
@@ -37,7 +37,7 @@ class ZettleProductLibraryLink implements PostMetabox
     /**
      * @inheritDoc
      */
-    public function accept_post(WP_Post $post, string $save_or_show): bool
+    public function accept_post(WP_Post $post, string $saveOrShow): bool
     {
         return $this->repository->findById((int) $post->ID) !== null;
     }

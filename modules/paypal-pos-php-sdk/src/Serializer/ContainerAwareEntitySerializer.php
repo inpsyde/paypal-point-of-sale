@@ -11,14 +11,7 @@ class ContainerAwareEntitySerializer implements SerializerInterface
     {
         $this->container = $container;
     }
-    /**
-     * @param $entity
-     * @param SerializerInterface|null $serializer
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return array
-     */
-    public function serialize($entity, ?SerializerInterface $serializer = null): array
+    public function serialize(object $entity, ?SerializerInterface $serializer = null): array
     {
         $className = get_class($entity);
         /**
@@ -34,7 +27,7 @@ class ContainerAwareEntitySerializer implements SerializerInterface
          * Since there can be multiple interfaces, we will merge all of them into one array lol
          */
         $interfaces = class_implements($className);
-        return array_merge(...array_values(array_map(function ($interface) use ($entity): array {
+        return array_merge(...array_values(array_map(function (string $interface) use ($entity): array {
             if (!$this->container->has($interface)) {
                 return [];
             }

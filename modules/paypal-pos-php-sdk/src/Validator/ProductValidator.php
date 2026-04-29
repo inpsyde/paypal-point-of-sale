@@ -11,22 +11,16 @@ class ProductValidator implements ValidatorInterface
 {
     public const MINIMUM_VARIANTS_AMOUNT = 0;
     public const MAXIMUM_VARIANTS_AMOUNT = 99;
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof ProductInterface;
     }
     /**
-     * @param ProductInterface $product
-     *
-     * @return bool
      * @throws MaximumVariantsException
      *
      * @throws MinimumVariantsException
      */
-    public function validate($product): bool
+    public function validate(mixed $product): bool
     {
         assert($product instanceof ProductInterface);
         $this->validateMinimumVariants($product);

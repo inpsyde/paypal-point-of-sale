@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
 use DateTime;
+use stdClass;
 interface ContextInterface
 {
     public function id(): int;
@@ -14,9 +15,8 @@ interface ContextInterface
     public function forSite(): int;
     /**
      * Scalar (or at least serializable) arguments for the job instance
-     * @return object
      */
-    public function args(): object;
+    public function args(): stdClass;
     /**
      * Time of creation of the Job
      * @return DateTime
@@ -30,7 +30,7 @@ interface ContextInterface
     public function retryCount(): int;
     /**
      * Returns a new instance of ContextInterface with the retry count incremented by 1
-     * @return $this
+     * @return static
      */
     public function withIncrementedRetryCount(): self;
 }

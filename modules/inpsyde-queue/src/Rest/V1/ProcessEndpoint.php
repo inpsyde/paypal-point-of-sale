@@ -68,17 +68,17 @@ class ProcessEndpoint implements EndpointInterface
     {
         // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
         // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-        return ['types' => ['types' => 'array', 'default' => [], 'validate_callback' => static function ($value): bool {
+        return ['types' => ['types' => 'array', 'default' => [], 'validate_callback' => static function (mixed $value): bool {
             return is_array($value);
-        }, 'sanitize_callback' => static function ($value) {
+        }, 'sanitize_callback' => static function (mixed $value) {
             return (array) $value;
-        }], 'executionTime' => ['type' => 'integer', 'default' => self::DEFAULT_EXECUTION_TIME, 'minimum' => 0, 'maximum' => 30, 'validate_callback' => static function ($value): bool {
+        }], 'executionTime' => ['type' => 'integer', 'default' => self::DEFAULT_EXECUTION_TIME, 'minimum' => 0, 'maximum' => 30, 'validate_callback' => static function (mixed $value): bool {
             return is_numeric($value);
-        }, 'sanitize_callback' => static function ($value) {
+        }, 'sanitize_callback' => static function (mixed $value) {
             return (int) sanitize_text_field($value);
-        }], 'meta' => ['type' => 'array', 'default' => [], 'validate_callback' => static function ($value): bool {
+        }], 'meta' => ['type' => 'array', 'default' => [], 'validate_callback' => static function (mixed $value): bool {
             return is_array($value);
-        }, 'sanitize_callback' => static function ($value) {
+        }, 'sanitize_callback' => static function (mixed $value) {
             return $value;
         }]];
         // phpcs:enable

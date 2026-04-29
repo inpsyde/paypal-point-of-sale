@@ -96,7 +96,7 @@ class ZettleAuthPlugin implements Plugin
             do_action('inpsyde.zettle.auth.succeeded');
             unset($this->chainStorage[$chainIdentifier]);
             return $response;
-        }, static function (ClientExceptionInterface $exception) use ($request, $next, $first) {
+        }, static function (ClientExceptionInterface $exception) use ($request, $first) {
             //TODO: This block is unimplemented and is merely a draft
             if ($exception->getCode() !== 401) {
                 throw $exception;
@@ -117,7 +117,7 @@ class ZettleAuthPlugin implements Plugin
         }
         $payload = implode('&', $pairs);
         $authRequest = $request->withUri($this->uriFactory->createUri(self::OAUTH_URL))->withMethod('POST')->withBody($this->streamFactory->createStream($payload))->withHeader('Content-Type', 'application/x-www-form-urlencoded');
-        return $first($authRequest)->then(function (ResponseInterface $response) use ($grant) {
+        return $first($authRequest)->then(function (ResponseInterface $response) {
             if ($response->getStatusCode() !== 200) {
                 $body = $response->getBody();
                 $body->rewind();

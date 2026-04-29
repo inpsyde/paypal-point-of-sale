@@ -7,10 +7,10 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\InvalidJobException;
 interface JobRecordFactoryInterface
 {
     /**
-     * @param string $class
+     * @param string $type
      * @param ContextInterface $context
      * @throws InvalidJobException
      * @return JobRecord
      */
-    public function fromData(string $class, ContextInterface $context): JobRecord;
+    public function fromData(string $type, ContextInterface $context): JobRecord;
 }

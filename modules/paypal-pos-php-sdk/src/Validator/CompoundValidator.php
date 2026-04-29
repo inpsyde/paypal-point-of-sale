@@ -19,10 +19,7 @@ class CompoundValidator implements ValidatorInterface
     {
         $this->validators = $validatorInterfaces;
     }
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         foreach ($this->validators as $validator) {
             if ($validator->accepts($entity)) {
@@ -31,10 +28,7 @@ class CompoundValidator implements ValidatorInterface
         }
         return \false;
     }
-    /**
-     * @inheritDoc
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         foreach ($this->validators as $validator) {
             if ($validator->accepts($entity)) {

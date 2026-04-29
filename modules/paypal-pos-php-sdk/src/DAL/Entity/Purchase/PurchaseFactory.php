@@ -37,6 +37,6 @@ final class PurchaseFactory
      */
     public function create(string $uuid, DateTime $timestamp, string $country, string $currency, User $user, int $organizationId, int $purchaseNumber, float $amount, float $vatAmount, array $products, array $payments, array $vatAmounts, bool $receiptCopyAllowed, bool $refund, bool $refunded, ?Coordinates $coordinates = null, ?SourceType $sourceType = null, ?bool $published = null): Purchase
     {
-        return new Purchase($uuid, Uuid::v1(), $timestamp, $country, $currency, $user, $organizationId, $purchaseNumber, $amount, $vatAmount, $products, $payments, $vatAmounts, $receiptCopyAllowed, $refund, $refunded, $coordinates, $sourceType, $published);
+        return new Purchase($uuid, (string) Uuid::v1(), $timestamp, $country, $currency, $user, $organizationId, $purchaseNumber, $amount, $vatAmount, $products, $payments, $vatAmounts, $receiptCopyAllowed, $refund, $refunded, $coordinates, $sourceType, $published);
     }
 }

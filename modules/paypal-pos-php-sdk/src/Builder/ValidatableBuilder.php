@@ -21,12 +21,7 @@ class ValidatableBuilder implements BuilderInterface
         $this->builder = $builder;
         $this->validator = $validator;
     }
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         try {
             $result = $this->builder->build($className, $payload, $builder ?? $this);

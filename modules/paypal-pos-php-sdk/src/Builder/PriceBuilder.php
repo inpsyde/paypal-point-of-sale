@@ -16,13 +16,7 @@ class PriceBuilder implements BuilderInterface
         $this->wooCommerceConfig = $wooCommerceConfig;
         $this->taxationMode = $taxationMode;
     }
-    /**
-     * @inheritDoc
-     *
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null): Price
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): Price
     {
         assert($payload instanceof WC_Product);
         $price = $this->taxationMode === TaxationMode::EXCLUSIVE ? (float) wc_get_price_excluding_tax($payload) : (float) wc_get_price_including_tax($payload);

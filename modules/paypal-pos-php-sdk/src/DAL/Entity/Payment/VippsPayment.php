@@ -14,6 +14,6 @@ final class VippsPayment extends AbstractPaymentMethod
      */
     public function __construct(string $uuid, float $amount)
     {
-        parent::__construct($uuid, $amount, PaymentType::SwishPayment());
+        parent::__construct($uuid, $amount, PaymentType::swishPayment());
     }
 }

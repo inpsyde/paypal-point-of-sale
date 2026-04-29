@@ -11,6 +11,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\WritableProductInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
@@ -151,19 +152,14 @@ class Products
         return $product;
     }
     /**
-     * @param ProductInterface $product
-     * @param bool $withListeners
-     *
-     * @return ProductInterface
-     *
      * @throws ZettleRestException
      */
-    public function update(ProductInterface $product, bool $withListeners = \true): ProductInterface
+    public function update(ProductInterface&WritableProductInterface $product, bool $withListeners = \true): ProductInterface
     {
         $url = (string) $this->uri->withPath("/organizations/self/products/v2/{$product->uuid()}");
         $success = \true;
         $existingProduct = $this->read((string) $product->uuid());
-        $etag = $existingProduct->etag();
+        $etag = (string) $existingProduct->etag();
         $product->setEtag($etag);
         $payload = $this->serializer->serialize($product);
         try {

@@ -118,7 +118,7 @@ class WpDbJobRepository implements JobRepository
             return [];
         }
         $sanitizedHashes = array_map(function (string $hash): string {
-            return $this->database->prepare('%s', $hash);
+            return (string) $this->database->prepare('%s', $hash);
         }, $hashes);
         $sql = "SELECT `ID` as `id`, `type`, `args`, `site_id`, `created`, `retry_count`\n          FROM {$this->database->prefix}{$this->queueTable->name()}\n           WHERE hash IN (" . implode(',', $sanitizedHashes) . ")";
         $result = $this->database->get_results($sql);
@@ -135,7 +135,7 @@ class WpDbJobRepository implements JobRepository
         if ($id === 0) {
             return \false;
         }
-        $sql = $this->database->prepare("DELETE FROM {$this->database->prefix}{$this->queueTable->name()} WHERE `ID` = %d", $id);
+        $sql = (string) $this->database->prepare("DELETE FROM {$this->database->prefix}{$this->queueTable->name()} WHERE `ID` = %d", $id);
         $result = $this->database->query($sql);
         assert(is_int($result));
         $this->logger->debug(sprintf('Removed %d jobs from the queue', $result));
@@ -150,7 +150,7 @@ class WpDbJobRepository implements JobRepository
         /** @lang sql */
         $sql = "\n            SELECT\n                `ID` as `id`,\n                `type`,\n                `args`,\n                `site_id`,\n                `created`,\n                `retry_count`\n            FROM\n                {$this->database->prefix}{$this->queueTable->name()}\n            WHERE\n                {$where}\n            LIMIT 0,%d\n        ";
         $result = $this->database->get_results($this->database->prepare($sql, $limit));
-        if (!$result) {
+        if (!is_array($result) || $result === []) {
             return [];
         }
         /** @psalm-suppress PossiblyInvalidArgument */
@@ -168,7 +168,7 @@ class WpDbJobRepository implements JobRepository
         $where = ['1=1'];
         if (!empty($types)) {
             $sanitizedTypes = array_map(function (string $type): string {
-                return $this->database->prepare('%s', $type);
+                return (string) $this->database->prepare('%s', $type);
             }, $types);
             $sanitizedTypes = implode(',', $sanitizedTypes);
             $where[] = "type in ({$sanitizedTypes})";

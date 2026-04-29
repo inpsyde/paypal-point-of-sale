@@ -9,12 +9,10 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\Table as IdMapTable;
 use Syde\Vendor\Zettle\WP_CLI;
 class ResetCommand
 {
-    private Products $productsClient;
     private IdMapTable $idMapTable;
     private QueueTable $queueTable;
     private Job $wipeRemoteJob;

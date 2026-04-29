@@ -110,7 +110,7 @@ return ['paypal-pos.onboarding.wpdb' => static function (C $container): wpdb {
     return new OnboardingStepper($container->get('paypal-pos.onboarding.states'), $container->get('inpsyde.state-machine')->currentState()->name(), $container->get('paypal-pos.onboarding.settings.stepper.exclude'), __('Step', 'paypal-point-of-sale'));
 }, 'paypal-pos.onboarding.settings.renderer.onboarding' => static function (C $container): FieldRendererInterface {
     $stateMachine = $container->get('inpsyde.state-machine');
-    return new OnboardingFieldRenderer($stateMachine->currentState()->name(), $container->get('paypal-pos.onboarding.settings.renderer.onboarding.current'), $container->get('paypal-pos.onboarding.settings.stepper'), $container->get('paypal-pos.settings.is-integration-page'));
+    return new OnboardingFieldRenderer($stateMachine->currentState()->name(), $container->get('paypal-pos.onboarding.settings.renderer.onboarding.current'), $container->get('paypal-pos.onboarding.settings.stepper'));
 }, 'paypal-pos.onboarding.settings.filter' => static function (C $container): SettingsFilter {
     $stateMachine = $container->get('inpsyde.state-machine');
     assert($stateMachine instanceof StateMachineInterface);

@@ -25,6 +25,6 @@ class HiddenFieldRenderer implements FieldRendererInterface
     {
         ob_start();
         $settingsApi->generate_settings_html([$fieldId => $fieldConfig], \true);
-        return str_replace('<tr valign="top">', '<tr valign="top" style="display:none">', ob_get_clean());
+        return str_replace('<tr valign="top">', '<tr valign="top" style="display:none">', (string) ob_get_clean());
     }
 }

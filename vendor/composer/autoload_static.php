@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
+class ComposerStaticInit90f41f063576f9e0b2fc8af17b0983fd
 {
     public static $files = array (
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -673,10 +673,8 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\FileBasedLocker' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/FileBasedLocker.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\ItemsCountStopper' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/ItemsCountStopper.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\BasicJobRecord' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/BasicJobRecord.php',
-        'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\ClassNameTypeTrait' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/ClassNameTypeTrait.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\ContainerAwareJobRecordFactory' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/ContainerAwareJobRecordFactory.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\Context' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/Context.php',
-        'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\ContextCourierTrait' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/ContextCourierTrait.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\ContextInterface' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/ContextInterface.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\EphemeralJobRepository' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/EphemeralJobRepository.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\Queue\\Job\\Job' => __DIR__ . '/../..' . '/modules/inpsyde-queue/src/Queue/Job/Job.php',
@@ -971,10 +969,6 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Balance\\ProductBalanceBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Balance/ProductBalanceBuilder.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Balance\\ProductBalanceBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Balance/ProductBalanceBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\BuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/BuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Category\\CategoryBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Category/CategoryBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Category\\CategoryBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Category/CategoryBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Category\\CategoryCollectionBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Category/CategoryCollectionBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Category\\CategoryCollectionBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Category/CategoryCollectionBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Coordinates\\CoordinatesBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Coordinates/CoordinatesBuilder.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Coordinates\\CoordinatesBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Coordinates/CoordinatesBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Finance\\AccountTransactionBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Finance/AccountTransactionBuilder.php',
@@ -983,34 +977,6 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Finance\\BalanceInfoBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Finance/BalanceInfoBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Finance\\PayoutInfoBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Finance/PayoutInfoBuilder.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Finance\\PayoutInfoBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Finance/PayoutInfoBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CardOnlinePaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CardOnlinePaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CardOnlinePaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CardOnlinePaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CardPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CardPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CardPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CardPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CashPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CashPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CashPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CashPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CustomPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CustomPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\CustomPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/CustomPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\GiftcardPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/GiftcardPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\GiftcardPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/GiftcardPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\InvoicePaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/InvoicePaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\InvoicePaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/InvoicePaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\KlarnaPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/KlarnaPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\KlarnaPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/KlarnaPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\MobilePaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/MobilePaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\MobilePaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/MobilePaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\PaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\PaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\PaymentCollectionBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaymentCollectionBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\PaymentCollectionBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaymentCollectionBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\PaypalPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaypalPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\PaypalPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/PaypalPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\StoreCreditPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/StoreCreditPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\StoreCreditPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/StoreCreditPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\SwishPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/SwishPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\SwishPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/SwishPaymentBuilderInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\VippsPaymentBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/VippsPaymentBuilder.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Payment\\VippsPaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Payment/VippsPaymentBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Purchase\\PurchaseBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Purchase/PurchaseBuilder.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Purchase\\PurchaseBuilderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Purchase/PurchaseBuilderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Builder\\Purchase\\PurchaseCollectionBuilder' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Builder/Purchase/PurchaseCollectionBuilder.php',
@@ -1030,16 +996,8 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Balance\\LocationBalanceFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Balance/LocationBalanceFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Balance\\ProductBalance' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Balance/ProductBalance.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Balance\\ProductBalanceFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Balance/ProductBalanceFactory.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Category\\Category' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Category/Category.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Category\\CategoryCollection' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Category/CategoryCollection.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Category\\CategoryCollectionFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Category/CategoryCollectionFactory.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Category\\CategoryFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Category/CategoryFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Coordinates\\Coordinates' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Coordinates/Coordinates.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Coordinates\\CoordinatesFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Coordinates/CoordinatesFactory.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Discount\\Discount' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Discount/Discount.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Discount\\DiscountCollection' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Discount/DiscountCollection.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Discount\\DiscountCollectionFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Discount/DiscountCollectionFactory.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Discount\\DiscountFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Discount/DiscountFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Finance\\AccountTransaction' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Finance/AccountTransaction.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Finance\\AccountTransactionFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Finance/AccountTransactionFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Finance\\BalanceInfo' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Finance/BalanceInfo.php',
@@ -1058,8 +1016,6 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Inventory\\LocationInventory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Inventory/LocationInventory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Inventory\\LocationInventoryFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Inventory/LocationInventoryFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Inventory\\Transaction' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Inventory/Transaction.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Library\\Library' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Library/Library.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Library\\LibraryFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Library/LibraryFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Location\\Location' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Location/Location.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Location\\LocationFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Location/LocationFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Location\\Type\\LocationType' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Location/Type/LocationType.php',
@@ -1122,7 +1078,6 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Variant\\VariantCollection' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Variant/VariantCollection.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Variant\\VariantGetterDecoratorTrait' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Variant/VariantGetterDecoratorTrait.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Variant\\VariantInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Variant/VariantInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Variant\\VariantSetterDecoratorTrait' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Variant/VariantSetterDecoratorTrait.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Variant\\VariantTransferInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Variant/VariantTransferInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Variant\\WcVariationIterator' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Variant/WcVariationIterator.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Entity\\Variant\\WritableVariantInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Entity/Variant/WritableVariantInterface.php',
@@ -1133,20 +1088,6 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Exception\\EntityFactoryException' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Exception/EntityFactoryException.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Exception\\Payment\\InvalidPaymentTypeException' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Exception/Payment/InvalidPaymentTypeException.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Exception\\Vat\\VatNotFound' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Exception/Vat/VatNotFound.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\AbstractPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/AbstractPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\CardOnlinePaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/CardOnlinePaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\CardPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/CardPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\CashPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/CashPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\CustomPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/CustomPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\GiftcardPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/GiftcardPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\InvoicePaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/InvoicePaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\KlarnaPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/KlarnaPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\MobilePaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/MobilePaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\PaymentHandlerInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/PaymentHandlerInterface.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\PaypalPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/PaypalPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\StoreCreditPayment' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/StoreCreditPayment.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\SwishPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/SwishPaymentHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Handler\\Payment\\VippsPaymentHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Handler/Payment/VippsPaymentHandler.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Provider\\Image\\PlaceholderUrlProvider' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Provider/Image/PlaceholderUrlProvider.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Provider\\Image\\UrlProviderInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Provider/Image/UrlProviderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\DAL\\Provider\\Image\\WordPressFilePathProvider' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/DAL/Provider/Image/WordPressFilePathProvider.php',
@@ -1381,9 +1322,9 @@ class ComposerStaticInit4abf7116acee3d7ff506d043a9202972
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4abf7116acee3d7ff506d043a9202972::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4abf7116acee3d7ff506d043a9202972::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4abf7116acee3d7ff506d043a9202972::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit90f41f063576f9e0b2fc8af17b0983fd::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit90f41f063576f9e0b2fc8af17b0983fd::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit90f41f063576f9e0b2fc8af17b0983fd::$classMap;
 
         }, null, ClassLoader::class);
     }

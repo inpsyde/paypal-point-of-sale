@@ -38,22 +38,17 @@ use Throwable;
 use wpdb;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
-    //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-    return static function (C $container) use ($class, $parts) {
-        return new $class(...array_map(static function (string $key) use ($container) {
+    return static function (C $container) use ($class, $parts): object {
+        return new $class(...array_map(static function (string $key) use ($container): mixed {
             return $container->get($key);
         }, $parts));
     };
-    //phpcs:enable
 };
-//phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-//phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-$scalar = static function ($thing): callable {
-    return static function () use ($thing) {
+$scalar = static function (mixed $thing): callable {
+    return static function () use ($thing): mixed {
         return $thing;
     };
 };
-//phpcs:enable
 return [
     'inpsyde.queue.namespace' => $scalar('inpsyde'),
     'inpsyde.queue.failed.retry.count' => $scalar(3),
@@ -190,9 +185,6 @@ return [
     },
     'inpsyde.queue.add-job-record' => static function (C $container): callable {
         return static function (JobRecord $jobRecord, ?JobRepository $repository = null) use ($container): void {
-            /**
-             * @var JobRepository $jobRepository
-             */
             $repository = $repository ?? $container->get('inpsyde.queue.repository');
             assert($repository instanceof JobRepository);
             $repository->add($jobRecord);

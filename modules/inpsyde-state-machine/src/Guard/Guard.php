@@ -7,9 +7,9 @@ class Guard implements GuardInterface
 {
     private string $transitionName;
     /**
-     * @var callable
+     * @var callable[]
      */
-    private $callables;
+    private array $callables;
     private ?string $fromState = null;
     public function __construct(string $transitionName, ?string $fromState = null, callable ...$callables)
     {

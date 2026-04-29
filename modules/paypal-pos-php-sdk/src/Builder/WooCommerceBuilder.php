@@ -5,10 +5,6 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder;
 
 use WC_Product;
 use WC_Product_Attribute;
-use WC_Product_Grouped;
-use WC_Product_Simple;
-use WC_Product_Variable;
-use WC_Product_Variation;
 /**
  * Class WooCommerceBuilder
  * Decorates another builder, but registers if only for WooCommerce types
@@ -21,23 +17,12 @@ class WooCommerceBuilder implements TypeSpecificBuilderInterface
     {
         $this->builder = $builder;
     }
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         return $this->builder->build($className, $payload, $builder ?? $this);
     }
-    /**
-     * @param $payload
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return bool
-     */
-    public function accepts($payload): bool
+    public function accepts(mixed $payload): bool
     {
-        return $payload instanceof WC_Product || $payload instanceof WC_Product_Variable || $payload instanceof WC_Product_Variation || $payload instanceof WC_Product_Simple || $payload instanceof WC_Product_Grouped || $payload instanceof WC_Product_Attribute;
+        return $payload instanceof WC_Product || $payload instanceof WC_Product_Attribute;
     }
 }

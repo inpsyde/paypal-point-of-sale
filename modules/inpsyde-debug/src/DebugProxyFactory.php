@@ -21,20 +21,14 @@ class DebugProxyFactory
      * all of its method signatures and delegates everything to it - after wrapping
      * it into a try/catch block that logs and re-throws any exception that went through it
      *
-     * @param $subject
-     * @param string ...$methods
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
-     *
-     * @return mixed
      */
-    public function forInstanceMethods($subject, string ...$methods)
+    public function forInstanceMethods(object $subject, string ...$methods): object
     {
         try {
             $reflectionClass = new ReflectionClass($subject);
-            $methodsToProxy = $this->determineProxyMethods($subject, $methods);
-            $methods = array_map(function (string $name) use ($subject, $methodsToProxy) {
+            $methodsToProxy = $this->determineProxyMethods($subject, array_values($methods));
+            $methods = array_map(function (string $name) use ($subject, $methodsToProxy): string {
                 if ($name === '__construct') {
                     return '';
                 }
@@ -67,7 +61,7 @@ public function __construct( \%1$s $proxied, \%2$s $handler ){
 PHPCODE
 , $subjectFqcn, ExceptionHandler::class);
     }
-    private function renderDebugMethodBody(string $name)
+    private function renderDebugMethodBody(string $name): string
     {
         return sprintf(<<<'PHPCODE'
     try{
@@ -79,23 +73,34 @@ PHPCODE
 PHPCODE
 , $name);
     }
-    private function renderDecoratorMethodBody(string $name)
+    private function renderDecoratorMethodBody(string $name): string
     {
         return sprintf(<<<'PHPCODE'
         return $this->proxied->%s(...func_get_args());
 PHPCODE
 , $name);
     }
+    /**
+     * @param ReflectionClass<object> $reflectionClass
+     */
     private function renderClassName(ReflectionClass $reflectionClass, string $suffix, bool $short = \false): string
     {
         $className = $short ? $reflectionClass->getShortName() : $reflectionClass->getName();
         return sprintf('%sDebugProxy_%s', $className, $suffix);
     }
+    /**
+     * @param ReflectionClass<object> $reflectionClass
+     */
     private function renderNamespace(ReflectionClass $reflectionClass): string
     {
         return sprintf('namespace %s;%s', $reflectionClass->getNamespaceName(), \PHP_EOL);
     }
-    private function determineProxyMethods($subject, array $requestedMethods): array
+    /**
+     * @param array<int, string> $requestedMethods
+     *
+     * @return array<int, string>
+     */
+    private function determineProxyMethods(object $subject, array $requestedMethods): array
     {
         $classMethods = get_class_methods($subject);
         if (empty($requestedMethods)) {

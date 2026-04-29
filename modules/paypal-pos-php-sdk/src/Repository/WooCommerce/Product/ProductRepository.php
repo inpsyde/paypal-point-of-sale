@@ -61,13 +61,15 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function fetch(int $limit = -1): array
     {
-        return wc_get_products(['limit' => $limit, 'return' => 'ids']);
+        $result = wc_get_products(['limit' => $limit, 'return' => 'ids']);
+        return is_array($result) ? $result : [];
     }
     /**
      * @inheritDoc
      */
     public function fetchFromTypes(array $types, string $status = ProductState::PUBLISH, int $limit = -1): array
     {
-        return wc_get_products(['type' => $types, 'status' => $status, 'limit' => $limit, 'return' => 'ids']);
+        $result = wc_get_products(['type' => $types, 'status' => $status, 'limit' => $limit, 'return' => 'ids']);
+        return is_array($result) ? $result : [];
     }
 }

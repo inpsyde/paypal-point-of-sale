@@ -16,7 +16,7 @@ final class PurchaseCollection
      */
     public function __construct(?array $purchases = [])
     {
-        foreach ($purchases as $purchase) {
+        foreach ($purchases ?? [] as $purchase) {
             if ($purchase instanceof Purchase) {
                 $this->add($purchase);
             }

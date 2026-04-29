@@ -71,31 +71,19 @@ final class CardPayment extends AbstractPaymentMethod
     {
         return $this->cardPaymentEntryMode;
     }
-    /**
-     * @return string
-     */
-    public function applicationName(): string
+    public function applicationName(): ?string
     {
         return $this->applicationName;
     }
-    /**
-     * @return string
-     */
-    public function applicationIdentifier(): string
+    public function applicationIdentifier(): ?string
     {
         return $this->applicationIdentifier;
     }
-    /**
-     * @return string
-     */
-    public function terminalVerificationResults(): string
+    public function terminalVerificationResults(): ?string
     {
         return $this->terminalVerificationResults;
     }
-    /**
-     * @return int
-     */
-    public function numberOfInstallments(): int
+    public function numberOfInstallments(): ?int
     {
         return $this->numberOfInstallments;
     }

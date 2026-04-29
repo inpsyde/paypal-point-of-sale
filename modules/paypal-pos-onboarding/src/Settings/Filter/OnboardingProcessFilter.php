@@ -56,7 +56,7 @@ class OnboardingProcessFilter implements SettingsFilter
         }
         return $settings;
     }
-    private function getWhitelist(): ?array
+    private function getWhitelist(): array
     {
         if ($this->isSettingsReviewPage()) {
             return ['authentication', 'api_key', 'sync_params', 'sync_price_strategy'];

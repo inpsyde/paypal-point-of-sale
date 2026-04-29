@@ -49,9 +49,9 @@ class ValidationEndpoint implements EndpointInterface
     {
         // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
         // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-        return ['value' => ['type' => 'string', 'validate_callback' => static function ($value): bool {
+        return ['value' => ['type' => 'string', 'validate_callback' => static function (mixed $value): bool {
             return is_string($value);
-        }, 'sanitize_callback' => static function ($value) {
+        }, 'sanitize_callback' => static function (mixed $value) {
             return sanitize_text_field($value);
         }]];
         // phpcs:enable

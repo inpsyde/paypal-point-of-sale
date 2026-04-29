@@ -4,17 +4,14 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\OAuth;
 
 use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
 class Users
 {
-    private LoggerInterface $logger;
     private UriInterface $uri;
     private RestClientInterface $restClient;
-    public function __construct(LoggerInterface $logger, UriInterface $uri, RestClientInterface $restClient)
+    public function __construct(UriInterface $uri, RestClientInterface $restClient)
     {
-        $this->logger = $logger;
         $this->uri = $uri;
         $this->restClient = $restClient;
     }

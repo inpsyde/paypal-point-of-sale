@@ -18,18 +18,6 @@ interface ApiRestListener
     public const READ = 'read';
     public const UPDATE = 'update';
     public const DELETE = 'delete';
-    /**
-     * @param string $operation
-     * @param $payload
-     * @param bool $success
-     *
-     * @return bool
-     */
-    public function accepts(string $operation, $payload, bool $success): bool;
-    /**
-     * @param $payload
-     *
-     * @return bool
-     */
-    public function execute($payload): bool;
+    public function accepts(string $operation, mixed $payload, bool $success): bool;
+    public function execute(mixed $payload): bool;
 }
