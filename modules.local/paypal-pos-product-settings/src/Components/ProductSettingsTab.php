@@ -96,6 +96,7 @@ class ProductSettingsTab
             $tabs[$this->sectionKey()] = [
                 'label' => __('PayPal Point of Sale', 'paypal-point-of-sale'),
                 'target' => 'zettle_integration_panel',
+                'class' => ['hide_if_grouped', 'hide_if_external'],
                 'priority' => 80,
             ];
         }
