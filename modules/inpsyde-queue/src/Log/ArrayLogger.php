@@ -1,0 +1,51 @@
+<?php
+
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Log;
+
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerTrait;
+/**
+ * Class ArrayLogger
+ *
+ * This is a special logger implementation that can return everything it logged.
+ * Its primary use-case is to enable putting queue logs into our REST response.
+ *
+ * It optionally decorates a child LoggerInterface so that it can be used
+ * on top of an existing logging chain
+ *
+ * @package Inpsyde\Queue\Log
+ */
+class ArrayLogger implements LoggerInterface
+{
+    use LoggerTrait;
+    private array $storage = [];
+    private ?LoggerInterface $childLogger = null;
+    public function __construct(?LoggerInterface $childLogger = null)
+    {
+        $this->childLogger = $childLogger;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function log($level, $message, array $context = [])
+    {
+        $this->storage[$level][] = ['message' => $message, 'context' => $context];
+        if ($this->childLogger) {
+            $this->childLogger->log($level, $message, $context);
+        }
+    }
+    /**
+     * Return the logs of a specific LogLevel, or all logs if no parameter is given
+     */
+    public function logs(?string $logLevel = null): array
+    {
+        if (!$logLevel) {
+            return $this->storage;
+        }
+        if (!isset($this->storage[$logLevel])) {
+            return [];
+        }
+        return $this->storage[$logLevel];
+    }
+}
