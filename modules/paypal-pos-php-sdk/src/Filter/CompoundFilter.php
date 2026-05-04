@@ -1,0 +1,42 @@
+<?php
+
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Filter;
+
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+// phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
+class CompoundFilter implements FilterInterface
+{
+    /**
+     * @var FilterInterface[]
+     */
+    private array $filters;
+    public function __construct(FilterInterface ...$filters)
+    {
+        $this->filters = $filters;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function accepts($entity, $payload): bool
+    {
+        foreach ($this->filters as $filter) {
+            if ($filter->accepts($entity, $payload)) {
+                return \true;
+            }
+        }
+        return \false;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function filter($entity, $payload)
+    {
+        foreach ($this->filters as $filter) {
+            if ($filter->accepts($entity, $payload)) {
+                $entity = $filter->filter($entity, $payload);
+            }
+        }
+        return $entity;
+    }
+}
