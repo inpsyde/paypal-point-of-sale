@@ -16,36 +16,19 @@ class NoticeDelegator
         $this->notices = $notices;
     }
 
-    /**
-     * @param string $currentState
-     */
     public function delegate(string $currentState): void
     {
-        if (empty($this->notices)) {
-            return;
-        }
-
         foreach ($this->notices as $notice) {
             if (!$notice->accepts($currentState)) {
                 continue;
             }
 
-            $this->addAdminNotice($notice);
+            $this->renderAdminNotice($notice);
         }
     }
 
-    /**
-     * Add Notice to WordPress
-     *
-     * @param NoticeInterface $notice
-     */
-    private function addAdminNotice(NoticeInterface $notice): void
+    private function renderAdminNotice(NoticeInterface $notice): void
     {
-        add_action(
-            'admin_notices',
-            static function () use ($notice) {
-                echo wp_kses_post($notice->render());
-            }
-        );
+        echo wp_kses_post($notice->render());
     }
 }
