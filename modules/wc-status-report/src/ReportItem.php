@@ -8,7 +8,7 @@ class ReportItem implements ReportItemInterface
     protected string $label;
     protected string $exportedLabel;
     protected mixed $value;
-    public function __construct(string $label, string $exportedLabel, $value)
+    public function __construct(string $label, string $exportedLabel, mixed $value)
     {
         $this->label = $label;
         $this->exportedLabel = $exportedLabel;

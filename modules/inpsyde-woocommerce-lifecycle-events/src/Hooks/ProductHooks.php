@@ -17,7 +17,7 @@ use WC_Product_Variable;
 class ProductHooks
 {
     /**
-     * @var WC_Product[]
+     * @var array<int, array<string, callable[]>>
      */
     private array $snapshots = [];
     private EventDispatcher $dispatcher;
@@ -106,6 +106,9 @@ class ProductHooks
     {
         $id = $old->get_id();
         $hookName = current_action();
+        if (!is_string($hookName)) {
+            return;
+        }
         /**
          * Allow multiple instances on THE SAME entrypoint. The idea here is that
          * we might be seeing a nested update of the same product here
@@ -137,7 +140,6 @@ class ProductHooks
             }
         }
         $this->preWarmCaches($old);
-        /** @psalm-suppress UndefinedMethod */
         $this->snapshots[$id][$hookName][] = $hook;
     }
     /**
@@ -160,7 +162,7 @@ class ProductHooks
                  * we inject a little meta flag into the product, so it can later be checked against
                  * @psalm-suppress InvalidArgument
                  */
-                $new->update_meta_data(ProductEventListenerRegistry::DELETE_FLAG, \true);
+                $new->update_meta_data(ProductEventListenerRegistry::DELETE_FLAG, wc_bool_to_string(\true));
             }
             $this->afterSave($new, $old);
         };
@@ -200,6 +202,7 @@ class ProductHooks
              * Remove the hook again so we can be sure events are executed
              * only once for each product
              */
+            assert($hook !== null);
             foreach ($this->afterSaveHookNames() as $hookName) {
                 remove_action($hookName, $hook);
             }
@@ -280,12 +283,10 @@ class ProductHooks
      * Returns a function that will ensure its inner $callable is called with a
      * WC_Product instance as its first parameter
      *
-     * @param callable(WC_Product):void $callable
+     * @param callable(WC_Product): void $callable
      *
      * @param int $argPosition
      * The position of the WC_Product instance|id in the 'outer' callback signature
-     *
-     * @return callable:void
      */
     private function createWcProductGuard(callable $callable, int $argPosition = 0): callable
     {

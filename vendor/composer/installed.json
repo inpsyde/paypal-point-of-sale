@@ -481,8 +481,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-debug",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-debug",
@@ -518,8 +518,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-http-client",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-http-client",
@@ -548,8 +548,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-queue",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-queue",
@@ -584,8 +584,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-state-machine",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-state-machine",
@@ -619,8 +619,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-woocommerce-lifecycle-events",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-woocommerce-lifecycle-events",
@@ -795,8 +795,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-assets",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-assets",
@@ -820,8 +820,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-auth",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-auth",
@@ -850,12 +850,12 @@
         },
         {
             "name": "inpsyde\/paypal-pos-logging",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-logging",
-                "reference": "b19d1f4680e00526a7f260dfc87e29a8aad5876b"
+                "reference": "52cabdd308b25e2bb658ebd5f427fa05295dbf79"
             },
             "require": {
                 "ext-json": "*",
@@ -863,6 +863,7 @@
                 "psr\/log": "^1.1"
             },
             "require-dev": {
+                "brain\/monkey": "2.*",
                 "brianium\/paratest": "^4.0 || ^6.0",
                 "mockery\/mockery": "^1.0",
                 "phpunit\/phpunit": "^8.0 || ^9.0"
@@ -889,8 +890,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-notices",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-notices",
@@ -913,8 +914,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-onboarding",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-onboarding",
@@ -951,8 +952,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-php-sdk",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-php-sdk",
@@ -992,8 +993,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-debug",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-debug",
@@ -1016,8 +1017,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-settings",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-settings",
@@ -1041,8 +1042,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-queue",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-queue",
@@ -1066,8 +1067,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-settings",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-settings",
@@ -1090,8 +1091,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-sync",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-sync",
@@ -1115,8 +1116,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-webhooks",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-webhooks",
@@ -1232,8 +1233,8 @@
         },
         {
             "name": "inpsyde\/wc-product-contracts",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/packages.local\/wc-product-contracts",
@@ -1266,8 +1267,8 @@
         },
         {
             "name": "inpsyde\/wc-status-report",
-            "version": "dev-dev\/IZET-543-fix-phpcs",
-            "version_normalized": "dev-dev\/IZET-543-fix-phpcs",
+            "version": "dev-dev\/IZET-522-phpstan",
+            "version_normalized": "dev-dev\/IZET-522-phpstan",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-wc-status-report",
@@ -2552,17 +2553,17 @@
         },
         {
             "name": "symfony\/options-resolver",
-            "version": "v7.4.0",
-            "version_normalized": "7.4.0.0",
+            "version": "v7.4.8",
+            "version_normalized": "7.4.8.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/symfony\/options-resolver.git",
-                "reference": "b38026df55197f9e39a44f3215788edf83187b80"
+                "reference": "2888fcdc4dc2fd5f7c7397be78631e8af12e02b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/symfony\/options-resolver\/zipball\/b38026df55197f9e39a44f3215788edf83187b80",
-                "reference": "b38026df55197f9e39a44f3215788edf83187b80",
+                "url": "https:\/\/api.github.com\/repos\/symfony\/options-resolver\/zipball\/2888fcdc4dc2fd5f7c7397be78631e8af12e02b4",
+                "reference": "2888fcdc4dc2fd5f7c7397be78631e8af12e02b4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2575,7 +2576,7 @@
                 "php": ">=8.2",
                 "symfony\/deprecation-contracts": "^2.5|^3"
             },
-            "time": "2025-11-12T15:39:26+00:00",
+            "time": "2026-03-24T13:12:05+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2608,7 +2609,7 @@
                 "options"
             ],
             "support": {
-                "source": "https:\/\/github.com\/symfony\/options-resolver\/tree\/v7.4.0"
+                "source": "https:\/\/github.com\/symfony\/options-resolver\/tree\/v7.4.8"
             },
             "funding": [
                 {
@@ -2632,17 +2633,17 @@
         },
         {
             "name": "symfony\/polyfill-php80",
-            "version": "v1.33.0",
-            "version_normalized": "1.33.0.0",
+            "version": "v1.36.0",
+            "version_normalized": "1.36.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/symfony\/polyfill-php80.git",
-                "reference": "0cc9dd0f17f61d8131e7df6b84bd344899fe2608"
+                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/symfony\/polyfill-php80\/zipball\/0cc9dd0f17f61d8131e7df6b84bd344899fe2608",
-                "reference": "0cc9dd0f17f61d8131e7df6b84bd344899fe2608",
+                "url": "https:\/\/api.github.com\/repos\/symfony\/polyfill-php80\/zipball\/dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
+                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2654,7 +2655,7 @@
             "require": {
                 "php": ">=7.2"
             },
-            "time": "2025-01-02T08:10:11+00:00",
+            "time": "2026-04-10T16:19:22+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -2701,7 +2702,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https:\/\/github.com\/symfony\/polyfill-php80\/tree\/v1.33.0"
+                "source": "https:\/\/github.com\/symfony\/polyfill-php80\/tree\/v1.36.0"
             },
             "funding": [
                 {
@@ -2725,17 +2726,17 @@
         },
         {
             "name": "symfony\/polyfill-uuid",
-            "version": "v1.33.0",
-            "version_normalized": "1.33.0.0",
+            "version": "v1.36.0",
+            "version_normalized": "1.36.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/symfony\/polyfill-uuid.git",
-                "reference": "21533be36c24be3f4b1669c4725c7d1d2bab4ae2"
+                "reference": "26dfec253c4cf3e51b541b52ddf7e42cb0908e94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/symfony\/polyfill-uuid\/zipball\/21533be36c24be3f4b1669c4725c7d1d2bab4ae2",
-                "reference": "21533be36c24be3f4b1669c4725c7d1d2bab4ae2",
+                "url": "https:\/\/api.github.com\/repos\/symfony\/polyfill-uuid\/zipball\/26dfec253c4cf3e51b541b52ddf7e42cb0908e94",
+                "reference": "26dfec253c4cf3e51b541b52ddf7e42cb0908e94",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2753,7 +2754,7 @@
             "suggest": {
                 "ext-uuid": "For best performance"
             },
-            "time": "2024-09-09T11:45:10+00:00",
+            "time": "2026-04-10T16:19:22+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -2793,7 +2794,7 @@
                 "uuid"
             ],
             "support": {
-                "source": "https:\/\/github.com\/symfony\/polyfill-uuid\/tree\/v1.33.0"
+                "source": "https:\/\/github.com\/symfony\/polyfill-uuid\/tree\/v1.36.0"
             },
             "funding": [
                 {

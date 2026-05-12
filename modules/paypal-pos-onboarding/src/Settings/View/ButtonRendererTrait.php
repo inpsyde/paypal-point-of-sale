@@ -12,14 +12,14 @@ trait ButtonRendererTrait
      *
      * @param string $action The value for the name attribute, should be from ButtonAction constants.
      * @param string|null $label The button text, or null to use default text based on the action.
-     * @param array{kind?: string, disabled?: bool, hidden?: bool, type?: string, value?: string, attributes?: array<string, string>}
-     * The array with additional parameters.
-     * 'kind' - button type/CSS class from ButtonKind, if omitted - using default based on the action.
-     * 'disabled' - true/false, whether to add `disabled` attribute (default false).
-     * 'hidden' - true/false, whether to make it hidden (default false).
-     * 'type' - HTML button type (default submit).
-     * 'value' - HTML button value (default "Save changes").
-     * 'attributes' - additional HTML attributes, such as data-*.
+     * @param array{kind?: string, disabled?: bool, hidden?: bool, type?: string, value?: string, attributes?: array<string, string>} $params
+     *     The array with additional parameters.
+     *     'kind' - button type/CSS class from ButtonKind, if omitted - using default based on the action.
+     *     'disabled' - true/false, whether to add `disabled` attribute (default false).
+     *     'hidden' - true/false, whether to make it hidden (default false).
+     *     'type' - HTML button type (default submit).
+     *     'value' - HTML button value (default "Save changes").
+     *     'attributes' - additional HTML attributes, such as data-*.
      * @return string
      */
     protected function renderActionButton(string $action, ?string $label = null, array $params = []): string
@@ -70,7 +70,7 @@ trait ButtonRendererTrait
         </button>
 
         <?php 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
     protected function getDefaultButtonLabel(string $action): string
     {

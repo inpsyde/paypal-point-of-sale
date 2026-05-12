@@ -17,27 +17,17 @@ class VariantInventoryStateCollection
      */
     public function __construct(?array $inventoryStates = [])
     {
-        foreach ($inventoryStates as $inventoryState) {
+        foreach ($inventoryStates ?? [] as $inventoryState) {
             if ($inventoryState instanceof VariantInventoryState) {
                 $this->add($inventoryState);
             }
         }
     }
-    /**
-     * @param VariantInventoryState $variantInventoryState
-     *
-     * @return VariantInventoryState
-     */
     public function add(VariantInventoryState $variantInventoryState): self
     {
         $this->collection[(string) $variantInventoryState->variantUuid()] = $variantInventoryState;
         return $this;
     }
-    /**
-     * @param VariantInventoryState $variantInventoryState
-     *
-     * @return VariantInventoryState
-     */
     public function remove(VariantInventoryState $variantInventoryState): self
     {
         unset($this->collection[(string) $variantInventoryState->variantUuid()]);
@@ -63,9 +53,6 @@ class VariantInventoryStateCollection
     {
         return $this->collection;
     }
-    /**
-     * @return VariantInventoryState
-     */
     public function reset(): self
     {
         $this->collection = [];

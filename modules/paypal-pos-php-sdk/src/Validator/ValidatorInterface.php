@@ -7,18 +7,9 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Validator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 interface ValidatorInterface
 {
+    public function accepts(mixed $entity): bool;
     /**
-     * @param $entity
-     *
-     * @return bool
-     */
-    public function accepts($entity): bool;
-    /**
-     * @param $entity
-     *
-     * @return bool
-     *
      * @throws ValidatorException
      */
-    public function validate($entity): bool;
+    public function validate(mixed $entity): bool;
 }

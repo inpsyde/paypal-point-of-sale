@@ -46,6 +46,9 @@ class EnqueueProductSyncJob implements Job
     public function execute(ContextInterface $context, JobRepository $repository, LoggerInterface $logger): bool
     {
         $products = wc_get_products(['return' => 'ids', 'limit' => -1, 'status' => ProductState::PUBLISH, 'type' => $this->productTypeWhitelist]);
+        if (!is_array($products)) {
+            return \true;
+        }
         $jobs = [];
         foreach ($products as $product) {
             if (($this->productCanSynced)($product)) {

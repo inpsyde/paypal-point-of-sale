@@ -63,10 +63,6 @@ class WebhookListenerEndpoint implements Endpoint
             self::$shutDownCalled = \true;
         }, -100);
     }
-    /**
-     * @param Payload $payload
-     * @param WebhookHandler ...$handlers
-     */
     private function handle(Payload $payload): void
     {
         foreach ($this->handlers as $handler) {

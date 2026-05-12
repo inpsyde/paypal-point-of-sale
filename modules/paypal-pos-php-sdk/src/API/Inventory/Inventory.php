@@ -42,7 +42,7 @@ class Inventory
         return $this->locations;
     }
     /**
-     * @param Transaction[] $transactions
+     * @param Transaction ...$transactions
      *
      * @throws ZettleRestException
      */

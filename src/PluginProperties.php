@@ -35,8 +35,8 @@ class PluginProperties
         $this->baseUrl = plugins_url('/', $pluginFile);
         $this->basename = plugin_basename($pluginFile);
         if (!function_exists('get_plugin_data')) {
-            /** @psalm-suppress MissingFile */
             require_once \ABSPATH . 'wp-admin/includes/plugin.php';
+            // @phpstan-ignore requireOnce.fileNotFound
         }
         $this->data = get_plugin_data($pluginFile, \false, \false);
         $this->debug = defined('WP_DEBUG') && \WP_DEBUG;

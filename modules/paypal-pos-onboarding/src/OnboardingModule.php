@@ -8,6 +8,7 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\Filter\SettingsValueFilter;
 class OnboardingModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
@@ -27,7 +28,9 @@ class OnboardingModule implements ServiceModule, ExtendingModule, ExecutableModu
         foreach ($container->get('paypal-pos.onboarding.provider') as $provider) {
             $provider->boot($container);
         }
-        add_filter('woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'), [$container->get('paypal-pos.onboarding.settings.value-filter.api-key'), 'filterSettingsValues']);
+        $apiKeyFilter = $container->get('paypal-pos.onboarding.settings.value-filter.api-key');
+        assert($apiKeyFilter instanceof SettingsValueFilter);
+        add_filter('woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'), [$apiKeyFilter, 'filterSettingsValues']);
         add_action('rest_api_init', static function () use ($container) {
             $endpoint = $container->get('paypal-pos.onboarding.disconnect.endpoint');
             register_rest_route($container->get('paypal-pos.onboarding.rest.namespace'), $endpoint->route(), ['methods' => $endpoint->methods(), 'callback' => [$endpoint, 'handleRequest'], 'permission_callback' => [$endpoint, 'permissionCallback'], 'args' => $endpoint->args()]);

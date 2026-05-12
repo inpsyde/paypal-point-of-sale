@@ -16,21 +16,12 @@ class LazyImage implements ImageInterface
     private ?ImageInterface $image = null;
     private string $localUrl = '';
     private Images $imageClient;
-    private OneToOneMapInterface $map;
+    private OneToOneMapInterface&MapRecordCreator $map;
     private int $localId;
     private UrlProviderInterface $urlProvider;
-    /**
-     * LazyImage constructor.
-     *
-     * @param int $localId
-     * @param UrlProviderInterface $urlProvider
-     * @param Images $imageClient
-     * @param OneToOneMapInterface $map
-     */
-    public function __construct(int $localId, UrlProviderInterface $urlProvider, Images $imageClient, OneToOneMapInterface $map)
+    public function __construct(int $localId, UrlProviderInterface $urlProvider, Images $imageClient, OneToOneMapInterface&MapRecordCreator $map)
     {
         $this->imageClient = $imageClient;
-        assert($map instanceof MapRecordCreator);
         $this->map = $map;
         $this->localId = $localId;
         $this->urlProvider = $urlProvider;

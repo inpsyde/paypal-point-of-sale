@@ -14,17 +14,11 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Varian
 class VariantOptionDefinitionsValidator implements ValidatorInterface
 {
     public const MAXIMUM_DEFINITIONS_AMOUNT = 3;
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof VariantOptionDefinitions;
     }
-    /**
-     * @inheritDoc
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof VariantOptionDefinitions);
         if (empty($entity->definitions())) {

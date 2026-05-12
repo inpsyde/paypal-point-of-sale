@@ -19,7 +19,7 @@ return ['paypal-pos.assets.sync-job-types' => static function (C $container): ar
     }
     return $jobTypes;
 }, 'paypal-pos.assets.should-enqueue.all' => static function (C $container): callable {
-    return static function () use ($container): bool {
+    return static function (): bool {
         return \true;
     };
 }, 'paypal-pos.assets.should-enqueue.sync-module' => static function (C $container): callable {

@@ -28,9 +28,9 @@ class ProcessorBuilder
     private ?Locker $locker = null;
     private bool $isMultisite = \false;
     /**
-     * @var callable
+     * @var callable|null
      */
-    private $exceptionHandler;
+    private $exceptionHandler = null;
     private int $maxRetriesCount = 0;
     public function __construct(JobRecordFactoryInterface $jobRecordFactory)
     {

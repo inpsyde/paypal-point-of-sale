@@ -13,12 +13,7 @@ class CallbackBuilder implements BuilderInterface
     {
         $this->callback = $callback;
     }
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         $result = ($this->callback)($className, $payload, $builder);
         assert($result instanceof $className);

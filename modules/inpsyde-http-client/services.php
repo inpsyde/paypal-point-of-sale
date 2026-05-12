@@ -28,11 +28,6 @@ return ['inpsyde.http-client.factory' => static function (ContainerInterface $co
     }
     return Psr18ClientDiscovery::find();
 }, 'inpsyde.http-client.uri-factory' => static function (): UriFactoryInterface {
-    // scoping workaround, IZET-318
-    // TODO: Remove as soon as we have a scoping mechanism in place
-    if (!method_exists(Psr17FactoryDiscovery::class, 'findUriFactory')) {
-        return Psr17FactoryDiscovery::findUrlFactory();
-    }
     return Psr17FactoryDiscovery::findUriFactory();
 }, 'inpsyde.http-client.request-factory' => static function (): RequestFactoryInterface {
     return Psr17FactoryDiscovery::findRequestFactory();

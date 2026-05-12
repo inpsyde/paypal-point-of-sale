@@ -32,6 +32,13 @@
             "url": "https:\/\/repo.packagist.com\/inpsyde\/"
         },
         {
+            "type": "composer",
+            "url": "https:\/\/raw.githubusercontent.com\/inpsyde\/wp-stubs\/main",
+            "only": [
+                "inpsyde\/wp-stubs-versions"
+            ]
+        },
+        {
             "packagist.org": false
         }
     ],
@@ -75,9 +82,12 @@
         "php-stubs\/wordpress-stubs": "^5.4",
         "phpunit\/phpunit": "^8.0 || ^9.0",
         "symfony\/var-dumper": "^5.0",
-        "vimeo\/psalm": "^5",
         "vlucas\/phpdotenv": "^4.1",
-        "webmozart\/path-util": "^2.3@stable"
+        "webmozart\/path-util": "^2.3@stable",
+        "phpstan\/phpstan": "^2.1",
+        "phpstan\/phpstan-deprecation-rules": "^2.0",
+        "swissspidy\/phpstan-no-private": "^1.0",
+        "inpsyde\/wp-stubs-versions": "dev-latest"
     },
     "autoload": {
         "psr-4": {
@@ -92,7 +102,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "cs": "@php .\/vendor\/bin\/phpcs -n -s --parallel=24",
+        "cs": "@php .\/vendor\/bin\/phpcs -s --parallel=24",
         "cs:phpcbf": "@php .\/vendor\/bin\/phpcbf  --parallel=24;exit 0",
         "cs:interactive": "@php .\/vendor\/bin\/phpcs -a",
         "cs:dev": [
@@ -131,5 +141,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "0.0.0+pos-384-hide-zettle-integration-tab-for-grouped-and-external-products.9e8e7c9"
+    "version": "0.0.0+pos-384-hide-zettle-integration-tab-for-grouped-and-external-products.8ca0463"
 }

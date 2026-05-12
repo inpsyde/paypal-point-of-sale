@@ -32,6 +32,9 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
         });
         $customColumn = $container->get('paypal-pos.product.debug.listing.custom-column');
         add_filter('manage_edit-product_columns', static function ($columns) use ($customColumn) {
+            if (!is_array($columns)) {
+                return $columns;
+            }
             if (!is_admin()) {
                 return $columns;
             }

@@ -73,11 +73,6 @@ class Variant
     {
         return $this->meta;
     }
-    /**
-     * @param array $data
-     *
-     * @return static
-     */
     public static function fromArray(array $data): self
     {
         return new self(!empty($data['ID']) ? (int) $data['ID'] : 0, !empty($data['remote_id']) ? (string) $data['remote_id'] : '', !empty($data['local_id']) ? (int) $data['local_id'] : 0, !empty($data['site_id']) ? (int) $data['site_id'] : 1, !empty($data['type']) && $data['type'] === self::TYPE ? $data['type'] : self::TYPE, !empty($data['meta']) ? json_decode($data['meta'], \true) : []);

@@ -22,7 +22,7 @@ class Subscriptions
         $this->webhookFactory = $webhookFactory;
     }
     /**
-     * @return ZettleWebhook[]
+     * @return Webhook[]
      *
      * @throws WebhookException|ZettleRestException
      */
@@ -59,7 +59,7 @@ class Subscriptions
      */
     public function update(Webhook $webhook): void
     {
-        $uuid = $webhook->uuid()->toString();
+        $uuid = $webhook->uuid();
         $payload = ['transportName' => ZettleWebhook::TRANSPORT_NAME, 'eventNames' => $webhook->eventNames(), 'destination' => (string) $webhook->destination(), 'contactEmail' => $webhook->contactEmail()];
         $uri = (string) $this->uri->withPath("/organizations/self/subscriptions/{$uuid}");
         $this->restClient->put($uri, $payload);

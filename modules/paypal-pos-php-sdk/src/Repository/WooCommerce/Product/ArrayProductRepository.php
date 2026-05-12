@@ -22,14 +22,9 @@ class ArrayProductRepository implements ProductRepositoryInterface
     {
         $this->repository = $repository;
     }
-    /**
-     * @param int $id
-     *
-     * @return WC_Product
-     */
-    public function findById(int $id): WC_Product
+    public function findById(int $id): ?WC_Product
     {
-        return $this->repository[$id];
+        return $this->repository[$id] ?? null;
     }
     /**
      * @inheritDoc
@@ -77,7 +72,7 @@ class ArrayProductRepository implements ProductRepositoryInterface
      */
     public function fetchFromTypes(array $types, string $status = ProductState::PUBLISH, int $limit = -1): array
     {
-        $products = [];
+        $ids = [];
         foreach ($this->repository as $id => $product) {
             assert($product instanceof WC_Product);
             if (!in_array($product->get_type(), $types, \true)) {
@@ -86,11 +81,11 @@ class ArrayProductRepository implements ProductRepositoryInterface
             if ($product->get_status() !== $status) {
                 continue;
             }
-            if (!$limit === -1 && count($products) >= $limit) {
-                return $products;
+            if ($limit !== -1 && count($ids) >= $limit) {
+                return $ids;
             }
-            $products[] = $product;
+            $ids[] = (int) $id;
         }
-        return $products;
+        return $ids;
     }
 }

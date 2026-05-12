@@ -44,19 +44,11 @@ class LocalImageValidator implements ValidatorInterface
         $this->maxWidth = $maxWidth;
         $this->maxHeight = $maxHeight;
     }
-    /**
-     * {@inheritDoc}
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof LazyImage;
     }
-    /**
-     * {@inheritDoc}
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof LazyImage);
         $filePath = $this->filePathProvider->provide((string) $entity->localId());
@@ -88,7 +80,7 @@ class LocalImageValidator implements ValidatorInterface
     private function validatedImageType(string $filePath): void
     {
         $type = exif_imagetype($filePath);
-        if (!array_key_exists($type, $this->supportedImageTypes)) {
+        if ($type === \false || !array_key_exists($type, $this->supportedImageTypes)) {
             throw new UnsupportedImageFileTypeException(sprintf('Filetype %d is not supported. Must be one of %s. [%s]', (int) $type, esc_html(implode(', ', array_unique($this->supportedImageTypes))), esc_html($filePath)));
         }
     }
@@ -99,7 +91,11 @@ class LocalImageValidator implements ValidatorInterface
      */
     private function validateImageSize(string $filePath): void
     {
-        [$width, $height] = getimagesize($filePath);
+        $size = getimagesize($filePath);
+        if ($size === \false) {
+            return;
+        }
+        [$width, $height] = $size;
         if ($width < $this->minWidth || $height < $this->minHeight) {
             throw new InvalidImageSizeException(sprintf('Image too small. Must be at least: \'%dx%d\'. [%s]', (int) $this->minWidth, (int) $this->minHeight, esc_html($filePath)));
         }

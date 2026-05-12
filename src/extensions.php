@@ -31,7 +31,9 @@ return [
     'paypal-pos.sdk.rest-client' => static function (Psr18RestClient $client, C $container): Psr18RestClient {
         $proxyFactory = $container->get('inpsyde.debug.proxy-factory');
         assert($proxyFactory instanceof DebugProxyFactory);
-        return $proxyFactory->forInstanceMethods($client);
+        $proxy = $proxyFactory->forInstanceMethods($client);
+        assert($proxy instanceof Psr18RestClient);
+        return $proxy;
     },
     'inpsyde.queue.exception-handler' => static function (callable $previous, C $container): callable {
         return static function (Throwable $exception) use ($previous, $container): void {

@@ -15,12 +15,10 @@ class NetworkState
     }
     /**
      * Returns a new instance for the global site ID and switched stack.
-     *
-     * @return static
      */
     public static function create(): NetworkState
     {
-        $state = new static();
+        $state = new NetworkState();
         $state->siteId = get_current_blog_id();
         $state->stack = (array) ($GLOBALS['_wp_switched_stack'] ?? []);
         return $state;

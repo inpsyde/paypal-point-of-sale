@@ -37,10 +37,10 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
     public function run(ContainerInterface $container): bool
     {
         /**
-         * @var TokenProviderInterface|TokenPersistorInterface $tokenStorage
+         * @var TokenProviderInterface&TokenPersistorInterface $tokenStorage
          */
         $tokenStorage = $container->get('paypal-pos.oauth.token-storage');
-        add_action('inpsyde.zettle.settings.updated', static function (array $changed) use ($container): void {
+        add_action('inpsyde.zettle.settings.updated', static function (array $changed): void {
             if (empty($changed)) {
                 return;
             }
@@ -61,7 +61,7 @@ class AuthModule implements ServiceModule, ExtendingModule, ExecutableModule
             $storage->clear();
             delete_option($authFailedKey);
         });
-        add_action('woocommerce_init', static function () use ($container) {
+        add_action('woocommerce_init', static function () {
         });
         add_action('inpsyde.zettle.oauth.token-received', static function (TokenInterface $token) use ($tokenStorage) {
             $tokenStorage->persist($token);

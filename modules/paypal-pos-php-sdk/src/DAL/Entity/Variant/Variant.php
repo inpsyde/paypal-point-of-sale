@@ -192,10 +192,7 @@ class Variant implements VariantTransferInterface, StockQuantityAwareInterface, 
     {
         return $this->unitName;
     }
-    /**
-     * @param string|null $unitName
-     */
-    public function setUnitName(string $unitName): void
+    public function setUnitName(?string $unitName): void
     {
         $this->unitName = $unitName;
     }
@@ -206,10 +203,7 @@ class Variant implements VariantTransferInterface, StockQuantityAwareInterface, 
     {
         return $this->costPrice;
     }
-    /**
-     * @param Price|null $costPrice
-     */
-    public function setCostPrice(Price $costPrice): void
+    public function setCostPrice(?Price $costPrice): void
     {
         $this->costPrice = $costPrice;
     }
@@ -220,10 +214,7 @@ class Variant implements VariantTransferInterface, StockQuantityAwareInterface, 
     {
         return $this->barcode;
     }
-    /**
-     * @param string|null $barcode
-     */
-    public function setBarcode(string $barcode): void
+    public function setBarcode(?string $barcode): void
     {
         $this->barcode = $barcode;
     }

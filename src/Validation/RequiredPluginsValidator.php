@@ -28,8 +28,8 @@ class RequiredPluginsValidator implements ValidatorInterface
     public function validate($value): void
     {
         if (!function_exists('is_plugin_active')) {
-            /** @psalm-suppress MissingFile */
             require_once \ABSPATH . '/wp-admin/includes/plugin.php';
+            // @phpstan-ignore requireOnce.fileNotFound
         }
         (new CallbackValidator(function (): ?string {
             $missingPlugins = array_filter(array_keys($this->plugins), static function (string $path): bool {

@@ -66,15 +66,15 @@ class ProductValidationEndpoint implements EndpointInterface
     {
         // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
         // phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-        return ['ids' => ['type' => 'array', 'default' => [], 'validate_callback' => static function ($value): bool {
+        return ['ids' => ['type' => 'array', 'default' => [], 'validate_callback' => static function (mixed $value): bool {
             return is_array($value);
-        }, 'sanitize_callback' => static function ($value): array {
-            return array_map(static function ($item): int {
+        }, 'sanitize_callback' => static function (mixed $value): array {
+            return array_map(static function (mixed $item): int {
                 return (int) $item;
             }, (array) $value);
-        }], 'strategy' => ['type' => 'string', 'validate_callback' => static function ($value): bool {
+        }], 'strategy' => ['type' => 'string', 'validate_callback' => static function (mixed $value): bool {
             return is_string($value);
-        }, 'sanitize_callback' => static function ($value) {
+        }, 'sanitize_callback' => static function (mixed $value) {
             return (string) sanitize_text_field($value);
         }]];
         // phpcs:enable

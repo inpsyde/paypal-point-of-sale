@@ -9,8 +9,14 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\Admin\GlobalConnec
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\Admin\IntegrationConnectionFailedNotice;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\Notice\NoticeInterface;
-return ['paypal-pos.notices.notification.notice.info.complete-onboarding' => static function (C $container): NoticeInterface {
-    return new CompleteOnboardingNotice($container->get('paypal-pos.settings.is-integration-page'), $container->get('paypal-pos.settings.url'));
+use WP_Screen;
+return ['paypal-pos.notices.is-plugins-page' => static function (C $container): callable {
+    return static function (): bool {
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+        return $screen instanceof WP_Screen && $screen->id === 'plugins';
+    };
+}, 'paypal-pos.notices.notification.notice.info.complete-onboarding' => static function (C $container): NoticeInterface {
+    return new CompleteOnboardingNotice($container->get('paypal-pos.notices.is-plugins-page'), $container->get('paypal-pos.settings.url'));
 }, 'paypal-pos.notices.notification.notice.error.global.auth-failed' => static function (C $container): NoticeInterface {
     return new GlobalConnectionFailedNotice($container->get('paypal-pos.settings.is-integration-page'), $container->get('paypal-pos.auth.is-failed'), $container->get('paypal-pos.settings.url'));
 }, 'paypal-pos.notices.notification.notice.error.integration.auth-failed' => static function (C $container): NoticeInterface {

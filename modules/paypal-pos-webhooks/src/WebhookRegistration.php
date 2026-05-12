@@ -15,10 +15,7 @@ class WebhookRegistration
 {
     private Webhook $local;
     private Subscriptions $subscriptions;
-    /**
-     * @var callable
-     */
-    private $webhookDeletion;
+    private WebhookDeletion $webhookDeletion;
     private LoggerInterface $logger;
     public function __construct(Webhook $local, Subscriptions $subscriptions, WebhookDeletion $webhookDeletion, LoggerInterface $logger)
     {

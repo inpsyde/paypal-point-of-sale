@@ -32,21 +32,21 @@ class StateMachineProvider implements Provider
             if (!is_admin()) {
                 return;
             }
-            $state = filter_input(\INPUT_POST, 'zettle_onboarding_state');
+            $state = filter_input(\INPUT_POST, 'zettle_onboarding_state', \FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             if (!$state) {
                 return;
             }
             switch (\true) {
-                case filter_input(\INPUT_POST, ButtonAction::PROCEED):
+                case filter_input(\INPUT_POST, ButtonAction::PROCEED, \FILTER_SANITIZE_FULL_SPECIAL_CHARS):
                     $this->stateMachine->handle(ProceedButtonPressed::fromGlobals());
                     break;
-                case filter_input(\INPUT_POST, ButtonAction::BACK):
+                case filter_input(\INPUT_POST, ButtonAction::BACK, \FILTER_SANITIZE_FULL_SPECIAL_CHARS):
                     $this->stateMachine->handle(BackButtonPressed::fromGlobals());
                     break;
-                case filter_input(\INPUT_POST, ButtonAction::CANCEL):
+                case filter_input(\INPUT_POST, ButtonAction::CANCEL, \FILTER_SANITIZE_FULL_SPECIAL_CHARS):
                     $this->stateMachine->handle(CancelButtonPressed::fromGlobals());
                     break;
-                case filter_input(\INPUT_POST, ButtonAction::DELETE):
+                case filter_input(\INPUT_POST, ButtonAction::DELETE, \FILTER_SANITIZE_FULL_SPECIAL_CHARS):
                     $this->stateMachine->handle(DeleteButtonPressed::fromGlobals());
                     break;
             }

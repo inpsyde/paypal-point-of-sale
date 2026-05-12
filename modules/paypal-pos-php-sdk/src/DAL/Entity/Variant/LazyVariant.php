@@ -6,14 +6,15 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
 class LazyVariant implements VariantInterface, StockQuantityAwareInterface, PriceAwareInterface
 {
     use VariantGetterDecoratorTrait;
     private int $localId;
-    private VariantTransferInterface $base;
-    private MapRecordCreator $recordCreator;
+    private VariantTransferInterface&StockQuantityAwareInterface $base;
+    private MapRecordCreator&RemoteIdProvider $recordCreator;
     private bool $persisted = \false;
-    public function __construct(int $localId, VariantTransferInterface $base, MapRecordCreator $recordCreator)
+    public function __construct(int $localId, VariantTransferInterface&StockQuantityAwareInterface $base, MapRecordCreator&RemoteIdProvider $recordCreator)
     {
         $this->localId = $localId;
         $this->base = $base;

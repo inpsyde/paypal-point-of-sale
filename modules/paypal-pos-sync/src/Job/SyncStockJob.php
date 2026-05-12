@@ -6,7 +6,6 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job;
 
 use Syde\Vendor\Zettle\Inpsyde\Queue\ExceptionLoggingTrait;
-use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
@@ -34,30 +33,29 @@ class SyncStockJob implements Job
     private BuilderInterface $builder;
     private OneToManyMapInterface $map;
     private int $maxStockChange;
-    private QueueProcessor $processor;
     private Job $setInventoryTrackingJob;
     /**
-     * @param int $maxStockChange iZ API does not allow transactions larger than 100.000
+     * @param int $maxStockChange The API does not allow transactions larger than 100.000
      */
-    public function __construct(Inventory $inventoryClient, BuilderInterface $builder, OneToManyMapInterface $map, QueueProcessor $processor, int $maxStockChange, Job $setInventoryTrackingJob)
+    public function __construct(Inventory $inventoryClient, BuilderInterface $builder, OneToManyMapInterface $map, int $maxStockChange, Job $setInventoryTrackingJob)
     {
         $this->inventoryClient = $inventoryClient;
         $this->builder = $builder;
         $this->map = $map;
         $this->maxStockChange = $maxStockChange;
-        $this->processor = $processor;
         $this->setInventoryTrackingJob = $setInventoryTrackingJob;
     }
     /**
      * @inheritDoc
      *
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     public function execute(ContextInterface $context, JobRepository $repository, LoggerInterface $logger): bool
     {
         $productId = $context->args()->productId;
         $wcProduct = wc_get_product($productId);
-        if ($wcProduct === \false) {
+        if (!$wcProduct instanceof WC_Product) {
             $logger->error("Cant find Product with ProductID: {$productId}");
             return \false;
         }
@@ -81,6 +79,9 @@ class SyncStockJob implements Job
         }
         foreach ($this->fetchVariantUuids($wcProduct, $logger) as $variantUuid => $localId) {
             $wcProduct = wc_get_product($localId);
+            if (!$wcProduct) {
+                continue;
+            }
             $newStock = (int) $wcProduct->get_stock_quantity();
             $remoteStock = $this->fetchRemoteStock($inventory, $variantUuid);
             $stockChange = $newStock - $remoteStock;
@@ -225,7 +226,7 @@ class SyncStockJob implements Job
      * @param WC_Product $product
      * @param LoggerInterface $logger
      *
-     * @return string[]
+     * @return array<string, int>
      *
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh

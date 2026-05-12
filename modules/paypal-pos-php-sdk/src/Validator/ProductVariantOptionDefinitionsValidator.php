@@ -17,23 +17,18 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Varian
  */
 class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof ProductInterface;
     }
-    /**
-     * @inheritDoc
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof ProductInterface);
         $options = [];
         $variantOptionDefinitions = $entity->variantOptionDefinitions();
         foreach ($entity->variants()->all() as $variant) {
-            $currentOptions = $variant->options()->all();
+            $variantOptions = $variant->options();
+            $currentOptions = $variantOptions !== null ? $variantOptions->all() : [];
             foreach ($currentOptions as $currentOption) {
                 $options[$currentOption->name()][] = $currentOption->value();
             }
@@ -54,9 +49,11 @@ class ProductVariantOptionDefinitionsValidator implements ValidatorInterface
      */
     private function assertVariantOptionAmounts(ProductInterface $product): void
     {
-        $definitions = $product->variantOptionDefinitions()->definitions();
+        $variantOptionDefinitions = $product->variantOptionDefinitions();
+        $definitions = $variantOptionDefinitions !== null ? $variantOptionDefinitions->definitions() : [];
         foreach ($product->variants()->all() as $variant) {
-            $options = $variant->options()->all();
+            $variantOptions = $variant->options();
+            $options = $variantOptions !== null ? $variantOptions->all() : [];
             $definitionsAmount = count($definitions);
             $currentOptionsAmount = count($options);
             if ($definitionsAmount !== $currentOptionsAmount) {

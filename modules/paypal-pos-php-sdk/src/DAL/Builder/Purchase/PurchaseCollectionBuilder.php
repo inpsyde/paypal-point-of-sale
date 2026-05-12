@@ -9,7 +9,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purcha
 class PurchaseCollectionBuilder implements PurchaseCollectionBuilderInterface
 {
     private PurchaseCollectionFactory $purchaseCollectionFactory;
-    private PurchaseBuilder $purchaseBuilder;
+    private PurchaseBuilderInterface $purchaseBuilder;
     /**
      * PurchaseCollectionBuilder constructor.
      *

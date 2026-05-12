@@ -9,6 +9,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionObject;
 use RuntimeException;
 /**
@@ -23,10 +24,8 @@ trait ParameterDeriverTrait
      *   The callable for which we want the parameter type.
      * @return string
      *   The class the parameter is type hinted on.
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
-    protected function getParameterType($callable): string
+    protected function getParameterType(callable $callable): string
     {
         // phpcs:enable
         // We can't type hint $callable as it could be an array, and arrays are not callable.
@@ -35,28 +34,27 @@ trait ParameterDeriverTrait
         try {
             switch (\true) {
                 // See note on isClassCallable() for why this must be the first case.
-                case $this->isClassCallable($callable):
+                case is_array($callable) && $this->isClassCallable($callable):
                     $reflect = new ReflectionClass($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isFunctionCallable($callable):
-                case $this->isClosureCallable($callable):
-                    /** @psalm-suppress ArgumentTypeCoercion */
+                case is_string($callable) && $this->isFunctionCallable($callable):
+                case $callable instanceof Closure && $this->isClosureCallable($callable):
                     $reflect = new ReflectionFunction($callable);
                     $params = $reflect->getParameters();
                     break;
-                case $this->isObjectCallable($callable):
+                case is_array($callable) && $this->isObjectCallable($callable):
                     $reflect = new ReflectionObject($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isInvokable($callable):
+                case is_object($callable) && $this->isInvokable($callable):
                     $params = (new ReflectionMethod($callable, '__invoke'))->getParameters();
                     break;
                 default:
                     throw new InvalidArgumentException('Not a recognized type of callable');
             }
             $rType = $params[0]->getType();
-            if ($rType === null) {
+            if (!$rType instanceof ReflectionNamedType) {
                 throw new InvalidArgumentException('Listeners must declare an object type they can accept.');
             }
             $type = $rType->getName();
@@ -72,7 +70,7 @@ trait ParameterDeriverTrait
      * Or at least a reasonable approximation, since a function name may not be defined yet.
      *
      * @param callable $callable
-     * @return True if the callable represents a function, false otherwise.
+     * @return bool True if the callable represents a function, false otherwise.
      */
     protected function isFunctionCallable(callable $callable): bool
     {
@@ -83,7 +81,7 @@ trait ParameterDeriverTrait
      * Determines if a callable represents a closure/anonymous function.
      *
      * @param callable $callable
-     * @return True if the callable represents a closure object, false otherwise.
+     * @return bool True if the callable represents a closure object, false otherwise.
      */
     protected function isClosureCallable(callable $callable): bool
     {
@@ -93,7 +91,7 @@ trait ParameterDeriverTrait
      * Determines if a callable represents a method on an object.
      *
      * @param callable $callable
-     * @return True if the callable represents a method object, false otherwise.
+     * @return bool True if the callable represents a method object, false otherwise.
      */
     protected function isObjectCallable(callable $callable): bool
     {
@@ -113,11 +111,11 @@ trait ParameterDeriverTrait
      * the callable type hint but it would pass `is_callable()`.  Because PHP.
      *
      * @param callable $callable
-     * @return True if the callable represents a static method, false otherwise.
+     * @return bool True if the callable represents a static method, false otherwise.
      *
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
-    protected function isClassCallable($callable): bool
+    protected function isClassCallable(callable $callable): bool
     {
         // phpcs:enable
         return is_array($callable) && is_string($callable[0]) && class_exists($callable[0]);
@@ -126,7 +124,7 @@ trait ParameterDeriverTrait
      * Determines if a callable is a class that has __invoke() method
      *
      * @param callable $callable
-     * @return True if the callable represents an invokable object, false otherwise.
+     * @return bool True if the callable represents an invokable object, false otherwise.
      */
     private function isInvokable(callable $callable): bool
     {

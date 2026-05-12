@@ -7,36 +7,20 @@ use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface;
 use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\RequestFactoryInterface;
 use Syde\Vendor\Zettle\Psr\Http\Message\StreamFactoryInterface;
-use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Exception\AuthenticationException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 class Psr18RestClient implements RestClientInterface
 {
-    private LoggerInterface $logger;
     private ClientInterface $client;
-    private UriFactoryInterface $uriFactory;
     private RequestFactoryInterface $requestFactory;
     private StreamFactoryInterface $streamFactory;
     /**
      * @var callable[]
      */
     private array $listeners;
-    /**
-     * Psr18RestClient constructor.
-     *
-     * @param LoggerInterface $logger
-     * @param ClientInterface $client
-     * @param UriFactoryInterface $uriFactory
-     * @param RequestFactoryInterface $requestFactory
-     * @param StreamFactoryInterface $streamFactory
-     * @param callable[] $listeners
-     */
-    public function __construct(LoggerInterface $logger, ClientInterface $client, UriFactoryInterface $uriFactory, RequestFactoryInterface $requestFactory, StreamFactoryInterface $streamFactory, callable ...$listeners)
+    public function __construct(ClientInterface $client, RequestFactoryInterface $requestFactory, StreamFactoryInterface $streamFactory, callable ...$listeners)
     {
-        $this->logger = $logger;
         $this->client = $client;
-        $this->uriFactory = $uriFactory;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
         $this->listeners = $listeners;

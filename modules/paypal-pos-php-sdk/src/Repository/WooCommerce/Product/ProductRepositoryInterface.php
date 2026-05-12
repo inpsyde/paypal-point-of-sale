@@ -8,11 +8,6 @@ use WC_Product;
 use WC_Product_Variation;
 interface ProductRepositoryInterface
 {
-    /**
-     * @param int $id
-     *
-     * @return WC_Product|null
-     */
     public function findById(int $id): ?WC_Product;
     /**
      * Return the parent product if it is a variation id, otherwise the same as findById.
