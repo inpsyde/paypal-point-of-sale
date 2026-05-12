@@ -27,11 +27,13 @@ class NoticesModule implements ServiceModule, ExecutableModule
         if (!is_admin()) {
             return \true;
         }
-        $noticeDelegator = $container->get('paypal-pos.notices.notification.delegator');
-        assert($noticeDelegator instanceof NoticeDelegator);
-        $stateMachine = $container->get('inpsyde.state-machine');
-        assert($stateMachine instanceof StateMachineInterface);
-        $noticeDelegator->delegate($stateMachine->currentState()->name());
+        add_action('admin_notices', static function () use ($container): void {
+            $noticeDelegator = $container->get('paypal-pos.notices.notification.delegator');
+            assert($noticeDelegator instanceof NoticeDelegator);
+            $stateMachine = $container->get('inpsyde.state-machine');
+            assert($stateMachine instanceof StateMachineInterface);
+            $noticeDelegator->delegate($stateMachine->currentState()->name());
+        });
         return \true;
     }
 }
