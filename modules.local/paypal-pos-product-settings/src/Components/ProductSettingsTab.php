@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeSaverInterface;
+use WC_Product;
 
 class ProductSettingsTab
 {
@@ -82,15 +83,7 @@ class ProductSettingsTab
         return self::NONCE_FIELD;
     }
 
-    /**
-     * @param $tabs
-     *
-     * @return mixed
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     */
-    public function addTab($tabs)
+    public function addTab(array $tabs): array
     {
         if (!isset($tabs[$this->sectionKey()])) {
             $tabs[$this->sectionKey()] = [
@@ -135,6 +128,10 @@ class ProductSettingsTab
         global $post;
 
         $product = $this->wcProductRepository->findById((int) $post->ID);
+
+        if (!$product instanceof WC_Product) {
+            return;
+        }
 
         ?>
         <div id="zettle_integration_panel" class="panel woocommerce_options_panel">
@@ -186,7 +183,7 @@ class ProductSettingsTab
         <?php
     }
 
-    public function saveFields($postId): void
+    public function saveFields(mixed $postId): void
     {
         $data = $this->parseRequest();
 
@@ -260,7 +257,7 @@ class ProductSettingsTab
 
     private function sanitizeText(string $text): string
     {
-        return sanitize_text_field(wp_unslash($text));
+        return sanitize_text_field(stripslashes($text));
     }
 
     private function validateRequest(array $data): void

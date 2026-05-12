@@ -17,7 +17,7 @@ class WordpressUrlProvider implements UrlProviderInterface
             'http://',
             'https://',
             utf8_uri_encode(
-                wp_get_attachment_image_url((int) $attachmentId, 'full')
+                (string) wp_get_attachment_image_url((int) $attachmentId, 'full')
             )
         );
     }

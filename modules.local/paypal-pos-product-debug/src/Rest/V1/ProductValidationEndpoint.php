@@ -80,21 +80,21 @@ class ProductValidationEndpoint implements EndpointInterface
             'ids' => [
                 'type' => 'array',
                 'default' => [],
-                'validate_callback' => static function ($value): bool {
+                'validate_callback' => static function (mixed $value): bool {
                     return is_array($value);
                 },
-                'sanitize_callback' => static function ($value): array {
-                    return array_map(static function ($item): int {
+                'sanitize_callback' => static function (mixed $value): array {
+                    return array_map(static function (mixed $item): int {
                         return (int) $item;
                     }, (array) $value);
                 },
             ],
             'strategy' => [
                 'type' => 'string',
-                'validate_callback' => static function ($value): bool {
+                'validate_callback' => static function (mixed $value): bool {
                     return is_string($value);
                 },
-                'sanitize_callback' => static function ($value) {
+                'sanitize_callback' => static function (mixed $value) {
                     return (string) sanitize_text_field($value);
                 },
             ],

@@ -7,6 +7,9 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Iterator;
 use Iterator;
 use WC_Product;
 
+/**
+ * @extends Iterator<int, mixed>
+ */
 interface WcProductIterator extends Iterator
 {
     /**

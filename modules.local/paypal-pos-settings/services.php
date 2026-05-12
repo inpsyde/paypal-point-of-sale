@@ -20,7 +20,7 @@ return [
     },
     'paypal-pos.settings.is-integration-page' => static function (C $container): callable {
         return static function (): bool {
-            return filter_input(INPUT_GET, 'tab') === 'zettle';
+            return filter_input(INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS) === 'zettle';
         };
     },
     'paypal-pos.settings.shop-link' => static function (C $container): array {
@@ -222,7 +222,7 @@ return [
         );
     },
     'paypal-pos.settings.is-settings-save-request' => static function (C $container): bool {
-        return filter_input(INPUT_POST, 'save') &&
+        return filter_input(INPUT_POST, 'save', FILTER_SANITIZE_FULL_SPECIAL_CHARS) &&
             $container->get('paypal-pos.settings.is-integration-page')();
     },
     'paypal-pos.settings.page.factory' => static function (C $container): callable {

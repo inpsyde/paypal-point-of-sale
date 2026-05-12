@@ -139,7 +139,7 @@ class ZettleAuthPlugin implements Plugin
 
                 return $response;
             },
-            static function (ClientExceptionInterface $exception) use ($request, $next, $first) {
+            static function (ClientExceptionInterface $exception) use ($request, $first) {
                 //TODO: This block is unimplemented and is merely a draft
                 if ($exception->getCode() !== 401) {
                     throw $exception;
@@ -185,7 +185,7 @@ class ZettleAuthPlugin implements Plugin
             );
 
         return $first($authRequest)->then(
-            function (ResponseInterface $response) use ($grant) {
+            function (ResponseInterface $response) {
                 if ($response->getStatusCode() !== 200) {
                     $body = $response->getBody();
                     $body->rewind();

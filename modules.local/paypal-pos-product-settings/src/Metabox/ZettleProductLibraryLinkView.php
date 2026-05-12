@@ -25,7 +25,7 @@ class ZettleProductLibraryLinkView implements BoxView
             View Product at PayPal Point of Sale
         </a>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     private function productLink(string $productUuid): string

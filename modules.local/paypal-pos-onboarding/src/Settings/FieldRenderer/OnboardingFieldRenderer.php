@@ -24,30 +24,15 @@ class OnboardingFieldRenderer implements FieldRendererInterface
 
     private OnboardingStepper $stepper;
 
-    /**
-     * @var callable
-     */
-    private $isIntegrationPage;
-
-    /**
-     * OnboardingFieldRenderer constructor.
-     *
-     * @param string $currentState
-     * @param OnboardingView $view
-     * @param OnboardingStepper $stepper
-     * @param callable $isIntegrationPage
-     */
     public function __construct(
         string $currentState,
         OnboardingView $view,
-        OnboardingStepper $stepper,
-        callable $isIntegrationPage
+        OnboardingStepper $stepper
     ) {
 
         $this->view = $view;
         $this->currentState = $currentState;
         $this->stepper = $stepper;
-        $this->isIntegrationPage = $isIntegrationPage;
     }
 
     /**
@@ -107,7 +92,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             </td>
         </tr>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -144,7 +129,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             <?php endif; ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -172,6 +157,6 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 }

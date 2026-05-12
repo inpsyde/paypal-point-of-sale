@@ -33,7 +33,9 @@ class ChildrenImageIterator implements WcProductIterator
     #[\ReturnTypeWillChange]
     public function current()
     {
-        return wc_get_product(current($this->children))->get_image_id();
+        $product = wc_get_product(current($this->children));
+
+        return $product ? $product->get_image_id() : 0;
     }
 
     public function next(): void

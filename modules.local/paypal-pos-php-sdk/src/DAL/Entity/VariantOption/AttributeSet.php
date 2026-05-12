@@ -74,7 +74,7 @@ class AttributeSet
     /**
      * Returns the Set as array
      *
-     * @return array<string, string>
+     * @return array<string, string[]>
      */
     public function all(): array
     {

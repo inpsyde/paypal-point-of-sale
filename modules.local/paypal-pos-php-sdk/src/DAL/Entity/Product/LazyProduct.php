@@ -25,7 +25,7 @@ class LazyProduct implements ProductTransferInterface
 
     private Products $productClient;
 
-    private OneToOneMapInterface|MapRecordCreator $map;
+    private OneToOneMapInterface&MapRecordCreator $map;
 
     private int $localId;
 
@@ -33,18 +33,16 @@ class LazyProduct implements ProductTransferInterface
         int $localId,
         ProductTransferInterface $base,
         Products $productClient,
-        OneToOneMapInterface $map
+        OneToOneMapInterface&MapRecordCreator $map
     ) {
 
         $this->localId = $localId;
         $this->base = $base;
         $this->productClient = $productClient;
-        assert($map instanceof MapRecordCreator);
         $this->map = $map;
     }
 
     /**
-     * @return string
      * @throws ZettleRestException
      */
     public function uuid(): string

@@ -10,11 +10,6 @@ use WC_Product_Variation;
 
 interface ProductRepositoryInterface
 {
-    /**
-     * @param int $id
-     *
-     * @return WC_Product|null
-     */
     public function findById(int $id): ?WC_Product;
 
     /**
