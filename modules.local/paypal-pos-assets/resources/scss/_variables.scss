@@ -38,15 +38,15 @@ $black: #000;
 $black-lighter: #141416;
 $white: #fff;
 $grey: #ececee;
-$grey-lighter: #f4f3ff;
+$grey-lighter: #F6F7FE;
 $grey-dark: #d2d3d7;
 $dark-blue: #192550;
 
-$primary: #785ddc;
+$primary: #3858e9;
 $secondary: #fefeff;
 
 $primary-color: $primary;
-$primary-color-hover: #6C4FD4;
+$primary-color-hover: #1F3AD8;
 
 // disabled
 $disabled-color: #A6A6A6 !default;
@@ -104,18 +104,18 @@ $paragraph-margin-bottom: 1rem !default;
 // Links
 //
 // Style anchor elements.
-$link-color: #5538BA !default;
+$link-color: #3858e9 !default;
 $link-decoration: underline !default;
-$link-hover-color: #5538BA !default;
+$link-hover-color: #1F3AD8 !default;
 $link-hover-decoration: null !default;
-$link-hover-background-color: #E5E1FD !default;
+$link-hover-background-color: #E3E8FC !default;
 $link-hover-box-shadow: 0px 0px 0px 2px $link-hover-background-color, 0px 0px 0px 3px $link-hover-background-color !default;
 
 // Typography
 //
 // Font, line-height, and color for body text, headings, and more.
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-sans-serif: "PayPalPro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $font-family-base: $font-family-sans-serif !default;
 
 // $font-size-root effects the value of `rem`, which is used for as well font sizes, paddings and margins
@@ -176,13 +176,13 @@ $btn-primary-hover-background: $primary-color-hover !default;
 $btn-primary-hover-border-color: $primary-color-hover !default;
 
 // Secondary Button
-$btn-secondary-text: #5538BA !default;
-$btn-secondary-background: #F0EEFF !default;
-$btn-secondary-border-color: #E5E1FD !default;
+$btn-secondary-text: #3858e9 !default;
+$btn-secondary-background: #F1F4FE !default;
+$btn-secondary-border-color: #E3E8FC !default;
 // Hover
-$btn-secondary-hover-text: #5538BA !default;
-$btn-secondary-hover-background: #E5E1FD !default;
-$btn-secondary-hover-border-color: #D4CCFB !default;
+$btn-secondary-hover-text: #1F3AD8 !default;
+$btn-secondary-hover-background: #E3E8FC !default;
+$btn-secondary-hover-border-color: #CCD5FA !default;
 
 // Delete Button
 $btn-delete-text: $error-color !default;
@@ -228,13 +228,13 @@ $input-border-radius: $border-radius !default;
 
 // Focus
 $input-focus-bg: $input-bg !default;
-$input-focus-border-color: #BCB0F7 !default;
+$input-focus-border-color: #B1BFF7 !default;
 $input-focus-color: $input-color !default;
 $input-focus-width: 2px !default;
 $input-focus-box-shadow: 0 0 0 $input-focus-width $input-focus-border-color !default;
 
 // Hover
-$input-border-color-hover: #D4CCFB;
+$input-border-color-hover: #CCD5FA;
 
 $input-placeholder-color: #62646A !default;
 $input-plaintext-color: $body-color !default;
