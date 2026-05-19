@@ -1,0 +1,78 @@
+{
+    "name": "inpsyde\/assets",
+    "description": "Package to manage assets in WordPress.",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Syde GmbH",
+            "homepage": "https:\/\/syde.com\/",
+            "email": "hello@syde.com",
+            "role": "Company"
+        },
+        {
+            "name": "Christian Leucht",
+            "email": "c.leucht@syde.com",
+            "homepage": "https:\/\/www.chrico.info",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-dom": "*",
+        "inpsyde\/wp-context": "^1.3"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^8.5.14 || ^9.0",
+        "brain\/monkey": "^2.5.0",
+        "mikey179\/vfsstream": "^1.6.8",
+        "syde\/phpcs": "^1.0.0",
+        "phpstan\/phpstan": "^2.1.1",
+        "phpstan\/phpstan-mockery": "^2.0.0",
+        "phpstan\/phpstan-phpunit": "^2.0.4",
+        "szepeviktor\/phpstan-wordpress": "^2",
+        "swissspidy\/phpstan-no-private": "^v1.0.0",
+        "phpstan\/phpstan-deprecation-rules": "^2.0.1",
+        "php-stubs\/wordpress-stubs": ">=6.2@stable",
+        "johnpbloch\/wordpress-core": ">=6.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Inpsyde\\Assets\\": "src\/"
+        },
+        "files": [
+            "inc\/functions.php",
+            "inc\/bootstrap.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Inpsyde\\Assets\\Tests\\Unit\\": "tests\/phpunit\/Unit\/"
+        }
+    },
+    "scripts": {
+        "phpcs": "@php .\/vendor\/squizlabs\/php_codesniffer\/bin\/phpcs",
+        "phpstan": "@php .\/vendor\/bin\/phpstan analyse --memory-limit=1G",
+        "tests": "@php .\/vendor\/phpunit\/phpunit\/phpunit",
+        "tests:no-cov": "@php .\/vendor\/phpunit\/phpunit\/phpunit --no-coverage",
+        "tests:codecov": "@php .\/vendor\/phpunit\/phpunit\/phpunit --coverage-clover coverage.xml",
+        "qa": [
+            "@phpcs",
+            "@phpstan",
+            "@tests:no-cov"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "roots\/wordpress-core-installer": true,
+            "dealerdirect\/phpcodesniffer-composer-installer": true
+        }
+    },
+    "extra": {
+        "wordpress-install-dir": "vendor\/wordpress\/wordpress"
+    }
+}
