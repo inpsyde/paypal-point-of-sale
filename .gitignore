@@ -72,3 +72,11 @@ yarn.lock
 /.env
 /.idea/dataSources.local.xml
 /.idea/workspace.xml
+
+### E2E Tests
+tests/qa/.env
+tests/qa/node_modules/
+tests/qa/storage-states/
+tests/qa/playwright-report/
+tests/qa/test-results/
+tests/qa/dist/
