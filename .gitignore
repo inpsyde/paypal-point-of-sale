@@ -74,9 +74,7 @@ yarn.lock
 /.idea/workspace.xml
 
 ### E2E Tests
-tests/qa/.env
-tests/qa/node_modules/
-tests/qa/storage-states/
-tests/qa/playwright-report/
-tests/qa/test-results/
-tests/qa/dist/
+/storage-states/
+/playwright-report/
+/test-results/
+/snapshots/

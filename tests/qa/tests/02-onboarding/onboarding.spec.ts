@@ -1,8 +1,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as path from 'path';
-import { test } from '../../utils';
-import { PosSettingsPage } from '../../utils/pages/PosSettingsPage';
+import { test, PosSettingsPage } from '../../utils';
 
 const PLUGIN_SLUG = 'paypal-point-of-sale';
 // Well-formed JWT (passes format validation) but invalid credentials (fails PayPal auth).
