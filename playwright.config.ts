@@ -4,7 +4,7 @@ import { WpCliEnvType } from '@inpsyde/playwright-utils/build/@types/wp-cli';
 require( 'dotenv' ).config();
 
 export default defineConfig< BaseExtend >( {
-    testDir: 'tests',
+    testDir: 'tests/qa/tests',
     globalSetup: require.resolve( './global-setup' ),
     timeout: 2 * 60_000,
     expect: { timeout: 20 * 1000 },
@@ -59,17 +59,16 @@ export default defineConfig< BaseExtend >( {
     },
 
     projects: [
-        // ── Setup / teardown ──────────────────────────────────────────────────
         // ── Setup / teardown — runs AFTER shards that reset onboarding state ──
         {
             name: 'setup:paypal-pos',
-            testMatch: /00-setup\/paypal-pos\.setup\.ts/,
+            testMatch: /_setup\/paypal-pos\.setup\.ts/,
             teardown: 'teardown:paypal-pos',
             dependencies: [ 'shard:plugin-lifecycle', 'shard:onboarding' ],
         },
         {
             name: 'teardown:paypal-pos',
-            testMatch: /00-setup\/paypal-pos\.teardown\.ts/,
+            testMatch: /_setup\/paypal-pos\.teardown\.ts/,
         },
 
         // ── Shards ────────────────────────────────────────────────────────────

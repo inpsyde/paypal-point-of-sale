@@ -1,8 +1,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as path from 'path';
-import { test as setup } from '../../utils';
-import { PosSettingsPage } from '../../utils/pages/PosSettingsPage';
+import { test as setup, PosSettingsPage } from '../../utils';
 
 const PLUGIN_SLUG = 'paypal-point-of-sale';
 const PLUGIN_ROOT = path.resolve( __dirname, '..', '..', '..', '..' );

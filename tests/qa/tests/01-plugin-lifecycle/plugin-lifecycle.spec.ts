@@ -1,9 +1,8 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as path from 'path';
-import { test } from '../../utils';
+import { test, PosSettingsPage } from '../../utils';
 import { expect } from '@inpsyde/playwright-utils/build';
-import { PosSettingsPage } from '../../utils/pages/PosSettingsPage';
 
 const PLUGIN_SLUG = 'paypal-point-of-sale';
 const PLUGIN_ROOT = path.resolve( __dirname, '..', '..', '..', '..' );

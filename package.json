@@ -16,12 +16,35 @@
         "build": "run-p build:*",
         "watch:assets": "cd modules/paypal-pos-assets && yarn run watch",
         "watch:products-assets": "cd modules/paypal-pos-product-settings && yarn run watch",
-        "watch": "run-p watch:*"
+        "watch": "run-p watch:*",
+        "e2e:test": "playwright test",
+        "e2e:smoke": "playwright test --grep 'smoke'",
+        "e2e:critical": "playwright test --grep 'critical'",
+        "e2e:regression": "playwright test --grep 'regression'",
+        "e2e:test:ci": "dotenv -e .env.ci -- playwright test",
+        "e2e:smoke:ci": "dotenv -e .env.ci -- playwright test --grep 'smoke'",
+        "e2e:critical:ci": "dotenv -e .env.ci -- playwright test --grep 'critical'",
+        "e2e:regression:ci": "dotenv -e .env.ci -- playwright test --grep 'regression'",
+        "e2e:setup": "wp-env run cli wp rewrite structure '/%postname%/' --hard && wp-env run cli wp plugin activate woocommerce && wp-env run cli wp plugin activate paypal-point-of-sale",
+        "e2e:lint": "tsc --noEmit"
     },
     "dependencies": {
         "npm-run-all": "^4.1.5"
     },
     "devDependencies": {
-        "@inpsyde/playwright-utils": "file:../../../../tmp/inpsyde-playwright-utils-5.1.0.tgz"
+        "@inpsyde/playwright-utils": "^5.1.0",
+        "@playwright/test": "^1.60.0",
+        "@types/node": "^25.9.1",
+        "dotenv-cli": "^7.4.2",
+        "patch-package": "^8.0.1",
+        "typescript": "^5.5.0"
+    },
+    "overrides": {
+        "@wordpress/e2e-test-utils-playwright": "1.46.0",
+        "@inpsyde/playwright-utils": {
+            "@playwright/test": "$@playwright/test",
+            "playwright": "$@playwright/test",
+            "playwright-core": "$@playwright/test"
+        }
     }
 }

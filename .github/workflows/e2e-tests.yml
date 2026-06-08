@@ -1,6 +1,9 @@
-name: E2E Testing
-
+name: E2E Tests
+# The triggers below implement the minimum required by the QA automation standard:
+#   - Smoke tests on every pull request
+#   - Full regression suite on workflow_dispatch (pre-release)
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       TEST_SUITE:
@@ -19,15 +22,45 @@ on:
         default: ''
 
 jobs:
-  e2e-playwright:
-    name: Run Playwright E2E Tests
+  smoke:
+    name: Smoke Tests
+    if: github.event_name == 'pull_request'
     uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
     with:
-      WORK_DIR: tests/qa
+      PLAYWRIGHT_SCRIPT: smoke
+      PLAYWRIGHT_ARTIFACT_PATH: |
+        playwright-report/
+        test-results/
+      PLAYWRIGHT_ARTIFACT_INCLUDE_HIDDEN_FILES: true
+      PLAYWRIGHT_ARTIFACT_NAME: e2e-smoke-report
+      PLAYWRIGHT_ARTIFACT_RETENTION_DAYS: 14
+      NODE_VERSION: 22
+      PLAYWRIGHT_BROWSER_ARGS: 'chromium --with-deps'
+      COMPOSER_DEPS_INSTALL: true
+      PHP_VERSION: '8.2'
+      PRE_SCRIPT: |
+        cd $GITHUB_WORKSPACE
+        npx wp-env start
+        npx wp-env run cli wp rewrite structure '/%postname%/' --hard
+        npx wp-env run cli wp plugin activate woocommerce
+        npx wp-env run cli wp plugin activate paypal-point-of-sale
+    secrets:
+      ENV_FILE_DATA: ${{ secrets.QA_ENV_FILE }}
+      NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+      COMPOSER_AUTH_JSON: ${{ secrets.PACKAGIST_AUTH_JSON }}
+      GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
+      GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
+      GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
+
+  e2e:
+    name: Run Playwright E2E Tests
+    if: github.event_name == 'workflow_dispatch'
+    uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
+    with:
       PLAYWRIGHT_SCRIPT: ${{ inputs.TEST_SUITE }}
       PLAYWRIGHT_ARTIFACT_PATH: |
-        tests/qa/playwright-report/
-        tests/qa/test-results/
+        playwright-report/
+        test-results/
       PLAYWRIGHT_ARTIFACT_INCLUDE_HIDDEN_FILES: true
       PLAYWRIGHT_ARTIFACT_NAME: e2e-report
       PLAYWRIGHT_ARTIFACT_RETENTION_DAYS: 30
