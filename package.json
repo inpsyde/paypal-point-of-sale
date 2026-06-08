@@ -40,7 +40,6 @@
         "typescript": "^5.5.0"
     },
     "overrides": {
-        "@wordpress/e2e-test-utils-playwright": "1.46.0",
         "@inpsyde/playwright-utils": {
             "@playwright/test": "$@playwright/test",
             "playwright": "$@playwright/test",
