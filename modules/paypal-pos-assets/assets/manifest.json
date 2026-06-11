@@ -1,0 +1,13 @@
+{
+  "./admin-scripts.js": "./admin-scripts.js",
+  "./admin-scripts.php": "./admin-scripts.asset.php",
+  "./sync-scripts.js": "./sync-scripts.js",
+  "./sync-scripts.php": "./sync-scripts.asset.php",
+  "./admin.css": "./admin.css",
+  "./fonts/PayPalPro-BookItalic.otf": "./fonts/PayPalPro-BookItalic.a50a2402.otf",
+  "./fonts/PayPalPro-BoldItalic.otf": "./fonts/PayPalPro-BoldItalic.98e0cdc1.otf",
+  "./fonts/PayPalPro-Book.otf": "./fonts/PayPalPro-Book.246baf0c.otf",
+  "./fonts/PayPalPro-Bold.otf": "./fonts/PayPalPro-Bold.ccc616eb.otf",
+  "./fonts/PayPalPro-BlackItalic.otf": "./fonts/PayPalPro-BlackItalic.74f7afa9.otf",
+  "./fonts/PayPalPro-Black.otf": "./fonts/PayPalPro-Black.5024443b.otf"
+}

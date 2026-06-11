@@ -1,17 +1,17 @@
 {
-    "name": "inpsyde/paypal-point-of-sale",
+    "name": "inpsyde\/paypal-point-of-sale",
     "type": "wordpress-plugin",
     "description": "",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Inpsyde GmbH",
-            "homepage": "https://inpsyde.com/",
+            "homepage": "https:\/\/inpsyde.com\/",
             "email": "hello@inpsyde.com",
             "role": "Company"
         },
         {
-            "name": "Moritz Meißelbach",
+            "name": "Moritz Mei\u00dfelbach",
             "email": "m.meisselbach@inpsyde.com",
             "role": "Developer"
         }
@@ -19,23 +19,23 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./packages.local/*",
+            "url": ".\/packages.local\/*",
             "canonical": true
         },
         {
             "type": "path",
-            "url": "./modules.local/*",
+            "url": ".\/modules.local\/*",
             "canonical": true
         },
         {
             "type": "composer",
-            "url": "https://repo.packagist.com/inpsyde/"
+            "url": "https:\/\/repo.packagist.com\/inpsyde\/"
         },
         {
             "type": "composer",
-            "url": "https://raw.githubusercontent.com/inpsyde/wp-stubs/main",
+            "url": "https:\/\/raw.githubusercontent.com\/inpsyde\/wp-stubs\/main",
             "only": [
-                "inpsyde/wp-stubs-versions"
+                "inpsyde\/wp-stubs-versions"
             ]
         },
         {
@@ -46,65 +46,65 @@
         "php": "^8.2",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "inpsyde/assets": "^2.1",
-        "inpsyde/inpsyde-debug": "*",
-        "inpsyde/inpsyde-http-client": "*",
-        "inpsyde/inpsyde-queue": "*",
-        "inpsyde/inpsyde-state-machine": "*",
-        "inpsyde/inpsyde-woocommerce-lifecycle-events": "*",
-        "inpsyde/metabox-orchestra": "^0.4.3",
-        "inpsyde/wc-product-contracts": "*",
-        "inpsyde/wc-status-report": "*",
-        "inpsyde/paypal-pos-assets": "*",
-        "inpsyde/paypal-pos-auth": "*",
-        "inpsyde/paypal-pos-logging": "*",
-        "inpsyde/paypal-pos-notices": "*",
-        "inpsyde/paypal-pos-onboarding": "*",
-        "inpsyde/paypal-pos-php-sdk": "*",
-        "inpsyde/paypal-pos-product-debug": "*",
-        "inpsyde/paypal-pos-product-settings": "*",
-        "inpsyde/paypal-pos-queue": "*",
-        "inpsyde/paypal-pos-settings": "*",
-        "inpsyde/paypal-pos-sync": "*",
-        "inpsyde/paypal-pos-webhooks": "*",
-        "inpsyde/modularity": "^1.7",
-        "oomphinc/composer-installers-extender": "^2.0",
-        "psr/container": "^1.1 || ^2.0",
-        "psr/event-dispatcher": "^1.0",
-        "sniccowp/php-scoper-wordpress-excludes": "^6.8"
+        "inpsyde\/assets": "^2.1",
+        "inpsyde\/inpsyde-debug": "*",
+        "inpsyde\/inpsyde-http-client": "*",
+        "inpsyde\/inpsyde-queue": "*",
+        "inpsyde\/inpsyde-state-machine": "*",
+        "inpsyde\/inpsyde-woocommerce-lifecycle-events": "*",
+        "inpsyde\/metabox-orchestra": "^0.4.3",
+        "inpsyde\/wc-product-contracts": "*",
+        "inpsyde\/wc-status-report": "*",
+        "inpsyde\/paypal-pos-assets": "*",
+        "inpsyde\/paypal-pos-auth": "*",
+        "inpsyde\/paypal-pos-logging": "*",
+        "inpsyde\/paypal-pos-notices": "*",
+        "inpsyde\/paypal-pos-onboarding": "*",
+        "inpsyde\/paypal-pos-php-sdk": "*",
+        "inpsyde\/paypal-pos-product-debug": "*",
+        "inpsyde\/paypal-pos-product-settings": "*",
+        "inpsyde\/paypal-pos-queue": "*",
+        "inpsyde\/paypal-pos-settings": "*",
+        "inpsyde\/paypal-pos-sync": "*",
+        "inpsyde\/paypal-pos-webhooks": "*",
+        "inpsyde\/modularity": "^1.7",
+        "oomphinc\/composer-installers-extender": "^2.0",
+        "psr\/container": "^1.1 || ^2.0",
+        "psr\/event-dispatcher": "^1.0",
+        "sniccowp\/php-scoper-wordpress-excludes": "^6.8"
     },
     "require-dev": {
-        "brain/monkey": "^2.0",
-        "fakerphp/faker": "^1.9@dev",
-        "syde/phpcs": "^1.0.1",
-        "mockery/mockery": "^1.3",
-        "php-stubs/woocommerce-stubs": "^4.3",
-        "php-stubs/wordpress-stubs": "^5.4",
-        "phpunit/phpunit": "^8.0 || ^9.0",
-        "symfony/var-dumper": "^5.0",
-        "vlucas/phpdotenv": "^4.1",
-        "webmozart/path-util": "^2.3@stable",
-        "phpstan/phpstan": "^2.1",
-        "phpstan/phpstan-deprecation-rules": "^2.0",
-        "swissspidy/phpstan-no-private": "^1.0",
-        "inpsyde/wp-stubs-versions": "dev-latest"
+        "brain\/monkey": "^2.0",
+        "fakerphp\/faker": "^1.9@dev",
+        "syde\/phpcs": "^1.0.1",
+        "mockery\/mockery": "^1.3",
+        "php-stubs\/woocommerce-stubs": "^4.3",
+        "php-stubs\/wordpress-stubs": "^5.4",
+        "phpunit\/phpunit": "^8.0 || ^9.0",
+        "symfony\/var-dumper": "^5.0",
+        "vlucas\/phpdotenv": "^4.1",
+        "webmozart\/path-util": "^2.3@stable",
+        "phpstan\/phpstan": "^2.1",
+        "phpstan\/phpstan-deprecation-rules": "^2.0",
+        "swissspidy\/phpstan-no-private": "^1.0",
+        "inpsyde\/wp-stubs-versions": "dev-latest"
     },
     "autoload": {
         "psr-4": {
-            "Syde\\PayPal\\PointOfSale\\": "src/"
+            "Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Syde\\PayPal\\PointOfSale\\Test\\": "tests/PHPUnit/Helper"
+            "Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Test\\": "tests\/PHPUnit\/Helper"
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "cs": "@php ./vendor/bin/phpcs -s --parallel=24",
-        "cs:phpcbf": "@php ./vendor/bin/phpcbf  --parallel=24;exit 0",
-        "cs:interactive": "@php ./vendor/bin/phpcs -a",
+        "cs": "@php .\/vendor\/bin\/phpcs -s --parallel=24",
+        "cs:phpcbf": "@php .\/vendor\/bin\/phpcbf  --parallel=24;exit 0",
+        "cs:interactive": "@php .\/vendor\/bin\/phpcs -a",
         "cs:dev": [
             "@cs:phpcbf",
             "@cs:interactive"
@@ -114,12 +114,12 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "composer/package-versions-deprecated": true,
-            "composer/installers": true,
-            "inpsyde/module-ide-helper": true,
-            "oomphinc/composer-installers-extender": true,
-            "php-http/discovery": false
+            "dealerdirect\/phpcodesniffer-composer-installer": true,
+            "composer\/package-versions-deprecated": true,
+            "composer\/installers": true,
+            "inpsyde\/module-ide-helper": true,
+            "oomphinc\/composer-installers-extender": true,
+            "php-http\/discovery": false
         }
     },
     "extra": {
@@ -128,17 +128,18 @@
             "inpsyde-module"
         ],
         "installer-paths": {
-            "modules/{$name}/": [
+            "modules\/{$name}\/": [
                 "type:inpsyde-module"
             ]
         },
         "hooks": {
             "pre-commit": [
-                "vendor/bin/phpcbf -q --parallel=24; exit 0"
+                "vendor\/bin\/phpcbf -q --parallel=24; exit 0"
             ]
         },
         "inpsyde-modules": {
             "dump-modules": "modules.php"
         }
-    }
+    },
+    "version": "0.0.0+pos-542-patchstack-m-vdp-faq-item-in-readme-txt.338a522"
 }
