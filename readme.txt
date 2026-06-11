@@ -54,6 +54,10 @@ Go to *Plugins => Installed plugins* and click *Activate* on *Point of Sale Inte
 
 [You can find a detailed FAQ in the Point of Sale Integration for WooCommerce documentation](https://woocommerce.com/document/paypal-zettle-pos-for-woocommerce/)
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the PayPal Point of Sale for WooCommerce plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/88f8897e-5d46-4b3a-b0eb-f67f7fafc16b). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
 == Screenshots ==
 
 1. PayPal Point of Sale
