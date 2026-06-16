@@ -8,11 +8,10 @@ const FILES_DIR = path.join( __dirname, 'files' );
  * Add an entry here for each plugin zip kept in resources/files/.
  */
 export const e2ePlugins: Record< string, PluginZipEntry > = {
-    // example:
-    // 'my-plugin': {
-    //     path: path.join( FILES_DIR, 'my-plugin.zip' ),
-    //     slug: 'my-plugin',
-    // },
+    paypalPos: {
+        path: path.join( FILES_DIR, 'paypal-point-of-sale.zip' ),
+        slug: 'paypal-point-of-sale',
+    },
 };
 
 export { FILES_DIR };
