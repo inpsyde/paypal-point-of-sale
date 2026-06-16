@@ -21,10 +21,10 @@
         "e2e:smoke": "playwright test --grep 'smoke'",
         "e2e:critical": "playwright test --grep 'critical'",
         "e2e:regression": "playwright test --grep 'regression'",
-        "e2e:test:ci": "dotenv -e .env.ci -- playwright test",
-        "e2e:smoke:ci": "dotenv -e .env.ci -- playwright test --grep 'smoke'",
-        "e2e:critical:ci": "dotenv -e .env.ci -- playwright test --grep 'critical'",
-        "e2e:regression:ci": "dotenv -e .env.ci -- playwright test --grep 'regression'",
+        "e2e:test:ci": "playwright test",
+        "e2e:smoke:ci": "playwright test --grep 'smoke'",
+        "e2e:critical:ci": "playwright test --grep 'critical'",
+        "e2e:regression:ci": "playwright test --grep 'regression'",
         "e2e:setup": "wp-env run cli wp rewrite structure '/%postname%/' --hard && wp-env run cli wp plugin activate woocommerce && wp-env run cli wp plugin activate paypal-point-of-sale",
         "e2e:lint": "tsc --noEmit"
     },
@@ -35,7 +35,7 @@
         "@inpsyde/playwright-utils": "^5.1.0",
         "@playwright/test": "^1.60.0",
         "@types/node": "^25.9.1",
-        "dotenv-cli": "^7.4.2",
+        "dotenv": "^16.0.0",
         "patch-package": "^8.0.1",
         "typescript": "^5.5.0"
     },

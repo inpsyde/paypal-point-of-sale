@@ -14,7 +14,6 @@
   },
   "include": [
     "playwright.config.ts",
-    "global-setup.ts",
     "tests/qa/**/*.ts"
   ],
   "exclude": ["node_modules", "dist", "playwright-report", "test-results"]

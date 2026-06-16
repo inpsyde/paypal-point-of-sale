@@ -1,11 +1,17 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { BaseExtend } from '@inpsyde/playwright-utils/build';
 import { WpCliEnvType } from '@inpsyde/playwright-utils/build/@types/wp-cli';
-require( 'dotenv' ).config();
+import dotenv from 'dotenv';
+import path from 'path';
+
+const dotenvPath = process.env.CI
+    ? path.resolve( __dirname, '.env.ci' )
+    : undefined;
+dotenv.config( { path: dotenvPath } );
 
 export default defineConfig< BaseExtend >( {
     testDir: 'tests/qa/tests',
-    globalSetup: require.resolve( './global-setup' ),
+    globalSetup: require.resolve( './tests/qa/global-setup' ),
     timeout: 2 * 60_000,
     expect: { timeout: 20 * 1000 },
     fullyParallel: false,
