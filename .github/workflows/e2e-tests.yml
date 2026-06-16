@@ -65,10 +65,10 @@ jobs:
       PLAYWRIGHT_ARTIFACT_RETENTION_DAYS: 30
       NODE_VERSION: 22
       PLAYWRIGHT_BROWSER_ARGS: 'chromium --with-deps'
-      COMPOSER_DEPS_INSTALL: true
-      PHP_VERSION: '8.2'
+      COMPOSER_DEPS_INSTALL: false
       XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}
       PRE_SCRIPT: |
+        composer install --no-dev --prefer-dist
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
         npx wp-env run cli wp plugin activate paypal-point-of-sale
