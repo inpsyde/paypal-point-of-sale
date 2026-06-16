@@ -25,7 +25,7 @@
         "e2e:smoke:ci": "playwright test --grep 'smoke'",
         "e2e:critical:ci": "playwright test --grep 'critical'",
         "e2e:regression:ci": "playwright test --grep 'regression'",
-        "e2e:setup": "wp-env run cli wp rewrite structure '/%postname%/' --hard && wp-env run cli wp plugin activate woocommerce && wp-env run cli wp plugin activate paypal-point-of-sale",
+        "e2e:setup": "composer install --no-dev --prefer-dist && DIST=$(mktemp -d) && mkdir -p $DIST/paypal-point-of-sale && rsync -a --exclude-from=.distignore --exclude '.env*' --exclude '.wp-env*' --exclude playwright.config.ts --exclude tsconfig.json --exclude storage-states . $DIST/paypal-point-of-sale/ && (cd $DIST && zip -r paypal-point-of-sale.zip paypal-point-of-sale/) && mkdir -p tests/qa/resources/files && cp $DIST/paypal-point-of-sale.zip tests/qa/resources/files/ && npx wp-env run cli wp plugin install /var/www/html/plugin-source/tests/qa/resources/files/paypal-point-of-sale.zip && npx wp-env run cli wp rewrite structure '/%postname%/' --hard && npx wp-env run cli wp plugin activate woocommerce",
         "e2e:lint": "tsc --noEmit"
     },
     "dependencies": {
