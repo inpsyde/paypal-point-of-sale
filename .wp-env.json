@@ -1,9 +1,11 @@
 {
   "core": null,
   "plugins": [
-    "https://downloads.wordpress.org/plugin/woocommerce.zip",
-    "."
+    "https://downloads.wordpress.org/plugin/woocommerce.zip"
   ],
+  "mappings": {
+    "wp-content/plugins/paypal-point-of-sale": "."
+  },
   "port": 8100,
   "config": {
     "WP_DEBUG": true,
