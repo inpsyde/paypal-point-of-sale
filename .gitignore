@@ -77,3 +77,4 @@ yarn.lock
 /playwright-report/
 /test-results/
 /snapshots/
+/tests/qa/resources/files/*.zip
