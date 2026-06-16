@@ -15,7 +15,7 @@ on:
           - smoke
           - critical
           - regression
-          - ci-test-e2e
+          - test
       XRAY_TEST_EXEC_KEY:
         description: 'Xray test execution key (optional)'
         required: false
@@ -27,7 +27,7 @@ jobs:
     if: github.event_name == 'pull_request'
     uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
     with:
-      PLAYWRIGHT_SCRIPT: smoke
+      PLAYWRIGHT_SCRIPT: e2e:smoke:ci
       PLAYWRIGHT_ARTIFACT_PATH: |
         playwright-report/
         test-results/
@@ -39,11 +39,10 @@ jobs:
       COMPOSER_DEPS_INSTALL: true
       PHP_VERSION: '8.2'
       PRE_SCRIPT: |
-        cd $GITHUB_WORKSPACE
-        npx wp-env start
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
         npx wp-env run cli wp plugin activate paypal-point-of-sale
+        mkdir -p storage-states
     secrets:
       ENV_FILE_DATA: ${{ secrets.QA_ENV_FILE }}
       NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
@@ -57,7 +56,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
     with:
-      PLAYWRIGHT_SCRIPT: ${{ inputs.TEST_SUITE }}
+      PLAYWRIGHT_SCRIPT: e2e:${{ inputs.TEST_SUITE }}:ci
       PLAYWRIGHT_ARTIFACT_PATH: |
         playwright-report/
         test-results/
@@ -70,11 +69,10 @@ jobs:
       PHP_VERSION: '8.2'
       XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}
       PRE_SCRIPT: |
-        cd $GITHUB_WORKSPACE
-        npx wp-env start
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
         npx wp-env run cli wp plugin activate paypal-point-of-sale
+        mkdir -p storage-states
     secrets:
       ENV_FILE_DATA: ${{ secrets.QA_ENV_FILE }}
       NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
