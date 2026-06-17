@@ -9,10 +9,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToOneMapInterface;
 use Syde\PayPal\PointOfSale\Test\AuthenticatedRestRequestTestCase;
 use Psr\Container\ContainerInterface;
 
-/**
- * Class LocationsTest
- * @group sync
- */
 class LocationsTest extends AuthenticatedRestRequestTestCase
 {
 
