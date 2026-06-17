@@ -27,7 +27,7 @@ jobs:
         run: composer validate
 
       - name: Run PHPUnit
-        run: ./phpunit.sh --no-sync
+        run: ./phpunit.sh
   coding-standards-analysis-php:
       uses: inpsyde/reusable-workflows/.github/workflows/coding-standards-php.yml@main
       secrets:

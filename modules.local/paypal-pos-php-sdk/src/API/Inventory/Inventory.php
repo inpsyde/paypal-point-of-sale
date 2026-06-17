@@ -24,7 +24,7 @@ class Inventory
     /**
      * @var Location[]
      */
-    private array $locations;
+    private array $locations = [];
 
     private BuilderInterface $builder;
 
