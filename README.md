@@ -1,10 +1,12 @@
-# PayPal Point of Sale
+# PayPal POS for WooCommerce
+
+Connect your WooCommerce store to PayPal POS (Point of Sale) and keep your products and stock in sync across both. Manage your catalog in WooCommerce, push it to your PayPal POS product library, and let stock levels stay accurate on both sides as sales come in.
 
 ## Installation
 
 The best way to use this package is through Composer:
 
-```BASH
+```bash
 $ composer require inpsyde/paypal-point-of-sale
 ```
 
@@ -16,20 +18,20 @@ $ composer require inpsyde/paypal-point-of-sale
 
 ## Development
 
-0. Install Docker and [DDEV](https://ddev.readthedocs.io/en/stable/).  Edit the configuration in the [`.ddev/config.yml`](.ddev/config.yaml) file if needed.
+0. Install Docker and [DDEV](https://ddev.readthedocs.io/en/stable/). Edit the configuration in the [`.ddev/config.yml`](.ddev/config.yaml) file if needed.
 1. Get your [packagist token](https://packagist.com/orgs/inpsyde),
 copy/hardlink your Composer `auth.json` (from `~/.config/composer/auth.json` or `~/.composer/auth.json`)
 to `~/.ddev/homeadditions/.composer/auth.json`
-2. Run `make setup` to setup DDEV and install dependencies. Go to https://paypal-point-of-sale.ddev.site
-3. Run `make lint test` to run linter and tests.
+2. Run `make setup` to set up DDEV and install dependencies. Go to https://paypal-point-of-sale.ddev.site
+3. Run `make lint test` to run the linter and tests.
 
 Use `make reset` for reinstallation (will destroy all site data).
 You may also need `make restart` to apply the config changes.
 
 See [Makefile](/Makefile) for other useful commands.
 
-For Windows users: `make` is not included out-of-the-box but you can simply copy the commands from [Makefile](/Makefile) to `cmd`,
-e.g. `ddev exec phpcs`, `ddev exec psalm` instead of `make lint`.
+For Windows users: `make` is not included out-of-the-box, but you can simply copy the commands from [Makefile](/Makefile) to `cmd`,
+e.g. `ddev exec phpcs`, `ddev exec phpstan analyze` instead of `make lint`.
 
 ### Webhooks
 
@@ -37,14 +39,14 @@ For testing webhooks locally, follow these steps to set up ngrok:
 
 0. Install [ngrok](https://ngrok.com/).
 
-1. Run our wrapper Bash script which will start `ddev share` and replace the URLs in the WP database:
+1. Run our wrapper Bash script, which will start `ddev share` and replace the URLs in the WP database:
    ```
    make ngrok
    ```
 
-For other environments, you can instead run `ngrok http -host-header=rewrite zettle.myhost`
-and set `NGROK_HOST` env variable to the host that you got from `ngrok`, like `abcd1234.ngrok.io`.
-In this case, ngrok will be used only for the webhook listening URL (`zettle.webhook.listener.url` service).
+For other environments, you can instead run `ngrok http -host-header=rewrite paypal-point-of-sale.myhost`
+and set the `NGROK_HOST` env variable to the host that you got from `ngrok`, like `abcd1234.ngrok.io`.
+In this case, ngrok will be used only for the webhook listening URL (`paypal-pos.webhook.listener.url` service).
 The URLs displayed on the WordPress pages, used in redirects, etc. will still remain local.
 
 ### Tests
@@ -61,12 +63,12 @@ You can also run
 vendor/bin/phpunit
 ```
 
-to execute tests only in a single module (after `cd` to its' directory inside `modules.local`),
+to execute tests only in a single module (after `cd` to its directory inside `modules.local`),
 or to execute only integration/acceptance tests in the repository root.
 
 ### Linter
 
-Run this to execute PHP_CodeSniffer and psalm checking code style and quality in all modules:
+Run this to execute PHP_CodeSniffer and PHPStan, checking code style and quality in all modules:
 
 ```bash
 make lint
@@ -78,7 +80,7 @@ You can also run
 ../../vendor/bin/phpcs .
 ```
 
-to execute it only in a single module (after `cd` to its' directory inside `modules.local`).
+to execute it only in a single module (after `cd` to its directory inside `modules.local`).
 
 ## Crafted by Syde
 

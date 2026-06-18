@@ -1,58 +1,89 @@
-=== PayPal Point of Sale for WooCommerce ===
-Contributors: zettle, syde, biont, bschaeffner, alexp11223, danielhuesken
-Tags: payments, point-of-sale, woocommerce
+=== PayPal POS for WooCommerce ===
+Contributors: paypal, syde, zettle, woocommerce, biont, alexp11223, danieldudzic
+Tags: point-of-sale, inventory, stock-sync, woocommerce, pos
 Requires at least: 6.8
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 8.2
 Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-PayPal Point of Sale Integration for WooCommerce
+Sell online with WooCommerce and in person with PayPal POS, and keep your products and stock in sync across both.
 
 == Description ==
 
-PayPal Point of Sale is a one-stop shop for cutting-edge commerce tools - offering everything you need to take quick payments, ease day-to-day management, and get the funding to grow.
+Run one shop, not two. **PayPal POS for WooCommerce** connects your WooCommerce store to your PayPal POS (Point of Sale) account, so the products you manage online are the same products you sell in person, with stock levels that stay accurate on both sides.
 
-The PayPal Point of Sale system allows you to take cash, card, contactless payments and more. Connect WooCommerce with PayPal Point of Sale to keep products and inventory in sync - all in one place. Keep your products up-to-date by managing them solely in WooCommerce, so you can focus on selling. Make a sale on either platform and your inventory will update instantly.
+WooCommerce stays your single source of truth. You build and manage your catalog where you already work, push it to your PayPal POS product library, and start selling at the counter. When something sells, online or in store, inventory updates on the other side automatically. No spreadsheets, no double entry, no end-of-day stock surprises.
 
-The PayPal Point of Sale for WooCommerce provides the following benefits:
-- Connect in minutes - Connect your accounts, sync your library to PayPal Point of Sale and start selling.
-- Export a collection or all of your products from WooCommerce to your PayPal Point of Sale product library.
-- Manage products in one place and automatically synchronise all changes you make from WooCommerce to PayPal Point of Sale.
-- Automatically synchronise stock amounts in real-time between WooCommerce and PayPal Point of Sale.
-- Explicitly select products to be excluded from synchronisation to PayPal Point of Sale.
+= What you can do =
 
-PayPal Point of Sale is available in the following countries: [US](https://www.paypal.com/business/pos?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [GB](https://www.zettle.com/gb/integrations/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [FR](https://www.zettle.com/fr/integrations/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [SE](https://www.zettle.com/se/integrationer/e-handel/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [NO](https://www.zettle.com/no/integrasjoner/e-handel/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [FI](https://www.zettle.com/fi/integraatiot/verkkokauppa/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [DK](https://www.zettle.com/dk/integrationer/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [NL](https://www.zettle.com/nl/koppelingen/webshop/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [DE](https://www.zettle.com/de/integrationen/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [ES](https://www.zettle.com/es/integraciones/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [IT](https://www.zettle.com/it/integrazioni/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [BR](https://www.zettle.com/br/integracoes/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [MX](https://www.zettle.com/mx/integraciones/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce)
+* **Connect in minutes.** Link your WooCommerce store to PayPal POS and sync your product library through a guided onboarding flow.
+* **Send your catalog to the counter.** Export a selection of products, or your entire catalog, from WooCommerce to your PayPal POS product library.
+* **Manage everything in one place.** Edit products in WooCommerce and let your changes flow through to PayPal POS automatically.
+* **Keep stock accurate in real time.** Stock changes sync both ways between WooCommerce and PayPal POS, so a sale on either side updates the other.
+* **Choose what syncs.** Exclude individual products from sync when you want to keep them online only.
 
-== Upgrade Notice ==
+= Built for omnichannel sellers =
+
+If WooCommerce is the heart of your business and PayPal POS is how you take payments in person, this plugin keeps the two in step. It focuses on what matters most when you sell across channels: one catalog and one accurate stock count, everywhere you sell.
+
+= About PayPal POS =
+
+PayPal POS is PayPal's point of sale system for taking payments in person, with card readers, terminals, and the PayPal POS app. You will need an active PayPal POS account to use this plugin. PayPal POS does not process payments through this plugin; payments are taken on your PayPal POS hardware and app.
+
+PayPal POS is available in the following countries: [US](https://www.paypal.com/business/pos?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [GB](https://www.zettle.com/gb/integrations/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [FR](https://www.zettle.com/fr/integrations/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [SE](https://www.zettle.com/se/integrationer/e-handel/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [NO](https://www.zettle.com/no/integrasjoner/e-handel/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [FI](https://www.zettle.com/fi/integraatiot/verkkokauppa/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [DK](https://www.zettle.com/dk/integrationer/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [NL](https://www.zettle.com/nl/koppelingen/webshop/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [DE](https://www.zettle.com/de/integrationen/e-commerce/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [ES](https://www.zettle.com/es/integraciones/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [IT](https://www.zettle.com/it/integrazioni/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [BR](https://www.zettle.com/br/integracoes/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce), [MX](https://www.zettle.com/mx/integraciones/woocommerce?utm_source=local_partnership&utm_medium=ecommerce&utm_campaign=woocommerce)
 
 == Installation ==
 
-To install and use the PayPal Point of Sale for WooCommerce you will need:
+= Requirements =
 
-- An installed version of WordPress >= 5.4
-- An installed and activated version of WooCommerce >= 4.3
-- PHP version >= 7.4
+* WordPress 6.8 or higher
+* WooCommerce 10.2 or higher
+* PHP 8.2 or higher
+* An active PayPal POS account
 
-= Automatic Installation =
+= Automatic installation =
 
-This is the easiest way to install the Point of Sale Integration for WooCommerce.
-1. Log into your WordPress installation.
-2. Go to the menu item *Plugins* and then to *Add new*.
-3. Search for *Point of Sale Integration*. In case several plugins are listed, check if *Zettle* is the plugin author.
-4. Click *Install Now* and wait until WordPress reports the successful installation.
-5. Activate the plugin. You can find the settings here: *WooCommerce => Settings => Point of Sale Integration*.
+1. Log in to your WordPress dashboard.
+2. Go to *Plugins* and then *Add New*.
+3. Search for *PayPal POS for WooCommerce*. Check that *PayPal* is listed as the author.
+4. Click *Install Now* and wait for WordPress to confirm the installation.
+5. Activate the plugin, then open *WooCommerce -> Settings -> PayPal Point of Sale* to connect your account.
 
-= Manual Installation =
+= Manual installation =
 
-In case the automatic installation doesn't work, download the plugin from here via the *Download*-button.
-Unpack the archive and load the folder via FTP into the directory `wp-content\plugins` of your WordPress installation.
-Go to *Plugins => Installed plugins* and click *Activate* on *Point of Sale Integration for WooCommerce*.
+1. Download the plugin archive from this page using the *Download* button.
+2. Unpack the archive and upload the folder to `wp-content/plugins` on your server via FTP.
+3. Go to *Plugins -> Installed Plugins* and click *Activate* on *PayPal POS for WooCommerce*.
+4. Open *WooCommerce -> Settings -> PayPal Point of Sale* to connect your account.
 
 == Frequently Asked Questions ==
 
-[You can find a detailed FAQ in the Point of Sale Integration for WooCommerce documentation](https://woocommerce.com/document/paypal-zettle-pos-for-woocommerce/)
+= Does this plugin process payments? =
+
+No. Payments are taken on your PayPal POS hardware and the PayPal POS app. This plugin keeps your WooCommerce catalog and stock in sync with PayPal POS.
+To receive payments in your WooCommerce store via PayPal, use our [WooCommerce PayPal Payments](https://wordpress.org/plugins/woocommerce-paypal-payments/) plugin.
+
+= Which way does stock sync? =
+
+Both ways. A sale or stock change in WooCommerce updates PayPal POS, and a sale or stock change in PayPal POS updates WooCommerce.
+
+= Where do I manage my products? =
+
+In WooCommerce. It stays your source of truth. The changes you make there sync to your PayPal POS product library.
+
+= Can I keep some products out of PayPal POS? =
+
+Yes. You can exclude individual products from sync so they stay online only.
+
+= Do I need a PayPal POS account? =
+
+Yes. PayPal POS must be available in your country and you need an active account. See the country list in the description.
+
+= Where can I find documentation? =
+
+[You can find detailed documentation in the PayPal POS for WooCommerce docs](https://woocommerce.com/document/paypal-zettle-pos-for-woocommerce/).
 
 = Where do I report security bugs found in this plugin? =
 
@@ -60,16 +91,17 @@ Please report security bugs found in the source code of the PayPal POS plugin th
 
 == Screenshots ==
 
-1. PayPal Point of Sale
-2. PayPal Point of Sale installation STEP 1
-3. PayPal Point of Sale installation STEP 2
-4. PayPal Point of Sale installation STEP 3
-5. PayPal Point of Sale installation STEP 4
-6. Product sync almost finished
-7. WooCommerce is connected to PayPal Point of Sale
-8. Exclude product from sync
+1. Take payments in person with PayPal POS while you manage everything in WooCommerce.
+2. Connecting your store to PayPal POS, step 1.
+3. Connecting your store to PayPal POS, step 2.
+4. Connecting your store to PayPal POS, step 3.
+5. Connecting your store to PayPal POS, step 4.
+6. Syncing your product library to PayPal POS.
+7. WooCommerce connected to PayPal POS.
+8. Excluding a product from sync.
 
 == Changelog ==
+
 = 1.6.1 =
 - Support latest WordPress 6.8 & WooCommerce 9.8.
 
@@ -181,3 +213,5 @@ Please report security bugs found in the source code of the PayPal POS plugin th
 
 = 1.0.0 =
 * First release.
+
+== Upgrade Notice ==
