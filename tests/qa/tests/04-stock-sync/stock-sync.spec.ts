@@ -1,49 +1,26 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import * as crypto from 'crypto';
-import * as path from 'path';
 import { test } from '../../utils';
 import { expect } from '@inpsyde/playwright-utils/build';
+import { runWpCli, processQueue, syncProduct, AnyCli } from '../../utils';
 
 const PLUGIN_SLUG = 'paypal-point-of-sale';
-const PLUGIN_ROOT = path.resolve( __dirname, '..', '..', '..', '..' );
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
-const execAsync = promisify( exec );
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
-async function runCli( command: string ): Promise< string > {
-    const { stdout } = await execAsync(
-        `npx @wordpress/env run cli ${ command }`,
-        { cwd: PLUGIN_ROOT, timeout: 30_000 }
-    );
-    return stdout.trim();
-}
-
-async function processQueue(): Promise< void > {
-    await execAsync( 'npx @wordpress/env run cli wp zettle queue process', {
-        cwd: PLUGIN_ROOT,
-        timeout: 30_000,
-    } ).catch( () => {} );
-}
-
 /** Delete a WC product via WP-CLI to avoid nonce invalidation issues after processQueue(). */
-async function deleteProduct( productId: number ): Promise< void > {
-    await runCli( `wp wc product delete ${ productId } --force=true --user=1` ).catch( () => {} );
+async function deleteProduct( cli: AnyCli, productId: number ): Promise< void > {
+    await runWpCli( cli, `wp wc product delete ${ productId } --force=true --user=1` ).catch( () => {} );
 }
 
 /** Delete a WC order via WP-CLI. */
-async function deleteOrder( orderId: number ): Promise< void > {
-    await runCli( `wp wc shop_order delete ${ orderId } --force=true --user=1` ).catch( () => {} );
+async function deleteOrder( cli: AnyCli, orderId: number ): Promise< void > {
+    await runWpCli( cli, `wp wc shop_order delete ${ orderId } --force=true --user=1` ).catch( () => {} );
 }
 
-async function syncProduct( productId: number ): Promise< void > {
-    await runCli( `wp zettle sync product ${ productId }` );
-}
-
-async function getWebhookSigningKey(): Promise< string > {
+async function getWebhookSigningKey( cli: AnyCli ): Promise< string > {
     try {
-        const raw = await runCli( "wp option get 'paypal-pos.webhook.listener' --format=json" );
+        const raw = await runWpCli( cli, "wp option get 'paypal-pos.webhook.listener' --format=json" );
         const config = JSON.parse( raw );
         return config.signingKey ?? '';
     } catch {
@@ -51,9 +28,10 @@ async function getWebhookSigningKey(): Promise< string > {
     }
 }
 
-async function getPosVariantUuid( wcProductId: number ): Promise< string | null > {
+async function getPosVariantUuid( cli: AnyCli, wcProductId: number ): Promise< string | null > {
     try {
-        const raw = await runCli(
+        const raw = await runWpCli(
+            cli,
             `wp db query "SELECT remote_id FROM $(wp db prefix)zettle_woocommerce_id_map WHERE local_id = ${ wcProductId } AND type = 'variant' LIMIT 1" --skip-column-names`
         );
         const uuid = raw.trim();
@@ -81,7 +59,7 @@ test.describe( 'Stock Sync', () => {
     // ── POS-587 ──────────────────────────────────────────────────────────────
     test(
         'POS-587 | WooCommerce stock update is reflected in POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -103,7 +81,7 @@ test.describe( 'Stock Sync', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-587 Stock Update', 'synced', product.id );
 
@@ -113,7 +91,7 @@ test.describe( 'Stock Sync', () => {
                     data: { stock_quantity: 25 },
                 } );
 
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-587 Stock Update', 'synced', product.id );
             } finally {
@@ -129,7 +107,7 @@ test.describe( 'Stock Sync', () => {
     // ── POS-588 ──────────────────────────────────────────────────────────────
     test(
         'POS-588 | Disabling stock management updates POS inventory tracking; regression;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -151,7 +129,7 @@ test.describe( 'Stock Sync', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-588 Stock Mgmt Disable', 'synced', product.id );
 
@@ -161,11 +139,11 @@ test.describe( 'Stock Sync', () => {
                     data: { manage_stock: false },
                 } );
 
-                await processQueue();
+                await processQueue( cli );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-588 Stock Mgmt Disable', 'synced', product.id );
             } finally {
-                await deleteProduct( product.id );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -173,7 +151,7 @@ test.describe( 'Stock Sync', () => {
     // ── POS-586 ──────────────────────────────────────────────────────────────
     test(
         'POS-586 | WooCommerce order reduces POS stock; regression;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -195,7 +173,7 @@ test.describe( 'Stock Sync', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-586 Order Stock', 'synced', product.id );
 
@@ -208,13 +186,13 @@ test.describe( 'Stock Sync', () => {
                     },
                 } );
 
-                await processQueue();
+                await processQueue( cli );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-586 Order Stock', 'synced', product.id );
 
-                await deleteOrder( order.id );
+                await deleteOrder( cli, order.id );
             } finally {
-                await deleteProduct( product.id );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -222,7 +200,7 @@ test.describe( 'Stock Sync', () => {
     // ── POS-585 ──────────────────────────────────────────────────────────────
     test(
         'POS-585 | POS sale updates WooCommerce stock via InventoryBalanceChanged webhook; critical;',
-        async ( { wcProducts, requestUtils, page } ) => {
+        async ( { wcProducts, requestUtils, page, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -244,17 +222,17 @@ test.describe( 'Stock Sync', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-585 Webhook Stock', 'synced', product.id );
 
-                const signingKey = await getWebhookSigningKey();
+                const signingKey = await getWebhookSigningKey( cli );
                 if ( ! signingKey ) {
                     test.skip( true, 'No webhook signing key found — webhook not registered' );
                     return;
                 }
 
-                const variantUuid = await getPosVariantUuid( product.id );
+                const variantUuid = await getPosVariantUuid( cli, product.id );
                 if ( ! variantUuid ) {
                     test.skip( true, 'No POS variant UUID found — product not in ID map' );
                     return;

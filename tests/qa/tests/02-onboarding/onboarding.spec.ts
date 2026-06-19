@@ -1,22 +1,11 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import * as path from 'path';
 import { test, PosSettingsPage } from '../../utils';
+import { resetOnboarding, processQueue, AnyCli } from '../../utils';
 
 const PLUGIN_SLUG = 'paypal-point-of-sale';
 // Well-formed JWT (passes format validation) but invalid credentials (fails PayPal auth).
 const INVALID_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LWludmFsaWQiLCJpc3MiOiJwYXlwYWwiLCJpYXQiOjE3MDAwMDAwMDB9.SIG_INVALID_FAKE_DO_NOT_USE';
-const PLUGIN_ROOT = path.resolve( __dirname, '..', '..', '..', '..' );
-const execAsync = promisify( exec );
 
-async function resetOnboardingState(): Promise<void> {
-    await execAsync( 'npx @wordpress/env run cli wp zettle reset onboarding complete', {
-        cwd: PLUGIN_ROOT,
-        timeout: 60_000,
-    } );
-}
-
-async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string ) {
+async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string, cli: AnyCli ): Promise< void > {
     await posSettings.visit();
     await posSettings.assertWelcomeState();
     await posSettings.clickConnect();
@@ -33,10 +22,7 @@ async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string )
     let syncComplete = false;
     void ( async () => {
         while ( ! syncComplete ) {
-            await execAsync( 'npx @wordpress/env run cli wp zettle queue process', {
-                cwd: PLUGIN_ROOT,
-                timeout: 30_000,
-            } ).catch( () => {} );
+            await processQueue( cli );
         }
     } )();
 
@@ -56,7 +42,7 @@ async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string )
     await posSettings.assertConnectedState();
 }
 
-async function disconnectAndConfirm( posSettings: PosSettingsPage ) {
+async function disconnectAndConfirm( posSettings: PosSettingsPage ): Promise< void > {
     await posSettings.disconnectTrigger().click();
     await posSettings.disconnectModalHeading().waitFor();
     await posSettings.disconnectConfirm().click();
@@ -65,13 +51,13 @@ async function disconnectAndConfirm( posSettings: PosSettingsPage ) {
 
 test.describe( 'Onboarding', () => {
 
-    test.beforeEach( async ( { requestUtils } ) => {
+    test.beforeEach( async ( { requestUtils, cli } ) => {
         await requestUtils.activatePlugin( PLUGIN_SLUG );
-        await resetOnboardingState();
+        await resetOnboarding( cli );
     } );
 
     test( 'POS-570 | Onboarding happy path — full connect with valid API key; smoke; critical;',
-        async ( { posSettings } ) => {
+        async ( { posSettings, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             const apiKey = process.env.PAYPAL_POS_API_KEY;
@@ -80,7 +66,7 @@ test.describe( 'Onboarding', () => {
                 return;
             }
 
-            await connectWithApiKey( posSettings, apiKey );
+            await connectWithApiKey( posSettings, apiKey, cli );
         } );
 
     test( 'POS-571 | Invalid API key shows Authentication failed screen; critical;',
@@ -110,7 +96,7 @@ test.describe( 'Onboarding', () => {
         } );
 
     test( 'POS-572 | Reconnect after disconnect restores connected state; regression;',
-        async ( { posSettings } ) => {
+        async ( { posSettings, cli } ) => {
             test.setTimeout( 10 * 60_000 );
 
             const apiKey = process.env.PAYPAL_POS_API_KEY;
@@ -119,15 +105,15 @@ test.describe( 'Onboarding', () => {
                 return;
             }
 
-            await connectWithApiKey( posSettings, apiKey );
+            await connectWithApiKey( posSettings, apiKey, cli );
             await disconnectAndConfirm( posSettings );
             await posSettings.assertWelcomeState();
 
-            await connectWithApiKey( posSettings, apiKey );
+            await connectWithApiKey( posSettings, apiKey, cli );
         } );
 
     test( 'POS-577 | Disconnect removes connected state and returns to welcome screen; critical;',
-        async ( { posSettings } ) => {
+        async ( { posSettings, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             const apiKey = process.env.PAYPAL_POS_API_KEY;
@@ -136,7 +122,7 @@ test.describe( 'Onboarding', () => {
                 return;
             }
 
-            await connectWithApiKey( posSettings, apiKey );
+            await connectWithApiKey( posSettings, apiKey, cli );
             await disconnectAndConfirm( posSettings );
             await posSettings.assertWelcomeState();
         } );
