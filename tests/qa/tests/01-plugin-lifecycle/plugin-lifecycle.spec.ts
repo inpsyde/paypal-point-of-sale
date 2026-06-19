@@ -1,23 +1,12 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import * as path from 'path';
 import { Plugins } from '@inpsyde/playwright-utils/build';
 import { test, PosSettingsPage } from '../../utils';
 import { expect } from '@inpsyde/playwright-utils/build';
 import { e2ePlugins } from '../../resources';
+import { resetOnboarding, processQueue, AnyCli } from '../../utils';
 
 const PLUGIN_SLUG = 'paypal-point-of-sale';
-const PLUGIN_ROOT = path.resolve( __dirname, '..', '..', '..', '..' );
-const execAsync = promisify( exec );
 
-async function resetOnboardingState(): Promise<void> {
-    await execAsync( 'npx @wordpress/env run cli wp zettle reset onboarding complete', {
-        cwd: PLUGIN_ROOT,
-        timeout: 60_000,
-    } );
-}
-
-async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string ) {
+async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string, cli: AnyCli ): Promise< void > {
     await posSettings.visit();
     await posSettings.assertWelcomeState();
     await posSettings.clickConnect();
@@ -31,10 +20,7 @@ async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string )
     let syncComplete = false;
     void ( async () => {
         while ( ! syncComplete ) {
-            await execAsync( 'npx @wordpress/env run cli wp zettle queue process', {
-                cwd: PLUGIN_ROOT,
-                timeout: 30_000,
-            } ).catch( () => {} );
+            await processQueue( cli );
         }
     } )();
 
@@ -111,14 +97,14 @@ test.describe( 'Plugin Installation', () => {
 
 test.describe( 'Plugin Lifecycle', () => {
 
-    test.beforeEach( async ( { requestUtils } ) => {
+    test.beforeEach( async ( { requestUtils, cli } ) => {
         await requestUtils.activatePlugin( PLUGIN_SLUG );
-        await resetOnboardingState();
+        await resetOnboarding( cli );
     } );
 
     test(
         'POS-568 | Upgrade - settings and sync state preserved; regression;',
-        async ( { posSettings, requestUtils } ) => {
+        async ( { posSettings, requestUtils, cli } ) => {
             test.setTimeout( 10 * 60_000 );
 
             const apiKey = process.env.PAYPAL_POS_API_KEY;
@@ -127,10 +113,10 @@ test.describe( 'Plugin Lifecycle', () => {
                 return;
             }
 
-            await resetOnboardingState();
+            await resetOnboarding( cli );
 
             // Establish a connected state
-            await connectWithApiKey( posSettings, apiKey );
+            await connectWithApiKey( posSettings, apiKey, cli );
 
             // Simulate upgrade lifecycle: deactivate → reactivate
             // (An upgrade triggers activation hooks without uninstall — options are preserved)

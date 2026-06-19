@@ -1,6 +1,6 @@
 import type { VipCli, SshCli, WpEnvCli, LocalhostCli, DdevCli } from '@inpsyde/playwright-utils/build';
 
-type AnyCli = VipCli | SshCli | WpEnvCli | LocalhostCli | DdevCli;
+export type AnyCli = VipCli | SshCli | WpEnvCli | LocalhostCli | DdevCli;
 
 // Routes through whichever cli implementation is active (wpenv, ssh, ddev, ...).
 // WpCli.execute() is protected in TypeScript only — the cast is intentional.

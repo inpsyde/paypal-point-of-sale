@@ -1,27 +1,7 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import * as path from 'path';
 import { test } from '../../utils';
+import { processQueue, syncProduct } from '../../utils';
 
 const PLUGIN_SLUG = 'paypal-point-of-sale';
-const PLUGIN_ROOT = path.resolve( __dirname, '..', '..', '..', '..' );
-const execAsync = promisify( exec );
-
-// ── helpers ──────────────────────────────────────────────────────────────────
-
-async function processQueue(): Promise<void> {
-    await execAsync( 'npx @wordpress/env run cli wp zettle queue process', {
-        cwd: PLUGIN_ROOT,
-        timeout: 30_000,
-    } ).catch( () => {} );
-}
-
-async function syncProduct( productId: number ): Promise<void> {
-    await execAsync( `npx @wordpress/env run cli wp zettle sync product ${ productId }`, {
-        cwd: PLUGIN_ROOT,
-        timeout: 30_000,
-    } );
-}
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
@@ -79,7 +59,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-581 ──────────────────────────────────────────────────────────────
     test(
         'POS-581 | Simple product created syncs to POS; critical;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -101,7 +81,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-581 Simple Product', 'synced', product.id );
             } finally {
@@ -117,7 +97,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-582 ──────────────────────────────────────────────────────────────
     test(
         'POS-582 | Simple product deleted is removed from POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -131,7 +111,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 data: { name: 'POS-582 Delete Me', type: 'simple', status: 'publish', regular_price: '5.00' },
             } );
 
-            await syncProduct( product.id );
+            await syncProduct( cli, product.id );
             await wcProducts.visit();
             await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'synced', product.id );
 
@@ -141,7 +121,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 params: { force: false },
             } );
 
-            await processQueue();
+            await processQueue( cli );
 
             await wcProducts.visit( 'trash' );
             await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'not-synced', product.id );
@@ -151,7 +131,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-583 ──────────────────────────────────────────────────────────────
     test(
         'POS-583 | Simple product name and price update syncs to POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -166,7 +146,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-583 Original Name', 'synced', product.id );
 
@@ -176,7 +156,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                     data: { name: 'POS-583 Updated Name', regular_price: '29.99' },
                 } );
 
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-583 Updated Name', 'synced', product.id );
             } finally {
@@ -192,7 +172,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-578 ──────────────────────────────────────────────────────────────
     test(
         'POS-578 | Excluded product is removed from POS and shows Excluded status; regression;',
-        async ( { wcProducts, wcProductEdit, requestUtils } ) => {
+        async ( { wcProducts, wcProductEdit, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -207,7 +187,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-578 Exclude Me', 'synced', product.id );
 
@@ -215,7 +195,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await wcProductEdit.setExcludeFromSync( true );
                 await wcProductEdit.update();
 
-                await processQueue();
+                await processQueue( cli );
 
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-578 Exclude Me', 'excluded', product.id );
@@ -232,7 +212,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-580 ──────────────────────────────────────────────────────────────
     test(
         'POS-580 | Product type changed simple to variable re-syncs to POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -247,7 +227,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
             } );
 
             try {
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-580 Type Change', 'synced', product.id );
 
@@ -276,7 +256,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                     },
                 } );
 
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-580 Type Change', 'synced', product.id );
             } finally {
@@ -292,7 +272,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-584 ──────────────────────────────────────────────────────────────
     test(
         'POS-584 | Variable product full lifecycle — create, add variation, delete variation; regression;',
-        async ( { wcProducts, requestUtils } ) => {
+        async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 10 * 60_000 );
 
             if ( ! process.env.PAYPAL_POS_API_KEY ) {
@@ -329,7 +309,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                     data: { attributes: [ { name: 'Size', option: 'L' } ], regular_price: '17.00', manage_stock: true, stock_quantity: 15 },
                 } );
 
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-584 T-Shirt', 'synced', product.id );
 
@@ -339,7 +319,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                     data: { attributes: [ { name: 'Size', option: 'XL' } ], regular_price: '19.00', manage_stock: true, stock_quantity: 10 },
                 } );
 
-                await syncProduct( product.id );
+                await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-584 T-Shirt', 'synced', product.id );
 
@@ -349,7 +329,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                     params: { force: true },
                 } );
 
-                await processQueue();
+                await processQueue( cli );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-584 T-Shirt', 'synced', product.id );
 
