@@ -20,6 +20,14 @@ on:
         description: 'Xray test execution key (optional)'
         required: false
         default: ''
+      TARGET:
+        description: 'Target environment (wpenv = local wp-env, kinsta = Kinsta tst)'
+        required: false
+        default: 'wpenv'
+        type: choice
+        options:
+          - wpenv
+          - kinsta
 
 jobs:
   smoke:
@@ -63,7 +71,7 @@ jobs:
 
   e2e:
     name: Run Playwright E2E Tests
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && inputs.TARGET != 'kinsta'
     uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
     with:
       PLAYWRIGHT_SCRIPT: e2e:${{ inputs.TEST_SUITE }}:ci
@@ -100,3 +108,76 @@ jobs:
       GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
       GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
       GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
+
+  e2e-kinsta:
+    name: Run Playwright E2E Tests (Kinsta tst)
+    if: github.event_name == 'workflow_dispatch' && inputs.TARGET == 'kinsta'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci --ignore-scripts
+        env:
+          NPM_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.QA_KINSTA_SSH_KEY }}" > ~/.ssh/kinsta_ed25519
+          chmod 600 ~/.ssh/kinsta_ed25519
+          ssh-keyscan -H -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
+            ${{ secrets.QA_KINSTA_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist
+        env:
+          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
+
+      - name: Build plugin zip
+        run: |
+          DIST=$(mktemp -d)
+          mkdir -p "$DIST/paypal-point-of-sale"
+          rsync -a --exclude-from=.distignore \
+            --exclude '.env*' --exclude '.wp-env*' \
+            --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
+            --exclude 'storage-states' \
+            . "$DIST/paypal-point-of-sale/"
+          (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
+          mkdir -p tests/qa/resources/files
+          cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/paypal-point-of-sale.zip
+
+      - name: Upload plugin zip to Kinsta
+        run: |
+          scp -i ~/.ssh/kinsta_ed25519 \
+            -P ${{ secrets.QA_KINSTA_SSH_PORT }} \
+            tests/qa/resources/files/paypal-point-of-sale.zip \
+            ${{ secrets.QA_KINSTA_SSH_LOGIN }}@${{ secrets.QA_KINSTA_SSH_HOST }}:/tmp/paypal-point-of-sale.zip
+
+      - name: Pre-install plugin on Kinsta via WP-CLI
+        run: |
+          ssh -i ~/.ssh/kinsta_ed25519 \
+            -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
+            ${{ secrets.QA_KINSTA_SSH_LOGIN }}@${{ secrets.QA_KINSTA_SSH_HOST }} \
+            "wp plugin install /tmp/paypal-point-of-sale.zip --force && \
+             wp rewrite structure '/%postname%/' --hard && \
+             wp plugin activate woocommerce"
+
+      - name: Write .env.ci
+        run: echo "${{ secrets.QA_KINSTA_ENV_FILE }}" > .env.ci
+
+      - name: Create storage-states directory
+        run: mkdir -p storage-states
+
+      - name: Run Playwright tests
+        run: npm run e2e:${{ inputs.TEST_SUITE }}:ci
+        env:
+          XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}
