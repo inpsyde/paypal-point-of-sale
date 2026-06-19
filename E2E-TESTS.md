@@ -115,13 +115,49 @@ npx wp-env destroy && npx wp-env start && npm run e2e:setup
 
 ---
 
+## Remote Environment (Kinsta tst)
+
+To run against `https://stg-tstpaypalpospaypal-ppostest.kinsta.cloud/`, configure `.env` with SSH vars (see `.env.example.e2e` for the full list). Retrieve the host, port, login, and path from the Kinsta dashboard → `tst` environment → SSH/SFTP info.
+
+No `wp-env start` or `e2e:setup` needed. Pre-install the plugin on Kinsta first:
+
+```bash
+composer install --no-dev --prefer-dist
+npm run e2e:build-zip        # or run the rsync+zip block from e2e:setup manually
+
+scp -P <port> tests/qa/resources/files/paypal-point-of-sale.zip <login>@<host>:/tmp/
+ssh -p <port> <login>@<host> \
+  "wp plugin install /tmp/paypal-point-of-sale.zip --force && \
+   wp rewrite structure '/%postname%/' --hard && \
+   wp plugin activate woocommerce"
+```
+
+Then run tests normally — the CLI routes over SSH automatically:
+
+```bash
+npm run e2e:smoke
+```
+
+---
+
 ## CI
 
 Tests run automatically via `.github/workflows/e2e-tests.yml`:
 
-| Job | Trigger |
-|-----|---------|
-| Smoke tests | Every pull request |
-| Full E2E suite | `workflow_dispatch` (select suite and optional Xray key) |
+| Job | Trigger | Target |
+|-----|---------|--------|
+| Smoke tests | Every pull request | wp-env (local) |
+| Full E2E suite | `workflow_dispatch` → `TARGET=wpenv` | wp-env (local) |
+| Kinsta E2E suite | `workflow_dispatch` → `TARGET=kinsta` | Kinsta tst (`stg-tstpaypalpospaypal-ppostest.kinsta.cloud`) |
 
-The CI PRE_SCRIPT mirrors `npm run e2e:setup` exactly — it builds the zip, installs via WP-CLI, and configures WordPress before Playwright runs.
+The wp-env PRE_SCRIPT mirrors `npm run e2e:setup` exactly. The Kinsta job SCPs the zip to Kinsta and pre-installs via SSH before Playwright runs.
+
+**Kinsta CI requires five GitHub secrets** (add via Settings → Secrets and variables → Actions):
+
+| Secret | Value |
+|--------|-------|
+| `QA_KINSTA_ENV_FILE` | Full `.env.ci` contents with `WP_BASE_URL=https://stg-tstpaypalpospaypal-ppostest.kinsta.cloud`, `WPCLI_ENV_TYPE=ssh`, and SSH vars |
+| `QA_KINSTA_SSH_KEY` | Private SSH key (add the matching public key in Kinsta dashboard → SSH keys) |
+| `QA_KINSTA_SSH_HOST` | Kinsta SSH hostname |
+| `QA_KINSTA_SSH_PORT` | Kinsta SSH port |
+| `QA_KINSTA_SSH_LOGIN` | Kinsta SSH username |
