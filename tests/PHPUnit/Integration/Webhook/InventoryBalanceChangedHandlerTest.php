@@ -42,8 +42,6 @@ class InventoryBalanceChangedHandlerTest extends AuthenticatedRestRequestTestCas
             }
         );
 
-        $this->delayModuleContainerSetup();
-
         parent::setUp();
     }
 
