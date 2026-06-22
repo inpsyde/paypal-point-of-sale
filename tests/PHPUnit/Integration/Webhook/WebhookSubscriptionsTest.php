@@ -6,16 +6,22 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\Test\AuthenticatedRestRequestTestCase;
 
 /**
- *  * @group sync
+ *  @group sync
  */
 class WebhookSubscriptionsTest extends AuthenticatedRestRequestTestCase
 {
-    private $destination = 'https://apantechovskis.php74.emp.pluginpsyde.com/wp-json/zettle/v1/webhook/listen';
+    private $destination;
 
     private $email = 'admin@zettle-acceptance.woo';
 
     protected function setUp(): void
     {
+        $destination = getenv('WEBHOOK_DESTINATION_URL');
+        if ($destination === false || $destination === '') {
+            $this->markTestSkipped('WEBHOOK_DESTINATION_URL not set; no reachable webhook endpoint.');
+        }
+        $this->destination = $destination;
+
         $this->injectFactory(
             'paypal-pos.webhook.config.email',
             function (): string {
