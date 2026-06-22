@@ -13,9 +13,9 @@ use WC_Product;
 class FeaturedImageIterator implements WcProductIterator
 {
     /**
-     * @var string The featured image attachment ID
+     * @var int The featured image attachment ID
      */
-    private string $attachmentId;
+    private int $attachmentId;
     /**
      * @var bool Used to check if the attachment ID has already been returned
      */
@@ -46,7 +46,7 @@ class FeaturedImageIterator implements WcProductIterator
     public function rewind(): void
     {
         $this->called = \false;
-        $this->attachmentId = $this->product->get_image_id();
+        $this->attachmentId = (int) $this->product->get_image_id();
     }
     /**
      * {@inheritDoc}
