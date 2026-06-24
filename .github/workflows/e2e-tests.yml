@@ -31,34 +31,17 @@ on:
 
 jobs:
   build:
-    name: Build plugin zip
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Composer dependencies
-        run: composer install --no-dev --prefer-dist
-        env:
-          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
-
-      - name: Build plugin zip
-        run: |
-          DIST=$(mktemp -d)
-          mkdir -p "$DIST/paypal-point-of-sale"
-          rsync -aL --exclude-from=.distignore \
-            --exclude '.env*' --exclude '.wp-env*' \
-            --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
-            --exclude 'storage-states' \
-            . "$DIST/paypal-point-of-sale/"
-          (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
-          mkdir -p tests/qa/resources/files
-          cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: paypal-point-of-sale
-          path: tests/qa/resources/files/paypal-point-of-sale.zip
-          retention-days: 1
+    name: Build plugin package
+    uses: inpsyde/reusable-workflows/.github/workflows/build-and-distribute.yml@main
+    secrets:
+      GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
+      GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
+      GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
+      GITHUB_USER_SSH_PUBLIC_KEY: ${{ secrets.DEPLOYBOT_SSH_PUBLIC_KEY }}
+      NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+      COMPOSER_AUTH_JSON: ${{ secrets.PACKAGIST_AUTH_JSON }}
+    with:
+      NODE_VERSION: 22
 
   smoke:
     name: Smoke Tests
@@ -78,7 +61,9 @@ jobs:
       COMPOSER_DEPS_INSTALL: false
       PRE_SCRIPT: |
         mkdir -p tests/qa/resources/files storage-states
-        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
+        echo "=== Artifacts available in this run ==="
+        gh run download ${{ github.run_id }} -D /tmp/plugin-artifact/ 2>&1 || true
+        find /tmp/plugin-artifact/ -type f | head -30
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
     secrets:
@@ -108,7 +93,9 @@ jobs:
       XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}
       PRE_SCRIPT: |
         mkdir -p tests/qa/resources/files storage-states
-        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
+        echo "=== Artifacts available in this run ==="
+        gh run download ${{ github.run_id }} -D /tmp/plugin-artifact/ 2>&1 || true
+        find /tmp/plugin-artifact/ -type f | head -30
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
     secrets:
@@ -148,11 +135,13 @@ jobs:
           ssh-keyscan -H -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
             ${{ secrets.QA_KINSTA_SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Download plugin zip
-        uses: actions/download-artifact@v4
-        with:
-          name: paypal-point-of-sale
-          path: tests/qa/resources/files/
+      - name: Download plugin artifact
+        run: |
+          echo "=== Artifacts available in this run ==="
+          gh run download ${{ github.run_id }} -D /tmp/plugin-artifact/ 2>&1 || true
+          find /tmp/plugin-artifact/ -type f | head -30
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Prepare Kinsta environment via WP-CLI
         run: |
