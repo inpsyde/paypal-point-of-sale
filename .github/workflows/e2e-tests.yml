@@ -30,8 +30,39 @@ on:
           - kinsta
 
 jobs:
+  build:
+    name: Build plugin zip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist
+        env:
+          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
+
+      - name: Build plugin zip
+        run: |
+          DIST=$(mktemp -d)
+          mkdir -p "$DIST/paypal-point-of-sale"
+          rsync -aL --exclude-from=.distignore \
+            --exclude '.env*' --exclude '.wp-env*' \
+            --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
+            --exclude 'storage-states' \
+            . "$DIST/paypal-point-of-sale/"
+          (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
+          mkdir -p tests/qa/resources/files
+          cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: paypal-point-of-sale
+          path: tests/qa/resources/files/paypal-point-of-sale.zip
+          retention-days: 1
+
   smoke:
     name: Smoke Tests
+    needs: build
     if: github.event_name == 'pull_request'
     uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
     with:
@@ -46,21 +77,10 @@ jobs:
       PLAYWRIGHT_BROWSER_ARGS: 'chromium --with-deps'
       COMPOSER_DEPS_INSTALL: false
       PRE_SCRIPT: |
-        composer install --no-dev --prefer-dist
-        DIST=$(mktemp -d)
-        mkdir -p "$DIST/paypal-point-of-sale"
-        rsync -a --exclude-from=.distignore \
-          --exclude '.env*' --exclude '.wp-env*' \
-          --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
-          --exclude 'storage-states' \
-          . "$DIST/paypal-point-of-sale/"
-        (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
-        mkdir -p tests/qa/resources/files
-        cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/paypal-point-of-sale.zip
-        npx wp-env run cli wp plugin install /var/www/html/plugin-source/tests/qa/resources/files/paypal-point-of-sale.zip
+        mkdir -p tests/qa/resources/files storage-states
+        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
-        mkdir -p storage-states
     secrets:
       ENV_FILE_DATA: ${{ secrets.QA_ENV_FILE }}
       NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
@@ -71,6 +91,7 @@ jobs:
 
   e2e:
     name: Run Playwright E2E Tests
+    needs: build
     if: github.event_name == 'workflow_dispatch' && inputs.TARGET != 'kinsta'
     uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
     with:
@@ -86,21 +107,10 @@ jobs:
       COMPOSER_DEPS_INSTALL: false
       XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}
       PRE_SCRIPT: |
-        composer install --no-dev --prefer-dist
-        DIST=$(mktemp -d)
-        mkdir -p "$DIST/paypal-point-of-sale"
-        rsync -a --exclude-from=.distignore \
-          --exclude '.env*' --exclude '.wp-env*' \
-          --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
-          --exclude 'storage-states' \
-          . "$DIST/paypal-point-of-sale/"
-        (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
-        mkdir -p tests/qa/resources/files
-        cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/paypal-point-of-sale.zip
-        npx wp-env run cli wp plugin install /var/www/html/plugin-source/tests/qa/resources/files/paypal-point-of-sale.zip
+        mkdir -p tests/qa/resources/files storage-states
+        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
-        mkdir -p storage-states
     secrets:
       ENV_FILE_DATA: ${{ secrets.QA_ENV_FILE }}
       NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
@@ -111,6 +121,7 @@ jobs:
 
   e2e-kinsta:
     name: Run Playwright E2E Tests (Kinsta tst)
+    needs: build
     if: github.event_name == 'workflow_dispatch' && inputs.TARGET == 'kinsta'
     runs-on: ubuntu-latest
     steps:
@@ -137,38 +148,18 @@ jobs:
           ssh-keyscan -H -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
             ${{ secrets.QA_KINSTA_SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Install Composer dependencies
-        run: composer install --no-dev --prefer-dist
-        env:
-          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
+      - name: Download plugin zip
+        uses: actions/download-artifact@v4
+        with:
+          name: paypal-point-of-sale
+          path: tests/qa/resources/files/
 
-      - name: Build plugin zip
-        run: |
-          DIST=$(mktemp -d)
-          mkdir -p "$DIST/paypal-point-of-sale"
-          rsync -a --exclude-from=.distignore \
-            --exclude '.env*' --exclude '.wp-env*' \
-            --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
-            --exclude 'storage-states' \
-            . "$DIST/paypal-point-of-sale/"
-          (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
-          mkdir -p tests/qa/resources/files
-          cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/paypal-point-of-sale.zip
-
-      - name: Upload plugin zip to Kinsta
-        run: |
-          scp -i ~/.ssh/kinsta_ed25519 \
-            -P ${{ secrets.QA_KINSTA_SSH_PORT }} \
-            tests/qa/resources/files/paypal-point-of-sale.zip \
-            ${{ secrets.QA_KINSTA_SSH_LOGIN }}@${{ secrets.QA_KINSTA_SSH_HOST }}:/tmp/paypal-point-of-sale.zip
-
-      - name: Pre-install plugin on Kinsta via WP-CLI
+      - name: Prepare Kinsta environment via WP-CLI
         run: |
           ssh -i ~/.ssh/kinsta_ed25519 \
             -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
             ${{ secrets.QA_KINSTA_SSH_LOGIN }}@${{ secrets.QA_KINSTA_SSH_HOST }} \
-            "wp plugin install /tmp/paypal-point-of-sale.zip --force && \
-             wp rewrite structure '/%postname%/' --hard && \
+            "wp rewrite structure '/%postname%/' --hard && \
              wp plugin activate woocommerce"
 
       - name: Write .env.ci
