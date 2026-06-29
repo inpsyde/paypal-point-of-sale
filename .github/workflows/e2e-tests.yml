@@ -159,7 +159,8 @@ jobs:
           ssh -i ~/.ssh/kinsta_ed25519 \
             -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
             ${{ secrets.QA_KINSTA_SSH_LOGIN }}@${{ secrets.QA_KINSTA_SSH_HOST }} \
-            "wp rewrite structure '/%postname%/' --hard && \
+            "wp plugin delete paypal-point-of-sale --skip-plugins 2>/dev/null || true && \
+             wp rewrite structure '/%postname%/' --hard && \
              wp plugin activate woocommerce"
 
       - name: Write .env.ci
