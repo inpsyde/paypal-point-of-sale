@@ -1,0 +1,175 @@
+name: E2E Tests
+# The triggers below implement the minimum required by the QA automation standard:
+#   - Smoke tests on every pull request
+#   - Full regression suite on workflow_dispatch (pre-release)
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      TEST_SUITE:
+        description: 'Test suite to run'
+        required: true
+        default: 'critical'
+        type: choice
+        options:
+          - smoke
+          - critical
+          - regression
+          - test
+      XRAY_TEST_EXEC_KEY:
+        description: 'Xray test execution key (optional)'
+        required: false
+        default: ''
+      TARGET:
+        description: 'Target environment (wpenv = local wp-env, kinsta = Kinsta tst)'
+        required: false
+        default: 'wpenv'
+        type: choice
+        options:
+          - wpenv
+          - kinsta
+
+jobs:
+  build:
+    name: Build plugin zip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist
+        env:
+          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
+
+      - name: Build plugin zip
+        run: |
+          DIST=$(mktemp -d)
+          mkdir -p "$DIST/paypal-point-of-sale"
+          rsync -aL --exclude-from=.distignore \
+            --exclude '.env*' --exclude '.wp-env*' \
+            --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
+            --exclude 'storage-states' \
+            . "$DIST/paypal-point-of-sale/"
+          (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
+          mkdir -p tests/qa/resources/files
+          cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: paypal-point-of-sale
+          path: tests/qa/resources/files/paypal-point-of-sale.zip
+          retention-days: 1
+
+  smoke:
+    name: Smoke Tests
+    needs: build
+    if: github.event_name == 'pull_request'
+    uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
+    with:
+      PLAYWRIGHT_SCRIPT: e2e:smoke:ci
+      PLAYWRIGHT_ARTIFACT_PATH: |
+        playwright-report/
+        test-results/
+      PLAYWRIGHT_ARTIFACT_INCLUDE_HIDDEN_FILES: true
+      PLAYWRIGHT_ARTIFACT_NAME: e2e-smoke-report
+      PLAYWRIGHT_ARTIFACT_RETENTION_DAYS: 14
+      NODE_VERSION: 22
+      PLAYWRIGHT_BROWSER_ARGS: 'chromium --with-deps'
+      COMPOSER_DEPS_INSTALL: false
+      PRE_SCRIPT: |
+        mkdir -p tests/qa/resources/files storage-states
+        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
+        npx wp-env run cli wp rewrite structure '/%postname%/' --hard
+        npx wp-env run cli wp plugin activate woocommerce
+    secrets:
+      ENV_FILE_DATA: ${{ secrets.QA_ENV_FILE }}
+      NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+      COMPOSER_AUTH_JSON: ${{ secrets.PACKAGIST_AUTH_JSON }}
+      GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
+      GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
+      GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
+
+  e2e:
+    name: Run Playwright E2E Tests
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && inputs.TARGET != 'kinsta'
+    uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
+    with:
+      PLAYWRIGHT_SCRIPT: e2e:${{ inputs.TEST_SUITE }}:ci
+      PLAYWRIGHT_ARTIFACT_PATH: |
+        playwright-report/
+        test-results/
+      PLAYWRIGHT_ARTIFACT_INCLUDE_HIDDEN_FILES: true
+      PLAYWRIGHT_ARTIFACT_NAME: e2e-report
+      PLAYWRIGHT_ARTIFACT_RETENTION_DAYS: 30
+      NODE_VERSION: 22
+      PLAYWRIGHT_BROWSER_ARGS: 'chromium --with-deps'
+      COMPOSER_DEPS_INSTALL: false
+      XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}
+      PRE_SCRIPT: |
+        mkdir -p tests/qa/resources/files storage-states
+        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
+        npx wp-env run cli wp rewrite structure '/%postname%/' --hard
+        npx wp-env run cli wp plugin activate woocommerce
+    secrets:
+      ENV_FILE_DATA: ${{ secrets.QA_ENV_FILE }}
+      NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+      COMPOSER_AUTH_JSON: ${{ secrets.PACKAGIST_AUTH_JSON }}
+      GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
+      GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
+      GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
+
+  e2e-kinsta:
+    name: Run Playwright E2E Tests (Kinsta tst)
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && inputs.TARGET == 'kinsta'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci --ignore-scripts
+        env:
+          NPM_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.QA_KINSTA_SSH_KEY }}" > ~/.ssh/kinsta_ed25519
+          chmod 600 ~/.ssh/kinsta_ed25519
+          ssh-keyscan -H -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
+            ${{ secrets.QA_KINSTA_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Download plugin zip
+        uses: actions/download-artifact@v4
+        with:
+          name: paypal-point-of-sale
+          path: tests/qa/resources/files/
+
+      - name: Prepare Kinsta environment via WP-CLI
+        run: |
+          ssh -i ~/.ssh/kinsta_ed25519 \
+            -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
+            ${{ secrets.QA_KINSTA_SSH_LOGIN }}@${{ secrets.QA_KINSTA_SSH_HOST }} \
+            "wp plugin delete paypal-point-of-sale --skip-plugins 2>/dev/null || true && \
+             wp rewrite structure '/%postname%/' --hard && \
+             wp plugin activate woocommerce"
+
+      - name: Write .env.ci
+        run: echo "${{ secrets.QA_KINSTA_ENV_FILE }}" > .env.ci
+
+      - name: Create storage-states directory
+        run: mkdir -p storage-states
+
+      - name: Run Playwright tests
+        run: npm run e2e:${{ inputs.TEST_SUITE }}:ci
+        env:
+          XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}

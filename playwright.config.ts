@@ -1,11 +1,17 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { BaseExtend } from '@inpsyde/playwright-utils/build';
 import { WpCliEnvType } from '@inpsyde/playwright-utils/build/@types/wp-cli';
-require( 'dotenv' ).config();
+import dotenv from 'dotenv';
+import path from 'path';
+
+const dotenvPath = process.env.CI
+    ? path.resolve( __dirname, '.env.ci' )
+    : undefined;
+dotenv.config( { path: dotenvPath } );
 
 export default defineConfig< BaseExtend >( {
-    testDir: 'tests',
-    globalSetup: require.resolve( './global-setup' ),
+    testDir: 'tests/qa/tests',
+    globalSetup: require.resolve( './tests/qa/global-setup' ),
     timeout: 2 * 60_000,
     expect: { timeout: 20 * 1000 },
     fullyParallel: false,
@@ -14,10 +20,24 @@ export default defineConfig< BaseExtend >( {
     workers: 1,
     snapshotDir: './snapshots',
 
-    reporter: [
-        [ 'list' ],
-        [ 'html', { outputFolder: 'playwright-report', open: 'never' } ],
-    ],
+    reporter: process.env.XRAY_TEST_EXEC_KEY
+        ? [
+            [ 'list' ],
+            [
+                '@inpsyde/playwright-utils/build/integration/jira/xray-reporter.js',
+                {
+                    apiClient: {
+                        client_id: process.env.XRAY_CLIENT_ID ?? '',
+                        client_secret: process.env.XRAY_CLIENT_SECRET ?? '',
+                    },
+                    testExecutionKey: process.env.XRAY_TEST_EXEC_KEY,
+                },
+            ],
+        ]
+        : [
+            [ 'list' ],
+            [ 'html', { outputFolder: 'playwright-report', open: 'never' } ],
+        ],
 
     use: {
         baseURL: process.env.WP_BASE_URL,
@@ -45,31 +65,28 @@ export default defineConfig< BaseExtend >( {
         cliConfig: {
             envType: ( process.env.WPCLI_ENV_TYPE ?? 'wpenv' ) as WpCliEnvType,
             path: process.env.WPCLI_PATH,
-            ssh: {
-                login: process.env.SSH_LOGIN,
-                host: process.env.SSH_HOST,
-                port: process.env.SSH_PORT,
-                path: process.env.SSH_PATH,
-            },
-            vip: {
-                appName: process.env.VIP_APP_NAME,
-                env: process.env.VIP_ENV,
-            },
+            ...( process.env.SSH_LOGIN && process.env.SSH_HOST && {
+                ssh: {
+                    login: process.env.SSH_LOGIN,
+                    host: process.env.SSH_HOST,
+                    port: process.env.SSH_PORT,
+                    path: process.env.SSH_PATH,
+                },
+            } ),
         },
     },
 
     projects: [
-        // ── Setup / teardown ──────────────────────────────────────────────────
         // ── Setup / teardown — runs AFTER shards that reset onboarding state ──
         {
             name: 'setup:paypal-pos',
-            testMatch: /00-setup\/paypal-pos\.setup\.ts/,
+            testMatch: /_setup\/paypal-pos\.setup\.ts/,
             teardown: 'teardown:paypal-pos',
             dependencies: [ 'shard:plugin-lifecycle', 'shard:onboarding' ],
         },
         {
             name: 'teardown:paypal-pos',
-            testMatch: /00-setup\/paypal-pos\.teardown\.ts/,
+            testMatch: /_setup\/paypal-pos\.teardown\.ts/,
         },
 
         // ── Shards ────────────────────────────────────────────────────────────
