@@ -20,10 +20,24 @@ export default defineConfig< BaseExtend >( {
     workers: 1,
     snapshotDir: './snapshots',
 
-    reporter: [
-        [ 'list' ],
-        [ 'html', { outputFolder: 'playwright-report', open: 'never' } ],
-    ],
+    reporter: process.env.XRAY_TEST_EXEC_KEY
+        ? [
+            [ 'list' ],
+            [
+                '@inpsyde/playwright-utils/build/integration/jira/xray-reporter.js',
+                {
+                    apiClient: {
+                        client_id: process.env.XRAY_CLIENT_ID ?? '',
+                        client_secret: process.env.XRAY_CLIENT_SECRET ?? '',
+                    },
+                    testExecutionKey: process.env.XRAY_TEST_EXEC_KEY,
+                },
+            ],
+        ]
+        : [
+            [ 'list' ],
+            [ 'html', { outputFolder: 'playwright-report', open: 'never' } ],
+        ],
 
     use: {
         baseURL: process.env.WP_BASE_URL,
@@ -51,16 +65,14 @@ export default defineConfig< BaseExtend >( {
         cliConfig: {
             envType: ( process.env.WPCLI_ENV_TYPE ?? 'wpenv' ) as WpCliEnvType,
             path: process.env.WPCLI_PATH,
-            ssh: {
-                login: process.env.SSH_LOGIN,
-                host: process.env.SSH_HOST,
-                port: process.env.SSH_PORT,
-                path: process.env.SSH_PATH,
-            },
-            vip: {
-                appName: process.env.VIP_APP_NAME,
-                env: process.env.VIP_ENV,
-            },
+            ...( process.env.SSH_LOGIN && process.env.SSH_HOST && {
+                ssh: {
+                    login: process.env.SSH_LOGIN,
+                    host: process.env.SSH_HOST,
+                    port: process.env.SSH_PORT,
+                    path: process.env.SSH_PATH,
+                },
+            } ),
         },
     },
 
