@@ -19,7 +19,7 @@ class Inventory
     /**
      * @var Location[]
      */
-    private array $locations;
+    private array $locations = [];
     private BuilderInterface $builder;
     private string $integrationUuid;
     public function __construct(UriInterface $uri, RestClientInterface $restClient, Locations $locationsClient, BuilderInterface $builder, string $integrationUuid)

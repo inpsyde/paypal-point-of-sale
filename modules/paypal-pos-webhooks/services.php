@@ -22,7 +22,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
 use Syde\Vendor\Zettle\Symfony\Component\Uid\Uuid;
 $job = static function (string $type): string {
-    return "zettle.job.{$type}";
+    return "paypal-pos.job.{$type}";
 };
 return [$job(InventoryBalanceChangedJob::TYPE) => static function (C $container): Job {
     return new InventoryBalanceChangedJob($container->get('inpsyde.wc-lifecycle-events.products.toggle'), $container->get('inpsyde.queue.create-job-record'));
