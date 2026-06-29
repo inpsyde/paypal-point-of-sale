@@ -35,7 +35,7 @@ class ChildrenImageIterator implements WcProductIterator
     {
         $product = wc_get_product(current($this->children));
 
-        return $product ? $product->get_image_id() : 0;
+        return $product ? (int) $product->get_image_id() : 0;
     }
 
     public function next(): void

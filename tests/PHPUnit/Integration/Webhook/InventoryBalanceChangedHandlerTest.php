@@ -14,10 +14,6 @@ use Mockery\MockInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class InventoryBalanceChangedHandlerTest
- * @group sync
- */
 class InventoryBalanceChangedHandlerTest extends AuthenticatedRestRequestTestCase
 {
 
@@ -45,8 +41,6 @@ class InventoryBalanceChangedHandlerTest extends AuthenticatedRestRequestTestCas
                 return $this->integrationUuid;
             }
         );
-
-        $this->delayModuleContainerSetup();
 
         parent::setUp();
     }

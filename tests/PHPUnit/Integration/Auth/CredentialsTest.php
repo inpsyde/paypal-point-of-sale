@@ -14,7 +14,6 @@ class CredentialsTest extends AuthenticatedRestRequestTestCase
 
     protected function setUp(): void
     {
-        $this->delayModuleContainerSetup();
         parent::setUp();
 
         when('get_transient')->justReturn(false);

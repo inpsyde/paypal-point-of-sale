@@ -1,0 +1,46 @@
+name: Testing (sync)
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      IZETTLE_API_KEY: ${{ secrets.IZETTLE_API_KEY }}
+      IZETTLE_PLACEHOLDER_IMAGES_ENABLED: 1
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - uses: actions/checkout@v4
+
+      - name: Packagist.com Auth
+        run: composer config --global --auth http-basic.repo.packagist.com token ${{ secrets.PACKAGIST_TOKEN }}
+
+      - name: Install composer.json
+        run: composer install --quiet --prefer-dist --no-progress --no-suggest
+
+      # The webhook test (WebhookSubscriptionsTest) registers a real Zettle webhook and
+      # needs a reachable HTTPS endpoint that returns 200.
+      # So we run a minimal local responder and expose it via a cloudflared quick tunnel.
+      - name: Start webhook responder
+        run: nohup php -S 127.0.0.1:8080 .github/scripts/webhook-responder.php > responder.log 2>&1 &
+      - name: Start cloudflared quick tunnel
+        run: |
+          curl -sSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared
+          chmod +x /usr/local/bin/cloudflared
+          nohup cloudflared tunnel --no-autoupdate --url http://127.0.0.1:8080 > cloudflared.log 2>&1 &
+          for i in $(seq 1 30); do
+            url=$(grep -oE 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' cloudflared.log | head -n1)
+            [ -n "$url" ] && break
+            sleep 1
+          done
+          if [ -z "$url" ]; then echo "cloudflared tunnel failed to start"; cat cloudflared.log; exit 1; fi
+          echo "Webhook tunnel: $url"
+          echo "WEBHOOK_DESTINATION_URL=${url}/wp-json/zettle/v1/webhook/listen" >> "$GITHUB_ENV"
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --stop-on-failure --group sync

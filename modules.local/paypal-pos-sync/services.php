@@ -51,7 +51,7 @@ use Throwable;
 use WC_Product_Variation;
 
 $job = static function (string $type): string {
-    return "zettle.job.{$type}";
+    return "paypal-pos.job.{$type}";
 };
 
 return [

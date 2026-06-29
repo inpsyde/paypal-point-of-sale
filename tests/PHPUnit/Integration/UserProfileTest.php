@@ -3,10 +3,6 @@
 use Syde\PayPal\PointOfSale\PhpSdk\API\OAuth\Users;
 use Syde\PayPal\PointOfSale\Test\AuthenticatedRestRequestTestCase;
 
-/**
- * Class UserProfileTest
- * @group sync
- */
 class UserProfileTest extends AuthenticatedRestRequestTestCase
 {
 

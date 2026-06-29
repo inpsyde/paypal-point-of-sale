@@ -18,7 +18,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
 
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
       - name: Packagist.com Auth
         run: composer config --global --auth http-basic.repo.packagist.com token ${{ secrets.PACKAGIST_TOKEN }}
