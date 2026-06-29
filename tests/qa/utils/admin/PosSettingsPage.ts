@@ -1,4 +1,5 @@
 import { WpPage, expect } from '@inpsyde/playwright-utils/build';
+import { processQueue, type AnyCli } from '../helpers';
 
 export class PosSettingsPage extends WpPage {
     url = '/wp-admin/admin.php?page=wc-settings&tab=zettle';
@@ -50,42 +51,6 @@ export class PosSettingsPage extends WpPage {
         name: 'Are you sure you want to disconnect?',
     } );
 
-    // --- Actions ---
-
-    clickConnect = async () => {
-        await this.connectButton().click();
-        await this.page.waitForLoadState( 'load' );
-    };
-
-    enterApiKey = async ( apiKey: string ) => {
-        await this.apiKeyInput().fill( apiKey );
-    };
-
-    clickAuthenticate = async () => {
-        await this.authenticateButton().click();
-        await this.page.waitForLoadState( 'load' );
-    };
-
-    clickStartOver = async () => {
-        await this.startOverButton().click();
-        await this.page.waitForLoadState( 'load' );
-    };
-
-    clickBack = async () => {
-        await this.backButton().click();
-        await this.page.waitForLoadState( 'load' );
-    };
-
-    clickNext = async () => {
-        await this.nextButton().click();
-        await this.page.waitForLoadState( 'load' );
-    };
-
-    clickStartSync = async () => {
-        await this.startSyncButton().click();
-        await this.page.waitForLoadState( 'load' );
-    };
-
     // --- Assertions ---
 
     assertWelcomeState = async () => {
@@ -106,6 +71,42 @@ export class PosSettingsPage extends WpPage {
 
     assertConnectedState = async () => {
         await expect( this.productsCountText() ).toBeVisible();
+    };
+
+    connect = async ( apiKey: string, cli: AnyCli ) => {
+        await this.visit();
+        await this.assertWelcomeState();
+        await this.connectButton().click();
+        await this.page.waitForLoadState( 'load' );
+        await this.assertApiCredentialsState();
+        await this.apiKeyInput().fill( apiKey );
+        await this.authenticateButton().click();
+        await this.page.waitForLoadState( 'load' );
+        await this.mergeRadio().check();
+        await this.nextButton().click();
+        await this.page.waitForLoadState( 'load' );
+        await this.startSyncButton().click();
+        await this.page.waitForLoadState( 'load' );
+
+        let syncComplete = false;
+        void ( async () => {
+            while ( ! syncComplete ) {
+                await processQueue( cli );
+            }
+        } )();
+
+        try {
+            await this.page.waitForSelector(
+                'button[name="cancel"]', { state: 'detached', timeout: 180_000 }
+            );
+        } finally {
+            syncComplete = true;
+        }
+
+        await this.page.waitForLoadState( 'load' );
+        await this.page.getByRole( 'button', { name: 'Complete setup' } ).click();
+        await this.page.waitForLoadState( 'load' );
+        await this.assertConnectedState();
     };
 
     assertTabVisible = async () => {
