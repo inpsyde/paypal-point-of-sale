@@ -1,46 +1,8 @@
 import { test, PosSettingsPage } from '../../utils';
-import { resetOnboarding, processQueue, AnyCli } from '../../utils';
+import { resetOnboarding } from '../../utils';
+import { e2ePlugins } from '../../resources';
 
-const PLUGIN_SLUG = 'paypal-point-of-sale';
-// Well-formed JWT (passes format validation) but invalid credentials (fails PayPal auth).
 const INVALID_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LWludmFsaWQiLCJpc3MiOiJwYXlwYWwiLCJpYXQiOjE3MDAwMDAwMDB9.SIG_INVALID_FAKE_DO_NOT_USE';
-
-async function connectWithApiKey( posSettings: PosSettingsPage, apiKey: string, cli: AnyCli ): Promise< void > {
-    await posSettings.visit();
-    await posSettings.assertWelcomeState();
-    await posSettings.clickConnect();
-    await posSettings.assertApiCredentialsState();
-    await posSettings.enterApiKey( apiKey );
-    await posSettings.clickAuthenticate();
-    await posSettings.mergeRadio().check();
-    await posSettings.clickNext();
-    await posSettings.clickStartSync();
-
-    // WP-Cron and AsyncRequestRunner rely on HTTP loopback which doesn't work
-    // inside the Docker wp-env container. Drive the queue processor via WP-CLI
-    // concurrently while the JS polling waits for the sync to finish.
-    let syncComplete = false;
-    void ( async () => {
-        while ( ! syncComplete ) {
-            await processQueue( cli );
-        }
-    } )();
-
-    try {
-        // The cancel button detaches when JS auto-proceeds to SYNC_FINISHED.
-        await posSettings.page.waitForSelector(
-            'button[name="cancel"]', { state: 'detached', timeout: 180_000 }
-        );
-    } finally {
-        syncComplete = true;
-    }
-
-    // Now on SYNC_FINISHED page — click "Complete setup" to reach ONBOARDING_COMPLETED.
-    await posSettings.page.waitForLoadState( 'load' );
-    await posSettings.page.getByRole( 'button', { name: 'Complete setup' } ).click();
-    await posSettings.page.waitForLoadState( 'load' );
-    await posSettings.assertConnectedState();
-}
 
 async function disconnectAndConfirm( posSettings: PosSettingsPage ): Promise< void > {
     await posSettings.disconnectTrigger().click();
@@ -52,7 +14,7 @@ async function disconnectAndConfirm( posSettings: PosSettingsPage ): Promise< vo
 test.describe( 'Onboarding', () => {
 
     test.beforeEach( async ( { requestUtils, cli } ) => {
-        await requestUtils.activatePlugin( PLUGIN_SLUG );
+        await requestUtils.activatePlugin( e2ePlugins.paypalPos.slug );
         await resetOnboarding( cli );
     } );
 
@@ -66,7 +28,7 @@ test.describe( 'Onboarding', () => {
                 return;
             }
 
-            await connectWithApiKey( posSettings, apiKey, cli );
+            await posSettings.connect( apiKey, cli );
         } );
 
     test( 'POS-571 | Invalid API key shows Authentication failed screen; critical;',
@@ -74,11 +36,13 @@ test.describe( 'Onboarding', () => {
             await posSettings.visit();
             await posSettings.assertWelcomeState();
 
-            await posSettings.clickConnect();
+            await posSettings.connectButton().click();
+            await posSettings.page.waitForLoadState( 'load' );
             await posSettings.assertApiCredentialsState();
 
-            await posSettings.enterApiKey( INVALID_API_KEY );
-            await posSettings.clickAuthenticate();
+            await posSettings.apiKeyInput().fill( INVALID_API_KEY );
+            await posSettings.authenticateButton().click();
+            await posSettings.page.waitForLoadState( 'load' );
 
             await posSettings.assertInvalidCredentialsState();
         } );
@@ -86,12 +50,16 @@ test.describe( 'Onboarding', () => {
     test( 'POS-571 | Start over after invalid key returns to API credentials screen; regression;',
         async ( { posSettings } ) => {
             await posSettings.visit();
-            await posSettings.clickConnect();
-            await posSettings.enterApiKey( INVALID_API_KEY );
-            await posSettings.clickAuthenticate();
+
+            await posSettings.connectButton().click();
+            await posSettings.page.waitForLoadState( 'load' );
+            await posSettings.apiKeyInput().fill( INVALID_API_KEY );
+            await posSettings.authenticateButton().click();
+            await posSettings.page.waitForLoadState( 'load' );
             await posSettings.assertInvalidCredentialsState();
 
-            await posSettings.clickStartOver();
+            await posSettings.startOverButton().click();
+            await posSettings.page.waitForLoadState( 'load' );
             await posSettings.assertApiCredentialsState();
         } );
 
@@ -105,11 +73,11 @@ test.describe( 'Onboarding', () => {
                 return;
             }
 
-            await connectWithApiKey( posSettings, apiKey, cli );
+            await posSettings.connect( apiKey, cli );
             await disconnectAndConfirm( posSettings );
             await posSettings.assertWelcomeState();
 
-            await connectWithApiKey( posSettings, apiKey, cli );
+            await posSettings.connect( apiKey, cli );
         } );
 
     test( 'POS-577 | Disconnect removes connected state and returns to welcome screen; critical;',
@@ -122,7 +90,7 @@ test.describe( 'Onboarding', () => {
                 return;
             }
 
-            await connectWithApiKey( posSettings, apiKey, cli );
+            await posSettings.connect( apiKey, cli );
             await disconnectAndConfirm( posSettings );
             await posSettings.assertWelcomeState();
         } );
