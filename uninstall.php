@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
+use Inpsyde\Modularity\Package;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
 use Syde\PayPal\PointOfSale\Onboarding\Job\ResetOnboardingJob;
-use Psr\Container\ContainerInterface;
 
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     die('Direct access not allowed.');
@@ -22,8 +22,10 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
         include_once __DIR__ . '/vendor/autoload.php';
     }
 
-    $container = (require __DIR__ . '/bootstrap.php')(__DIR__);
-    assert($container instanceof ContainerInterface);
+    $package = (require __DIR__ . '/bootstrap.php')(__DIR__ . '/paypal-point-of-sale.php');
+    assert($package instanceof Package);
+
+    $container = $package->container();
 
     $resetJob = $container->get('paypal-pos.job.' . ResetOnboardingJob::TYPE);
     assert($resetJob instanceof Job);
