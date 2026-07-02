@@ -33,7 +33,7 @@ return [
         return $jobTypes;
     },
     'paypal-pos.assets.should-enqueue.all' => static function (C $container): callable {
-        return static function () use ($container): bool {
+        return static function (): bool {
             return true;
         };
     },

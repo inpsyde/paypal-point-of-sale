@@ -40,7 +40,7 @@ $key = static function (string $className): string {
 $builder = static function (callable $callable) {
     return static function (C $container) use ($callable): B {
         return new CallbackBuilder(
-            static function (string $className, $payload, B $builder) use ($callable, $container) {
+            static function (string $className, mixed $payload, B $builder) use ($callable, $container) {
                 return $callable($payload, $builder, $container);
             }
         );
@@ -72,7 +72,7 @@ return [
         static function (array $payload, B $builder): ImageCollection {
             // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
             $images = array_map(
-                static function ($imagePayload) use ($builder) {
+                static function (mixed $imagePayload) use ($builder) {
                     return $builder->build(ImageInterface::class, (array) $imagePayload);
                 },
                 $payload

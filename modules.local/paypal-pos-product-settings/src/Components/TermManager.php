@@ -93,7 +93,7 @@ class TermManager
     /**
      * @param int $postId
      */
-    public function removeTerm(int $postId)
+    public function removeTerm(int $postId): void
     {
         wp_remove_object_terms($postId, [$this->slug()], $this->taxonomy());
     }
@@ -148,7 +148,7 @@ class TermManager
             $this->name(),
             $this->taxonomy(),
             array_merge(
-                $args,
+                $args ?? [],
                 [
                     'slug' => $this->slug(),
                 ]

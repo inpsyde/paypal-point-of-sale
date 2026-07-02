@@ -12,22 +12,16 @@ class CompleteOnboardingNotice implements NoticeInterface
     /**
      * @var callable
      */
-    private $isIntegrationPageCallback;
+    private $isPluginsPageCallback;
 
     private string $settingsUrl;
 
-    /**
-     * CompleteOnboardingNotice constructor.
-     *
-     * @param callable $isIntegrationPageCallback
-     * @param string $settingsUrl
-     */
     public function __construct(
-        callable $isIntegrationPageCallback,
+        callable $isPluginsPageCallback,
         string $settingsUrl
     ) {
 
-        $this->isIntegrationPageCallback = $isIntegrationPageCallback;
+        $this->isPluginsPageCallback = $isPluginsPageCallback;
         $this->settingsUrl = $settingsUrl;
     }
 
@@ -36,17 +30,11 @@ class CompleteOnboardingNotice implements NoticeInterface
      */
     public function accepts(string $currentState): bool
     {
-        if (
-            $currentState === OnboardingState::ONBOARDING_COMPLETED
-        ) {
+        if ($currentState === OnboardingState::ONBOARDING_COMPLETED) {
             return false;
         }
 
-        if (($this->isIntegrationPageCallback)()) {
-            return false;
-        }
-
-        return true;
+        return (bool) ($this->isPluginsPageCallback)();
     }
 
     /**
@@ -83,6 +71,6 @@ class CompleteOnboardingNotice implements NoticeInterface
             </a>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 }

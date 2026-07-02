@@ -27,7 +27,7 @@ class WelcomeView implements OnboardingView
             ) ?>
         </h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -71,7 +71,7 @@ class WelcomeView implements OnboardingView
             <?php echo wp_kses_post($this->renderGetStartedContent()); ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderGetStartedContent(): string
@@ -123,7 +123,7 @@ class WelcomeView implements OnboardingView
             </div>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderProceedButton(): string

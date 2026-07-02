@@ -61,7 +61,7 @@ class SimpleView implements OnboardingView
 
         <h2><?php echo esc_html($this->title); ?></h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -72,7 +72,7 @@ class SimpleView implements OnboardingView
             <?php echo esc_html($this->content); ?>
         </p>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderProceedButton(): string

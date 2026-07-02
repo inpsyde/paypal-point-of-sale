@@ -89,10 +89,6 @@ class WebhookListenerEndpoint implements Endpoint
         );
     }
 
-    /**
-     * @param Payload $payload
-     * @param WebhookHandler ...$handlers
-     */
     private function handle(Payload $payload): void
     {
         foreach ($this->handlers as $handler) {

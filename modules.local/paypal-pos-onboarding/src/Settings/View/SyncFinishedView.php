@@ -28,7 +28,7 @@ class SyncFinishedView implements OnboardingView
             <?php esc_html_e('Product sync almost finished', 'paypal-point-of-sale'); ?>
         </h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -57,7 +57,7 @@ class SyncFinishedView implements OnboardingView
                 <?php echo esc_html($this->zettleProductsLink['title']); ?></a>
         </p>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderProceedButton(): string

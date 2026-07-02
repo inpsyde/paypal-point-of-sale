@@ -1,0 +1,39 @@
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/swissspidy/phpstan-no-private/rules.neon
+parameters:
+    level: 8
+    reportUnmatchedIgnoredErrors: false
+    scanFiles:
+        - stubs/stubs.php
+        - stubs/wpcli.php
+        - vendor/inpsyde/wp-stubs-versions/latest.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    paths:
+        - src/
+        - modules.local/
+        - packages.local/
+        - bootstrap.php
+        - modules.php
+        - uninstall.php
+        - paypal-point-of-sale.php
+    excludePaths:
+        - modules.local/*/tests/*
+        - modules.local/*/vendor/*
+        - modules.local/*/assets/*
+        - modules.local/*/resources/*
+        - modules.local/*/node_modules/*
+    treatPhpDocTypesAsCertain: false
+    dynamicConstantNames:
+        - WP_DEBUG
+        - WP_DEBUG_DISPLAY
+        - WP_DEBUG_LOG
+        - WP_DEBUG_LOG_PATH
+        - SCRIPT_DEBUG
+        - DOING_CRON
+        - DOING_AJAX
+        - WP_CLI
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        # Used via reflection.
+        - '#Constant .+LocationType\:\:.+ is unused.#'

@@ -38,18 +38,18 @@ $black: #000;
 $black-lighter: #141416;
 $white: #fff;
 $grey: #ececee;
-$grey-lighter: #f4f3ff;
+$grey-lighter: #f6f7fe;
 $grey-dark: #d2d3d7;
 $dark-blue: #192550;
 
-$primary: #785ddc;
+$primary: #3858e9;
 $secondary: #fefeff;
 
 $primary-color: $primary;
-$primary-color-hover: #6C4FD4;
+$primary-color-hover: #1f3ad8;
 
 // disabled
-$disabled-color: #A6A6A6 !default;
+$disabled-color: #a6a6a6 !default;
 $disabled-background: #ebebeb !default;
 
 // green colors
@@ -71,9 +71,9 @@ $text-color: $dark-blue !default;
 
 // Alert Color
 // Warning Colors
-$warning-color: #7E4B0A !default;
-$warning-background-color: #FFF6DF !default;
-$warning-border-color: #E9B33E !default;
+$warning-color: #7e4b0a !default;
+$warning-background-color: #fff6df !default;
+$warning-border-color: #e9b33e !default;
 // Error Colors
 $error-color:  #932e0e !default;
 $error-background-color: #ffdeda !default;
@@ -104,18 +104,18 @@ $paragraph-margin-bottom: 1rem !default;
 // Links
 //
 // Style anchor elements.
-$link-color: #5538BA !default;
+$link-color: #3858e9 !default;
 $link-decoration: underline !default;
-$link-hover-color: #5538BA !default;
+$link-hover-color: #1f3ad8 !default;
 $link-hover-decoration: null !default;
-$link-hover-background-color: #E5E1FD !default;
+$link-hover-background-color: #e3e8fc !default;
 $link-hover-box-shadow: 0px 0px 0px 2px $link-hover-background-color, 0px 0px 0px 3px $link-hover-background-color !default;
 
 // Typography
 //
 // Font, line-height, and color for body text, headings, and more.
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-sans-serif: "PayPalPro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $font-family-base: $font-family-sans-serif !default;
 
 // $font-size-root effects the value of `rem`, which is used for as well font sizes, paddings and margins
@@ -176,13 +176,13 @@ $btn-primary-hover-background: $primary-color-hover !default;
 $btn-primary-hover-border-color: $primary-color-hover !default;
 
 // Secondary Button
-$btn-secondary-text: #5538BA !default;
-$btn-secondary-background: #F0EEFF !default;
-$btn-secondary-border-color: #E5E1FD !default;
+$btn-secondary-text: #3858e9 !default;
+$btn-secondary-background: #f1f4fe !default;
+$btn-secondary-border-color: #e3e8fc !default;
 // Hover
-$btn-secondary-hover-text: #5538BA !default;
-$btn-secondary-hover-background: #E5E1FD !default;
-$btn-secondary-hover-border-color: #D4CCFB !default;
+$btn-secondary-hover-text: #1f3ad8 !default;
+$btn-secondary-hover-background: #e3e8fc !default;
+$btn-secondary-hover-border-color: #ccd5fa !default;
 
 // Delete Button
 $btn-delete-text: $error-color !default;
@@ -194,11 +194,11 @@ $btn-delete-hover-background: #ffcdc5 !default;
 $btn-delete-hover-border-color: #fdab9d !default;
 
 // Delete Link Button
-$btn-delete-link-text: #BC3C17 !default;
+$btn-delete-link-text: #bc3c17 !default;
 $btn-delete-link-background: null !default;
 $btn-delete-link-border-color: null !default;
 // Hover
-$btn-delete-link-hover-text: #E55430 !default;
+$btn-delete-link-hover-text: #e55430 !default;
 $btn-delete-link-hover-background: null !default;
 $btn-delete-link-hover-border-color: null !default;
 
@@ -216,11 +216,11 @@ $input-font-weight: $font-weight-base !default;
 $input-line-height: $line-height-base !default;
 
 $input-bg: $white !default;
-$input-disabled-bg: #F8F8FA !default;
+$input-disabled-bg: #f8f8fa !default;
 $input-disabled-border-color: null !default;
 
 $input-color: #141416 !default;
-$input-border-color: #D2D3D6 !default;
+$input-border-color: #d2d3d6 !default;
 $input-border-width: 1px !default;
 $input-box-shadow: null !default;
 
@@ -228,15 +228,15 @@ $input-border-radius: $border-radius !default;
 
 // Focus
 $input-focus-bg: $input-bg !default;
-$input-focus-border-color: #BCB0F7 !default;
+$input-focus-border-color: #b1bff7 !default;
 $input-focus-color: $input-color !default;
 $input-focus-width: 2px !default;
 $input-focus-box-shadow: 0 0 0 $input-focus-width $input-focus-border-color !default;
 
 // Hover
-$input-border-color-hover: #D4CCFB;
+$input-border-color-hover: #ccd5fa;
 
-$input-placeholder-color: #62646A !default;
+$input-placeholder-color: #62646a !default;
 $input-plaintext-color: $body-color !default;
 
 $input-height-border: $input-border-width * 2 !default;

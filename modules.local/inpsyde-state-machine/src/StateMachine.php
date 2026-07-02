@@ -29,6 +29,9 @@ class StateMachine implements StateMachineInterface
 
     protected StateInterface $currentState;
 
+    /**
+     * @var StateInterface[]
+     */
     protected array $states = [];
 
     protected array $transitions = [];
@@ -49,42 +52,21 @@ class StateMachine implements StateMachineInterface
         $this->stateHandler = $updateStateHandler;
     }
 
-    /**
-     * @param string $initialStateName
-     */
     public function initialize(string $initialStateName): void
     {
-        $state = $this->getState($initialStateName);
-        if ($state === null) {
-            throw new UnexpectedValueException("can't find {$initialStateName} in states");
-        }
-
-        $this->currentState = $state;
+        $this->currentState = $this->getState($initialStateName);
     }
 
-    /**
-     * @param TransitionInterface $transition
-     *
-     * @return mixed
-     */
     public function addTransition(TransitionInterface $transition): StateMachineInterface
     {
         $this->transitions[$transition->name()] = $transition;
         foreach ($transition->fromStates() as $stateName) {
-            $state = $this->getState($stateName);
-            if ($state) {
-                $state->addTransition($transition);
-            }
+            $this->getState($stateName)->addTransition($transition);
         }
 
         return $this;
     }
 
-    /**
-     * @param StateInterface $state
-     *
-     * @return mixed
-     */
     public function addState(StateInterface $state): StateMachineInterface
     {
         $this->states[$state->name()] = $state;
@@ -93,13 +75,9 @@ class StateMachine implements StateMachineInterface
     }
 
     /**
-     * @param string $transition
-     *
-     * @return mixed
      * @throws DenyTransitionException
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
-    public function apply($transition): StateMachineInterface
+    public function apply(string|TransitionInterface $transition): StateMachineInterface
     {
         if (is_string($transition)) {
             if (!isset($this->transitions[$transition])) {
@@ -164,10 +142,9 @@ class StateMachine implements StateMachineInterface
         if (is_string($transition)) {
             $transitionName = $transition;
             $transition = $this->transition($transition);
-        } else {
-            assert($transition instanceof TransitionInterface);
-            $transitionName = $transition->name();
         }
+
+        $transitionName ??= $transition->name();
 
         $guards = [];
         foreach ($this->guards as $guard) {
@@ -197,29 +174,20 @@ class StateMachine implements StateMachineInterface
         return $this->currentState;
     }
 
-    /**
-     * @param $state
-     *
-     * @return StateMachineInterface
-     */
-    protected function setCurrentState($state): StateMachineInterface
+    protected function setCurrentState(string|StateInterface $state): StateMachineInterface
     {
-        if ($state instanceof StateInterface) {
-            if (!in_array($state, $this->states, true)) {
-                throw new UnexpectedValueException("can't find object {$state->name()} in states");
-            }
-        } elseif (is_string($state)) {
+        if (!($state instanceof StateInterface)) {
             $state = $this->getState($state);
-            if ($state === null) {
-                throw new UnexpectedValueException("can't find {$state} in states");
-            }
-        } else {
-            throw new UnexpectedValueException("Method setCurrentState only accept string or StateInterface.");
+        }
+
+        if (!in_array($state, $this->states, true)) {
+            throw new UnexpectedValueException("can't find object {$state->name()} in states");
         }
 
         $this->currentState = $state;
-        // phpcs:disable NeutronStandard.Functions.DisallowCallUserFunc.CallUserFunc
-        $this->stateHandler && call_user_func_array($this->stateHandler, [$state]);
+        if ($this->stateHandler !== null) {
+            ($this->stateHandler)($state);
+        }
 
         return $this;
     }
@@ -241,13 +209,9 @@ class StateMachine implements StateMachineInterface
     }
 
     /**
-     * @param string|StateInterface $state
-     *
-     * @return bool
      * @throws UnexpectedValueException
-	 * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
-    private function getState($state): StateInterface
+    private function getState(string|StateInterface $state): StateInterface
     {
         $stateName = is_string($state)
             ? $state
@@ -256,7 +220,7 @@ class StateMachine implements StateMachineInterface
             throw new UnexpectedValueException("can't find {$stateName} in states");
         }
 
-        return $this->states[$state];
+        return $this->states[$stateName];
     }
 
     public function initialState(): ?StateInterface
@@ -278,12 +242,15 @@ class StateMachine implements StateMachineInterface
         return $this;
     }
 
-    public function handle($event)
+    public function handle(object $event): void
     {
         if ($event instanceof StateChange) {
             $event->prepare($this);
         }
         $this->eventDispatcher->dispatch($event);
+        if (!$event instanceof StateChange) {
+            return;
+        }
         $targetState = $event->targetState();
         if ($targetState === $this->currentState()->name()) {
             return;

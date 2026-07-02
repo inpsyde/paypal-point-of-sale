@@ -76,6 +76,6 @@ class VariantBarcodeSaveHandler
 
     private function sanitizeText(string $text): string
     {
-        return sanitize_text_field(wp_unslash($text));
+        return sanitize_text_field(stripslashes($text));
     }
 }

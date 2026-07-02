@@ -91,10 +91,7 @@ trait ProductGetterDecoratorTrait
         return $this->baseProduct()->unitName();
     }
 
-    /**
-     * @return Metadata
-     */
-    public function metadata(): Metadata
+    public function metadata(): ?Metadata
     {
         return $this->baseProduct()->metadata();
     }

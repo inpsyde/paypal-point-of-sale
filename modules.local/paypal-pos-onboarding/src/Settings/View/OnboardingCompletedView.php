@@ -29,7 +29,7 @@ class OnboardingCompletedView implements OnboardingView
             <?php esc_html_e('WooCommerce is connected to PayPal Point of Sale', 'paypal-point-of-sale'); ?>
         </h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -66,7 +66,7 @@ class OnboardingCompletedView implements OnboardingView
             <?php endif; ?>
         </p>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderProceedButton(): string

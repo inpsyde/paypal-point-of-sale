@@ -21,13 +21,7 @@ class PriceBuilder implements BuilderInterface
         $this->taxationMode = $taxationMode;
     }
 
-    /**
-     * @inheritDoc
-     *
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null): Price
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): Price
     {
         assert($payload instanceof WC_Product);
 

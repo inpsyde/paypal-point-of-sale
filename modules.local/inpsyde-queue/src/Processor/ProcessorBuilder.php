@@ -37,9 +37,9 @@ class ProcessorBuilder
     private bool $isMultisite = false;
 
     /**
-     * @var callable
+     * @var callable|null
      */
-    private $exceptionHandler;
+    private $exceptionHandler = null;
 
     private int $maxRetriesCount = 0;
 

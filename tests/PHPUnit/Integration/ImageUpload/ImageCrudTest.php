@@ -8,10 +8,6 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
-/**
- * Class ImageCrudTest
- * @group sync
- */
 class ImageCrudTest extends AuthenticatedRestRequestTestCase
 {
     protected function setUp(): void

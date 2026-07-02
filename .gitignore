@@ -70,8 +70,7 @@ yarn.lock
 # Private
 /auth.json
 /.env
-/.idea/dataSources.local.xml
-/.idea/workspace.xml
+/.idea/
 
 ### E2E Tests
 /storage-states/

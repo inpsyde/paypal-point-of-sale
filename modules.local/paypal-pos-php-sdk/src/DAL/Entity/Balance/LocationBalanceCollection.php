@@ -11,14 +11,9 @@ class LocationBalanceCollection
      */
     private array $collection = [];
 
-    /**
-     * LocationBalanceCollection constructor.
-     *
-     * @param array|null $locationBalances
-     */
     public function __construct(?array $locationBalances = [])
     {
-        foreach ($locationBalances as $locationBalance) {
+        foreach ($locationBalances ?? [] as $locationBalance) {
             if ($locationBalance instanceof LocationBalance) {
                 $this->add($locationBalance);
             }
