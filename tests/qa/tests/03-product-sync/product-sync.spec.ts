@@ -1,14 +1,13 @@
 import { test } from '../../utils';
-import { processQueue, syncProduct } from '../../utils';
-
-const PLUGIN_SLUG = 'paypal-point-of-sale';
+import { processQueue, syncProduct, ensurePluginState } from '../../utils';
+import { e2ePlugins } from '../../resources';
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
 test.describe( 'Product Sync (WC → POS)', () => {
 
-    test.beforeEach( async ( { requestUtils } ) => {
-        await requestUtils.activatePlugin( PLUGIN_SLUG );
+    test.beforeEach( async ( { requestUtils, plugins } ) => {
+        await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
     } );
 
     // ── POS-579 ──────────────────────────────────────────────────────────────

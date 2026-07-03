@@ -1,5 +1,5 @@
 import { test, PosSettingsPage } from '../../utils';
-import { resetOnboarding } from '../../utils';
+import { resetOnboarding, ensurePluginState } from '../../utils';
 import { e2ePlugins } from '../../resources';
 
 const INVALID_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LWludmFsaWQiLCJpc3MiOiJwYXlwYWwiLCJpYXQiOjE3MDAwMDAwMDB9.SIG_INVALID_FAKE_DO_NOT_USE';
@@ -13,8 +13,8 @@ async function disconnectAndConfirm( posSettings: PosSettingsPage ): Promise< vo
 
 test.describe( 'Onboarding', () => {
 
-    test.beforeEach( async ( { requestUtils, cli } ) => {
-        await requestUtils.activatePlugin( e2ePlugins.paypalPos.slug );
+    test.beforeEach( async ( { requestUtils, plugins, cli } ) => {
+        await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
         await resetOnboarding( cli );
     } );
 

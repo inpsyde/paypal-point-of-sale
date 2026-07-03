@@ -1,9 +1,9 @@
 import * as crypto from 'crypto';
 import { test } from '../../utils';
 import { expect } from '@inpsyde/playwright-utils/build';
-import { runWpCli, processQueue, syncProduct, AnyCli } from '../../utils';
+import { runWpCli, processQueue, syncProduct, ensurePluginState, AnyCli } from '../../utils';
+import { e2ePlugins } from '../../resources';
 
-const PLUGIN_SLUG = 'paypal-point-of-sale';
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -52,8 +52,8 @@ function signWebhookPayload( timestamp: string, payloadString: string, signingKe
 
 test.describe( 'Stock Sync', () => {
 
-    test.beforeEach( async ( { requestUtils } ) => {
-        await requestUtils.activatePlugin( PLUGIN_SLUG );
+    test.beforeEach( async ( { requestUtils, plugins } ) => {
+        await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
     } );
 
     // ── POS-587 ──────────────────────────────────────────────────────────────
