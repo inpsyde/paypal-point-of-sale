@@ -163,6 +163,25 @@ Follow up with `npm run e2e:setup` for `wpenv`, or the manual install steps belo
 > target environment. Double-check `WP_BASE_URL` / `WPCLI_ENV_TYPE` / `SSH_HOST` in your
 > `.env` before running this against Kinsta.
 
+### Store preparation (`woocommerce.setup.ts`)
+
+`npm run e2e:env:reset` actually targets the `setup:woocommerce` project, which depends on
+`setup:env` — so one command runs the reset above *and* prepares the store for sync
+testing:
+
+1. Refresh admin session (the reset invalidated `storage-states/admin.json`)
+2. Permalinks (`/%postname%/`)
+3. Site visibility → `live` (a fresh install defaults to "Coming soon", which hides prices)
+4. WooCommerce REST API keys — generated once and written to `.env` (`WC_API_KEY`/`WC_API_SECRET`)
+5. Disable transactional e-mails (no real e-mails sent to test customers)
+6. General settings — country/currency from `WC_DEFAULT_COUNTRY` (see `.env.example.e2e`)
+7. Tax settings — a fixed 10% "worldwide" rate for sync-checking, not a real jurisdiction
+
+Steps 3–7 matter specifically because the WC ↔ POS sync compares prices/totals on both
+sides — mismatched country/currency/tax config between WooCommerce and the PayPal POS
+sandbox account makes sync assertions meaningless. `setup:woocommerce` is not destructive
+on its own, but it only runs together with `setup:env` (same `E2E_CONFIRM_RESET` gate).
+
 ---
 
 ## Remote Environment (Kinsta tst)

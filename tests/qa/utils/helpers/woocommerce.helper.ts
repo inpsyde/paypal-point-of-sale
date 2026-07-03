@@ -1,0 +1,63 @@
+import { updateDotenv } from '@inpsyde/playwright-utils/build';
+import type { WooCommerceUtils, WooCommerceApi } from '@inpsyde/playwright-utils/build';
+import { shopSettings, taxSettings } from '../../resources';
+
+const country = process.env.WC_DEFAULT_COUNTRY ?? 'usa';
+
+// A fresh WooCommerce install defaults to "Coming soon", which hides prices/checkout from
+// anything that isn't an admin. POS sync tests read prices, so the store must be live.
+export async function setupSiteVisibility( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
+    await wooCommerceUtils.setSiteVisibility( 'live' );
+}
+
+// The WC <-> POS sync relies on the WooCommerce REST API. Creates key/secret once and
+// persists them to .env (and the current process) so later steps can use them immediately.
+export async function ensureWooCommerceApiKeys( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
+    if ( await wooCommerceUtils.apiKeysExist() ) {
+        return;
+    }
+
+    const apiKeys = await wooCommerceUtils.createApiKeys();
+    if ( ! process.env.CI ) {
+        await updateDotenv( '.env', apiKeys );
+    }
+    for ( const [ key, value ] of Object.entries( apiKeys ) ) {
+        process.env[ key ] = String( value );
+    }
+}
+
+// Silences transactional e-mails so test runs don't send real e-mails to test customers.
+export async function disableWooCommerceEmails( wooCommerceApi: WooCommerceApi ): Promise< void > {
+    const emailIds = [
+        'email_new_order',
+        'email_cancelled_order',
+        'email_failed_order',
+        'email_customer_failed_order',
+        'email_customer_on_hold_order',
+        'email_customer_processing_order',
+        'email_customer_completed_order',
+        'email_customer_refunded_order',
+        'email_customer_note',
+        'email_customer_reset_password',
+        'email_customer_new_account',
+    ];
+
+    for ( const id of emailIds ) {
+        await wooCommerceApi.updateEmailSubSettings( id as never, { enabled: 'no' } );
+    }
+}
+
+// Country/currency must match whatever the PayPal POS sandbox account is configured for —
+// mismatched settings on either side make product/price sync results meaningless. Set
+// WC_DEFAULT_COUNTRY in .env if the sandbox isn't US-based (see shopSettings for the
+// available keys, re-exported from @inpsyde/playwright-utils).
+export async function setupGeneralSettings( wooCommerceApi: WooCommerceApi ): Promise< void > {
+    await wooCommerceApi.updateGeneralSettings( shopSettings[ country ].general );
+}
+
+// Same reasoning as setupGeneralSettings — tax configuration must match the POS side for
+// synced prices/totals to be comparable. Uses a single generic 10% worldwide rate; this is
+// a fixed, known value to sync-check against, not meant to model any real tax jurisdiction.
+export async function setupTaxes( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
+    await wooCommerceUtils.setTaxes( taxSettings.including );
+}

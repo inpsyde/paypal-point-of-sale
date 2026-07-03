@@ -83,6 +83,14 @@ export default defineConfig< BaseExtend >( {
             name: 'setup:env',
             testMatch: /_setup\/env\.setup\.ts/,
         },
+        // Store-level config (permalinks, visibility, API keys, e-mails, general, tax).
+        // Not destructive on its own, but depends on setup:env having just run so it can
+        // refresh the admin session the reset invalidated. Runs via `npm run e2e:env:reset`.
+        {
+            name: 'setup:woocommerce',
+            testMatch: /_setup\/woocommerce\.setup\.ts/,
+            dependencies: [ 'setup:env' ],
+        },
 
         // ── Setup / teardown — runs AFTER shards that reset onboarding state ──
         {
