@@ -77,6 +77,13 @@ export default defineConfig< BaseExtend >( {
     },
 
     projects: [
+        // ── Standalone, opt-in only (never a dependency of another shard) ──
+        // Destructive DB reset — run explicitly via `npm run e2e:env:reset`.
+        {
+            name: 'setup:env',
+            testMatch: /_setup\/env\.setup\.ts/,
+        },
+
         // ── Setup / teardown — runs AFTER shards that reset onboarding state ──
         {
             name: 'setup:paypal-pos',
