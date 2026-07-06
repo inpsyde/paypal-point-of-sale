@@ -36,23 +36,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Composer dependencies
-        run: composer install --no-dev --prefer-dist
-        env:
-          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
+      # Runs `npm run e2e:build-zip` (composer install + asset build for each
+      # module + rsync + zip) — the same command used for local E2E setup, so
+      # CI and local always package the plugin the same way.
       - name: Build plugin zip
-        run: |
-          DIST=$(mktemp -d)
-          mkdir -p "$DIST/paypal-point-of-sale"
-          rsync -aL --exclude-from=.distignore \
-            --exclude '.env*' --exclude '.wp-env*' \
-            --exclude 'playwright.config.ts' --exclude 'tsconfig.json' \
-            --exclude 'storage-states' \
-            . "$DIST/paypal-point-of-sale/"
-          (cd "$DIST" && zip -r paypal-point-of-sale.zip paypal-point-of-sale/)
-          mkdir -p tests/qa/resources/files
-          cp "$DIST/paypal-point-of-sale.zip" tests/qa/resources/files/
+        run: npm ci && npm run e2e:build-zip
+        env:
+          NPM_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
 
       - uses: actions/upload-artifact@v4
         with:
