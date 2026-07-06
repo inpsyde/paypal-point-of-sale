@@ -109,6 +109,13 @@ export class PosSettingsPage extends WpPage {
         await this.assertConnectedState();
     };
 
+    disconnect = async () => {
+        await this.disconnectTrigger().click();
+        await this.disconnectModalHeading().waitFor();
+        await this.disconnectConfirm().click();
+        await this.page.waitForLoadState( 'load' );
+    };
+
     assertTabVisible = async () => {
         await expect( this.wcSettingsTab() ).toBeVisible();
     };

@@ -1,15 +1,8 @@
-import { test, PosSettingsPage } from '../../utils';
+import { test } from '../../utils';
 import { resetOnboarding, ensurePluginState } from '../../utils';
 import { e2ePlugins } from '../../resources';
 
 const INVALID_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LWludmFsaWQiLCJpc3MiOiJwYXlwYWwiLCJpYXQiOjE3MDAwMDAwMDB9.SIG_INVALID_FAKE_DO_NOT_USE';
-
-async function disconnectAndConfirm( posSettings: PosSettingsPage ): Promise< void > {
-    await posSettings.disconnectTrigger().click();
-    await posSettings.disconnectModalHeading().waitFor();
-    await posSettings.disconnectConfirm().click();
-    await posSettings.page.waitForLoadState( 'load' );
-}
 
 test.describe( 'Onboarding', () => {
 
@@ -74,7 +67,7 @@ test.describe( 'Onboarding', () => {
             }
 
             await posSettings.connect( apiKey, cli );
-            await disconnectAndConfirm( posSettings );
+            await posSettings.disconnect();
             await posSettings.assertWelcomeState();
 
             await posSettings.connect( apiKey, cli );
@@ -91,7 +84,7 @@ test.describe( 'Onboarding', () => {
             }
 
             await posSettings.connect( apiKey, cli );
-            await disconnectAndConfirm( posSettings );
+            await posSettings.disconnect();
             await posSettings.assertWelcomeState();
         } );
 
