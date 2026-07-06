@@ -73,6 +73,16 @@ export class PosSettingsPage extends WpPage {
         await expect( this.productsCountText() ).toBeVisible();
     };
 
+    // The merge/wipe choice is server-rendered hidden (ProductSyncParamView's $noChoice)
+    // when the plugin's remote product count is 0 — i.e. there's nothing to merge or wipe.
+    // That's the common case right after a clean test run's own cleanup, not an error, so
+    // there's nothing to select in that case; only choose "merge" when it's actually offered.
+    selectMergeStrategyIfOffered = async (): Promise< void > => {
+        if ( await this.mergeRadio().isVisible() ) {
+            await this.mergeRadio().check();
+        }
+    };
+
     connect = async ( apiKey: string, cli: AnyCli ) => {
         await this.visit();
         await this.assertWelcomeState();
@@ -82,7 +92,7 @@ export class PosSettingsPage extends WpPage {
         await this.apiKeyInput().fill( apiKey );
         await this.authenticateButton().click();
         await this.page.waitForLoadState( 'load' );
-        await this.mergeRadio().check();
+        await this.selectMergeStrategyIfOffered();
         await this.nextButton().click();
         await this.page.waitForLoadState( 'load' );
         await this.startSyncButton().click();
