@@ -1,52 +1,20 @@
 import * as crypto from 'crypto';
 import { test } from '../../utils';
 import { expect } from '@inpsyde/playwright-utils/build';
-import { runWpCli, processQueue, syncProduct, ensurePluginState, AnyCli } from '../../utils';
+import {
+    processQueue,
+    syncProduct,
+    ensurePluginState,
+    createProduct,
+    deleteProduct,
+    deleteOrder,
+    getWebhookSigningKey,
+    getPosVariantUuid,
+    signWebhookPayload,
+} from '../../utils';
 import { e2ePlugins } from '../../resources';
 
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
-
-// ── helpers ──────────────────────────────────────────────────────────────────
-
-/** Delete a WC product via WP-CLI to avoid nonce invalidation issues after processQueue(). */
-async function deleteProduct( cli: AnyCli, productId: number ): Promise< void > {
-    await runWpCli( cli, `wp wc product delete ${ productId } --force=true --user=1` ).catch( () => {} );
-}
-
-/** Delete a WC order via WP-CLI. */
-async function deleteOrder( cli: AnyCli, orderId: number ): Promise< void > {
-    await runWpCli( cli, `wp wc shop_order delete ${ orderId } --force=true --user=1` ).catch( () => {} );
-}
-
-async function getWebhookSigningKey( cli: AnyCli ): Promise< string > {
-    try {
-        const raw = await runWpCli( cli, "wp option get 'paypal-pos.webhook.listener' --format=json" );
-        const config = JSON.parse( raw );
-        return config.signingKey ?? '';
-    } catch {
-        return '';
-    }
-}
-
-async function getPosVariantUuid( cli: AnyCli, wcProductId: number ): Promise< string | null > {
-    try {
-        const raw = await runWpCli(
-            cli,
-            `wp db query "SELECT remote_id FROM $(wp db prefix)zettle_woocommerce_id_map WHERE local_id = ${ wcProductId } AND type = 'variant' LIMIT 1" --skip-column-names`
-        );
-        const uuid = raw.trim();
-        return uuid || null;
-    } catch {
-        return null;
-    }
-}
-
-function signWebhookPayload( timestamp: string, payloadString: string, signingKey: string ): string {
-    return crypto
-        .createHmac( 'sha256', signingKey )
-        .update( `${ timestamp }.${ payloadString }` )
-        .digest( 'hex' );
-}
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
@@ -54,30 +22,23 @@ test.describe( 'Stock Sync', () => {
 
     test.beforeEach( async ( { requestUtils, plugins } ) => {
         await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
+
+        test.skip(
+            ! process.env.PAYPAL_POS_API_KEY,
+            'PAYPAL_POS_API_KEY not set — skipping live sync test'
+        );
+        test.setTimeout( 5 * 60_000 );
     } );
 
     // ── POS-587 ──────────────────────────────────────────────────────────────
     test(
         'POS-587 | WooCommerce stock update is reflected in POS; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
-            test.setTimeout( 5 * 60_000 );
-
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
-
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-587 Stock Update',
-                    type: 'simple',
-                    status: 'publish',
-                    regular_price: '12.00',
-                    manage_stock: true,
-                    stock_quantity: 10,
-                },
+            const product = await createProduct( requestUtils, {
+                name: 'POS-587 Stock Update',
+                regular_price: '12.00',
+                manage_stock: true,
+                stock_quantity: 10,
             } );
 
             try {
@@ -95,11 +56,7 @@ test.describe( 'Stock Sync', () => {
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-587 Stock Update', 'synced', product.id );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -108,24 +65,11 @@ test.describe( 'Stock Sync', () => {
     test(
         'POS-588 | Disabling stock management updates POS inventory tracking; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
-            test.setTimeout( 5 * 60_000 );
-
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
-
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-588 Stock Mgmt Disable',
-                    type: 'simple',
-                    status: 'publish',
-                    regular_price: '8.00',
-                    manage_stock: true,
-                    stock_quantity: 15,
-                },
+            const product = await createProduct( requestUtils, {
+                name: 'POS-588 Stock Mgmt Disable',
+                regular_price: '8.00',
+                manage_stock: true,
+                stock_quantity: 15,
             } );
 
             try {
@@ -152,24 +96,11 @@ test.describe( 'Stock Sync', () => {
     test(
         'POS-586 | WooCommerce order reduces POS stock; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
-            test.setTimeout( 5 * 60_000 );
-
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
-
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-586 Order Stock',
-                    type: 'simple',
-                    status: 'publish',
-                    regular_price: '20.00',
-                    manage_stock: true,
-                    stock_quantity: 20,
-                },
+            const product = await createProduct( requestUtils, {
+                name: 'POS-586 Order Stock',
+                regular_price: '20.00',
+                manage_stock: true,
+                stock_quantity: 20,
             } );
 
             try {
@@ -201,24 +132,11 @@ test.describe( 'Stock Sync', () => {
     test(
         'POS-585 | POS sale updates WooCommerce stock via InventoryBalanceChanged webhook; critical;',
         async ( { wcProducts, requestUtils, page, cli } ) => {
-            test.setTimeout( 5 * 60_000 );
-
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping webhook test' );
-                return;
-            }
-
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-585 Webhook Stock',
-                    type: 'simple',
-                    status: 'publish',
-                    regular_price: '15.00',
-                    manage_stock: true,
-                    stock_quantity: 20,
-                },
+            const product = await createProduct( requestUtils, {
+                name: 'POS-585 Webhook Stock',
+                regular_price: '15.00',
+                manage_stock: true,
+                stock_quantity: 20,
             } );
 
             try {
@@ -271,11 +189,7 @@ test.describe( 'Stock Sync', () => {
 
                 expect( updated.stock_quantity ).toBe( 18 );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
