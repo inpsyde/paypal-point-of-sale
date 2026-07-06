@@ -289,4 +289,133 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
+    // ── POS-XXX ──────────────────────────────────────────────────────────────
+    test(
+        'POS-XXX | Unsupported product type shows Unsupported status; regression;',
+        async ( { wcProducts, requestUtils, cli } ) => {
+            test.setTimeout( 5 * 60_000 );
+
+            if ( ! process.env.PAYPAL_POS_API_KEY ) {
+                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
+                return;
+            }
+
+            // Only simple/variable are in the plugin's allowed-product-types list
+            // (paypal-pos-sync/services.php) — grouped products fall outside it.
+            const product = await createProduct( requestUtils, {
+                name: 'POS-XXX Grouped Product',
+                type: 'grouped',
+            } );
+
+            try {
+                await syncProduct( cli, product.id );
+                await wcProducts.visit();
+                await wcProducts.assertProductSyncStatus(
+                    'POS-XXX Grouped Product',
+                    'unsupported-product-type',
+                    product.id
+                );
+            } finally {
+                await deleteProduct( cli, product.id );
+            }
+        }
+    );
+
+    // ── POS-XXX ──────────────────────────────────────────────────────────────
+    test(
+        'POS-XXX | Variable product with more than 3 variation attributes is rejected; regression;',
+        async ( { wcProducts, requestUtils, cli } ) => {
+            test.setTimeout( 5 * 60_000 );
+
+            if ( ! process.env.PAYPAL_POS_API_KEY ) {
+                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
+                return;
+            }
+
+            // Zettle allows at most 3 variant option definitions per product
+            // (VariantOptionDefinitionsValidator::MAXIMUM_DEFINITIONS_AMOUNT) — 4 attributes
+            // should trip that limit.
+            const attributeNames = [ 'Color', 'Size', 'Material', 'Style' ];
+            const product = await createProduct( requestUtils, {
+                name: 'POS-XXX Too Many Attributes',
+                type: 'variable',
+                attributes: attributeNames.map( ( name ) => ( {
+                    name,
+                    variation: true,
+                    visible: true,
+                    options: [ 'A', 'B' ],
+                } ) ),
+            } );
+
+            try {
+                await requestUtils.rest( {
+                    path: `/wc/v3/products/${ product.id }/variations`,
+                    method: 'POST',
+                    data: {
+                        attributes: attributeNames.map( ( name ) => ( { name, option: 'A' } ) ),
+                        regular_price: '10.00',
+                    },
+                } );
+
+                await syncProduct( cli, product.id );
+                await wcProducts.visit();
+                await wcProducts.assertProductSyncStatus(
+                    'POS-XXX Too Many Attributes',
+                    'too-many-variant-options',
+                    product.id
+                );
+            } finally {
+                await deleteProduct( cli, product.id );
+            }
+        }
+    );
+
+    // ── POS-XXX ──────────────────────────────────────────────────────────────
+    test(
+        'POS-XXX | Variable product with more than 99 variations is rejected; regression;',
+        async ( { wcProducts, requestUtils, cli } ) => {
+            test.setTimeout( 10 * 60_000 );
+
+            if ( ! process.env.PAYPAL_POS_API_KEY ) {
+                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
+                return;
+            }
+
+            // Zettle allows at most 99 variants per product (ProductValidator::MAXIMUM_VARIANTS_AMOUNT)
+            // — 100 variations should trip that limit. Uses the variations batch endpoint to
+            // avoid 100 sequential REST round-trips.
+            const VARIATION_COUNT = 100;
+            const sizes = Array.from( { length: VARIATION_COUNT }, ( _, i ) => `Size ${ i + 1 }` );
+
+            const product = await createProduct( requestUtils, {
+                name: 'POS-XXX Too Many Variations',
+                type: 'variable',
+                attributes: [ { name: 'Size', variation: true, visible: true, options: sizes } ],
+            } );
+
+            try {
+                await requestUtils.rest( {
+                    path: `/wc/v3/products/${ product.id }/variations/batch`,
+                    method: 'POST',
+                    data: {
+                        create: sizes.map( ( size ) => ( {
+                            attributes: [ { name: 'Size', option: size } ],
+                            regular_price: '10.00',
+                        } ) ),
+                    },
+                } );
+
+                await syncProduct( cli, product.id );
+                await wcProducts.visit();
+                await wcProducts.assertProductSyncStatus(
+                    'POS-XXX Too Many Variations',
+                    'too-many-variants',
+                    product.id
+                );
+            } finally {
+                await deleteProduct( cli, product.id );
+            }
+        }
+    );
+
 } );
