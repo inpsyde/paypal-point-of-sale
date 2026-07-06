@@ -40,6 +40,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: '@inpsyde'
 
       # Runs `npm run e2e:build-zip` (composer install + asset build for each
       # module + rsync + zip) — the same command used for local E2E setup, so
@@ -47,7 +49,7 @@ jobs:
       - name: Build plugin zip
         run: npm ci && npm run e2e:build-zip
         env:
-          NPM_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
           COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
 
       - uses: actions/upload-artifact@v4
@@ -127,11 +129,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: '@inpsyde'
 
       - name: Install npm dependencies
         run: npm ci --ignore-scripts
         env:
-          NPM_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
 
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
