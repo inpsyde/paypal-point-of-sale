@@ -6,7 +6,9 @@ export type ProductSyncStatus =
     | 'not-synced'
     | 'not-published'
     | 'excluded'
-    | 'unsupported-product-type';
+    | 'unsupported-product-type'
+    | 'too-many-variant-options'
+    | 'too-many-variants';
 
 
 /**
@@ -84,6 +86,15 @@ export class WcProductsPage extends WpPage {
                 break;
             case 'unsupported-product-type':
                 await expect( cell ).toContainText( 'Unsupported product type' );
+                break;
+            case 'too-many-variant-options':
+                // Zettle allows at most 3 variant option definitions per product
+                // (VariantOptionDefinitionsValidator::MAXIMUM_DEFINITIONS_AMOUNT).
+                await expect( cell ).toContainText( 'Too many variation attributes, more than 3' );
+                break;
+            case 'too-many-variants':
+                // Zettle allows at most 99 variants per product (ProductValidator::MAXIMUM_VARIANTS_AMOUNT).
+                await expect( cell ).toContainText( 'Too many variations' );
                 break;
         }
     };
