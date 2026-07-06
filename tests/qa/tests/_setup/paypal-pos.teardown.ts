@@ -1,6 +1,8 @@
 import { test as teardown } from '../../utils';
-import { resetOnboarding } from '../../utils';
+import { resetOnboarding, ensurePluginState } from '../../utils';
+import { e2ePlugins } from '../../resources';
 
-teardown( 'Reset PayPal POS state', async ( { cli } ) => {
+teardown( 'Reset PayPal POS state', async ( { requestUtils, plugins, cli } ) => {
+    await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
     await resetOnboarding( cli );
 } );
