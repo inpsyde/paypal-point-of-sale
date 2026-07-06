@@ -2,7 +2,9 @@ import { updateDotenv } from '@inpsyde/playwright-utils/build';
 import type { WooCommerceUtils, WooCommerceApi } from '@inpsyde/playwright-utils/build';
 import { shopSettings, taxSettings } from '../../resources';
 
-const country = process.env.WC_DEFAULT_COUNTRY ?? 'usa';
+// GB, not US — PayPal POS does not sync US tax rates at all (a separate, untested merchant
+// scenario), so USA would leave tax sync effectively unverified by default.
+const country = process.env.WC_DEFAULT_COUNTRY ?? 'uk';
 
 // A fresh WooCommerce install defaults to "Coming soon", which hides prices/checkout from
 // anything that isn't an admin. POS sync tests read prices, so the store must be live.
