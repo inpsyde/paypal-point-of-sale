@@ -1,5 +1,5 @@
 import { test } from '../../utils';
-import { processQueue, syncProduct, ensurePluginState } from '../../utils';
+import { processQueue, syncProduct, ensurePluginState, createProduct, deleteProduct } from '../../utils';
 import { e2ePlugins } from '../../resources';
 
 // ── tests ─────────────────────────────────────────────────────────────────────
@@ -13,21 +13,13 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-579 ──────────────────────────────────────────────────────────────
     test(
         'POS-579 | Sync status column appears in product list; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-579 Column Test', type: 'simple', status: 'publish', regular_price: '5.00' },
-            } );
+        async ( { wcProducts, requestUtils, cli } ) => {
+            const product = await createProduct( requestUtils, { name: 'POS-579 Column Test', regular_price: '5.00' } );
 
             try {
                 await wcProducts.assertSyncStatusColumnVisible();
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -35,22 +27,18 @@ test.describe( 'Product Sync (WC → POS)', () => {
     // ── POS-573 ──────────────────────────────────────────────────────────────
     test(
         'POS-573 | Draft product is not synced to POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-573 Draft Product', type: 'simple', status: 'draft', regular_price: '9.99' },
+        async ( { wcProducts, requestUtils, cli } ) => {
+            const product = await createProduct( requestUtils, {
+                name: 'POS-573 Draft Product',
+                status: 'draft',
+                regular_price: '9.99',
             } );
 
             try {
                 await wcProducts.visit( 'draft' );
                 await wcProducts.assertProductSyncStatus( 'POS-573 Draft Product', 'not-published', product.id );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -66,17 +54,11 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 return;
             }
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-581 Simple Product',
-                    type: 'simple',
-                    status: 'publish',
-                    regular_price: '19.99',
-                    manage_stock: true,
-                    stock_quantity: 10,
-                },
+            const product = await createProduct( requestUtils, {
+                name: 'POS-581 Simple Product',
+                regular_price: '19.99',
+                manage_stock: true,
+                stock_quantity: 10,
             } );
 
             try {
@@ -84,11 +66,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-581 Simple Product', 'synced', product.id );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -104,26 +82,26 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 return;
             }
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-582 Delete Me', type: 'simple', status: 'publish', regular_price: '5.00' },
-            } );
+            const product = await createProduct( requestUtils, { name: 'POS-582 Delete Me', regular_price: '5.00' } );
 
-            await syncProduct( cli, product.id );
-            await wcProducts.visit();
-            await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'synced', product.id );
+            try {
+                await syncProduct( cli, product.id );
+                await wcProducts.visit();
+                await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'synced', product.id );
 
-            await requestUtils.rest( {
-                path: `/wc/v3/products/${ product.id }`,
-                method: 'DELETE',
-                params: { force: false },
-            } );
+                await requestUtils.rest( {
+                    path: `/wc/v3/products/${ product.id }`,
+                    method: 'DELETE',
+                    params: { force: false },
+                } );
 
-            await processQueue( cli );
+                await processQueue( cli );
 
-            await wcProducts.visit( 'trash' );
-            await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'not-synced', product.id );
+                await wcProducts.visit( 'trash' );
+                await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'not-synced', product.id );
+            } finally {
+                await deleteProduct( cli, product.id );
+            }
         }
     );
 
@@ -138,11 +116,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 return;
             }
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-583 Original Name', type: 'simple', status: 'publish', regular_price: '10.00' },
-            } );
+            const product = await createProduct( requestUtils, { name: 'POS-583 Original Name', regular_price: '10.00' } );
 
             try {
                 await syncProduct( cli, product.id );
@@ -159,11 +133,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-583 Updated Name', 'synced', product.id );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -179,11 +149,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 return;
             }
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-578 Exclude Me', type: 'simple', status: 'publish', regular_price: '15.00' },
-            } );
+            const product = await createProduct( requestUtils, { name: 'POS-578 Exclude Me', regular_price: '15.00' } );
 
             try {
                 await syncProduct( cli, product.id );
@@ -199,11 +165,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-578 Exclude Me', 'excluded', product.id );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -219,11 +181,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 return;
             }
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-580 Type Change', type: 'simple', status: 'publish', regular_price: '20.00' },
-            } );
+            const product = await createProduct( requestUtils, { name: 'POS-580 Type Change', regular_price: '20.00' } );
 
             try {
                 await syncProduct( cli, product.id );
@@ -259,11 +217,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-580 Type Change', 'synced', product.id );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
@@ -279,20 +233,15 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 return;
             }
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-584 T-Shirt',
-                    type: 'variable',
-                    status: 'publish',
-                    attributes: [ {
-                        name: 'Size',
-                        variation: true,
-                        visible: true,
-                        options: [ 'S', 'L', 'XL' ],
-                    } ],
-                },
+            const product = await createProduct( requestUtils, {
+                name: 'POS-584 T-Shirt',
+                type: 'variable',
+                attributes: [ {
+                    name: 'Size',
+                    variation: true,
+                    visible: true,
+                    options: [ 'S', 'L', 'XL' ],
+                } ],
             } );
 
             try {
@@ -335,11 +284,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await requestUtils.rest( { path: `/wc/v3/products/${ product.id }/variations/${ variationS.id }`, method: 'DELETE', params: { force: true } } );
                 await requestUtils.rest( { path: `/wc/v3/products/${ product.id }/variations/${ variationL.id }`, method: 'DELETE', params: { force: true } } );
             } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+                await deleteProduct( cli, product.id );
             }
         }
     );
