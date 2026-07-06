@@ -64,7 +64,7 @@ export default defineConfig< BaseExtend >( {
 
         cliConfig: {
             envType: ( process.env.WPCLI_ENV_TYPE ?? 'wpenv' ) as WpCliEnvType,
-            path: process.env.WPCLI_PATH,
+            path: process.env.WPCLI_PATH ?? __dirname,
             ...( process.env.SSH_LOGIN && process.env.SSH_HOST && {
                 ssh: {
                     login: process.env.SSH_LOGIN,
