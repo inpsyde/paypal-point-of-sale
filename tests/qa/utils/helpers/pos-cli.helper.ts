@@ -1,5 +1,18 @@
-import type { VipCli, SshCli, WpEnvCli, LocalhostCli, DdevCli } from '@inpsyde/playwright-utils/build';
+import type {
+    VipCli,
+    SshCli,
+    WpEnvCli,
+    LocalhostCli,
+    DdevCli,
+    RequestUtils,
+    Plugins,
+    WooCommerceUtils,
+    WooCommerceApi,
+} from '@inpsyde/playwright-utils/build';
 import type { PosSettingsPage } from '../admin';
+import { ensurePluginState } from './plugin.helper';
+import { ensureStoreConfigured } from './woocommerce.helper';
+import { e2ePlugins } from '../../resources';
 
 export type AnyCli = VipCli | SshCli | WpEnvCli | LocalhostCli | DdevCli;
 
@@ -37,4 +50,20 @@ export async function ensurePosConnected( posSettings: PosSettingsPage, cli: Any
     }
 
     await posSettings.connect( apiKey, cli );
+}
+
+// Bundles the three idempotent preconditions product-sync/stock-sync tests need — plugin
+// installed+active, store configured, PayPal POS connected — so a spec file's beforeEach
+// only needs one call instead of wiring up all three (and their fixtures) individually.
+export async function ensurePosTestReady( fixtures: {
+    requestUtils: RequestUtils;
+    plugins: Plugins;
+    wooCommerceUtils: WooCommerceUtils;
+    wooCommerceApi: WooCommerceApi;
+    posSettings: PosSettingsPage;
+    cli: AnyCli;
+} ): Promise< void > {
+    await ensurePluginState( fixtures.requestUtils, fixtures.plugins, e2ePlugins.paypalPos );
+    await ensureStoreConfigured( fixtures.wooCommerceUtils, fixtures.wooCommerceApi );
+    await ensurePosConnected( fixtures.posSettings, fixtures.cli );
 }
