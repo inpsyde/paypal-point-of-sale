@@ -23,10 +23,10 @@ export async function createProduct(
  * everywhere keeps cleanup uniform instead of depending on what each test happens to do.
  */
 export async function deleteProduct( cli: AnyCli, productId: number ): Promise< void > {
-    await runWpCli( cli, `wp wc product delete ${ productId } --force=true --user=1` ).catch( () => {} );
+    await runWpCli( cli, `wc product delete ${ productId } --force=true --user=1` ).catch( () => {} );
 }
 
 /** Delete a WC order via WP-CLI — same reasoning as deleteProduct. */
 export async function deleteOrder( cli: AnyCli, orderId: number ): Promise< void > {
-    await runWpCli( cli, `wp wc shop_order delete ${ orderId } --force=true --user=1` ).catch( () => {} );
+    await runWpCli( cli, `wc shop_order delete ${ orderId } --force=true --user=1` ).catch( () => {} );
 }
