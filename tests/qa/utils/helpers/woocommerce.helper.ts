@@ -57,9 +57,23 @@ export async function setupGeneralSettings( wooCommerceApi: WooCommerceApi ): Pr
     await wooCommerceApi.updateGeneralSettings( shopSettings[ country ].general );
 }
 
-// Same reasoning as setupGeneralSettings — tax configuration must match the POS side for
-// synced prices/totals to be comparable. Uses a single generic 10% worldwide rate; this is
-// a fixed, known value to sync-check against, not meant to model any real tax jurisdiction.
+// PayPal POS enforces per-country allowed VAT rates (GB: 20/12.5/5/4/0) and rejects anything
+// else with VAT_NOT_ALLOWED_IN_COUNTRY. The library's generic "worldwide 10%" fixture is not
+// a valid UK rate, so it fails every product/stock sync once the store's country is GB (USA
+// doesn't care, since PayPal POS doesn't tax-sync US stores at all). Use the UK standard rate.
+const ukVatRate = {
+    country: 'GB',
+    state: '',
+    cities: [],
+    postcodes: [],
+    rate: '20.0000',
+    name: 'UK Standard Rate 20%',
+    shipping: true,
+};
+
 export async function setupTaxes( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
-    await wooCommerceUtils.setTaxes( taxSettings.including );
+    await wooCommerceUtils.setTaxes( {
+        options: taxSettings.including.options,
+        rates: [ ukVatRate ],
+    } );
 }
