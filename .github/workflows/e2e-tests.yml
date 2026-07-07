@@ -75,6 +75,12 @@ jobs:
       PLAYWRIGHT_BROWSER_ARGS: 'chromium --with-deps'
       COMPOSER_DEPS_INSTALL: false
       PRE_SCRIPT: |
+        echo "--- .env.ci diagnostics ---"
+        wc -l .env.ci 2>&1 || echo ".env.ci: missing"
+        wc -c .env.ci 2>&1 || true
+        head -c 20 .env.ci 2>/dev/null | xxd || true
+        echo "WP_BASE_URL as seen by this shell: [$WP_BASE_URL]"
+        echo "--- end diagnostics ---"
         mkdir -p tests/qa/resources/files storage-states
         gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
