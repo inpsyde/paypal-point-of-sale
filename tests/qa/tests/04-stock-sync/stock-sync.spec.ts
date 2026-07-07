@@ -1,12 +1,10 @@
 import * as crypto from 'crypto';
-import { test } from '../../utils';
 import { expect } from '@inpsyde/playwright-utils/build';
 import {
+    test,
     processQueue,
     syncProduct,
-    ensurePluginState,
-    ensureStoreConfigured,
-    ensurePosConnected,
+    ensurePosTestReady,
     createProduct,
     deleteProduct,
     deleteOrder,
@@ -14,7 +12,6 @@ import {
     getPosVariantUuid,
     signWebhookPayload,
 } from '../../utils';
-import { e2ePlugins } from '../../resources';
 
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
 
@@ -24,19 +21,15 @@ test.describe( 'Stock Sync', () => {
 
     // Lets this file run standalone (npx playwright test .../stock-sync.spec.ts) without
     // depending on setup:woocommerce/setup:paypal-pos having already run — see
-    // ensureStoreConfigured/ensurePosConnected for why this is cheap when the full suite
-    // already did.
+    // ensurePosTestReady for why this is cheap when the full suite already did.
     test.beforeEach( async ( { requestUtils, plugins, wooCommerceUtils, wooCommerceApi, posSettings, cli } ) => {
-        await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
+        await ensurePosTestReady( { requestUtils, plugins, wooCommerceUtils, wooCommerceApi, posSettings, cli } );
 
         test.skip(
             ! process.env.PAYPAL_POS_API_KEY,
             'PAYPAL_POS_API_KEY not set — skipping live sync test'
         );
         test.setTimeout( 5 * 60_000 );
-
-        await ensureStoreConfigured( wooCommerceUtils, wooCommerceApi );
-        await ensurePosConnected( posSettings, cli );
     } );
 
     // ── POS-587 ──────────────────────────────────────────────────────────────

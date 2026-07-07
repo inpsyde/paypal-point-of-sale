@@ -1,14 +1,4 @@
-import { test } from '../../utils';
-import {
-    processQueue,
-    syncProduct,
-    ensurePluginState,
-    ensureStoreConfigured,
-    ensurePosConnected,
-    createProduct,
-    deleteProduct,
-} from '../../utils';
-import { e2ePlugins } from '../../resources';
+import { test, processQueue, syncProduct, ensurePosTestReady, createProduct, deleteProduct } from '../../utils';
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
@@ -16,12 +6,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
     // Lets this file run standalone (npx playwright test .../product-sync.spec.ts) without
     // depending on setup:woocommerce/setup:paypal-pos having already run — see
-    // ensureStoreConfigured/ensurePosConnected for why this is cheap when the full suite
-    // already did.
+    // ensurePosTestReady for why this is cheap when the full suite already did.
     test.beforeEach( async ( { requestUtils, plugins, wooCommerceUtils, wooCommerceApi, posSettings, cli } ) => {
-        await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
-        await ensureStoreConfigured( wooCommerceUtils, wooCommerceApi );
-        await ensurePosConnected( posSettings, cli );
+        await ensurePosTestReady( { requestUtils, plugins, wooCommerceUtils, wooCommerceApi, posSettings, cli } );
     } );
 
     // ── POS-579 ──────────────────────────────────────────────────────────────
