@@ -1,13 +1,24 @@
 import { test } from '../../utils';
-import { processQueue, syncProduct, ensurePluginState, createProduct, deleteProduct } from '../../utils';
+import {
+    processQueue,
+    syncProduct,
+    ensurePluginState,
+    ensurePosConnected,
+    createProduct,
+    deleteProduct,
+} from '../../utils';
 import { e2ePlugins } from '../../resources';
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
 test.describe( 'Product Sync (WC → POS)', () => {
 
-    test.beforeEach( async ( { requestUtils, plugins } ) => {
+    // Lets this file run standalone (npx playwright test .../product-sync.spec.ts) without
+    // depending on the setup:paypal-pos project having already connected — see
+    // ensurePosConnected for why this is cheap when the full suite already did.
+    test.beforeEach( async ( { requestUtils, plugins, posSettings, cli } ) => {
         await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
+        await ensurePosConnected( posSettings, cli );
     } );
 
     // ── POS-579 ──────────────────────────────────────────────────────────────

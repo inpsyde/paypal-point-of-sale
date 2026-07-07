@@ -5,6 +5,7 @@ import {
     processQueue,
     syncProduct,
     ensurePluginState,
+    ensurePosConnected,
     createProduct,
     deleteProduct,
     deleteOrder,
@@ -20,7 +21,10 @@ const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
 
 test.describe( 'Stock Sync', () => {
 
-    test.beforeEach( async ( { requestUtils, plugins } ) => {
+    // Lets this file run standalone (npx playwright test .../stock-sync.spec.ts) without
+    // depending on the setup:paypal-pos project having already connected — see
+    // ensurePosConnected for why this is cheap when the full suite already did.
+    test.beforeEach( async ( { requestUtils, plugins, posSettings, cli } ) => {
         await ensurePluginState( requestUtils, plugins, e2ePlugins.paypalPos );
 
         test.skip(
@@ -28,6 +32,8 @@ test.describe( 'Stock Sync', () => {
             'PAYPAL_POS_API_KEY not set — skipping live sync test'
         );
         test.setTimeout( 5 * 60_000 );
+
+        await ensurePosConnected( posSettings, cli );
     } );
 
     // ── POS-587 ──────────────────────────────────────────────────────────────
