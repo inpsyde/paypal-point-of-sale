@@ -3,7 +3,6 @@ import { test as setup } from '../../utils';
 import {
     setupSiteVisibility,
     ensureWooCommerceApiKeys,
-    disableWooCommerceEmails,
     setupGeneralSettings,
     setupTaxes,
 } from '../../utils';
@@ -32,10 +31,6 @@ setup( 'Setup: WooCommerce site visibility', async ( { wooCommerceUtils } ) => {
 
 setup( 'Setup: WooCommerce API keys', async ( { wooCommerceUtils } ) => {
     await ensureWooCommerceApiKeys( wooCommerceUtils );
-} );
-
-setup( 'Setup: WooCommerce email settings', async ( { wooCommerceApi } ) => {
-    await disableWooCommerceEmails( wooCommerceApi );
 } );
 
 setup( 'Setup: WooCommerce general settings', async ( { wooCommerceApi } ) => {
