@@ -149,8 +149,8 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.QA_KINSTA_SSH_KEY }}" > ~/.ssh/kinsta_ed25519
-          chmod 600 ~/.ssh/kinsta_ed25519
+          echo "${{ secrets.QA_KINSTA_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
             ${{ secrets.QA_KINSTA_SSH_HOST }} >> ~/.ssh/known_hosts
 
@@ -162,7 +162,7 @@ jobs:
 
       - name: Prepare Kinsta environment via WP-CLI
         run: |
-          ssh -i ~/.ssh/kinsta_ed25519 \
+          ssh -i ~/.ssh/id_ed25519 \
             -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
             ${{ secrets.QA_KINSTA_SSH_LOGIN }}@${{ secrets.QA_KINSTA_SSH_HOST }} \
             "wp plugin delete paypal-point-of-sale --skip-plugins 2>/dev/null || true && \
