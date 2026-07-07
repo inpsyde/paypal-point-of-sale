@@ -175,12 +175,86 @@ testing:
 4. WooCommerce REST API keys — generated once and written to `.env` (`WC_API_KEY`/`WC_API_SECRET`)
 5. Disable transactional e-mails (no real e-mails sent to test customers)
 6. General settings — country/currency from `WC_DEFAULT_COUNTRY` (see `.env.example.e2e`)
-7. Tax settings — a fixed 10% "worldwide" rate for sync-checking, not a real jurisdiction
+7. Tax settings — a UK Standard Rate (20%), matching one of the VAT rates PayPal POS actually
+   accepts for a GB-registered sandbox account (`20`/`12.5`/`5`/`4`/`0` — anything else is
+   rejected with `VAT_NOT_ALLOWED_IN_COUNTRY`). The library's generic "worldwide 10%" fixture
+   used here previously was never a valid UK rate; see `woocommerce.helper.ts`.
 
 Steps 3–7 matter specifically because the WC ↔ POS sync compares prices/totals on both
 sides — mismatched country/currency/tax config between WooCommerce and the PayPal POS
 sandbox account makes sync assertions meaningless. `setup:woocommerce` is not destructive
 on its own, but it only runs together with `setup:env` (same `E2E_CONFIRM_RESET` gate).
+
+---
+
+## Test Dependency Model — What Needs What
+
+Two independent mechanisms decide what's in place before a test runs, and mixing them up is
+the easiest way to get a confusing failure. Know which one covers what:
+
+### Automatic (Playwright project `dependencies` — runs for you)
+
+```
+setup:paypal-pos  (connects to the real PayPal POS sandbox account)
+  ├─ dependencies: shard:plugin-lifecycle (all its tests)
+  ├─ dependencies: shard:onboarding (all its tests)
+  └─ teardown: teardown:paypal-pos (disconnects, resets onboarding state)
+
+shard:product-sync  ── dependencies ──▶ setup:paypal-pos
+shard:stock-sync    ── dependencies ──▶ setup:paypal-pos
+```
+
+Playwright project dependencies are transitive. Running **any single test** inside
+`03-product-sync/` or `04-stock-sync/` — even by exact file path, even a single `--grep` —
+still runs the *entire* `shard:plugin-lifecycle` and `shard:onboarding` suites first, then
+`setup:paypal-pos`, then your test, then `teardown:paypal-pos`. There is currently no way to
+opt out of this from the CLI; it would require removing those `dependencies` entries in
+`playwright.config.ts` (a deliberately deferred follow-up — see below).
+
+Independently of that project graph, `product-sync.spec.ts` and `stock-sync.spec.ts` also
+call `ensurePluginState()` + `ensurePosConnected()` in their own `beforeEach`. These are
+idempotent: they check "is the plugin already installed/active?" / "does the settings page
+already show a connected state?" and only do the expensive install/connect work if not. This
+means those two files *could* run standalone (without the `setup:paypal-pos` dependency)
+once that dependency is removed — they don't currently rely on the project chain to bootstrap
+correctly, they just tolerate it being there too.
+
+### Manual (nothing runs this for you)
+
+`setup:env` and `setup:woocommerce` — the WordPress/WooCommerce reset **and** all store
+configuration (site visibility, country/currency, tax rates; see the section above) — are
+**never** a `dependency` of any shard, and no CI script triggers them. The only way they run
+is an explicit:
+
+```bash
+npm run e2e:env:reset
+```
+
+### The gap this creates
+
+A completely fresh environment (wp-env just started, or Kinsta just reset by someone else,
+plugin never installed) will:
+
+- ✅ auto-install and activate the plugin (`ensurePluginState`)
+- ✅ auto-connect to PayPal POS (`ensurePosConnected` / `setup:paypal-pos`)
+- ❌ **not** auto-configure the store — it stays in WooCommerce's factory-default state
+  (likely "Coming soon" mode, default country/currency, no tax rates)
+
+Product/stock sync tests compare prices and VAT handling between WooCommerce and the PayPal
+POS sandbox, so an unconfigured store makes those comparisons meaningless at best, and
+reproduces exactly the `VAT_NOT_ALLOWED_IN_COUNTRY` failures fixed in `1179b58` at worst.
+**Always run `npm run e2e:env:reset` once against a fresh environment before running anything
+beyond the smoke suite.** Closing this gap for good would mean adding a third idempotent
+check (`ensureStoreConfigured()` or similar) alongside the two above — not yet done.
+
+### Running everything, in order, on a fresh environment
+
+```bash
+npx wp-env start                 # or point .env at Kinsta instead
+npm run e2e:setup                # build + install the plugin (wpenv only — see Kinsta section for remote)
+npm run e2e:env:reset            # WordPress/WooCommerce reset + store config (country, tax, visibility)
+npm run e2e:test                 # or e2e:smoke / e2e:critical / e2e:regression
+```
 
 ---
 
