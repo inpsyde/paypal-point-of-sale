@@ -28,27 +28,6 @@ export async function ensureWooCommerceApiKeys( wooCommerceUtils: WooCommerceUti
     }
 }
 
-// Silences transactional e-mails so test runs don't send real e-mails to test customers.
-export async function disableWooCommerceEmails( wooCommerceApi: WooCommerceApi ): Promise< void > {
-    const emailIds = [
-        'email_new_order',
-        'email_cancelled_order',
-        'email_failed_order',
-        'email_customer_failed_order',
-        'email_customer_on_hold_order',
-        'email_customer_processing_order',
-        'email_customer_completed_order',
-        'email_customer_refunded_order',
-        'email_customer_note',
-        'email_customer_reset_password',
-        'email_customer_new_account',
-    ];
-
-    for ( const id of emailIds ) {
-        await wooCommerceApi.updateEmailSubSettings( id as never, { enabled: 'no' } );
-    }
-}
-
 // Country/currency must match whatever the PayPal POS sandbox account is configured for —
 // mismatched settings on either side make product/price sync results meaningless. Set
 // WC_DEFAULT_COUNTRY in .env if the sandbox isn't US-based (see shopSettings for the
@@ -76,4 +55,19 @@ export async function setupTaxes( wooCommerceUtils: WooCommerceUtils ): Promise<
         options: taxSettings.including.options,
         rates: [ ukVatRate ],
     } );
+}
+
+// Lets a spec file run standalone without depending on setup:woocommerce having already run.
+// Safe to call unconditionally on every test, unlike setup:env's destructive `wp db reset` —
+// submitting the same site-visibility form, general settings, and tax rate the store already
+// has is a harmless no-op (createTax itself looks up the rate by name before creating one),
+// so there's nothing to "check first" here. The destructive reset stays a deliberate,
+// manual-only step (see E2E-TESTS.md's Test Dependency Model).
+export async function ensureStoreConfigured(
+    wooCommerceUtils: WooCommerceUtils,
+    wooCommerceApi: WooCommerceApi
+): Promise< void > {
+    await setupSiteVisibility( wooCommerceUtils );
+    await setupGeneralSettings( wooCommerceApi );
+    await setupTaxes( wooCommerceUtils );
 }
