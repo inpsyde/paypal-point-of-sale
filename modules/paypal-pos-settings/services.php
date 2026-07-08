@@ -70,7 +70,7 @@ return ['paypal-pos.settings.url' => static function (C $container): string {
     return __('PayPal Point of Sale', 'paypal-point-of-sale');
 }, 'paypal-pos.settings.wc-integration.link' => static function (C $container): callable {
     return static function (bool $loggedIn): array {
-        $linkData = ['title' => esc_html__('paypal-pos.com', 'paypal-point-of-sale'), 'url' => esc_url_raw('https://zettle.com/'), 'icon' => \true];
+        $linkData = ['title' => esc_html__('Zettle.com', 'paypal-point-of-sale'), 'url' => esc_url_raw('https://zettle.com/'), 'icon' => \true];
         if ($loggedIn) {
             $linkData['url'] = esc_url_raw('https://my.zettle.com/');
         }
