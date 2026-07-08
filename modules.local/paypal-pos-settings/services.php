@@ -171,7 +171,7 @@ return [
     'paypal-pos.settings.wc-integration.link' => static function (C $container): callable {
         return static function (bool $loggedIn): array {
             $linkData = [
-                'title' => esc_html__('paypal-pos.com', 'paypal-point-of-sale'),
+                'title' => esc_html__('Zettle.com', 'paypal-point-of-sale'),
                 'url' => esc_url_raw('https://zettle.com/'),
                 'icon' => true,
             ];
