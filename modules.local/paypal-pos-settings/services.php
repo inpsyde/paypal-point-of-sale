@@ -204,7 +204,8 @@ return [
                 $container->get('paypal-pos.settings.wc-integration.title'),
                 $container->get('paypal-pos.settings.wc-integration.description'),
                 $stateMachine->currentState()->name(),
-                $container->get('paypal-pos.onboarding.api-auth-check')
+                $container->get('paypal-pos.onboarding.api-auth-check'),
+                $container->get('paypal-pos.assets.img-resources-url')
             );
         },
     'paypal-pos.settings.wc-integration' => static function (C $container): ZettleIntegration {
