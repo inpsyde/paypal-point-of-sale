@@ -12,17 +12,15 @@ export async function setupSiteVisibility( wooCommerceUtils: WooCommerceUtils ):
     await wooCommerceUtils.setSiteVisibility( 'live' );
 }
 
-// The WC <-> POS sync relies on the WooCommerce REST API. Creates key/secret once and
-// persists them to .env (and the current process) so later steps can use them immediately.
+// Checks our own usable credentials, not just whether some key exists server-side — WC
+// never exposes a secret again after creation, so an unrelated existing key is useless to us.
 export async function ensureWooCommerceApiKeys( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
-    if ( await wooCommerceUtils.apiKeysExist() ) {
+    if ( process.env.WC_API_KEY && process.env.WC_API_SECRET ) {
         return;
     }
 
     const apiKeys = await wooCommerceUtils.createApiKeys();
-    if ( ! process.env.CI ) {
-        await updateDotenv( '.env', apiKeys );
-    }
+    await updateDotenv( '.env', apiKeys );
     for ( const [ key, value ] of Object.entries( apiKeys ) ) {
         process.env[ key ] = String( value );
     }
