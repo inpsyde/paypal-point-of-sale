@@ -85,7 +85,7 @@ class WelcomeView implements OnboardingView
 
         <div class="zettle-settings-onboarding-content-get-started-container columns-3">
             <div class="column">
-                <img src="<?php echo esc_url_raw("{$imgResources}/connect.jpg") ?>"
+                <img src="<?php echo esc_url_raw("{$imgResources}/connect.png") ?>"
                     alt="<?php esc_attr_e('Connect in minutes', 'paypal-point-of-sale') ?>"
                     title="<?php esc_attr_e('Connect in minutes', 'paypal-point-of-sale') ?>">
 
@@ -98,7 +98,7 @@ class WelcomeView implements OnboardingView
                 </p>
             </div>
             <div class="column">
-                <img src="<?php echo esc_url_raw("{$imgResources}/zettle.jpg") ?>"
+                <img src="<?php echo esc_url_raw("{$imgResources}/terminal.png") ?>"
                     alt="<?php esc_attr_e('Manage products in one place', 'paypal-point-of-sale') ?>"
                     title="<?php esc_attr_e('Manage products in one place', 'paypal-point-of-sale') ?>">
                 <h4><?php esc_html_e('Manage products in one place', 'paypal-point-of-sale') ?></h4>
@@ -110,7 +110,7 @@ class WelcomeView implements OnboardingView
                 </p>
             </div>
             <div class="column">
-                <img src="<?php echo esc_url_raw("{$imgResources}/sync.jpg") ?>"
+                <img src="<?php echo esc_url_raw("{$imgResources}/sync.png") ?>"
                     alt="<?php esc_attr_e('Sync in real-time', 'paypal-point-of-sale') ?>"
                     title="<?php esc_attr_e('Sync in real-time', 'paypal-point-of-sale') ?>">
                 <h4><?php esc_html_e('Sync in real-time', 'paypal-point-of-sale') ?></h4>
