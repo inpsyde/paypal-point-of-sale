@@ -200,52 +200,70 @@ setup:paypal-pos  (connects to the real PayPal POS sandbox account)
   ├─ dependencies: shard:onboarding (all its tests)
   └─ teardown: teardown:paypal-pos (disconnects, resets onboarding state)
 
-shard:product-sync  ── dependencies ──▶ setup:paypal-pos
-shard:stock-sync    ── dependencies ──▶ setup:paypal-pos
+shard:plugin-lifecycle
+shard:onboarding
+shard:product-sync   (no project dependency — self-sufficient, see below)
+shard:stock-sync     (no project dependency — self-sufficient, see below)
 ```
 
-Playwright project dependencies are transitive. Running **any single test** inside
-`03-product-sync/` or `04-stock-sync/` — even by exact file path, even a single `--grep` —
-still runs the *entire* `shard:plugin-lifecycle` and `shard:onboarding` suites first, then
-`setup:paypal-pos`, then your test, then `teardown:paypal-pos`. There is currently no way to
-opt out of this from the CLI; it would require removing those `dependencies` entries in
-`playwright.config.ts` (a deliberately deferred follow-up — see below).
+`shard:product-sync`/`shard:stock-sync` do **not** depend on `setup:paypal-pos`. Running a
+single test by exact file path or `--grep` inside `03-product-sync/`/`04-stock-sync/` runs
+*only* that test — it no longer drags in `shard:plugin-lifecycle`/`shard:onboarding`. That's
+possible because both files call `ensurePosTestReady()` (`pos-cli.helper.ts`) in their own
+`beforeEach`, which bundles three idempotent checks — plugin installed/active
+(`ensurePluginState`), store configured (`ensureStoreConfigured`: site visibility, general
+settings, tax rate, WC REST API keys), PayPal POS connected (`ensurePosConnected`) — each of
+which only does the expensive work if it isn't already in place.
 
-Independently of that project graph, `product-sync.spec.ts` and `stock-sync.spec.ts` also
-call `ensurePluginState()` + `ensurePosConnected()` in their own `beforeEach`. These are
-idempotent: they check "is the plugin already installed/active?" / "does the settings page
-already show a connected state?" and only do the expensive install/connect work if not. This
-means those two files *could* run standalone (without the `setup:paypal-pos` dependency)
-once that dependency is removed — they don't currently rely on the project chain to bootstrap
-correctly, they just tolerate it being there too.
+`setup:paypal-pos`/`teardown:paypal-pos` still exist as directly-runnable projects (useful for
+manual/debugging use via `--project=setup:paypal-pos`), and still run as part of an unfiltered
+full suite (`npm run e2e:test`, which runs every project regardless of dependencies). But since
+nothing depends on them anymore and their own tests carry no `smoke`/`critical`/`regression`
+tag, grep-filtered scripts (`e2e:smoke:ci`, `e2e:critical:ci`, `e2e:regression:ci`) never select
+them — a grep-filtered run now leaves the PayPal POS connection open afterward instead of
+disconnecting it. This is not a problem in practice: `onboarding.spec.ts`'s own tests
+(`POS-570`/`571`/`572`/`577`) collectively cover all three tags and always call
+`resetOnboarding()` unconditionally in their own `beforeEach`, and Playwright runs
+`shard:onboarding` before `shard:product-sync`/`shard:stock-sync` (declaration order in
+`playwright.config.ts`) — so any of the three tagged CI scripts always refreshes the connection
+via onboarding moments before product-sync/stock-sync's own `ensurePosConnected()` checks it.
+
+The one case this doesn't cover: manually running a `--grep` narrow enough to select *only*
+product-sync/stock-sync tests (e.g. `--grep "POS-581"`), with no onboarding test in the same
+invocation, against an environment whose PayPal POS connection was left open by a *previous*,
+separate invocation long enough ago that the access token (`expires_in: 7200`, i.e. 2 hours)
+has actually expired. `ensurePosConnected()` only checks whether the settings page currently
+*shows* a connected state — it doesn't verify the connection is still functional — so this
+surfaces as a confusing auth failure (`AuthenticationException`/`UNAUTHENTICATED`) rather than
+a graceful reconnect. Simply re-running the same `--grep` won't fix it (the same stale
+"already connected" state is still there); either run `npm run e2e:env:reset`, or run the full
+suite / anything that includes an onboarding test, to force a fresh `resetOnboarding()` +
+reconnect first.
 
 ### Manual (nothing runs this for you)
 
-`setup:env` and `setup:woocommerce` — the WordPress/WooCommerce reset **and** all store
-configuration (site visibility, country/currency, tax rates; see the section above) — are
-**never** a `dependency` of any shard, and no CI script triggers them. The only way they run
-is an explicit:
+`setup:env` and `setup:woocommerce` — the WordPress/WooCommerce reset (**not** the store
+configuration anymore, see below) — are **never** a `dependency` of any shard, and no CI
+script triggers them. The only way they run is an explicit:
 
 ```bash
 npm run e2e:env:reset
 ```
 
-### The gap this creates
+### Fresh-environment coverage
 
 A completely fresh environment (wp-env just started, or Kinsta just reset by someone else,
-plugin never installed) will:
+plugin never installed) now self-bootstraps fully for product-sync/stock-sync:
 
-- ✅ auto-install and activate the plugin (`ensurePluginState`)
-- ✅ auto-connect to PayPal POS (`ensurePosConnected` / `setup:paypal-pos`)
-- ❌ **not** auto-configure the store — it stays in WooCommerce's factory-default state
-  (likely "Coming soon" mode, default country/currency, no tax rates)
+- ✅ auto-installs and activates the plugin (`ensurePluginState`)
+- ✅ auto-configures the store — site visibility, general settings, WC REST API keys, and a
+  UK-valid VAT rate (`ensureStoreConfigured`)
+- ✅ auto-connects to PayPal POS (`ensurePosConnected`)
 
-Product/stock sync tests compare prices and VAT handling between WooCommerce and the PayPal
-POS sandbox, so an unconfigured store makes those comparisons meaningless at best, and
-reproduces exactly the `VAT_NOT_ALLOWED_IN_COUNTRY` failures fixed in `1179b58` at worst.
-**Always run `npm run e2e:env:reset` once against a fresh environment before running anything
-beyond the smoke suite.** Closing this gap for good would mean adding a third idempotent
-check (`ensureStoreConfigured()` or similar) alongside the two above — not yet done.
+`npm run e2e:env:reset` is still worth running deliberately when you want a guaranteed clean
+slate (e.g. after manually poking at WooCommerce settings, or to force a fresh WC REST API key
+if `ensureStoreConfigured`'s idempotent check for one somehow gives a false positive) — it's
+just no longer a hard prerequisite the way it used to be.
 
 ### Running everything, in order, on a fresh environment
 

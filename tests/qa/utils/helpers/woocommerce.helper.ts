@@ -67,6 +67,7 @@ export async function ensureStoreConfigured(
     wooCommerceUtils: WooCommerceUtils,
     wooCommerceApi: WooCommerceApi
 ): Promise< void > {
+    await ensureWooCommerceApiKeys( wooCommerceUtils );
     await setupSiteVisibility( wooCommerceUtils );
     await setupGeneralSettings( wooCommerceApi );
     await setupTaxes( wooCommerceUtils );

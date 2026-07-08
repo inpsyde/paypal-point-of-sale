@@ -116,12 +116,10 @@ export default defineConfig< BaseExtend >( {
         {
             name: 'shard:product-sync',
             testMatch: /03-product-sync\/.*\.spec\.ts/,
-            dependencies: [ 'setup:paypal-pos' ],
         },
         {
             name: 'shard:stock-sync',
             testMatch: /04-stock-sync\/.*\.spec\.ts/,
-            dependencies: [ 'setup:paypal-pos' ],
         },
     ],
 } );
