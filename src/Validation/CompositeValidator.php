@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Syde\PayPal\PointOfSale\Validation;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation;
 
 class CompositeValidator implements ValidatorInterface
 {
@@ -10,7 +9,6 @@ class CompositeValidator implements ValidatorInterface
      * @var ValidatorInterface[]
      */
     private array $validators;
-
     /**
      * @param ValidatorInterface[] $validators
      */
@@ -18,7 +16,6 @@ class CompositeValidator implements ValidatorInterface
     {
         $this->validators = $validators;
     }
-
     /**
      * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      * @param mixed $value
@@ -26,7 +23,6 @@ class CompositeValidator implements ValidatorInterface
     public function validate($value): void
     {
         $errors = [];
-
         foreach ($this->validators as $validator) {
             try {
                 $validator->validate($value);
@@ -34,9 +30,9 @@ class CompositeValidator implements ValidatorInterface
                 $errors[] = $exception;
             }
         }
-
         if ($errors) {
-            throw new ValidationFailedException('Validation failed', $errors); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new ValidationFailedException('Validation failed', $errors);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
     }
 }

@@ -1,9 +1,0 @@
-<?php
-
-declare(strict_types=1);
-
-namespace Syde\PayPal\PointOfSale\Auth;
-
-return static function (): AuthModule {
-    return new AuthModule();
-};
