@@ -121,5 +121,9 @@ export default defineConfig< BaseExtend >( {
             name: 'shard:stock-sync',
             testMatch: /04-stock-sync\/.*\.spec\.ts/,
         },
+        {
+            name: 'shard:webhook',
+            testMatch: /05-webhook\/.*\.spec\.ts/,
+        },
     ],
 } );
