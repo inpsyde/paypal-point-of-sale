@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process';
+import { updateDotenv } from '@inpsyde/playwright-utils/build';
 import type { AnyCli } from './pos-cli.helper';
 import { runWpCli } from './pos-cli.helper';
 
@@ -8,6 +9,16 @@ const checkEnvVars = ( names: string[] ): void => {
         throw new Error( `Missing required environment variable(s): ${ missing.join( ', ' ) }` );
     }
 };
+
+// A reset wipes the DB row backing whatever ck_/cs_ pair is in .env, but leaves the now-dead
+// strings in place. ensureWooCommerceApiKeys() only checks that they're present (deliberately,
+// see its own comment), so without this every WC REST call after a reset 401s until someone
+// notices and clears them by hand.
+async function invalidateApiKeys(): Promise< void > {
+    delete process.env.WC_API_KEY;
+    delete process.env.WC_API_SECRET;
+    await updateDotenv( '.env', { WC_API_KEY: '', WC_API_SECRET: '' } );
+}
 
 // Wipes the database and reinstalls WordPress + WooCommerce from scratch. Destructive and
 // irreversible — use with care on shared environments.
@@ -28,6 +39,7 @@ export async function resetEnvironment( cli: AnyCli ): Promise< void > {
     checkEnvVars( [ 'WP_BASE_URL', 'WP_USERNAME', 'WP_PASSWORD' ] );
 
     await runWpCli( cli, 'db reset --yes' );
+    await invalidateApiKeys();
     await runWpCli(
         cli,
         // Single-quoted: WpEnvCli wraps the whole command in `bash -c "..."` (double
@@ -64,6 +76,7 @@ async function resetRemoteEnvironment( cli: AnyCli ): Promise< void > {
         ],
         { stdio: 'inherit', timeout: 5 * 60_000 }
     );
+    await invalidateApiKeys();
 
     // reset-wp.sh deletes all WordPress files, including plugins/themes — unlike a plain
     // `wp db reset` (wpenv path above), which only wipes the database and leaves them on
