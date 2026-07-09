@@ -8,7 +8,7 @@ import {
     createProduct,
     deleteProduct,
     deleteOrder,
-    getWebhookSigningKey,
+    ensureWebhookRegistered,
     getPosVariantUuid,
     signWebhookPayload,
 } from '../../utils';
@@ -146,7 +146,7 @@ test.describe( 'Stock Sync', () => {
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus( 'POS-585 Webhook Stock', 'synced', product.id );
 
-                const signingKey = await getWebhookSigningKey( cli );
+                const signingKey = await ensureWebhookRegistered( cli );
                 if ( ! signingKey ) {
                     test.skip( true, 'No webhook signing key found — webhook not registered' );
                     return;

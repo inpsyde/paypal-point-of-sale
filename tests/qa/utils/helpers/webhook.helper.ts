@@ -1,15 +1,34 @@
 import * as crypto from 'crypto';
 import { runWpCli, type AnyCli } from './pos-cli.helper';
 
+// 'paypal-pos.webhook.listener' isn't its own WP option — it's a nested key inside
+// woocommerce_zettle_settings, same as api_token/sdk.integration-id.
+export async function getWebhookConfig( cli: AnyCli ): Promise<
+    { signingKey?: string; destination?: string; eventNames?: string[] } | null
+> {
+    try {
+        const raw = await runWpCli( cli, 'option get woocommerce_zettle_settings --format=json' );
+        return JSON.parse( raw )[ 'paypal-pos.webhook.listener' ] ?? null;
+    } catch {
+        return null;
+    }
+}
+
 /** Read the PayPal POS webhook listener's signing key, or '' if not registered. */
 export async function getWebhookSigningKey( cli: AnyCli ): Promise< string > {
-    try {
-        const raw = await runWpCli( cli, "wp option get 'paypal-pos.webhook.listener' --format=json" );
-        const config = JSON.parse( raw );
-        return config.signingKey ?? '';
-    } catch {
-        return '';
+    const config = await getWebhookConfig( cli );
+    return config?.signingKey ?? '';
+}
+
+// POS-585 needs a key regardless of how registration happened; POS-591 tests that connect()
+// itself triggers registration, so it must keep calling getWebhookSigningKey directly.
+export async function ensureWebhookRegistered( cli: AnyCli ): Promise< string > {
+    const existing = await getWebhookSigningKey( cli );
+    if ( existing ) {
+        return existing;
     }
+    await runWpCli( cli, 'zettle webhook register' ).catch( () => {} );
+    return getWebhookSigningKey( cli );
 }
 
 /** Look up the POS-side variant UUID for a synced WC product, or null if not in the ID map. */
@@ -17,7 +36,7 @@ export async function getPosVariantUuid( cli: AnyCli, wcProductId: number ): Pro
     try {
         const raw = await runWpCli(
             cli,
-            `wp db query "SELECT remote_id FROM $(wp db prefix)zettle_woocommerce_id_map WHERE local_id = ${ wcProductId } AND type = 'variant' LIMIT 1" --skip-column-names`
+            `db query "SELECT remote_id FROM $(wp db prefix)zettle_woocommerce_id_map WHERE local_id = ${ wcProductId } AND type = 'variant' LIMIT 1" --skip-column-names`
         );
         const uuid = raw.trim();
         return uuid || null;

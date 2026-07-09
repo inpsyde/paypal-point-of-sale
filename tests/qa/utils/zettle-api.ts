@@ -1,5 +1,12 @@
 import { APIRequestContext } from '@playwright/test';
 
+export type ZettleWebhookSubscription = {
+    uuid: string;
+    eventNames: string[];
+    destination: string;
+    status?: string;
+};
+
 /**
  * API client for Zettle / PayPal POS endpoints.
  *
@@ -7,6 +14,7 @@ import { APIRequestContext } from '@playwright/test';
  *  - OAuth token exchange (client_credentials grant)
  *  - Product Library v2  — CRUD on Zettle products
  *  - Inventory v3        — stock balance reads & updates
+ *  - Webhook subscriptions — list what's actually registered remotely
  */
 export class ZettleApiClient {
     private token: string | null = null;
@@ -17,7 +25,7 @@ export class ZettleApiClient {
 
     async authenticate( clientId: string, clientSecret: string ): Promise< void > {
         const response = await this.request.post(
-            'https://oauth.zettle.com/token',
+            'https://oauth.izettle.com/token',
             {
                 form: {
                     grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
@@ -45,6 +53,16 @@ export class ZettleApiClient {
     async getInventoryBalance( locationUuid: string ): Promise< unknown > {
         const response = await this.request.get(
             `https://inventory.izettle.com/organizations/self/inventory/locations/${ locationUuid }`,
+            { headers: this.authHeaders() }
+        );
+        return response.json();
+    }
+
+    // ── Webhooks ──────────────────────────────────────────────────────────────
+
+    async getWebhookSubscriptions(): Promise< ZettleWebhookSubscription[] > {
+        const response = await this.request.get(
+            'https://pusher.izettle.com/organizations/self/subscriptions',
             { headers: this.authHeaders() }
         );
         return response.json();
