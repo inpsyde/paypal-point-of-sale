@@ -56,7 +56,8 @@ class ContainerAwareView implements OnboardingView
         switch ($stateMachine->currentState()->name()) {
             case OnboardingState::WELCOME:
                 $this->view = new WelcomeView(
-                    $this->container->get('paypal-pos.onboarding.zettle-link')
+                    $this->container->get('paypal-pos.onboarding.zettle-link'),
+                    $this->container->get('paypal-pos.assets.img-resources-url')
                 );
                 break;
             case OnboardingState::API_CREDENTIALS:
