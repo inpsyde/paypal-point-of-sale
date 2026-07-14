@@ -8,7 +8,11 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\SyncCollisionStrategy;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
-return ['paypal-pos.assets.sync-job-types' => static function (C $container): array {
+return ['paypal-pos.assets.url' => static function (C $container): string {
+    return plugin_dir_url(__FILE__) . 'assets';
+}, 'paypal-pos.assets.img-resources-url' => static function (C $container): string {
+    return plugin_dir_url(__FILE__) . 'resources/img';
+}, 'paypal-pos.assets.sync-job-types' => static function (C $container): array {
     $jobTypes = ['prepare' => [EnqueueProductSyncJob::TYPE], 'sync' => [ExportProductJob::TYPE]];
     $settings = $container->get('paypal-pos.settings');
     if ($settings->has('sync_collision_strategy')) {

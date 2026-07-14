@@ -44,7 +44,7 @@ class ContainerAwareView implements OnboardingView
         assert($stateMachine instanceof StateMachineInterface);
         switch ($stateMachine->currentState()->name()) {
             case OnboardingState::WELCOME:
-                $this->view = new WelcomeView($this->container->get('paypal-pos.onboarding.zettle-link'));
+                $this->view = new WelcomeView($this->container->get('paypal-pos.onboarding.zettle-link'), $this->container->get('paypal-pos.assets.img-resources-url'));
                 break;
             case OnboardingState::API_CREDENTIALS:
                 $this->view = new ApiCredentialsView($this->container->get('paypal-pos.settings.wc-integration'), $this->container->get('paypal-pos.settings.account.link.api-key-creation'), __('Authorise connection', 'paypal-point-of-sale'), __('Please paste the API key in the field below.', 'paypal-point-of-sale'), ['api_key']);

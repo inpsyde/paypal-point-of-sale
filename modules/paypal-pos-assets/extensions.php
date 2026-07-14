@@ -11,7 +11,8 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Counter\ProductSyncJobsCounter;
 return ['inpsyde.assets.registry' => static function (array $previous, C $container): array {
-    $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
+    $assetUri = $container->get('paypal-pos.assets.url');
+    assert(is_string($assetUri));
     if ($container->get('paypal-pos.assets.should-enqueue.all')()) {
         $previous[] = new Style('zettle-admin-style', "{$assetUri}/admin.css", BaseAsset::BACKEND);
         $previous[] = (new Script('zettle-admin-scripts', "{$assetUri}/admin-scripts.js", BaseAsset::BACKEND))->withLocalize('zettleAPIKeyCreation', static function () use ($container): array {

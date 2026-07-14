@@ -6,12 +6,11 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Settings\View;
 class WelcomeView implements OnboardingView
 {
     protected array $zettleLink;
-    /**
-     * @param array $zettleLink
-     */
-    public function __construct(array $zettleLink)
+    protected string $imgResourcesUrl;
+    public function __construct(array $zettleLink, string $imgResourcesUrl)
     {
         $this->zettleLink = $zettleLink;
+        $this->imgResourcesUrl = $imgResourcesUrl;
     }
     public function renderHeader(): string
     {
@@ -79,14 +78,13 @@ class WelcomeView implements OnboardingView
     }
     public function renderGetStartedContent(): string
     {
-        $imgResources = sprintf('%s/paypal-pos-assets/resources/img', plugin_dir_url(dirname(__DIR__, 4) . '/paypal-point-of-sale.php'));
         ob_start();
         ?>
 
         <div class="zettle-settings-onboarding-content-get-started-container columns-3">
             <div class="column">
                 <img src="<?php 
-        echo esc_url_raw("{$imgResources}/connect.jpg");
+        echo esc_url_raw("{$this->imgResourcesUrl}/connect.png");
         ?>"
                     alt="<?php 
         esc_attr_e('Connect in minutes', 'paypal-point-of-sale');
@@ -106,7 +104,7 @@ class WelcomeView implements OnboardingView
             </div>
             <div class="column">
                 <img src="<?php 
-        echo esc_url_raw("{$imgResources}/zettle.jpg");
+        echo esc_url_raw("{$this->imgResourcesUrl}/terminal.png");
         ?>"
                     alt="<?php 
         esc_attr_e('Manage products in one place', 'paypal-point-of-sale');
@@ -125,7 +123,7 @@ class WelcomeView implements OnboardingView
             </div>
             <div class="column">
                 <img src="<?php 
-        echo esc_url_raw("{$imgResources}/sync.jpg");
+        echo esc_url_raw("{$this->imgResourcesUrl}/sync.png");
         ?>"
                     alt="<?php 
         esc_attr_e('Sync in real-time', 'paypal-point-of-sale');
