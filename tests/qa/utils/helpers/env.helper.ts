@@ -11,9 +11,9 @@ const checkEnvVars = ( names: string[] ): void => {
 };
 
 // A reset wipes the DB row backing whatever ck_/cs_ pair is in .env, but leaves the now-dead
-// strings in place. ensureWooCommerceApiKeys() only checks that they're present (deliberately,
-// see its own comment), so without this every WC REST call after a reset 401s until someone
-// notices and clears them by hand.
+// strings in place. ensureWooCommerceApiKeys() now live-validates the cached key (see its own
+// comment) so it would catch this on its own — this just makes the invalidation immediate
+// instead of waiting for the first post-reset WC REST call to 401 and fall through.
 async function invalidateApiKeys(): Promise< void > {
     delete process.env.WC_API_KEY;
     delete process.env.WC_API_SECRET;

@@ -29,8 +29,8 @@ setup( 'Setup: WooCommerce site visibility', async ( { wooCommerceUtils } ) => {
     await setupSiteVisibility( wooCommerceUtils );
 } );
 
-setup( 'Setup: WooCommerce API keys', async ( { wooCommerceUtils } ) => {
-    await ensureWooCommerceApiKeys( wooCommerceUtils );
+setup( 'Setup: WooCommerce API keys', async ( { wooCommerceUtils, wooCommerceApi } ) => {
+    await ensureWooCommerceApiKeys( wooCommerceUtils, wooCommerceApi );
 } );
 
 setup( 'Setup: WooCommerce general settings', async ( { wooCommerceApi } ) => {

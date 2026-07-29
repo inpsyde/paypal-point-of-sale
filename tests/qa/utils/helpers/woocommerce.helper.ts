@@ -12,11 +12,30 @@ export async function setupSiteVisibility( wooCommerceUtils: WooCommerceUtils ):
     await wooCommerceUtils.setSiteVisibility( 'live' );
 }
 
-// Checks our own usable credentials, not just whether some key exists server-side — WC
-// never exposes a secret again after creation, so an unrelated existing key is useless to us.
-export async function ensureWooCommerceApiKeys( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
-    if ( process.env.WC_API_KEY && process.env.WC_API_SECRET ) {
+// Checks our own usable credentials actually work, not just whether some key exists
+// server-side (WC never exposes a secret again after creation, so an unrelated existing key
+// is useless to us) and not just whether .env has a value (a wp-env/Kinsta reset that ran
+// outside our own resetEnvironment() — e.g. a manual `wp-env destroy` — leaves a cached key
+// that no longer exists server-side, 401ing every WC REST call until someone notices). One
+// live check per worker is cheap; cached after that since credentials don't change mid-run.
+let apiKeysValidated = false;
+
+export async function ensureWooCommerceApiKeys(
+    wooCommerceUtils: WooCommerceUtils,
+    wooCommerceApi: WooCommerceApi
+): Promise< void > {
+    if ( apiKeysValidated ) {
         return;
+    }
+
+    if ( process.env.WC_API_KEY && process.env.WC_API_SECRET ) {
+        try {
+            await wooCommerceApi.wcRequest( 'get', 'settings/general' );
+            apiKeysValidated = true;
+            return;
+        } catch {
+            // Falls through to regenerate below.
+        }
     }
 
     const apiKeys = await wooCommerceUtils.createApiKeys();
@@ -24,6 +43,7 @@ export async function ensureWooCommerceApiKeys( wooCommerceUtils: WooCommerceUti
     for ( const [ key, value ] of Object.entries( apiKeys ) ) {
         process.env[ key ] = String( value );
     }
+    apiKeysValidated = true;
 }
 
 // Country/currency must match whatever the PayPal POS sandbox account is configured for —
@@ -65,7 +85,7 @@ export async function ensureStoreConfigured(
     wooCommerceUtils: WooCommerceUtils,
     wooCommerceApi: WooCommerceApi
 ): Promise< void > {
-    await ensureWooCommerceApiKeys( wooCommerceUtils );
+    await ensureWooCommerceApiKeys( wooCommerceUtils, wooCommerceApi );
     await setupSiteVisibility( wooCommerceUtils );
     await setupGeneralSettings( wooCommerceApi );
     await setupTaxes( wooCommerceUtils );
