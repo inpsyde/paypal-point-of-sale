@@ -11,7 +11,7 @@ test.describe( 'Onboarding', () => {
         await resetOnboarding( cli );
     } );
 
-    test( 'POS-570 | Onboarding happy path — full connect with valid API key; smoke; critical;',
+    test( 'POS-570 | Onboarding — full connect with valid API key; smoke; critical;',
         async ( { posSettings, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
@@ -40,7 +40,7 @@ test.describe( 'Onboarding', () => {
             await posSettings.assertInvalidCredentialsState();
         } );
 
-    test( 'POS-571 | Start over after invalid key returns to API credentials screen; regression;',
+    test( 'POS-646 | Start over after invalid key returns to API credentials screen; regression;',
         async ( { posSettings } ) => {
             await posSettings.visit();
 

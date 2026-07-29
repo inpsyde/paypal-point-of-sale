@@ -11,7 +11,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         await ensurePosTestReady( { requestUtils, plugins, wooCommerceUtils, wooCommerceApi, posSettings, cli } );
     } );
 
-    // ── POS-579 ──────────────────────────────────────────────────────────────
     test(
         'POS-579 | Sync status column appears in product list; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
@@ -25,7 +24,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-573 ──────────────────────────────────────────────────────────────
     test(
         'POS-573 | Draft product is not synced to POS; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
@@ -44,7 +42,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-581 ──────────────────────────────────────────────────────────────
     test(
         'POS-581 | Simple product created syncs to POS; critical;',
         async ( { wcProducts, requestUtils, cli } ) => {
@@ -72,7 +69,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-582 ──────────────────────────────────────────────────────────────
     test(
         'POS-582 | Simple product deleted is removed from POS; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
@@ -106,7 +102,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-583 ──────────────────────────────────────────────────────────────
     test(
         'POS-583 | Simple product name and price update syncs to POS; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
@@ -139,7 +134,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-578 ──────────────────────────────────────────────────────────────
     test(
         'POS-578 | Excluded product is removed from POS and shows Excluded status; regression;',
         async ( { wcProducts, wcProductEdit, requestUtils, cli } ) => {
@@ -171,7 +165,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-580 ──────────────────────────────────────────────────────────────
     test(
         'POS-580 | Product type changed simple to variable re-syncs to POS; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
@@ -223,7 +216,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-584 ──────────────────────────────────────────────────────────────
     test(
         'POS-584 | Variable product full lifecycle — create, add variation, delete variation; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
@@ -290,9 +282,8 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-XXX ──────────────────────────────────────────────────────────────
     test(
-        'POS-XXX | Unsupported product type shows Unsupported status; regression;',
+        'POS-643 | Unsupported product type shows Unsupported status; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
@@ -304,7 +295,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
             // Only simple/variable are in the plugin's allowed-product-types list
             // (paypal-pos-sync/services.php) — grouped products fall outside it.
             const product = await createProduct( requestUtils, {
-                name: 'POS-XXX Grouped Product',
+                name: 'POS-643 Grouped Product',
                 type: 'grouped',
             } );
 
@@ -312,7 +303,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus(
-                    'POS-XXX Grouped Product',
+                    'POS-643 Grouped Product',
                     'unsupported-product-type',
                     product.id
                 );
@@ -322,9 +313,8 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-XXX ──────────────────────────────────────────────────────────────
     test(
-        'POS-XXX | Variable product with more than 3 variation attributes is rejected; regression;',
+        'POS-644 | Variable product with more than 3 variation attributes is rejected; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 5 * 60_000 );
 
@@ -338,7 +328,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
             // should trip that limit.
             const attributeNames = [ 'Color', 'Size', 'Material', 'Style' ];
             const product = await createProduct( requestUtils, {
-                name: 'POS-XXX Too Many Attributes',
+                name: 'POS-644 Too Many Attributes',
                 type: 'variable',
                 attributes: attributeNames.map( ( name ) => ( {
                     name,
@@ -361,7 +351,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
                 await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus(
-                    'POS-XXX Too Many Attributes',
+                    'POS-644 Too Many Attributes',
                     'too-many-variant-options',
                     product.id
                 );
@@ -371,9 +361,8 @@ test.describe( 'Product Sync (WC → POS)', () => {
         }
     );
 
-    // ── POS-XXX ──────────────────────────────────────────────────────────────
     test(
-        'POS-XXX | Variable product with more than 99 variations is rejected; regression;',
+        'POS-645 | Variable product with more than 99 variations is rejected; regression;',
         async ( { wcProducts, requestUtils, cli } ) => {
             test.setTimeout( 10 * 60_000 );
 
@@ -389,7 +378,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
             const sizes = Array.from( { length: VARIATION_COUNT }, ( _, i ) => `Size ${ i + 1 }` );
 
             const product = await createProduct( requestUtils, {
-                name: 'POS-XXX Too Many Variations',
+                name: 'POS-645 Too Many Variations',
                 type: 'variable',
                 attributes: [ { name: 'Size', variation: true, visible: true, options: sizes } ],
             } );
@@ -404,12 +393,16 @@ test.describe( 'Product Sync (WC → POS)', () => {
                             regular_price: '10.00',
                         } ) ),
                     },
+                    // Default actionTimeout (30s) isn't enough here: the plugin's lifecycle-event
+                    // hooks rebuild the full product + variant DTO on every single variation save
+                    // (see ProductValidator/VariantBuilder), so cost grows with variation count.
+                    timeout: 5 * 60_000,
                 } );
 
                 await syncProduct( cli, product.id );
                 await wcProducts.visit();
                 await wcProducts.assertProductSyncStatus(
-                    'POS-XXX Too Many Variations',
+                    'POS-645 Too Many Variations',
                     'too-many-variants',
                     product.id
                 );
