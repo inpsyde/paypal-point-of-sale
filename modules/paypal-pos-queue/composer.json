@@ -1,0 +1,13 @@
+{
+    "name": "inpsyde\/paypal-pos-queue",
+    "type": "inpsyde-module",
+    "require": {
+        "inpsyde\/modularity": "^1.7",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\": "src\/"
+        }
+    }
+}
