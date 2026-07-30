@@ -10,7 +10,7 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
-use Syde\Vendor\Zettle\WP_CLI;
+use WP_CLI;
 class WebhookModule implements ServiceModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
@@ -42,7 +42,7 @@ class WebhookModule implements ServiceModule, ExecutableModule
     }
     private function registerCliCommand(ContainerInterface $container): void
     {
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             try {
                 WP_CLI::add_command("zettle webhook", $container->get('paypal-pos.webhook.cli'));
             } catch (Exception $exception) {

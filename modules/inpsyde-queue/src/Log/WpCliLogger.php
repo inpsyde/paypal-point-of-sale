@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Queue\Log;
 
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
-use Syde\Vendor\Zettle\WP_CLI;
-use Syde\Vendor\Zettle\WP_CLI\ExitException;
+use WP_CLI;
+use WP_CLI\ExitException;
 class WpCliLogger implements LoggerInterface
 {
     /**

@@ -101,13 +101,13 @@ return [
         return new TimeStopper((float) $time);
     },
     'inpsyde.queue.stopper' => static function (C $container): Stopper {
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             return $container->get('inpsyde.queue.stopper.cli');
         }
         return $container->get('inpsyde.queue.stopper.web');
     },
     'inpsyde.queue.logger' => static function (C $container): LoggerInterface {
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             return new WpCliLogger();
         }
         return new NullLogger();

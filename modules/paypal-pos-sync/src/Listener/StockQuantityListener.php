@@ -45,7 +45,7 @@ class StockQuantityListener
         if (is_admin()) {
             return \false;
         }
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             return \false;
         }
         if (defined('REST_REQUEST')) {

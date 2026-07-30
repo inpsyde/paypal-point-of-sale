@@ -7,7 +7,7 @@ use Exception;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Cli\ResetOnboardingCommand;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Provider;
-use Syde\Vendor\Zettle\WP_CLI;
+use WP_CLI;
 class ResetCommandProvider implements Provider
 {
     private ResetOnboardingCommand $resetOnboardingCommand;
@@ -25,7 +25,7 @@ class ResetCommandProvider implements Provider
      */
     public function boot(C $container): bool
     {
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             try {
                 WP_CLI::add_command('zettle reset onboarding', $this->resetOnboardingCommand);
             } catch (Exception $exception) {

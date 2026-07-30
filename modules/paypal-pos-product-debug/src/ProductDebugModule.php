@@ -9,7 +9,7 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
-use Syde\Vendor\Zettle\WP_CLI;
+use WP_CLI;
 class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
@@ -49,7 +49,7 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
                 echo wp_kses_post($content);
             }
         }, 10, 3);
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             try {
                 WP_CLI::add_command("zettle products", $container->get('paypal-pos.product.debug.cli.products'));
             } catch (Exception $exception) {

@@ -14,8 +14,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Status\SyncStatusCodes;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Validator\ProductValidator;
 use Throwable;
 use WC_Product;
-use Syde\Vendor\Zettle\WP_CLI;
-use function Syde\Vendor\Zettle\WP_CLI\Utils\format_items;
+use WP_CLI;
+use function WP_CLI\Utils\format_items;
 class ProductsCommand
 {
     /**

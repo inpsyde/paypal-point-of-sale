@@ -10,7 +10,7 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Cli\QueueCommand;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner\Runner;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\WP_CLI;
+use WP_CLI;
 use WP_REST_Server;
 class QueueModule implements ServiceModule, ExecutableModule
 {
@@ -27,7 +27,7 @@ class QueueModule implements ServiceModule, ExecutableModule
         $namespace = $container->get('inpsyde.queue.namespace');
         add_action("{$namespace}.queue.add-job-record", $container->get('inpsyde.queue.add-job-record'));
         add_action("{$namespace}.queue.create-job", $container->get('inpsyde.queue.enqueue-job'), 10, 3);
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             /** @noinspection PhpParamsInspection */
             WP_CLI::add_command("{$namespace} queue", new QueueCommand($container->get('inpsyde.queue.processor')));
         }

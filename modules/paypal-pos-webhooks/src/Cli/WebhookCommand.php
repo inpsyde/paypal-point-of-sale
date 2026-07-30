@@ -12,8 +12,8 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestExcept
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\WebhookRegistration;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\WebhookStorageInterface;
 use Syde\Vendor\Zettle\Symfony\Component\Uid\Uuid;
-use Syde\Vendor\Zettle\WP_CLI;
-use function Syde\Vendor\Zettle\WP_CLI\Utils\format_items;
+use WP_CLI;
+use function WP_CLI\Utils\format_items;
 class WebhookCommand
 {
     private Subscriptions $subscriptions;

@@ -9,7 +9,7 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\WP_CLI;
+use WP_CLI;
 class SyncModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
@@ -23,7 +23,7 @@ class SyncModule implements ServiceModule, ExtendingModule, ExecutableModule
     }
     public function run(ContainerInterface $container): bool
     {
-        if (defined('Syde\Vendor\Zettle\WP_CLI') && WP_CLI) {
+        if (defined('WP_CLI') && \WP_CLI) {
             try {
                 WP_CLI::add_command("zettle sync", $container->get('paypal-pos.sync.cli.sync-product'));
                 WP_CLI::add_command("zettle unlink", $container->get('paypal-pos.sync.cli.unlink-product'));
