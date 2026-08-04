@@ -14,4 +14,4 @@ phpunit.xml.dist export-ignore
 phpunit.xml.dist export-ignore
 yarn.lock export-ignore
 
-* text eol=lf
+* text=auto
