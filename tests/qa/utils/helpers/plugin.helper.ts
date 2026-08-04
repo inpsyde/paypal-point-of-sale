@@ -8,18 +8,18 @@ import type { PluginZipEntry } from '../../resources/types';
 // 01-plugin-lifecycle's last test deletes the plugin entirely. Every suite that needs the
 // plugin must call this itself rather than assuming it, including suites added later.
 export async function ensurePluginState(
-    requestUtils: RequestUtils,
-    plugins: Plugins,
-    plugin: PluginZipEntry,
-    isActive = true
+	requestUtils: RequestUtils,
+	plugins: Plugins,
+	plugin: PluginZipEntry,
+	isActive = true
 ): Promise< void > {
-    if ( ! ( await requestUtils.isPluginInstalled( plugin.slug ) ) ) {
-        await plugins.installPluginFromFile( plugin.zipFilePath );
-    }
+	if ( ! ( await requestUtils.isPluginInstalled( plugin.slug ) ) ) {
+		await plugins.installPluginFromFile( plugin.zipFilePath );
+	}
 
-    if ( isActive ) {
-        await requestUtils.activatePlugin( plugin.slug );
-    } else {
-        await requestUtils.deactivatePlugin( plugin.slug );
-    }
+	if ( isActive ) {
+		await requestUtils.activatePlugin( plugin.slug );
+	} else {
+		await requestUtils.deactivatePlugin( plugin.slug );
+	}
 }
