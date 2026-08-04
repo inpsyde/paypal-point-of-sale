@@ -3,52 +3,78 @@ import { runWpCli, type AnyCli } from './pos-cli.helper';
 
 // 'paypal-pos.webhook.listener' isn't its own WP option — it's a nested key inside
 // woocommerce_zettle_settings, same as api_token/sdk.integration-id.
-export async function getWebhookConfig( cli: AnyCli ): Promise<
-    { signingKey?: string; destination?: string; eventNames?: string[] } | null
-> {
-    try {
-        const raw = await runWpCli( cli, 'option get woocommerce_zettle_settings --format=json' );
-        return JSON.parse( raw )[ 'paypal-pos.webhook.listener' ] ?? null;
-    } catch {
-        return null;
-    }
+export async function getWebhookConfig( cli: AnyCli ): Promise< {
+	signingKey?: string;
+	destination?: string;
+	eventNames?: string[];
+} | null > {
+	try {
+		const raw = await runWpCli(
+			cli,
+			'option get woocommerce_zettle_settings --format=json'
+		);
+		return JSON.parse( raw )[ 'paypal-pos.webhook.listener' ] ?? null;
+	} catch {
+		return null;
+	}
 }
 
-/** Read the PayPal POS webhook listener's signing key, or '' if not registered. */
+/**
+ * Read the PayPal POS webhook listener's signing key, or '' if not registered.
+ * @param cli
+ */
 export async function getWebhookSigningKey( cli: AnyCli ): Promise< string > {
-    const config = await getWebhookConfig( cli );
-    return config?.signingKey ?? '';
+	const config = await getWebhookConfig( cli );
+	return config?.signingKey ?? '';
 }
 
 // POS-585 needs a key regardless of how registration happened; POS-591 tests that connect()
 // itself triggers registration, so it must keep calling getWebhookSigningKey directly.
-export async function ensureWebhookRegistered( cli: AnyCli ): Promise< string > {
-    const existing = await getWebhookSigningKey( cli );
-    if ( existing ) {
-        return existing;
-    }
-    await runWpCli( cli, 'zettle webhook register' ).catch( () => {} );
-    return getWebhookSigningKey( cli );
+export async function ensureWebhookRegistered(
+	cli: AnyCli
+): Promise< string > {
+	const existing = await getWebhookSigningKey( cli );
+	if ( existing ) {
+		return existing;
+	}
+	await runWpCli( cli, 'zettle webhook register' ).catch( () => {} );
+	return getWebhookSigningKey( cli );
 }
 
-/** Look up the POS-side variant UUID for a synced WC product, or null if not in the ID map. */
-export async function getPosVariantUuid( cli: AnyCli, wcProductId: number ): Promise< string | null > {
-    try {
-        const raw = await runWpCli(
-            cli,
-            `db query "SELECT remote_id FROM $(wp db prefix)zettle_woocommerce_id_map WHERE local_id = ${ wcProductId } AND type = 'variant' LIMIT 1" --skip-column-names`
-        );
-        const uuid = raw.trim();
-        return uuid || null;
-    } catch {
-        return null;
-    }
+/**
+ * Look up the POS-side variant UUID for a synced WC product, or null if not in the ID map.
+ * @param cli
+ * @param wcProductId
+ */
+export async function getPosVariantUuid(
+	cli: AnyCli,
+	wcProductId: number
+): Promise< string | null > {
+	try {
+		const raw = await runWpCli(
+			cli,
+			`db query "SELECT remote_id FROM $(wp db prefix)zettle_woocommerce_id_map WHERE local_id = ${ wcProductId } AND type = 'variant' LIMIT 1" --skip-column-names`
+		);
+		const uuid = raw.trim();
+		return uuid || null;
+	} catch {
+		return null;
+	}
 }
 
-/** Sign a webhook payload the same way PayPal POS/Zettle does, for simulating incoming webhooks. */
-export function signWebhookPayload( timestamp: string, payloadString: string, signingKey: string ): string {
-    return crypto
-        .createHmac( 'sha256', signingKey )
-        .update( `${ timestamp }.${ payloadString }` )
-        .digest( 'hex' );
+/**
+ * Sign a webhook payload the same way PayPal POS/Zettle does, for simulating incoming webhooks.
+ * @param timestamp
+ * @param payloadString
+ * @param signingKey
+ */
+export function signWebhookPayload(
+	timestamp: string,
+	payloadString: string,
+	signingKey: string
+): string {
+	return crypto
+		.createHmac( 'sha256', signingKey )
+		.update( `${ timestamp }.${ payloadString }` )
+		.digest( 'hex' );
 }

@@ -1,5 +1,8 @@
 import { updateDotenv } from '@inpsyde/playwright-utils/build';
-import type { WooCommerceUtils, WooCommerceApi } from '@inpsyde/playwright-utils/build';
+import type {
+	WooCommerceUtils,
+	WooCommerceApi,
+} from '@inpsyde/playwright-utils/build';
 import { shopSettings, taxSettings } from '../../resources';
 
 // GB, not US — PayPal POS does not sync US tax rates at all (a separate, untested merchant
@@ -8,8 +11,10 @@ const country = process.env.WC_DEFAULT_COUNTRY ?? 'uk';
 
 // A fresh WooCommerce install defaults to "Coming soon", which hides prices/checkout from
 // anything that isn't an admin. POS sync tests read prices, so the store must be live.
-export async function setupSiteVisibility( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
-    await wooCommerceUtils.setSiteVisibility( 'live' );
+export async function setupSiteVisibility(
+	wooCommerceUtils: WooCommerceUtils
+): Promise< void > {
+	await wooCommerceUtils.setSiteVisibility( 'live' );
 }
 
 // Checks our own usable credentials actually work, not just whether some key exists
@@ -21,37 +26,41 @@ export async function setupSiteVisibility( wooCommerceUtils: WooCommerceUtils ):
 let apiKeysValidated = false;
 
 export async function ensureWooCommerceApiKeys(
-    wooCommerceUtils: WooCommerceUtils,
-    wooCommerceApi: WooCommerceApi
+	wooCommerceUtils: WooCommerceUtils,
+	wooCommerceApi: WooCommerceApi
 ): Promise< void > {
-    if ( apiKeysValidated ) {
-        return;
-    }
+	if ( apiKeysValidated ) {
+		return;
+	}
 
-    if ( process.env.WC_API_KEY && process.env.WC_API_SECRET ) {
-        try {
-            await wooCommerceApi.wcRequest( 'get', 'settings/general' );
-            apiKeysValidated = true;
-            return;
-        } catch {
-            // Falls through to regenerate below.
-        }
-    }
+	if ( process.env.WC_API_KEY && process.env.WC_API_SECRET ) {
+		try {
+			await wooCommerceApi.wcRequest( 'get', 'settings/general' );
+			apiKeysValidated = true;
+			return;
+		} catch {
+			// Falls through to regenerate below.
+		}
+	}
 
-    const apiKeys = await wooCommerceUtils.createApiKeys();
-    await updateDotenv( '.env', apiKeys );
-    for ( const [ key, value ] of Object.entries( apiKeys ) ) {
-        process.env[ key ] = String( value );
-    }
-    apiKeysValidated = true;
+	const apiKeys = await wooCommerceUtils.createApiKeys();
+	await updateDotenv( '.env', apiKeys );
+	for ( const [ key, value ] of Object.entries( apiKeys ) ) {
+		process.env[ key ] = String( value );
+	}
+	apiKeysValidated = true;
 }
 
 // Country/currency must match whatever the PayPal POS sandbox account is configured for —
 // mismatched settings on either side make product/price sync results meaningless. Set
 // WC_DEFAULT_COUNTRY in .env if the sandbox isn't US-based (see shopSettings for the
 // available keys, re-exported from @inpsyde/playwright-utils).
-export async function setupGeneralSettings( wooCommerceApi: WooCommerceApi ): Promise< void > {
-    await wooCommerceApi.updateGeneralSettings( shopSettings[ country ].general );
+export async function setupGeneralSettings(
+	wooCommerceApi: WooCommerceApi
+): Promise< void > {
+	await wooCommerceApi.updateGeneralSettings(
+		shopSettings[ country ].general
+	);
 }
 
 // PayPal POS enforces per-country allowed VAT rates (GB: 20/12.5/5/4/0) and rejects anything
@@ -59,20 +68,22 @@ export async function setupGeneralSettings( wooCommerceApi: WooCommerceApi ): Pr
 // a valid UK rate, so it fails every product/stock sync once the store's country is GB (USA
 // doesn't care, since PayPal POS doesn't tax-sync US stores at all). Use the UK standard rate.
 const ukVatRate = {
-    country: 'GB',
-    state: '',
-    cities: [],
-    postcodes: [],
-    rate: '20.0000',
-    name: 'UK Standard Rate 20%',
-    shipping: true,
+	country: 'GB',
+	state: '',
+	cities: [],
+	postcodes: [],
+	rate: '20.0000',
+	name: 'UK Standard Rate 20%',
+	shipping: true,
 };
 
-export async function setupTaxes( wooCommerceUtils: WooCommerceUtils ): Promise< void > {
-    await wooCommerceUtils.setTaxes( {
-        options: taxSettings.including.options,
-        rates: [ ukVatRate ],
-    } );
+export async function setupTaxes(
+	wooCommerceUtils: WooCommerceUtils
+): Promise< void > {
+	await wooCommerceUtils.setTaxes( {
+		options: taxSettings.including.options,
+		rates: [ ukVatRate ],
+	} );
 }
 
 // Lets a spec file run standalone without depending on setup:woocommerce having already run.
@@ -82,11 +93,11 @@ export async function setupTaxes( wooCommerceUtils: WooCommerceUtils ): Promise<
 // so there's nothing to "check first" here. The destructive reset stays a deliberate,
 // manual-only step (see E2E-TESTS.md's Test Dependency Model).
 export async function ensureStoreConfigured(
-    wooCommerceUtils: WooCommerceUtils,
-    wooCommerceApi: WooCommerceApi
+	wooCommerceUtils: WooCommerceUtils,
+	wooCommerceApi: WooCommerceApi
 ): Promise< void > {
-    await ensureWooCommerceApiKeys( wooCommerceUtils, wooCommerceApi );
-    await setupSiteVisibility( wooCommerceUtils );
-    await setupGeneralSettings( wooCommerceApi );
-    await setupTaxes( wooCommerceUtils );
+	await ensureWooCommerceApiKeys( wooCommerceUtils, wooCommerceApi );
+	await setupSiteVisibility( wooCommerceUtils );
+	await setupGeneralSettings( wooCommerceApi );
+	await setupTaxes( wooCommerceUtils );
 }
