@@ -84,13 +84,12 @@ export class PosSettingsPage extends WpPage {
 		await expect( this.productsCountText() ).toBeVisible();
 	};
 
-	// The merge/wipe choice is server-rendered hidden (ProductSyncParamView's $noChoice)
-	// when the plugin's remote product count is 0 — i.e. there's nothing to merge or wipe.
-	// That's the common case right after a clean test run's own cleanup, not an error, so
-	// there's nothing to select in that case; only choose "merge" when it's actually offered.
 	selectMergeStrategyIfOffered = async (): Promise< void > => {
 		if ( await this.mergeRadio().isVisible() ) {
-			await this.mergeRadio().check();
+			// Replaces the old mergeRadio().check() (flaky — see POS-591 history). Remove this
+			// comment once the fix has proven stable for a while.
+			await this.page.locator( 'label[for="zettle-merge-products"]' ).click();
+			await expect( this.mergeRadio() ).toBeChecked();
 		}
 	};
 
