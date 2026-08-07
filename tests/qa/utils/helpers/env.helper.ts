@@ -58,9 +58,9 @@ export async function resetEnvironment( cli: AnyCli ): Promise< void > {
 	await ensureStorefrontTheme( cli );
 }
 
-// Runs DevOps' `reset-wp.sh`. Afterwards WordPress has a freshly generated random admin
-// password — retrieve it via 1Password (communicated by DevOps) or `cat ~/.wp-cli/config.yml`
-// on the environment, then update WP_USERNAME/WP_PASSWORD in .env before the next test run.
+// Runs DevOps' `reset-wp.sh`. The script always provisions the same fixed admin
+// credentials, matching WP_USERNAME/WP_PASSWORD already configured in .env — no manual
+// credential retrieval needed after a reset.
 async function resetRemoteEnvironment( cli: AnyCli ): Promise< void > {
 	checkEnvVars( [ 'SSH_LOGIN', 'SSH_HOST', 'SSH_PORT' ] );
 

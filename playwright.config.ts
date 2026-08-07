@@ -108,22 +108,27 @@ export default defineConfig< BaseExtend >( {
         {
             name: 'shard:plugin-lifecycle',
             testMatch: /01-plugin-lifecycle\/.*\.spec\.ts/,
+            dependencies: [ 'setup:env' ],
         },
         {
             name: 'shard:onboarding',
             testMatch: /02-onboarding\/.*\.spec\.ts/,
+            dependencies: [ 'shard:plugin-lifecycle' ],
         },
         {
             name: 'shard:product-sync',
             testMatch: /03-product-sync\/.*\.spec\.ts/,
+            dependencies: [ 'setup:paypal-pos' ],
         },
         {
             name: 'shard:stock-sync',
             testMatch: /04-stock-sync\/.*\.spec\.ts/,
+            dependencies: [ 'setup:paypal-pos' ],
         },
         {
             name: 'shard:webhook',
             testMatch: /05-webhook\/.*\.spec\.ts/,
+            dependencies: [ 'setup:paypal-pos' ],
         },
     ],
 } );
