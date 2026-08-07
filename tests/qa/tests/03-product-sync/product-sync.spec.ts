@@ -579,4 +579,43 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await deleteProduct( cli, product.id );
 		}
 	} );
+
+	test( 'POS-647 | Simple product with title exceeding 256 characters is rejected and not synced; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		// Zettle rejects the create call with a server-side CONSTRAINT_VIOLATION
+		// on `name` (size must be 1-256) — the plugin swallows that exception
+		// (ExportProductJob::attemptCreate) without persisting a status, so the
+		// product resolves to the generic never-synced bucket. See POS-649 for
+		// the underlying gap where this specific reason isn't surfaced to the user.
+		const longName = `POS-647 ${ 'A'.repeat( 250 ) }`; // 258 chars total
+		const product = await createProduct( requestUtils, {
+			name: longName,
+			regular_price: '10.00',
+		} );
+
+		try {
+			await syncProduct( cli, product.id );
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				longName,
+				'not-synced', // generic status — see POS-649 for the underlying gap
+				product.id
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 } );
