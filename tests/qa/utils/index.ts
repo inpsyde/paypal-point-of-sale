@@ -4,3 +4,4 @@ export * from './admin';
 export * from './frontend';
 export * from './helpers';
 export { ZettleApiClient } from './zettle-api';
+export type { ZettleProduct } from './zettle-api';

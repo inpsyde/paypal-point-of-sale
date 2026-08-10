@@ -8,7 +8,8 @@ export type ProductSyncStatus =
 	| 'excluded'
 	| 'unsupported-product-type'
 	| 'too-many-variant-options'
-	| 'too-many-variants';
+	| 'too-many-variants'
+	| 'no-tax-rate';
 
 /**
  * WooCommerce product admin list page with PayPal POS sync-status column assertions.
@@ -113,6 +114,11 @@ export class WcProductsPage extends WpPage {
 			case 'too-many-variants':
 				// Zettle allows at most 99 variants per product (ProductValidator::MAXIMUM_VARIANTS_AMOUNT).
 				await expect( cell ).toContainText( 'Too many variations' );
+				break;
+			case 'no-tax-rate':
+				await expect( cell ).toContainText( 'Not synced' );
+				await expect( cell ).toContainText( 'Not syncable' );
+				await expect( cell ).toContainText( 'No tax rate' );
 				break;
 		}
 	};
