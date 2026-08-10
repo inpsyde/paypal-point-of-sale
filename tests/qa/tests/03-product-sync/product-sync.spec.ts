@@ -5,6 +5,7 @@ import {
 	ensurePosTestReady,
 	createProduct,
 	deleteProduct,
+	assertDeletionUnsyncsFromPos,
 } from '../../utils';
 
 // ── tests ─────────────────────────────────────────────────────────────────────
@@ -103,6 +104,14 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'synced',
 				product.id
 			);
+
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-581 Simple Product'
+			);
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
@@ -137,19 +146,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'DELETE',
-				params: { force: false },
-			} );
-
-			await processQueue( cli );
-
-			await wcProducts.visit( 'trash' );
-			await wcProducts.assertProductSyncStatus(
-				'POS-582 Delete Me',
-				'not-synced',
-				product.id
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-582 Delete Me'
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -197,6 +199,14 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'POS-583 Updated Name',
 				'synced',
 				product.id
+			);
+
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-583 Updated Name'
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -313,6 +323,14 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'synced',
 				product.id
 			);
+
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-580 Type Change'
+			);
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
@@ -420,6 +438,14 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				method: 'DELETE',
 				params: { force: true },
 			} );
+
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-584 T-Shirt'
+			);
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
