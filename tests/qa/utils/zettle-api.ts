@@ -7,6 +7,11 @@ export type ZettleWebhookSubscription = {
 	status?: string;
 };
 
+export type ZettleProduct = {
+	name?: string;
+	uuid?: string;
+};
+
 /**
  * API client for Zettle / PayPal POS endpoints.
  *
@@ -50,6 +55,13 @@ export class ZettleApiClient {
 			{ headers: this.authHeaders() }
 		);
 		return response.json();
+	}
+
+	async deleteProduct( uuid: string ): Promise< void > {
+		await this.request.delete(
+			`https://products.izettle.com/organizations/self/products/${ uuid }`,
+			{ headers: this.authHeaders() }
+		);
 	}
 
 	// ── Inventory ─────────────────────────────────────────────────────────────

@@ -1,3 +1,4 @@
+import { expect } from '@inpsyde/playwright-utils/build';
 import {
 	test,
 	processQueue,
@@ -6,7 +7,11 @@ import {
 	createProduct,
 	deleteProduct,
 	assertDeletionUnsyncsFromPos,
+	ZettleApiClient,
+	type ZettleProduct,
 } from '../../utils';
+
+const ZETTLE_CLIENT_ID = 'de149dc7-44b5-4390-ab64-88e301771f06';
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
@@ -642,6 +647,87 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
+		}
+	} );
+
+	test( 'POS-650 | Product with invalid/unconfigured tax class is not synced; regression;', async ( {
+		wcProducts,
+		wcStatusLogs,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = 'POS-650 No Tax Rate';
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const taxClass = await requestUtils.rest< { slug: string } >( {
+			path: '/wc/v3/taxes/classes',
+			method: 'POST',
+			data: { name: 'POS-650 No Rates' },
+		} );
+
+		const product = await createProduct( requestUtils, {
+			name: PRODUCT_NAME,
+			regular_price: '15.00',
+			tax_class: taxClass.slug,
+		} );
+
+		try {
+			await syncProduct( cli, product.id );
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				PRODUCT_NAME,
+				'no-tax-rate',
+				product.id
+			);
+
+			const products = ( await zettleApi.getProducts() ) as ZettleProduct[];
+			const foundInPos = products.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			expect(
+				foundInPos,
+				'product with no tax rate should not exist in the PayPal POS product library'
+			).toBeUndefined();
+
+			const logContent = await wcStatusLogs.viewLatestLogForSource(
+				'paypal-point-of-sale'
+			);
+			expect(
+				logContent,
+				'expected the plugin log to record the specific "No tax rate" rejection reason'
+			).toContain( 'No tax rate' );
+		} finally {
+			await deleteProduct( cli, product.id );
+			await requestUtils.rest( {
+				path: `/wc/v3/taxes/classes/${ taxClass.slug }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
+
+			const remoteProducts =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const leftover = remoteProducts.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			if ( leftover?.uuid ) {
+				await zettleApi.deleteProduct( leftover.uuid );
+			}
 		}
 	} );
 } );
