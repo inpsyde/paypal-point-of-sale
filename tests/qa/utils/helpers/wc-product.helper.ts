@@ -1,9 +1,10 @@
 import type { RequestUtils } from '@inpsyde/playwright-utils/build';
-import { runWpCli, type AnyCli } from './pos-cli.helper';
+import { runWpCli, processQueue, type AnyCli } from './pos-cli.helper';
+import type { WcProductsPage } from '../admin';
 
 // Loose on purpose: WooCommerce.CreateProduct (from @inpsyde/playwright-utils) requires
 // regular_price and has no status/manage_stock/stock_quantity fields, which tests need.
-type CreateProductData = { name: string } & Record< string, unknown >;
+export type CreateProductData = { name: string } & Record< string, unknown >;
 
 /**
  * Create a WC product for a test; defaults to a published simple product.
@@ -36,6 +37,36 @@ export async function deleteProduct(
 		cli,
 		`wc product delete ${ productId } --force=true --user=1`
 	).catch( () => {} );
+	await processQueue( cli );
+}
+
+/**
+ * Delete a product and assert the admin list shows it as not-synced afterward.
+ * @param requestUtils
+ * @param cli
+ * @param wcProducts
+ * @param productId
+ * @param productName
+ */
+export async function assertDeletionUnsyncsFromPos(
+	requestUtils: RequestUtils,
+	cli: AnyCli,
+	wcProducts: WcProductsPage,
+	productId: number,
+	productName: string
+): Promise< void > {
+	await requestUtils.rest( {
+		path: `/wc/v3/products/${ productId }`,
+		method: 'DELETE',
+		params: { force: false },
+	} );
+	await processQueue( cli );
+	await wcProducts.visit( 'trash' );
+	await wcProducts.assertProductSyncStatus(
+		productName,
+		'not-synced',
+		productId
+	);
 }
 
 /**
