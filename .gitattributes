@@ -14,4 +14,21 @@ phpunit.xml.dist export-ignore
 phpunit.xml.dist export-ignore
 yarn.lock export-ignore
 
-* text eol=lf
+# Line endings
+* text=auto
+
+# Never apply any filter to binary assets
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.otf  binary
+*.ttf  binary
+*.woff binary
+*.woff2 binary
+*.eot  binary
+*.pdf  binary
+*.zip  binary
+*.mo   binary

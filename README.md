@@ -82,6 +82,20 @@ You can also run
 
 to execute it only in a single module (after `cd` to its directory inside `modules.local`).
 
+### Publishing to WordPress.org
+
+Releases are published via the [`Publish to WordPress.org`](.github/workflows/release.yml) GitHub Action, which wraps
+[`inpsyde/reusable-workflows`' `wordpress-org-release.yml`](https://github.com/inpsyde/reusable-workflows/blob/main/docs/wordpress-org-release.md).
+
+Trigger it manually (`workflow_dispatch`) with:
+
+* **`PLUGIN_VERSION`** — the version to publish, as `MAJOR.MINOR.PATCH`. Must match both the `Version:` header in
+  `paypal-point-of-sale.php` and the `Stable tag` in `readme.txt`.
+* **`GIT_REF`** — the build branch or tag to publish, e.g. `main`. This must be a *build* branch (created by the
+  [`Build`](.github/workflows/build.yml) workflow, `dev/main` → `main`), never a `dev/*` source branch — those still
+  carry a `{VERSION}` placeholder instead of a real version number, and the workflow will refuse to run against one.
+* **`UPDATE_TRUNK_ONLY`** — when `true` (default), only SVN trunk is updated; set to `false` to also cut a new SVN tag.
+
 ## Crafted by Syde
 
 The team at [Syde](https://syde.com) is engineering the Web since 2006.
