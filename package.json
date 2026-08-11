@@ -1,6 +1,6 @@
 {
     "name": "zettle-woocommerce",
-    "version": "2.0.0-rc2",
+    "version": "0.0.0",
     "description": "PayPal Point of Sale for WooCommerce",
     "repository": "https://github.com/inpsyde/PayPal-Zettle-POS",
     "license": "GPL-2.0",
