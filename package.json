@@ -18,6 +18,7 @@
         "watch:products-assets": "cd modules/paypal-pos-product-settings && yarn run watch",
         "watch": "run-p watch:*",
         "e2e:test": "playwright test",
+        "e2e:test:single": "playwright test --no-deps",
         "e2e:smoke": "playwright test --grep 'smoke'",
         "e2e:critical": "playwright test --grep 'critical'",
         "e2e:regression": "playwright test --grep 'regression'",
