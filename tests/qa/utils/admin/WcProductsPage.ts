@@ -9,7 +9,8 @@ export type ProductSyncStatus =
 	| 'unsupported-product-type'
 	| 'too-many-variant-options'
 	| 'too-many-variants'
-	| 'no-tax-rate';
+	| 'no-tax-rate'
+	| 'not-visible';
 
 /**
  * WooCommerce product admin list page with PayPal POS sync-status column assertions.
@@ -119,6 +120,11 @@ export class WcProductsPage extends WpPage {
 				await expect( cell ).toContainText( 'Not synced' );
 				await expect( cell ).toContainText( 'Not syncable' );
 				await expect( cell ).toContainText( 'No tax rate' );
+				break;
+			case 'not-visible':
+				await expect( cell ).toContainText( 'Not synced' );
+				await expect( cell ).toContainText( 'Not syncable' );
+				await expect( cell ).toContainText( 'Not visible' );
 				break;
 		}
 	};

@@ -542,4 +542,66 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			}
 		}
 	} );
+
+	test( 'POS-651 | Product with Catalog visibility "Hidden" is not synced; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = 'POS-651 Hidden Catalog Visibility';
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const product = await createProduct( requestUtils, {
+			name: PRODUCT_NAME,
+			regular_price: '10.00',
+			catalog_visibility: 'hidden',
+		} );
+
+		try {
+			await syncProduct( cli, product.id );
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				PRODUCT_NAME,
+				'not-visible',
+				product.id
+			);
+
+			const products =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const foundInPos = products.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			expect(
+				foundInPos,
+				'product with hidden catalog visibility should not exist in the PayPal POS product library'
+			).toBeUndefined();
+		} finally {
+			await deleteProduct( cli, product.id );
+
+			const remoteProducts =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const leftover = remoteProducts.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			if ( leftover?.uuid ) {
+				await zettleApi.deleteProduct( leftover.uuid );
+			}
+		}
+	} );
 } );
