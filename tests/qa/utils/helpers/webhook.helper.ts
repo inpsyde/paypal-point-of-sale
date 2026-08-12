@@ -41,6 +41,31 @@ export async function ensureWebhookRegistered(
 	return getWebhookSigningKey( cli );
 }
 
+async function getPosIdMapUuid(
+	cli: AnyCli,
+	localId: number,
+	type: 'product' | 'variant'
+): Promise< string | null > {
+	try {
+		const prefix = ( await runWpCli( cli, 'db prefix' ) ).trim();
+		const raw = await runWpCli(
+			cli,
+			`db query 'SELECT type, remote_id FROM ${ prefix }zettle_woocommerce_id_map WHERE local_id = ${ localId }' --skip-column-names`
+		);
+		const row = raw
+			.split( '\n' )
+			.map( ( line ) => line.trim() )
+			.find( ( line ) => line.startsWith( `${ type }\t` ) );
+		if ( ! row ) {
+			return null;
+		}
+		const uuid = row.split( '\t' )[ 1 ]?.trim();
+		return uuid || null;
+	} catch {
+		return null;
+	}
+}
+
 /**
  * Look up the POS-side variant UUID for a synced WC product, or null if not in the ID map.
  * @param cli
@@ -50,16 +75,19 @@ export async function getPosVariantUuid(
 	cli: AnyCli,
 	wcProductId: number
 ): Promise< string | null > {
-	try {
-		const raw = await runWpCli(
-			cli,
-			`db query "SELECT remote_id FROM $(wp db prefix)zettle_woocommerce_id_map WHERE local_id = ${ wcProductId } AND type = 'variant' LIMIT 1" --skip-column-names`
-		);
-		const uuid = raw.trim();
-		return uuid || null;
-	} catch {
-		return null;
-	}
+	return getPosIdMapUuid( cli, wcProductId, 'variant' );
+}
+
+/**
+ * Look up the POS-side product UUID for a synced WC product, or null if not in the ID map.
+ * @param cli
+ * @param wcProductId
+ */
+export async function getPosProductUuid(
+	cli: AnyCli,
+	wcProductId: number
+): Promise< string | null > {
+	return getPosIdMapUuid( cli, wcProductId, 'product' );
 }
 
 /**

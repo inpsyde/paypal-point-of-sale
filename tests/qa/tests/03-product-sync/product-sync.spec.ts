@@ -7,6 +7,8 @@ import {
 	createProduct,
 	deleteProduct,
 	assertDeletionUnsyncsFromPos,
+	getPosProductUuid,
+	getPosVariantUuid,
 	ZettleApiClient,
 	type ZettleProduct,
 } from '../../utils';
@@ -508,7 +510,8 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			const products = ( await zettleApi.getProducts() ) as ZettleProduct[];
+			const products =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
 			const foundInPos = products.find(
 				( p ) => p.name === PRODUCT_NAME
 			);
@@ -531,6 +534,121 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				method: 'DELETE',
 				params: { force: true },
 			} );
+
+			const remoteProducts =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const leftover = remoteProducts.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			if ( leftover?.uuid ) {
+				await zettleApi.deleteProduct( leftover.uuid );
+			}
+		}
+	} );
+
+	test( "POS-662 | Deleting a variable product's last variation removes it from PayPal POS; regression;", async ( {
+		wcProducts,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = 'POS-662 Last Variation';
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const product = await createProduct( requestUtils, {
+			name: PRODUCT_NAME,
+			type: 'variable',
+			attributes: [
+				{
+					name: 'Size',
+					variation: true,
+					visible: true,
+					options: [ 'S' ],
+				},
+			],
+		} );
+
+		try {
+			const variation = await requestUtils.rest< { id: number } >( {
+				path: `/wc/v3/products/${ product.id }/variations`,
+				method: 'POST',
+				data: {
+					attributes: [ { name: 'Size', option: 'S' } ],
+					regular_price: '12.00',
+					manage_stock: true,
+					stock_quantity: 5,
+				},
+			} );
+
+			await syncProduct( cli, product.id );
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				PRODUCT_NAME,
+				'synced',
+				product.id
+			);
+
+			const productUuidBefore = await getPosProductUuid(
+				cli,
+				product.id
+			);
+			expect(
+				productUuidBefore,
+				'product should have a POS UUID mapping before its last variation is deleted'
+			).not.toBeNull();
+
+			// Deleting the only remaining variation leaves the variable product with none —
+			// DeleteVariableWithoutVariationsListener (paypal-pos-sync) detects this via
+			// get_available_variations() and deletes the whole remote product, not just the variant.
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }/variations/${ variation.id }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
+
+			await processQueue( cli );
+
+			const products =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const foundInPos = products.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			expect(
+				foundInPos,
+				'product should no longer exist in the PayPal POS product library once its last variation is deleted'
+			).toBeUndefined();
+
+			const productUuidAfter = await getPosProductUuid( cli, product.id );
+			expect(
+				productUuidAfter,
+				'no orphaned product UUID mapping should remain after the last variation is deleted'
+			).toBeNull();
+
+			const variantUuidAfter = await getPosVariantUuid(
+				cli,
+				variation.id
+			);
+			expect(
+				variantUuidAfter,
+				'no orphaned variant UUID mapping should remain after the last variation is deleted'
+			).toBeNull();
+		} finally {
+			await deleteProduct( cli, product.id );
 
 			const remoteProducts =
 				( await zettleApi.getProducts() ) as ZettleProduct[];
