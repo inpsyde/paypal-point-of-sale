@@ -2,7 +2,7 @@
 <ruleset name="Inpsyde Coding Standard">
     	<file>./src</file>
     	<file>./modules</file>
-    	<file>./paypal-point-of-sale.php</file>
+    	<file>./zettle-pos-integration.php</file>
 
     	<config name="zettle-woocommerce" value="zettle-woocommerce"/>
 
