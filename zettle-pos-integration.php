@@ -3,22 +3,22 @@
 //phpcs:disable PSR12.Files.FileHeader.IncorrectOrder
 declare (strict_types=1);
 /**
-* Plugin Name: PayPal Point of Sale
-* Plugin URI:  https://zettle.inpsyde.com/
-* Description: PayPal Point of Sale Integration for WooCommerce
-* Version: 2.0.0
-SHA: faa69327c6403c252702b4ceecf0743aba9ef15c
-* Requires at least: 6.8
-* Requires PHP: 8.2
-* Requires Plugins: woocommerce
-* WC requires at least: 10.2
-* WC tested up to: 10.2
-* Author:      PayPal
-* Author URI:  https://www.paypal.com/us/business/pos
-* License:     GPL-2.0
-* Text Domain: paypal-point-of-sale
-* Domain Path: /languages
-*/
+ * Plugin Name: PayPal Point of Sale
+ * Plugin URI:  https://zettle.inpsyde.com/
+ * Description: PayPal Point of Sale Integration for WooCommerce
+ * Version: 0.0.0+release-2-0-0.dc90923
+ * SHA: dc909238e29e8308058d753b8a357c0446e7863e
+ * Requires at least: 6.8
+ * Requires PHP: 8.2
+ * Requires Plugins: woocommerce
+ * WC requires at least: 10.2
+ * WC tested up to: 10.2
+ * Author:      PayPal
+ * Author URI:  https://www.paypal.com/us/business/pos
+ * License:     GPL-2.0
+ * Text Domain: paypal-point-of-sale
+ * Domain Path: /languages
+ */
 /**
  * phpcs:disable PSR1.Files.SideEffects
  * phpcs:disable Squiz.PHP.CommentedOutCode.Found
