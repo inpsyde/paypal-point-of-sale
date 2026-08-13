@@ -10,6 +10,7 @@ export type ZettleWebhookSubscription = {
 export type ZettleProduct = {
 	name?: string;
 	uuid?: string;
+	variants?: { sku?: string }[];
 };
 
 /**

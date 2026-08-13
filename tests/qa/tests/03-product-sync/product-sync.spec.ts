@@ -722,4 +722,90 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			}
 		}
 	} );
+
+	test( 'POS-664 | Product SKU syncs to POS and stays in sync after an update; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = 'POS-664 SKU Sync Product';
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const product = await createProduct( requestUtils, {
+			name: PRODUCT_NAME,
+			regular_price: '12.00',
+			sku: 'WC-SKU-0001',
+		} );
+
+		try {
+			await syncProduct( cli, product.id );
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				PRODUCT_NAME,
+				'synced',
+				product.id
+			);
+
+			const productsAfterCreate =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const foundAfterCreate = productsAfterCreate.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			expect(
+				foundAfterCreate?.variants?.[ 0 ]?.sku,
+				'SKU should be synced to the PayPal POS product library on create'
+			).toBe( 'WC-SKU-0001' );
+
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }`,
+				method: 'PUT',
+				data: { sku: 'WC-SKU-0002' },
+			} );
+
+			await syncProduct( cli, product.id );
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				PRODUCT_NAME,
+				'synced',
+				product.id
+			);
+
+			const productsAfterUpdate =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const foundAfterUpdate = productsAfterUpdate.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			expect(
+				foundAfterUpdate?.variants?.[ 0 ]?.sku,
+				'SKU should be updated in the PayPal POS product library after a product update'
+			).toBe( 'WC-SKU-0002' );
+		} finally {
+			await deleteProduct( cli, product.id );
+
+			const remoteProducts =
+				( await zettleApi.getProducts() ) as ZettleProduct[];
+			const leftover = remoteProducts.find(
+				( p ) => p.name === PRODUCT_NAME
+			);
+			if ( leftover?.uuid ) {
+				await zettleApi.deleteProduct( leftover.uuid );
+			}
+		}
+	} );
 } );
