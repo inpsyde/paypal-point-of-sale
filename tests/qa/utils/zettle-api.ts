@@ -65,6 +65,26 @@ export class ZettleApiClient {
 		);
 	}
 
+	async findProductByName(
+		name: string
+	): Promise< ZettleProduct | undefined > {
+		const products = ( await this.getProducts() ) as ZettleProduct[];
+		return products.find( ( product ) => product.name === name );
+	}
+
+	/**
+	 * Delete a remote product by name, if one exists — used to clean up debris left behind
+	 * when a rejection/exclusion test's product never made it into the WC↔POS id map (so
+	 * deleteProduct(cli, ...) alone wouldn't know to remove it remotely).
+	 * @param name
+	 */
+	async deleteProductByName( name: string ): Promise< void > {
+		const found = await this.findProductByName( name );
+		if ( found?.uuid ) {
+			await this.deleteProduct( found.uuid );
+		}
+	}
+
 	// ── Inventory ─────────────────────────────────────────────────────────────
 
 	async getInventoryBalance( locationUuid: string ): Promise< unknown > {

@@ -3,7 +3,7 @@ import {
 	test,
 	createProduct,
 	deleteProduct,
-	syncProduct,
+	syncAndAssertStatus,
 	type CreateProductData,
 	type ProductSyncStatus,
 } from '../../../utils';
@@ -47,9 +47,9 @@ export const testRejectedProductSync = ( data: RejectedSyncCase ) => {
 				await data.beforeSync( requestUtils, product.id );
 			}
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				data.productData.name,
 				data.expectedStatus,
 				product.id

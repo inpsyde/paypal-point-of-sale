@@ -1,6 +1,11 @@
 import type { RequestUtils } from '@inpsyde/playwright-utils/build';
-import { runWpCli, processQueue, type AnyCli } from './pos-cli.helper';
-import type { WcProductsPage } from '../admin';
+import {
+	runWpCli,
+	processQueue,
+	syncProduct,
+	type AnyCli,
+} from './pos-cli.helper';
+import type { WcProductsPage, ProductSyncStatus } from '../admin';
 
 // Loose on purpose: WooCommerce.CreateProduct (from @inpsyde/playwright-utils) requires
 // regular_price and has no status/manage_stock/stock_quantity fields, which tests need.
@@ -38,6 +43,27 @@ export async function deleteProduct(
 		`wc product delete ${ productId } --force=true --user=1`
 	).catch( () => {} );
 	await processQueue( cli );
+}
+
+/**
+ * Trigger a sync for a product and assert the resulting status shown in the admin list —
+ * the sequence nearly every product-sync/stock-sync test ends up repeating.
+ * @param cli
+ * @param wcProducts
+ * @param productName
+ * @param status
+ * @param productId
+ */
+export async function syncAndAssertStatus(
+	cli: AnyCli,
+	wcProducts: WcProductsPage,
+	productName: string,
+	status: ProductSyncStatus,
+	productId: number
+): Promise< void > {
+	await syncProduct( cli, productId );
+	await wcProducts.visit();
+	await wcProducts.assertProductSyncStatus( productName, status, productId );
 }
 
 /**
