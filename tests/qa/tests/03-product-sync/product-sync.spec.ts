@@ -2,7 +2,7 @@ import { expect } from '@inpsyde/playwright-utils/build';
 import {
 	test,
 	processQueue,
-	syncProduct,
+	syncAndAssertStatus,
 	ensurePosTestReady,
 	createProduct,
 	deleteProduct,
@@ -10,7 +10,6 @@ import {
 	getPosProductUuid,
 	getPosVariantUuid,
 	ZettleApiClient,
-	type ZettleProduct,
 } from '../../utils';
 import { rejectedSyncCases } from './_test-data';
 import { testRejectedProductSync } from './_test-scenarios';
@@ -106,9 +105,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-581 Simple Product',
 				'synced',
 				product.id
@@ -147,9 +146,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-582 Delete Me',
 				'synced',
 				product.id
@@ -188,9 +187,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-583 Original Name',
 				'synced',
 				product.id
@@ -202,9 +201,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				data: { name: 'POS-583 Updated Name', regular_price: '29.99' },
 			} );
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-583 Updated Name',
 				'synced',
 				product.id
@@ -244,9 +243,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-578 Exclude Me',
 				'synced',
 				product.id
@@ -290,9 +289,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-580 Type Change',
 				'synced',
 				product.id
@@ -325,9 +324,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				},
 			} );
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-580 Type Change',
 				'synced',
 				product.id
@@ -396,9 +395,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				},
 			} );
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-584 T-Shirt',
 				'synced',
 				product.id
@@ -415,9 +414,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				},
 			} );
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-584 T-Shirt',
 				'synced',
 				product.id
@@ -502,21 +501,16 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				PRODUCT_NAME,
 				'no-tax-rate',
 				product.id
 			);
 
-			const products =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const foundInPos = products.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
 			expect(
-				foundInPos,
+				await zettleApi.findProductByName( PRODUCT_NAME ),
 				'product with no tax rate should not exist in the PayPal POS product library'
 			).toBeUndefined();
 
@@ -535,14 +529,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				params: { force: true },
 			} );
 
-			const remoteProducts =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const leftover = remoteProducts.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
-			if ( leftover?.uuid ) {
-				await zettleApi.deleteProduct( leftover.uuid );
-			}
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
 		}
 	} );
 
@@ -595,9 +582,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				},
 			} );
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				PRODUCT_NAME,
 				'synced',
 				product.id
@@ -623,13 +610,8 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 			await processQueue( cli );
 
-			const products =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const foundInPos = products.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
 			expect(
-				foundInPos,
+				await zettleApi.findProductByName( PRODUCT_NAME ),
 				'product should no longer exist in the PayPal POS product library once its last variation is deleted'
 			).toBeUndefined();
 
@@ -649,15 +631,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			).toBeNull();
 		} finally {
 			await deleteProduct( cli, product.id );
-
-			const remoteProducts =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const leftover = remoteProducts.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
-			if ( leftover?.uuid ) {
-				await zettleApi.deleteProduct( leftover.uuid );
-			}
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
 		}
 	} );
 
@@ -692,34 +666,21 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				PRODUCT_NAME,
 				'not-visible',
 				product.id
 			);
 
-			const products =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const foundInPos = products.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
 			expect(
-				foundInPos,
+				await zettleApi.findProductByName( PRODUCT_NAME ),
 				'product with hidden catalog visibility should not exist in the PayPal POS product library'
 			).toBeUndefined();
 		} finally {
 			await deleteProduct( cli, product.id );
-
-			const remoteProducts =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const leftover = remoteProducts.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
-			if ( leftover?.uuid ) {
-				await zettleApi.deleteProduct( leftover.uuid );
-			}
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
 		}
 	} );
 
@@ -754,19 +715,16 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				PRODUCT_NAME,
 				'synced',
 				product.id
 			);
 
-			const productsAfterCreate =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const foundAfterCreate = productsAfterCreate.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
+			const foundAfterCreate =
+				await zettleApi.findProductByName( PRODUCT_NAME );
 			expect(
 				foundAfterCreate?.variants?.[ 0 ]?.sku,
 				'SKU should be synced to the PayPal POS product library on create'
@@ -778,34 +736,23 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				data: { sku: 'WC-SKU-0002' },
 			} );
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				PRODUCT_NAME,
 				'synced',
 				product.id
 			);
 
-			const productsAfterUpdate =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const foundAfterUpdate = productsAfterUpdate.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
+			const foundAfterUpdate =
+				await zettleApi.findProductByName( PRODUCT_NAME );
 			expect(
 				foundAfterUpdate?.variants?.[ 0 ]?.sku,
 				'SKU should be updated in the PayPal POS product library after a product update'
 			).toBe( 'WC-SKU-0002' );
 		} finally {
 			await deleteProduct( cli, product.id );
-
-			const remoteProducts =
-				( await zettleApi.getProducts() ) as ZettleProduct[];
-			const leftover = remoteProducts.find(
-				( p ) => p.name === PRODUCT_NAME
-			);
-			if ( leftover?.uuid ) {
-				await zettleApi.deleteProduct( leftover.uuid );
-			}
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
 		}
 	} );
 } );

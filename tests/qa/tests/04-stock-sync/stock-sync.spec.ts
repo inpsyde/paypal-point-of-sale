@@ -3,7 +3,7 @@ import { expect } from '@inpsyde/playwright-utils/build';
 import {
 	test,
 	processQueue,
-	syncProduct,
+	syncAndAssertStatus,
 	ensurePosTestReady,
 	createProduct,
 	deleteProduct,
@@ -58,9 +58,9 @@ test.describe( 'Stock Sync', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-587 Stock Update',
 				'synced',
 				product.id
@@ -72,9 +72,9 @@ test.describe( 'Stock Sync', () => {
 				data: { stock_quantity: 25 },
 			} );
 
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-587 Stock Update',
 				'synced',
 				product.id
@@ -97,9 +97,9 @@ test.describe( 'Stock Sync', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-588 Stock Mgmt Disable',
 				'synced',
 				product.id
@@ -136,9 +136,9 @@ test.describe( 'Stock Sync', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-586 Order Stock',
 				'synced',
 				product.id
@@ -181,9 +181,9 @@ test.describe( 'Stock Sync', () => {
 		} );
 
 		try {
-			await syncProduct( cli, product.id );
-			await wcProducts.visit();
-			await wcProducts.assertProductSyncStatus(
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
 				'POS-585 Webhook Stock',
 				'synced',
 				product.id
