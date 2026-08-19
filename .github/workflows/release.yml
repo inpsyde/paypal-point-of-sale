@@ -8,6 +8,10 @@ on:
       GIT_REF:
         description: 'Git tag or branch to publish'
         required: true
+      DRY_RUN:
+        description: 'Do not commit to SVN'
+        type: boolean
+        default: true
       UPDATE_TRUNK_ONLY:
         description: 'Only update trunk, skip tag creation'
         type: boolean
@@ -27,7 +31,7 @@ jobs:
     needs: validate
     uses: inpsyde/reusable-workflows/.github/workflows/wordpress-org-release.yml@chore/remove-extra-env-var
     with:
-      DRY_RUN: true # Used while implementing. Remove or set to false when finished
+      DRY_RUN: ${{ inputs.DRY_RUN }}
       SVN_PLUGIN_SLUG: zettle-pos-integration
       PLUGIN_VERSION: ${{ inputs.PLUGIN_VERSION }}
       GIT_REF: ${{ inputs.GIT_REF }}
