@@ -25,13 +25,13 @@ jobs:
 
   publish:
     needs: validate
-    uses: inpsyde/reusable-workflows/.github/workflows/wordpress-org-release.yml@main
+    uses: inpsyde/reusable-workflows/.github/workflows/wordpress-org-release.yml@chore/remove-extra-env-var
     with:
       DRY_RUN: true # Used while implementing. Remove or set to false when finished
       SVN_PLUGIN_SLUG: zettle-pos-integration
       PLUGIN_VERSION: ${{ inputs.PLUGIN_VERSION }}
       GIT_REF: ${{ inputs.GIT_REF }}
-      UPDATE_TRUNK_ONLY: ${{ inputs.UPDATE_TRUNK_ONLY == 'true' }}
+      UPDATE_TRUNK_ONLY: ${{ inputs.UPDATE_TRUNK_ONLY }}
     secrets:
       SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
       SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
