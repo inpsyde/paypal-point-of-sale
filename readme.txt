@@ -4,7 +4,7 @@ Tags: point-of-sale, inventory, stock-sync, woocommerce, pos
 Requires at least: 6.8
 Tested up to: 7.0
 Requires PHP: 8.2
-Stable tag: 1.6.1
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,16 @@ Please report security bugs found in the source code of the PayPal POS plugin th
 8. Excluding a product from sync.
 
 == Changelog ==
+
+= 2.0.0 =
+
+* Enhancement - Rebranded plugin to PayPal POS for WooCommerce
+* Enhancement - Hide PayPal POS integration tab for grouped and external products
+* Enhancement - Scope plugin code to prevent dependency conflicts
+* Enhancement - Migrate modularity implementation to inpsyde/modularity
+* Enhancement - Migrate from Psalm to PHPStan
+* Enhancement - Introduced Patchstack mVDP program
+* Fix - Early translation loading resulting in _load_textdomain_just_in_time notice
 
 = 1.6.1 =
 - Support latest WordPress 6.8 & WooCommerce 9.8.

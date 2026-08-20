@@ -25,7 +25,7 @@ return ['paypal-pos.sync.product.sync-active-for-id' => static function (callabl
         return !$excludedFromSync->hasTerm((int) $product->get_id());
     };
 }, 'inpsyde.assets.registry' => static function (array $previous, C $container): array {
-    $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
+    $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/zettle-pos-integration.php'), '/\\');
     $isProductsEditor = $container->get('paypal-pos.product-settings.is-product-editor');
     // Products Editor Style
     $productEditorStyle = (new Style('zettle-product-editor-style', "{$assetUri}/products-style.css", BaseAsset::BACKEND))->canEnqueue($isProductsEditor());
