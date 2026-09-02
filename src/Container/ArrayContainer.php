@@ -1,39 +1,32 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Syde\PayPal\PointOfSale\Container;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container;
 
 use Exception;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
-
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Psr\Container\NotFoundExceptionInterface;
 class ArrayContainer implements ContainerInterface, WritableContainerInterface, ClearableContainerInterface
 {
     private array $options;
-
     public function __construct(array $options)
     {
         $this->options = $options;
     }
-
     /**
      * @inheritDoc
      */
     public function get(string $id)
     {
         if (!$this->has($id)) {
-            $exceptionMessage = sprintf(
-                'Could not find entry %s in the options array',
-                esc_html($id)
-            );
+            $exceptionMessage = sprintf('Could not find entry %s in the options array', esc_html($id));
             // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-            throw new class ($exceptionMessage) extends Exception implements NotFoundExceptionInterface {
+            throw new class($exceptionMessage) extends Exception implements NotFoundExceptionInterface
+            {
             };
         }
         return $this->options[$id];
     }
-
     /**
      * @inheritDoc
      */
@@ -41,7 +34,6 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
     {
         return array_key_exists($id, $this->options);
     }
-
     /**
      * @inheritDoc
      */
@@ -49,14 +41,12 @@ class ArrayContainer implements ContainerInterface, WritableContainerInterface, 
     {
         $this->options[$key] = $value;
     }
-
     public function unset(string $key): void
     {
         if ($this->has($key)) {
             unset($this->options[$key]);
         }
     }
-
     public function clear(): void
     {
         $this->options = [];
