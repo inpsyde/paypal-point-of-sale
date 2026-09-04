@@ -41,10 +41,6 @@ class DeprecatedHooks
      */
     private const DEPRECATED_SINCE = '2.0.0';
     /**
-     * Appended to the notice produced by `_deprecated_hook()`.
-     */
-    private const MESSAGE = 'The hook was renamed when the plugin was rebranded to PayPal Point of Sale.';
-    /**
      * Passed as `$accepted_args` so a bridge always receives every argument the current hook was
      * fired with: `WP_Hook::apply_filters()` only slices when `accepted_args` is lower than the
      * number of passed arguments. Forwarding verbatim keeps the deprecated hook's payload
@@ -55,12 +51,12 @@ class DeprecatedHooks
     {
         foreach (self::FILTERS as $deprecated => $current) {
             add_filter($current, static function (mixed ...$args) use ($deprecated, $current): mixed {
-                return apply_filters_deprecated($deprecated, $args, self::DEPRECATED_SINCE, $current, self::MESSAGE);
+                return apply_filters_deprecated($deprecated, $args, self::DEPRECATED_SINCE, $current);
             }, 10, self::ACCEPT_ALL_ARGS);
         }
         foreach (self::ACTIONS as $deprecated => $current) {
             add_action($current, static function (mixed ...$args) use ($deprecated, $current): void {
-                do_action_deprecated($deprecated, $args, self::DEPRECATED_SINCE, $current, self::MESSAGE);
+                do_action_deprecated($deprecated, $args, self::DEPRECATED_SINCE, $current);
             }, 10, self::ACCEPT_ALL_ARGS);
         }
     }
