@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Syde\PayPal\PointOfSale;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
 /**
  * Keeps the hook names used before the 2.0.0 rebranding working.
@@ -30,83 +29,39 @@ class DeprecatedHooks
      *
      * @var array<string, string>
      */
-    private const FILTERS = [
-        'zettle-pos-integration.barcode.value' =>
-            'paypal-point-of-sale.barcode.value',
-        'zettle-pos-integration.barcode.standard-input-ui-enabled' =>
-            'paypal-point-of-sale.barcode.standard-input-ui-enabled',
-        'zettle-pos-integration.http.client' =>
-            'paypal-point-of-sale.http.client',
-        'zettle-pos-integration.sync.clear-cache-before-stock-sync' =>
-            'paypal-point-of-sale.sync.clear-cache-before-stock-sync',
-    ];
-
+    private const FILTERS = ['zettle-pos-integration.barcode.value' => 'paypal-point-of-sale.barcode.value', 'zettle-pos-integration.barcode.standard-input-ui-enabled' => 'paypal-point-of-sale.barcode.standard-input-ui-enabled', 'zettle-pos-integration.http.client' => 'paypal-point-of-sale.http.client', 'zettle-pos-integration.sync.clear-cache-before-stock-sync' => 'paypal-point-of-sale.sync.clear-cache-before-stock-sync'];
     /**
      * Deprecated action name => current action name.
      *
      * @var array<string, string>
      */
-    private const ACTIONS = [
-        'zettle-pos-integration.init' => 'paypal-point-of-sale.init',
-        'zettle-pos-integration.migrate' => 'paypal-point-of-sale.migrate',
-        'zettle-pos-integration.activate' => 'paypal-point-of-sale.activate',
-        'zettle-pos-integration.deactivate' => 'paypal-point-of-sale.deactivate',
-        'zettle.clear-product-cache' => 'paypal-pos.clear-product-cache',
-    ];
-
+    private const ACTIONS = ['zettle-pos-integration.init' => 'paypal-point-of-sale.init', 'zettle-pos-integration.migrate' => 'paypal-point-of-sale.migrate', 'zettle-pos-integration.activate' => 'paypal-point-of-sale.activate', 'zettle-pos-integration.deactivate' => 'paypal-point-of-sale.deactivate', 'zettle.clear-product-cache' => 'paypal-pos.clear-product-cache'];
     /**
      * The plugin version the hooks above were renamed in.
      */
     private const DEPRECATED_SINCE = '2.0.0';
-
     /**
      * Appended to the notice produced by `_deprecated_hook()`.
      */
-    private const MESSAGE =
-        'The hook was renamed when the plugin was rebranded to PayPal Point of Sale.';
-
+    private const MESSAGE = 'The hook was renamed when the plugin was rebranded to PayPal Point of Sale.';
     /**
      * Passed as `$accepted_args` so a bridge always receives every argument the current hook was
      * fired with: `WP_Hook::apply_filters()` only slices when `accepted_args` is lower than the
      * number of passed arguments. Forwarding verbatim keeps the deprecated hook's payload
      * identical - including the empty string `do_action()` substitutes for argument-less actions.
      */
-    private const ACCEPT_ALL_ARGS = PHP_INT_MAX;
-
+    private const ACCEPT_ALL_ARGS = \PHP_INT_MAX;
     public function register(): void
     {
         foreach (self::FILTERS as $deprecated => $current) {
-            add_filter(
-                $current,
-                static function (mixed ...$args) use ($deprecated, $current): mixed {
-                    return apply_filters_deprecated(
-                        $deprecated,
-                        $args,
-                        self::DEPRECATED_SINCE,
-                        $current,
-                        self::MESSAGE
-                    );
-                },
-                10,
-                self::ACCEPT_ALL_ARGS
-            );
+            add_filter($current, static function (mixed ...$args) use ($deprecated, $current): mixed {
+                return apply_filters_deprecated($deprecated, $args, self::DEPRECATED_SINCE, $current, self::MESSAGE);
+            }, 10, self::ACCEPT_ALL_ARGS);
         }
-
         foreach (self::ACTIONS as $deprecated => $current) {
-            add_action(
-                $current,
-                static function (mixed ...$args) use ($deprecated, $current): void {
-                    do_action_deprecated(
-                        $deprecated,
-                        $args,
-                        self::DEPRECATED_SINCE,
-                        $current,
-                        self::MESSAGE
-                    );
-                },
-                10,
-                self::ACCEPT_ALL_ARGS
-            );
+            add_action($current, static function (mixed ...$args) use ($deprecated, $current): void {
+                do_action_deprecated($deprecated, $args, self::DEPRECATED_SINCE, $current, self::MESSAGE);
+            }, 10, self::ACCEPT_ALL_ARGS);
         }
     }
 }
