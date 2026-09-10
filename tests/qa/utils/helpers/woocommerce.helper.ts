@@ -5,24 +5,14 @@ import type {
 } from '@inpsyde/playwright-utils/build';
 import { shopSettings, taxSettings } from '../../resources';
 
-// GB, not US — PayPal POS does not sync US tax rates at all (a separate, untested merchant
-// scenario), so USA would leave tax sync effectively unverified by default.
 const country = process.env.WC_DEFAULT_COUNTRY ?? 'uk';
 
-// A fresh WooCommerce install defaults to "Coming soon", which hides prices/checkout from
-// anything that isn't an admin. POS sync tests read prices, so the store must be live.
 export async function setupSiteVisibility(
 	wooCommerceUtils: WooCommerceUtils
 ): Promise< void > {
 	await wooCommerceUtils.setSiteVisibility( 'live' );
 }
 
-// Checks our own usable credentials actually work, not just whether some key exists
-// server-side (WC never exposes a secret again after creation, so an unrelated existing key
-// is useless to us) and not just whether .env has a value (a wp-env/Kinsta reset that ran
-// outside our own resetEnvironment() — e.g. a manual `wp-env destroy` — leaves a cached key
-// that no longer exists server-side, 401ing every WC REST call until someone notices). One
-// live check per worker is cheap; cached after that since credentials don't change mid-run.
 let apiKeysValidated = false;
 
 export async function ensureWooCommerceApiKeys(
@@ -51,10 +41,6 @@ export async function ensureWooCommerceApiKeys(
 	apiKeysValidated = true;
 }
 
-// Country/currency must match whatever the PayPal POS sandbox account is configured for —
-// mismatched settings on either side make product/price sync results meaningless. Set
-// WC_DEFAULT_COUNTRY in .env if the sandbox isn't US-based (see shopSettings for the
-// available keys, re-exported from @inpsyde/playwright-utils).
 export async function setupGeneralSettings(
 	wooCommerceApi: WooCommerceApi
 ): Promise< void > {
@@ -62,11 +48,12 @@ export async function setupGeneralSettings(
 		shopSettings[ country ].general
 	);
 }
-
-// PayPal POS enforces per-country allowed VAT rates (GB: 20/12.5/5/4/0) and rejects anything
-// else with VAT_NOT_ALLOWED_IN_COUNTRY. The library's generic "worldwide 10%" fixture is not
-// a valid UK rate, so it fails every product/stock sync once the store's country is GB (USA
-// doesn't care, since PayPal POS doesn't tax-sync US stores at all). Use the UK standard rate.
+/*
+ PayPal POS enforces per-country allowed VAT rates (GB: 20/12.5/5/4/0) and rejects anything
+ else with VAT_NOT_ALLOWED_IN_COUNTRY. The library's generic "worldwide 10%" fixture is not
+ a valid UK rate, so it fails every product/stock sync once the store's country is GB (USA
+ doesn't care, since PayPal POS doesn't tax-sync US stores at all). Use the UK standard rate.
+*/
 const ukVatRate = {
 	country: 'GB',
 	state: '',
@@ -86,12 +73,6 @@ export async function setupTaxes(
 	} );
 }
 
-// Lets a spec file run standalone without depending on setup:woocommerce having already run.
-// Safe to call unconditionally on every test, unlike setup:env's destructive `wp db reset` —
-// submitting the same site-visibility form, general settings, and tax rate the store already
-// has is a harmless no-op (createTax itself looks up the rate by name before creating one),
-// so there's nothing to "check first" here. The destructive reset stays a deliberate,
-// manual-only step (see E2E-TESTS.md's Test Dependency Model).
 export async function ensureStoreConfigured(
 	wooCommerceUtils: WooCommerceUtils,
 	wooCommerceApi: WooCommerceApi

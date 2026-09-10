@@ -79,7 +79,6 @@ export class WcProductsPage extends WpPage {
 				? this.syncStatusCellById( productId )
 				: this.syncStatusCell( productName );
 
-		// Wait for the JS loader spinner to be replaced by actual status content
 		await cell
 			.locator( '.loader' )
 			.first()

@@ -1,8 +1,6 @@
 import * as crypto from 'crypto';
 import { runWpCli, type AnyCli } from './pos-cli.helper';
 
-// 'paypal-pos.webhook.listener' isn't its own WP option — it's a nested key inside
-// woocommerce_zettle_settings, same as api_token/sdk.integration-id.
 export async function getWebhookConfig( cli: AnyCli ): Promise< {
 	signingKey?: string;
 	destination?: string;
@@ -28,8 +26,6 @@ export async function getWebhookSigningKey( cli: AnyCli ): Promise< string > {
 	return config?.signingKey ?? '';
 }
 
-// POS-585 needs a key regardless of how registration happened; POS-591 tests that connect()
-// itself triggers registration, so it must keep calling getWebhookSigningKey directly.
 export async function ensureWebhookRegistered(
 	cli: AnyCli
 ): Promise< string > {

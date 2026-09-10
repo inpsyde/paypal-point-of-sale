@@ -13,8 +13,6 @@ export type RejectedSyncCase = {
 	productData: CreateProductData;
 	expectedStatus: ProductSyncStatus;
 	timeout?: number;
-	// Runs after product creation but before syncProduct — for cases that need extra REST
-	// setup (e.g. variations) beyond what createProduct's single POST covers.
 	beforeSync?: (
 		requestUtils: RequestUtils,
 		productId: number

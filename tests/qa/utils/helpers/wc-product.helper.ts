@@ -7,8 +7,6 @@ import {
 } from './pos-cli.helper';
 import type { WcProductsPage, ProductSyncStatus } from '../admin';
 
-// Loose on purpose: WooCommerce.CreateProduct (from @inpsyde/playwright-utils) requires
-// regular_price and has no status/manage_stock/stock_quantity fields, which tests need.
 export type CreateProductData = { name: string } & Record< string, unknown >;
 
 /**

@@ -32,8 +32,6 @@ test.describe( 'Webhooks', () => {
 			return;
 		}
 
-		// PayPal connects to the destination to validate it during registration —
-		// localhost is never reachable from their servers (DESTINATION_NOT_ACCESSIBLE).
 		const isPubliclyReachable =
 			process.env.NGROK_ENABLED === 'true' ||
 			! /localhost|127\.0\.0\.1/.test( process.env.WP_BASE_URL ?? '' );
@@ -51,8 +49,6 @@ test.describe( 'Webhooks', () => {
 		await zettleApi.authenticate( CLIENT_ID, apiKey );
 		const subscriptions = await zettleApi.getWebhookSubscriptions();
 
-		// Match on host + path, not just a path suffix — otherwise a stale subscription
-		// left over from a different environment (e.g. Kinsta) would false-positive here.
 		const expectedHost = new URL( process.env.WP_BASE_URL ?? '' ).host;
 		const registered = subscriptions.find( ( subscription ) => {
 			const destination = new URL( subscription.destination );
