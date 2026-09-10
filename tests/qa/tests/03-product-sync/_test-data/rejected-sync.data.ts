@@ -13,8 +13,6 @@ const tooLongTitle = `POS-647 ${ 'A'.repeat( 250 ) }`; // 258 chars total
 export const rejectedSyncCases: RejectedSyncCase[] = [
 	{
 		title: 'POS-643 | Unsupported product type shows Unsupported status; regression;',
-		// Only simple/variable are in the plugin's allowed-product-types list
-		// (paypal-pos-sync/services.php) — grouped products fall outside it.
 		productData: {
 			name: 'POS-643 Grouped Product',
 			type: 'grouped',
@@ -23,9 +21,6 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 	},
 	{
 		title: 'POS-644 | Variable product with more than 3 variation attributes is rejected; regression;',
-		// Zettle allows at most 3 variant option definitions per product
-		// (VariantOptionDefinitionsValidator::MAXIMUM_DEFINITIONS_AMOUNT) — 4 attributes
-		// should trip that limit.
 		productData: {
 			name: 'POS-644 Too Many Attributes',
 			type: 'variable',
@@ -53,9 +48,6 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 	},
 	{
 		title: 'POS-645 | Variable product with more than 99 variations is rejected; regression;',
-		// Zettle allows at most 99 variants per product (ProductValidator::MAXIMUM_VARIANTS_AMOUNT)
-		// — 100 variations should trip that limit. Uses the variations batch endpoint to
-		// avoid 100 sequential REST round-trips.
 		timeout: 10 * 60_000,
 		productData: {
 			name: 'POS-645 Too Many Variations',
@@ -80,9 +72,6 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 						regular_price: '10.00',
 					} ) ),
 				},
-				// Default actionTimeout (30s) isn't enough here: the plugin's lifecycle-event
-				// hooks rebuild the full product + variant DTO on every single variation save
-				// (see ProductValidator/VariantBuilder), so cost grows with variation count.
 				timeout: 5 * 60_000,
 			} );
 		},
@@ -93,11 +82,6 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 			name: tooLongTitle,
 			regular_price: '10.00',
 		},
-		// Zettle rejects the create call with a server-side CONSTRAINT_VIOLATION on `name`
-		// (size must be 1-256) — the plugin swallows that exception
-		// (ExportProductJob::attemptCreate) without persisting a status, so the product
-		// resolves to the generic never-synced bucket. See POS-649 for the underlying gap
-		// where this specific reason isn't surfaced to the user.
 		expectedStatus: 'not-synced',
 	},
 ];

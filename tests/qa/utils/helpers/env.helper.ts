@@ -14,26 +14,12 @@ const checkEnvVars = ( names: string[] ): void => {
 	}
 };
 
-// A reset wipes the DB row backing whatever ck_/cs_ pair is in .env, but leaves the now-dead
-// strings in place. ensureWooCommerceApiKeys() now live-validates the cached key (see its own
-// comment) so it would catch this on its own — this just makes the invalidation immediate
-// instead of waiting for the first post-reset WC REST call to 401 and fall through.
 async function invalidateApiKeys(): Promise< void > {
 	delete process.env.WC_API_KEY;
 	delete process.env.WC_API_SECRET;
 	await updateDotenv( '.env', { WC_API_KEY: '', WC_API_SECRET: '' } );
 }
 
-// Wipes the database and reinstalls WordPress + WooCommerce from scratch. Destructive and
-// irreversible — use with care on shared environments.
-//
-// - wpenv (local): runs `wp db reset` + `wp core install` through the WP-CLI fixture.
-// - ssh (Kinsta): DevOps deploys a dedicated per-environment `reset-wp.sh` script for this
-//   purpose (see "How can QA reset a test environment?" —
-//   https://inpsyde.atlassian.net/wiki/spaces/ENG/pages/6240338010). It also restores the
-//   Kinsta MU plugin and clears Kinsta/WP caches, which a raw `wp core install` does not.
-//   It must run as its own SSH command — the WP-CLI fixture always prefixes commands with
-//   `wp `, so it can't invoke this script.
 export async function resetEnvironment( cli: AnyCli ): Promise< void > {
 	if ( process.env.WPCLI_ENV_TYPE === 'ssh' ) {
 		await resetRemoteEnvironment( cli );
@@ -46,10 +32,6 @@ export async function resetEnvironment( cli: AnyCli ): Promise< void > {
 	await invalidateApiKeys();
 	await runWpCli(
 		cli,
-		// Single-quoted: WpEnvCli wraps the whole command in `bash -c "..."` (double
-		// quotes), so double-quoting these values here would close that outer quote early
-		// and split "PayPal POS E2E" into separate bash -c arguments, silently dropping
-		// --admin_user/--admin_email. Single quotes are inert inside the outer double quotes.
 		`core install --url='${ process.env.WP_BASE_URL }' --title='PayPal POS E2E' ` +
 			`--admin_user='${ process.env.WP_USERNAME }' --admin_password='${ process.env.WP_PASSWORD }' ` +
 			`--admin_email='test@test.com'`
@@ -58,9 +40,6 @@ export async function resetEnvironment( cli: AnyCli ): Promise< void > {
 	await ensureStorefrontTheme( cli );
 }
 
-// Runs DevOps' `reset-wp.sh`. The script always provisions the same fixed admin
-// credentials, matching WP_USERNAME/WP_PASSWORD already configured in .env — no manual
-// credential retrieval needed after a reset.
 async function resetRemoteEnvironment( cli: AnyCli ): Promise< void > {
 	checkEnvVars( [ 'SSH_LOGIN', 'SSH_HOST', 'SSH_PORT' ] );
 
@@ -81,20 +60,10 @@ async function resetRemoteEnvironment( cli: AnyCli ): Promise< void > {
 		{ stdio: 'inherit', timeout: 5 * 60_000 }
 	);
 	await invalidateApiKeys();
-
-	// reset-wp.sh deletes all WordPress files, including plugins/themes — unlike a plain
-	// `wp db reset` (wpenv path above), which only wipes the database and leaves them on
-	// disk. WooCommerce is a hard prerequisite for the PayPal POS plugin, so it must be
-	// reinstalled here before any further setup can run.
 	await ensureWooCommercePlugin( cli );
 	await ensureStorefrontTheme( cli );
 }
 
-// Idempotent: `wp plugin install` errors if the plugin already exists (expected on the
-// wpenv path, where WooCommerce is never actually removed) — only that specific failure
-// is swallowed here. Any other failure (e.g. WooCommerce requiring a newer WP core version
-// than WP_VERSION installed) is a real problem and must not be hidden, or it only surfaces
-// later as a confusing "plugin could not be found" error from the activate step.
 async function ensureWooCommercePlugin( cli: AnyCli ): Promise< void > {
 	await runWpCli( cli, 'plugin install woocommerce' ).catch(
 		( error: Error ) => {
@@ -104,17 +73,11 @@ async function ensureWooCommercePlugin( cli: AnyCli ): Promise< void > {
 		}
 	);
 	await runWpCli( cli, 'plugin activate woocommerce' );
-
-	// WooCommerce sets this transient on activation to redirect the next wp-admin load to
-	// its setup wizard. Deleting it keeps automated runs on the page they actually navigate
-	// to, instead of getting hijacked by the wizard.
 	await runWpCli( cli, 'transient delete _wc_activation_redirect' ).catch(
 		() => {}
 	);
 }
 
-// Storefront is WooCommerce's reference theme — a freshly reset site keeps whatever
-// WordPress' own default theme is, not Storefront, so it must be installed explicitly.
 async function ensureStorefrontTheme( cli: AnyCli ): Promise< void > {
 	await runWpCli( cli, 'theme install storefront' ).catch(
 		( error: Error ) => {

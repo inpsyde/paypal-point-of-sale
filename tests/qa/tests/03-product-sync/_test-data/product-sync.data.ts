@@ -55,8 +55,6 @@ export const posShirtVariableProduct: VariableAttributeProductData = {
 	],
 };
 
-// Static portion only — `tax_class` is a runtime value (a tax class created earlier in the
-// test) and gets merged in at the createProduct() call site in product-sync.spec.ts.
 export const posNoTaxRateProduct: CreateProductData = {
 	name: 'POS-650 No Tax Rate',
 	regular_price: '15.00',

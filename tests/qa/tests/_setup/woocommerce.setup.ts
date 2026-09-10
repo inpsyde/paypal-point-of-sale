@@ -7,9 +7,6 @@ import {
 	setupTaxes,
 } from '../../utils';
 
-// env.setup.ts's reset recreates the database, which invalidates whatever session
-// storage-states/admin.json held. Refresh it before any step below runs — they all use
-// fixtures (requestUtils, wooCommerceUtils, wooCommerceApi) that read that file.
 setup( 'Setup: Refresh admin session', async () => {
 	await restLogin( {
 		baseURL: process.env.WP_BASE_URL as string,

@@ -33,9 +33,6 @@ const ZETTLE_CLIENT_ID = 'de149dc7-44b5-4390-ab64-88e301771f06';
 // ── tests ─────────────────────────────────────────────────────────────────────
 
 test.describe( 'Product Sync (WC → POS)', () => {
-	// Lets this file run standalone (npx playwright test .../product-sync.spec.ts) without
-	// depending on setup:woocommerce/setup:paypal-pos having already run — see
-	// ensurePosTestReady for why this is cheap when the full suite already did.
 	test.beforeEach(
 		async ( {
 			requestUtils,
@@ -587,9 +584,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'product should have a POS UUID mapping before its last variation is deleted'
 			).not.toBeNull();
 
-			// Deleting the only remaining variation leaves the variable product with none —
-			// DeleteVariableWithoutVariationsListener (paypal-pos-sync) detects this via
-			// get_available_variations() and deletes the whole remote product, not just the variant.
 			await requestUtils.rest( {
 				path: `/wc/v3/products/${ product.id }/variations/${ variation.id }`,
 				method: 'DELETE',

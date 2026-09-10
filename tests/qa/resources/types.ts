@@ -3,11 +3,8 @@
 import type { CreateProductData } from '../utils/helpers/wc-product.helper';
 
 export interface PluginZipEntry {
-	/** Full visible name of the plugin as shown in the WordPress admin */
 	name: string;
-	/** WordPress plugin slug (directory name inside the zip) */
 	slug: string;
-	/** Absolute path to the zip file inside resources/files/ */
 	zipFilePath: string;
 }
 

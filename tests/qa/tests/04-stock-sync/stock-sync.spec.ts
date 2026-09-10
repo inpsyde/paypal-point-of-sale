@@ -22,9 +22,6 @@ import {
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
 
 test.describe( 'Stock Sync', () => {
-	// Lets this file run standalone (npx playwright test .../stock-sync.spec.ts) without
-	// depending on setup:woocommerce/setup:paypal-pos having already run — see
-	// ensurePosTestReady for why this is cheap when the full suite already did.
 	test.beforeEach(
 		async ( {
 			requestUtils,

@@ -86,8 +86,6 @@ export class PosSettingsPage extends WpPage {
 
 	selectMergeStrategyIfOffered = async (): Promise< void > => {
 		if ( await this.mergeRadio().isVisible() ) {
-			// Replaces the old mergeRadio().check() (flaky — see POS-591 history). Remove this
-			// comment once the fix has proven stable for a while.
 			await this.page.locator( 'label[for="zettle-merge-products"]' ).click();
 			await expect( this.mergeRadio() ).toBeChecked();
 		}
