@@ -12,6 +12,12 @@ import {
 	getPosVariantUuid,
 	signWebhookPayload,
 } from '../../utils';
+import {
+	posStockUpdateProduct,
+	posStockMgmtDisableProduct,
+	posOrderStockProduct,
+	posWebhookStockProduct,
+} from './_test-data';
 
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
 
@@ -50,12 +56,10 @@ test.describe( 'Stock Sync', () => {
 		requestUtils,
 		cli,
 	} ) => {
-		const product = await createProduct( requestUtils, {
-			name: 'POS-587 Stock Update',
-			regular_price: '12.00',
-			manage_stock: true,
-			stock_quantity: 10,
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posStockUpdateProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -89,12 +93,10 @@ test.describe( 'Stock Sync', () => {
 		requestUtils,
 		cli,
 	} ) => {
-		const product = await createProduct( requestUtils, {
-			name: 'POS-588 Stock Mgmt Disable',
-			regular_price: '8.00',
-			manage_stock: true,
-			stock_quantity: 15,
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posStockMgmtDisableProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -128,12 +130,10 @@ test.describe( 'Stock Sync', () => {
 		requestUtils,
 		cli,
 	} ) => {
-		const product = await createProduct( requestUtils, {
-			name: 'POS-586 Order Stock',
-			regular_price: '20.00',
-			manage_stock: true,
-			stock_quantity: 20,
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posOrderStockProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -173,12 +173,10 @@ test.describe( 'Stock Sync', () => {
 		page,
 		cli,
 	} ) => {
-		const product = await createProduct( requestUtils, {
-			name: 'POS-585 Webhook Stock',
-			regular_price: '15.00',
-			manage_stock: true,
-			stock_quantity: 20,
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posWebhookStockProduct
+		);
 
 		try {
 			await syncAndAssertStatus(

@@ -11,7 +11,21 @@ import {
 	getPosVariantUuid,
 	ZettleApiClient,
 } from '../../utils';
-import { rejectedSyncCases } from './_test-data';
+import {
+	rejectedSyncCases,
+	posColumnTestProduct,
+	posDraftProduct,
+	posSimpleProductLifecycle,
+	posDeleteMeProduct,
+	posOriginalNameProduct,
+	posExcludeMeProduct,
+	posTypeChangeProduct,
+	posShirtVariableProduct,
+	posNoTaxRateProduct,
+	posLastVariationProduct,
+	posHiddenCatalogProduct,
+	posSkuSyncProduct,
+} from './_test-data';
 import { testRejectedProductSync } from './_test-scenarios';
 
 const ZETTLE_CLIENT_ID = 'de149dc7-44b5-4390-ab64-88e301771f06';
@@ -47,10 +61,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		requestUtils,
 		cli,
 	} ) => {
-		const product = await createProduct( requestUtils, {
-			name: 'POS-579 Column Test',
-			regular_price: '5.00',
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posColumnTestProduct
+		);
 
 		try {
 			await wcProducts.assertSyncStatusColumnVisible();
@@ -64,11 +78,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		requestUtils,
 		cli,
 	} ) => {
-		const product = await createProduct( requestUtils, {
-			name: 'POS-573 Draft Product',
-			status: 'draft',
-			regular_price: '9.99',
-		} );
+		const product = await createProduct( requestUtils, posDraftProduct );
 
 		try {
 			await wcProducts.visit( 'draft' );
@@ -97,12 +107,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const product = await createProduct( requestUtils, {
-			name: 'POS-581 Simple Product',
-			regular_price: '19.99',
-			manage_stock: true,
-			stock_quantity: 10,
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posSimpleProductLifecycle
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -140,10 +148,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const product = await createProduct( requestUtils, {
-			name: 'POS-582 Delete Me',
-			regular_price: '5.00',
-		} );
+		const product = await createProduct( requestUtils, posDeleteMeProduct );
 
 		try {
 			await syncAndAssertStatus(
@@ -181,10 +186,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const product = await createProduct( requestUtils, {
-			name: 'POS-583 Original Name',
-			regular_price: '10.00',
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posOriginalNameProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -237,10 +242,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const product = await createProduct( requestUtils, {
-			name: 'POS-578 Exclude Me',
-			regular_price: '15.00',
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posExcludeMeProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -283,10 +288,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const product = await createProduct( requestUtils, {
-			name: 'POS-580 Type Change',
-			regular_price: '20.00',
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posTypeChangeProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -359,18 +364,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const product = await createProduct( requestUtils, {
-			name: 'POS-584 T-Shirt',
-			type: 'variable',
-			attributes: [
-				{
-					name: 'Size',
-					variation: true,
-					visible: true,
-					options: [ 'S', 'L', 'XL' ],
-				},
-			],
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posShirtVariableProduct
+		);
 
 		try {
 			const variationS = await requestUtils.rest< { id: number } >( {
@@ -480,7 +477,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const PRODUCT_NAME = 'POS-650 No Tax Rate';
+		const PRODUCT_NAME = posNoTaxRateProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate(
@@ -495,8 +492,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		} );
 
 		const product = await createProduct( requestUtils, {
-			name: PRODUCT_NAME,
-			regular_price: '15.00',
+			...posNoTaxRateProduct,
 			tax_class: taxClass.slug,
 		} );
 
@@ -549,7 +545,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const PRODUCT_NAME = 'POS-662 Last Variation';
+		const PRODUCT_NAME = posLastVariationProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate(
@@ -557,18 +553,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			process.env.PAYPAL_POS_API_KEY
 		);
 
-		const product = await createProduct( requestUtils, {
-			name: PRODUCT_NAME,
-			type: 'variable',
-			attributes: [
-				{
-					name: 'Size',
-					variation: true,
-					visible: true,
-					options: [ 'S' ],
-				},
-			],
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posLastVariationProduct
+		);
 
 		try {
 			const variation = await requestUtils.rest< { id: number } >( {
@@ -651,7 +639,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const PRODUCT_NAME = 'POS-651 Hidden Catalog Visibility';
+		const PRODUCT_NAME = posHiddenCatalogProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate(
@@ -659,11 +647,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			process.env.PAYPAL_POS_API_KEY
 		);
 
-		const product = await createProduct( requestUtils, {
-			name: PRODUCT_NAME,
-			regular_price: '10.00',
-			catalog_visibility: 'hidden',
-		} );
+		const product = await createProduct(
+			requestUtils,
+			posHiddenCatalogProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -700,7 +687,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			return;
 		}
 
-		const PRODUCT_NAME = 'POS-664 SKU Sync Product';
+		const PRODUCT_NAME = posSkuSyncProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate(
@@ -708,11 +695,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			process.env.PAYPAL_POS_API_KEY
 		);
 
-		const product = await createProduct( requestUtils, {
-			name: PRODUCT_NAME,
-			regular_price: '12.00',
-			sku: 'WC-SKU-0001',
-		} );
+		const product = await createProduct( requestUtils, posSkuSyncProduct );
 
 		try {
 			await syncAndAssertStatus(
