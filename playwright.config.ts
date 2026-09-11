@@ -115,20 +115,22 @@ export default defineConfig< BaseExtend >( {
             testMatch: /02-onboarding\/.*\.spec\.ts/,
             dependencies: [ 'shard:plugin-lifecycle' ],
         },
+        // No `dependencies` here on purpose: each spec's own beforeEach already
+        // bootstraps what it needs (plugin install, store config, POS connect)
+        // idempotently, so a narrow --grep/file run doesn't drag in the full
+        // plugin-lifecycle + onboarding + setup:paypal-pos chain. See
+        // E2E-TESTS.md "Test Dependency Model".
         {
             name: 'shard:product-sync',
             testMatch: /03-product-sync\/.*\.spec\.ts/,
-            dependencies: [ 'setup:paypal-pos' ],
         },
         {
             name: 'shard:stock-sync',
             testMatch: /04-stock-sync\/.*\.spec\.ts/,
-            dependencies: [ 'setup:paypal-pos' ],
         },
         {
             name: 'shard:webhook',
             testMatch: /05-webhook\/.*\.spec\.ts/,
-            dependencies: [ 'setup:paypal-pos' ],
         },
     ],
 } );
