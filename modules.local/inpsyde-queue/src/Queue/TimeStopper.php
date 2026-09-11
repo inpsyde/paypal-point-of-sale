@@ -38,7 +38,7 @@ class TimeStopper implements Stopper
     public function start(): bool
     {
         $this->startedAt = $this->timestamp();
-        return $this->startedAt !== null;
+        return true;
     }
 
     /**

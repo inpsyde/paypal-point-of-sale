@@ -9,12 +9,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 interface BuilderInterface
 {
     /**
-     * @param string $className
-     * @param mixed $payload
-     * @param BuilderInterface|null $builder
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * @return mixed
      * @throws BuilderException
      */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null);
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed;
 }

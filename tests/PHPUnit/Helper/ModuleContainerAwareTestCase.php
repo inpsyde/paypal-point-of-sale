@@ -14,12 +14,7 @@ use Syde\PayPal\PointOfSale\PluginModule;
 class ModuleContainerAwareTestCase extends MonkeryTestCase
 {
 
-    private $delayedModuleContainerSetup = false;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ?ContainerInterface $container = null;
 
     private static $modules = [];
 
@@ -39,25 +34,12 @@ class ModuleContainerAwareTestCase extends MonkeryTestCase
         }
     }
 
-    protected function setUp(): void
-    {
-        if (!$this->delayedModuleContainerSetup) {
-            $this->setupModuleContainer();
-        }
-        parent::setUp();
-    }
-
     /**
-     * If this flag is set during setUp() in a child class,
-     * the container won't be initialized in setUp.
-     * This allows you to inject services in individual tests, but you will have to call
-     * setupModuleContainer() yourself in each test
+     * (Re)builds the module container from the factories/extensions injected so
+     * far. The container is built lazily on the first get() call, so tests only
+     * need to call this explicitly when they want to force a rebuild after
+     * injecting additional per-test services.
      */
-    protected function delayModuleContainerSetup()
-    {
-        $this->delayedModuleContainerSetup = true;
-    }
-
     protected function setupModuleContainer()
     {
         $rootDir = dirname(__DIR__, 3);
@@ -118,6 +100,10 @@ class ModuleContainerAwareTestCase extends MonkeryTestCase
 
     protected function get(string $key)
     {
+        if ($this->container === null) {
+            $this->setupModuleContainer();
+        }
+
         return $this->container->get($key);
     }
 

@@ -15,12 +15,7 @@ class ContainerAwareBuilder implements BuilderInterface
         $this->container = $container;
     }
 
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         $concreteBuilder = $this->container->get($className);
         assert($concreteBuilder instanceof BuilderInterface);

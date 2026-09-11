@@ -12,14 +12,14 @@ interface TokenInterface
     /**
      * Retrieves the token headers
      *
-     * @return array<string, mixed>.
+     * @return array<string, mixed>
      */
     public function getHeaders(): array;
 
     /**
      * Retrieves the token claims.
      *
-     * @return array<string, mixed>.
+     * @return array<string, mixed>
      */
     public function getClaims(): array;
 }

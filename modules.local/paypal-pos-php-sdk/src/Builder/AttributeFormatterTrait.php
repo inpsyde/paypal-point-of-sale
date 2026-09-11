@@ -37,9 +37,9 @@ trait AttributeFormatterTrait
     private function attributeNameFromAttribute(WC_Product_Attribute $attribute): string
     {
         if ($attribute->is_taxonomy()) {
-            return $this->attributeNameFromTaxonomy(
-                get_taxonomy($attribute->get_taxonomy())
-            );
+            $taxonomy = get_taxonomy($attribute->get_taxonomy());
+            assert($taxonomy instanceof WP_Taxonomy);
+            return $this->attributeNameFromTaxonomy($taxonomy);
         }
 
         return $this->formatAttributeName((string) $attribute->get_name());
@@ -77,7 +77,9 @@ trait AttributeFormatterTrait
         if ($attribute->is_taxonomy()) {
             $options = array_map(
                 function (int $termId): string {
-                    return $this->nameFromTerm(get_term($termId));
+                    $term = get_term($termId);
+
+                    return $term instanceof WP_Term ? $this->nameFromTerm($term) : '';
                 },
                 $options
             );

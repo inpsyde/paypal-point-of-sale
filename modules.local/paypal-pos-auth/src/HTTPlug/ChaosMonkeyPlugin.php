@@ -9,7 +9,6 @@ use Http\Promise\FulfilledPromise;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -29,23 +28,12 @@ class ChaosMonkeyPlugin implements Plugin
 
     private ResponseFactoryInterface $responseFactory;
 
-    private StreamFactoryInterface $streamFactory;
-
-    /**
-     * ChaosMonkeyPlugin constructor.
-     *
-     * @param ResponseFactoryInterface $responseFactory
-     * @param StreamFactoryInterface $streamFactory
-     * @param array $config
-     */
     public function __construct(
         ResponseFactoryInterface $responseFactory,
-        StreamFactoryInterface $streamFactory,
         array $config = []
     ) {
 
         $this->responseFactory = $responseFactory;
-        $this->streamFactory = $streamFactory;
         $resolver = new OptionsResolver();
         $statusProbabilityKey = 'probability.status';
         $statusProbability = [
@@ -56,8 +44,8 @@ class ChaosMonkeyPlugin implements Plugin
             [
                 $statusProbabilityKey => static function (OptionsResolver $resolver) use ($statusProbability): void {
                     foreach ($statusProbability as $status => $probability) {
-                        $resolver->setDefault($status, $probability);
-                        $resolver->setAllowedTypes($status, 'int');
+                        $resolver->setDefault((string) $status, $probability);
+                        $resolver->setAllowedTypes((string) $status, 'int');
                     }
                 },
             ]
@@ -80,14 +68,14 @@ class ChaosMonkeyPlugin implements Plugin
         return new FulfilledPromise($response);
     }
 
-    private function determineError(): int
+    private function determineError(): int|false
     {
         $error = false;
         $highestP = 0;
         foreach ($this->statusProbability as $status => $probability) {
-            $curP = rand(0, 99);
+            $curP = wp_rand(0, 99);
             if ($curP < $probability && $curP > $highestP) {
-                $error = $status;
+                $error = (int) $status;
             }
         }
 

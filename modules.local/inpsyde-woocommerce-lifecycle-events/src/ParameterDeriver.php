@@ -10,6 +10,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionObject;
 use RuntimeException;
 
@@ -30,27 +31,27 @@ class ParameterDeriver
      * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      */
-    public function parameterType($callable, int $param): string
+    public function parameterType(callable $callable, int $param): string
     {
         // This try-catch is only here to keep OCD linters happy about uncaught reflection exceptions.
         try {
             switch (true) {
                 // See note on isClassCallable() for why this must be the first case.
-                case $this->isClassCallable($callable):
+                case is_array($callable) && $this->isClassCallable($callable):
                     $reflect = new ReflectionClass($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isFunctionCallable($callable):
-                case $this->isClosureCallable($callable):
+                case is_string($callable) && $this->isFunctionCallable($callable):
+                case $callable instanceof Closure && $this->isClosureCallable($callable):
                     /** @psalm-suppress ArgumentTypeCoercion */
                     $reflect = new ReflectionFunction($callable);
                     $params = $reflect->getParameters();
                     break;
-                case $this->isObjectCallable($callable):
+                case is_array($callable) && $this->isObjectCallable($callable):
                     $reflect = new ReflectionObject($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isInvokable($callable):
+                case is_object($callable) && $this->isInvokable($callable):
                     $params = (new ReflectionMethod($callable, '__invoke'))->getParameters();
                     break;
                 default:
@@ -60,7 +61,7 @@ class ParameterDeriver
                 throw new InvalidArgumentException('Listeners must declare a sufficient amount of parameters.');
             }
             $rType = $params[$param]->getType();
-            if ($rType === null) {
+            if (!$rType instanceof ReflectionNamedType) {
                 throw new InvalidArgumentException('Listeners must declare an object type they can accept.');
             }
             $type = $rType->getName();
@@ -78,7 +79,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a function, false otherwise.
+     * @return bool True if the callable represents a function, false otherwise.
      */
     protected function isFunctionCallable(callable $callable): bool
     {
@@ -91,7 +92,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a closure object, false otherwise.
+     * @return bool True if the callable represents a closure object, false otherwise.
      */
     protected function isClosureCallable(callable $callable): bool
     {
@@ -103,7 +104,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a method object, false otherwise.
+     * @return bool True if the callable represents a method object, false otherwise.
      */
     protected function isObjectCallable(callable $callable): bool
     {
@@ -125,9 +126,9 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents a static method, false otherwise.
+     * @return bool True if the callable represents a static method, false otherwise.
      */
-    protected function isClassCallable($callable): bool
+    protected function isClassCallable(callable $callable): bool
     {
         return is_array($callable) && is_string($callable[0]) && class_exists($callable[0]);
     }
@@ -137,7 +138,7 @@ class ParameterDeriver
      *
      * @param callable $callable
      *
-     * @return True if the callable represents an invokable object, false otherwise.
+     * @return bool True if the callable represents an invokable object, false otherwise.
      */
     private function isInvokable(callable $callable): bool
     {

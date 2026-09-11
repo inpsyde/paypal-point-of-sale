@@ -54,6 +54,9 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
         add_filter(
             'manage_edit-product_columns',
             static function ($columns) use ($customColumn) {
+                if (!is_array($columns)) {
+                    return $columns;
+                }
                 if (!is_admin()) {
                     return $columns;
                 }

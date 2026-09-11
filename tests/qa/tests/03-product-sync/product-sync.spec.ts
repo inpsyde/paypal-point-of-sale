@@ -1,368 +1,735 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import * as path from 'path';
-import { test } from '../../utils';
+import { expect } from '@inpsyde/playwright-utils/build';
+import {
+	test,
+	processQueue,
+	syncAndAssertStatus,
+	ensurePosTestReady,
+	createProduct,
+	deleteProduct,
+	assertDeletionUnsyncsFromPos,
+	getPosProductUuid,
+	getPosVariantUuid,
+	ZettleApiClient,
+} from '../../utils';
+import {
+	rejectedSyncCases,
+	posColumnTestProduct,
+	posDraftProduct,
+	posSimpleProductLifecycle,
+	posDeleteMeProduct,
+	posOriginalNameProduct,
+	posExcludeMeProduct,
+	posTypeChangeProduct,
+	posShirtVariableProduct,
+	posNoTaxRateProduct,
+	posLastVariationProduct,
+	posHiddenCatalogProduct,
+	posSkuSyncProduct,
+} from './_test-data';
+import { testRejectedProductSync } from './_test-scenarios';
 
-const PLUGIN_SLUG = 'paypal-point-of-sale';
-const PLUGIN_ROOT = path.resolve( __dirname, '..', '..', '..', '..' );
-const execAsync = promisify( exec );
-
-// ── helpers ──────────────────────────────────────────────────────────────────
-
-async function processQueue(): Promise<void> {
-    await execAsync( 'npx @wordpress/env run cli wp zettle queue process', {
-        cwd: PLUGIN_ROOT,
-        timeout: 30_000,
-    } ).catch( () => {} );
-}
-
-async function syncProduct( productId: number ): Promise<void> {
-    await execAsync( `npx @wordpress/env run cli wp zettle sync product ${ productId }`, {
-        cwd: PLUGIN_ROOT,
-        timeout: 30_000,
-    } );
-}
+const ZETTLE_CLIENT_ID = 'de149dc7-44b5-4390-ab64-88e301771f06';
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
 test.describe( 'Product Sync (WC → POS)', () => {
+	test.beforeEach(
+		async ( {
+			requestUtils,
+			plugins,
+			wooCommerceUtils,
+			wooCommerceApi,
+			posSettings,
+			cli,
+		} ) => {
+			await ensurePosTestReady( {
+				requestUtils,
+				plugins,
+				wooCommerceUtils,
+				wooCommerceApi,
+				posSettings,
+				cli,
+			} );
+		}
+	);
 
-    test.beforeEach( async ( { requestUtils } ) => {
-        await requestUtils.activatePlugin( PLUGIN_SLUG );
-    } );
+	test( 'POS-579 | Sync status column appears in product list; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		const product = await createProduct(
+			requestUtils,
+			posColumnTestProduct
+		);
 
-    // ── POS-579 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-579 | Sync status column appears in product list; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-579 Column Test', type: 'simple', status: 'publish', regular_price: '5.00' },
-            } );
+		try {
+			await wcProducts.assertSyncStatusColumnVisible();
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 
-            try {
-                await wcProducts.assertSyncStatusColumnVisible();
-            } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
-            }
-        }
-    );
+	test( 'POS-573 | Draft product is not synced to POS; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		const product = await createProduct( requestUtils, posDraftProduct );
 
-    // ── POS-573 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-573 | Draft product is not synced to POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-573 Draft Product', type: 'simple', status: 'draft', regular_price: '9.99' },
-            } );
+		try {
+			await wcProducts.visit( 'draft' );
+			await wcProducts.assertProductSyncStatus(
+				'POS-573 Draft Product',
+				'not-published',
+				product.id
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 
-            try {
-                await wcProducts.visit( 'draft' );
-                await wcProducts.assertProductSyncStatus( 'POS-573 Draft Product', 'not-published', product.id );
-            } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
-            }
-        }
-    );
+	test( 'POS-581 | Simple product created syncs to POS; critical;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
 
-    // ── POS-581 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-581 | Simple product created syncs to POS; critical;',
-        async ( { wcProducts, requestUtils } ) => {
-            test.setTimeout( 5 * 60_000 );
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
 
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
+		const product = await createProduct(
+			requestUtils,
+			posSimpleProductLifecycle
+		);
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-581 Simple Product',
-                    type: 'simple',
-                    status: 'publish',
-                    regular_price: '19.99',
-                    manage_stock: true,
-                    stock_quantity: 10,
-                },
-            } );
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-581 Simple Product',
+				'synced',
+				product.id
+			);
 
-            try {
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-581 Simple Product', 'synced', product.id );
-            } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
-            }
-        }
-    );
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-581 Simple Product'
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 
-    // ── POS-582 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-582 | Simple product deleted is removed from POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            test.setTimeout( 5 * 60_000 );
+	test( 'POS-582 | Simple product deleted is removed from POS; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
 
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-582 Delete Me', type: 'simple', status: 'publish', regular_price: '5.00' },
-            } );
+		const product = await createProduct( requestUtils, posDeleteMeProduct );
 
-            await syncProduct( product.id );
-            await wcProducts.visit();
-            await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'synced', product.id );
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-582 Delete Me',
+				'synced',
+				product.id
+			);
 
-            await requestUtils.rest( {
-                path: `/wc/v3/products/${ product.id }`,
-                method: 'DELETE',
-                params: { force: false },
-            } );
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-582 Delete Me'
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 
-            await processQueue();
+	test( 'POS-583 | Simple product name and price update syncs to POS; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
 
-            await wcProducts.visit( 'trash' );
-            await wcProducts.assertProductSyncStatus( 'POS-582 Delete Me', 'not-synced', product.id );
-        }
-    );
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
 
-    // ── POS-583 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-583 | Simple product name and price update syncs to POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            test.setTimeout( 5 * 60_000 );
+		const product = await createProduct(
+			requestUtils,
+			posOriginalNameProduct
+		);
 
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-583 Original Name',
+				'synced',
+				product.id
+			);
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-583 Original Name', type: 'simple', status: 'publish', regular_price: '10.00' },
-            } );
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }`,
+				method: 'PUT',
+				data: { name: 'POS-583 Updated Name', regular_price: '29.99' },
+			} );
 
-            try {
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-583 Original Name', 'synced', product.id );
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-583 Updated Name',
+				'synced',
+				product.id
+			);
 
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'PUT',
-                    data: { name: 'POS-583 Updated Name', regular_price: '29.99' },
-                } );
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-583 Updated Name'
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-583 Updated Name', 'synced', product.id );
-            } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
-            }
-        }
-    );
+	test( 'POS-578 | Excluded product is removed from POS and shows Excluded status; regression;', async ( {
+		wcProducts,
+		wcProductEdit,
+		requestUtils,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
 
-    // ── POS-578 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-578 | Excluded product is removed from POS and shows Excluded status; regression;',
-        async ( { wcProducts, wcProductEdit, requestUtils } ) => {
-            test.setTimeout( 5 * 60_000 );
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
 
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
+		const product = await createProduct(
+			requestUtils,
+			posExcludeMeProduct
+		);
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-578 Exclude Me', type: 'simple', status: 'publish', regular_price: '15.00' },
-            } );
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-578 Exclude Me',
+				'synced',
+				product.id
+			);
 
-            try {
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-578 Exclude Me', 'synced', product.id );
+			await wcProductEdit.visitExisting( product.id );
+			await wcProductEdit.setExcludeFromSync( true );
+			await wcProductEdit.update();
 
-                await wcProductEdit.visitExisting( product.id );
-                await wcProductEdit.setExcludeFromSync( true );
-                await wcProductEdit.update();
+			await processQueue( cli );
 
-                await processQueue();
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				'POS-578 Exclude Me',
+				'excluded',
+				product.id
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-578 Exclude Me', 'excluded', product.id );
-            } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
-            }
-        }
-    );
+	test( 'POS-580 | Product type changed simple to variable re-syncs to POS; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
 
-    // ── POS-580 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-580 | Product type changed simple to variable re-syncs to POS; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            test.setTimeout( 5 * 60_000 );
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
 
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
+		const product = await createProduct(
+			requestUtils,
+			posTypeChangeProduct
+		);
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: { name: 'POS-580 Type Change', type: 'simple', status: 'publish', regular_price: '20.00' },
-            } );
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-580 Type Change',
+				'synced',
+				product.id
+			);
 
-            try {
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-580 Type Change', 'synced', product.id );
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }`,
+				method: 'PUT',
+				data: {
+					type: 'variable',
+					attributes: [
+						{
+							name: 'Color',
+							variation: true,
+							visible: true,
+							options: [ 'Red', 'Blue' ],
+						},
+					],
+				},
+			} );
 
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'PUT',
-                    data: {
-                        type: 'variable',
-                        attributes: [ {
-                            name: 'Color',
-                            variation: true,
-                            visible: true,
-                            options: [ 'Red', 'Blue' ],
-                        } ],
-                    },
-                } );
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }/variations`,
+				method: 'POST',
+				data: {
+					attributes: [ { name: 'Color', option: 'Red' } ],
+					regular_price: '25.00',
+					manage_stock: true,
+					stock_quantity: 5,
+				},
+			} );
 
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }/variations`,
-                    method: 'POST',
-                    data: {
-                        attributes: [ { name: 'Color', option: 'Red' } ],
-                        regular_price: '25.00',
-                        manage_stock: true,
-                        stock_quantity: 5,
-                    },
-                } );
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-580 Type Change',
+				'synced',
+				product.id
+			);
 
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-580 Type Change', 'synced', product.id );
-            } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
-            }
-        }
-    );
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-580 Type Change'
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
 
-    // ── POS-584 ──────────────────────────────────────────────────────────────
-    test(
-        'POS-584 | Variable product full lifecycle — create, add variation, delete variation; regression;',
-        async ( { wcProducts, requestUtils } ) => {
-            test.setTimeout( 10 * 60_000 );
+	test( 'POS-584 | Variable product full lifecycle — create, add variation, delete variation; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		cli,
+	} ) => {
+		test.setTimeout( 10 * 60_000 );
 
-            if ( ! process.env.PAYPAL_POS_API_KEY ) {
-                test.skip( true, 'PAYPAL_POS_API_KEY not set — skipping live sync test' );
-                return;
-            }
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
 
-            const product = await requestUtils.rest< { id: number } >( {
-                path: '/wc/v3/products',
-                method: 'POST',
-                data: {
-                    name: 'POS-584 T-Shirt',
-                    type: 'variable',
-                    status: 'publish',
-                    attributes: [ {
-                        name: 'Size',
-                        variation: true,
-                        visible: true,
-                        options: [ 'S', 'L', 'XL' ],
-                    } ],
-                },
-            } );
+		const product = await createProduct(
+			requestUtils,
+			posShirtVariableProduct
+		);
 
-            try {
-                const variationS = await requestUtils.rest< { id: number } >( {
-                    path: `/wc/v3/products/${ product.id }/variations`,
-                    method: 'POST',
-                    data: { attributes: [ { name: 'Size', option: 'S' } ], regular_price: '15.00', manage_stock: true, stock_quantity: 20 },
-                } );
+		try {
+			const variationS = await requestUtils.rest< { id: number } >( {
+				path: `/wc/v3/products/${ product.id }/variations`,
+				method: 'POST',
+				data: {
+					attributes: [ { name: 'Size', option: 'S' } ],
+					regular_price: '15.00',
+					manage_stock: true,
+					stock_quantity: 20,
+				},
+			} );
 
-                const variationL = await requestUtils.rest< { id: number } >( {
-                    path: `/wc/v3/products/${ product.id }/variations`,
-                    method: 'POST',
-                    data: { attributes: [ { name: 'Size', option: 'L' } ], regular_price: '17.00', manage_stock: true, stock_quantity: 15 },
-                } );
+			const variationL = await requestUtils.rest< { id: number } >( {
+				path: `/wc/v3/products/${ product.id }/variations`,
+				method: 'POST',
+				data: {
+					attributes: [ { name: 'Size', option: 'L' } ],
+					regular_price: '17.00',
+					manage_stock: true,
+					stock_quantity: 15,
+				},
+			} );
 
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-584 T-Shirt', 'synced', product.id );
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-584 T-Shirt',
+				'synced',
+				product.id
+			);
 
-                const variationXL = await requestUtils.rest< { id: number } >( {
-                    path: `/wc/v3/products/${ product.id }/variations`,
-                    method: 'POST',
-                    data: { attributes: [ { name: 'Size', option: 'XL' } ], regular_price: '19.00', manage_stock: true, stock_quantity: 10 },
-                } );
+			const variationXL = await requestUtils.rest< { id: number } >( {
+				path: `/wc/v3/products/${ product.id }/variations`,
+				method: 'POST',
+				data: {
+					attributes: [ { name: 'Size', option: 'XL' } ],
+					regular_price: '19.00',
+					manage_stock: true,
+					stock_quantity: 10,
+				},
+			} );
 
-                await syncProduct( product.id );
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-584 T-Shirt', 'synced', product.id );
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				'POS-584 T-Shirt',
+				'synced',
+				product.id
+			);
 
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }/variations/${ variationXL.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }/variations/${ variationXL.id }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
 
-                await processQueue();
-                await wcProducts.visit();
-                await wcProducts.assertProductSyncStatus( 'POS-584 T-Shirt', 'synced', product.id );
+			await processQueue( cli );
+			await wcProducts.visit();
+			await wcProducts.assertProductSyncStatus(
+				'POS-584 T-Shirt',
+				'synced',
+				product.id
+			);
 
-                await requestUtils.rest( { path: `/wc/v3/products/${ product.id }/variations/${ variationS.id }`, method: 'DELETE', params: { force: true } } );
-                await requestUtils.rest( { path: `/wc/v3/products/${ product.id }/variations/${ variationL.id }`, method: 'DELETE', params: { force: true } } );
-            } finally {
-                await requestUtils.rest( {
-                    path: `/wc/v3/products/${ product.id }`,
-                    method: 'DELETE',
-                    params: { force: true },
-                } );
-            }
-        }
-    );
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }/variations/${ variationS.id }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }/variations/${ variationL.id }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
 
+			await assertDeletionUnsyncsFromPos(
+				requestUtils,
+				cli,
+				wcProducts,
+				product.id,
+				'POS-584 T-Shirt'
+			);
+		} finally {
+			await deleteProduct( cli, product.id );
+		}
+	} );
+
+	for ( const rejectedSyncCase of rejectedSyncCases ) {
+		testRejectedProductSync( rejectedSyncCase );
+	}
+
+	test( 'POS-650 | Product with invalid/unconfigured tax class is not synced; regression;', async ( {
+		wcProducts,
+		wcStatusLogs,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = posNoTaxRateProduct.name;
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const taxClass = await requestUtils.rest< { slug: string } >( {
+			path: '/wc/v3/taxes/classes',
+			method: 'POST',
+			data: { name: 'POS-650 No Rates' },
+		} );
+
+		const product = await createProduct( requestUtils, {
+			...posNoTaxRateProduct,
+			tax_class: taxClass.slug,
+		} );
+
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				PRODUCT_NAME,
+				'no-tax-rate',
+				product.id
+			);
+
+			expect(
+				await zettleApi.findProductByName( PRODUCT_NAME ),
+				'product with no tax rate should not exist in the PayPal POS product library'
+			).toBeUndefined();
+
+			const logContent = await wcStatusLogs.viewLatestLogForSource(
+				'paypal-point-of-sale'
+			);
+			expect(
+				logContent,
+				'expected the plugin log to record the specific "No tax rate" rejection reason'
+			).toContain( 'No tax rate' );
+		} finally {
+			await deleteProduct( cli, product.id );
+			await requestUtils.rest( {
+				path: `/wc/v3/taxes/classes/${ taxClass.slug }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
+
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
+		}
+	} );
+
+	test( "POS-662 | Deleting a variable product's last variation removes it from PayPal POS; regression;", async ( {
+		wcProducts,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = posLastVariationProduct.name;
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const product = await createProduct(
+			requestUtils,
+			posLastVariationProduct
+		);
+
+		try {
+			const variation = await requestUtils.rest< { id: number } >( {
+				path: `/wc/v3/products/${ product.id }/variations`,
+				method: 'POST',
+				data: {
+					attributes: [ { name: 'Size', option: 'S' } ],
+					regular_price: '12.00',
+					manage_stock: true,
+					stock_quantity: 5,
+				},
+			} );
+
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				PRODUCT_NAME,
+				'synced',
+				product.id
+			);
+
+			const productUuidBefore = await getPosProductUuid(
+				cli,
+				product.id
+			);
+			expect(
+				productUuidBefore,
+				'product should have a POS UUID mapping before its last variation is deleted'
+			).not.toBeNull();
+
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }/variations/${ variation.id }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
+
+			await processQueue( cli );
+
+			expect(
+				await zettleApi.findProductByName( PRODUCT_NAME ),
+				'product should no longer exist in the PayPal POS product library once its last variation is deleted'
+			).toBeUndefined();
+
+			const productUuidAfter = await getPosProductUuid( cli, product.id );
+			expect(
+				productUuidAfter,
+				'no orphaned product UUID mapping should remain after the last variation is deleted'
+			).toBeNull();
+
+			const variantUuidAfter = await getPosVariantUuid(
+				cli,
+				variation.id
+			);
+			expect(
+				variantUuidAfter,
+				'no orphaned variant UUID mapping should remain after the last variation is deleted'
+			).toBeNull();
+		} finally {
+			await deleteProduct( cli, product.id );
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
+		}
+	} );
+
+	test( 'POS-651 | Product with Catalog visibility "Hidden" is not synced; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = posHiddenCatalogProduct.name;
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const product = await createProduct(
+			requestUtils,
+			posHiddenCatalogProduct
+		);
+
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				PRODUCT_NAME,
+				'not-visible',
+				product.id
+			);
+
+			expect(
+				await zettleApi.findProductByName( PRODUCT_NAME ),
+				'product with hidden catalog visibility should not exist in the PayPal POS product library'
+			).toBeUndefined();
+		} finally {
+			await deleteProduct( cli, product.id );
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
+		}
+	} );
+
+	test( 'POS-664 | Product SKU syncs to POS and stays in sync after an update; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = posSkuSyncProduct.name;
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const product = await createProduct( requestUtils, posSkuSyncProduct );
+
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				PRODUCT_NAME,
+				'synced',
+				product.id
+			);
+
+			const foundAfterCreate =
+				await zettleApi.findProductByName( PRODUCT_NAME );
+			expect(
+				foundAfterCreate?.variants?.[ 0 ]?.sku,
+				'SKU should be synced to the PayPal POS product library on create'
+			).toBe( 'WC-SKU-0001' );
+
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }`,
+				method: 'PUT',
+				data: { sku: 'WC-SKU-0002' },
+			} );
+
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				PRODUCT_NAME,
+				'synced',
+				product.id
+			);
+
+			const foundAfterUpdate =
+				await zettleApi.findProductByName( PRODUCT_NAME );
+			expect(
+				foundAfterUpdate?.variants?.[ 0 ]?.sku,
+				'SKU should be updated in the PayPal POS product library after a product update'
+			).toBe( 'WC-SKU-0002' );
+		} finally {
+			await deleteProduct( cli, product.id );
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
+		}
+	} );
 } );

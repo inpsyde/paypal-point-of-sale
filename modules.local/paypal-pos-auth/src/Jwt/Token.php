@@ -12,6 +12,8 @@ class Token implements TokenInterface
     /** @var array<string, mixed> */
     protected array $claims;
 
+    protected string $signature;
+
     /**
      * @param array<string, mixed> $headers
      * @param array<string, mixed> $claims
@@ -21,6 +23,7 @@ class Token implements TokenInterface
     {
         $this->headers = $headers;
         $this->claims = $claims;
+        $this->signature = $signature;
     }
 
     public function getHeaders(): array

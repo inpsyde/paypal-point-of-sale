@@ -11,7 +11,7 @@ class LocationBalanceCollectionBuilder implements LocationBalanceCollectionBuild
 {
     private LocationBalanceCollectionFactory $locationBalanceCollectionFactory;
 
-    private LocationBalanceBuilder $locationBalanceBuilder;
+    private LocationBalanceBuilderInterface $locationBalanceBuilder;
 
     /**
      * LocationBalanceCollectionBuilder constructor.

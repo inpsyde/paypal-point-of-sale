@@ -21,25 +21,17 @@ use WC_Product_Variable;
  */
 class DeleteVariableWithoutVariationsListener
 {
-    private OneToOneMapInterface|MapRecordCreator $productMap;
+    private OneToOneMapInterface&MapRecordCreator $productMap;
 
-    private OneToOneMapInterface|MapRecordCreator $variantMap;
+    private OneToOneMapInterface&MapRecordCreator $variantMap;
 
     private Products $productsClient;
 
     private LoggerInterface $logger;
 
-    /**
-     * DeleteVariableProductWithoutVariationsListener constructor.
-     *
-     * @param OneToOneMapInterface $productMap
-     * @param OneToOneMapInterface $variantMap
-     * @param Products $productsClient
-     * @param LoggerInterface $logger
-     */
     public function __construct(
-        OneToOneMapInterface $productMap,
-        OneToOneMapInterface $variantMap,
+        OneToOneMapInterface&MapRecordCreator $productMap,
+        OneToOneMapInterface&MapRecordCreator $variantMap,
         Products $productsClient,
         LoggerInterface $logger
     ) {
@@ -73,6 +65,10 @@ class DeleteVariableWithoutVariationsListener
 
         $uuid = $this->uuidFromId($productId);
 
+        if ($uuid === null) {
+            return;
+        }
+
         /**
          * We now know that a remote products exists AND we just got rid of all Variations.
          * This means that we can no longer use our LOCAL data to clean up the id-map since
@@ -97,7 +93,7 @@ class DeleteVariableWithoutVariationsListener
                 $this->dissolveVariantsMapping($variantUuids);
             }
         } catch (ZettleRestException $exception) {
-            $this->logger->warning($exception);
+            $this->logger->warning($exception->getMessage());
         }
     }
 

@@ -22,28 +22,23 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 $wire = static function (string ...$parts): callable {
     $class = array_shift($parts);
 
-    //phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-    return static function (C $container) use ($class, $parts) {
+    return static function (C $container) use ($class, $parts): object {
         return new $class(
             ...array_map(
-                static function (string $key) use ($container) {
+                static function (string $key) use ($container): mixed {
                     return $container->get($key);
                 },
                 $parts
             )
         );
     };
-    //phpcs:enable
 };
-//phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-//phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-$scalar = static function ($thing): callable {
-    return static function () use ($thing) {
+
+$scalar = static function (mixed $thing): callable {
+    return static function () use ($thing): mixed {
         return $thing;
     };
 };
-
-//phpcs:enable
 
 return [
     'inpsyde.state-machine.namespace' => $scalar('inpsyde'),

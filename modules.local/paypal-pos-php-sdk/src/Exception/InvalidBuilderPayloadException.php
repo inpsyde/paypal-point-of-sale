@@ -8,13 +8,11 @@ use Exception;
 use Throwable;
 
 /**
- * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
- * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
  * phpcs:disable Syde.Files.LineLength.TooLong
  */
 class InvalidBuilderPayloadException extends Exception implements BuilderException, ValidatorException
 {
-    protected $payload;
+    protected mixed $payload;
 
     /**
      * @var string[]
@@ -22,9 +20,10 @@ class InvalidBuilderPayloadException extends Exception implements BuilderExcepti
     protected array $errorCodes;
 
     /**
+     * @param mixed $payload
      * @param string[] $errorCodes Values of ValidationErrorCodes.
      */
-    public function __construct(string $className, $payload, array $errorCodes, ?Throwable $previous = null)
+    public function __construct(string $className, mixed $payload, array $errorCodes, ?Throwable $previous = null)
     {
         $this->payload = $payload;
         $this->errorCodes = $errorCodes;
@@ -36,7 +35,7 @@ class InvalidBuilderPayloadException extends Exception implements BuilderExcepti
         );
     }
 
-    public function payload()
+    public function payload(): mixed
     {
         return $this->payload;
     }

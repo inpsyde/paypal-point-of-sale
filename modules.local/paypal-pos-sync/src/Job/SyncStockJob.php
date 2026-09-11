@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Sync\Job;
 
 use Inpsyde\Queue\ExceptionLoggingTrait;
-use Inpsyde\Queue\Processor\QueueProcessor;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
@@ -43,18 +42,15 @@ class SyncStockJob implements Job
 
     private int $maxStockChange;
 
-    private QueueProcessor $processor;
-
     private Job $setInventoryTrackingJob;
 
     /**
-     * @param int $maxStockChange iZ API does not allow transactions larger than 100.000
+     * @param int $maxStockChange The API does not allow transactions larger than 100.000
      */
     public function __construct(
         Inventory $inventoryClient,
         BuilderInterface $builder,
         OneToManyMapInterface $map,
-        QueueProcessor $processor,
         int $maxStockChange,
         Job $setInventoryTrackingJob
     ) {
@@ -63,7 +59,6 @@ class SyncStockJob implements Job
         $this->builder = $builder;
         $this->map = $map;
         $this->maxStockChange = $maxStockChange;
-        $this->processor = $processor;
         $this->setInventoryTrackingJob = $setInventoryTrackingJob;
     }
 
@@ -71,6 +66,7 @@ class SyncStockJob implements Job
      * @inheritDoc
      *
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     public function execute(
         ContextInterface $context,
@@ -81,7 +77,7 @@ class SyncStockJob implements Job
         $productId = $context->args()->productId;
         $wcProduct = wc_get_product($productId);
 
-        if ($wcProduct === false) {
+        if (!$wcProduct instanceof WC_Product) {
             $logger->error("Cant find Product with ProductID: {$productId}");
 
             return false;
@@ -124,6 +120,9 @@ class SyncStockJob implements Job
             ) as $variantUuid => $localId
         ) {
             $wcProduct = wc_get_product($localId);
+            if (!$wcProduct) {
+                continue;
+            }
             $newStock = (int) $wcProduct->get_stock_quantity();
 
             $remoteStock = $this->fetchRemoteStock(
@@ -375,7 +374,7 @@ class SyncStockJob implements Job
      * @param WC_Product $product
      * @param LoggerInterface $logger
      *
-     * @return string[]
+     * @return array<string, int>
      *
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
      * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh

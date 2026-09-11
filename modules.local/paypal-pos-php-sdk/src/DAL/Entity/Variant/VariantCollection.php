@@ -11,17 +11,10 @@ final class VariantCollection
      */
     private array $collection = [];
 
-    /**
-     * VariantCollection constructor.
-     *
-     * @param VariantInterface[] $variants
-     */
     public function __construct(VariantInterface ...$variants)
     {
         foreach ($variants as $variant) {
-            if ($variant instanceof VariantInterface) {
-                $this->add($variant);
-            }
+            $this->add($variant);
         }
     }
 
@@ -49,22 +42,19 @@ final class VariantCollection
         return $this;
     }
 
-    /**
-     * @param string $uuid
-     *
-     * @return VariantInterface
-     */
-    public function get(string $uuid): VariantInterface
+    public function get(string $uuid): ?VariantInterface
     {
         foreach ($this->collection as $item) {
             if ((string) $item->uuid() === $uuid) {
                 return $item;
             }
         }
+
+        return null;
     }
 
     /**
-     * @return Variant[]
+     * @return VariantInterface[]
      */
     public function all(): array
     {

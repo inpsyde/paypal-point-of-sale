@@ -107,7 +107,7 @@ class WpdbMap implements
             )
         );
 
-        if ($result === null) {
+        if (!is_array($result) || $result === []) {
             throw new IdNotFoundException(sprintf("No remote IDs found for local ID %d", (int) $localId));
         }
 
@@ -166,7 +166,7 @@ class WpdbMap implements
         $meta = json_encode($arguments);
 
         $result = $this->wpdb->query(
-            $this->wpdb->prepare(
+            (string) $this->wpdb->prepare(
                 "
             INSERT INTO {$this->tableName()}
             (remote_id,local_id,type,site_id,meta)
@@ -189,7 +189,7 @@ class WpdbMap implements
     public function deleteRecord(int $localId, string $remoteId): bool
     {
         $result = $this->wpdb->query(
-            $this->wpdb->prepare(
+            (string) $this->wpdb->prepare(
                 "
             DELETE FROM
                 {$this->tableName()}

@@ -24,7 +24,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
 use Symfony\Component\Uid\Uuid;
 
 $job = static function (string $type): string {
-    return "zettle.job.{$type}";
+    return "paypal-pos.job.{$type}";
 };
 
 return [
