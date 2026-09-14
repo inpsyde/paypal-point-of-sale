@@ -2,6 +2,9 @@ name: E2E Tests
 # The triggers below implement the minimum required by the QA automation standard:
 #   - Smoke tests on every pull request
 #   - Full regression suite on workflow_dispatch (pre-release)
+concurrency:
+  group: e2e-tests-${{ github.ref }}
+  cancel-in-progress: true
 on:
   pull_request:
   workflow_dispatch:
