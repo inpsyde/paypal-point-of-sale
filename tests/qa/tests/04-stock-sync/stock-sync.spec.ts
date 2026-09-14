@@ -230,16 +230,24 @@ test.describe( 'Stock Sync', () => {
 			} );
 
 			await expect( response ).toBeOK();
-			await page.waitForTimeout( 3_000 );
 
-			const updated = await requestUtils.rest< {
-				stock_quantity: number;
-			} >( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'GET',
-			} );
-
-			expect( updated.stock_quantity ).toBe( 18 );
+			await expect
+				.poll(
+					async () => {
+						const updated = await requestUtils.rest< {
+							stock_quantity: number;
+						} >( {
+							path: `/wc/v3/products/${ product.id }`,
+							method: 'GET',
+						} );
+						return updated.stock_quantity;
+					},
+					{
+						message:
+							'Assert stock quantity reflects the InventoryBalanceChanged webhook payload',
+					}
+				)
+				.toBe( 18 );
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
