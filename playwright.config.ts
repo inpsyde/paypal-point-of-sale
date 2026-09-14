@@ -16,7 +16,7 @@ export default defineConfig< BaseExtend >( {
     expect: { timeout: 20 * 1000 },
     fullyParallel: false,
     forbidOnly: !! process.env.CI,
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 1 : 0,
     workers: 1,
     snapshotDir: './snapshots',
 
@@ -58,9 +58,9 @@ export default defineConfig< BaseExtend >( {
             },
         } ),
 
-        trace: process.env.CI ? 'off' : 'retain-on-failure',
+        trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
         screenshot: { mode: 'only-on-failure', fullPage: true },
-        video: process.env.CI ? 'off' : { mode: 'retain-on-failure', size: { width: 1280, height: 850 } },
+        video: process.env.CI ? 'on-first-retry' : { mode: 'retain-on-failure', size: { width: 1280, height: 850 } },
 
         cliConfig: {
             envType: ( process.env.WPCLI_ENV_TYPE ?? 'wpenv' ) as WpCliEnvType,
