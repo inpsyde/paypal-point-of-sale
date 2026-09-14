@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Inpsyde\Queue\Queue\Job;
 
 use DateTime;
+use stdClass;
 
 interface ContextInterface
 {
@@ -18,9 +19,8 @@ interface ContextInterface
 
     /**
      * Scalar (or at least serializable) arguments for the job instance
-     * @return object
      */
-    public function args(): object;
+    public function args(): stdClass;
 
     /**
      * Time of creation of the Job
@@ -37,7 +37,7 @@ interface ContextInterface
 
     /**
      * Returns a new instance of ContextInterface with the retry count incremented by 1
-     * @return $this
+     * @return static
      */
     public function withIncrementedRetryCount(): self;
 }

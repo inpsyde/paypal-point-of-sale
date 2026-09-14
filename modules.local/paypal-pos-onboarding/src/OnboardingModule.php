@@ -9,6 +9,7 @@ use Inpsyde\Modularity\Module\ExtendingModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface as C;
+use Syde\PayPal\PointOfSale\Onboarding\Settings\Filter\SettingsValueFilter;
 
 class OnboardingModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
@@ -36,9 +37,11 @@ class OnboardingModule implements ServiceModule, ExtendingModule, ExecutableModu
             $provider->boot($container);
         }
 
+        $apiKeyFilter = $container->get('paypal-pos.onboarding.settings.value-filter.api-key');
+        assert($apiKeyFilter instanceof SettingsValueFilter);
         add_filter(
             'woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'),
-            [$container->get('paypal-pos.onboarding.settings.value-filter.api-key'), 'filterSettingsValues']
+            [$apiKeyFilter, 'filterSettingsValues']
         );
 
         add_action(

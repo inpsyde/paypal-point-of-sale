@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk;
 
-use Http\Message\UriFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Container\ContainerInterface as C;
+use Psr\Http\Message\UriFactoryInterface;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Image\Images;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Inventory\Inventory;
@@ -393,28 +393,25 @@ return array_merge(
         },
         'paypal-pos.sdk.rest-client' => static function (C $container): RestClientInterface {
             return new Psr18RestClient(
-                $container->get('paypal-pos.logger.woocommerce'),
                 $container->get('inpsyde.http-client'),
-                $container->get('inpsyde.http-client.uri-factory'),
                 $container->get('inpsyde.http-client.request-factory'),
                 $container->get('inpsyde.http-client.stream-factory')
             );
         },
         'paypal-pos.sdk.api.oauth.users' => static function (C $container): Users {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
             return new Users(
-                $container->get('paypal-pos.logger.woocommerce'),
                 $uriFactory->createUri('https://oauth.izettle.com'),
                 $container->get('paypal-pos.sdk.rest-client')
             );
         },
         'paypal-pos.sdk.api.oauth.organizations' => static function (C $container): Organizations {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -435,7 +432,7 @@ return array_merge(
             },
         'paypal-pos.sdk.api.products.listener.update' => static function (C $container): callable {
             //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-            return static function (string $operation, $payload, bool $success) use ($container): void {
+            return static function (string $operation, mixed $payload, bool $success): void {
                 //Silence. This is only here so that extensions can add actual listeners
             };
             //phpcs:enable
@@ -443,7 +440,7 @@ return array_merge(
         'paypal-pos.sdk.api.products.listener.delete' => static function (C $container): callable {
             //phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
-            return static function (string $operation, $payload, bool $success) use ($container): void {
+            return static function (string $operation, mixed $payload, bool $success) use ($container): void {
                 $productsDeleteListener = $container->get('paypal-pos.sdk.api.listener.delete.product');
 
                 if (!$productsDeleteListener->accepts($operation, $payload, $success)) {
@@ -456,7 +453,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.products' => static function (C $container): Products {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -471,7 +468,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.images' => static function (C $container): Images {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -488,7 +485,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.webhooks' => static function (C $container): Subscriptions {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -503,7 +500,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.inventory' => static function (C $container): Inventory {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -517,7 +514,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.taxes' => static function (C $container): Taxes {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
@@ -529,7 +526,7 @@ return array_merge(
         },
         'paypal-pos.sdk.api.inventory.locations' => static function (C $container): Locations {
             /**
-             * @var UriFactory $uriFactory
+             * @var UriFactoryInterface $uriFactory
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 

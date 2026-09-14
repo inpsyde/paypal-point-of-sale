@@ -16,11 +16,7 @@ class CallbackSerializer implements SerializerInterface
         $this->callback = $callback;
     }
 
-    /**
-     * @inheritDoc
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function serialize($entity, ?SerializerInterface $serializer = null): array
+    public function serialize(object $entity, ?SerializerInterface $serializer = null): array
     {
         return (array) ($this->callback)($entity, $serializer);
     }

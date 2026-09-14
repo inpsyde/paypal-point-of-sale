@@ -26,7 +26,7 @@ class ArrayLogger implements LoggerInterface
 
     private ?LoggerInterface $childLogger = null;
 
-    public function __construct(LoggerInterface $childLogger = null)
+    public function __construct(?LoggerInterface $childLogger = null)
     {
         $this->childLogger = $childLogger;
     }
@@ -47,12 +47,8 @@ class ArrayLogger implements LoggerInterface
 
     /**
      * Return the logs of a specific LogLevel, or all logs if no parameter is given
-     *
-     * @param string|null $logLevel
-     *
-     * @return array
      */
-    public function logs(string $logLevel = null): array
+    public function logs(?string $logLevel = null): array
     {
         if (!$logLevel) {
             return $this->storage;

@@ -21,24 +21,18 @@ class PresentationValidator implements ValidatorInterface
 {
     public const HEX_COLOR_LENGTH = 6;
 
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof Presentation
             && ($entity->textColor() !== null && $entity->backgroundColor() !== null);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof Presentation);
 
-        $this->assertValidLongHexValue($entity->backgroundColor());
-        $this->assertValidLongHexValue($entity->textColor());
+        $this->assertValidLongHexValue((string) $entity->backgroundColor());
+        $this->assertValidLongHexValue((string) $entity->textColor());
 
         return true;
     }

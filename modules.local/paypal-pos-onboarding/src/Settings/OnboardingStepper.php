@@ -65,7 +65,7 @@ class OnboardingStepper
             <div class="zettle-settings-onboarding-stepper">
                 <?php echo esc_html($this->generateStepper()); ?>
             </div>
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**

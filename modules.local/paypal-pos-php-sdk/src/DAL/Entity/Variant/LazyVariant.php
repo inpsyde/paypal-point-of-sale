@@ -7,6 +7,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
+use Syde\PayPal\PointOfSale\PhpSdk\Map\RemoteIdProvider;
 
 class LazyVariant implements VariantInterface, StockQuantityAwareInterface, PriceAwareInterface
 {
@@ -14,16 +15,16 @@ class LazyVariant implements VariantInterface, StockQuantityAwareInterface, Pric
 
     private int $localId;
 
-    private VariantTransferInterface $base;
+    private VariantTransferInterface&StockQuantityAwareInterface $base;
 
-    private MapRecordCreator $recordCreator;
+    private MapRecordCreator&RemoteIdProvider $recordCreator;
 
     private bool $persisted = false;
 
     public function __construct(
         int $localId,
-        VariantTransferInterface $base,
-        MapRecordCreator $recordCreator
+        VariantTransferInterface&StockQuantityAwareInterface $base,
+        MapRecordCreator&RemoteIdProvider $recordCreator
     ) {
 
         $this->localId = $localId;

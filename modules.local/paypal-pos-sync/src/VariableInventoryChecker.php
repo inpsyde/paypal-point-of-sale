@@ -20,8 +20,7 @@ trait VariableInventoryChecker
 
         foreach ($product->get_visible_children() as $variationId) {
             $variation = wc_get_product($variationId);
-            assert($variation instanceof WC_Product_Variation);
-            if ($variation === null) {
+            if (!$variation instanceof WC_Product_Variation) {
                 continue;
             }
 

@@ -70,7 +70,7 @@ class SettingsFieldView implements OnboardingView
             <?php echo wp_kses_post($this->content); ?>
         </p>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -95,6 +95,8 @@ class SettingsFieldView implements OnboardingView
                         false
                     );
 
+                    // Output comes from WC_Settings_API::generate_settings_html, a trusted source.
+                    // phpcs:ignore WordPressVIPMinimum.Functions.StripTags.StripTagsTwoParameters
                     $strippedField = strip_tags(
                         $field,
                         sprintf(
@@ -112,7 +114,7 @@ class SettingsFieldView implements OnboardingView
             } ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderProceedButton(): string

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase;
 
 use Exception;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilderInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
@@ -17,9 +15,9 @@ class PurchaseBuilder implements PurchaseBuilderInterface
 {
     private PurchaseFactory $purchaseFactory;
 
-    private UserBuilder $userBuilder;
+    private UserBuilderInterface $userBuilder;
 
-    private CoordinatesBuilder $coordinatesBuilder;
+    private CoordinatesBuilderInterface $coordinatesBuilder;
 
     /**
      * PurchaseBuilder constructor.

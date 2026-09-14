@@ -27,11 +27,5 @@ interface StateInterface
 
     public function addTransition(TransitionInterface $transition): bool;
 
-    /**
-     * @param TransitionInterface|string $transition
-     *
-     * @return bool
-	 * phpcs:disable Syde.Functions.ReturnTypeDeclaration
-     */
-    public function can($transition): bool;
+    public function can(TransitionInterface|string $transition): bool;
 }

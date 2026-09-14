@@ -10,14 +10,11 @@ use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
 use Psr\Log\LoggerInterface;
-use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
 use Syde\PayPal\PointOfSale\PhpSdk\DB\Table as IdMapTable;
 use WP_CLI;
 
 class ResetCommand
 {
-    private Products $productsClient;
-
     private IdMapTable $idMapTable;
 
     private QueueTable $queueTable;

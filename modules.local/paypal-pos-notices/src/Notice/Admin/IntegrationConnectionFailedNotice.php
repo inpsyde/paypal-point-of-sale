@@ -97,6 +97,6 @@ class IntegrationConnectionFailedNotice implements NoticeInterface
             </a>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 }

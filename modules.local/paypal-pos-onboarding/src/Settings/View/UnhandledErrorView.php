@@ -19,7 +19,7 @@ class UnhandledErrorView implements OnboardingView
             <?php esc_html_e('Critical error', 'paypal-point-of-sale') ?>
         </h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -35,7 +35,7 @@ class UnhandledErrorView implements OnboardingView
             ); ?>
         </p>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderProceedButton(): string

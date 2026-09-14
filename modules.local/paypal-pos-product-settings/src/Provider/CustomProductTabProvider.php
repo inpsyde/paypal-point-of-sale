@@ -29,7 +29,12 @@ class CustomProductTabProvider implements Provider
     {
         add_filter(
             'woocommerce_product_data_tabs',
-            [$this->settingsTab, 'addTab']
+            function (mixed $tabs): mixed {
+                if (!is_array($tabs)) {
+                    return $tabs;
+                }
+                return $this->settingsTab->addTab($tabs);
+            }
         );
 
         add_action(

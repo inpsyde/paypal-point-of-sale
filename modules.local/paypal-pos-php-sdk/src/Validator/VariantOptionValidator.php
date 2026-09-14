@@ -15,18 +15,12 @@ class VariantOptionValidator implements ValidatorInterface
     public const MIN_NAME_LENGTH = 1;
     public const MAX_NAME_LENGTH = 30;
 
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof VariantOption;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function validate($entity): bool
+    public function validate(mixed $entity): bool
     {
         assert($entity instanceof VariantOption);
 

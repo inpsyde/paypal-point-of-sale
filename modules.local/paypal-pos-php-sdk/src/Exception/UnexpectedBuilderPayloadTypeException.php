@@ -6,7 +6,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Exception;
 
 class UnexpectedBuilderPayloadTypeException extends InvalidBuilderPayloadException
 {
-    public function __construct(string $expectedClassName, $payload)
+    public function __construct(string $expectedClassName, mixed $payload)
     {
         $actualClassName = is_object($payload) ? get_class($payload) : gettype($payload);
 

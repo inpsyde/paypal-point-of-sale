@@ -11,6 +11,12 @@ use Syde\PayPal\PointOfSale\Sync\Job\ExportProductJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
 
 return [
+    'paypal-pos.assets.url' => static function (C $container): string {
+        return plugin_dir_url(__FILE__) . 'assets';
+    },
+    'paypal-pos.assets.img-resources-url' => static function (C $container): string {
+        return plugin_dir_url(__FILE__) . 'resources/img';
+    },
     'paypal-pos.assets.sync-job-types' => static function (C $container): array {
         $jobTypes = [
             'prepare' => [
@@ -33,7 +39,7 @@ return [
         return $jobTypes;
     },
     'paypal-pos.assets.should-enqueue.all' => static function (C $container): callable {
-        return static function () use ($container): bool {
+        return static function (): bool {
             return true;
         };
     },

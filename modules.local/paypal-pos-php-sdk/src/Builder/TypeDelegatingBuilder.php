@@ -20,12 +20,9 @@ class TypeDelegatingBuilder implements BuilderInterface
     }
 
     /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      * @throws BuilderException
      */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         foreach ($this->builders as $typeSpecificBuilder) {
             if (!$typeSpecificBuilder->accepts($payload)) {
@@ -38,19 +35,14 @@ class TypeDelegatingBuilder implements BuilderInterface
         throw new BuilderNotFoundException("No Builder found for type '" . esc_html($type) . "'");
     }
 
-    private function inferType($payload): string
+    private function inferType(mixed $payload): string
     {
         if (is_null($payload)) {
             return 'null';
         }
-        $className = get_class($payload);
-        /**
-         * @psalm-suppress RedundantCondition
-         */
-        if ($className) {
-            return $className;
+        if (is_object($payload)) {
+            return get_class($payload);
         }
-
         return 'something';
     }
 }

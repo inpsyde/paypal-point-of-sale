@@ -61,10 +61,10 @@ class ValidationEndpoint implements EndpointInterface
         return [
             'value' => [
                 'type' => 'string',
-                'validate_callback' => static function ($value): bool {
+                'validate_callback' => static function (mixed $value): bool {
                     return is_string($value);
                 },
-                'sanitize_callback' => static function ($value) {
+                'sanitize_callback' => static function (mixed $value) {
                     return sanitize_text_field($value);
                 },
             ],

@@ -58,13 +58,16 @@ return [
     ], // list<string|regex>
     'exclude-constants' => array_merge($wp_constants, [
         'WC_VERSION',
+        'WP_CLI',
     ]), // list<string|regex>
     'exclude-classes' => array_merge($wp_classes, [
         'WooCommerce',
         '/^WC_/',
+        '/^WP_CLI/',
     ]),     // list<string|regex>
     'exclude-functions' => array_merge($wp_functions, [
         '/^wc/',
+        '/^WP_CLI/',
     ]), // list<string|regex>
 
     'expose-global-constants' => false,   // bool

@@ -11,11 +11,6 @@ final class ProductCollection
      */
     private array $collection = [];
 
-    /**
-     * ProductCollection constructor.
-     *
-     * @param array $products
-     */
     public function __construct(ProductInterface ...$products)
     {
         foreach ($products as $product) {
@@ -47,18 +42,15 @@ final class ProductCollection
         return $this;
     }
 
-    /**
-     * @param string $uuid
-     *
-     * @return ProductInterface
-     */
-    public function get(string $uuid): ProductInterface
+    public function get(string $uuid): ?ProductInterface
     {
         foreach ($this->collection as $item) {
-            if ($item->uuid() === (string) $uuid) {
+            if ($item->uuid() === $uuid) {
                 return $item;
             }
         }
+
+        return null;
     }
 
     /**

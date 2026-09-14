@@ -3,7 +3,7 @@
 .git*
 .phpstorm*
 .idea
-.psalm
+stubs
 tests/
 modules.local/
 packages.local/
@@ -26,3 +26,4 @@ DEVELOPMENT.md
 scoper.*.php
 gulpfile.js
 Makefile
+phpstan*

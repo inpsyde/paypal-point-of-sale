@@ -9,13 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\DifferentVariantVatException;
 
-// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 class VariableProductVatValidator implements ValidatorInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity): bool
+    public function accepts(mixed $entity): bool
     {
         return $entity instanceof ProductInterface && !empty($entity->variants()->all());
     }
@@ -26,7 +22,7 @@ class VariableProductVatValidator implements ValidatorInterface
      * @return bool
      * @throws DifferentVariantVatException
      */
-    public function validate($product): bool
+    public function validate(mixed $product): bool
     {
         assert($product instanceof ProductInterface);
 
