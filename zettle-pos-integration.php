@@ -6,8 +6,8 @@ declare (strict_types=1);
  * Plugin Name: PayPal Point of Sale
  * Plugin URI:  https://zettle.inpsyde.com/
  * Description: PayPal Point of Sale Integration for WooCommerce
- * Version: 2.0.0+pos-669-qit.4c2f7a5
- * SHA: 4c2f7a5811a8d078cc69fcb86151bf553b7e8c37
+ * Version: 2.0.0+pos-669-qit.9894d20
+ * SHA: 9894d2008cb0e0a786f8e0c2f11475d059f24c19
  * Requires at least: 6.8
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
