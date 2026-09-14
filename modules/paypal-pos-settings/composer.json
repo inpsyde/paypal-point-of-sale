@@ -1,0 +1,12 @@
+{
+    "name": "inpsyde\/paypal-pos-settings",
+    "type": "inpsyde-module",
+    "require": {
+        "inpsyde\/modularity": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\": "src\/"
+        }
+    }
+}
