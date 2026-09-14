@@ -504,7 +504,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 			expect(
 				await zettleApi.findProductByName( PRODUCT_NAME ),
-				'product with no tax rate should not exist in the PayPal POS product library'
+				'Assert product with no tax rate does not exist in the PayPal POS product library'
 			).toBeUndefined();
 
 			const logContent = await wcStatusLogs.viewLatestLogForSource(
@@ -512,7 +512,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			);
 			expect(
 				logContent,
-				'expected the plugin log to record the specific "No tax rate" rejection reason'
+				'Assert plugin log records the specific "No tax rate" rejection reason'
 			).toContain( 'No tax rate' );
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -581,7 +581,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			);
 			expect(
 				productUuidBefore,
-				'product should have a POS UUID mapping before its last variation is deleted'
+				'Assert product has a POS UUID mapping before its last variation is deleted'
 			).not.toBeNull();
 
 			await requestUtils.rest( {
@@ -594,13 +594,13 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 			expect(
 				await zettleApi.findProductByName( PRODUCT_NAME ),
-				'product should no longer exist in the PayPal POS product library once its last variation is deleted'
+				'Assert product no longer exists in the PayPal POS product library once its last variation is deleted'
 			).toBeUndefined();
 
 			const productUuidAfter = await getPosProductUuid( cli, product.id );
 			expect(
 				productUuidAfter,
-				'no orphaned product UUID mapping should remain after the last variation is deleted'
+				'Assert no orphaned product UUID mapping remains after the last variation is deleted'
 			).toBeNull();
 
 			const variantUuidAfter = await getPosVariantUuid(
@@ -609,7 +609,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			);
 			expect(
 				variantUuidAfter,
-				'no orphaned variant UUID mapping should remain after the last variation is deleted'
+				'Assert no orphaned variant UUID mapping remains after the last variation is deleted'
 			).toBeNull();
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -657,7 +657,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 			expect(
 				await zettleApi.findProductByName( PRODUCT_NAME ),
-				'product with hidden catalog visibility should not exist in the PayPal POS product library'
+				'Assert product with hidden catalog visibility does not exist in the PayPal POS product library'
 			).toBeUndefined();
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -704,7 +704,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				await zettleApi.findProductByName( PRODUCT_NAME );
 			expect(
 				foundAfterCreate?.variants?.[ 0 ]?.sku,
-				'SKU should be synced to the PayPal POS product library on create'
+				'Assert SKU is synced to the PayPal POS product library on create'
 			).toBe( 'WC-SKU-0001' );
 
 			await requestUtils.rest( {
@@ -725,7 +725,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				await zettleApi.findProductByName( PRODUCT_NAME );
 			expect(
 				foundAfterUpdate?.variants?.[ 0 ]?.sku,
-				'SKU should be updated in the PayPal POS product library after a product update'
+				'Assert SKU is updated in the PayPal POS product library after a product update'
 			).toBe( 'WC-SKU-0002' );
 		} finally {
 			await deleteProduct( cli, product.id );

@@ -60,7 +60,7 @@ test.describe( 'Webhooks', () => {
 		} );
 		expect(
 			registered,
-			'no InventoryBalanceChanged webhook registered for this site on PayPal POS'
+			'Assert an InventoryBalanceChanged webhook is registered for this site on PayPal POS'
 		).toBeTruthy();
 	} );
 } );
