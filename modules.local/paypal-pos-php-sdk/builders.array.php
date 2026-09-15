@@ -20,8 +20,16 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationMode;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationType;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Presentation\Presentation;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilder;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase\PurchaseBuilder;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilder;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\CoordinatesFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
@@ -365,6 +373,17 @@ return [
                 $payload['legalCity'] ?? null,
                 $payload['legalState'] ?? null
             );
+        }
+    ),
+    $key(Purchase::class) => $builder(
+        static function (array $payload, B $builder): Purchase {
+            $purchaseBuilder = new PurchaseBuilder(
+                new PurchaseFactory(),
+                new UserBuilder(new UserFactory()),
+                new CoordinatesBuilder(new CoordinatesFactory(new CoordinatesValidator()))
+            );
+
+            return $purchaseBuilder->buildFromArray($payload);
         }
     ),
 ];

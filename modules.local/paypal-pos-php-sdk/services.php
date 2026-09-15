@@ -15,6 +15,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\API\Listener\Products\OnSuccessDeleteProducts
 use Syde\PayPal\PointOfSale\PhpSdk\API\OAuth\Organizations;
 use Syde\PayPal\PointOfSale\PhpSdk\API\OAuth\Users;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Products\Products;
+use Syde\PayPal\PointOfSale\PhpSdk\API\Purchases\Purchases;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Taxes\Taxes;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\PayloadFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\WebhookFactory;
@@ -464,6 +465,19 @@ return array_merge(
                 $container->get('paypal-pos.sdk.serializer'),
                 $container->get('paypal-pos.sdk.api.products.listener.delete'),
                 $container->get('paypal-pos.sdk.api.products.listener.update')
+            );
+        },
+        'paypal-pos.sdk.api.purchases' => static function (C $container): Purchases {
+            /**
+             * @var UriFactoryInterface $uriFactory
+             */
+            $uriFactory = $container->get('inpsyde.http-client.uri-factory');
+
+            // @TODO(Spike 1): confirm host/path/version against a live purchase call.
+            return new Purchases(
+                $uriFactory->createUri('https://purchase.izettle.com'),
+                $container->get('paypal-pos.sdk.rest-client'),
+                $container->get('paypal-pos.sdk.builder')
             );
         },
         'paypal-pos.sdk.api.images' => static function (C $container): Images {
