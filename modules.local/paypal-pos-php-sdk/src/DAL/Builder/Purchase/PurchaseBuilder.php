@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase;
 
+use DateTime;
 use Exception;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilderInterface;
@@ -94,29 +95,38 @@ class PurchaseBuilder implements PurchaseBuilderInterface
      */
     private function build(array $data): Purchase
     {
-        $coordinates = $data['gpsCoordinates'] ? $this->coordinatesBuilder->buildFromArray($data) : null;
-        $sourceType = $data['type'] ? SourceType::get($data['type']) : null;
-        $published = $data['published'] ? (bool) $data['published'] : null;
+        // CoordinatesBuilder reads lat/long at the top level; pass the nested node.
+        $coordinates = !empty($data['gpsCoordinates'])
+            ? $this->coordinatesBuilder->buildFromArray($data['gpsCoordinates'])
+            : null;
+
+        $sourceRaw = $data['source'] ?? $data['sourceType'] ?? $data['type'] ?? null;
+        $sourceType = $sourceRaw !== null ? SourceType::get($sourceRaw) : null;
+
+        $published = isset($data['published']) ? (bool) $data['published'] : null;
+
+        // v2 exposes `groupedVatAmounts`; the entity mirrors the `vatAmounts` array.
+        $vatAmounts = $data['vatAmounts'] ?? $data['groupedVatAmounts'] ?? [];
 
         return $this->purchaseFactory->create(
-            $data['uuid'],
-            $data['timestamp'],
-            $data['country'],
-            $data['currency'],
+            $data['purchaseUUID'] ?? $data['uuid'] ?? '',
+            new DateTime($data['timestamp']),
+            $data['country'] ?? '',
+            $data['currency'] ?? '',
             $this->userBuilder->buildFromArray($data),
-            (int) $data['organizationId'],
-            (int) $data['purchaseNumber'],
-            (float) $data['amount'],
-            (float) $data['vatAmount'],
-            $data['products'],
-            $data['payments'],
-            $data['vatAmounts'],
-            (bool) $data['receiptCopyAllowed'],
-            (bool) $data['refund'],
-            (bool) $data['refunded'],
+            (int) ($data['organizationId'] ?? 0),
+            (int) ($data['purchaseNumber'] ?? 0),
+            (float) ($data['amount'] ?? 0),
+            (float) ($data['vatAmount'] ?? 0),
+            $data['products'] ?? [],
+            $data['payments'] ?? [],
+            $vatAmounts,
+            (bool) ($data['receiptCopyAllowed'] ?? false),
+            (bool) ($data['refund'] ?? false),
+            (bool) ($data['refunded'] ?? false),
             $coordinates,
             $sourceType,
-            (bool) $published
+            $published
         );
     }
 }
