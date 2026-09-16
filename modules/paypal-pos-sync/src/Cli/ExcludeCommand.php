@@ -1,0 +1,48 @@
+<?php
+
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Cli;
+
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+class ExcludeCommand
+{
+    private Job $deleteProductJob;
+    private Job $unlinkProductJob;
+    private LoggerInterface $logger;
+    /**
+     * ExcludeCommand constructor.
+     *
+     * @param Job $deleteProductJob
+     * @param Job $unlinkProductJob
+     * @param LoggerInterface $logger
+     */
+    public function __construct(Job $deleteProductJob, Job $unlinkProductJob, LoggerInterface $logger)
+    {
+        $this->deleteProductJob = $deleteProductJob;
+        $this->unlinkProductJob = $unlinkProductJob;
+        $this->logger = $logger;
+    }
+    /**
+     * Exclude a product locally and remotely at the Zettle Backoffice
+     *
+     * ## OPTIONS
+     *
+     * <id>
+     * : The WC_Product ID
+     *
+     * ## EXAMPLES
+     *
+     *     wp zettle exclude product
+     *
+     * @when after_wp_load
+     */
+    public function product(array $args, array $assocArgs): void
+    {
+        $productId = (int) $args[0];
+        $this->deleteProductJob->execute(Context::fromArray(['productId' => $productId]), new EphemeralJobRepository(), $this->logger);
+        $this->unlinkProductJob->execute(Context::fromArray(['localId' => $productId]), new EphemeralJobRepository(), $this->logger);
+    }
+}
