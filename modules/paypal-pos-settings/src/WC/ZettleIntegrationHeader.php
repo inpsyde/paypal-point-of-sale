@@ -67,21 +67,21 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                 <div class="zettle-settings-header-details">
                     <div class="zettle-settings-header-logo">
                         <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderIcon();
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                     </div>
 
                     <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderDetails();
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                 </div>
 
                 <div class="zettle-settings-header-meta">
                     <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderMeta();
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                 </div>
             </div>
@@ -256,8 +256,8 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         echo $popup ? 'data-popup="true"' : '';
         ?>>
             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </a>
 
@@ -298,8 +298,8 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         ?>
                 >
             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </button>
 
@@ -334,8 +334,8 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         echo esc_attr("{$class}-icon");
         ?>">
             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderIconExternalLink();
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </span>
 
@@ -400,11 +400,13 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                         </header>
                         <main>
                             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $content;
         ?>
                         </main>
                         <footer class="zettle-settings-onboarding-actions">
                             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $buttonsHtml;
         ?>
                         </footer>
