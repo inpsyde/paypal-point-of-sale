@@ -62,7 +62,7 @@ class PurchaseOrderFactory
             'status' => array_merge(array_keys(wc_get_order_statuses()), ['trash']),
             'meta_query' => [
                 [
-                    'key' => '_zettle_purchase_uuid',
+                    'key' => OrderMeta::PURCHASE_UUID,
                     'value' => $purchaseUuid,
                 ],
             ],
@@ -135,9 +135,9 @@ class PurchaseOrderFactory
         $item->set_quantity($quantity);
         $item->set_subtotal($lineTotal);
         $item->set_total($lineTotal);
-        $item->add_meta_data('_zettle_variant_uuid', $variantUuid);
-        $item->add_meta_data('_zettle_product_uuid', (string) ($line[self::KEY_PRODUCT_UUID] ?? ''));
-        $item->add_meta_data('_zettle_unit_price_minor', $unitPriceMinor);
+        $item->add_meta_data(OrderMeta::ITEM_VARIANT_UUID, $variantUuid);
+        $item->add_meta_data(OrderMeta::ITEM_PRODUCT_UUID, (string) ($line[self::KEY_PRODUCT_UUID] ?? ''));
+        $item->add_meta_data(OrderMeta::ITEM_UNIT_PRICE_MINOR, $unitPriceMinor);
         $order->add_item($item);
     }
 
@@ -167,16 +167,16 @@ class PurchaseOrderFactory
 
         $order->set_payment_method($this->paymentLabels->slug($primaryType));
         $order->set_payment_method_title($this->paymentLabels->title($primaryType));
-        $order->update_meta_data('_zettle_primary_payment_type', $primaryType);
-        $order->update_meta_data('_zettle_payments', wp_json_encode(array_values($payments)));
+        $order->update_meta_data(OrderMeta::PRIMARY_PAYMENT_TYPE, $primaryType);
+        $order->update_meta_data(OrderMeta::PAYMENTS, wp_json_encode(array_values($payments)));
     }
 
     private function applyMeta(WC_Order $order, Purchase $purchase): void
     {
-        $order->update_meta_data('_zettle_purchase_uuid', $purchase->uuid());
-        $order->update_meta_data('_zettle_purchase_number', $purchase->purchaseNumber());
+        $order->update_meta_data(OrderMeta::PURCHASE_UUID, $purchase->uuid());
+        $order->update_meta_data(OrderMeta::PURCHASE_NUMBER, $purchase->purchaseNumber());
         if ($purchase->sourceType() !== null) {
-            $order->update_meta_data('_zettle_source_type', $purchase->sourceType()->getValue());
+            $order->update_meta_data(OrderMeta::SOURCE_TYPE, $purchase->sourceType()->getValue());
         }
     }
 
