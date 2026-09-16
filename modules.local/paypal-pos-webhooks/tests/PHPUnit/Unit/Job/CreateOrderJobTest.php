@@ -26,7 +26,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         return $context;
     }
 
-    private function purchase(): object
+    private function purchase(bool $refund = false): object
     {
         $user = (new UserFactory())->create('1', 'Cashier');
 
@@ -44,7 +44,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
             [],
             [],
             false,
-            false,
+            $refund,
             false
         );
     }
@@ -86,6 +86,21 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $factory = Mockery::mock(PurchaseOrderFactory::class);
         $factory->shouldReceive('orderExists')->once()->andReturnFalse();
         $factory->shouldReceive('createOrder')->once()->with($purchase)->andReturn(42);
+
+        $job = new CreateOrderJob($purchases, $factory);
+
+        self::assertTrue(
+            $job->execute($this->context('abc'), Mockery::mock(JobRepository::class), Mockery::mock(LoggerInterface::class))
+        );
+    }
+
+    public function testSkipsRefundPurchases(): void
+    {
+        $purchases = Mockery::mock(Purchases::class);
+        $purchases->shouldReceive('read')->once()->andReturn($this->purchase(true));
+        $factory = Mockery::mock(PurchaseOrderFactory::class);
+        $factory->shouldReceive('orderExists')->once()->andReturnFalse();
+        $factory->shouldNotReceive('createOrder');
 
         $job = new CreateOrderJob($purchases, $factory);
 

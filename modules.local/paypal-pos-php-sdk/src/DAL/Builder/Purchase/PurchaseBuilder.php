@@ -110,7 +110,7 @@ class PurchaseBuilder implements PurchaseBuilderInterface
 
         return $this->purchaseFactory->create(
             $data['purchaseUUID'] ?? $data['uuid'] ?? '',
-            new DateTime($data['timestamp']),
+            new DateTime($data['timestamp'] ?? 'now'),
             $data['country'] ?? '',
             $data['currency'] ?? '',
             $this->userBuilder->buildFromArray($data),

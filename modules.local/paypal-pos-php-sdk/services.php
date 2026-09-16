@@ -473,7 +473,6 @@ return array_merge(
              */
             $uriFactory = $container->get('inpsyde.http-client.uri-factory');
 
-            // @TODO(Spike 1): confirm host/path/version against a live purchase call.
             return new Purchases(
                 $uriFactory->createUri('https://purchase.izettle.com'),
                 $container->get('paypal-pos.sdk.rest-client'),

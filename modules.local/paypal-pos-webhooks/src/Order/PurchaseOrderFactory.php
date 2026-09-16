@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use WC_Order;
 use WC_Order_Item_Fee;
 use WC_Order_Item_Product;
+use WP_Error;
 
 /**
  * Creates anonymous WooCommerce orders from Zettle POS purchases.
@@ -78,6 +80,9 @@ class PurchaseOrderFactory
 
         try {
             $order = wc_create_order();
+            if ($order instanceof WP_Error) {
+                throw new RuntimeException($order->get_error_message());
+            }
             $divisor = 10 ** $this->minorUnitExponent($purchase->currency());
 
             foreach ($purchase->products() as $line) {
@@ -107,7 +112,8 @@ class PurchaseOrderFactory
     private function addLineItem(WC_Order $order, array $line, int $divisor): void
     {
         $quantity = (int) ($line[self::KEY_QUANTITY] ?? 1);
-        $lineTotal = (string) ((int) ($line[self::KEY_UNIT_PRICE] ?? 0) * $quantity / $divisor);
+        $unitPriceMinor = (int) ($line[self::KEY_UNIT_PRICE] ?? 0);
+        $lineTotal = (string) ($unitPriceMinor * $quantity / $divisor);
         $variantUuid = (string) ($line[self::KEY_VARIANT_UUID] ?? '');
 
         $productId = $this->matchProduct($variantUuid);
@@ -128,7 +134,7 @@ class PurchaseOrderFactory
         $item->set_total($lineTotal);
         $item->add_meta_data('_zettle_variant_uuid', $variantUuid);
         $item->add_meta_data('_zettle_product_uuid', (string) ($line[self::KEY_PRODUCT_UUID] ?? ''));
-        $item->add_meta_data('_zettle_unit_price_minor', (int) ($line[self::KEY_UNIT_PRICE] ?? 0));
+        $item->add_meta_data('_zettle_unit_price_minor', $unitPriceMinor);
         $order->add_item($item);
     }
 
@@ -141,6 +147,10 @@ class PurchaseOrderFactory
         try {
             return $this->variantIdMap->localId($variantUuid);
         } catch (IdNotFoundException $exception) {
+            $this->logger->info(
+                sprintf('No WooCommerce product for Zettle variant %s; adding as a fee line.', $variantUuid)
+            );
+
             return null;
         }
     }
@@ -184,7 +194,6 @@ class PurchaseOrderFactory
     private function applyMeta(WC_Order $order, Purchase $purchase): void
     {
         $order->update_meta_data('_zettle_purchase_uuid', $purchase->uuid());
-        $order->update_meta_data('_zettle_purchase_uuid1', $purchase->uuid1());
         $order->update_meta_data('_zettle_purchase_number', $purchase->purchaseNumber());
         $order->update_meta_data('_created_via', 'zettle_pos');
         if ($purchase->sourceType() !== null) {

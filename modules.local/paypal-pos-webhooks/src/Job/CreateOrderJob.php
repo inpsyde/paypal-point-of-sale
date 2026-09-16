@@ -52,7 +52,13 @@ class CreateOrderJob implements Job
                 return true;
             }
 
-            $this->orderFactory->createOrder($this->purchases->read($uuid));
+            $purchase = $this->purchases->read($uuid);
+            // Refunds are handled separately; a refund would create a negative-total order.
+            if ($purchase->isRefund()) {
+                return true;
+            }
+
+            $this->orderFactory->createOrder($purchase);
 
             return true;
         } catch (Throwable $throwable) {
