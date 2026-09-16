@@ -7,8 +7,7 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 /**
  * Resolves a WooCommerce payment method slug and title for a Zettle purchase.
  *
- * Multi-payment purchases are labelled by their highest-amount tender. The title table
- * is intentionally minimal here; POS-625 completes it for all payment types.
+ * Multi-payment purchases are labelled by their highest-amount tender.
  */
 final class PaymentLabels
 {

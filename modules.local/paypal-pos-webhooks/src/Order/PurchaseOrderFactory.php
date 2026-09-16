@@ -16,9 +16,6 @@ use WP_Error;
 
 /**
  * Creates anonymous WooCommerce orders from Zettle POS purchases.
- *
- * Amounts arrive in minor units and are scaled here; the order never reduces stock
- * (handled by the InventoryBalanceChanged path) and sends no emails.
  */
 class PurchaseOrderFactory
 {
