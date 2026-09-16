@@ -36,23 +36,20 @@ class PurchaseOrderFactory
         'customer_invoice',
     ];
 
-    private const PAYMENT_TITLES = [
-        'IZETTLE_CARD' => 'Zettle Card',
-        'IZETTLE_CARD_ONLINE' => 'Zettle Card Online',
-        'IZETTLE_CASH' => 'Zettle Cash',
-        'PAYPAL' => 'PayPal (Zettle POS)',
-        'KLARNA' => 'Klarna (Zettle POS)',
-        'SWISH' => 'Swish (Zettle POS)',
-    ];
-    private const PAYMENT_TITLE_FALLBACK = 'Zettle POS (Other)';
-
     private OneToManyMapInterface $variantIdMap;
+
+    private PaymentLabels $paymentLabels;
 
     private LoggerInterface $logger;
 
-    public function __construct(OneToManyMapInterface $variantIdMap, LoggerInterface $logger)
-    {
+    public function __construct(
+        OneToManyMapInterface $variantIdMap,
+        PaymentLabels $paymentLabels,
+        LoggerInterface $logger
+    ) {
+
         $this->variantIdMap = $variantIdMap;
+        $this->paymentLabels = $paymentLabels;
         $this->logger = $logger;
     }
 
@@ -77,43 +74,49 @@ class PurchaseOrderFactory
     public function createOrder(Purchase $purchase): int
     {
         $this->suppressEmails(true);
+        // Stock is owned by the InventoryBalanceChanged path; block reduction on save.
+        add_filter('woocommerce_can_reduce_order_stock', '__return_false');
 
         try {
             $order = wc_create_order();
             if ($order instanceof WP_Error) {
                 throw new RuntimeException($order->get_error_message());
             }
-            $divisor = 10 ** $this->minorUnitExponent($purchase->currency());
+            $currency = $purchase->currency();
 
             foreach ($purchase->products() as $line) {
-                $this->addLineItem($order, (array) $line, $divisor);
+                $this->addLineItem($order, (array) $line, $currency);
             }
 
-            $order->set_currency($purchase->currency());
+            $order->set_currency($currency);
             $order->set_date_created($purchase->timestamp()->getTimestamp());
+            $order->set_created_via('zettle_pos');
             $this->applyPayment($order, $purchase->payments());
             $this->applyMeta($order, $purchase);
 
-            // Mirror Zettle's own total; never let WC recompute and diverge.
-            $order->set_total((string) ($purchase->amount() / $divisor));
-            // Stock is owned by the InventoryBalanceChanged path.
-            $order->set_stock_reduced(true);
+            // Mirror Zettle's own totals; never let WC recompute and diverge.
+            $order->set_cart_tax((string) MinorUnits::toMajor($purchase->vatAmount(), $currency));
+            $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
             $order->set_status('completed');
             $order->save();
+
+            // Record the order as already stock-reduced so later transitions don't reduce it.
+            $order->get_data_store()->set_stock_reduced($order->get_id(), true);
 
             $order->add_order_note(sprintf('Cashier: %s', $purchase->user()->displayName()));
 
             return $order->get_id();
         } finally {
             $this->suppressEmails(false);
+            remove_filter('woocommerce_can_reduce_order_stock', '__return_false');
         }
     }
 
-    private function addLineItem(WC_Order $order, array $line, int $divisor): void
+    private function addLineItem(WC_Order $order, array $line, string $currency): void
     {
         $quantity = (int) ($line[self::KEY_QUANTITY] ?? 1);
         $unitPriceMinor = (int) ($line[self::KEY_UNIT_PRICE] ?? 0);
-        $lineTotal = (string) ($unitPriceMinor * $quantity / $divisor);
+        $lineTotal = (string) MinorUnits::toMajor($unitPriceMinor * $quantity, $currency);
         $variantUuid = (string) ($line[self::KEY_VARIANT_UUID] ?? '');
 
         $productId = $this->matchProduct($variantUuid);
@@ -160,42 +163,18 @@ class PurchaseOrderFactory
      */
     private function applyPayment(WC_Order $order, array $payments): void
     {
-        $primaryType = $this->primaryPaymentType($payments);
-        $title = self::PAYMENT_TITLES[$primaryType] ?? self::PAYMENT_TITLE_FALLBACK;
-        $slug = $primaryType !== ''
-            ? sanitize_key('zettle_' . strtolower($primaryType))
-            : 'zettle_pos';
+        $primaryType = $this->paymentLabels->primaryType($payments);
 
-        $order->set_payment_method($slug);
-        $order->set_payment_method_title($title);
+        $order->set_payment_method($this->paymentLabels->slug($primaryType));
+        $order->set_payment_method_title($this->paymentLabels->title($primaryType));
         $order->update_meta_data('_zettle_primary_payment_type', $primaryType);
         $order->update_meta_data('_zettle_payments', wp_json_encode(array_values($payments)));
-    }
-
-    /**
-     * @param array<int, mixed> $payments
-     */
-    private function primaryPaymentType(array $payments): string
-    {
-        $type = '';
-        $max = null;
-        foreach ($payments as $payment) {
-            $payment = (array) $payment;
-            $amount = abs((float) ($payment['amount'] ?? 0));
-            if ($max === null || $amount > $max) {
-                $max = $amount;
-                $type = (string) ($payment['type'] ?? '');
-            }
-        }
-
-        return $type;
     }
 
     private function applyMeta(WC_Order $order, Purchase $purchase): void
     {
         $order->update_meta_data('_zettle_purchase_uuid', $purchase->uuid());
         $order->update_meta_data('_zettle_purchase_number', $purchase->purchaseNumber());
-        $order->update_meta_data('_created_via', 'zettle_pos');
         if ($purchase->sourceType() !== null) {
             $order->update_meta_data('_zettle_source_type', $purchase->sourceType()->getValue());
         }
@@ -211,12 +190,5 @@ class PurchaseOrderFactory
             }
             remove_filter($filter, '__return_false');
         }
-    }
-
-    private function minorUnitExponent(string $currency): int
-    {
-        $zeroDecimal = ['JPY', 'KRW', 'ISK', 'HUF', 'CLP', 'VND'];
-
-        return in_array(strtoupper($currency), $zeroDecimal, true) ? 0 : 2;
     }
 }

@@ -21,6 +21,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
@@ -181,6 +182,7 @@ return [
     'paypal-pos.webhook.order-factory' => static function (C $container): PurchaseOrderFactory {
         return new PurchaseOrderFactory(
             $container->get('paypal-pos.sdk.id-map.variant'),
+            new PaymentLabels(),
             $container->get('paypal-pos.webhook.logger')
         );
     },
