@@ -12,6 +12,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use WC_Order;
 use WC_Order_Item_Fee;
 use WC_Order_Item_Product;
+use WC_Product;
 use WP_Error;
 
 /**
@@ -88,6 +89,8 @@ class PurchaseOrderFactory
             $order->set_currency($currency);
             $order->set_date_created($purchase->timestamp()->getTimestamp());
             $order->set_created_via('zettle_pos');
+            // Record the order as already stock-reduced so later transitions don't reduce it.
+            $order->set_order_stock_reduced(true);
             $this->applyPayment($order, $purchase->payments());
             $this->applyMeta($order, $purchase);
 
@@ -96,9 +99,6 @@ class PurchaseOrderFactory
             $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
             $order->set_status('completed');
             $order->save();
-
-            // Record the order as already stock-reduced so later transitions don't reduce it.
-            $order->get_data_store()->set_stock_reduced($order->get_id(), true);
 
             $order->add_order_note(sprintf('Cashier: %s', $purchase->user()->displayName()));
 
@@ -117,25 +117,34 @@ class PurchaseOrderFactory
         $variantUuid = (string) ($line[self::KEY_VARIANT_UUID] ?? '');
 
         $productId = $this->matchProduct($variantUuid);
-        if ($productId === null) {
-            $fee = new WC_Order_Item_Fee();
-            $fee->set_name((string) ($line[self::KEY_NAME] ?? 'Zettle item'));
-            $fee->set_amount($lineTotal);
-            $fee->set_total($lineTotal);
-            $order->add_item($fee);
+        $product = $productId !== null ? wc_get_product($productId) : null;
+        if (!$product instanceof WC_Product) {
+            $this->addFeeLine($order, $line, $lineTotal);
 
             return;
         }
 
         $item = new WC_Order_Item_Product();
-        $item->set_product(wc_get_product($productId));
+        $item->set_product($product);
         $item->set_quantity($quantity);
         $item->set_subtotal($lineTotal);
         $item->set_total($lineTotal);
         $item->add_meta_data(OrderMeta::ITEM_VARIANT_UUID, $variantUuid);
         $item->add_meta_data(OrderMeta::ITEM_PRODUCT_UUID, (string) ($line[self::KEY_PRODUCT_UUID] ?? ''));
-        $item->add_meta_data(OrderMeta::ITEM_UNIT_PRICE_MINOR, $unitPriceMinor);
+        $item->add_meta_data(OrderMeta::ITEM_UNIT_PRICE_MINOR, (string) $unitPriceMinor);
         $order->add_item($item);
+    }
+
+    /**
+     * @param array<string, mixed> $line
+     */
+    private function addFeeLine(WC_Order $order, array $line, string $lineTotal): void
+    {
+        $fee = new WC_Order_Item_Fee();
+        $fee->set_name((string) ($line[self::KEY_NAME] ?? 'Zettle item'));
+        $fee->set_amount($lineTotal);
+        $fee->set_total($lineTotal);
+        $order->add_item($fee);
     }
 
     private function matchProduct(string $variantUuid): ?int
@@ -165,13 +174,13 @@ class PurchaseOrderFactory
         $order->set_payment_method($this->paymentLabels->slug($primaryType));
         $order->set_payment_method_title($this->paymentLabels->title($primaryType));
         $order->update_meta_data(OrderMeta::PRIMARY_PAYMENT_TYPE, $primaryType);
-        $order->update_meta_data(OrderMeta::PAYMENTS, wp_json_encode(array_values($payments)));
+        $order->update_meta_data(OrderMeta::PAYMENTS, (string) wp_json_encode(array_values($payments)));
     }
 
     private function applyMeta(WC_Order $order, Purchase $purchase): void
     {
         $order->update_meta_data(OrderMeta::PURCHASE_UUID, $purchase->uuid());
-        $order->update_meta_data(OrderMeta::PURCHASE_NUMBER, $purchase->purchaseNumber());
+        $order->update_meta_data(OrderMeta::PURCHASE_NUMBER, (string) $purchase->purchaseNumber());
         if ($purchase->sourceType() !== null) {
             $order->update_meta_data(OrderMeta::SOURCE_TYPE, $purchase->sourceType()->getValue());
         }
