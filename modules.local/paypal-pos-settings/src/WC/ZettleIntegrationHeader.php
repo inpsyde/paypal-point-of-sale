@@ -98,14 +98,23 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             <div class="zettle-settings-header-container">
                 <div class="zettle-settings-header-details">
                     <div class="zettle-settings-header-logo">
-                        <?php echo $this->renderIcon(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                        <?php
+                        // phpcs:ignore WordPress.Security.EscapeOutput
+                        echo $this->renderIcon();
+                        ?>
                     </div>
 
-                    <?php echo $this->renderDetails(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                    <?php
+                    // phpcs:ignore WordPress.Security.EscapeOutput
+                    echo $this->renderDetails();
+                    ?>
                 </div>
 
                 <div class="zettle-settings-header-meta">
-                    <?php echo $this->renderMeta(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                    <?php
+                    // phpcs:ignore WordPress.Security.EscapeOutput
+                    echo $this->renderMeta();
+                    ?>
                 </div>
             </div>
         </div>
@@ -299,7 +308,10 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
             class="<?php echo esc_attr($class); ?>"
             rel="noopener noreferrer"
             target="<?php echo esc_attr($target); ?>" <?php echo $popup ? 'data-popup="true"' : ''; ?>>
-            <?php echo $this->renderLabel($label, esc_html($labelClass), $withIcon); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+            <?php
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
+            ?>
         </a>
 
         <?php return (string) ob_get_clean();
@@ -338,7 +350,10 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                 }, array_keys($otherAttributes)));
                 ?>
                 >
-            <?php echo $this->renderLabel($label, esc_html($labelClass), $withIcon); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+            <?php
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->renderLabel($label, esc_html($labelClass), $withIcon);
+            ?>
         </button>
 
         <?php return (string) ob_get_clean();
@@ -366,7 +381,10 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
         </span>
 
         <span class="<?php echo esc_attr("{$class}-icon"); ?>">
-            <?php echo $this->renderIconExternalLink(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+            <?php
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->renderIconExternalLink();
+            ?>
         </span>
 
         <?php return (string) ob_get_clean();
@@ -432,10 +450,16 @@ class ZettleIntegrationHeader implements ZettleIntegrationTemplate
                             <h2><?= esc_html($title) ?></h2>
                         </header>
                         <main>
-                            <?= $content // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                            <?php
+                            // phpcs:ignore WordPress.Security.EscapeOutput
+                            echo $content;
+                            ?>
                         </main>
                         <footer class="zettle-settings-onboarding-actions">
-                            <?= $buttonsHtml // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                            <?php
+                            // phpcs:ignore WordPress.Security.EscapeOutput
+                            echo $buttonsHtml;
+                            ?>
                         </footer>
                     </div>
                 </div>
