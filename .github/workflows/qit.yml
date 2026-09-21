@@ -4,7 +4,7 @@ on:
     workflow_run:
         workflows: [ 'Build and distribute' ]
         types: [ completed ]
-        branches: [ 'dev/develop', 'dev/release/**' ]
+        branches: [ 'dev/main', 'dev/release/**' ]
     workflow_dispatch:
 
 concurrency:
