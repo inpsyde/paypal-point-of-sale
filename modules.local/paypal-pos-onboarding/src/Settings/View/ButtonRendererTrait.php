@@ -57,7 +57,10 @@ trait ButtonRendererTrait
                 style="<?php echo $hidden ? 'display: none;' : ''; ?>"
                 type="<?= esc_attr($type) ?>"
                 value="<?= esc_attr($value) ?>"
-                <?= $attributesHtml // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+                <?php
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo $attributesHtml;
+                ?>>
             <?php echo esc_attr($label); ?>
         </button>
 
