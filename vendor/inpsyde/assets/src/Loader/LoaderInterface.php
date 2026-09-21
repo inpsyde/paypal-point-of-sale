@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Loader;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Loader;
 
-use Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
 interface LoaderInterface
 {
     /**

@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-interface DataAwareAsset extends \Inpsyde\Assets\Asset
+interface DataAwareAsset extends Asset
 {
     /**
      * @return array<mixed>
@@ -18,5 +18,5 @@ interface DataAwareAsset extends \Inpsyde\Assets\Asset
      *
      * @see https://developer.wordpress.org/reference/functions/wp_script_add_data/#comment-1007
      */
-    public function withCondition(string $condition): \Inpsyde\Assets\Asset;
+    public function withCondition(string $condition): Asset;
 }

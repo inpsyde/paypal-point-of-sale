@@ -1,13 +1,13 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\OutputFilter;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter;
 
-use Inpsyde\Assets\FilterAwareAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\FilterAwareAsset;
 /**
  * @deprecated use Asset::withAttributes(['defer' => true']);
  */
-class DeferScriptOutputFilter implements \Inpsyde\Assets\OutputFilter\AssetOutputFilter
+class DeferScriptOutputFilter implements AssetOutputFilter
 {
     public function __invoke(string $html, FilterAwareAsset $asset): string
     {

@@ -451,7 +451,7 @@
                     "inc\/bootstrap.php"
                 ],
                 "psr-4": {
-                    "Inpsyde\\Assets\\": "src\/"
+                    "Syde\\Vendor\\Zettle\\Inpsyde\\Assets\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/repo.packagist.com\/inpsyde\/downloads\/",

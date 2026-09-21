@@ -41,7 +41,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Inpsyde\\Assets\\": "src\/"
+            "Syde\\Vendor\\Zettle\\Inpsyde\\Assets\\": "src\/"
         },
         "files": [
             "inc\/functions.php",
@@ -50,7 +50,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Inpsyde\\Assets\\Tests\\Unit\\": "tests\/phpunit\/Unit\/"
+            "Syde\\Vendor\\Zettle\\Inpsyde\\Assets\\Tests\\Unit\\": "tests\/phpunit\/Unit\/"
         }
     },
     "scripts": {

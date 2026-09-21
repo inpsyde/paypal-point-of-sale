@@ -1,18 +1,18 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Handler;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Handler;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\OutputFilter\AsyncScriptOutputFilter;
-use Inpsyde\Assets\OutputFilter\AttributesOutputFilter;
-use Inpsyde\Assets\OutputFilter\DeferScriptOutputFilter;
-use Inpsyde\Assets\OutputFilter\InlineAssetOutputFilter;
-use Inpsyde\Assets\Script;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AsyncScriptOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AttributesOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\DeferScriptOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\InlineAssetOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Script;
 use WP_Scripts;
-class ScriptHandler implements \Inpsyde\Assets\Handler\AssetHandler, \Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler
+class ScriptHandler implements AssetHandler, OutputFilterAwareAssetHandler
 {
-    use \Inpsyde\Assets\Handler\OutputFilterAwareAssetHandlerTrait;
+    use OutputFilterAwareAssetHandlerTrait;
     protected \WP_Scripts $wpScripts;
     /**
      * ScriptHandler constructor.

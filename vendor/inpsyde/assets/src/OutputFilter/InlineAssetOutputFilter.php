@@ -1,12 +1,12 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\OutputFilter;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter;
 
-use Inpsyde\Assets\FilterAwareAsset;
-use Inpsyde\Assets\Script;
-use Inpsyde\Assets\Style;
-class InlineAssetOutputFilter implements \Inpsyde\Assets\OutputFilter\AssetOutputFilter
+use Syde\Vendor\Zettle\Inpsyde\Assets\FilterAwareAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Script;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Style;
+class InlineAssetOutputFilter implements AssetOutputFilter
 {
     /**
      * @param string $html

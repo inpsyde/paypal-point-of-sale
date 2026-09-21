@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug;
 
-use Inpsyde\Assets\BaseAsset;
-use Inpsyde\Assets\Script;
-use Inpsyde\Assets\Style;
+use Syde\Vendor\Zettle\Inpsyde\Assets\BaseAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Script;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Style;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductDebug\Rest\V1\ProductValidationEndpoint;
 return ['inpsyde.assets.registry' => static function (array $previous, C $container): array {

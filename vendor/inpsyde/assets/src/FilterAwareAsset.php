@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\OutputFilter\AssetOutputFilter;
-interface FilterAwareAsset extends \Inpsyde\Assets\Asset
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AssetOutputFilter;
+interface FilterAwareAsset extends Asset
 {
     /**
      * A list of assigned output filters to change the rendered tag.
@@ -19,7 +19,7 @@ interface FilterAwareAsset extends \Inpsyde\Assets\Asset
      *
      * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function withFilters(...$filters): \Inpsyde\Assets\Asset;
+    public function withFilters(...$filters): Asset;
     /**
      * @return array<string, mixed>
      */
@@ -29,5 +29,5 @@ interface FilterAwareAsset extends \Inpsyde\Assets\Asset
      *
      * @return Asset
      */
-    public function withAttributes(array $attributes): \Inpsyde\Assets\Asset;
+    public function withAttributes(array $attributes): Asset;
 }

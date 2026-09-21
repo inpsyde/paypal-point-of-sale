@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Util;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Util;
 
-use Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
 use Syde\Vendor\Zettle\Inpsyde\WpContext;
 class AssetHookResolver
 {

@@ -1,17 +1,17 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Loader;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Loader;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\BaseAsset;
-use Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
-use Inpsyde\Assets\Exception\FileNotFoundException;
-use Inpsyde\Assets\Exception\InvalidResourceException;
-use Inpsyde\Assets\Script;
-use Inpsyde\Assets\ScriptModule;
-use Inpsyde\Assets\Style;
-abstract class AbstractWebpackLoader implements \Inpsyde\Assets\Loader\LoaderInterface
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\BaseAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Exception\FileNotFoundException;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Exception\InvalidResourceException;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Script;
+use Syde\Vendor\Zettle\Inpsyde\Assets\ScriptModule;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Style;
+abstract class AbstractWebpackLoader implements LoaderInterface
 {
     use ConfigureAutodiscoverVersionTrait;
     protected string $directoryUrl = '';
@@ -20,7 +20,7 @@ abstract class AbstractWebpackLoader implements \Inpsyde\Assets\Loader\LoaderInt
      *
      * @return static
      */
-    public function withDirectoryUrl(string $directoryUrl): \Inpsyde\Assets\Loader\AbstractWebpackLoader
+    public function withDirectoryUrl(string $directoryUrl): AbstractWebpackLoader
     {
         $this->directoryUrl = $directoryUrl;
         return $this;

@@ -1,16 +1,16 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Handler;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Handler;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\OutputFilter\AsyncStyleOutputFilter;
-use Inpsyde\Assets\OutputFilter\AttributesOutputFilter;
-use Inpsyde\Assets\OutputFilter\InlineAssetOutputFilter;
-use Inpsyde\Assets\Style;
-class StyleHandler implements \Inpsyde\Assets\Handler\AssetHandler, \Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AsyncStyleOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AttributesOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\InlineAssetOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Style;
+class StyleHandler implements AssetHandler, OutputFilterAwareAssetHandler
 {
-    use \Inpsyde\Assets\Handler\OutputFilterAwareAssetHandlerTrait;
+    use OutputFilterAwareAssetHandlerTrait;
     protected \WP_Styles $wpStyles;
     /**
      * StyleHandler constructor.
