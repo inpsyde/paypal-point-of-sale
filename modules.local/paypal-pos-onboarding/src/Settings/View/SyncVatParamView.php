@@ -143,6 +143,7 @@ class SyncVatParamView implements OnboardingView
                         return "<li><strong>$msg</strong></li>";
                     }, $messages)) .
                     '</ul>';
+                // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
                 ?>
             </p>
         <?php endif; ?>
