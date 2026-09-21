@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\Handler\StyleHandler;
-use Inpsyde\Assets\OutputFilter\AsyncStyleOutputFilter;
-class Style extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset, \Inpsyde\Assets\DataAwareAsset, \Inpsyde\Assets\FilterAwareAsset
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\StyleHandler;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AsyncStyleOutputFilter;
+class Style extends BaseAsset implements Asset, DataAwareAsset, FilterAwareAsset
 {
-    use \Inpsyde\Assets\DataAwareTrait;
-    use \Inpsyde\Assets\FilterAwareTrait;
+    use DataAwareTrait;
+    use FilterAwareTrait;
     /**
      * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link#attr-media
      *
@@ -34,7 +34,7 @@ class Style extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset, 
      *
      * @return static
      */
-    public function forMedia(string $media): \Inpsyde\Assets\Style
+    public function forMedia(string $media): Style
     {
         $this->media = $media;
         return $this;
@@ -53,7 +53,7 @@ class Style extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset, 
      *
      * @see https://codex.wordpress.org/Function_Reference/wp_add_inline_style
      */
-    public function withInlineStyles(string $inline): \Inpsyde\Assets\Style
+    public function withInlineStyles(string $inline): Style
     {
         if (!$this->inlineStyles) {
             $this->inlineStyles = [];
@@ -75,7 +75,7 @@ class Style extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset, 
      * @example Style::withCssVars('.some-element', ['--white' => '#fff']);
      * @example Style::withCssVars('.some-element', ['white' => '#fff']);
      */
-    public function withCssVars(string $element, array $vars): \Inpsyde\Assets\Style
+    public function withCssVars(string $element, array $vars): Style
     {
         if (!isset($this->cssVars[$element])) {
             $this->cssVars[$element] = [];
@@ -113,7 +113,7 @@ class Style extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset, 
      *
      * @return static
      */
-    public function useAsyncFilter(): \Inpsyde\Assets\Style
+    public function useAsyncFilter(): Style
     {
         return $this->withFilters(AsyncStyleOutputFilter::class);
     }

@@ -8,6 +8,8 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\Module;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Properties\PluginProperties;
 return static function (string $pluginFile, bool $validate = \false): Package {
+    // Must run before any service is resolved: some modules apply the filters from run().
+    (new DeprecatedHooks())->register();
     $properties = PluginProperties::new($pluginFile);
     $package = Package::new($properties);
     $classNames = require dirname($pluginFile) . '/modules.php';

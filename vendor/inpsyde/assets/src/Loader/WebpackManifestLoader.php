@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Loader;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Loader;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\AssetFactory;
-use Inpsyde\Assets\Exception;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\AssetFactory;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Exception;
 /**
  * Implementation of Webpack manifest.json parsing into Assets.
  *
@@ -17,7 +17,7 @@ use Inpsyde\Assets\Exception;
  * @phpstan-import-type AssetExtensionConfig from AssetFactory
  * @phpstan-type Configuration = AssetConfig&AssetExtensionConfig
  */
-class WebpackManifestLoader extends \Inpsyde\Assets\Loader\AbstractWebpackLoader
+class WebpackManifestLoader extends AbstractWebpackLoader
 {
     protected function parseData(array $data, string $resource): array
     {

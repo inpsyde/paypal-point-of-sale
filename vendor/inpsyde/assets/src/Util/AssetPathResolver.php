@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Util;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Util;
 
 class AssetPathResolver
 {

@@ -1,16 +1,16 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\Handler\AssetHandler;
-use Inpsyde\Assets\Util\AssetPathResolver;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\AssetHandler;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Util\AssetPathResolver;
 /**
  * phpcs:disable Syde.Classes.PropertyLimit.TooManyProperties
  */
-abstract class BaseAsset implements \Inpsyde\Assets\Asset
+abstract class BaseAsset implements Asset
 {
-    use \Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
+    use ConfigureAutodiscoverVersionTrait;
     protected string $url = '';
     /**
      * Full filePath to an Asset which can
@@ -51,7 +51,7 @@ abstract class BaseAsset implements \Inpsyde\Assets\Asset
      * @param string $url
      * @param int $location
      */
-    public function __construct(string $handle, string $url, int $location = \Inpsyde\Assets\Asset::FRONTEND | \Inpsyde\Assets\Asset::ACTIVATE)
+    public function __construct(string $handle, string $url, int $location = Asset::FRONTEND | Asset::ACTIVATE)
     {
         $this->handle = $handle;
         $this->url = $url;
@@ -97,7 +97,7 @@ abstract class BaseAsset implements \Inpsyde\Assets\Asset
      *
      * @return static
      */
-    public function withFilePath(string $filePath): \Inpsyde\Assets\Asset
+    public function withFilePath(string $filePath): Asset
     {
         $this->filePath = $filePath;
         return $this;
@@ -123,7 +123,7 @@ abstract class BaseAsset implements \Inpsyde\Assets\Asset
      *
      * @return static
      */
-    public function withVersion(string $version): \Inpsyde\Assets\Asset
+    public function withVersion(string $version): Asset
     {
         $this->version = $version;
         return $this;
@@ -140,7 +140,7 @@ abstract class BaseAsset implements \Inpsyde\Assets\Asset
      *
      * @return static
      */
-    public function withDependencies(string ...$dependencies): \Inpsyde\Assets\Asset
+    public function withDependencies(string ...$dependencies): Asset
     {
         $this->dependencies = array_merge($this->dependencies, $dependencies);
         return $this;
@@ -157,7 +157,7 @@ abstract class BaseAsset implements \Inpsyde\Assets\Asset
      *
      * @return static
      */
-    public function forLocation(int $location): \Inpsyde\Assets\Asset
+    public function forLocation(int $location): Asset
     {
         $this->location = $location;
         return $this;
@@ -179,7 +179,7 @@ abstract class BaseAsset implements \Inpsyde\Assets\Asset
      * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function canEnqueue($enqueue): \Inpsyde\Assets\Asset
+    public function canEnqueue($enqueue): Asset
     {
         // phpcs:enable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
         $this->enqueue = $enqueue;
@@ -190,7 +190,7 @@ abstract class BaseAsset implements \Inpsyde\Assets\Asset
      *
      * @return static
      */
-    public function useHandler(string $handler): \Inpsyde\Assets\Asset
+    public function useHandler(string $handler): Asset
     {
         $this->handler = $handler;
         return $this;

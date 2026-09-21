@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\OutputFilter;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter;
 
-use Inpsyde\Assets\FilterAwareAsset;
-class AttributesOutputFilter implements \Inpsyde\Assets\OutputFilter\AssetOutputFilter
+use Syde\Vendor\Zettle\Inpsyde\Assets\FilterAwareAsset;
+class AttributesOutputFilter implements AssetOutputFilter
 {
     public function __invoke(string $html, FilterAwareAsset $asset): string
     {

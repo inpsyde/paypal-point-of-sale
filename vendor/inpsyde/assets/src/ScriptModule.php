@@ -1,18 +1,18 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\Handler\ScriptModuleHandler;
-class ScriptModule extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\ScriptModuleHandler;
+class ScriptModule extends BaseAsset implements Asset
 {
-    use \Inpsyde\Assets\DependencyExtractionTrait;
+    use DependencyExtractionTrait;
     /**
      * @var array<string, mixed>
      */
     protected array $data = [];
     protected bool $dependencyExtractionEnabled = \false;
-    public function __construct(string $handle, string $url, int $location = \Inpsyde\Assets\Asset::FRONTEND | \Inpsyde\Assets\Asset::ACTIVATE, bool $dependencyExtractionEnabled = \true)
+    public function __construct(string $handle, string $url, int $location = Asset::FRONTEND | Asset::ACTIVATE, bool $dependencyExtractionEnabled = \true)
     {
         parent::__construct($handle, $url, $location);
         $this->dependencyExtractionEnabled = $dependencyExtractionEnabled;
@@ -29,7 +29,7 @@ class ScriptModule extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\
      *
      * @return static
      */
-    public function withData(array $data): \Inpsyde\Assets\Asset
+    public function withData(array $data): Asset
     {
         $this->data = array_merge($this->data, $data);
         return $this;

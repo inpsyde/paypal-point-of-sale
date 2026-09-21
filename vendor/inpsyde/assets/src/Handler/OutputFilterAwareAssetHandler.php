@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Handler;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Handler;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\OutputFilter\AssetOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AssetOutputFilter;
 interface OutputFilterAwareAssetHandler
 {
     /**
@@ -21,7 +21,7 @@ interface OutputFilterAwareAssetHandler
      *
      * @return OutputFilterAwareAssetHandler
      */
-    public function withOutputFilter(string $name, callable $filter): \Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler;
+    public function withOutputFilter(string $name, callable $filter): OutputFilterAwareAssetHandler;
     /**
      * Returns all registered outputFilters.
      *

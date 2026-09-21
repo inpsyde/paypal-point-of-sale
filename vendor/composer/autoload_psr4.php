@@ -40,6 +40,7 @@ return array(
     'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\' => array($vendorDir . '/inpsyde/modularity/src'),
     'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\' => array($baseDir . '/modules/inpsyde-http-client/src'),
     'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\' => array($baseDir . '/modules/inpsyde-debug/src'),
+    'Syde\\Vendor\\Zettle\\Inpsyde\\Assets\\' => array($vendorDir . '/inpsyde/assets/src'),
     'Syde\\Vendor\\Zettle\\Inpsyde\\' => array($vendorDir . '/inpsyde/wp-context/src'),
     'Syde\\Vendor\\Zettle\\Http\\Promise\\' => array($vendorDir . '/php-http/promise/src'),
     'Syde\\Vendor\\Zettle\\Http\\Message\\' => array($vendorDir . '/php-http/message-factory/src', $vendorDir . '/php-http/message/src'),
@@ -52,6 +53,5 @@ return array(
     'Syde\\Vendor\\Zettle\\Clue\\StreamFilter\\' => array($vendorDir . '/clue/stream-filter/src'),
     'Syde\\Vendor\\Zettle\\Brain\\Nonces\\' => array($vendorDir . '/brain/nonces/src'),
     'OomphInc\\ComposerInstallersExtender\\' => array($vendorDir . '/oomphinc/composer-installers-extender/src'),
-    'Inpsyde\\Assets\\' => array($vendorDir . '/inpsyde/assets/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
 );

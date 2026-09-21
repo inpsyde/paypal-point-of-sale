@@ -1,16 +1,16 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Loader;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Loader;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\AssetFactory;
-use Inpsyde\Assets\BaseAsset;
-use Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\AssetFactory;
+use Syde\Vendor\Zettle\Inpsyde\Assets\BaseAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
 /**
  * @package Inpsyde\Assets\Loader
  */
-class ArrayLoader implements \Inpsyde\Assets\Loader\LoaderInterface
+class ArrayLoader implements LoaderInterface
 {
     use ConfigureAutodiscoverVersionTrait;
     /**
