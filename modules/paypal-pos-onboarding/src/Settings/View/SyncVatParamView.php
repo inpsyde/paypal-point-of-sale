@@ -109,6 +109,7 @@ class SyncVatParamView implements OnboardingView
             echo '<ul>' . implode('', array_map(static function (string $msg): string {
                 return "<li><strong>{$msg}</strong></li>";
             }, $messages)) . '</ul>';
+            // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
             </p>
         <?php 
