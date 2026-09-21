@@ -2,7 +2,7 @@
 Contributors: paypal, syde, zettle, woocommerce, biont, alexp11223, danieldudzic
 Tags: point-of-sale, inventory, stock-sync, woocommerce, pos
 Requires at least: 6.8
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 8.2
 Stable tag: 2.0.0
 License: GPLv2 or later
