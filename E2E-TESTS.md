@@ -50,7 +50,9 @@ npx wp-env start
 npm run e2e:setup
 ```
 
-This builds a distributable plugin zip (`composer install` + asset build), installs it into wp-env via WP-CLI, and prepares WordPress (pretty permalinks, WooCommerce activation) — the same way CI does it. Tests install from this zip rather than a source bind-mount, so they exercise the real end-user install path.
+This builds a distributable plugin zip (`composer install` + asset build), installs it into wp-env via WP-CLI, and prepares WordPress (pretty permalinks, WooCommerce activation). Tests install from this zip rather than a source bind-mount, so they exercise the real end-user install path.
+
+> **Note:** this local zip is not byte-for-byte identical to what CI tests. CI builds its package via the same reusable `build-and-distribute` workflow used for real releases, which additionally runs PHP-Scoper (dependency prefixing) and the WordPress Translation Downloader — see [CI](#ci) below. A bug specific to scoped/prefixed dependencies would only surface in CI, not locally.
 
 ---
 
@@ -194,7 +196,7 @@ Tests run automatically via `.github/workflows/e2e-tests.yml`:
 | Full E2E suite | `workflow_dispatch` → `TARGET=wpenv` | wp-env (local) |
 | Kinsta E2E suite | `workflow_dispatch` → `TARGET=kinsta` | Kinsta tst (`stg-tstpaypalpospaypal-ppostest.kinsta.cloud`) |
 
-The wp-env PRE_SCRIPT mirrors `npm run e2e:setup`. The Kinsta job SCPs the zip to Kinsta and pre-installs via SSH before Playwright runs.
+Unlike local `npm run e2e:setup`, the CI `build` job produces the plugin package via the reusable `build-and-distribute` workflow (the same one used to build real releases) rather than `npm run e2e:build-zip` — so CI tests install a PHP-Scoper-prefixed package, while local runs install the faster, unscoped dev build (see the note in [Local Setup](#local-setup) above). All three jobs (wp-env smoke/full, Kinsta) then download that same built artifact, re-zip it, and install it the same way local setup does. The Kinsta job additionally SCPs the zip to Kinsta and pre-installs via SSH before Playwright runs.
 
 **Kinsta CI requires five GitHub secrets** (Settings → Secrets and variables → Actions):
 
