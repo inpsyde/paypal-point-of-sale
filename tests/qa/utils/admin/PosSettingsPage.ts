@@ -86,7 +86,9 @@ export class PosSettingsPage extends WpPage {
 
 	selectMergeStrategyIfOffered = async (): Promise< void > => {
 		if ( await this.mergeRadio().isVisible() ) {
-			await this.page.locator( 'label[for="zettle-merge-products"]' ).click();
+			await this.page
+				.locator( 'label[for="zettle-merge-products"]' )
+				.click();
 			await expect( this.mergeRadio() ).toBeChecked();
 		}
 	};
