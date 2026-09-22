@@ -1,12 +1,28 @@
 name: E2E Tests
 # The triggers below implement the minimum required by the QA automation standard:
-#   - Smoke tests on every pull request
+#   - Smoke tests on every commit pushed to a dev/** branch (effectively "every pull request",
+#     since all PR branches here are dev/**-prefixed)
 #   - Full regression suite on workflow_dispatch (pre-release)
+#
+# This uses `push` rather than `pull_request` because the `build` job below calls the
+# reusable build-and-distribute workflow, whose internal `git checkout ${{ github.ref_name }}`
+# step requires a real branch name. On `pull_request`, github.ref_name is the synthetic merge
+# ref (e.g. "19/merge"), which isn't a valid git ref and makes that checkout fail with
+# "fatal: invalid reference". `push` gives it the actual branch name instead.
+#
+# Alternative not taken: keep `pull_request` and revert the `build` job (below) back to the
+# old custom `npm run e2e:build-zip` step for the smoke path only, calling the reusable
+# workflow just for the workflow_dispatch-triggered `e2e`/`e2e-kinsta` jobs, where
+# github.ref_name is always a real branch. That keeps a literal "on pull_request" trigger, but
+# means the fast pre-merge smoke suite goes back to testing an unscoped dev build instead of
+# the actual distributed package, i.e. the divergence this refactor was meant to close would
+# reappear for the smoke path specifically.
 concurrency:
   group: e2e-tests-${{ github.ref }}
   cancel-in-progress: true
 on:
-  pull_request:
+  push:
+    branches: [ 'dev/**' ]
   workflow_dispatch:
     inputs:
       TEST_SUITE:
@@ -59,7 +75,7 @@ jobs:
   smoke:
     name: Smoke Tests
     needs: build
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
     uses: inpsyde/reusable-workflows/.github/workflows/test-playwright.yml@main
     with:
       PLAYWRIGHT_SCRIPT: e2e:smoke:ci
