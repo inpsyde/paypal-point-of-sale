@@ -84,3 +84,9 @@ export const posSkuSyncProduct: CreateProductData = {
 	regular_price: '12.00',
 	sku: 'WC-SKU-0001',
 };
+
+export const posPrivateProduct: CreateProductData = {
+	name: 'POS-665 Private Product',
+	regular_price: '10.00',
+	status: 'private',
+};

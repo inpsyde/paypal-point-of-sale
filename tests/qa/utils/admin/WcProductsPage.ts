@@ -94,6 +94,8 @@ export class WcProductsPage extends WpPage {
 				await expect( cell.locator( 'b.not-synced' ) ).toBeVisible();
 				break;
 			case 'not-published':
+				await expect( cell ).toContainText( 'Not synced' );
+				await expect( cell ).toContainText( 'Not syncable' );
 				await expect( cell ).toContainText( 'Not published' );
 				break;
 			case 'excluded':

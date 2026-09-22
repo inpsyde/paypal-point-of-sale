@@ -25,6 +25,7 @@ import {
 	posLastVariationProduct,
 	posHiddenCatalogProduct,
 	posSkuSyncProduct,
+	posPrivateProduct,
 } from './_test-data';
 import { testRejectedProductSync } from './_test-scenarios';
 
@@ -727,6 +728,51 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				foundAfterUpdate?.variants?.[ 0 ]?.sku,
 				'Assert SKU is updated in the PayPal POS product library after a product update'
 			).toBe( 'WC-SKU-0002' );
+		} finally {
+			await deleteProduct( cli, product.id );
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
+		}
+	} );
+
+	test( 'POS-665 | Private product is not synced to POS; regression;', async ( {
+		wcProducts,
+		requestUtils,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = posPrivateProduct.name;
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const product = await createProduct( requestUtils, posPrivateProduct );
+
+		try {
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				PRODUCT_NAME,
+				'not-published',
+				product.id
+			);
+
+			expect(
+				await zettleApi.findProductByName( PRODUCT_NAME ),
+				'Assert private product does not exist in the PayPal POS product library'
+			).toBeUndefined();
 		} finally {
 			await deleteProduct( cli, product.id );
 			await zettleApi.deleteProductByName( PRODUCT_NAME );
