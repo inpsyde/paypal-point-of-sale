@@ -34,38 +34,27 @@ on:
 
 jobs:
   build:
-    name: Build plugin zip
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          coverage: none
-          tools: composer
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          registry-url: https://npm.pkg.github.com
-          scope: '@inpsyde'
-
-      # Runs `npm run e2e:build-zip` (composer install + asset build for each
-      # module + rsync + zip) — the same command used for local E2E setup, so
-      # CI and local always package the plugin the same way.
-      - name: Build plugin zip
-        run: npm ci && npm run e2e:build-zip
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
-          COMPOSER_AUTH: ${{ secrets.PACKAGIST_AUTH_JSON }}
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: paypal-point-of-sale
-          path: tests/qa/resources/files/paypal-point-of-sale.zip
-          retention-days: 1
+    name: Build plugin package
+    # Uses the same reusable build used to produce the distributed package
+    # (see build.yml/qit.yml), so E2E tests install the real shipped artifact
+    # (incl. PHP-Scoper) instead of a separately assembled zip.
+    uses: inpsyde/reusable-workflows/.github/workflows/build-and-distribute.yml@main
+    with:
+      PACKAGE_NAME: 'paypal-point-of-sale'
+      NODE_VERSION: 22
+      # Always builds into its own e2e/ branch namespace: keeps this job's
+      # build-and-push side effect off both the source branch (required by
+      # the reusable workflow's branch-strategy check, which would otherwise
+      # fail on pull_request's synthetic merge ref) and the real dev/main ->
+      # main distribution branch used for releases.
+      BUILT_BRANCH_NAME: e2e/${{ github.head_ref || github.ref_name }}
+    secrets:
+      GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
+      GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
+      GITHUB_USER_SSH_KEY: ${{ secrets.DEPLOYBOT_SSH_PRIVATE_KEY }}
+      GITHUB_USER_SSH_PUBLIC_KEY: ${{ secrets.DEPLOYBOT_SSH_PUBLIC_KEY }}
+      COMPOSER_AUTH_JSON: ${{ secrets.PACKAGIST_AUTH_JSON }}
+      NPM_REGISTRY_TOKEN: ${{ secrets.DEPLOYBOT_PACKAGES_READ_ACCESS_TOKEN }}
 
   smoke:
     name: Smoke Tests
@@ -85,7 +74,8 @@ jobs:
       COMPOSER_DEPS_INSTALL: false
       PRE_SCRIPT: |
         mkdir -p tests/qa/resources/files storage-states
-        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
+        gh run download ${{ github.run_id }} -n "${{ needs.build.outputs.artifact }}" -D /tmp/plugin-package
+        (cd /tmp/plugin-package && zip -rq "$GITHUB_WORKSPACE/tests/qa/resources/files/paypal-point-of-sale.zip" paypal-point-of-sale)
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
     secrets:
@@ -115,7 +105,8 @@ jobs:
       XRAY_TEST_EXEC_KEY: ${{ inputs.XRAY_TEST_EXEC_KEY }}
       PRE_SCRIPT: |
         mkdir -p tests/qa/resources/files storage-states
-        gh run download ${{ github.run_id }} -n "paypal-point-of-sale" -D tests/qa/resources/files/
+        gh run download ${{ github.run_id }} -n "${{ needs.build.outputs.artifact }}" -D /tmp/plugin-package
+        (cd /tmp/plugin-package && zip -rq "$GITHUB_WORKSPACE/tests/qa/resources/files/paypal-point-of-sale.zip" paypal-point-of-sale)
         npx wp-env run cli wp rewrite structure '/%postname%/' --hard
         npx wp-env run cli wp plugin activate woocommerce
     secrets:
@@ -157,11 +148,16 @@ jobs:
           ssh-keyscan -H -p ${{ secrets.QA_KINSTA_SSH_PORT }} \
             ${{ secrets.QA_KINSTA_SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Download plugin zip
+      - name: Download plugin package
         uses: actions/download-artifact@v4
         with:
-          name: paypal-point-of-sale
-          path: tests/qa/resources/files/
+          name: ${{ needs.build.outputs.artifact }}
+          path: /tmp/plugin-package
+
+      - name: Package plugin zip
+        run: |
+          mkdir -p tests/qa/resources/files
+          (cd /tmp/plugin-package && zip -rq "$GITHUB_WORKSPACE/tests/qa/resources/files/paypal-point-of-sale.zip" paypal-point-of-sale)
 
       - name: Write .env.ci
         run: echo "${{ secrets.QA_KINSTA_ENV_FILE }}" > .env.ci
