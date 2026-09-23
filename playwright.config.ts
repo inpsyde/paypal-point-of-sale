@@ -115,22 +115,27 @@ export default defineConfig< BaseExtend >( {
             testMatch: /02-onboarding\/.*\.spec\.ts/,
             dependencies: [ 'shard:plugin-lifecycle' ],
         },
-        // No `dependencies` here on purpose: each spec's own beforeEach already
-        // bootstraps what it needs (plugin install, store config, POS connect)
-        // idempotently, so a narrow --grep/file run doesn't drag in the full
-        // plugin-lifecycle + onboarding + setup:paypal-pos chain. See
+        // These depend on setup:paypal-pos so a full run is ordered mechanically
+        // (01 → 02 → connect → 03 → 04 → 05 → disconnect). `dependencies` is the
+        // only ordering contract Playwright offers — without it, projects are
+        // scheduled by readiness, not declaration order. To run a single test
+        // without the chain, pass --no-deps (or `npm run e2e:test:single`): each
+        // spec's own beforeEach bootstraps what it needs idempotently. See
         // E2E-TESTS.md "Test Dependency Model".
         {
             name: 'shard:product-sync',
             testMatch: /03-product-sync\/.*\.spec\.ts/,
+            dependencies: [ 'setup:paypal-pos' ],
         },
         {
             name: 'shard:stock-sync',
             testMatch: /04-stock-sync\/.*\.spec\.ts/,
+            dependencies: [ 'setup:paypal-pos' ],
         },
         {
             name: 'shard:webhook',
             testMatch: /05-webhook\/.*\.spec\.ts/,
+            dependencies: [ 'setup:paypal-pos' ],
         },
     ],
 } );

@@ -70,7 +70,11 @@ npm run e2e:critical
 npm run e2e:regression
 ```
 
-You can also target a single test directly, e.g. `npx playwright test --grep "POS-581"`.
+To run just one test, add `--no-deps` so it skips the full setup chain (see [Test Dependency Model](#test-dependency-model)):
+
+```bash
+npx playwright test --grep "POS-581" --no-deps
+```
 
 ### Test Suite Layout
 
@@ -146,11 +150,11 @@ npm run e2e:test                 # or e2e:smoke / e2e:critical / e2e:regression
 
 ## Test Dependency Model
 
-Most test shards bootstrap themselves — each spec's own `beforeEach` makes sure the plugin is installed, the store is configured, and PayPal POS is connected before the test body runs, only doing the actual work if it isn't already in place. That means you can run a single test in isolation (`--grep "POS-XXX"`) without it dragging in unrelated shards.
+A run always follows this order: plugin lifecycle → onboarding → connect to PayPal POS → product sync → stock sync → webhook → disconnect. PayPal POS is connected once and shared by the last three, rather than each reconnecting on its own.
 
-The one exception is `shard:onboarding`, which depends on `shard:plugin-lifecycle` (it needs the plugin freshly installed to test the onboarding wizard) — running an onboarding test also runs the plugin-lifecycle suite first.
+Every test also sets up what it needs by itself (installs the plugin, connects to POS, etc., only if that isn't already done) — that's what makes `--no-deps` safe when you just want to run one test in isolation.
 
-`setup:paypal-pos`/`teardown:paypal-pos` and `setup:env`/`setup:woocommerce` are standalone projects for manual/debugging use (e.g. `--project=setup:paypal-pos`) and for the deliberate `npm run e2e:env:reset` flow above — nothing runs them automatically as a side effect of running other tests.
+You'll always see one test show as skipped — that's `setup:env`'s destructive reset, which only runs when you explicitly call `npm run e2e:env:reset`.
 
 ---
 
