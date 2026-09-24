@@ -90,3 +90,8 @@ export const posPrivateProduct: CreateProductData = {
 	regular_price: '10.00',
 	status: 'private',
 };
+
+export const posCurrencyMismatchProduct: CreateProductData = {
+	name: 'POS-590 Currency Mismatch',
+	regular_price: '25.00',
+};

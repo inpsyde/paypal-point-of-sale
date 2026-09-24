@@ -10,6 +10,11 @@ import {
 	getPosProductUuid,
 	getPosVariantUuid,
 	ZettleApiClient,
+	getCurrency,
+	setCurrency,
+	getPriceSyncStrategy,
+	setPriceSyncStrategy,
+	PriceSyncMode,
 } from '../../utils';
 import {
 	rejectedSyncCases,
@@ -26,6 +31,7 @@ import {
 	posHiddenCatalogProduct,
 	posSkuSyncProduct,
 	posPrivateProduct,
+	posCurrencyMismatchProduct,
 } from './_test-data';
 import { testRejectedProductSync } from './_test-scenarios';
 
@@ -774,6 +780,92 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'Assert private product does not exist in the PayPal POS product library'
 			).toBeUndefined();
 		} finally {
+			await deleteProduct( cli, product.id );
+			await zettleApi.deleteProductByName( PRODUCT_NAME );
+		}
+	} );
+
+	test( 'POS-590 | Currency mismatch disables price sync and cannot be manually re-enabled; regression;', async ( {
+		wcProducts,
+		wcProductEdit,
+		posSettings,
+		requestUtils,
+		wooCommerceApi,
+		request,
+		cli,
+	} ) => {
+		test.setTimeout( 5 * 60_000 );
+
+		if ( ! process.env.PAYPAL_POS_API_KEY ) {
+			test.skip(
+				true,
+				'PAYPAL_POS_API_KEY not set — skipping live sync test'
+			);
+			return;
+		}
+
+		const PRODUCT_NAME = posCurrencyMismatchProduct.name;
+		// Arbitrary currency that won't match the connected PayPal POS sandbox account.
+		const MISMATCHED_CURRENCY = 'JPY';
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
+
+		const originalCurrency = await getCurrency( wooCommerceApi );
+		const product = await createProduct(
+			requestUtils,
+			posCurrencyMismatchProduct
+		);
+
+		try {
+			await setCurrency( wooCommerceApi, MISMATCHED_CURRENCY );
+
+			// Any wp-admin request re-evaluates the currency comparison and force-disables
+			// price sync (SyncModule::run()) — visiting the POS settings page is enough.
+			await posSettings.visit();
+			await posSettings.assertPriceSyncDisabled();
+			expect(
+				await getPriceSyncStrategy( cli ),
+				'Assert price sync strategy is forced to disabled after currency mismatch'
+			).toBe( PriceSyncMode.DISABLED );
+
+			// Manually re-enabling it doesn't stick while the currencies still mismatch —
+			// the next admin request re-forces it back to disabled.
+			await setPriceSyncStrategy( cli, PriceSyncMode.ENABLED );
+			await posSettings.visit();
+			expect(
+				await getPriceSyncStrategy( cli ),
+				'Assert manually re-enabled price sync reverts to disabled on next admin load'
+			).toBe( PriceSyncMode.DISABLED );
+
+			await wcProductEdit.visitExisting( product.id );
+			await wcProductEdit.setRegularPrice( '30.00' );
+			await wcProductEdit.update();
+			await wcProductEdit.assertNoErrors();
+
+			await syncAndAssertStatus(
+				cli,
+				wcProducts,
+				PRODUCT_NAME,
+				'synced',
+				product.id
+			);
+
+			const remoteProduct =
+				await zettleApi.findProductByName( PRODUCT_NAME );
+			expect(
+				remoteProduct,
+				'Assert product still syncs to the PayPal POS product library'
+			).toBeDefined();
+			expect(
+				remoteProduct?.variants?.[ 0 ]?.price?.amount,
+				'Assert price was not synced to the PayPal POS product library'
+			).toBeFalsy();
+		} finally {
+			await setCurrency( wooCommerceApi, originalCurrency );
 			await deleteProduct( cli, product.id );
 			await zettleApi.deleteProductByName( PRODUCT_NAME );
 		}

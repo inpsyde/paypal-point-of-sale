@@ -73,6 +73,28 @@ export async function setupTaxes(
 	} );
 }
 
+export async function getCurrency(
+	wooCommerceApi: WooCommerceApi
+): Promise< string > {
+	const settings = ( await wooCommerceApi.wcRequest(
+		'get',
+		'settings/general'
+	) ) as { id: string; value: string }[];
+	return (
+		settings.find( ( setting ) => setting.id === 'woocommerce_currency' )
+			?.value ?? ''
+	);
+}
+
+export async function setCurrency(
+	wooCommerceApi: WooCommerceApi,
+	currency: string
+): Promise< void > {
+	await wooCommerceApi.updateGeneralSettings( {
+		woocommerce_currency: currency,
+	} );
+}
+
 export async function ensureStoreConfigured(
 	wooCommerceUtils: WooCommerceUtils,
 	wooCommerceApi: WooCommerceApi
