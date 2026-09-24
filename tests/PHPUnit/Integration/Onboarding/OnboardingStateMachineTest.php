@@ -28,8 +28,6 @@ class OnboardingStateMachineTest extends ModuleContainerAwareTestCase
 
     public function setUp(): void
     {
-        $this->delayModuleContainerSetup();
-
         $this->injectFactory(
             'paypal-pos.logger.woocommerce',
             function () {

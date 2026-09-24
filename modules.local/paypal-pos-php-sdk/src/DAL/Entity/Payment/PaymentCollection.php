@@ -18,7 +18,7 @@ final class PaymentCollection
      */
     public function __construct(?array $payments = [])
     {
-        foreach ($payments as $payment) {
+        foreach ($payments ?? [] as $payment) {
             if ($payment instanceof AbstractPaymentMethod) {
                 $this->add($payment);
             }

@@ -96,10 +96,10 @@ class ProcessEndpoint implements EndpointInterface
             'types' => [
                 'types' => 'array',
                 'default' => [],
-                'validate_callback' => static function ($value): bool {
+                'validate_callback' => static function (mixed $value): bool {
                     return is_array($value);
                 },
-                'sanitize_callback' => static function ($value) {
+                'sanitize_callback' => static function (mixed $value) {
                     return (array) $value;
                 },
             ],
@@ -108,20 +108,20 @@ class ProcessEndpoint implements EndpointInterface
                 'default' => self::DEFAULT_EXECUTION_TIME,
                 'minimum' => 0,
                 'maximum' => 30,
-                'validate_callback' => static function ($value): bool {
+                'validate_callback' => static function (mixed $value): bool {
                     return is_numeric($value);
                 },
-                'sanitize_callback' => static function ($value) {
+                'sanitize_callback' => static function (mixed $value) {
                     return (int) sanitize_text_field($value);
                 },
             ],
             'meta' => [
                 'type' => 'array',
                 'default' => [],
-                'validate_callback' => static function ($value): bool {
+                'validate_callback' => static function (mixed $value): bool {
                     return is_array($value);
                 },
-                'sanitize_callback' => static function ($value) {
+                'sanitize_callback' => static function (mixed $value) {
                     return $value;
                 },
             ],

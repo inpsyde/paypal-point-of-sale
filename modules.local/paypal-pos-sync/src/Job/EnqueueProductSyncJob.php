@@ -68,6 +68,9 @@ class EnqueueProductSyncJob implements Job
                 'type' => $this->productTypeWhitelist,
             ]
         );
+        if (!is_array($products)) {
+            return true;
+        }
         $jobs = [];
         foreach ($products as $product) {
             if (($this->productCanSynced)($product)) {

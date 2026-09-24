@@ -62,11 +62,6 @@ class State implements StateInterface
         return $this->transitions;
     }
 
-    /**
-     * @param TransitionInterface $transition
-     *
-     * @return bool
-     */
     public function addTransition(TransitionInterface $transition): bool
     {
         $this->transitions[$transition->name()] = $transition;
@@ -74,13 +69,7 @@ class State implements StateInterface
         return true;
     }
 
-    /**
-     * @param TransitionInterface $transition
-     *
-     * @return bool
-	 * phpcs:disable Syde.Functions.ReturnTypeDeclaration
-     */
-    public function can($transition): bool
+    public function can(TransitionInterface|string $transition): bool
     {
         if ($this->isFinal()) {
             return false;

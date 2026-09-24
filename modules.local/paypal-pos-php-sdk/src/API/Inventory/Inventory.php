@@ -24,7 +24,7 @@ class Inventory
     /**
      * @var Location[]
      */
-    private array $locations;
+    private array $locations = [];
 
     private BuilderInterface $builder;
 
@@ -59,7 +59,7 @@ class Inventory
     }
 
     /**
-     * @param Transaction[] $transactions
+     * @param Transaction ...$transactions
      *
      * @throws ZettleRestException
      */

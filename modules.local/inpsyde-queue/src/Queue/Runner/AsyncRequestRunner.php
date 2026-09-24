@@ -39,6 +39,8 @@ class AsyncRequestRunner implements Runner
      * Craft and dispatch a non-blocking HTTP request with the current authentication headers
      *
      * @param QueueProcessor $queueProcessor
+     *
+     * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
     public function initialize(QueueProcessor $queueProcessor): void
     {
@@ -56,13 +58,13 @@ class AsyncRequestRunner implements Runner
             TEST_COOKIE,
             ] as $cookieName
         ) {
-            $value = filter_input(INPUT_COOKIE, $cookieName);
+            // Cookie value forwarded verbatim to the internal REST call.
+            // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+            $value = filter_input(INPUT_COOKIE, $cookieName, FILTER_UNSAFE_RAW);
 
             if (!$value) {
                 continue;
             }
-
-            assert(is_string($cookieName));
 
             $cookies[] = new WP_Http_Cookie(
                 [
@@ -76,7 +78,9 @@ class AsyncRequestRunner implements Runner
             'X-WP-Nonce' => wp_create_nonce('wp_rest'),
         ];
 
-        $authorization = filter_input(INPUT_SERVER, 'HTTP_AUTHORIZATION');
+        // Authorization header forwarded verbatim to the internal REST call.
+        // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+        $authorization = filter_input(INPUT_SERVER, 'HTTP_AUTHORIZATION', FILTER_UNSAFE_RAW);
 
         if ($authorization) {
             $headers['Authorization'] = $authorization;
@@ -100,7 +104,8 @@ class AsyncRequestRunner implements Runner
                 'sslverify' => apply_filters('https_local_ssl_verify', false),
             ],
         ];
-        // Suppress errors since we've seen some weird notifes only if wp-cli is installed
+        // Suppress errors since we've seen some weird notices only if wp-cli is installed
+        // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
         @wp_remote_get($queueRequest['url'], $queueRequest['args']);
     }
 

@@ -6,6 +6,9 @@ namespace Syde\PayPal\PointOfSale\Sync\Status;
 
 use ArrayAccess;
 
+/**
+ * @implements ArrayAccess<string, string>
+ */
 class StatusCodeMatcher implements ArrayAccess
 {
     /**
@@ -37,7 +40,7 @@ class StatusCodeMatcher implements ArrayAccess
                 $message = $this[$statusCode];
             }
 
-            $map[$statusCode] = $message;
+            $map[$statusCode] = (string) $message;
         }
 
         return $map;

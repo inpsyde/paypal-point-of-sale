@@ -10,13 +10,20 @@ use Syde\PayPal\PointOfSale\Notices\Notice\Admin\GlobalConnectionFailedNotice;
 use Syde\PayPal\PointOfSale\Notices\Notice\Admin\IntegrationConnectionFailedNotice;
 use Syde\PayPal\PointOfSale\Notices\Notice\NoticeDelegator;
 use Syde\PayPal\PointOfSale\Notices\Notice\NoticeInterface;
+use WP_Screen;
 
 return [
+    'paypal-pos.notices.is-plugins-page' => static function (C $container): callable {
+        return static function (): bool {
+            $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+            return $screen instanceof WP_Screen && $screen->id === 'plugins';
+        };
+    },
     'paypal-pos.notices.notification.notice.info.complete-onboarding' => static function (
         C $container
     ): NoticeInterface {
         return new CompleteOnboardingNotice(
-            $container->get('paypal-pos.settings.is-integration-page'),
+            $container->get('paypal-pos.notices.is-plugins-page'),
             $container->get('paypal-pos.settings.url')
         );
     },

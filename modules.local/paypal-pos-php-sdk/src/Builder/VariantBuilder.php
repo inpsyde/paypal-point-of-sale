@@ -45,18 +45,12 @@ class VariantBuilder implements BuilderInterface
     }
 
     /**
-     * @param string $className
-     * @param mixed $wcProduct
-     * @param BuilderInterface|null $builder
-     *
-     * @return VariantInterface
      * @throws BuilderException
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
      */
-    public function build(string $className, $wcProduct, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $wcProduct, ?BuilderInterface $builder = null): VariantInterface
     {
         assert($wcProduct instanceof WC_Product);
+        assert($builder instanceof BuilderInterface);
 
         $imageId = (int) $wcProduct->get_image_id();
         $presentation = null;
@@ -87,7 +81,7 @@ class VariantBuilder implements BuilderInterface
 
         $barcode = $this->barcodeRetriever->get($wcProduct);
 
-        $variant = new Variant(
+        return new Variant(
             (string) Uuid::fromWcProduct($wcProduct),
             $wcProduct->get_name(),
             $wcProduct->get_description(),
@@ -101,8 +95,6 @@ class VariantBuilder implements BuilderInterface
             null,
             $barcode
         );
-
-        return $variant;
     }
 
     /**
@@ -139,7 +131,7 @@ class VariantBuilder implements BuilderInterface
         foreach ($product->get_visible_children() as $variationId) {
             $variation = wc_get_product($variationId);
 
-            if ($variation === null) {
+            if (!$variation) {
                 continue;
             }
 

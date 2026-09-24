@@ -54,7 +54,7 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
             <?php echo esc_html($this->title); ?>
         </h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -105,6 +105,8 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
                         false
                     );
 
+                    // Output comes from WC_Settings_API::generate_settings_html, a trusted source.
+                    // phpcs:ignore WordPressVIPMinimum.Functions.StripTags.StripTagsTwoParameters
                     $strippedField = strip_tags(
                         $field,
                         sprintf(
@@ -122,7 +124,7 @@ class ApiCredentialsView extends SettingsFieldView implements OnboardingView
             } ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderProceedButton(): string

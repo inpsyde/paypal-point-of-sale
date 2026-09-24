@@ -25,7 +25,12 @@ class ZettleStoreDataProvider implements StoreDataProvider
      */
     public function vat(): Vat
     {
-        return $this->organization()->vat();
+        $vat = $this->organization()->vat();
+        if ($vat === null) {
+            throw new Exception('Organization VAT is not available.');
+        }
+
+        return $vat;
     }
 
     /**
@@ -73,7 +78,12 @@ class ZettleStoreDataProvider implements StoreDataProvider
      */
     public function country(): string
     {
-        return $this->organization()->country();
+        $country = $this->organization()->country();
+        if ($country === null) {
+            throw new Exception('Organization country is not available.');
+        }
+
+        return $country;
     }
 
     /**
@@ -90,6 +100,5 @@ class ZettleStoreDataProvider implements StoreDataProvider
     {
         // TODO: if later we retrieve tax rates from Zettle, could be a good idea to check that they match
         throw new Exception('Not implemented');
-        return [];
     }
 }
