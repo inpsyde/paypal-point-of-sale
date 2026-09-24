@@ -10,7 +10,12 @@ export type ZettleWebhookSubscription = {
 export type ZettleProduct = {
 	name?: string;
 	uuid?: string;
-	variants?: { sku?: string }[];
+	variants?: {
+		sku?: string;
+		// Absent (rather than zeroed) when PayPal POS excludes price from the sync
+		// payload — e.g. on a WC/POS currency mismatch. Shape per Product Library v2.
+		price?: { amount?: number; currencyId?: string };
+	}[];
 };
 
 /**

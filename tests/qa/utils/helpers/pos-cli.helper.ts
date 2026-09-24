@@ -38,6 +38,61 @@ export async function syncProduct(
 	await runWpCli( cli, `zettle sync product ${ productId }` );
 }
 
+// Mirrors Syde\PayPal\PointOfSale\Sync\PriceSyncMode.
+export const PriceSyncMode = {
+	ENABLED: 'gross',
+	DISABLED: 'zero',
+} as const;
+
+/**
+ * Read the `woocommerce_zettle_settings` option, or {} if it doesn't exist yet.
+ * @param cli
+ */
+export async function getZettleSettings(
+	cli: AnyCli
+): Promise< Record< string, unknown > > {
+	try {
+		const raw = await runWpCli(
+			cli,
+			'option get woocommerce_zettle_settings --format=json'
+		);
+		return JSON.parse( raw );
+	} catch {
+		return {};
+	}
+}
+
+/**
+ * Read the persisted price-sync strategy — a `PriceSyncMode` value, or '' if unset.
+ * SyncModule forces this to DISABLED on every wp-admin request while the store's
+ * currency doesn't match the PayPal POS account, regardless of what's saved here.
+ * @param cli
+ */
+export async function getPriceSyncStrategy( cli: AnyCli ): Promise< string > {
+	const settings = await getZettleSettings( cli );
+	return String( settings.sync_price_strategy ?? '' );
+}
+
+/**
+ * Directly set the persisted price-sync strategy, simulating a merchant saving the
+ * settings form — without needing to drive the WC_Integration form field in the UI.
+ * @param cli
+ * @param mode
+ */
+export async function setPriceSyncStrategy(
+	cli: AnyCli,
+	mode: string
+): Promise< void > {
+	const settings = await getZettleSettings( cli );
+	settings.sync_price_strategy = mode;
+	await runWpCli(
+		cli,
+		`option update woocommerce_zettle_settings '${ JSON.stringify(
+			settings
+		) }' --format=json`
+	);
+}
+
 export async function ensurePosConnected(
 	posSettings: PosSettingsPage,
 	cli: AnyCli

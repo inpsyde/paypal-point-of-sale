@@ -48,6 +48,7 @@ export class PosSettingsPage extends WpPage {
 	// --- Connected state ---
 	productsCountText = () =>
 		this.page.getByText( 'Number of products syncing:' );
+	priceSyncStatusText = () => this.page.getByText( /Prices syncing:/ );
 	// Opens the disconnect confirmation modal
 	disconnectTrigger = () =>
 		this.page.locator( '.zettle-settings-header button[name="delete"]' );
@@ -82,6 +83,12 @@ export class PosSettingsPage extends WpPage {
 
 	assertConnectedState = async () => {
 		await expect( this.productsCountText() ).toBeVisible();
+	};
+
+	assertPriceSyncDisabled = async () => {
+		await expect( this.priceSyncStatusText() ).toHaveText(
+			/Prices syncing:\s*No/
+		);
 	};
 
 	selectMergeStrategyIfOffered = async (): Promise< void > => {
