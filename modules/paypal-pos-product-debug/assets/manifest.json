@@ -1,0 +1,5 @@
+{
+  "./product-debug-modules.js": "./product-debug-modules.js",
+  "./product-debug-modules.php": "./product-debug-modules.asset.php",
+  "./product-debug.css": "./product-debug.css"
+}
