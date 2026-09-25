@@ -19,7 +19,6 @@ class DescriptionLengthFilter
      * without splitting multibyte characters
      *
      * @param string $description   Text/Description which will be trimmed
-     * @param int $start            Start byte position
      * @param int $max              Maximum size in bytes, including the trim marker
      * @param string $trimMaker     Replacement for the rest of the characters
      *
@@ -27,12 +26,9 @@ class DescriptionLengthFilter
      */
     public static function limitDescription(
         string $description,
-        int $start = 0,
         int $max = self::MAX_DESCRIPTION_SIZE,
         string $trimMaker = self::DEFAULT_TRIM_MARKER
     ): string {
-
-        $description = mb_strcut($description, $start, null, 'UTF-8');
 
         if (strlen($description) <= $max) {
             return $description;
