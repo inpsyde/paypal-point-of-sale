@@ -89,7 +89,9 @@ class SettingsPage extends WC_Settings_Page
                     'paypal-point-of-sale'
                 ) ?>
             </h3>
-            <?php echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput
+            <?php
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo ob_get_clean();
         }
     }
 
