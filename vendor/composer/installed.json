@@ -4,11 +4,6 @@
             "name": "brain\/nonces",
             "version": "1.0.6",
             "version_normalized": "1.0.6.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Brain-WP\/Nonces.git",
-                "reference": "0122a39077fb6fe7512891dfe9a4facc951e7e04"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/Brain-WP\/Nonces\/zipball\/0122a39077fb6fe7512891dfe9a4facc951e7e04",
@@ -67,11 +62,6 @@
             "name": "clue\/stream-filter",
             "version": "v1.7.0",
             "version_normalized": "1.7.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/clue\/stream-filter.git",
-                "reference": "049509fef80032cb3f051595029ab75b49a3c2f7"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/clue\/stream-filter\/zipball\/049509fef80032cb3f051595029ab75b49a3c2f7",
@@ -142,11 +132,6 @@
             "name": "composer\/installers",
             "version": "v2.3.0",
             "version_normalized": "2.3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/composer\/installers.git",
-                "reference": "12fb2dfe5e16183de69e784a7b84046c43d97e8e"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/composer\/installers\/zipball\/12fb2dfe5e16183de69e784a7b84046c43d97e8e",
@@ -297,11 +282,6 @@
             "name": "doctrine\/inflector",
             "version": "1.4.4",
             "version_normalized": "1.4.4.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/doctrine\/inflector.git",
-                "reference": "4bd5c1cdfcd00e9e2d8c484f79150f67e5d355d9"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/doctrine\/inflector\/zipball\/4bd5c1cdfcd00e9e2d8c484f79150f67e5d355d9",
@@ -402,11 +382,6 @@
             "name": "inpsyde\/assets",
             "version": "2.13",
             "version_normalized": "2.13.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/inpsyde\/assets.git",
-                "reference": "3b30fb2ec910d834f19a4010bebfdb17423fb21a"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/inpsyde\/assets\/zipball\/3b30fb2ec910d834f19a4010bebfdb17423fb21a",
@@ -481,8 +456,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-debug",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-debug",
@@ -518,8 +493,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-http-client",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-http-client",
@@ -548,8 +523,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-queue",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-queue",
@@ -584,8 +559,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-state-machine",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-state-machine",
@@ -619,8 +594,8 @@
         },
         {
             "name": "inpsyde\/inpsyde-woocommerce-lifecycle-events",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-woocommerce-lifecycle-events",
@@ -655,11 +630,6 @@
             "name": "inpsyde\/metabox-orchestra",
             "version": "0.4.4",
             "version_normalized": "0.4.4.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/inpsyde\/MetaboxOrchestra.git",
-                "reference": "97aabb5d342e006d0e7ebeea906e06397aa50248"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/inpsyde\/MetaboxOrchestra\/zipball\/97aabb5d342e006d0e7ebeea906e06397aa50248",
@@ -727,11 +697,6 @@
             "name": "inpsyde\/modularity",
             "version": "1.12.0",
             "version_normalized": "1.12.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/inpsyde\/modularity.git",
-                "reference": "e1ca1c81b7b663355906b586525d21ac5d46bc65"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/inpsyde\/modularity\/zipball\/e1ca1c81b7b663355906b586525d21ac5d46bc65",
@@ -795,8 +760,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-assets",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-assets",
@@ -820,8 +785,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-auth",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-auth",
@@ -850,8 +815,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-logging",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-logging",
@@ -890,8 +855,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-notices",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-notices",
@@ -914,8 +879,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-onboarding",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-onboarding",
@@ -952,8 +917,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-php-sdk",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-php-sdk",
@@ -993,8 +958,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-debug",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-debug",
@@ -1017,8 +982,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-product-settings",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-product-settings",
@@ -1042,8 +1007,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-queue",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-queue",
@@ -1067,8 +1032,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-settings",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-settings",
@@ -1091,8 +1056,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-sync",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-sync",
@@ -1116,8 +1081,8 @@
         },
         {
             "name": "inpsyde\/paypal-pos-webhooks",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-webhooks",
@@ -1233,8 +1198,8 @@
         },
         {
             "name": "inpsyde\/wc-product-contracts",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/packages.local\/wc-product-contracts",
@@ -1267,8 +1232,8 @@
         },
         {
             "name": "inpsyde\/wc-status-report",
-            "version": "dev-dev\/IZET-522-phpstan",
-            "version_normalized": "dev-dev\/IZET-522-phpstan",
+            "version": "dev-dev\/main",
+            "version_normalized": "dev-dev\/main",
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/inpsyde-wc-status-report",
@@ -1301,17 +1266,17 @@
         },
         {
             "name": "inpsyde\/wp-context",
-            "version": "1.5.1",
-            "version_normalized": "1.5.1.0",
+            "version": "1.7.0",
+            "version_normalized": "1.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/inpsyde\/wp-context.git",
-                "reference": "1350ada72517f5d374bff9409b4ea5a02377ec1a"
+                "reference": "3d2196b2711be3651955553aaae7562b9934c426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/inpsyde\/wp-context\/zipball\/1350ada72517f5d374bff9409b4ea5a02377ec1a",
-                "reference": "1350ada72517f5d374bff9409b4ea5a02377ec1a",
+                "url": "https:\/\/api.github.com\/repos\/inpsyde\/wp-context\/zipball\/3d2196b2711be3651955553aaae7562b9934c426",
+                "reference": "3d2196b2711be3651955553aaae7562b9934c426",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1321,17 +1286,18 @@
                 ]
             },
             "require": {
-                "php": ">=7.1"
+                "ext-json": "*",
+                "php": ">=7.4"
             },
             "require-dev": {
                 "brain\/monkey": "^2.6.1",
-                "inpsyde\/php-coding-standards": "^1",
-                "inpsyde\/wp-stubs": "dev-main",
-                "mockery\/mockery": "~1.3.6",
-                "phpunit\/phpunit": "~7.5.20 || ^8",
-                "vimeo\/psalm": "^4.27.0"
+                "inpsyde\/php-coding-standards": "^2@dev",
+                "inpsyde\/wp-stubs-versions": "dev-latest",
+                "phpunit\/phpunit": "^9.6.17 || ^10.5 || ^11.0",
+                "roots\/wordpress-no-content": ">=6.1",
+                "vimeo\/psalm": "^5.22.2 || ^6.0"
             },
-            "time": "2024-10-16T10:44:18+00:00",
+            "time": "2026-08-12T06:17:18+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1363,24 +1329,20 @@
                 "tests:no-cov": [
                     "@php .\/vendor\/phpunit\/phpunit\/phpunit --no-coverage"
                 ],
-                "phpcompat": [
-                    "@php .\/vendor\/squizlabs\/php_codesniffer\/bin\/phpcs -p . --standard=PHPCompatibility --ignore=*\/vendor\/* --extensions=php --basepath=.\/ --runtime-set testVersion 7.1-"
-                ],
                 "qa": [
                     "@cs",
-                    "@phpcompat",
                     "@psalm",
                     "@tests:no-cov"
                 ]
             },
             "license": [
-                "gpl-2.0-or-later"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
-                    "name": "Inpsyde GmbH",
-                    "homepage": "https:\/\/inpsyde.com\/",
-                    "email": "hello@inpsyde.com",
+                    "name": "Syde GmbH",
+                    "homepage": "https:\/\/syde.com\/",
+                    "email": "hello@syde.com",
                     "role": "Company"
                 },
                 {
@@ -1391,7 +1353,7 @@
             ],
             "description": "A single-class utility to check the running context in WordPress sites.",
             "support": {
-                "source": "https:\/\/github.com\/inpsyde\/wp-context\/tree\/1.5.1",
+                "source": "https:\/\/github.com\/inpsyde\/wp-context\/tree\/1.7.0",
                 "issues": "https:\/\/github.com\/inpsyde\/wp-context\/issues"
             },
             "install-path": "..\/inpsyde\/wp-context"
@@ -1400,11 +1362,6 @@
             "name": "nyholm\/psr7",
             "version": "1.8.2",
             "version_normalized": "1.8.2.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Nyholm\/psr7.git",
-                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/Nyholm\/psr7\/zipball\/a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
@@ -1487,11 +1444,6 @@
             "name": "oomphinc\/composer-installers-extender",
             "version": "2.0.1",
             "version_normalized": "2.0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/oomphinc\/composer-installers-extender.git",
-                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/oomphinc\/composer-installers-extender\/zipball\/cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
@@ -1547,17 +1499,13 @@
                 "issues": "https:\/\/github.com\/oomphinc\/composer-installers-extender\/issues",
                 "source": "https:\/\/github.com\/oomphinc\/composer-installers-extender\/tree\/2.0.1"
             },
+            "abandoned": true,
             "install-path": "..\/oomphinc\/composer-installers-extender"
         },
         {
             "name": "php-http\/client-common",
             "version": "2.7.3",
             "version_normalized": "2.7.3.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-http\/client-common.git",
-                "reference": "dcc6de29c90dd74faab55f71b79d89409c4bf0c1"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-http\/client-common\/zipball\/dcc6de29c90dd74faab55f71b79d89409c4bf0c1",
@@ -1629,11 +1577,6 @@
             "name": "php-http\/curl-client",
             "version": "2.4.0",
             "version_normalized": "2.4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-http\/curl-client.git",
-                "reference": "f59d6992065f44be8b8fb484dd678a919c27dbf2"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-http\/curl-client\/zipball\/f59d6992065f44be8b8fb484dd678a919c27dbf2",
@@ -1703,11 +1646,6 @@
             "name": "php-http\/discovery",
             "version": "1.20.0",
             "version_normalized": "1.20.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-http\/discovery.git",
-                "reference": "82fe4c73ef3363caed49ff8dd1539ba06044910d"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-http\/discovery\/zipball\/82fe4c73ef3363caed49ff8dd1539ba06044910d",
@@ -1791,11 +1729,6 @@
             "name": "php-http\/httplug",
             "version": "2.4.1",
             "version_normalized": "2.4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-http\/httplug.git",
-                "reference": "5cad731844891a4c282f3f3e1b582c46839d22f4"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-http\/httplug\/zipball\/5cad731844891a4c282f3f3e1b582c46839d22f4",
@@ -1857,11 +1790,6 @@
             "name": "php-http\/message",
             "version": "1.16.2",
             "version_normalized": "1.16.2.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-http\/message.git",
-                "reference": "06dd5e8562f84e641bf929bfe699ee0f5ce8080a"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-http\/message\/zipball\/06dd5e8562f84e641bf929bfe699ee0f5ce8080a",
@@ -1935,11 +1863,6 @@
             "name": "php-http\/message-factory",
             "version": "1.1.0",
             "version_normalized": "1.1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-http\/message-factory.git",
-                "reference": "4d8778e1c7d405cbb471574821c1ff5b68cc8f57"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-http\/message-factory\/zipball\/4d8778e1c7d405cbb471574821c1ff5b68cc8f57",
@@ -1999,11 +1922,6 @@
             "name": "php-http\/promise",
             "version": "1.3.1",
             "version_normalized": "1.3.1.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-http\/promise.git",
-                "reference": "fc85b1fba37c169a69a07ef0d5a8075770cc1f83"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-http\/promise\/zipball\/fc85b1fba37c169a69a07ef0d5a8075770cc1f83",
@@ -2060,11 +1978,6 @@
             "name": "psr\/container",
             "version": "2.0.2",
             "version_normalized": "2.0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-fig\/container.git",
-                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-fig\/container\/zipball\/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
@@ -2122,11 +2035,6 @@
             "name": "psr\/event-dispatcher",
             "version": "1.0.0",
             "version_normalized": "1.0.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-fig\/event-dispatcher.git",
-                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-fig\/event-dispatcher\/zipball\/dbefd12671e8a14ec7f180cab83036ed26714bb0",
@@ -2177,11 +2085,6 @@
             "name": "psr\/http-client",
             "version": "1.0.3",
             "version_normalized": "1.0.3.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-fig\/http-client.git",
-                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-fig\/http-client\/zipball\/bb5906edc1c324c9a05aa0873d40117941e5fa90",
@@ -2238,11 +2141,6 @@
             "name": "psr\/http-factory",
             "version": "1.1.0",
             "version_normalized": "1.1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-fig\/http-factory.git",
-                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-fig\/http-factory\/zipball\/2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
@@ -2302,11 +2200,6 @@
             "name": "psr\/http-message",
             "version": "1.1",
             "version_normalized": "1.1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-fig\/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-fig\/http-message\/zipball\/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
@@ -2364,11 +2257,6 @@
             "name": "psr\/log",
             "version": "1.1.4",
             "version_normalized": "1.1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/php-fig\/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/php-fig\/log\/zipball\/d49695b909c3b7628b6289db5479a1c204601f11",
@@ -2423,11 +2311,6 @@
             "name": "sniccowp\/php-scoper-wordpress-excludes",
             "version": "6.9.1",
             "version_normalized": "6.9.1.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/snicco\/php-scoper-wordpress-excludes.git",
-                "reference": "94867711087d0efc3d361dbe068044e0124f4c0b"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/snicco\/php-scoper-wordpress-excludes\/zipball\/94867711087d0efc3d361dbe068044e0124f4c0b",
@@ -2477,17 +2360,12 @@
         },
         {
             "name": "symfony\/deprecation-contracts",
-            "version": "v3.6.0",
-            "version_normalized": "3.6.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/symfony\/deprecation-contracts.git",
-                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62"
-            },
+            "version": "v3.7.1",
+            "version_normalized": "3.7.1.0",
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/symfony\/deprecation-contracts\/zipball\/63afe740e99a13ba87ec199bb07bbdee937a5b62",
-                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62",
+                "url": "https:\/\/api.github.com\/repos\/symfony\/deprecation-contracts\/zipball\/f3202fa1b5097b0af062dc978b32ecf63404e31d",
+                "reference": "f3202fa1b5097b0af062dc978b32ecf63404e31d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2499,7 +2377,7 @@
             "require": {
                 "php": ">=8.1"
             },
-            "time": "2024-09-25T14:21:43+00:00",
+            "time": "2026-06-05T06:23:12+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -2507,7 +2385,7 @@
                     "name": "symfony\/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.6-dev"
+                    "dev-main": "3.7-dev"
                 }
             },
             "installation-source": "dist",
@@ -2533,7 +2411,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https:\/\/symfony.com",
             "support": {
-                "source": "https:\/\/github.com\/symfony\/deprecation-contracts\/tree\/v3.6.0"
+                "source": "https:\/\/github.com\/symfony\/deprecation-contracts\/tree\/v3.7.1"
             },
             "funding": [
                 {
@@ -2542,6 +2420,10 @@
                 },
                 {
                     "url": "https:\/\/github.com\/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https:\/\/github.com\/nicolas-grekas",
                     "type": "github"
                 },
                 {
@@ -2555,11 +2437,6 @@
             "name": "symfony\/options-resolver",
             "version": "v7.4.8",
             "version_normalized": "7.4.8.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/symfony\/options-resolver.git",
-                "reference": "2888fcdc4dc2fd5f7c7397be78631e8af12e02b4"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/symfony\/options-resolver\/zipball\/2888fcdc4dc2fd5f7c7397be78631e8af12e02b4",
@@ -2633,13 +2510,8 @@
         },
         {
             "name": "symfony\/polyfill-php80",
-            "version": "v1.36.0",
-            "version_normalized": "1.36.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/symfony\/polyfill-php80.git",
-                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411"
-            },
+            "version": "v1.37.0",
+            "version_normalized": "1.37.0.0",
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/symfony\/polyfill-php80\/zipball\/dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
@@ -2702,7 +2574,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https:\/\/github.com\/symfony\/polyfill-php80\/tree\/v1.36.0"
+                "source": "https:\/\/github.com\/symfony\/polyfill-php80\/tree\/v1.37.0"
             },
             "funding": [
                 {
@@ -2726,13 +2598,8 @@
         },
         {
             "name": "symfony\/polyfill-uuid",
-            "version": "v1.36.0",
-            "version_normalized": "1.36.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/symfony\/polyfill-uuid.git",
-                "reference": "26dfec253c4cf3e51b541b52ddf7e42cb0908e94"
-            },
+            "version": "v1.37.0",
+            "version_normalized": "1.37.0.0",
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/symfony\/polyfill-uuid\/zipball\/26dfec253c4cf3e51b541b52ddf7e42cb0908e94",
@@ -2794,7 +2661,7 @@
                 "uuid"
             ],
             "support": {
-                "source": "https:\/\/github.com\/symfony\/polyfill-uuid\/tree\/v1.36.0"
+                "source": "https:\/\/github.com\/symfony\/polyfill-uuid\/tree\/v1.37.0"
             },
             "funding": [
                 {
@@ -2820,11 +2687,6 @@
             "name": "symfony\/uid",
             "version": "v5.4.45",
             "version_normalized": "5.4.45.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/symfony\/uid.git",
-                "reference": "512de7894f93ad63a7d5e33f590a83e054f571bc"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/symfony\/uid\/zipball\/512de7894f93ad63a7d5e33f590a83e054f571bc",
@@ -2903,11 +2765,6 @@
             "name": "werkspot\/enum",
             "version": "v2.1",
             "version_normalized": "2.1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https:\/\/github.com\/Werkspot\/Enum.git",
-                "reference": "960624c3c24730ebbe5ca5fdc2fd54d0d05310d5"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https:\/\/api.github.com\/repos\/Werkspot\/Enum\/zipball\/960624c3c24730ebbe5ca5fdc2fd54d0d05310d5",
