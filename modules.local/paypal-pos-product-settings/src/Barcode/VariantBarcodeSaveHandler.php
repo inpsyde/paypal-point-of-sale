@@ -53,13 +53,14 @@ class VariantBarcodeSaveHandler
 
     private function getBarcode(int $variantIndex): ?string
     {
-        // phpcs:ignore WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
+        // phpcs:disable WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
         $barcodes = filter_input(
             INPUT_POST,
             $this->barcodeField->name(),
-            FILTER_DEFAULT,
+            FILTER_UNSAFE_RAW,
             FILTER_REQUIRE_ARRAY
         );
+        // phpcs:enable WordPressVIPMinimum.Security.PHPFilterFunctions.RestrictedFilter
 
         if ($barcodes === false) {
             $this->logger->warning('Got incorrect barcode value during variation settings saving.');
