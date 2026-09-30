@@ -141,5 +141,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "2.0.1"
+    "version": "2.0.0+main.c4c5c07"
 }
