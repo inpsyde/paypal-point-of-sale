@@ -2,12 +2,12 @@
     "name": "inpsyde\/wp-context",
     "type": "library",
     "description": "A single-class utility to check the running context in WordPress sites.",
-    "license": "gpl-2.0-or-later",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "Inpsyde GmbH",
-            "homepage": "https:\/\/inpsyde.com\/",
-            "email": "hello@inpsyde.com",
+            "name": "Syde GmbH",
+            "homepage": "https:\/\/syde.com\/",
+            "email": "hello@syde.com",
             "role": "Company"
         },
         {
@@ -16,16 +16,26 @@
             "role": "Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https:\/\/raw.githubusercontent.com\/inpsyde\/wp-stubs\/main",
+            "only": [
+                "inpsyde\/wp-stubs-versions"
+            ]
+        }
+    ],
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.4",
+        "ext-json": "*"
     },
     "require-dev": {
-        "phpunit\/phpunit": "~7.5.20 || ^8",
-        "inpsyde\/php-coding-standards": "^1",
-        "vimeo\/psalm": "^4.27.0",
-        "mockery\/mockery": "~1.3.6",
+        "phpunit\/phpunit": "^9.6.17 || ^10.5 || ^11.0",
+        "inpsyde\/php-coding-standards": "^2@dev",
+        "vimeo\/psalm": "^5.22.2 || ^6.0",
         "brain\/monkey": "^2.6.1",
-        "inpsyde\/wp-stubs": "dev-main"
+        "roots\/wordpress-no-content": ">=6.1",
+        "inpsyde\/wp-stubs-versions": "dev-latest"
     },
     "autoload": {
         "psr-4": {
@@ -44,10 +54,8 @@
         "psalm": "@php .\/vendor\/vimeo\/psalm\/psalm --no-cache --output-format=compact",
         "tests": "@php .\/vendor\/phpunit\/phpunit\/phpunit",
         "tests:no-cov": "@php .\/vendor\/phpunit\/phpunit\/phpunit --no-coverage",
-        "phpcompat": "@php .\/vendor\/squizlabs\/php_codesniffer\/bin\/phpcs -p . --standard=PHPCompatibility --ignore=*\/vendor\/* --extensions=php --basepath=.\/ --runtime-set testVersion 7.1-",
         "qa": [
             "@cs",
-            "@phpcompat",
             "@psalm",
             "@tests:no-cov"
         ]
