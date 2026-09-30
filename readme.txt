@@ -4,7 +4,7 @@ Tags: point-of-sale, inventory, stock-sync, woocommerce, pos
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,13 @@ Please report security bugs found in the source code of the PayPal POS plugin th
 8. Excluding a product from sync.
 
 == Changelog ==
+
+= 2.0.1 =
+
+* Enhancement - Added backward compatibility shim for renamed filter hooks
+* Fix - Resolved dependency conflicts with inpsyde/assets
+* Fix - Resolved sync issue when the product description contained special characters
+* Fix - Resolved various minor QIT issue reports
 
 = 2.0.0 =
 
