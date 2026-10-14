@@ -95,11 +95,6 @@ class Variant
         return $this->meta;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return static
-     */
     public static function fromArray(array $data): self
     {
         return new self(

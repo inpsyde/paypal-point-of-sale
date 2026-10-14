@@ -222,8 +222,7 @@ return [
             return new OnboardingFieldRenderer(
                 $stateMachine->currentState()->name(),
                 $container->get('paypal-pos.onboarding.settings.renderer.onboarding.current'),
-                $container->get('paypal-pos.onboarding.settings.stepper'),
-                $container->get('paypal-pos.settings.is-integration-page')
+                $container->get('paypal-pos.onboarding.settings.stepper')
             );
         },
     'paypal-pos.onboarding.settings.filter' => static function (

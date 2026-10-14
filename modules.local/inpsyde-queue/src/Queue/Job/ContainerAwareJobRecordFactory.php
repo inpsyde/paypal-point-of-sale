@@ -7,8 +7,6 @@ namespace Inpsyde\Queue\Queue\Job;
 use Inpsyde\Queue\Exception\InvalidJobException;
 use Psr\Container\ContainerInterface;
 
-// phpcs:disable Generic.PHP.DiscourageGoto
-
 class ContainerAwareJobRecordFactory implements JobRecordFactoryInterface
 {
     private ContainerInterface $container;
@@ -26,17 +24,13 @@ class ContainerAwareJobRecordFactory implements JobRecordFactoryInterface
         ContextInterface $context
     ): JobRecord {
 
-        if (!$this->container->has($type)) {
-            goto error;
-        }
-        $job = $this->container->get($type);
-        if (!($job instanceof Job)) {
-            goto error;
+        if ($this->container->has($type)) {
+            $job = $this->container->get($type);
+            if ($job instanceof Job) {
+                return new BasicJobRecord($job, $context);
+            }
         }
 
-        return new BasicJobRecord($job, $context);
-        // phpcs:disable Squiz.PHP.NonExecutableCode
-        error:
         throw new InvalidJobException("Job type '" . esc_html($type) . "' could not be found");
     }
 }

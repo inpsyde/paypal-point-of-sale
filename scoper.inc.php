@@ -40,10 +40,22 @@ $finders = [
         ->in('.'),
 ];
 
+$patchers = static function (string $filePath, string $prefix, string $contents): string {
+    if (strpos($filePath, 'vendor/inpsyde/assets/src/AssetManager.php') !== false) {
+        $contents = str_replace(
+            'inpsyde.assets.setup',
+            'paypal-point-of-sale.inpsyde.assets.setup',
+            $contents
+        );
+    }
+
+    return $contents;
+};
+
 return [
     'prefix' => 'Syde\\Vendor\\Zettle', // string|null
     'finders' => $finders,      // list<Finder>
-    'patchers' => [], // list<callable(string $filePath, string $prefix, string $contents): string>
+    'patchers' => [$patchers], // list<callable(string $filePath, string $prefix, string $contents): string>
     'exclude-files' => [
         'vendor/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'vendor/symfony/polyfill-uuid/bootstrap80.php',
@@ -53,18 +65,20 @@ return [
         'Composer',
         'Automattic',
         '^WooCommerce',
-        'Inpsyde\Assets',
         'Symfony\Polyfill\Uuid'
     ], // list<string|regex>
     'exclude-constants' => array_merge($wp_constants, [
         'WC_VERSION',
+        'WP_CLI',
     ]), // list<string|regex>
     'exclude-classes' => array_merge($wp_classes, [
         'WooCommerce',
         '/^WC_/',
+        '/^WP_CLI/',
     ]),     // list<string|regex>
     'exclude-functions' => array_merge($wp_functions, [
         '/^wc/',
+        '/^WP_CLI/',
     ]), // list<string|regex>
 
     'expose-global-constants' => false,   // bool

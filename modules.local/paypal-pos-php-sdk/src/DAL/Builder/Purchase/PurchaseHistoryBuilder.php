@@ -11,7 +11,7 @@ class PurchaseHistoryBuilder implements PurchaseHistoryBuilderInterface
 {
     private PurchaseHistoryFactory $purchaseHistoryFactory;
 
-    private PurchaseCollectionBuilder $purchaseCollectionBuilder;
+    private PurchaseCollectionBuilderInterface $purchaseCollectionBuilder;
 
     /**
      * PurchaseHistoryBuilder constructor.

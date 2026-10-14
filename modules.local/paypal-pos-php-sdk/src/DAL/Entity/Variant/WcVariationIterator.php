@@ -18,6 +18,8 @@ use WC_Product_Variation;
  * and creates a Variant object for each of them
  *
  * @package Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant
+ *
+ * @implements IteratorAggregate<int, mixed>
  */
 class WcVariationIterator implements IteratorAggregate
 {

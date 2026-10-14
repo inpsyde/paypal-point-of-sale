@@ -93,7 +93,7 @@ class TermManager
     /**
      * @param int $postId
      */
-    public function removeTerm(int $postId)
+    public function removeTerm(int $postId): void
     {
         wp_remove_object_terms($postId, [$this->slug()], $this->taxonomy());
     }
@@ -136,19 +136,15 @@ class TermManager
     /**
      * @param array|null $args
      *
-     * @psalm-suppress InvalidReturnType
-     * @return int[]|WP_Error
+     * @return array{term_id: int, term_taxonomy_id: int|numeric-string}|WP_Error
      */
     private function createTerm(?array $args = [])
     {
-        /**
-         * @psalm-suppress InvalidReturnStatement
-         */
         return wp_insert_term(
             $this->name(),
             $this->taxonomy(),
             array_merge(
-                $args,
+                $args ?? [],
                 [
                     'slug' => $this->slug(),
                 ]

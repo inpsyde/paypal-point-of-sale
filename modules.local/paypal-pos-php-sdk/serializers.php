@@ -13,6 +13,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\StockQuantityAwareInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\Variant;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantInterface;
@@ -110,7 +111,7 @@ return [
         }
     ),
     $key(VariantInterface::class) => $serializer(
-        static function (VariantInterface $variant, SerializerInterface $serializer) {
+        static function (VariantInterface&StockQuantityAwareInterface $variant, SerializerInterface $serializer) {
             $data = [
                 'uuid' => $variant->uuid(),
                 'name' => $variant->name(),
@@ -126,8 +127,9 @@ return [
                 $data['price'] = $serializer->serialize($variant->price());
             }
 
-            if ($variant->options()->all()) {
-                $data['options'] = $serializer->serialize($variant->options());
+            $variantOptions = $variant->options();
+            if ($variantOptions !== null && $variantOptions->all()) {
+                $data['options'] = $serializer->serialize($variantOptions);
             }
 
             if ($variant->presentation()) {

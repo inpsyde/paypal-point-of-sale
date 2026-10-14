@@ -23,7 +23,7 @@ return [
         $postType = $_GET['post_type'] ?? '';
 
         if ($currentView === 'edit' && $postType === 'product') {
-            $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
+            $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/zettle-pos-integration.php'), '/\\');
 
             $previous[] = new Style(
                 'zettle-product-debug-style',

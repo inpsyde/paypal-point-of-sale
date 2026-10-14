@@ -10,14 +10,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\Exception\Validator\Image\UnexpectedImageUrlE
 
 class ImageBuilder implements BuilderInterface
 {
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
     public function build(
         string $className,
-        $payload,
+        mixed $payload,
         ?BuilderInterface $builder = null
     ): ImageInterface {
 
@@ -47,7 +42,7 @@ class ImageBuilder implements BuilderInterface
     /**
      * @param string $url
      *
-     * @return ConcreteImage
+     * @return string
      * @throws UnexpectedImageUrlException
      */
     private function lookupKeyFromZettleUrl(string $url): string

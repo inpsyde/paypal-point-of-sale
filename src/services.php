@@ -123,7 +123,7 @@ return [
     },
     'paypal-pos.plugin.properties' => static function (): PluginProperties {
         return new PluginProperties(
-            __DIR__ . '/../paypal-point-of-sale.php'
+            __DIR__ . '/../zettle-pos-integration.php'
         );
     },
     'paypal-pos.version-option-key' => static function (): string {
@@ -149,7 +149,8 @@ return [
     'paypal-pos.format-timestamp' => static function (C $container): callable {
         $format = $container->get('paypal-pos.date-time-format');
         return static function (int $timestamp) use ($format): string {
-            if (!is_string($date = wp_date($format, $timestamp))) {
+            $date = wp_date($format, $timestamp);
+            if (!is_string($date)) {
                 throw new UnexpectedValueException(sprintf('Cannot get date with format "%1$s" for timestamp "%2$d"', esc_html($format), (int) $timestamp));
             }
 

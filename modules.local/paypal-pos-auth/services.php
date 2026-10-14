@@ -58,7 +58,7 @@ return [
         ZettleOAuthHeader::class,
         'paypal-pos.oauth.token-storage'
     ),
-    'paypal-pos.oauth.credentials.parent' => static function (C $container) {
+    'paypal-pos.oauth.credentials.parent' => static function (C $container): ?ContainerInterface {
         return null;
     },
     'paypal-pos.oauth.credentials' => static function (C $container): ContainerInterface {
@@ -109,8 +109,7 @@ return [
     },
     'paypal-pos.http-plug.plugin.chaos-monkey' => static function (C $container): Plugin {
         return new ChaosMonkeyPlugin(
-            $container->get('inpsyde.http-client.response-factory'),
-            $container->get('inpsyde.http-client.stream-factory')
+            $container->get('inpsyde.http-client.response-factory')
         );
     },
 

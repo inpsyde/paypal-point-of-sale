@@ -93,7 +93,7 @@ class BarcodeInputField
             </div>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**

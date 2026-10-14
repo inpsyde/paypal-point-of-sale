@@ -11,7 +11,7 @@ use Throwable;
 
 class EmptyVariantOptionDefinitionsException extends Exception implements ValidatorException
 {
-    public function __construct(Throwable $previous = null)
+    public function __construct(?Throwable $previous = null)
     {
         parent::__construct(
             "Given Product requires VariantOptionDefinitions, but doesn't contains Definitions.",

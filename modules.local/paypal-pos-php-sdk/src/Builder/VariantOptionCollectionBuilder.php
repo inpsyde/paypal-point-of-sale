@@ -13,12 +13,7 @@ use WC_Product;
 
 class VariantOptionCollectionBuilder implements BuilderInterface
 {
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null): Collection
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): Collection
     {
         if (!$payload instanceof WC_Product) {
             throw new UnexpectedBuilderPayloadTypeException(WC_Product::class, $payload); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped

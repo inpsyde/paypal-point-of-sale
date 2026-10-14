@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\BarcodeInputField;
 use Syde\PayPal\PointOfSale\ProductSettings\Barcode\Repository\BarcodeSaverInterface;
+use WC_Product;
 
 class ProductSettingsTab
 {
@@ -82,20 +83,13 @@ class ProductSettingsTab
         return self::NONCE_FIELD;
     }
 
-    /**
-     * @param $tabs
-     *
-     * @return mixed
-     *
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     */
-    public function addTab($tabs)
+    public function addTab(array $tabs): array
     {
         if (!isset($tabs[$this->sectionKey()])) {
             $tabs[$this->sectionKey()] = [
                 'label' => __('PayPal Point of Sale', 'paypal-point-of-sale'),
                 'target' => 'zettle_integration_panel',
+                'class' => ['hide_if_grouped', 'hide_if_external'],
                 'priority' => 80,
             ];
         }
@@ -134,6 +128,10 @@ class ProductSettingsTab
         global $post;
 
         $product = $this->wcProductRepository->findById((int) $post->ID);
+
+        if (!$product instanceof WC_Product) {
+            return;
+        }
 
         ?>
         <div id="zettle_integration_panel" class="panel woocommerce_options_panel">
@@ -185,7 +183,7 @@ class ProductSettingsTab
         <?php
     }
 
-    public function saveFields($postId): void
+    public function saveFields(mixed $postId): void
     {
         $data = $this->parseRequest();
 
@@ -242,16 +240,26 @@ class ProductSettingsTab
         return $state ? 'yes' : 'no';
     }
 
-    /**
-     * phpcs:disable WordPressVIPMinimum.Security.PHPFilterFunctions.MissingThirdParameter
-     */
     private function parseRequest(): array
     {
-        $barcode = filter_input(INPUT_POST, $this->barcodeId());
-        $syncExclusion = filter_input(INPUT_POST, $this->syncExclusionId());
+        $nonce = filter_input(
+            INPUT_POST,
+            $this->nonceKey(),
+            FILTER_SANITIZE_FULL_SPECIAL_CHARS
+        );
+        $barcode = filter_input(
+            INPUT_POST,
+            $this->barcodeId(),
+            FILTER_SANITIZE_FULL_SPECIAL_CHARS
+        );
+        $syncExclusion = filter_input(
+            INPUT_POST,
+            $this->syncExclusionId(),
+            FILTER_SANITIZE_FULL_SPECIAL_CHARS
+        );
 
         return [
-            $this->nonceKey() => $this->sanitizeText((string) filter_input(INPUT_POST, $this->nonceKey())),
+            $this->nonceKey() => $this->sanitizeText((string) $nonce),
             $this->syncExclusionId() => $syncExclusion === null ? null : $this->sanitizeText((string) $syncExclusion),
             $this->barcodeId() => $barcode === null ? null : $this->sanitizeText((string) $barcode),
         ];
@@ -259,7 +267,7 @@ class ProductSettingsTab
 
     private function sanitizeText(string $text): string
     {
-        return sanitize_text_field(wp_unslash($text));
+        return sanitize_text_field(stripslashes($text));
     }
 
     private function validateRequest(array $data): void

@@ -47,7 +47,10 @@ return [
             $proxyFactory = $container->get('inpsyde.debug.proxy-factory');
             assert($proxyFactory instanceof DebugProxyFactory);
 
-            return $proxyFactory->forInstanceMethods($client);
+            $proxy = $proxyFactory->forInstanceMethods($client);
+            assert($proxy instanceof Psr18RestClient);
+
+            return $proxy;
         },
     'inpsyde.queue.exception-handler' =>
         static function (callable $previous, C $container): callable {

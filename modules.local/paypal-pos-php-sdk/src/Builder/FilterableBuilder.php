@@ -24,12 +24,7 @@ class FilterableBuilder implements BuilderInterface
         $this->filter = $filter;
     }
 
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         $result = $this->builder->build($className, $payload, $builder ?? $this);
         if (!$this->filter->accepts($result, $payload)) {

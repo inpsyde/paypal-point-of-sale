@@ -24,30 +24,15 @@ class OnboardingFieldRenderer implements FieldRendererInterface
 
     private OnboardingStepper $stepper;
 
-    /**
-     * @var callable
-     */
-    private $isIntegrationPage;
-
-    /**
-     * OnboardingFieldRenderer constructor.
-     *
-     * @param string $currentState
-     * @param OnboardingView $view
-     * @param OnboardingStepper $stepper
-     * @param callable $isIntegrationPage
-     */
     public function __construct(
         string $currentState,
         OnboardingView $view,
-        OnboardingStepper $stepper,
-        callable $isIntegrationPage
+        OnboardingStepper $stepper
     ) {
 
         $this->view = $view;
         $this->currentState = $currentState;
         $this->stepper = $stepper;
-        $this->isIntegrationPage = $isIntegrationPage;
     }
 
     /**
@@ -97,17 +82,23 @@ class OnboardingFieldRenderer implements FieldRendererInterface
 
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <?php echo $this->renderTableHead($fieldKey, $fieldConfig, $settingsApi); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                <?php
+                // phpcs:ignore WordPress.Security.EscapeOutput
+                echo $this->renderTableHead($fieldKey, $fieldConfig, $settingsApi);
+                ?>
             </th>
 
             <td class="forminp">
                 <div class="zettle-settings-onboarding-container">
-                    <?php echo $this->renderTableContent(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                    <?php
+                    // phpcs:ignore WordPress.Security.EscapeOutput
+                    echo $this->renderTableContent();
+                    ?>
                 </div>
             </td>
         </tr>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -131,7 +122,8 @@ class OnboardingFieldRenderer implements FieldRendererInterface
                     <label for="<?php echo esc_attr($fieldKey); ?>">
                         <?php
                             echo wp_kses_post($fieldConfig['title']);
-                            echo $settingsApi->get_tooltip_html($fieldConfig); // phpcs:ignore WordPress.Security.EscapeOutput
+                            // phpcs:ignore WordPress.Security.EscapeOutput
+                            echo $settingsApi->get_tooltip_html($fieldConfig);
                         ?>
                     </label>
                 <?php endif; ?>
@@ -144,7 +136,7 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             <?php endif; ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -155,11 +147,17 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         ob_start(); ?>
 
         <div class="zettle-settings-onboarding-header">
-            <?php echo $this->view->renderHeader(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+            <?php
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->view->renderHeader();
+            ?>
         </div>
 
         <div class="zettle-settings-onboarding-content">
-            <?php echo $this->view->renderContent(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+            <?php
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->view->renderContent();
+            ?>
         </div>
 
         <div class="zettle-settings-onboarding-actions">
@@ -167,11 +165,13 @@ class OnboardingFieldRenderer implements FieldRendererInterface
                     value="<?php echo esc_attr($this->currentState); ?>">
 
             <?php
-            echo $this->view->renderProceedButton(); // phpcs:ignore WordPress.Security.EscapeOutput
-            echo $this->view->renderBackButton(); // phpcs:ignore WordPress.Security.EscapeOutput
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->view->renderProceedButton();
+            // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $this->view->renderBackButton();
             ?>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 }

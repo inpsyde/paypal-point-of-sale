@@ -14,31 +14,17 @@ class ArrayBuilder implements TypeSpecificBuilderInterface
 {
     private BuilderInterface $builder;
 
-    /**
-     * @inheritDoc
-     * phpcs:disable Syde.Functions.ReturnTypeDeclaration.NoReturnType
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
     public function __construct(BuilderInterface $builder)
     {
         $this->builder = $builder;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function build(string $className, $payload, ?BuilderInterface $builder = null)
+    public function build(string $className, mixed $payload, ?BuilderInterface $builder = null): mixed
     {
         return $this->builder->build($className, $payload, $builder ?? $this);
     }
 
-    /**
-     * @param $payload
-     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     *
-     * @return bool
-     */
-    public function accepts($payload): bool
+    public function accepts(mixed $payload): bool
     {
         return is_array($payload);
     }

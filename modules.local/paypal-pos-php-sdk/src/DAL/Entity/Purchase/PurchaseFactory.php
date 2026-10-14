@@ -60,7 +60,7 @@ final class PurchaseFactory
 
         return new Purchase(
             $uuid,
-            Uuid::v1(),
+            (string) Uuid::v1(),
             $timestamp,
             $country,
             $currency,

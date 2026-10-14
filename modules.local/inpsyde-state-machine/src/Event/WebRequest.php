@@ -9,7 +9,7 @@ class WebRequest extends GenericStateChange
 {
     private array $data;
 
-    public function __construct(array $data)
+    final public function __construct(array $data)
     {
         $this->data = $data;
     }

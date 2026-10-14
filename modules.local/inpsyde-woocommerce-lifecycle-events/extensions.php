@@ -23,9 +23,11 @@ return [
             static function (WC_Product $new, WC_Product $old): void {
                 $success = 'Some product has changed!';
             },
+            // @phpstan-ignore argument.type
             static function (WC_Product_Simple $new, WC_Product_Simple $old): void {
                 $success = 'A simple product has changed!';
             },
+            // @phpstan-ignore argument.type
             static function (WC_Product_Variable $new, WC_Product_Variable $old): void {
                 $oldChildren = $old->get_children();
                 $newChildren = $new->get_children();

@@ -12,7 +12,7 @@ class PurchaseCollectionBuilder implements PurchaseCollectionBuilderInterface
 {
     private PurchaseCollectionFactory $purchaseCollectionFactory;
 
-    private PurchaseBuilder $purchaseBuilder;
+    private PurchaseBuilderInterface $purchaseBuilder;
 
     /**
      * PurchaseCollectionBuilder constructor.

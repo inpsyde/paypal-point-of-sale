@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Inpsyde\Queue\Queue\Job;
 
 use DateTime;
+use stdClass;
 
 class Context implements ContextInterface
 {
-    private object $args;
+    private stdClass $args;
 
     private DateTime $created;
 
@@ -19,7 +20,7 @@ class Context implements ContextInterface
     private int $retryCount;
 
     public function __construct(
-        object $args,
+        stdClass $args,
         DateTime $created,
         int $siteId,
         int $retryCount = 0,
@@ -43,7 +44,7 @@ class Context implements ContextInterface
         return $this->siteId;
     }
 
-    public function args(): object
+    public function args(): stdClass
     {
         return $this->args;
     }

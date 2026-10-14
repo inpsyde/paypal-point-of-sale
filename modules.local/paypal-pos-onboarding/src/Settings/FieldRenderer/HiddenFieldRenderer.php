@@ -38,7 +38,7 @@ class HiddenFieldRenderer implements FieldRendererInterface
         return str_replace(
             '<tr valign="top">',
             '<tr valign="top" style="display:none">',
-            ob_get_clean()
+            (string) ob_get_clean()
         );
     }
 }

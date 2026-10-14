@@ -6,8 +6,8 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Exception\Coordinates\InvalidLatitudeException;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Exception\Coordinates\InvalidLongitudeException;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Exception\ValidatorException;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidatorException;
 
 class CoordinatesFactory
 {

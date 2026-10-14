@@ -55,7 +55,7 @@ class SyncProgressView implements OnboardingView
             <?php esc_html_e('Initial sync in progress', 'paypal-point-of-sale'); ?>
         </h2>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     public function renderContent(): string
@@ -122,7 +122,7 @@ class SyncProgressView implements OnboardingView
             </div>
         </div>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -134,7 +134,7 @@ class SyncProgressView implements OnboardingView
     {
         return wc_help_tip(
             sprintf(
-                /** translators: %1$s: Shortname of the Plugin */
+                /* translators: %1$s: Shortname of the Plugin */
                 esc_html__(
                     'If you navigate away during sync, you can always come back and continue.
                         However, %1$s will only start working correctly once it is finished.',
@@ -196,18 +196,18 @@ class SyncProgressView implements OnboardingView
     private function totalWcProductsCount(): int
     {
         if ($this->totalWcProductsCount === null) {
-            $this->totalWcProductsCount = ($this->totalWcProductsCountQuery)();
+            $this->totalWcProductsCount = (int) ($this->totalWcProductsCountQuery)();
         }
 
-        return $this->totalWcProductsCount;
+        return (int) $this->totalWcProductsCount;
     }
 
     private function supportedWcProductsCount(): int
     {
         if ($this->supportedWcProductsCount === null) {
-            $this->supportedWcProductsCount = ($this->supportedWcProductsCountQuery)();
+            $this->supportedWcProductsCount = (int) ($this->supportedWcProductsCountQuery)();
         }
 
-        return $this->supportedWcProductsCount;
+        return (int) $this->supportedWcProductsCount;
     }
 }

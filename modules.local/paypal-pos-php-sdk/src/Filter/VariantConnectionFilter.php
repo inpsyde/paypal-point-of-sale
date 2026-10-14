@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\PhpSdk\Filter;
 
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\LazyVariant;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\StockQuantityAwareInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\Variant;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantTransferInterface;
@@ -23,15 +24,17 @@ use WC_Product;
  */
 class VariantConnectionFilter implements FilterInterface
 {
-    private OneToOneMapInterface|MapRecordCreator $idMap;
+    private OneToOneMapInterface&MapRecordCreator $idMap;
 
-    private $lazyPool = [];
+    /**
+     * @var array<int, VariantInterface>
+     */
+    private array $lazyPool = [];
 
     public function __construct(
-        OneToOneMapInterface $idMap
+        OneToOneMapInterface&MapRecordCreator $idMap
     ) {
 
-        assert($idMap instanceof MapRecordCreator);
         $this->idMap = $idMap;
 
         add_action('paypal-pos.clear-product-cache', function () {
@@ -39,10 +42,7 @@ class VariantConnectionFilter implements FilterInterface
         });
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function accepts($entity, $payload): bool
+    public function accepts(mixed $entity, mixed $payload): bool
     {
         return $entity instanceof Variant and $payload instanceof WC_Product;
     }
@@ -50,10 +50,11 @@ class VariantConnectionFilter implements FilterInterface
     /**
      * @inheritDoc
      */
-    public function filter($variant, $wcProduct)
+    public function filter(mixed $variant, mixed $wcProduct): object
     {
         assert($wcProduct instanceof WC_Product);
         assert($variant instanceof VariantTransferInterface);
+        assert($variant instanceof StockQuantityAwareInterface);
 
         $wcProductId = (int) $wcProduct->get_id();
 
@@ -77,7 +78,7 @@ class VariantConnectionFilter implements FilterInterface
 
     private function getLazyVariant(
         int $localId,
-        VariantTransferInterface $variant
+        VariantTransferInterface&StockQuantityAwareInterface $variant
     ): VariantInterface {
 
         if (!isset($this->lazyPool[$localId])) {

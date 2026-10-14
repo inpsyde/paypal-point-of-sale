@@ -15,7 +15,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\LazyProduct;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
-use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 
 /**
@@ -38,27 +37,15 @@ class SetInventoryTrackingJob implements Job
 
     private BuilderInterface $builder;
 
-    private OneToManyMapInterface $variantMap;
-
-    /**
-     * SetInventoryTrackingJob constructor.
-     *
-     * @param ProductRepositoryInterface $repository
-     * @param Inventory $inventoryClient
-     * @param BuilderInterface $builder
-     * @param OneToManyMapInterface $variantMap
-     */
     public function __construct(
         ProductRepositoryInterface $repository,
         Inventory $inventoryClient,
-        BuilderInterface $builder,
-        OneToManyMapInterface $variantMap
+        BuilderInterface $builder
     ) {
 
         $this->repository = $repository;
         $this->inventoryClient = $inventoryClient;
         $this->builder = $builder;
-        $this->variantMap = $variantMap;
     }
 
     /**

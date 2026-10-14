@@ -10,5 +10,5 @@ namespace Inpsyde\WcStatusReport;
  */
 interface ReportItemFactoryInterface
 {
-    public function createReportItem(string $label, string $exportedLabel, $value): ReportItemInterface;
+    public function createReportItem(string $label, string $exportedLabel, mixed $value): ReportItemInterface;
 }

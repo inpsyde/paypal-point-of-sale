@@ -20,7 +20,7 @@ return [
     },
     'paypal-pos.settings.is-integration-page' => static function (C $container): callable {
         return static function (): bool {
-            return filter_input(INPUT_GET, 'tab') === 'zettle';
+            return filter_input(INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS) === 'zettle';
         };
     },
     'paypal-pos.settings.shop-link' => static function (C $container): array {
@@ -171,7 +171,7 @@ return [
     'paypal-pos.settings.wc-integration.link' => static function (C $container): callable {
         return static function (bool $loggedIn): array {
             $linkData = [
-                'title' => esc_html__('paypal-pos.com', 'paypal-point-of-sale'),
+                'title' => esc_html__('Zettle.com', 'paypal-point-of-sale'),
                 'url' => esc_url_raw('https://zettle.com/'),
                 'icon' => true,
             ];
@@ -204,7 +204,8 @@ return [
                 $container->get('paypal-pos.settings.wc-integration.title'),
                 $container->get('paypal-pos.settings.wc-integration.description'),
                 $stateMachine->currentState()->name(),
-                $container->get('paypal-pos.onboarding.api-auth-check')
+                $container->get('paypal-pos.onboarding.api-auth-check'),
+                $container->get('paypal-pos.assets.img-resources-url')
             );
         },
     'paypal-pos.settings.wc-integration' => static function (C $container): ZettleIntegration {
@@ -222,7 +223,7 @@ return [
         );
     },
     'paypal-pos.settings.is-settings-save-request' => static function (C $container): bool {
-        return filter_input(INPUT_POST, 'save') &&
+        return filter_input(INPUT_POST, 'save', FILTER_SANITIZE_FULL_SPECIAL_CHARS) &&
             $container->get('paypal-pos.settings.is-integration-page')();
     },
     'paypal-pos.settings.page.factory' => static function (C $container): callable {

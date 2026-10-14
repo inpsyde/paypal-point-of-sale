@@ -7,7 +7,6 @@ namespace Syde\PayPal\PointOfSale\Sync\Job;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
-use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\MapRecordCreator;
@@ -29,37 +28,20 @@ class ReExportProductJob implements Job
 
     private WcProductRepositoryInterface $wcRepository;
 
-    private OneToOneMapInterface|MapRecordCreator $variantMap;
+    private OneToOneMapInterface&MapRecordCreator $variantMap;
 
     /**
      * @var callable
      */
     private $createJobRecord;
 
-    /**
-     * ProductTypeChangeJob constructor.
-     *
-     * @param ProductRepositoryInterface $repository
-     * @param WcProductRepositoryInterface $wcRepository
-     * @param OneToOneMapInterface $variantMap
-     * @param callable $createJobRecord
-     */
     public function __construct(
         ProductRepositoryInterface $repository,
         WcProductRepositoryInterface $wcRepository,
-        OneToOneMapInterface $variantMap,
+        OneToOneMapInterface&MapRecordCreator $variantMap,
         callable $createJobRecord
     ) {
 
-        if (!$variantMap instanceof MapRecordCreator) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Expected ID-Map of type %s to implement %s.',
-                    esc_html(get_class($variantMap)),
-                    MapRecordCreator::class
-                )
-            );
-        }
         $this->repository = $repository;
         $this->wcRepository = $wcRepository;
         $this->variantMap = $variantMap;

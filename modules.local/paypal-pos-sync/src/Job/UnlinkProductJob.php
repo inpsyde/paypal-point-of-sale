@@ -20,22 +20,15 @@ class UnlinkProductJob implements Job
 {
     public const TYPE = 'unlink-product';
 
-    private MapRecordCreator|OneToOneMapInterface $productIdMap;
+    private MapRecordCreator&OneToOneMapInterface $productIdMap;
 
-    private MapRecordCreator|OneToManyMapInterface $variantIdMap;
+    private MapRecordCreator&OneToManyMapInterface $variantIdMap;
 
     private ProductRepositoryInterface $repository;
 
-    /**
-     * UnlinkProductJob constructor.
-     *
-     * @param OneToOneMapInterface $productIdMap
-     * @param OneToManyMapInterface $variantIdMap
-     * @param ProductRepositoryInterface $repository
-     */
     public function __construct(
-        OneToOneMapInterface $productIdMap,
-        OneToManyMapInterface $variantIdMap,
+        MapRecordCreator&OneToOneMapInterface $productIdMap,
+        MapRecordCreator&OneToManyMapInterface $variantIdMap,
         ProductRepositoryInterface $repository
     ) {
 

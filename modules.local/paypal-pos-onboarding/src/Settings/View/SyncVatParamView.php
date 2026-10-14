@@ -45,6 +45,8 @@ class SyncVatParamView implements OnboardingView
 
     /**
      * @inheritDoc
+     *
+     * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      */
     public function renderHeader(): string
     {
@@ -135,12 +137,13 @@ class SyncVatParamView implements OnboardingView
                     }
                 }
 
+                // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
                 echo '<ul>' .
-                    // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
                     implode('', array_map(static function (string $msg): string {
                         return "<li><strong>$msg</strong></li>";
                     }, $messages)) .
                     '</ul>';
+                // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
                 ?>
             </p>
         <?php endif; ?>
@@ -159,7 +162,7 @@ class SyncVatParamView implements OnboardingView
             </div>
         <?php endif; ?>
 
-        <?php return ob_get_clean();
+        <?php return (string) ob_get_clean();
     }
 
     /**
@@ -190,7 +193,7 @@ class SyncVatParamView implements OnboardingView
 
         $this->renderFormChoiceSelection();
 
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
 
     /**
@@ -249,7 +252,7 @@ class SyncVatParamView implements OnboardingView
             </div>
         </div>
 
-        <?php return ob_get_contents();
+        <?php return (string) ob_get_contents();
     }
 
     /**

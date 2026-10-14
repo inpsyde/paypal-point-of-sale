@@ -3,10 +3,11 @@
 .git*
 .phpstorm*
 .idea
-.psalm
+stubs
 tests/
 modules.local/
 packages.local/
+wordpress_org_assets/
 vendor/**/Log/Test*
 *.lock
 .composer_compiled_assets
@@ -26,3 +27,4 @@ DEVELOPMENT.md
 scoper.*.php
 gulpfile.js
 Makefile
+phpstan*

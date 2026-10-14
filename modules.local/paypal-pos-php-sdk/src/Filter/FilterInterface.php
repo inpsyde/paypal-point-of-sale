@@ -9,19 +9,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Filter;
 
 interface FilterInterface
 {
-    /**
-     * @param mixed $entity
-     * @param mixed $payload
-     *
-     * @return bool
-     */
-    public function accepts($entity, $payload): bool;
+    public function accepts(mixed $entity, mixed $payload): bool;
 
-    /**
-     * @param mixed $entity
-     * @param mixed $payload
-     *
-     * @return mixed
-     */
-    public function filter($entity, $payload);
+    public function filter(mixed $entity, mixed $payload): mixed;
 }
