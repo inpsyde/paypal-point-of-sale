@@ -10,6 +10,9 @@ use Inpsyde\Modularity\Package;
 use Inpsyde\Modularity\Properties\PluginProperties;
 
 return static function (string $pluginFile, bool $validate = false): Package {
+    // Must run before any service is resolved: some modules apply the filters from run().
+    (new DeprecatedHooks())->register();
+
     $properties = PluginProperties::new($pluginFile);
     $package = Package::new($properties);
 

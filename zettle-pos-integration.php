@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Requires PHP: 8.2
  * Requires Plugins: woocommerce
  * WC requires at least: 10.2
- * WC tested up to: 10.2
+ * WC tested up to: 11.1
  * Author:      PayPal
  * Author URI:  https://www.paypal.com/us/business/pos
  * License:     GPL-2.0

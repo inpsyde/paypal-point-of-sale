@@ -105,6 +105,7 @@ class ParameterDeriver
      * @param callable $callable
      *
      * @return bool True if the callable represents a method object, false otherwise.
+     * @phpstan-assert-if-true array{object, string} $callable
      */
     protected function isObjectCallable(callable $callable): bool
     {

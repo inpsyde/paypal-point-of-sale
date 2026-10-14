@@ -16,7 +16,7 @@ parameters:
         - bootstrap.php
         - modules.php
         - uninstall.php
-        - paypal-point-of-sale.php
+        - zettle-pos-integration.php
     excludePaths:
         - modules.local/*/tests/*
         - modules.local/*/vendor/*

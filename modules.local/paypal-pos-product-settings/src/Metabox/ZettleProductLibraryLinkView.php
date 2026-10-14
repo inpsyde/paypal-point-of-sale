@@ -20,7 +20,10 @@ class ZettleProductLibraryLinkView implements BoxView
     {
         ob_start(); ?>
 
-        <a href="<?php echo $this->productLink($info['uuid']); // phpcs:ignore WordPress.Security.EscapeOutput ?>"
+        <a href="<?php
+        // phpcs:ignore WordPress.Security.EscapeOutput
+        echo $this->productLink($info['uuid']);
+        ?>"
             target="_blank" rel="noreferrer noopener">
             View Product at PayPal Point of Sale
         </a>

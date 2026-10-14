@@ -90,7 +90,7 @@ Releases are published via the [`Publish to WordPress.org`](.github/workflows/re
 Trigger it manually (`workflow_dispatch`) with:
 
 * **`PLUGIN_VERSION`** — the version to publish, as `MAJOR.MINOR.PATCH`. Must match both the `Version:` header in
-  `paypal-point-of-sale.php` and the `Stable tag` in `readme.txt`.
+  `zettle-pos-integration.php` and the `Stable tag` in `readme.txt`.
 * **`GIT_REF`** — the build branch or tag to publish, e.g. `main`. This must be a *build* branch (created by the
   [`Build`](.github/workflows/build.yml) workflow, `dev/main` → `main`), never a `dev/*` source branch — those still
   carry a `{VERSION}` placeholder instead of a real version number, and the workflow will refuse to run against one.

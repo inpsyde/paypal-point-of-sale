@@ -136,14 +136,10 @@ class TermManager
     /**
      * @param array|null $args
      *
-     * @psalm-suppress InvalidReturnType
-     * @return int[]|WP_Error
+     * @return array{term_id: int, term_taxonomy_id: int|numeric-string}|WP_Error
      */
     private function createTerm(?array $args = [])
     {
-        /**
-         * @psalm-suppress InvalidReturnStatement
-         */
         return wp_insert_term(
             $this->name(),
             $this->taxonomy(),

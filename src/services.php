@@ -123,7 +123,7 @@ return [
     },
     'paypal-pos.plugin.properties' => static function (): PluginProperties {
         return new PluginProperties(
-            __DIR__ . '/../paypal-point-of-sale.php'
+            __DIR__ . '/../zettle-pos-integration.php'
         );
     },
     'paypal-pos.version-option-key' => static function (): string {
