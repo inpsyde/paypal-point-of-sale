@@ -31,7 +31,14 @@ class PurchaseCreatedHandler implements WebhookHandler
     public function handle(Payload $payload): void
     {
         $data = $payload->payload();
-        $uuid = (string) ($data['purchaseUUID'] ?? $data['uuid'] ?? '');
+        // Zettle's webhook payload uses `purchaseUuid`, while the REST Purchase API uses
+        // `purchaseUUID`; accept both so a casing difference cannot silently drop the event.
+        $uuid = (string) (
+            $data['purchaseUUID']
+            ?? $data['purchaseUuid']
+            ?? $data['uuid']
+            ?? ''
+        );
         if ($uuid === '') {
             return;
         }

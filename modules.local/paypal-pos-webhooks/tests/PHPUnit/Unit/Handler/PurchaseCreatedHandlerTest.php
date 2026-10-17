@@ -49,6 +49,19 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
         self::assertSame([CreateOrderJob::TYPE, ['purchaseUuid' => 'abc']], $captured);
     }
 
+    public function testEnqueuesJobWithWebhookCasedPurchaseUuid(): void
+    {
+        $captured = [];
+        $enqueue = static function (string $type, array $args) use (&$captured): void {
+            $captured = [$type, $args];
+        };
+
+        $handler = new PurchaseCreatedHandler($enqueue, 'zettle.queue.cron');
+        $handler->handle($this->payload(EventName::PURCHASE_CREATED, ['purchaseUuid' => 'abc']));
+
+        self::assertSame([CreateOrderJob::TYPE, ['purchaseUuid' => 'abc']], $captured);
+    }
+
     public function testDoesNotEnqueueWithoutUuid(): void
     {
         $called = false;
