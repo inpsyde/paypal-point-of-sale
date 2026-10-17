@@ -61,7 +61,10 @@ class Purchases
      */
     public function read(string $uuid, bool $withListeners = true): Purchase
     {
-        $url = (string) $this->uri->withPath("/purchases/v2/{$uuid}");
+        // Single-purchase reads live under the SINGULAR `/purchase/v2/{uuid}`; the plural
+        // `/purchases/v2` is the list endpoint and 404s for a single UUID. Accepts both the
+        // short purchaseUUID and the dashed purchaseUUID1 the webhook delivers.
+        $url = (string) $this->uri->withPath("/purchase/v2/{$uuid}");
         $result = $this->restClient->get($url, []);
 
         try {
