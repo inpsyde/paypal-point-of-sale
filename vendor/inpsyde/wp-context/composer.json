@@ -1,0 +1,76 @@
+{
+    "name": "inpsyde\/wp-context",
+    "type": "library",
+    "description": "A single-class utility to check the running context in WordPress sites.",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Syde GmbH",
+            "homepage": "https:\/\/syde.com\/",
+            "email": "hello@syde.com",
+            "role": "Company"
+        },
+        {
+            "name": "Giuseppe Mazzapica",
+            "email": "g.mazzapica@inpsyde.com",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https:\/\/raw.githubusercontent.com\/inpsyde\/wp-stubs\/main",
+            "only": [
+                "inpsyde\/wp-stubs-versions"
+            ]
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^9.6.17 || ^10.5 || ^11.0",
+        "inpsyde\/php-coding-standards": "^2@dev",
+        "vimeo\/psalm": "^5.22.2 || ^6.0",
+        "brain\/monkey": "^2.6.1",
+        "roots\/wordpress-no-content": ">=6.1",
+        "inpsyde\/wp-stubs-versions": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\Tests\\": "tests\/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "cs": "@php .\/vendor\/squizlabs\/php_codesniffer\/bin\/phpcs",
+        "psalm": "@php .\/vendor\/vimeo\/psalm\/psalm --no-cache --output-format=compact",
+        "tests": "@php .\/vendor\/phpunit\/phpunit\/phpunit",
+        "tests:no-cov": "@php .\/vendor\/phpunit\/phpunit\/phpunit --no-coverage",
+        "qa": [
+            "@cs",
+            "@psalm",
+            "@tests:no-cov"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "dealerdirect\/phpcodesniffer-composer-installer": true,
+            "inpsyde\/*": true,
+            "composer\/*": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        }
+    }
+}

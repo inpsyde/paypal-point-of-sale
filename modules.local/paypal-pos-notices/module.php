@@ -1,9 +1,0 @@
-<?php
-
-declare(strict_types=1);
-
-namespace Syde\PayPal\PointOfSale\Notices;
-
-return static function (): NoticesModule {
-    return new NoticesModule();
-};
