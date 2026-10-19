@@ -48,17 +48,16 @@ class CreateOrderJob implements Job
         }
 
         try {
-            if ($this->orderFactory->orderExists($uuid)) {
-                return true;
-            }
-
             $purchase = $this->purchases->read($uuid);
             // Refunds are handled separately; a refund would create a negative-total order.
             if ($purchase->isRefund()) {
                 return true;
             }
 
-            $this->orderFactory->createOrder($purchase);
+            // Orders store the purchase's short UUID; the webhook sends the dashed one.
+            if (!$this->orderFactory->orderExists($purchase->uuid())) {
+                $this->orderFactory->createOrder($purchase);
+            }
 
             return true;
         } catch (Throwable $throwable) {

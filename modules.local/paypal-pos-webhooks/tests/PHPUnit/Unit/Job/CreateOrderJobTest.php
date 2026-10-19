@@ -65,8 +65,9 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
 
     public function testSkipsWhenOrderAlreadyExists(): void
     {
+        $webhookUuid = '02076319-cf9f-4222-9cb6-a38d17e7e8e1';
         $purchases = Mockery::mock(Purchases::class);
-        $purchases->shouldNotReceive('read');
+        $purchases->shouldReceive('read')->once()->with($webhookUuid)->andReturn($this->purchase());
         $factory = Mockery::mock(PurchaseOrderFactory::class);
         $factory->shouldReceive('orderExists')->once()->with('abc')->andReturnTrue();
         $factory->shouldNotReceive('createOrder');
@@ -74,7 +75,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $job = new CreateOrderJob($purchases, $factory);
 
         self::assertTrue(
-            $job->execute($this->context('abc'), Mockery::mock(JobRepository::class), Mockery::mock(LoggerInterface::class))
+            $job->execute($this->context($webhookUuid), Mockery::mock(JobRepository::class), Mockery::mock(LoggerInterface::class))
         );
     }
 
@@ -99,7 +100,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldReceive('read')->once()->andReturn($this->purchase(true));
         $factory = Mockery::mock(PurchaseOrderFactory::class);
-        $factory->shouldReceive('orderExists')->once()->andReturnFalse();
+        $factory->shouldNotReceive('orderExists');
         $factory->shouldNotReceive('createOrder');
 
         $job = new CreateOrderJob($purchases, $factory);
@@ -114,7 +115,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldReceive('read')->once()->andThrow(new RuntimeException('boom'));
         $factory = Mockery::mock(PurchaseOrderFactory::class);
-        $factory->shouldReceive('orderExists')->once()->andReturnFalse();
+        $factory->shouldNotReceive('orderExists');
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldReceive('error')->once();
 
