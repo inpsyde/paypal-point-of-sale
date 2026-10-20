@@ -88,14 +88,14 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
     {
         $purchase = $this->purchase();
         $purchases = Mockery::mock(Purchases::class);
-        $purchases->shouldReceive('read')->once()->with('abc')->andReturn($purchase);
+        $purchases->shouldReceive('read')->once()->with('webhook-uuid')->andReturn($purchase);
         $factory = Mockery::mock(PurchaseOrderFactory::class);
-        $factory->shouldReceive('orderExists')->once()->andReturnFalse();
+        $factory->shouldReceive('orderExists')->once()->with('abc')->andReturnFalse();
         $factory->shouldReceive('createOrder')->once()->with($purchase)->andReturn(42);
 
         $job = new CreateOrderJob($purchases, $factory);
 
-        self::assertTrue($this->executeJob($job, 'abc'));
+        self::assertTrue($this->executeJob($job, 'webhook-uuid'));
     }
 
     public function testSkipsRefundPurchases(): void
