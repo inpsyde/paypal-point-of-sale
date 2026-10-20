@@ -101,7 +101,8 @@ class PurchaseBuilder implements PurchaseBuilderInterface
             : null;
 
         $sourceRaw = $data['source'] ?? $data['sourceType'] ?? $data['type'] ?? null;
-        $sourceType = $sourceRaw !== null ? SourceType::get($sourceRaw) : null;
+        // Unknown sources must not fail the whole purchase.
+        $sourceType = in_array($sourceRaw, SourceType::getValidOptions(), true) ? SourceType::get($sourceRaw) : null;
 
         $published = isset($data['published']) ? (bool) $data['published'] : null;
 

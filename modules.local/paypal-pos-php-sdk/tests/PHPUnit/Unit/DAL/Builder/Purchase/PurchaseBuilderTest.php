@@ -85,4 +85,12 @@ class PurchaseBuilderTest extends BrainMonkeyWpTestCase
         self::assertNull($purchase->sourceType());
         self::assertSame('', $purchase->user()->displayName());
     }
+
+    public function testIgnoresUnknownSource(): void
+    {
+        $data = $this->fixture('purchase-created.json');
+        $data['source'] = 'PAYMENT_LINK';
+
+        self::assertNull($this->builder()->buildFromArray($data)->sourceType());
+    }
 }
