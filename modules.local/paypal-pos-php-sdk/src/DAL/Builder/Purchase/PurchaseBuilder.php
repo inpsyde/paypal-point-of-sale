@@ -8,9 +8,11 @@ use DateTime;
 use Exception;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilderInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\Coordinates;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Type\SourceType;
+use Throwable;
 
 class PurchaseBuilder implements PurchaseBuilderInterface
 {
@@ -87,6 +89,25 @@ class PurchaseBuilder implements PurchaseBuilderInterface
     }
 
     /**
+     * Optional data: a malformed location must not fail the whole purchase.
+     *
+     * @param mixed $gpsCoordinates
+     */
+    private function coordinates($gpsCoordinates): ?Coordinates
+    {
+        if (empty($gpsCoordinates) || !is_array($gpsCoordinates)) {
+            return null;
+        }
+
+        try {
+            // CoordinatesBuilder reads lat/long at the top level; pass the nested node.
+            return $this->coordinatesBuilder->buildFromArray($gpsCoordinates);
+        } catch (Throwable $exception) {
+            return null;
+        }
+    }
+
+    /**
      * @param array $data
      *
      * @return Purchase
@@ -95,10 +116,7 @@ class PurchaseBuilder implements PurchaseBuilderInterface
      */
     private function build(array $data): Purchase
     {
-        // CoordinatesBuilder reads lat/long at the top level; pass the nested node.
-        $coordinates = !empty($data['gpsCoordinates'])
-            ? $this->coordinatesBuilder->buildFromArray($data['gpsCoordinates'])
-            : null;
+        $coordinates = $this->coordinates($data['gpsCoordinates'] ?? null);
 
         $sourceRaw = $data['source'] ?? $data['sourceType'] ?? $data['type'] ?? null;
         // Unknown sources must not fail the whole purchase.
