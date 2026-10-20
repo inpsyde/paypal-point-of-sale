@@ -41,12 +41,15 @@ class WebhookModule implements ServiceModule, ExecutableModule
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
 
-        add_action(
-            'paypal-point-of-sale.activate',
-            static function () use ($bootstrap) {
-                $bootstrap->activate();
-            }
-        );
+        // Re-register on update too, so existing installs subscribe to newly added events.
+        foreach (['paypal-point-of-sale.activate', 'paypal-point-of-sale.migrate'] as $hook) {
+            add_action(
+                $hook,
+                static function () use ($bootstrap) {
+                    $bootstrap->activate();
+                }
+            );
+        }
         add_action(
             'paypal-point-of-sale.deactivate',
             static function () use ($bootstrap) {
