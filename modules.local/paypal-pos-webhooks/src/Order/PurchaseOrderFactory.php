@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
@@ -14,7 +13,6 @@ use WC_Order_Item_Fee;
 use WC_Order_Item_Product;
 use WC_Order_Item_Tax;
 use WC_Product;
-use WP_Error;
 
 /**
  * Creates anonymous WooCommerce orders from Zettle POS purchases.
@@ -23,9 +21,10 @@ class PurchaseOrderFactory
 {
     private const KEY_VARIANT_UUID = 'variantUuid';
     private const KEY_PRODUCT_UUID = 'productUuid';
-    private const KEY_QUANTITY = 'quantity';
     private const KEY_UNIT_PRICE = 'unitPrice';
     private const KEY_NAME = 'name';
+
+    private const FILTER_PRIORITY = 1000;
 
     private const SUPPRESSED_EMAILS = [
         'new_order',
@@ -72,24 +71,23 @@ class PurchaseOrderFactory
 
     public function createOrder(Purchase $purchase): int
     {
-        $this->suppressEmails(true);
-        // Stock is owned by the InventoryBalanceChanged path; block reduction on save.
-        add_filter('woocommerce_can_reduce_order_stock', '__return_false');
+        $this->suppressSideEffects(true);
 
         try {
-            $order = wc_create_order();
-            if ($order instanceof WP_Error) {
-                throw new RuntimeException($order->get_error_message());
-            }
+            // Built in memory and saved once, so a failure leaves no half-created order behind.
+            $order = new WC_Order();
             $currency = $purchase->currency();
 
             $taxTotals = [];
             $discountMinor = 0;
             $discountTaxMinor = 0;
             foreach ($purchase->products() as $line) {
+                // Only product lines carry a subtotal, so only they contribute to the order discount.
                 $amounts = $this->addLineItem($order, (array) $line, $currency, $purchase->country(), $taxTotals);
-                $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
-                $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
+                if ($amounts !== null) {
+                    $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
+                    $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
+                }
             }
             // With a single rate, use Zettle's purchase VAT so per-line rounding can't drift.
             if (count($taxTotals) === 1) {
@@ -116,20 +114,24 @@ class PurchaseOrderFactory
             $order->set_cart_tax((string) MinorUnits::toMajor($purchase->vatAmount(), $currency));
             $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
             $order->set_status('completed');
+            // set_status() stamps both dates with the current time; use the sale's time instead.
+            $order->set_date_paid($purchase->timestamp()->getTimestamp());
+            $order->set_date_completed($purchase->timestamp()->getTimestamp());
             $order->save();
 
             $order->add_order_note(sprintf('Cashier: %s', $purchase->user()->displayName()));
 
             return $order->get_id();
         } finally {
-            $this->suppressEmails(false);
-            remove_filter('woocommerce_can_reduce_order_stock', '__return_false');
+            $this->suppressSideEffects(false);
         }
     }
 
     /**
      * @param array<string, mixed> $line
      * @param array<int|string, array{rateId: int, percentage: float, taxMinor: int}> $taxTotals
+     *
+     * @return LineAmounts|null The product line's amounts, or null when it became a fee line.
      */
     private function addLineItem(
         WC_Order $order,
@@ -137,9 +139,8 @@ class PurchaseOrderFactory
         string $currency,
         string $country,
         array &$taxTotals
-    ): LineAmounts {
+    ): ?LineAmounts {
 
-        $quantity = (int) ($line[self::KEY_QUANTITY] ?? 1);
         $unitPriceMinor = (int) ($line[self::KEY_UNIT_PRICE] ?? 0);
         $variantUuid = (string) ($line[self::KEY_VARIANT_UUID] ?? '');
         $amounts = LineAmounts::fromLine($line);
@@ -160,12 +161,13 @@ class PurchaseOrderFactory
         if (!$product instanceof WC_Product) {
             $this->addFeeLine($order, $line, $amounts, $rateId, $currency);
 
-            return $amounts;
+            return null;
         }
 
         $item = new WC_Order_Item_Product();
         $item->set_product($product);
-        $item->set_quantity($quantity);
+        // WC rounds this via `woocommerce_stock_amount` unless the store allows fractions.
+        $item->set_quantity($amounts->quantity()); // @phpstan-ignore argument.type
         $item->set_subtotal((string) MinorUnits::toMajor($amounts->subtotalNetMinor(), $currency));
         $item->set_total((string) MinorUnits::toMajor($amounts->netMinor(), $currency));
         // Line taxes need a real WC rate id; unmatched rates still appear as order tax items.
@@ -202,6 +204,7 @@ class PurchaseOrderFactory
         if ($rateId > 0) {
             $fee->set_taxes(['total' => [$rateId => (string) MinorUnits::toMajor($amounts->taxMinor(), $currency)]]);
         }
+        $fee->add_meta_data(OrderMeta::ITEM_VARIANT_UUID, (string) ($line[self::KEY_VARIANT_UUID] ?? ''));
         $order->add_item($fee);
     }
 
@@ -283,15 +286,29 @@ class PurchaseOrderFactory
         }
     }
 
-    private function suppressEmails(bool $suppress): void
+    private function suppressSideEffects(bool $suppress): void
     {
+        // Stock is owned by the InventoryBalanceChanged path. Our own callback, so removing it
+        // never touches identical filters added by others.
+        $filters = ['woocommerce_can_reduce_order_stock', 'woocommerce_defer_transactional_emails'];
         foreach (self::SUPPRESSED_EMAILS as $emailId) {
-            $filter = "woocommerce_email_enabled_{$emailId}";
+            $filters[] = "woocommerce_email_enabled_{$emailId}";
+        }
+
+        foreach ($filters as $filter) {
             if ($suppress) {
-                add_filter($filter, '__return_false');
+                add_filter($filter, [self::class, 'disable'], self::FILTER_PRIORITY);
                 continue;
             }
-            remove_filter($filter, '__return_false');
+            remove_filter($filter, [self::class, 'disable'], self::FILTER_PRIORITY);
         }
+    }
+
+    /**
+     * @internal Filter callback for suppressSideEffects().
+     */
+    public static function disable(): bool
+    {
+        return false;
     }
 }

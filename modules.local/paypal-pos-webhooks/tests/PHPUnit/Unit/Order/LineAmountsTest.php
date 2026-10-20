@@ -18,7 +18,7 @@ class LineAmountsTest extends BrainMonkeyWpTestCase
             'grossTax' => 280,
         ]);
 
-        self::assertSame(2, $amounts->quantity());
+        self::assertSame(2.0, $amounts->quantity());
         self::assertSame(1400, $amounts->netMinor());
         self::assertSame(280, $amounts->taxMinor());
         self::assertSame(1400, $amounts->subtotalNetMinor());
@@ -67,8 +67,16 @@ class LineAmountsTest extends BrainMonkeyWpTestCase
             'grossTax' => -140,
         ]);
 
-        self::assertSame(1, $amounts->quantity());
+        self::assertSame(1.0, $amounts->quantity());
         self::assertSame(700, $amounts->netMinor());
         self::assertSame(140, $amounts->taxMinor());
+    }
+
+    public function testKeepsFractionalQuantities(): void
+    {
+        $amounts = LineAmounts::fromLine(['quantity' => '0.5', 'unitPrice' => 1000]);
+
+        self::assertSame(0.5, $amounts->quantity());
+        self::assertSame(500, $amounts->netMinor());
     }
 }

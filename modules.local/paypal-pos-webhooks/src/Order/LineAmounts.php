@@ -10,7 +10,7 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Order;
  */
 final class LineAmounts
 {
-    private int $quantity;
+    private float $quantity;
 
     private int $netMinor;
 
@@ -23,7 +23,7 @@ final class LineAmounts
     private float $vatPercentage;
 
     private function __construct(
-        int $quantity,
+        float $quantity,
         int $netMinor,
         int $taxMinor,
         int $subtotalNetMinor,
@@ -45,12 +45,13 @@ final class LineAmounts
     public static function fromLine(array $line): self
     {
         // Refund lines carry negative quantities and amounts.
-        $quantity = abs((int) ($line['quantity'] ?? 1));
+        // Zettle sends quantities as strings and allows fractions for unit items.
+        $quantity = abs((float) ($line['quantity'] ?? 1));
 
         // `grossValue`/`grossTax` are before purchase-level discounts: the WC subtotal.
         $listGross = isset($line['grossValue'])
             ? abs((int) $line['grossValue'])
-            : abs((int) ($line['unitPrice'] ?? 0)) * $quantity;
+            : (int) round(abs((int) ($line['unitPrice'] ?? 0)) * $quantity);
         $subtotalTax = isset($line['grossTax']) ? abs((int) $line['grossTax']) : 0;
         $subtotalNet = max(0, $listGross - $subtotalTax);
 
@@ -63,7 +64,7 @@ final class LineAmounts
         return new self($quantity, $net, $tax, $subtotalNet, $subtotalTax, (float) ($line['vatPercentage'] ?? 0));
     }
 
-    public function quantity(): int
+    public function quantity(): float
     {
         return $this->quantity;
     }
