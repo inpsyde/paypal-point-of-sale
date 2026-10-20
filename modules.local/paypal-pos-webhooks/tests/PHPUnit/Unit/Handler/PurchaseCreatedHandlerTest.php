@@ -36,7 +36,10 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
         self::assertFalse($handler->accepts($this->payload('InventoryBalanceChanged')));
     }
 
-    public function testEnqueuesJobWithPurchaseUuid(): void
+    /**
+     * @dataProvider uuidKeys
+     */
+    public function testEnqueuesJobWithPurchaseUuid(string $key): void
     {
         $captured = [];
         $enqueue = static function (string $type, array $args) use (&$captured): void {
@@ -44,22 +47,14 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
         };
 
         $handler = new PurchaseCreatedHandler($enqueue, 'zettle.queue.cron');
-        $handler->handle($this->payload(EventName::PURCHASE_CREATED, ['purchaseUUID' => 'abc']));
+        $handler->handle($this->payload(EventName::PURCHASE_CREATED, [$key => 'abc']));
 
         self::assertSame([CreateOrderJob::TYPE, ['purchaseUuid' => 'abc']], $captured);
     }
 
-    public function testEnqueuesJobWithWebhookCasedPurchaseUuid(): void
+    public function uuidKeys(): array
     {
-        $captured = [];
-        $enqueue = static function (string $type, array $args) use (&$captured): void {
-            $captured = [$type, $args];
-        };
-
-        $handler = new PurchaseCreatedHandler($enqueue, 'zettle.queue.cron');
-        $handler->handle($this->payload(EventName::PURCHASE_CREATED, ['purchaseUuid' => 'abc']));
-
-        self::assertSame([CreateOrderJob::TYPE, ['purchaseUuid' => 'abc']], $captured);
+        return [['purchaseUuid'], ['purchaseUUID'], ['uuid']];
     }
 
     public function testDoesNotEnqueueWithoutUuid(): void
