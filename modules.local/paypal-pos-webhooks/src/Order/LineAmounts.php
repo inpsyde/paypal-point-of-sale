@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
 /**
- * Net, tax and pre-discount amounts of one Zettle purchase line, in absolute minor units.
- *
- * Prefers Zettle's own row figures (`grossValue`, `grossTax`, `rowTaxableAmount`) and falls
- * back to `unitPrice * quantity - discountValue` with no tax when they are missing. Subtotal
- * amounts are before discounts, net and tax amounts after them.
+ * Amounts of one Zettle purchase line in absolute minor units: subtotals before discounts,
+ * net and tax after them.
  */
 final class LineAmounts
 {

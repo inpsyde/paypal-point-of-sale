@@ -6,9 +6,6 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
 /**
  * Meta keys written to POS orders and their line items.
- *
- * These are a stable contract read back by refund matching and reporting, so they live
- * in one place rather than as scattered string literals.
  */
 final class OrderMeta
 {

@@ -31,14 +31,8 @@ class PurchaseCreatedHandler implements WebhookHandler
     public function handle(Payload $payload): void
     {
         $data = $payload->payload();
-        // Zettle's webhook payload uses `purchaseUuid`, while the REST Purchase API uses
-        // `purchaseUUID`; accept both so a casing difference cannot silently drop the event.
-        $uuid = (string) (
-            $data['purchaseUUID']
-            ?? $data['purchaseUuid']
-            ?? $data['uuid']
-            ?? ''
-        );
+        // The webhook sends `purchaseUuid`, the REST API `purchaseUUID`.
+        $uuid = (string) ($data['purchaseUuid'] ?? $data['purchaseUUID'] ?? $data['uuid'] ?? '');
         if ($uuid === '') {
             return;
         }
@@ -49,9 +43,7 @@ class PurchaseCreatedHandler implements WebhookHandler
     }
 
     /**
-     * Nudge the queue to process now instead of waiting for the next request. The
-     * webhook carries no admin session, so the authenticated loopback runner cannot be
-     * used; a cron spawn needs no auth.
+     * Runs the queue now via cron: webhooks have no admin session for the loopback runner.
      */
     private function dispatchQueue(): void
     {

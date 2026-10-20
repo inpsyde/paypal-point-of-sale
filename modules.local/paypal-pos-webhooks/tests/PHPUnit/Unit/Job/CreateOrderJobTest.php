@@ -49,6 +49,15 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         );
     }
 
+    private function executeJob(CreateOrderJob $job, ?string $uuid, ?LoggerInterface $logger = null): bool
+    {
+        return $job->execute(
+            $this->context($uuid),
+            Mockery::mock(JobRepository::class),
+            $logger ?? Mockery::mock(LoggerInterface::class)
+        );
+    }
+
     public function testSkipsWhenUuidMissing(): void
     {
         $purchases = Mockery::mock(Purchases::class);
@@ -58,9 +67,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
 
         $job = new CreateOrderJob($purchases, $factory);
 
-        self::assertTrue(
-            $job->execute($this->context(null), Mockery::mock(JobRepository::class), Mockery::mock(LoggerInterface::class))
-        );
+        self::assertTrue($this->executeJob($job, null));
     }
 
     public function testSkipsWhenOrderAlreadyExists(): void
@@ -74,9 +81,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
 
         $job = new CreateOrderJob($purchases, $factory);
 
-        self::assertTrue(
-            $job->execute($this->context($webhookUuid), Mockery::mock(JobRepository::class), Mockery::mock(LoggerInterface::class))
-        );
+        self::assertTrue($this->executeJob($job, $webhookUuid));
     }
 
     public function testCreatesOrderOnHappyPath(): void
@@ -90,9 +95,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
 
         $job = new CreateOrderJob($purchases, $factory);
 
-        self::assertTrue(
-            $job->execute($this->context('abc'), Mockery::mock(JobRepository::class), Mockery::mock(LoggerInterface::class))
-        );
+        self::assertTrue($this->executeJob($job, 'abc'));
     }
 
     public function testSkipsRefundPurchases(): void
@@ -105,9 +108,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
 
         $job = new CreateOrderJob($purchases, $factory);
 
-        self::assertTrue(
-            $job->execute($this->context('abc'), Mockery::mock(JobRepository::class), Mockery::mock(LoggerInterface::class))
-        );
+        self::assertTrue($this->executeJob($job, 'abc'));
     }
 
     public function testReturnsFalseToRetryOnFailure(): void
@@ -121,8 +122,6 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
 
         $job = new CreateOrderJob($purchases, $factory);
 
-        self::assertFalse(
-            $job->execute($this->context('abc'), Mockery::mock(JobRepository::class), $logger)
-        );
+        self::assertFalse($this->executeJob($job, 'abc', $logger));
     }
 }
