@@ -18,4 +18,5 @@ final class OrderMeta
     public const ITEM_VARIANT_UUID = '_zettle_variant_uuid';
     public const ITEM_PRODUCT_UUID = '_zettle_product_uuid';
     public const ITEM_UNIT_PRICE_MINOR = '_zettle_unit_price_minor';
+    public const ITEM_QUANTITY = '_zettle_quantity';
 }

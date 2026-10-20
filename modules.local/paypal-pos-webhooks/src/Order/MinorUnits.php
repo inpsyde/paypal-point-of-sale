@@ -20,4 +20,9 @@ final class MinorUnits
     {
         return $minor / (10 ** self::exponent($currency));
     }
+
+    public static function toMinor(float $major, string $currency): int
+    {
+        return (int) round($major * (10 ** self::exponent($currency)));
+    }
 }

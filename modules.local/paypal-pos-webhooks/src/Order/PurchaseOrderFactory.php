@@ -24,6 +24,9 @@ class PurchaseOrderFactory
     private const KEY_UNIT_PRICE = 'unitPrice';
     private const KEY_NAME = 'name';
 
+    public const CREATED_VIA = 'zettle_pos';
+    public const DEFAULT_LINE_NAME = 'PayPal POS item';
+
     private const FILTER_PRIORITY = 1000;
 
     private const SUPPRESSED_EMAILS = [
@@ -71,7 +74,7 @@ class PurchaseOrderFactory
 
     public function createOrder(Purchase $purchase): int
     {
-        $this->suppressSideEffects(true);
+        $this->blockStockReduction(true);
 
         try {
             // Built in memory and saved once, so a failure leaves no half-created order behind.
@@ -91,27 +94,27 @@ class PurchaseOrderFactory
             }
             // With a single rate, use Zettle's purchase VAT so per-line rounding can't drift.
             if (count($taxTotals) === 1) {
+                $key = array_key_first($taxTotals);
                 $vatMinor = (int) abs($purchase->vatAmount());
-                $taxTotals = array_map(
-                    static fn (array $taxTotal): array => array_merge($taxTotal, ['taxMinor' => $vatMinor]),
-                    $taxTotals
-                );
+                $this->alignLineTaxes($order, $taxTotals[$key]['rateId'], $vatMinor - $taxTotals[$key]['taxMinor'], $currency);
+                $taxTotals[$key]['taxMinor'] = $vatMinor;
             }
             $this->addTaxItems($order, $taxTotals, $currency);
+            $taxMinor = (int) array_sum(array_column($taxTotals, 'taxMinor'));
             $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
             $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
 
             $order->set_currency($currency);
             $order->set_prices_include_tax(false);
             $order->set_date_created($purchase->timestamp()->getTimestamp());
-            $order->set_created_via('zettle_pos');
+            $order->set_created_via(self::CREATED_VIA);
             // Record the order as already stock-reduced so later transitions don't reduce it.
             $order->set_order_stock_reduced(true);
             $this->applyPayment($order, $purchase->payments());
             $this->applyMeta($order, $purchase);
 
             // Mirror Zettle's own totals; never let WC recompute and diverge.
-            $order->set_cart_tax((string) MinorUnits::toMajor($purchase->vatAmount(), $currency));
+            $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
             $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
             $order->set_status('completed');
             // set_status() stamps both dates with the current time; use the sale's time instead.
@@ -123,7 +126,7 @@ class PurchaseOrderFactory
 
             return $order->get_id();
         } finally {
-            $this->suppressSideEffects(false);
+            $this->blockStockReduction(false);
         }
     }
 
@@ -166,8 +169,11 @@ class PurchaseOrderFactory
 
         $item = new WC_Order_Item_Product();
         $item->set_product($product);
-        // WC rounds this via `woocommerce_stock_amount` unless the store allows fractions.
-        $item->set_quantity($amounts->quantity()); // @phpstan-ignore argument.type
+        // WC rounds this via `woocommerce_stock_amount` unless the store allows fractions; keep
+        // fractions under 1 visible as 1 and the real quantity in meta.
+        $quantity = wc_stock_amount($amounts->quantity()) > 0 ? $amounts->quantity() : 1;
+        $item->set_quantity($quantity); // @phpstan-ignore argument.type
+        $item->add_meta_data(OrderMeta::ITEM_QUANTITY, (string) $amounts->quantity());
         $item->set_subtotal((string) MinorUnits::toMajor($amounts->subtotalNetMinor(), $currency));
         $item->set_total((string) MinorUnits::toMajor($amounts->netMinor(), $currency));
         // Line taxes need a real WC rate id; unmatched rates still appear as order tax items.
@@ -198,7 +204,7 @@ class PurchaseOrderFactory
 
         $net = (string) MinorUnits::toMajor($amounts->netMinor(), $currency);
         $fee = new WC_Order_Item_Fee();
-        $fee->set_name((string) ($line[self::KEY_NAME] ?? 'PayPal POS item'));
+        $fee->set_name((string) ($line[self::KEY_NAME] ?? '') ?: self::DEFAULT_LINE_NAME);
         $fee->set_amount($net);
         $fee->set_total($net);
         if ($rateId > 0) {
@@ -286,29 +292,76 @@ class PurchaseOrderFactory
         }
     }
 
-    private function suppressSideEffects(bool $suppress): void
+    /**
+     * Keeps WC from sending order emails for POS orders. Registered for the whole request,
+     * not just during creation, because stores that defer emails send them later.
+     */
+    public static function suppressEmails(): void
     {
-        // Stock is owned by the InventoryBalanceChanged path. Our own callback, so removing it
-        // never touches identical filters added by others.
-        $filters = ['woocommerce_can_reduce_order_stock', 'woocommerce_defer_transactional_emails'];
         foreach (self::SUPPRESSED_EMAILS as $emailId) {
-            $filters[] = "woocommerce_email_enabled_{$emailId}";
-        }
-
-        foreach ($filters as $filter) {
-            if ($suppress) {
-                add_filter($filter, [self::class, 'disable'], self::FILTER_PRIORITY);
-                continue;
-            }
-            remove_filter($filter, [self::class, 'disable'], self::FILTER_PRIORITY);
+            add_filter("woocommerce_email_enabled_{$emailId}", [self::class, 'emailEnabled'], 10, 2);
         }
     }
 
     /**
-     * @internal Filter callback for suppressSideEffects().
+     * @internal Filter callback for suppressEmails().
+     *
+     * @param mixed $enabled
+     * @param mixed $object
+     */
+    public static function emailEnabled($enabled, $object = null): bool
+    {
+        return !($object instanceof WC_Order && $object->get_created_via() === self::CREATED_VIA) && (bool) $enabled;
+    }
+
+    /**
+     * Stock is owned by the InventoryBalanceChanged path. Our own callback, so removing it never
+     * touches an identical filter added by others.
+     */
+    private function blockStockReduction(bool $block): void
+    {
+        if ($block) {
+            add_filter('woocommerce_can_reduce_order_stock', [self::class, 'disable'], self::FILTER_PRIORITY);
+
+            return;
+        }
+        remove_filter('woocommerce_can_reduce_order_stock', [self::class, 'disable'], self::FILTER_PRIORITY);
+    }
+
+    /**
+     * @internal Filter callback for blockStockReduction().
      */
     public static function disable(): bool
     {
         return false;
+    }
+
+    /**
+     * Moves the cent Zettle's VAT total and the rounded line taxes can differ by onto the last
+     * line with that rate, so line taxes add up to the order tax.
+     */
+    private function alignLineTaxes(WC_Order $order, int $rateId, int $differenceMinor, string $currency): void
+    {
+        if ($rateId <= 0 || $differenceMinor === 0) {
+            return;
+        }
+
+        $lines = array_reverse((array) $order->get_items(['line_item', 'fee']));
+        foreach ($lines as $line) {
+            if (!$line instanceof WC_Order_Item_Product && !$line instanceof WC_Order_Item_Fee) {
+                continue;
+            }
+            $taxes = (array) $line->get_taxes();
+            if (!isset($taxes['total'][$rateId])) {
+                continue;
+            }
+            $taxes['total'][$rateId] = (string) MinorUnits::toMajor(
+                MinorUnits::toMinor((float) $taxes['total'][$rateId], $currency) + $differenceMinor,
+                $currency
+            );
+            $line->set_taxes($taxes);
+
+            return;
+        }
     }
 }

@@ -38,6 +38,8 @@ class WebhookModule implements ServiceModule, ExecutableModule
             }
         );
 
+        Order\PurchaseOrderFactory::suppressEmails();
+
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
 

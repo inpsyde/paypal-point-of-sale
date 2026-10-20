@@ -27,6 +27,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         parent::setUp();
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
+        when('wc_stock_amount')->alias('intval');
 
         $wpdb = Mockery::mock('wpdb');
         $wpdb->prefix = 'wp_';
@@ -38,7 +39,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
     /**
      * Real payload: one 8.40 coffee with a 20% purchase discount and 20% VAT included.
      */
-    private function discountedSale(): Purchase
+    private function discountedSale(string $quantity = '1'): Purchase
     {
         return (new PurchaseFactory())->create(
             'short-uuid',
@@ -51,7 +52,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
             672.0,
             112.0,
             [[
-                'quantity' => '1',
+                'quantity' => $quantity,
                 'name' => 'Matched Coffee',
                 'unitPrice' => 840,
                 'variantUuid' => 'variant-uuid',
@@ -127,5 +128,31 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $variants->shouldReceive('localId')->andThrow(new IdNotFoundException('variant-uuid'));
 
         $this->factory($variants)->createOrder($this->discountedSale());
+    }
+
+    public function testKeepsQuantitiesBelowOneVisibleAndStoresTheRealOne(): void
+    {
+        $this->orderExpectingTotals('1.4', '0.28');
+        $item = Mockery::mock('overload:WC_Order_Item_Product');
+        $item->shouldReceive('set_quantity')->once()->with(1);
+        $item->shouldReceive('add_meta_data')->once()->with(OrderMeta::ITEM_QUANTITY, '0.5');
+        $item->shouldIgnoreMissing();
+        when('wc_get_product')->justReturn(Mockery::mock('WC_Product'));
+        $variants = Mockery::mock(OneToManyMapInterface::class);
+        $variants->shouldReceive('localId')->andReturn(10);
+
+        $this->factory($variants)->createOrder($this->discountedSale('0.5'));
+    }
+
+    public function testSuppressesEmailsOnlyForPosOrders(): void
+    {
+        $pos = Mockery::mock('WC_Order');
+        $pos->shouldReceive('get_created_via')->andReturn(PurchaseOrderFactory::CREATED_VIA);
+        $web = Mockery::mock('WC_Order');
+        $web->shouldReceive('get_created_via')->andReturn('checkout');
+
+        self::assertFalse(PurchaseOrderFactory::emailEnabled(true, $pos));
+        self::assertTrue(PurchaseOrderFactory::emailEnabled(true, $web));
+        self::assertFalse(PurchaseOrderFactory::emailEnabled(false, $web));
     }
 }
