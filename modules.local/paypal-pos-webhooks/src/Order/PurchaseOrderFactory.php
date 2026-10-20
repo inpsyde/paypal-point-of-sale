@@ -12,6 +12,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use WC_Order;
 use WC_Order_Item_Fee;
 use WC_Order_Item_Product;
+use WC_Order_Item_Tax;
 use WC_Product;
 use WP_Error;
 
@@ -82,11 +83,28 @@ class PurchaseOrderFactory
             }
             $currency = $purchase->currency();
 
+            $taxTotals = [];
+            $discountMinor = 0;
+            $discountTaxMinor = 0;
             foreach ($purchase->products() as $line) {
-                $this->addLineItem($order, (array) $line, $currency);
+                $amounts = $this->addLineItem($order, (array) $line, $currency, $purchase->country(), $taxTotals);
+                $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
+                $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
             }
+            // With a single rate, use Zettle's purchase VAT so per-line rounding can't drift.
+            if (count($taxTotals) === 1) {
+                $vatMinor = (int) abs($purchase->vatAmount());
+                $taxTotals = array_map(
+                    static fn (array $taxTotal): array => array_merge($taxTotal, ['taxMinor' => $vatMinor]),
+                    $taxTotals
+                );
+            }
+            $this->addTaxItems($order, $taxTotals, $currency);
+            $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
+            $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
 
             $order->set_currency($currency);
+            $order->set_prices_include_tax(false);
             $order->set_date_created($purchase->timestamp()->getTimestamp());
             $order->set_created_via('zettle_pos');
             // Record the order as already stock-reduced so later transitions don't reduce it.
@@ -109,42 +127,121 @@ class PurchaseOrderFactory
         }
     }
 
-    private function addLineItem(WC_Order $order, array $line, string $currency): void
-    {
+    /**
+     * @param array<string, mixed> $line
+     * @param array<int|string, array{rateId: int, percentage: float, taxMinor: int}> $taxTotals
+     */
+    private function addLineItem(
+        WC_Order $order,
+        array $line,
+        string $currency,
+        string $country,
+        array &$taxTotals
+    ): LineAmounts {
+
         $quantity = (int) ($line[self::KEY_QUANTITY] ?? 1);
         $unitPriceMinor = (int) ($line[self::KEY_UNIT_PRICE] ?? 0);
-        $lineTotal = (string) MinorUnits::toMajor($unitPriceMinor * $quantity, $currency);
         $variantUuid = (string) ($line[self::KEY_VARIANT_UUID] ?? '');
+        $amounts = LineAmounts::fromLine($line);
+
+        $rateId = 0;
+        if ($amounts->taxMinor() > 0) {
+            $rateId = $this->taxRateId($amounts->vatPercentage(), $country);
+            $key = $rateId > 0 ? $rateId : 'p' . (string) $amounts->vatPercentage();
+            $taxTotals[$key] = [
+                'rateId' => $rateId,
+                'percentage' => $amounts->vatPercentage(),
+                'taxMinor' => ($taxTotals[$key]['taxMinor'] ?? 0) + $amounts->taxMinor(),
+            ];
+        }
 
         $productId = $this->matchProduct($variantUuid);
         $product = $productId !== null ? wc_get_product($productId) : null;
         if (!$product instanceof WC_Product) {
-            $this->addFeeLine($order, $line, $lineTotal);
+            $this->addFeeLine($order, $line, $amounts, $rateId, $currency);
 
-            return;
+            return $amounts;
         }
 
         $item = new WC_Order_Item_Product();
         $item->set_product($product);
         $item->set_quantity($quantity);
-        $item->set_subtotal($lineTotal);
-        $item->set_total($lineTotal);
+        $item->set_subtotal((string) MinorUnits::toMajor($amounts->subtotalNetMinor(), $currency));
+        $item->set_total((string) MinorUnits::toMajor($amounts->netMinor(), $currency));
+        // Line taxes need a real WC rate id; unmatched rates still appear as order tax items.
+        if ($rateId > 0) {
+            $item->set_taxes([
+                'subtotal' => [$rateId => (string) MinorUnits::toMajor($amounts->subtotalTaxMinor(), $currency)],
+                'total' => [$rateId => (string) MinorUnits::toMajor($amounts->taxMinor(), $currency)],
+            ]);
+        }
         $item->add_meta_data(OrderMeta::ITEM_VARIANT_UUID, $variantUuid);
         $item->add_meta_data(OrderMeta::ITEM_PRODUCT_UUID, (string) ($line[self::KEY_PRODUCT_UUID] ?? ''));
         $item->add_meta_data(OrderMeta::ITEM_UNIT_PRICE_MINOR, (string) $unitPriceMinor);
         $order->add_item($item);
+
+        return $amounts;
     }
 
     /**
      * @param array<string, mixed> $line
      */
-    private function addFeeLine(WC_Order $order, array $line, string $lineTotal): void
-    {
+    private function addFeeLine(
+        WC_Order $order,
+        array $line,
+        LineAmounts $amounts,
+        int $rateId,
+        string $currency
+    ): void {
+
+        $net = (string) MinorUnits::toMajor($amounts->netMinor(), $currency);
         $fee = new WC_Order_Item_Fee();
-        $fee->set_name((string) ($line[self::KEY_NAME] ?? 'Zettle item'));
-        $fee->set_amount($lineTotal);
-        $fee->set_total($lineTotal);
+        $fee->set_name((string) ($line[self::KEY_NAME] ?? 'PayPal POS item'));
+        $fee->set_amount($net);
+        $fee->set_total($net);
+        if ($rateId > 0) {
+            $fee->set_taxes(['total' => [$rateId => (string) MinorUnits::toMajor($amounts->taxMinor(), $currency)]]);
+        }
         $order->add_item($fee);
+    }
+
+    /**
+     * @param array<int|string, array{rateId: int, percentage: float, taxMinor: int}> $taxTotals
+     */
+    private function addTaxItems(WC_Order $order, array $taxTotals, string $currency): void
+    {
+        foreach ($taxTotals as $taxTotal) {
+            $percentage = rtrim(rtrim(number_format($taxTotal['percentage'], 2, '.', ''), '0'), '.');
+            $tax = new WC_Order_Item_Tax();
+            $tax->set_rate_id($taxTotal['rateId']);
+            $tax->set_rate_code(sprintf('PAYPAL-POS-TAX-%s', $percentage));
+            $tax->set_label(sprintf('Tax %s%%', $percentage));
+            $tax->set_rate_percent($taxTotal['percentage']);
+            $tax->set_compound(false);
+            $tax->set_tax_total((string) MinorUnits::toMajor($taxTotal['taxMinor'], $currency));
+            $tax->set_shipping_tax_total('0');
+            $order->add_item($tax);
+        }
+    }
+
+    /**
+     * Finds a WC tax rate with the same percentage, preferring the purchase country.
+     */
+    private function taxRateId(float $percentage, string $country): int
+    {
+        global $wpdb;
+
+        $rateId = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT tax_rate_id FROM {$wpdb->prefix}woocommerce_tax_rates
+                WHERE tax_rate = %f AND tax_rate_country IN (%s, '')
+                ORDER BY tax_rate_country DESC, tax_rate_order ASC LIMIT 1",
+                $percentage,
+                strtoupper($country)
+            )
+        );
+
+        return (int) $rateId;
     }
 
     private function matchProduct(string $variantUuid): ?int
