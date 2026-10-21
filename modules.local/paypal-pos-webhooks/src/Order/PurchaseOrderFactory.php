@@ -24,7 +24,7 @@ class PurchaseOrderFactory
     private const KEY_UNIT_PRICE = 'unitPrice';
     private const KEY_NAME = 'name';
 
-    public const CREATED_VIA = 'zettle_pos';
+    public const CREATED_VIA = 'paypal_pos';
     public const DEFAULT_LINE_NAME = 'PayPal POS item';
 
     private const FILTER_PRIORITY = 1000;
