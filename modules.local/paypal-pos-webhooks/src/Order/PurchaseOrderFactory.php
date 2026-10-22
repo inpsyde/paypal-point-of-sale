@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
 use Psr\Log\LoggerInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\MinorUnits;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;

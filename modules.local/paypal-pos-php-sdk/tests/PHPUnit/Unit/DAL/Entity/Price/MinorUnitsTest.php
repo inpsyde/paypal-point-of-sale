@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Syde\PayPal\PointOfSale\Webhooks\Order\MinorUnits;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\MinorUnits;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 
 class MinorUnitsTest extends BrainMonkeyWpTestCase

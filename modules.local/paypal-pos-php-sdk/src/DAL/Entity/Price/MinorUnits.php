@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Syde\PayPal\PointOfSale\Webhooks\Order;
+namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price;
 
 /**
- * Converts Zettle minor-unit amounts (e.g. cents) to WooCommerce major units.
+ * Converts between Zettle's minor-unit amounts (e.g. cents) and major units, using the
+ * currency's ISO 4217 exponent.
  */
 final class MinorUnits
 {
