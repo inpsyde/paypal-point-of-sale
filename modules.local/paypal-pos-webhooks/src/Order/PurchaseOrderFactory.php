@@ -83,10 +83,10 @@ class PurchaseOrderFactory
             $taxTotals = [];
             $discountMinor = 0;
             $discountTaxMinor = 0;
-            $linesNetMinor = 0;
+            $linesMinor = 0;
             foreach ($purchase->products() as $line) {
                 $amounts = LineAmounts::fromLine((array) $line);
-                $linesNetMinor += $amounts->netMinor();
+                $linesMinor += $amounts->netMinor() + $amounts->taxMinor();
                 // Only product lines carry a subtotal, so only they contribute to the order discount.
                 if ($this->addLineItem($order, (array) $line, $amounts, $currency, $purchase->country(), $taxTotals)) {
                     $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
@@ -108,7 +108,8 @@ class PurchaseOrderFactory
             }
             $this->addTaxItems($order, $taxTotals, $currency);
             $taxMinor = (int) array_sum(array_column($taxTotals, 'taxMinor'));
-            $this->addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesNetMinor - $taxMinor);
+            // Against the lines as sent, so the rounding cent moved onto a line's tax isn't a charge.
+            $this->addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesMinor);
             $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
             $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
 
