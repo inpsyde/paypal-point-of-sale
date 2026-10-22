@@ -39,7 +39,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
     /**
      * Real payload: one 8.40 coffee refunded in cash, 1.40 of it VAT.
      */
-    private function refund(): Purchase
+    private function refund(int $amount = -840, array $payments = [['type' => 'IZETTLE_CASH', 'amount' => -840]]): Purchase
     {
         $refund = (new PurchaseFactory())->create(
             'refund-uuid',
@@ -49,7 +49,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
             (new UserFactory())->create('1', 'Cashier'),
             1,
             1,
-            -840.0,
+            (float) $amount,
             -140.0,
             [[
                 'quantity' => '-1',
@@ -60,7 +60,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
                 'grossValue' => -840,
                 'grossTax' => -140,
             ]],
-            [['type' => 'IZETTLE_CASH', 'amount' => -840]],
+            $payments,
             [],
             false,
             true,
@@ -191,10 +191,6 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $this->factory($orders)->linkOrphanRefunds('original-uuid', 7);
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
     public function testOrphanRefundRecordsNegativeNetAndVatAtTheRefundTime(): void
     {
         $taxes = Mockery::mock('alias:WC_Tax');
@@ -219,5 +215,29 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $tax->shouldIgnoreMissing();
 
         $this->factory($this->orders(null, null))->createRefund($this->refund());
+    }
+
+    public function testOrphanRefundOfATipGetsANegativeTipLine(): void
+    {
+        $taxes = Mockery::mock('alias:WC_Tax');
+        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
+        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        Mockery::mock('overload:WC_Order')->shouldIgnoreMissing();
+        Mockery::mock('overload:WC_Order_Item_Tax')->shouldIgnoreMissing();
+        $fees = [];
+        $fee = Mockery::mock('overload:WC_Order_Item_Fee');
+        $fee->shouldReceive('set_name')->andReturnUsing(static function (string $name) use (&$fees): void {
+            $fees[] = $name;
+        });
+        $fee->shouldReceive('set_total')->andReturnUsing(static function (string $total) use (&$fees): void {
+            $fees[] = $total;
+        });
+        $fee->shouldIgnoreMissing();
+
+        $this->factory($this->orders(null, null))->createRefund(
+            $this->refund(-1040, [['type' => 'IZETTLE_CARD', 'amount' => -1040, 'gratuityAmount' => -200]])
+        );
+
+        self::assertSame(['Refund: Coffee × 1', '-7', 'Tip', '-2'], $fees);
     }
 }

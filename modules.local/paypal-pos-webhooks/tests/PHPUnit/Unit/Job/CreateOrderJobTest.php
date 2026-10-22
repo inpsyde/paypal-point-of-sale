@@ -50,6 +50,19 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         );
     }
 
+    private function job(
+        Purchases $purchases,
+        ?PurchaseOrderFactory $orderFactory = null,
+        ?PurchaseRefundFactory $refundFactory = null
+    ): CreateOrderJob {
+
+        return new CreateOrderJob(
+            $purchases,
+            $orderFactory ?? Mockery::mock(PurchaseOrderFactory::class),
+            $refundFactory ?? Mockery::mock(PurchaseRefundFactory::class)
+        );
+    }
+
     private function executeJob(CreateOrderJob $job, ?string $uuid, ?LoggerInterface $logger = null): bool
     {
         return $job->execute(
@@ -65,9 +78,8 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $purchases->shouldNotReceive('read');
         $orderFactory = Mockery::mock(PurchaseOrderFactory::class);
         $orderFactory->shouldNotReceive('createOrder');
-        $refundFactory = Mockery::mock(PurchaseRefundFactory::class);
 
-        $job = new CreateOrderJob($purchases, $orderFactory, $refundFactory);
+        $job = $this->job($purchases, $orderFactory);
 
         self::assertTrue($this->executeJob($job, null));
     }
@@ -80,9 +92,8 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $orderFactory = Mockery::mock(PurchaseOrderFactory::class);
         $orderFactory->shouldReceive('orderExists')->once()->with('abc')->andReturnTrue();
         $orderFactory->shouldNotReceive('createOrder');
-        $refundFactory = Mockery::mock(PurchaseRefundFactory::class);
 
-        $job = new CreateOrderJob($purchases, $orderFactory, $refundFactory);
+        $job = $this->job($purchases, $orderFactory);
 
         self::assertTrue($this->executeJob($job, $webhookUuid));
     }
@@ -99,7 +110,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $refundFactory->shouldNotReceive('createRefund');
         $refundFactory->shouldReceive('linkOrphanRefunds')->once()->with('abc', 42);
 
-        $job = new CreateOrderJob($purchases, $orderFactory, $refundFactory);
+        $job = $this->job($purchases, $orderFactory, $refundFactory);
 
         self::assertTrue($this->executeJob($job, 'webhook-uuid'));
     }
@@ -114,7 +125,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $refundFactory = Mockery::mock(PurchaseRefundFactory::class);
         $refundFactory->shouldReceive('createRefund')->once()->with($refund);
 
-        $job = new CreateOrderJob($purchases, $orderFactory, $refundFactory);
+        $job = $this->job($purchases, $orderFactory, $refundFactory);
 
         self::assertTrue($this->executeJob($job, 'abc'));
     }
@@ -123,12 +134,10 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
     {
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldReceive('read')->once()->andThrow(new RuntimeException('boom'));
-        $orderFactory = Mockery::mock(PurchaseOrderFactory::class);
-        $refundFactory = Mockery::mock(PurchaseRefundFactory::class);
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldReceive('error')->once();
 
-        $job = new CreateOrderJob($purchases, $orderFactory, $refundFactory);
+        $job = $this->job($purchases);
 
         self::assertFalse($this->executeJob($job, 'abc', $logger));
     }

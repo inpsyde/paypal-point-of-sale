@@ -84,9 +84,7 @@ class PurchaseRefundFactory
             return;
         }
 
-        $this->sideEffects->withoutStockReduction(function () use ($order, $refund, $originalUuid, $amount): void {
-            $this->recordRefund($order, $refund, $originalUuid, $amount);
-        });
+        $this->recordRefund($order, $refund, $originalUuid, $amount);
     }
 
     /**
