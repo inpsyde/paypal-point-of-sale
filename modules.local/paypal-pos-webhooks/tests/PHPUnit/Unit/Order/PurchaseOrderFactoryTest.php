@@ -12,6 +12,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
 
 /**
@@ -25,6 +26,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        stubTranslationFunctions();
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
         when('wc_stock_amount')->alias('intval');

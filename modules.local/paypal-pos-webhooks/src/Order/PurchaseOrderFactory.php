@@ -25,7 +25,6 @@ class PurchaseOrderFactory
     private const KEY_NAME = 'name';
 
     public const CREATED_VIA = 'paypal_pos';
-    public const DEFAULT_LINE_NAME = 'PayPal POS item';
 
     private const FILTER_PRIORITY = 1000;
 
@@ -122,7 +121,10 @@ class PurchaseOrderFactory
             $order->set_date_completed($purchase->timestamp()->getTimestamp());
             $order->save();
 
-            $order->add_order_note(sprintf('Cashier: %s', $purchase->user()->displayName()));
+            $order->add_order_note(
+                /* translators: %s: name of the cashier who made the sale */
+                sprintf(__('Cashier: %s', 'paypal-point-of-sale'), $purchase->user()->displayName())
+            );
 
             return $order->get_id();
         } finally {
@@ -204,7 +206,7 @@ class PurchaseOrderFactory
 
         $net = (string) MinorUnits::toMajor($amounts->netMinor(), $currency);
         $fee = new WC_Order_Item_Fee();
-        $fee->set_name((string) ($line[self::KEY_NAME] ?? '') ?: self::DEFAULT_LINE_NAME);
+        $fee->set_name((string) ($line[self::KEY_NAME] ?? '') ?: self::defaultLineName());
         $fee->set_amount($net);
         $fee->set_total($net);
         if ($rateId > 0) {
@@ -224,7 +226,8 @@ class PurchaseOrderFactory
             $tax = new WC_Order_Item_Tax();
             $tax->set_rate_id($taxTotal['rateId']);
             $tax->set_rate_code(sprintf('PAYPAL-POS-TAX-%s', $percentage));
-            $tax->set_label(sprintf('Tax %s%%', $percentage));
+            /* translators: %s: tax rate percentage, e.g. 20 */
+            $tax->set_label(sprintf(__('Tax %s%%', 'paypal-point-of-sale'), $percentage));
             $tax->set_rate_percent($taxTotal['percentage']);
             $tax->set_compound(false);
             $tax->set_tax_total((string) MinorUnits::toMajor($taxTotal['taxMinor'], $currency));
@@ -290,6 +293,14 @@ class PurchaseOrderFactory
         if ($purchase->sourceType() !== null) {
             $order->update_meta_data(OrderMeta::SOURCE_TYPE, $purchase->sourceType()->getValue());
         }
+    }
+
+    /**
+     * Name for sold items Zettle sends without one, e.g. custom amounts.
+     */
+    public static function defaultLineName(): string
+    {
+        return __('PayPal POS item', 'paypal-point-of-sale');
     }
 
     /**

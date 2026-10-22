@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
 
 class PaymentLabelsTest extends BrainMonkeyWpTestCase
@@ -11,6 +12,7 @@ class PaymentLabelsTest extends BrainMonkeyWpTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        stubTranslationFunctions();
         when('sanitize_key')->alias(static fn(string $key): string => strtolower($key));
     }
 
@@ -43,21 +45,21 @@ class PaymentLabelsTest extends BrainMonkeyWpTestCase
 
     public function testKnownTypeGetsReadableTitle(): void
     {
-        self::assertSame('Zettle Card', (new PaymentLabels())->title('IZETTLE_CARD'));
+        self::assertSame('PayPal POS Card', (new PaymentLabels())->title('IZETTLE_CARD'));
     }
 
     public function testUnknownTypeFallsBackToGenericTitle(): void
     {
-        self::assertSame('Zettle POS (Other)', (new PaymentLabels())->title('CUSTOM'));
+        self::assertSame('PayPal POS (Other)', (new PaymentLabels())->title('CUSTOM'));
     }
 
     public function testSlugIsPrefixedAndSanitised(): void
     {
-        self::assertSame('zettle_izettle_card', (new PaymentLabels())->slug('IZETTLE_CARD'));
+        self::assertSame('paypal_pos_card', (new PaymentLabels())->slug('IZETTLE_CARD'));
     }
 
     public function testSlugFallsBackWhenTypeIsEmpty(): void
     {
-        self::assertSame('zettle_pos', (new PaymentLabels())->slug(''));
+        self::assertSame('paypal_pos', (new PaymentLabels())->slug(''));
     }
 }
