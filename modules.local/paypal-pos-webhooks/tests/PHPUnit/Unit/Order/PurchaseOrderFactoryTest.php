@@ -42,7 +42,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
     /**
      * Real payload: one 8.40 coffee with a 20% purchase discount and 20% VAT included.
      */
-    private function discountedSale(string $quantity = '1'): Purchase
+    private function discountedSale(string $quantity = '1', int $amount = 672, array $payments = []): Purchase
     {
         return (new PurchaseFactory())->create(
             'short-uuid',
@@ -52,7 +52,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
             (new UserFactory())->create('1', 'Cashier'),
             1,
             7,
-            672.0,
+            (float) $amount,
             112.0,
             [[
                 'quantity' => $quantity,
@@ -64,7 +64,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
                 'grossValue' => 840,
                 'grossTax' => 140,
             ]],
-            [['type' => 'IZETTLE_CASH', 'amount' => 672]],
+            $payments ?: [['type' => 'IZETTLE_CASH', 'amount' => $amount]],
             [],
             true,
             false,
@@ -80,14 +80,14 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         return new PurchaseOrderFactory($variants, new PaymentLabels(), new OrderSideEffects(), $logger);
     }
 
-    private function orderExpectingTotals(string $discount, string $discountTax): object
+    private function orderExpectingTotals(string $discount, string $discountTax, string $total = '6.72'): object
     {
         $soldAt = (new DateTime(self::SOLD_AT))->getTimestamp();
         $order = Mockery::mock('overload:WC_Order');
         $order->shouldReceive('set_discount_total')->once()->with($discount);
         $order->shouldReceive('set_discount_tax')->once()->with($discountTax);
         $order->shouldReceive('set_cart_tax')->once()->with('1.12');
-        $order->shouldReceive('set_total')->once()->with('6.72');
+        $order->shouldReceive('set_total')->once()->with($total);
         $order->shouldReceive('set_status')->once()->with('completed')->ordered();
         $order->shouldReceive('set_date_paid')->once()->with($soldAt)->ordered();
         $order->shouldReceive('set_date_completed')->once()->with($soldAt)->ordered();
@@ -145,5 +145,30 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $variants->shouldReceive('localId')->andReturn(10);
 
         $this->factory($variants)->createOrder($this->discountedSale('0.5'));
+    }
+
+    public function testAddsTipsAndOtherChargesTheLinesDoNotCover(): void
+    {
+        $this->orderExpectingTotals('1.4', '0.28', '8.72');
+        $item = Mockery::mock('overload:WC_Order_Item_Product');
+        $item->shouldIgnoreMissing();
+        when('wc_get_product')->justReturn(Mockery::mock('WC_Product'));
+        $fees = [];
+        $fee = Mockery::mock('overload:WC_Order_Item_Fee');
+        $fee->shouldReceive('set_name')->andReturnUsing(static function (string $name) use (&$fees): void {
+            $fees[] = $name;
+        });
+        $fee->shouldReceive('set_total')->andReturnUsing(static function (string $total) use (&$fees): void {
+            $fees[] = $total;
+        });
+        $fee->shouldIgnoreMissing();
+        $variants = Mockery::mock(OneToManyMapInterface::class);
+        $variants->shouldReceive('localId')->andReturn(10);
+
+        $this->factory($variants)->createOrder(
+            $this->discountedSale('1', 872, [['type' => 'IZETTLE_CARD', 'amount' => 872, 'gratuityAmount' => 150]])
+        );
+
+        self::assertSame(['Tip', '1.5', 'Other charges', '0.5'], $fees);
     }
 }

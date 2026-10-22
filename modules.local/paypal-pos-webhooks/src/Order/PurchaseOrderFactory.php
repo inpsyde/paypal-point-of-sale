@@ -83,7 +83,9 @@ class PurchaseOrderFactory
             $taxTotals = [];
             $discountMinor = 0;
             $discountTaxMinor = 0;
+            $linesNetMinor = 0;
             foreach ($purchase->products() as $line) {
+                $linesNetMinor += LineAmounts::fromLine((array) $line)->netMinor();
                 // Only product lines carry a subtotal, so only they contribute to the order discount.
                 $amounts = $this->addLineItem($order, (array) $line, $currency, $purchase->country(), $taxTotals);
                 if ($amounts !== null) {
@@ -106,6 +108,7 @@ class PurchaseOrderFactory
             }
             $this->addTaxItems($order, $taxTotals, $currency);
             $taxMinor = (int) array_sum(array_column($taxTotals, 'taxMinor'));
+            $this->addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesNetMinor - $taxMinor);
             $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
             $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
 
@@ -219,6 +222,46 @@ class PurchaseOrderFactory
             $fee->set_taxes(['total' => [$rateId => (string) MinorUnits::toMajor($amounts->taxMinor(), $currency)]]);
         }
         $fee->add_meta_data(OrderMeta::ITEM_VARIANT_UUID, (string) ($line[self::KEY_VARIANT_UUID] ?? ''));
+        $order->add_item($fee);
+    }
+
+    /**
+     * Adds the part of the purchase amount no sold line covers: tips, then anything left, such
+     * as a service charge.
+     */
+    private function addUnlistedCharges(WC_Order $order, Purchase $purchase, int $gapMinor): void
+    {
+        if ($gapMinor <= 0) {
+            return;
+        }
+
+        $tipMinor = 0;
+        foreach ($purchase->payments() as $payment) {
+            $tipMinor += abs((int) (((array) $payment)['gratuityAmount'] ?? 0));
+        }
+        $tipMinor = min($tipMinor, $gapMinor);
+
+        $this->addChargeLine($order, __('Tip', 'paypal-point-of-sale'), $tipMinor, $purchase->currency());
+        $this->addChargeLine(
+            $order,
+            __('Other charges', 'paypal-point-of-sale'),
+            $gapMinor - $tipMinor,
+            $purchase->currency()
+        );
+    }
+
+    private function addChargeLine(WC_Order $order, string $name, int $amountMinor, string $currency): void
+    {
+        if ($amountMinor <= 0) {
+            return;
+        }
+
+        $amount = (string) MinorUnits::toMajor($amountMinor, $currency);
+        $fee = new WC_Order_Item_Fee();
+        $fee->set_name($name);
+        $fee->set_tax_status('none');
+        $fee->set_amount($amount);
+        $fee->set_total($amount);
         $order->add_item($fee);
     }
 
