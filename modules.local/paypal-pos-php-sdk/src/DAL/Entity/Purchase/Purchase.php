@@ -47,6 +47,8 @@ final class Purchase
 
     private bool $refunded;
 
+    private ?string $refundsPurchaseUuid = null;
+
     private ?SourceType $sourceType = null;
 
     /**
@@ -259,6 +261,21 @@ final class Purchase
     public function isRefunded(): bool
     {
         return $this->refunded;
+    }
+
+    /**
+     * UUID of the original purchase this refund reverses, when this purchase is a refund.
+     */
+    public function refundsPurchaseUuid(): ?string
+    {
+        return $this->refundsPurchaseUuid;
+    }
+
+    public function setRefundsPurchaseUuid(?string $refundsPurchaseUuid): self
+    {
+        $this->refundsPurchaseUuid = $refundsPurchaseUuid;
+
+        return $this;
     }
 
     /**
