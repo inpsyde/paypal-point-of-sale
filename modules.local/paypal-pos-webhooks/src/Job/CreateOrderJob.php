@@ -14,7 +14,7 @@ use Throwable;
 
 class CreateOrderJob implements Job
 {
-    public const TYPE = 'create-order';
+    public const TYPE = 'webhook-purchase-created';
 
     private Purchases $purchases;
 
