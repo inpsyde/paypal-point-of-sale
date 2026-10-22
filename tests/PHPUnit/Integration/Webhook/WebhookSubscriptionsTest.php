@@ -58,28 +58,40 @@ class WebhookSubscriptionsTest extends AuthenticatedRestRequestTestCase
             throw new Exception($exc->getMessage() . ' ' . json_encode($exc->json()), 0, $exc);
         }
 
-        $webhooks = $this->subscriptions()->list();
-        $this->assertCount(1, $webhooks);
+        try {
+            $webhooks = $this->ownWebhooks();
+            $this->assertCount(1, $webhooks);
 
-        $registeredWebhook = $webhooks[0];
-        assert($registeredWebhook instanceof RegisteredZettleWebhook, 'Webhook must be registered.');
-        $this->assertEquals($this->destination, $registeredWebhook->destination());
-        $this->assertEquals($this->email, $registeredWebhook->contactEmail());
-        $this->assertEqualsCanonicalizing([
-            'ProductDeleted',
-            'InventoryBalanceChanged',
-            'InventoryTrackingStarted',
-            'InventoryTrackingStopped',
-        ], $registeredWebhook->eventNames());
+            $registeredWebhook = $webhooks[0];
+            $this->assertEquals($this->email, $registeredWebhook->contactEmail());
+            $this->assertEqualsCanonicalizing([
+                'ProductDeleted',
+                'InventoryBalanceChanged',
+                'InventoryTrackingStarted',
+                'InventoryTrackingStopped',
+                'PurchaseCreated',
+            ], $registeredWebhook->eventNames());
+        } finally {
+            // Delete even when an assertion fails, so a failed run leaves no webhook behind.
+            $deleteWebhooks = $this->get('paypal-pos.webhook.delete');
+            $this->assertIsCallable($deleteWebhooks);
+            $deleteWebhooks();
+        }
 
-        // delete webhooks
+        $this->assertEmpty($this->ownWebhooks(), 'Should have no webhooks after deletion.');
+    }
 
-        $deleteWebhooks = $this->get('paypal-pos.webhook.delete');
-        $this->assertIsCallable($deleteWebhooks);
-
-        $deleteWebhooks();
-
-        $this->assertEmpty($this->subscriptions()->list(), 'Should have no webhooks after deletion.');
+    /**
+     * The CI account is shared, so only webhooks pointing at this run's destination count.
+     *
+     * @return RegisteredZettleWebhook[]
+     */
+    private function ownWebhooks(): array
+    {
+        return array_values(array_filter(
+            $this->subscriptions()->list(),
+            fn (RegisteredZettleWebhook $webhook): bool => (string) $webhook->destination() === $this->destination
+        ));
     }
 
     private function subscriptions(): Subscriptions
