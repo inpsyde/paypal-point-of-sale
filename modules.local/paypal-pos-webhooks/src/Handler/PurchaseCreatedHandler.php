@@ -16,14 +16,11 @@ class PurchaseCreatedHandler implements WebhookHandler
      */
     private $enqueueJob;
 
-    private string $queueCronHook;
-
     private LoggerInterface $logger;
 
-    public function __construct(callable $enqueueJob, string $queueCronHook, LoggerInterface $logger)
+    public function __construct(callable $enqueueJob, LoggerInterface $logger)
     {
         $this->enqueueJob = $enqueueJob;
-        $this->queueCronHook = $queueCronHook;
         $this->logger = $logger;
     }
 
@@ -50,12 +47,13 @@ class PurchaseCreatedHandler implements WebhookHandler
     }
 
     /**
-     * Runs the queue now via cron: webhooks have no admin session for the loopback runner.
+     * Runs the queue now instead of on the next visit: webhooks have no admin session for the
+     * loopback runner, and the queue's cron event is always scheduled.
      */
     private function dispatchQueue(): void
     {
-        if (!wp_next_scheduled($this->queueCronHook)) {
-            wp_schedule_single_event(time() - 1, $this->queueCronHook);
+        if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON) {
+            return;
         }
 
         if (function_exists('spawn_cron')) {
