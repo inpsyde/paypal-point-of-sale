@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase;
 
+use DateTime;
 use Exception;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilderInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\Coordinates;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Type\SourceType;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\InvalidBuilderPayloadException;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidationErrorCodes;
+use Throwable;
 
 class PurchaseBuilder implements PurchaseBuilderInterface
 {
@@ -86,6 +91,44 @@ class PurchaseBuilder implements PurchaseBuilderInterface
     }
 
     /**
+     * Optional data: a malformed location must not fail the whole purchase.
+     *
+     * @param mixed $gpsCoordinates
+     */
+    private function coordinates($gpsCoordinates): ?Coordinates
+    {
+        if (empty($gpsCoordinates) || !is_array($gpsCoordinates)) {
+            return null;
+        }
+
+        try {
+            // CoordinatesBuilder reads lat/long at the top level; pass the nested node.
+            return $this->coordinatesBuilder->buildFromArray($gpsCoordinates);
+        } catch (Throwable $exception) {
+            return null;
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function timestamp(array $data): DateTime
+    {
+        try {
+            return new DateTime((string) $data['timestamp']);
+        } catch (Exception $exception) {
+            // phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new InvalidBuilderPayloadException(
+                Purchase::class,
+                $data,
+                [ValidationErrorCodes::INVALID_FIELD],
+                $exception
+            );
+            // phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+        }
+    }
+
+    /**
      * @param array $data
      *
      * @return Purchase
@@ -94,29 +137,48 @@ class PurchaseBuilder implements PurchaseBuilderInterface
      */
     private function build(array $data): Purchase
     {
-        $coordinates = $data['gpsCoordinates'] ? $this->coordinatesBuilder->buildFromArray($data) : null;
-        $sourceType = $data['type'] ? SourceType::get($data['type']) : null;
-        $published = $data['published'] ? (bool) $data['published'] : null;
+        $uuid = (string) ($data['purchaseUUID'] ?? $data['uuid'] ?? '');
+        if ($uuid === '' || empty($data['timestamp'])) {
+            // phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new InvalidBuilderPayloadException(
+                Purchase::class,
+                $data,
+                [ValidationErrorCodes::MISSING_REQUIRED_FIELD]
+            );
+            // phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+        }
+        $timestamp = $this->timestamp($data);
+
+        $coordinates = $this->coordinates($data['gpsCoordinates'] ?? null);
+
+        $sourceRaw = $data['source'] ?? $data['sourceType'] ?? $data['type'] ?? null;
+        // Unknown sources must not fail the whole purchase.
+        $sourceType = in_array($sourceRaw, SourceType::getValidOptions(), true) ? SourceType::get($sourceRaw) : null;
+
+        $published = isset($data['published']) ? (bool) $data['published'] : null;
+
+        // v2 exposes `groupedVatAmounts`; the entity mirrors the `vatAmounts` array.
+        $vatAmounts = $data['vatAmounts'] ?? $data['groupedVatAmounts'] ?? [];
 
         return $this->purchaseFactory->create(
-            $data['uuid'],
-            $data['timestamp'],
-            $data['country'],
-            $data['currency'],
+            $uuid,
+            $timestamp,
+            $data['country'] ?? '',
+            $data['currency'] ?? '',
             $this->userBuilder->buildFromArray($data),
-            (int) $data['organizationId'],
-            (int) $data['purchaseNumber'],
-            (float) $data['amount'],
-            (float) $data['vatAmount'],
-            $data['products'],
-            $data['payments'],
-            $data['vatAmounts'],
-            (bool) $data['receiptCopyAllowed'],
-            (bool) $data['refund'],
-            (bool) $data['refunded'],
+            (int) ($data['organizationId'] ?? 0),
+            (int) ($data['purchaseNumber'] ?? 0),
+            (float) ($data['amount'] ?? 0),
+            (float) ($data['vatAmount'] ?? 0),
+            $data['products'] ?? [],
+            $data['payments'] ?? [],
+            $vatAmounts,
+            (bool) ($data['receiptCopyAllowed'] ?? false),
+            (bool) ($data['refund'] ?? false),
+            (bool) ($data['refunded'] ?? false),
             $coordinates,
             $sourceType,
-            (bool) $published
+            $published
         );
     }
 }

@@ -9,6 +9,7 @@ use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface as B;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\CallbackBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\ImageBuilder;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase\PurchaseBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Inventory;
@@ -24,6 +25,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\Variant;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantCollection;
@@ -365,6 +367,14 @@ return [
                 $payload['legalCity'] ?? null,
                 $payload['legalState'] ?? null
             );
+        }
+    ),
+    $key(Purchase::class) => $builder(
+        static function (array $payload, B $builder, C $container): Purchase {
+            $purchaseBuilder = $container->get('paypal-pos.sdk.builder.purchase');
+            assert($purchaseBuilder instanceof PurchaseBuilder);
+
+            return $purchaseBuilder->buildFromArray($payload);
         }
     ),
 ];
