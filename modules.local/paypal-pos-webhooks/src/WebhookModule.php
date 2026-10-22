@@ -12,6 +12,7 @@ use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
+use Throwable;
 use WP_CLI;
 
 class WebhookModule implements ServiceModule, ExecutableModule
@@ -46,15 +47,22 @@ class WebhookModule implements ServiceModule, ExecutableModule
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
 
-        // Re-register on update too, so existing installs subscribe to newly added events.
-        foreach (['paypal-point-of-sale.activate', 'paypal-point-of-sale.migrate'] as $hook) {
-            add_action(
-                $hook,
-                static function () use ($bootstrap) {
+        add_action(
+            'paypal-point-of-sale.activate',
+            static function () use ($bootstrap) {
+                $bootstrap->activate();
+            }
+        );
+        // On update, subscribe existing installs to newly added events. Registration replaces the
+        // remote webhook, so it only runs when the stored subscription is missing an event.
+        add_action(
+            'paypal-point-of-sale.migrate',
+            function () use ($bootstrap, $container) {
+                if ($this->missingWebhookEvents($container) !== []) {
                     $bootstrap->activate();
                 }
-            );
-        }
+            }
+        );
         add_action(
             'paypal-point-of-sale.deactivate',
             static function () use ($bootstrap) {
@@ -63,6 +71,23 @@ class WebhookModule implements ServiceModule, ExecutableModule
         );
 
         return true;
+    }
+
+    /**
+     * @return string[] Configured events the stored webhook subscription doesn't cover.
+     */
+    private function missingWebhookEvents(ContainerInterface $container): array
+    {
+        $configured = (array) $container->get('paypal-pos.webhook.config.events');
+        try {
+            $storage = $container->get('paypal-pos.webhook.storage');
+            assert($storage instanceof WebhookStorageInterface);
+            $subscribed = $storage->fetch()->eventNames();
+        } catch (Throwable $exception) {
+            return $configured;
+        }
+
+        return array_values(array_diff($configured, $subscribed));
     }
 
     private function registerCliCommand(ContainerInterface $container): void
