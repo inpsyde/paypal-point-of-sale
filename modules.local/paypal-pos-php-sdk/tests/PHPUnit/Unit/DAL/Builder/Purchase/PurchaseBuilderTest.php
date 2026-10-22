@@ -11,6 +11,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Type\SourceType;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\InvalidBuilderPayloadException;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 
 class PurchaseBuilderTest extends BrainMonkeyWpTestCase
@@ -84,6 +85,23 @@ class PurchaseBuilderTest extends BrainMonkeyWpTestCase
         self::assertNull($purchase->coordinates());
         self::assertNull($purchase->sourceType());
         self::assertSame('', $purchase->user()->displayName());
+    }
+
+    /**
+     * @dataProvider requiredFields
+     */
+    public function testRejectsPurchasesWithoutRequiredFields(string $field): void
+    {
+        $data = $this->fixture('purchase-created.json');
+        unset($data[$field]);
+
+        $this->expectException(InvalidBuilderPayloadException::class);
+        $this->builder()->buildFromArray($data);
+    }
+
+    public function requiredFields(): array
+    {
+        return [['purchaseUUID'], ['timestamp']];
     }
 
     public function testIgnoresUnknownSource(): void

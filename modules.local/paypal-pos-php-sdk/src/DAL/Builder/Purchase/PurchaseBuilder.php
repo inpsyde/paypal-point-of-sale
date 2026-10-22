@@ -12,6 +12,8 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\Coordinates;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Type\SourceType;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\InvalidBuilderPayloadException;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\ValidationErrorCodes;
 use Throwable;
 
 class PurchaseBuilder implements PurchaseBuilderInterface
@@ -116,6 +118,17 @@ class PurchaseBuilder implements PurchaseBuilderInterface
      */
     private function build(array $data): Purchase
     {
+        $uuid = (string) ($data['purchaseUUID'] ?? $data['uuid'] ?? '');
+        if ($uuid === '' || empty($data['timestamp'])) {
+            // phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new InvalidBuilderPayloadException(
+                Purchase::class,
+                $data,
+                [ValidationErrorCodes::MISSING_REQUIRED_FIELD]
+            );
+            // phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+        }
+
         $coordinates = $this->coordinates($data['gpsCoordinates'] ?? null);
 
         $sourceRaw = $data['source'] ?? $data['sourceType'] ?? $data['type'] ?? null;
@@ -128,8 +141,8 @@ class PurchaseBuilder implements PurchaseBuilderInterface
         $vatAmounts = $data['vatAmounts'] ?? $data['groupedVatAmounts'] ?? [];
 
         return $this->purchaseFactory->create(
-            $data['purchaseUUID'] ?? $data['uuid'] ?? '',
-            new DateTime($data['timestamp'] ?? 'now'),
+            $uuid,
+            new DateTime($data['timestamp']),
             $data['country'] ?? '',
             $data['currency'] ?? '',
             $this->userBuilder->buildFromArray($data),

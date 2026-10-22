@@ -24,6 +24,8 @@ interface ValidationErrorCodes
     public const SHORT_HEX_COLOR = 'short-hex-color';
 
     public const IMAGE_NOT_FOUND = 'image-not-found';
+
+    public const MISSING_REQUIRED_FIELD = 'missing-required-field';
     public const INVALID_IMAGE_SIZE = 'invalid-image-size';
     public const UNSUPPORTED_IMAGE_FILE_SIZE = 'unsupported-image-file-size';
     public const UNSUPPORTED_IMAGE_FILE_TYPE = 'unsupported-image-file-type';
