@@ -193,6 +193,11 @@ class SyncVatParamView implements OnboardingView
 
         $this->renderFormChoiceSelection();
 
+        /**
+         * Lets other modules add their own setup choices to the last settings step.
+         */
+        do_action('paypal-pos.onboarding.sync-params.after');
+
         return (string) ob_get_clean();
     }
 
