@@ -7,6 +7,7 @@ use Syde\PayPal\PointOfSale\Webhooks\EventName;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\PurchaseCreatedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use Psr\Log\LoggerInterface;
 use function Brain\Monkey\Functions\when;
 
 class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
@@ -16,6 +17,14 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
         parent::setUp();
         when('wp_next_scheduled')->justReturn(false);
         when('wp_schedule_single_event')->justReturn(true);
+    }
+
+    private function logger(): LoggerInterface
+    {
+        $logger = Mockery::mock(LoggerInterface::class);
+        $logger->shouldIgnoreMissing();
+
+        return $logger;
     }
 
     private function payload(string $event, array $data = []): Payload
@@ -30,7 +39,7 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
     public function testAcceptsOnlyPurchaseCreated(): void
     {
         $handler = new PurchaseCreatedHandler(static function (): void {
-        }, 'zettle.queue.cron');
+        }, 'zettle.queue.cron', $this->logger());
 
         self::assertTrue($handler->accepts($this->payload(EventName::PURCHASE_CREATED)));
         self::assertFalse($handler->accepts($this->payload('InventoryBalanceChanged')));
@@ -46,7 +55,7 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
             $captured = [$type, $args];
         };
 
-        $handler = new PurchaseCreatedHandler($enqueue, 'zettle.queue.cron');
+        $handler = new PurchaseCreatedHandler($enqueue, 'zettle.queue.cron', $this->logger());
         $handler->handle($this->payload(EventName::PURCHASE_CREATED, [$key => 'abc']));
 
         self::assertSame([CreateOrderJob::TYPE, ['purchaseUuid' => 'abc']], $captured);
@@ -64,7 +73,7 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
             $called = true;
         };
 
-        $handler = new PurchaseCreatedHandler($enqueue, 'zettle.queue.cron');
+        $handler = new PurchaseCreatedHandler($enqueue, 'zettle.queue.cron', $this->logger());
         $handler->handle($this->payload(EventName::PURCHASE_CREATED, []));
 
         self::assertFalse($called);

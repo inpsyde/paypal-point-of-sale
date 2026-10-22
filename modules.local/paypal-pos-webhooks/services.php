@@ -190,7 +190,8 @@ return [
         static function (C $container): WebhookHandler {
             return new PurchaseCreatedHandler(
                 $container->get('inpsyde.queue.enqueue-job'),
-                $container->get('inpsyde.queue.namespace') . '.queue.cron'
+                $container->get('inpsyde.queue.runner.wp-cron.hook'),
+                $container->get('paypal-pos.webhook.logger')
             );
         },
     'paypal-pos.webhook.handlers' => static function (C $container): array {
