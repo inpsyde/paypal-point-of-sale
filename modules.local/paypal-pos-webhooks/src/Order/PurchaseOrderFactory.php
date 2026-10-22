@@ -26,30 +26,24 @@ class PurchaseOrderFactory
 
     public const CREATED_VIA = 'paypal_pos';
 
-    private const FILTER_PRIORITY = 1000;
-
-    private const SUPPRESSED_EMAILS = [
-        'new_order',
-        'customer_completed_order',
-        'customer_processing_order',
-        'customer_on_hold_order',
-        'customer_invoice',
-    ];
-
     private OneToManyMapInterface $variantIdMap;
 
     private PaymentLabels $paymentLabels;
+
+    private OrderSideEffects $sideEffects;
 
     private LoggerInterface $logger;
 
     public function __construct(
         OneToManyMapInterface $variantIdMap,
         PaymentLabels $paymentLabels,
+        OrderSideEffects $sideEffects,
         LoggerInterface $logger
     ) {
 
         $this->variantIdMap = $variantIdMap;
         $this->paymentLabels = $paymentLabels;
+        $this->sideEffects = $sideEffects;
         $this->logger = $logger;
     }
 
@@ -73,9 +67,7 @@ class PurchaseOrderFactory
 
     public function createOrder(Purchase $purchase): int
     {
-        $this->blockStockReduction(true);
-
-        try {
+        return $this->sideEffects->withoutStockReduction(function () use ($purchase): int {
             // Built in memory and saved once, so a failure leaves no half-created order behind.
             $order = new WC_Order();
             $currency = $purchase->currency();
@@ -127,9 +119,7 @@ class PurchaseOrderFactory
             );
 
             return $order->get_id();
-        } finally {
-            $this->blockStockReduction(false);
-        }
+        });
     }
 
     /**
@@ -301,50 +291,6 @@ class PurchaseOrderFactory
     public static function defaultLineName(): string
     {
         return __('PayPal POS item', 'paypal-point-of-sale');
-    }
-
-    /**
-     * Keeps WC from sending order emails for POS orders. Registered for the whole request,
-     * not just during creation, because stores that defer emails send them later.
-     */
-    public static function suppressEmails(): void
-    {
-        foreach (self::SUPPRESSED_EMAILS as $emailId) {
-            add_filter("woocommerce_email_enabled_{$emailId}", [self::class, 'emailEnabled'], 10, 2);
-        }
-    }
-
-    /**
-     * @internal Filter callback for suppressEmails().
-     *
-     * @param mixed $enabled
-     * @param mixed $object
-     */
-    public static function emailEnabled($enabled, $object = null): bool
-    {
-        return !($object instanceof WC_Order && $object->get_created_via() === self::CREATED_VIA) && (bool) $enabled;
-    }
-
-    /**
-     * Stock is owned by the InventoryBalanceChanged path. Our own callback, so removing it never
-     * touches an identical filter added by others.
-     */
-    private function blockStockReduction(bool $block): void
-    {
-        if ($block) {
-            add_filter('woocommerce_can_reduce_order_stock', [self::class, 'disable'], self::FILTER_PRIORITY);
-
-            return;
-        }
-        remove_filter('woocommerce_can_reduce_order_stock', [self::class, 'disable'], self::FILTER_PRIORITY);
-    }
-
-    /**
-     * @internal Filter callback for blockStockReduction().
-     */
-    public static function disable(): bool
-    {
-        return false;
     }
 
     /**

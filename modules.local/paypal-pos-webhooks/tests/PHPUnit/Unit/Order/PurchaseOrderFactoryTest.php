@@ -9,6 +9,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
@@ -76,7 +77,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldIgnoreMissing();
 
-        return new PurchaseOrderFactory($variants, new PaymentLabels(), $logger);
+        return new PurchaseOrderFactory($variants, new PaymentLabels(), new OrderSideEffects(), $logger);
     }
 
     private function orderExpectingTotals(string $discount, string $discountTax): object
@@ -144,17 +145,5 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $variants->shouldReceive('localId')->andReturn(10);
 
         $this->factory($variants)->createOrder($this->discountedSale('0.5'));
-    }
-
-    public function testSuppressesEmailsOnlyForPosOrders(): void
-    {
-        $pos = Mockery::mock('WC_Order');
-        $pos->shouldReceive('get_created_via')->andReturn(PurchaseOrderFactory::CREATED_VIA);
-        $web = Mockery::mock('WC_Order');
-        $web->shouldReceive('get_created_via')->andReturn('checkout');
-
-        self::assertFalse(PurchaseOrderFactory::emailEnabled(true, $pos));
-        self::assertTrue(PurchaseOrderFactory::emailEnabled(true, $web));
-        self::assertFalse(PurchaseOrderFactory::emailEnabled(false, $web));
     }
 }

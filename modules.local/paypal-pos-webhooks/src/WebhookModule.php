@@ -9,6 +9,7 @@ use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
 use WP_CLI;
@@ -38,7 +39,9 @@ class WebhookModule implements ServiceModule, ExecutableModule
             }
         );
 
-        Order\PurchaseOrderFactory::suppressEmails();
+        $sideEffects = $container->get('paypal-pos.webhook.order-side-effects');
+        assert($sideEffects instanceof OrderSideEffects);
+        $sideEffects->suppressEmails();
 
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
