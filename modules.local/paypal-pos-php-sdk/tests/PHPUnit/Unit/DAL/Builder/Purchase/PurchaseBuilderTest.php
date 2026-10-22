@@ -57,7 +57,7 @@ class PurchaseBuilderTest extends BrainMonkeyWpTestCase
 
         self::assertTrue($purchase->isRefund());
         self::assertSame(-10000.0, $purchase->amount());
-        self::assertNotNull($purchase->refundsPurchaseUuid());
+        self::assertSame('WJwt5j7kEeuecKKsB1sX_Q', $purchase->refundsPurchaseUuid());
     }
 
     public function testReadsRefundsPurchaseUuidFromReferences(): void

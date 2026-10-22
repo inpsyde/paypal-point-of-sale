@@ -183,7 +183,6 @@ class PurchaseBuilder implements PurchaseBuilderInterface
 
         return $purchase->setRefundsPurchaseUuid(
             $data['refundsPurchaseUUID']
-            ?? $data['refundsPurchaseUUID1']
             ?? $data['references']['refundsPurchaseUUID']
             ?? null
         );
