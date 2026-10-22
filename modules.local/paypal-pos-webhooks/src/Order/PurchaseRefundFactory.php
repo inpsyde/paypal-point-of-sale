@@ -71,7 +71,7 @@ class PurchaseRefundFactory
             throw new RuntimeException(sprintf('Order %d could not be loaded for refund.', (int) $orderId));
         }
 
-        if ($this->alreadyRefunded($order, $refund->uuid())) {
+        if ($this->alreadyHandled($order, $refund->uuid())) {
             return;
         }
 
@@ -136,6 +136,7 @@ class PurchaseRefundFactory
             $result = wc_create_refund([
                 'order_id' => $order->get_id(),
                 'amount' => (string) $amount,
+                'date_created' => $refund->timestamp()->getTimestamp(),
                 'reason' => $this->reason($refund, $originalUuid),
                 'line_items' => RefundLines::forRefund($order, $refund->products(), $refund->currency()),
                 'refund_payment' => false,
@@ -152,8 +153,14 @@ class PurchaseRefundFactory
         }
     }
 
-    private function alreadyRefunded(WC_Order $order, string $refundPurchaseUuid): bool
+    private function alreadyHandled(WC_Order $order, string $refundPurchaseUuid): bool
     {
+        foreach ((array) $order->get_meta(OrderMeta::UNAPPLIED_REFUND_UUID, false) as $unapplied) {
+            if (($unapplied->value ?? null) === $refundPurchaseUuid) {
+                return true;
+            }
+        }
+
         foreach ($order->get_refunds() as $existing) {
             // The reason is saved with the refund itself, so it survives a crash before tagging.
             if (
@@ -176,11 +183,14 @@ class PurchaseRefundFactory
                 'paypal-point-of-sale'
             ),
             $refund->uuid(),
-            wc_format_decimal($amount),
-            wc_format_decimal($remaining)
+            wc_format_decimal($amount, MinorUnits::exponent($refund->currency())),
+            wc_format_decimal($remaining, MinorUnits::exponent($refund->currency()))
         );
 
         $this->logger->warning(sprintf('Order %d: %s', $order->get_id(), $message));
+        // Remembered so a redelivered webhook doesn't add the note again.
+        $order->add_meta_data(OrderMeta::UNAPPLIED_REFUND_UUID, $refund->uuid());
+        $order->save();
         $order->add_order_note($message);
     }
 
@@ -201,7 +211,7 @@ class PurchaseRefundFactory
             foreach ($refund->products() as $line) {
                 $linesMinor += $this->addOrphanLine($order, (array) $line, $currency, $refund->country(), $taxTotals);
             }
-            $this->taxes->alignToPurchaseVat($order, $taxTotals, (int) round($refund->vatAmount()), $currency);
+            $this->taxes->alignToPurchaseVat($order, $taxTotals, -(int) abs($refund->vatAmount()), $currency);
             $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
             OrderFees::addUnlistedCharges($order, $refund, (int) abs($refund->amount()) - $linesMinor, -1);
 

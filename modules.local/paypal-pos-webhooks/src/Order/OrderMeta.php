@@ -24,6 +24,7 @@ final class OrderMeta
 
     public const REFUND_PURCHASE_UUID = '_zettle_refund_purchase_uuid';
     public const REFUND_PAYMENTS = '_zettle_refund_payments';
+    public const UNAPPLIED_REFUND_UUID = '_zettle_unapplied_refund_uuid';
     public const ORPHAN_REFUND = '_zettle_orphan_refund';
     public const ORPHAN_REFUNDS_PURCHASE_UUID = '_zettle_orphan_refunds_purchase_uuid';
 }

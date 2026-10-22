@@ -96,10 +96,11 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         return $orders;
     }
 
-    private function order(string $remaining, array $refunds = []): object
+    private function order(string $remaining, array $refunds = [], array $unapplied = []): object
     {
         $order = Mockery::mock('WC_Order');
         $order->shouldReceive('get_id')->andReturn(7);
+        $order->shouldReceive('get_meta')->with(OrderMeta::UNAPPLIED_REFUND_UUID, false)->andReturn($unapplied);
         $order->shouldReceive('get_refunds')->andReturn($refunds);
         $order->shouldReceive('get_remaining_refund_amount')->andReturn($remaining);
         $order->shouldReceive('get_items')->andReturn([]);
@@ -142,12 +143,24 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testNotesRefundLargerThanWhatIsLeftInsteadOfFailing(): void
     {
-        $this->order('0.00')->shouldReceive('add_order_note')->once();
+        $order = $this->order('0.00');
+        $order->shouldReceive('add_meta_data')->once()->with(OrderMeta::UNAPPLIED_REFUND_UUID, 'refund-uuid');
+        $order->shouldReceive('save')->once();
+        $order->shouldReceive('add_order_note')->once();
         expect('wc_create_refund')->never();
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldReceive('warning')->once();
 
         $this->factory($this->orders(null, 7), $logger)->createRefund($this->refund());
+    }
+
+    public function testNotesAnUnappliableRefundOnlyOnce(): void
+    {
+        $order = $this->order('0.00', [], [(object) ['value' => 'refund-uuid']]);
+        $order->shouldNotReceive('add_order_note');
+        expect('wc_create_refund')->never();
+
+        $this->factory($this->orders(null, 7))->createRefund($this->refund());
     }
 
     public function testTagsTheRefundWithItsZettleUuid(): void
@@ -167,6 +180,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         expect('wc_create_refund')->once()->andReturnUsing(
             static function (array $args) use (&$tag, $record) {
                 self::assertSame('8.4', $args['amount']);
+                self::assertSame((new DateTime(self::REFUNDED_AT))->getTimestamp(), $args['date_created']);
                 self::assertStringContainsString('refund-uuid', $args['reason']);
                 $tag($record, $args);
 

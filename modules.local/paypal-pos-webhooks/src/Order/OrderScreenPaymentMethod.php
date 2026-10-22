@@ -18,8 +18,12 @@ class OrderScreenPaymentMethod
     public static function register(): void
     {
         $order = self::editedOrder();
-        $gateways = function_exists('WC') ? WC()->payment_gateways() : null;
-        if ($order === null || $gateways === null || !self::needsStandIn($order, $gateways->payment_gateways())) {
+        if ($order === null || !function_exists('WC')) {
+            return;
+        }
+
+        $gateways = WC()->payment_gateways();
+        if (!self::needsStandIn($order, $gateways->payment_gateways())) {
             return;
         }
 
