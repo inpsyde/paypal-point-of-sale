@@ -10,7 +10,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price;
  */
 final class MinorUnits
 {
-    private const ZERO_DECIMAL = ['JPY', 'KRW', 'ISK', 'HUF', 'CLP', 'VND'];
+    private const ZERO_DECIMAL = ['CLP', 'ISK', 'JPY', 'KRW', 'VND'];
 
     public static function exponent(string $currency): int
     {

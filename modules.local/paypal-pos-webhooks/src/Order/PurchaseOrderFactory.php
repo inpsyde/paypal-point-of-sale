@@ -51,17 +51,18 @@ class PurchaseOrderFactory
 
     public function orderExists(string $purchaseUuid): bool
     {
+        if ($purchaseUuid === '') {
+            return false;
+        }
+
         $ids = wc_get_orders([
             'limit' => 1,
             'return' => 'ids',
             // 'any' excludes trash; an explicit list including 'trash' is required.
             'status' => array_merge(array_keys(wc_get_order_statuses()), ['trash']),
-            'meta_query' => [
-                [
-                    'key' => OrderMeta::PURCHASE_UUID,
-                    'value' => $purchaseUuid,
-                ],
-            ],
+            // meta_key/meta_value, not meta_query: the legacy post order store ignores meta_query.
+            'meta_key' => OrderMeta::PURCHASE_UUID,
+            'meta_value' => $purchaseUuid,
         ]);
 
         return !empty($ids);

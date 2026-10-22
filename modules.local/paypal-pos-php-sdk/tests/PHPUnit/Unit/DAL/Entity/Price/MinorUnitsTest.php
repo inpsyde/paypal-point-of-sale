@@ -24,4 +24,9 @@ class MinorUnitsTest extends BrainMonkeyWpTestCase
         self::assertSame(0, MinorUnits::exponent('jpy'));
         self::assertSame(2, MinorUnits::exponent('sek'));
     }
+
+    public function testForintHasTwoDecimals(): void
+    {
+        self::assertSame(2, MinorUnits::exponent('HUF'));
+    }
 }
