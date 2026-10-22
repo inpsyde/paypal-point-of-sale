@@ -238,10 +238,20 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
             return '';
         }
 
+        $states = [
+            'running' => __('running', 'paypal-point-of-sale'),
+            'done' => __('done', 'paypal-point-of-sale'),
+            'failed' => __('failed', 'paypal-point-of-sale'),
+        ];
         $summary = sprintf(
-            /* translators: 1: run state, 2: number of purchases queued */
-            __('Last import: %1$s, %2$d purchases queued.', 'paypal-point-of-sale'),
-            $status['state'],
+            /* translators: 1: import state (running, done or failed), 2: number of sales and refunds queued */
+            _n(
+                'Last import: %1$s, %2$d sale or refund queued.',
+                'Last import: %1$s, %2$d sales and refunds queued.',
+                $status['queued'],
+                'paypal-point-of-sale'
+            ),
+            $states[$status['state']] ?? $status['state'],
             $status['queued']
         );
         if ($status['error'] !== '') {
