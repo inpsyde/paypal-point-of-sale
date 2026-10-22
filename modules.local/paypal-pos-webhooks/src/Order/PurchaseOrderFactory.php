@@ -85,10 +85,10 @@ class PurchaseOrderFactory
             $discountTaxMinor = 0;
             $linesNetMinor = 0;
             foreach ($purchase->products() as $line) {
-                $linesNetMinor += LineAmounts::fromLine((array) $line)->netMinor();
+                $amounts = LineAmounts::fromLine((array) $line);
+                $linesNetMinor += $amounts->netMinor();
                 // Only product lines carry a subtotal, so only they contribute to the order discount.
-                $amounts = $this->addLineItem($order, (array) $line, $currency, $purchase->country(), $taxTotals);
-                if ($amounts !== null) {
+                if ($this->addLineItem($order, (array) $line, $amounts, $currency, $purchase->country(), $taxTotals)) {
                     $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
                     $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
                 }
@@ -143,19 +143,19 @@ class PurchaseOrderFactory
      * @param array<string, mixed> $line
      * @param array<int|string, array{rateId: int, percentage: float, taxMinor: int}> $taxTotals
      *
-     * @return LineAmounts|null The product line's amounts, or null when it became a fee line.
+     * @return bool Whether the line became a product item rather than a fee line.
      */
     private function addLineItem(
         WC_Order $order,
         array $line,
+        LineAmounts $amounts,
         string $currency,
         string $country,
         array &$taxTotals
-    ): ?LineAmounts {
+    ): bool {
 
         $unitPriceMinor = (int) ($line[self::KEY_UNIT_PRICE] ?? 0);
         $variantUuid = (string) ($line[self::KEY_VARIANT_UUID] ?? '');
-        $amounts = LineAmounts::fromLine($line);
 
         $rateId = 0;
         // A fully discounted line has no tax left but still needs its rate for the subtotal tax.
@@ -176,7 +176,7 @@ class PurchaseOrderFactory
         if (!$product instanceof WC_Product) {
             $this->addFeeLine($order, $line, $amounts, $rateId, $currency);
 
-            return null;
+            return false;
         }
 
         $item = new WC_Order_Item_Product();
@@ -199,7 +199,7 @@ class PurchaseOrderFactory
         $item->add_meta_data(OrderMeta::ITEM_UNIT_PRICE_MINOR, (string) $unitPriceMinor);
         $order->add_item($item);
 
-        return $amounts;
+        return true;
     }
 
     /**
@@ -213,11 +213,11 @@ class PurchaseOrderFactory
         string $currency
     ): void {
 
-        $net = (string) MinorUnits::toMajor($amounts->netMinor(), $currency);
-        $fee = new WC_Order_Item_Fee();
-        $fee->set_name((string) ($line[self::KEY_NAME] ?? '') ?: self::defaultLineName());
-        $fee->set_amount($net);
-        $fee->set_total($net);
+        $fee = $this->newFee(
+            (string) ($line[self::KEY_NAME] ?? '') ?: self::defaultLineName(),
+            $amounts->netMinor(),
+            $currency
+        );
         if ($rateId > 0) {
             $fee->set_taxes(['total' => [$rateId => (string) MinorUnits::toMajor($amounts->taxMinor(), $currency)]]);
         }
@@ -241,28 +241,28 @@ class PurchaseOrderFactory
         }
         $tipMinor = min($tipMinor, $gapMinor);
 
-        $this->addChargeLine($order, __('Tip', 'paypal-point-of-sale'), $tipMinor, $purchase->currency());
-        $this->addChargeLine(
-            $order,
-            __('Other charges', 'paypal-point-of-sale'),
-            $gapMinor - $tipMinor,
-            $purchase->currency()
-        );
+        $charges = [
+            __('Tip', 'paypal-point-of-sale') => $tipMinor,
+            __('Other charges', 'paypal-point-of-sale') => $gapMinor - $tipMinor,
+        ];
+        foreach ($charges as $name => $amountMinor) {
+            if ($amountMinor > 0) {
+                $fee = $this->newFee((string) $name, $amountMinor, $purchase->currency());
+                $fee->set_tax_status('none');
+                $order->add_item($fee);
+            }
+        }
     }
 
-    private function addChargeLine(WC_Order $order, string $name, int $amountMinor, string $currency): void
+    private function newFee(string $name, int $amountMinor, string $currency): WC_Order_Item_Fee
     {
-        if ($amountMinor <= 0) {
-            return;
-        }
-
         $amount = (string) MinorUnits::toMajor($amountMinor, $currency);
         $fee = new WC_Order_Item_Fee();
         $fee->set_name($name);
-        $fee->set_tax_status('none');
         $fee->set_amount($amount);
         $fee->set_total($amount);
-        $order->add_item($fee);
+
+        return $fee;
     }
 
     /**
