@@ -14,6 +14,8 @@ final class OrderMeta
     public const SOURCE_TYPE = '_zettle_source_type';
     public const PRIMARY_PAYMENT_TYPE = '_zettle_primary_payment_type';
     public const PAYMENTS = '_zettle_payments';
+    public const ATTRIBUTION_SOURCE_TYPE = '_wc_order_attribution_source_type';
+    public const ATTRIBUTION_UTM_SOURCE = '_wc_order_attribution_utm_source';
 
     public const ITEM_VARIANT_UUID = '_zettle_variant_uuid';
     public const ITEM_PRODUCT_UUID = '_zettle_product_uuid';

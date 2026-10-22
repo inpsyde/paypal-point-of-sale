@@ -19,6 +19,8 @@ use WC_Product;
 class PurchaseOrderFactory
 {
     public const CREATED_VIA = 'paypal_pos';
+    public const ORIGIN_SOURCE_TYPE = 'utm';
+    public const ORIGIN_SOURCE = 'PayPal POS';
 
     private OneToManyMapInterface $variantIdMap;
 

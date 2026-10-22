@@ -9,7 +9,9 @@ use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderScreenPaymentMethod;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
 use Throwable;
@@ -43,6 +45,7 @@ class WebhookModule implements ServiceModule, ExecutableModule
         $sideEffects = $container->get('paypal-pos.webhook.order-side-effects');
         assert($sideEffects instanceof OrderSideEffects);
         $sideEffects->suppressEmails();
+        add_action('current_screen', [OrderScreenPaymentMethod::class, 'register']);
 
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
@@ -70,6 +73,8 @@ class WebhookModule implements ServiceModule, ExecutableModule
             }
         );
 
+        add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);
+
         return true;
     }
 
@@ -88,6 +93,18 @@ class WebhookModule implements ServiceModule, ExecutableModule
         }
 
         return array_values(array_diff($configured, $subscribed));
+    }
+
+    /**
+     * Show POS orders' Origin as "PayPal POS" instead of "Source: PayPal POS".
+     */
+    public static function filterOriginLabel(string $label, string $sourceType, string $source): string
+    {
+        if ($sourceType === PurchaseOrderFactory::ORIGIN_SOURCE_TYPE && $source === PurchaseOrderFactory::ORIGIN_SOURCE) {
+            return '';
+        }
+
+        return $label;
     }
 
     private function registerCliCommand(ContainerInterface $container): void

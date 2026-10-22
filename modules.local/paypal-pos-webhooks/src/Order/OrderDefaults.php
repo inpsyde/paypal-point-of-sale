@@ -8,8 +8,8 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use WC_Order;
 
 /**
- * Order fields shared by every WC order created from a POS purchase: currency, dates and
- * payment method.
+ * Order fields shared by every WC order created from a POS purchase: currency, dates, origin
+ * and payment method.
  */
 class OrderDefaults
 {
@@ -35,5 +35,9 @@ class OrderDefaults
         $order->set_payment_method_title($this->paymentLabels->title($primaryType));
         $order->update_meta_data(OrderMeta::PRIMARY_PAYMENT_TYPE, $primaryType);
         $order->update_meta_data(OrderMeta::PAYMENTS, (string) wp_json_encode(array_values($payments)));
+
+        // WooCommerce Order Attribution, shown as the order's "Origin".
+        $order->update_meta_data(OrderMeta::ATTRIBUTION_SOURCE_TYPE, PurchaseOrderFactory::ORIGIN_SOURCE_TYPE);
+        $order->update_meta_data(OrderMeta::ATTRIBUTION_UTM_SOURCE, PurchaseOrderFactory::ORIGIN_SOURCE);
     }
 }
