@@ -75,6 +75,19 @@ class PurchaseBuilder implements PurchaseBuilderInterface
         }
     }
     /**
+     * @param array<string, mixed> $data
+     */
+    private function timestamp(array $data): DateTime
+    {
+        try {
+            return new DateTime((string) $data['timestamp']);
+        } catch (Exception $exception) {
+            // phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new InvalidBuilderPayloadException(Purchase::class, $data, [ValidationErrorCodes::INVALID_FIELD], $exception);
+            // phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+        }
+    }
+    /**
      * @param array $data
      *
      * @return Purchase
@@ -89,6 +102,7 @@ class PurchaseBuilder implements PurchaseBuilderInterface
             throw new InvalidBuilderPayloadException(Purchase::class, $data, [ValidationErrorCodes::MISSING_REQUIRED_FIELD]);
             // phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
+        $timestamp = $this->timestamp($data);
         $coordinates = $this->coordinates($data['gpsCoordinates'] ?? null);
         $sourceRaw = $data['source'] ?? $data['sourceType'] ?? $data['type'] ?? null;
         // Unknown sources must not fail the whole purchase.
@@ -96,6 +110,6 @@ class PurchaseBuilder implements PurchaseBuilderInterface
         $published = isset($data['published']) ? (bool) $data['published'] : null;
         // v2 exposes `groupedVatAmounts`; the entity mirrors the `vatAmounts` array.
         $vatAmounts = $data['vatAmounts'] ?? $data['groupedVatAmounts'] ?? [];
-        return $this->purchaseFactory->create($uuid, new DateTime($data['timestamp']), $data['country'] ?? '', $data['currency'] ?? '', $this->userBuilder->buildFromArray($data), (int) ($data['organizationId'] ?? 0), (int) ($data['purchaseNumber'] ?? 0), (float) ($data['amount'] ?? 0), (float) ($data['vatAmount'] ?? 0), $data['products'] ?? [], $data['payments'] ?? [], $vatAmounts, (bool) ($data['receiptCopyAllowed'] ?? \false), (bool) ($data['refund'] ?? \false), (bool) ($data['refunded'] ?? \false), $coordinates, $sourceType, $published);
+        return $this->purchaseFactory->create($uuid, $timestamp, $data['country'] ?? '', $data['currency'] ?? '', $this->userBuilder->buildFromArray($data), (int) ($data['organizationId'] ?? 0), (int) ($data['purchaseNumber'] ?? 0), (float) ($data['amount'] ?? 0), (float) ($data['vatAmount'] ?? 0), $data['products'] ?? [], $data['payments'] ?? [], $vatAmounts, (bool) ($data['receiptCopyAllowed'] ?? \false), (bool) ($data['refund'] ?? \false), (bool) ($data['refunded'] ?? \false), $coordinates, $sourceType, $published);
     }
 }

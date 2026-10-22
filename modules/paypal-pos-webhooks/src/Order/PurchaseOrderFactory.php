@@ -28,6 +28,10 @@ class PurchaseOrderFactory
     private PaymentLabels $paymentLabels;
     private OrderSideEffects $sideEffects;
     private LoggerInterface $logger;
+    /**
+     * @var array<string, int> WC tax rate ids by country and percentage.
+     */
+    private array $taxRateIds = [];
     public function __construct(OneToManyMapInterface $variantIdMap, PaymentLabels $paymentLabels, OrderSideEffects $sideEffects, LoggerInterface $logger)
     {
         $this->variantIdMap = $variantIdMap;
@@ -60,10 +64,12 @@ class PurchaseOrderFactory
             $taxTotals = [];
             $discountMinor = 0;
             $discountTaxMinor = 0;
+            $linesNetMinor = 0;
             foreach ($purchase->products() as $line) {
+                $amounts = LineAmounts::fromLine((array) $line);
+                $linesNetMinor += $amounts->netMinor();
                 // Only product lines carry a subtotal, so only they contribute to the order discount.
-                $amounts = $this->addLineItem($order, (array) $line, $currency, $purchase->country(), $taxTotals);
-                if ($amounts !== null) {
+                if ($this->addLineItem($order, (array) $line, $amounts, $currency, $purchase->country(), $taxTotals)) {
                     $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
                     $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
                 }
@@ -72,11 +78,13 @@ class PurchaseOrderFactory
             if (count($taxTotals) === 1) {
                 $key = array_key_first($taxTotals);
                 $vatMinor = (int) abs($purchase->vatAmount());
-                $this->alignLineTaxes($order, $taxTotals[$key]['rateId'], $vatMinor - $taxTotals[$key]['taxMinor'], $currency);
+                // The cent moved onto a line's tax comes off the discount tax, which is subtotal minus total.
+                $discountTaxMinor -= $this->alignLineTaxes($order, $taxTotals[$key]['rateId'], $vatMinor - $taxTotals[$key]['taxMinor'], $currency);
                 $taxTotals[$key]['taxMinor'] = $vatMinor;
             }
             $this->addTaxItems($order, $taxTotals, $currency);
             $taxMinor = (int) array_sum(array_column($taxTotals, 'taxMinor'));
+            $this->addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesNetMinor - $taxMinor);
             $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
             $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
             $order->set_currency($currency);
@@ -106,16 +114,18 @@ class PurchaseOrderFactory
      * @param array<string, mixed> $line
      * @param array<int|string, array{rateId: int, percentage: float, taxMinor: int}> $taxTotals
      *
-     * @return LineAmounts|null The product line's amounts, or null when it became a fee line.
+     * @return bool Whether the line became a product item rather than a fee line.
      */
-    private function addLineItem(WC_Order $order, array $line, string $currency, string $country, array &$taxTotals): ?LineAmounts
+    private function addLineItem(WC_Order $order, array $line, LineAmounts $amounts, string $currency, string $country, array &$taxTotals): bool
     {
         $unitPriceMinor = (int) ($line[self::KEY_UNIT_PRICE] ?? 0);
         $variantUuid = (string) ($line[self::KEY_VARIANT_UUID] ?? '');
-        $amounts = LineAmounts::fromLine($line);
         $rateId = 0;
-        if ($amounts->taxMinor() > 0) {
+        // A fully discounted line has no tax left but still needs its rate for the subtotal tax.
+        if ($amounts->subtotalTaxMinor() > 0) {
             $rateId = $this->taxRateId($amounts->vatPercentage(), $country);
+        }
+        if ($amounts->taxMinor() > 0) {
             $key = $rateId > 0 ? $rateId : 'p' . (string) $amounts->vatPercentage();
             $taxTotals[$key] = ['rateId' => $rateId, 'percentage' => $amounts->vatPercentage(), 'taxMinor' => ($taxTotals[$key]['taxMinor'] ?? 0) + $amounts->taxMinor()];
         }
@@ -123,7 +133,7 @@ class PurchaseOrderFactory
         $product = $productId !== null ? wc_get_product($productId) : null;
         if (!$product instanceof WC_Product) {
             $this->addFeeLine($order, $line, $amounts, $rateId, $currency);
-            return null;
+            return \false;
         }
         $item = new WC_Order_Item_Product();
         $item->set_product($product);
@@ -142,23 +152,51 @@ class PurchaseOrderFactory
         $item->add_meta_data(OrderMeta::ITEM_PRODUCT_UUID, (string) ($line[self::KEY_PRODUCT_UUID] ?? ''));
         $item->add_meta_data(OrderMeta::ITEM_UNIT_PRICE_MINOR, (string) $unitPriceMinor);
         $order->add_item($item);
-        return $amounts;
+        return \true;
     }
     /**
      * @param array<string, mixed> $line
      */
     private function addFeeLine(WC_Order $order, array $line, LineAmounts $amounts, int $rateId, string $currency): void
     {
-        $net = (string) MinorUnits::toMajor($amounts->netMinor(), $currency);
-        $fee = new WC_Order_Item_Fee();
-        $fee->set_name((string) ($line[self::KEY_NAME] ?? '') ?: self::defaultLineName());
-        $fee->set_amount($net);
-        $fee->set_total($net);
+        $fee = $this->newFee((string) ($line[self::KEY_NAME] ?? '') ?: self::defaultLineName(), $amounts->netMinor(), $currency);
         if ($rateId > 0) {
             $fee->set_taxes(['total' => [$rateId => (string) MinorUnits::toMajor($amounts->taxMinor(), $currency)]]);
         }
         $fee->add_meta_data(OrderMeta::ITEM_VARIANT_UUID, (string) ($line[self::KEY_VARIANT_UUID] ?? ''));
         $order->add_item($fee);
+    }
+    /**
+     * Adds the part of the purchase amount no sold line covers: tips, then anything left, such
+     * as a service charge.
+     */
+    private function addUnlistedCharges(WC_Order $order, Purchase $purchase, int $gapMinor): void
+    {
+        if ($gapMinor <= 0) {
+            return;
+        }
+        $tipMinor = 0;
+        foreach ($purchase->payments() as $payment) {
+            $tipMinor += abs((int) (((array) $payment)['gratuityAmount'] ?? 0));
+        }
+        $tipMinor = min($tipMinor, $gapMinor);
+        $charges = [__('Tip', 'paypal-point-of-sale') => $tipMinor, __('Other charges', 'paypal-point-of-sale') => $gapMinor - $tipMinor];
+        foreach ($charges as $name => $amountMinor) {
+            if ($amountMinor > 0) {
+                $fee = $this->newFee((string) $name, $amountMinor, $purchase->currency());
+                $fee->set_tax_status('none');
+                $order->add_item($fee);
+            }
+        }
+    }
+    private function newFee(string $name, int $amountMinor, string $currency): WC_Order_Item_Fee
+    {
+        $amount = (string) MinorUnits::toMajor($amountMinor, $currency);
+        $fee = new WC_Order_Item_Fee();
+        $fee->set_name($name);
+        $fee->set_amount($amount);
+        $fee->set_total($amount);
+        return $fee;
     }
     /**
      * @param array<int|string, array{rateId: int, percentage: float, taxMinor: int}> $taxTotals
@@ -184,6 +222,14 @@ class PurchaseOrderFactory
      * tax class first.
      */
     private function taxRateId(float $percentage, string $country): int
+    {
+        $cacheKey = strtoupper($country) . '|' . (string) $percentage;
+        if (!array_key_exists($cacheKey, $this->taxRateIds)) {
+            $this->taxRateIds[$cacheKey] = $this->findTaxRateId($percentage, $country);
+        }
+        return $this->taxRateIds[$cacheKey];
+    }
+    private function findTaxRateId(float $percentage, string $country): int
     {
         foreach (array_merge([''], WC_Tax::get_tax_class_slugs()) as $taxClass) {
             $rates = WC_Tax::find_rates(['country' => strtoupper($country), 'tax_class' => $taxClass]);
@@ -236,11 +282,13 @@ class PurchaseOrderFactory
     /**
      * Moves the cent Zettle's VAT total and the rounded line taxes can differ by onto the last
      * line with that rate, so line taxes add up to the order tax.
+     *
+     * @return int The difference applied, in minor units.
      */
-    private function alignLineTaxes(WC_Order $order, int $rateId, int $differenceMinor, string $currency): void
+    private function alignLineTaxes(WC_Order $order, int $rateId, int $differenceMinor, string $currency): int
     {
         if ($rateId <= 0 || $differenceMinor === 0) {
-            return;
+            return 0;
         }
         $lines = array_reverse((array) $order->get_items(['line_item', 'fee']));
         foreach ($lines as $line) {
@@ -253,7 +301,8 @@ class PurchaseOrderFactory
             }
             $taxes['total'][$rateId] = (string) MinorUnits::toMajor(MinorUnits::toMinor((float) $taxes['total'][$rateId], $currency) + $differenceMinor, $currency);
             $line->set_taxes($taxes);
-            return;
+            return $differenceMinor;
         }
+        return 0;
     }
 }

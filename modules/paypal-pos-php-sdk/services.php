@@ -29,9 +29,15 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\TypeDelegatingBuil
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\ValidatableBuilder;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\WooCommerceBuilder;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Config\WooCommerceConfigContainer;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilder;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase\PurchaseBuilder;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Repository\Variant\VariantBuilderRepository;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Repository\Variant\VariantBuilderRepositoryInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilder;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Connection\ConnectionType;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\CoordinatesFactory;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image\PlaceholderUrlProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image\UrlProviderInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image\WordPressFilePathProvider;
@@ -41,6 +47,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\TransientCachingOrganizationProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\VatProvider;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\WooCommerceVatProvider;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\DataMappingTable;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DB\Table;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
@@ -302,6 +309,9 @@ return array_merge([
          */
         $uriFactory = $container->get('inpsyde.http-client.uri-factory');
         return new Products($uriFactory->createUri('https://products.izettle.com'), $container->get('paypal-pos.sdk.rest-client'), $container->get('paypal-pos.sdk.builder'), $container->get('paypal-pos.sdk.serializer'), $container->get('paypal-pos.sdk.api.products.listener.delete'), $container->get('paypal-pos.sdk.api.products.listener.update'));
+    },
+    'paypal-pos.sdk.builder.purchase' => static function (): PurchaseBuilder {
+        return new PurchaseBuilder(new PurchaseFactory(), new UserBuilder(new UserFactory()), new CoordinatesBuilder(new CoordinatesFactory(new CoordinatesValidator())));
     },
     'paypal-pos.sdk.api.purchases' => static function (C $container): Purchases {
         /**

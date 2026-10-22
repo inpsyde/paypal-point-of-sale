@@ -32,14 +32,23 @@ final class LineAmounts
         // Refund lines carry negative quantities and amounts.
         // Zettle sends quantities as strings and allows fractions for unit items.
         $quantity = abs((float) ($line['quantity'] ?? 1));
+        $percentage = (float) ($line['vatPercentage'] ?? 0);
         // `grossValue`/`grossTax` are before purchase-level discounts: the WC subtotal.
         $listGross = isset($line['grossValue']) ? abs((int) $line['grossValue']) : (int) round(abs((int) ($line['unitPrice'] ?? 0)) * $quantity);
-        $subtotalTax = isset($line['grossTax']) ? abs((int) $line['grossTax']) : 0;
+        $subtotalTax = isset($line['grossTax']) ? abs((int) $line['grossTax']) : self::includedVat($listGross, $percentage);
         $subtotalNet = max(0, $listGross - $subtotalTax);
         // `rowTaxableAmount` is the net after all discounts; tax scales down with it.
-        $net = isset($line['rowTaxableAmount']) ? abs((int) $line['rowTaxableAmount']) : max(0, $subtotalNet - abs((int) ($line['discountValue'] ?? 0)));
+        $discountedGross = max(0, $listGross - abs((int) ($line['discountValue'] ?? 0)));
+        $net = isset($line['rowTaxableAmount']) ? abs((int) $line['rowTaxableAmount']) : $discountedGross - self::includedVat($discountedGross, $percentage);
         $tax = $subtotalNet > 0 ? (int) round($subtotalTax * $net / $subtotalNet) : 0;
-        return new self($quantity, $net, $tax, $subtotalNet, $subtotalTax, (float) ($line['vatPercentage'] ?? 0));
+        return new self($quantity, $net, $tax, $subtotalNet, $subtotalTax, $percentage);
+    }
+    /**
+     * The VAT part of a VAT-inclusive amount, for lines that don't state it.
+     */
+    private static function includedVat(int $gross, float $percentage): int
+    {
+        return $percentage > 0 ? (int) round($gross * $percentage / (100 + $percentage)) : 0;
     }
     public function quantity(): float
     {

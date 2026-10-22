@@ -97,7 +97,7 @@ return [$job(InventoryBalanceChangedJob::TYPE) => static function (C $container)
 }, 'paypal-pos.webhook.order-side-effects' => static function (): OrderSideEffects {
     return new OrderSideEffects();
 }, 'paypal-pos.webhook.handlers.purchase-created' => static function (C $container): WebhookHandler {
-    return new PurchaseCreatedHandler($container->get('inpsyde.queue.enqueue-job'), $container->get('inpsyde.queue.runner.wp-cron.hook'), $container->get('paypal-pos.webhook.logger'));
+    return new PurchaseCreatedHandler($container->get('inpsyde.queue.enqueue-job'), $container->get('paypal-pos.webhook.logger'));
 }, 'paypal-pos.webhook.handlers' => static function (C $container): array {
     return [new LogHandler($container->get('paypal-pos.webhook.logger')), new InventoryTrackingStartedHandler(), new InventoryTrackingStoppedHandler(), $container->get('paypal-pos.webhook.handlers.inventory-balance-changed'), $container->get('paypal-pos.webhook.handlers.purchase-created')];
 }, 'paypal-pos.webhook.register' => static function (C $container): callable {

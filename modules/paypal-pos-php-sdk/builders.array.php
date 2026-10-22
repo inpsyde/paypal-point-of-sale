@@ -9,10 +9,7 @@ use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface as B;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\CallbackBuilder;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Builder\ImageBuilder;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilder;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase\PurchaseBuilder;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilder;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\CoordinatesFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Inventory;
@@ -29,9 +26,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\Variant;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantInterface;
@@ -40,7 +35,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantInventor
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOption;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOptionCollection;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
 $key = static function (string $className): string {
     return "paypal-pos.sdk.builder.array.{$className}";
 };
@@ -164,8 +158,9 @@ return [
         $timezone = isset($payload['timeZone']) ? new \DateTimeZone($payload['timeZone']) : null;
         return new Organization($payload['uuid'], $taxationType === TaxationType::VAT ? new Vat($payload['vatPercentage']) : null, $payload['currency'], $payload['name'] ?? null, $payload['city'] ?? null, $payload['zipCode'] ?? null, $payload['address'] ?? null, $payload['phoneNumber'] ?? null, $payload['contactEmail'] ?? null, $payload['receiptEmail'] ?? null, $payload['legalEntityType'] ?? null, $payload['legalEntityNr'] ?? null, $payload['country'] ?? null, $payload['language'] ?? null, $created, $payload['ownerUuid'] ?? null, $organizationId, $payload['customerStatus'] ?? null, $taxationMode, $taxationType, $payload['customerType'] ?? null, $timezone, $payload['addressLine2'] ?? null, $payload['legalName'] ?? null, $payload['legalZipCode'] ?? null, $payload['legalCity'] ?? null, $payload['legalState'] ?? null);
     }),
-    $key(Purchase::class) => $builder(static function (array $payload, B $builder): Purchase {
-        $purchaseBuilder = new PurchaseBuilder(new PurchaseFactory(), new UserBuilder(new UserFactory()), new CoordinatesBuilder(new CoordinatesFactory(new CoordinatesValidator())));
+    $key(Purchase::class) => $builder(static function (array $payload, B $builder, C $container): Purchase {
+        $purchaseBuilder = $container->get('paypal-pos.sdk.builder.purchase');
+        \assert($purchaseBuilder instanceof PurchaseBuilder);
         return $purchaseBuilder->buildFromArray($payload);
     }),
 ];
