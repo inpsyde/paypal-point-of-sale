@@ -49,7 +49,7 @@ class CreateOrderJob implements Job
 
         try {
             $purchase = $this->purchases->read($uuid);
-            // Refunds are handled separately; a refund would create a negative-total order.
+            // Refund purchases aren't synced as orders.
             if ($purchase->isRefund()) {
                 return true;
             }

@@ -16,50 +16,43 @@ class PaymentLabelsTest extends BrainMonkeyWpTestCase
         when('sanitize_key')->alias(static fn(string $key): string => strtolower($key));
     }
 
-    public function testPrimaryTypeIsHighestAmountTender(): void
+    /**
+     * @dataProvider payments
+     */
+    public function testPrimaryType(array $payments, string $expected): void
+    {
+        self::assertSame($expected, (new PaymentLabels())->primaryType($payments));
+    }
+
+    public function payments(): array
+    {
+        return [
+            'highest amount wins' => [
+                [['type' => 'IZETTLE_CASH', 'amount' => 4000], ['type' => 'IZETTLE_CARD', 'amount' => 6000]],
+                'IZETTLE_CARD',
+            ],
+            'refund uses absolute amounts' => [
+                [['type' => 'IZETTLE_CARD', 'amount' => -10000], ['type' => 'IZETTLE_CASH', 'amount' => -500]],
+                'IZETTLE_CARD',
+            ],
+            'no payments' => [[], ''],
+        ];
+    }
+
+    public function testTitle(): void
     {
         $labels = new PaymentLabels();
-        $payments = [
-            ['type' => 'IZETTLE_CASH', 'amount' => 4000],
-            ['type' => 'GIFTCARD', 'amount' => 6000],
-        ];
 
-        self::assertSame('GIFTCARD', $labels->primaryType($payments));
+        self::assertSame('PayPal POS Card', $labels->title('IZETTLE_CARD'));
+        self::assertSame('PayPal POS (Other)', $labels->title('SOMETHING_NEW'));
     }
 
-    public function testPrimaryTypeUsesAbsoluteAmountForRefunds(): void
+    public function testSlug(): void
     {
         $labels = new PaymentLabels();
-        $payments = [
-            ['type' => 'IZETTLE_CARD', 'amount' => -10000],
-            ['type' => 'IZETTLE_CASH', 'amount' => -500],
-        ];
 
-        self::assertSame('IZETTLE_CARD', $labels->primaryType($payments));
-    }
-
-    public function testPrimaryTypeIsEmptyWhenNoPayments(): void
-    {
-        self::assertSame('', (new PaymentLabels())->primaryType([]));
-    }
-
-    public function testKnownTypeGetsReadableTitle(): void
-    {
-        self::assertSame('PayPal POS Card', (new PaymentLabels())->title('IZETTLE_CARD'));
-    }
-
-    public function testUnknownTypeFallsBackToGenericTitle(): void
-    {
-        self::assertSame('PayPal POS (Other)', (new PaymentLabels())->title('CUSTOM'));
-    }
-
-    public function testSlugIsPrefixedAndSanitised(): void
-    {
-        self::assertSame('paypal_pos_card', (new PaymentLabels())->slug('IZETTLE_CARD'));
-    }
-
-    public function testSlugFallsBackWhenTypeIsEmpty(): void
-    {
-        self::assertSame('paypal_pos', (new PaymentLabels())->slug(''));
+        self::assertSame('paypal_pos_card', $labels->slug('IZETTLE_CARD'));
+        self::assertSame('paypal_pos_giftcard', $labels->slug('GIFTCARD'));
+        self::assertSame('paypal_pos', $labels->slug(''));
     }
 }

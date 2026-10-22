@@ -163,8 +163,7 @@ class PurchaseOrderFactory
 
         $item = new WC_Order_Item_Product();
         $item->set_product($product);
-        // WC rounds this via `woocommerce_stock_amount` unless the store allows fractions; keep
-        // fractions under 1 visible as 1 and the real quantity in meta.
+        // WC rounds quantities to whole numbers by default; the real one is kept in meta.
         $quantity = wc_stock_amount($amounts->quantity()) > 0 ? $amounts->quantity() : 1;
         $item->set_quantity($quantity); // @phpstan-ignore argument.type
         $item->add_meta_data(OrderMeta::ITEM_QUANTITY, (string) $amounts->quantity());

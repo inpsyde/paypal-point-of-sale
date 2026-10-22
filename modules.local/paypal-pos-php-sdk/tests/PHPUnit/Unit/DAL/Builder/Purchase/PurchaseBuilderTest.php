@@ -34,12 +34,11 @@ class PurchaseBuilderTest extends BrainMonkeyWpTestCase
     {
         $purchase = $this->builder()->buildFromArray($this->fixture('purchase-created.json'));
 
-        // uuid must come from purchaseUUID, not the regenerated uuid1.
         self::assertSame('WJwt5j7kEeuecKKsB1sX_Q', $purchase->uuid());
         self::assertInstanceOf(DateTime::class, $purchase->timestamp());
         self::assertSame('2020-12-15 14:46:43', $purchase->timestamp()->format('Y-m-d H:i:s'));
         self::assertSame('SEK', $purchase->currency());
-        // Amounts stay in minor units at the entity level; scaling is the mapper's job.
+        // Amounts stay in minor units on the entity.
         self::assertSame(70000.0, $purchase->amount());
         self::assertSame(14000.0, $purchase->vatAmount());
         self::assertSame(SourceType::POS, $purchase->sourceType()->getValue());
