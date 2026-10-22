@@ -32,11 +32,11 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         when('wp_json_encode')->alias('json_encode');
         when('wc_stock_amount')->alias('intval');
 
-        $wpdb = Mockery::mock('wpdb');
-        $wpdb->prefix = 'wp_';
-        $wpdb->shouldReceive('prepare')->andReturn('SQL');
-        $wpdb->shouldReceive('get_var')->andReturn('1');
-        $GLOBALS['wpdb'] = $wpdb;
+        $tax = Mockery::mock('alias:WC_Tax');
+        $tax->shouldReceive('get_tax_class_slugs')->andReturn(['reduced-rate']);
+        $tax->shouldReceive('find_rates')->andReturnUsing(
+            static fn (array $args) => $args['tax_class'] === '' ? [1 => ['rate' => '20.0000']] : []
+        );
     }
 
     /**

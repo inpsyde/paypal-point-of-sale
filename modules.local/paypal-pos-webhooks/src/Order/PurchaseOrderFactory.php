@@ -13,6 +13,7 @@ use WC_Order_Item_Fee;
 use WC_Order_Item_Product;
 use WC_Order_Item_Tax;
 use WC_Product;
+use WC_Tax;
 
 /**
  * Creates anonymous WooCommerce orders from Zettle POS purchases.
@@ -227,23 +228,21 @@ class PurchaseOrderFactory
     }
 
     /**
-     * Finds a WC tax rate with the same percentage, preferring the purchase country.
+     * Finds the WC tax rate with the same percentage for the purchase country, in the standard
+     * tax class first.
      */
     private function taxRateId(float $percentage, string $country): int
     {
-        global $wpdb;
+        foreach (array_merge([''], WC_Tax::get_tax_class_slugs()) as $taxClass) {
+            $rates = WC_Tax::find_rates(['country' => strtoupper($country), 'tax_class' => $taxClass]);
+            foreach ($rates as $rateId => $rate) {
+                if (abs((float) $rate['rate'] - $percentage) < 0.0001) {
+                    return (int) $rateId;
+                }
+            }
+        }
 
-        $rateId = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT tax_rate_id FROM {$wpdb->prefix}woocommerce_tax_rates
-                WHERE tax_rate = %f AND tax_rate_country IN (%s, '')
-                ORDER BY tax_rate_country DESC, tax_rate_order ASC LIMIT 1",
-                $percentage,
-                strtoupper($country)
-            )
-        );
-
-        return (int) $rateId;
+        return 0;
     }
 
     private function matchProduct(string $variantUuid): ?int
