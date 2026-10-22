@@ -79,4 +79,34 @@ class LineAmountsTest extends BrainMonkeyWpTestCase
         self::assertSame(0.5, $amounts->quantity());
         self::assertSame(500, $amounts->netMinor());
     }
+
+    public function testDerivesIncludedVatFromThePercentageWhenGrossTaxIsMissing(): void
+    {
+        $amounts = LineAmounts::fromLine([
+            'quantity' => '1',
+            'unitPrice' => 70000,
+            'vatPercentage' => 25,
+            'discountValue' => 1000,
+        ]);
+
+        // 70000 includes 14000 VAT; after the 1000 discount, 69000 includes 13800.
+        self::assertSame(56000, $amounts->subtotalNetMinor());
+        self::assertSame(14000, $amounts->subtotalTaxMinor());
+        self::assertSame(55200, $amounts->netMinor());
+        self::assertSame(13800, $amounts->taxMinor());
+    }
+
+    public function testDoesNotBookVatAsDiscountWhenOnlyGrossTaxIsMissing(): void
+    {
+        $amounts = LineAmounts::fromLine([
+            'quantity' => '1',
+            'unitPrice' => 840,
+            'vatPercentage' => 20,
+            'rowTaxableAmount' => 700,
+            'grossValue' => 840,
+        ]);
+
+        self::assertSame(700, $amounts->subtotalNetMinor());
+        self::assertSame(140, $amounts->taxMinor());
+    }
 }

@@ -29,21 +29,13 @@ class WpCronRunner implements Runner
     }
 
     /**
-     * The cron event that processes the queue, for code that wants to trigger a run.
-     */
-    public static function hook(string $namespace): string
-    {
-        return "{$namespace}.queue.cron";
-    }
-
-    /**
      * Schedules a wp-cron event that always fires.
      *
      * @param QueueProcessor $queueProcessor
      */
     public function initialize(QueueProcessor $queueProcessor): void
     {
-        $hook = self::hook($this->namespace);
+        $hook = "{$this->namespace}.queue.cron";
 
         add_action(
             $hook,

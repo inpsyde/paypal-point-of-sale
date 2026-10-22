@@ -36,6 +36,11 @@ class PurchaseOrderFactory
 
     private LoggerInterface $logger;
 
+    /**
+     * @var array<string, int> WC tax rate ids by country and percentage.
+     */
+    private array $taxRateIds = [];
+
     public function __construct(
         OneToManyMapInterface $variantIdMap,
         PaymentLabels $paymentLabels,
@@ -90,7 +95,13 @@ class PurchaseOrderFactory
             if (count($taxTotals) === 1) {
                 $key = array_key_first($taxTotals);
                 $vatMinor = (int) abs($purchase->vatAmount());
-                $this->alignLineTaxes($order, $taxTotals[$key]['rateId'], $vatMinor - $taxTotals[$key]['taxMinor'], $currency);
+                // The cent moved onto a line's tax comes off the discount tax, which is subtotal minus total.
+                $discountTaxMinor -= $this->alignLineTaxes(
+                    $order,
+                    $taxTotals[$key]['rateId'],
+                    $vatMinor - $taxTotals[$key]['taxMinor'],
+                    $currency
+                );
                 $taxTotals[$key]['taxMinor'] = $vatMinor;
             }
             $this->addTaxItems($order, $taxTotals, $currency);
@@ -144,8 +155,11 @@ class PurchaseOrderFactory
         $amounts = LineAmounts::fromLine($line);
 
         $rateId = 0;
-        if ($amounts->taxMinor() > 0) {
+        // A fully discounted line has no tax left but still needs its rate for the subtotal tax.
+        if ($amounts->subtotalTaxMinor() > 0) {
             $rateId = $this->taxRateId($amounts->vatPercentage(), $country);
+        }
+        if ($amounts->taxMinor() > 0) {
             $key = $rateId > 0 ? $rateId : 'p' . (string) $amounts->vatPercentage();
             $taxTotals[$key] = [
                 'rateId' => $rateId,
@@ -234,6 +248,16 @@ class PurchaseOrderFactory
      */
     private function taxRateId(float $percentage, string $country): int
     {
+        $cacheKey = strtoupper($country) . '|' . (string) $percentage;
+        if (!array_key_exists($cacheKey, $this->taxRateIds)) {
+            $this->taxRateIds[$cacheKey] = $this->findTaxRateId($percentage, $country);
+        }
+
+        return $this->taxRateIds[$cacheKey];
+    }
+
+    private function findTaxRateId(float $percentage, string $country): int
+    {
         foreach (array_merge([''], WC_Tax::get_tax_class_slugs()) as $taxClass) {
             $rates = WC_Tax::find_rates(['country' => strtoupper($country), 'tax_class' => $taxClass]);
             foreach ($rates as $rateId => $rate) {
@@ -296,11 +320,13 @@ class PurchaseOrderFactory
     /**
      * Moves the cent Zettle's VAT total and the rounded line taxes can differ by onto the last
      * line with that rate, so line taxes add up to the order tax.
+     *
+     * @return int The difference applied, in minor units.
      */
-    private function alignLineTaxes(WC_Order $order, int $rateId, int $differenceMinor, string $currency): void
+    private function alignLineTaxes(WC_Order $order, int $rateId, int $differenceMinor, string $currency): int
     {
         if ($rateId <= 0 || $differenceMinor === 0) {
-            return;
+            return 0;
         }
 
         $lines = array_reverse((array) $order->get_items(['line_item', 'fee']));
@@ -318,7 +344,9 @@ class PurchaseOrderFactory
             );
             $line->set_taxes($taxes);
 
-            return;
+            return $differenceMinor;
         }
+
+        return 0;
     }
 }
