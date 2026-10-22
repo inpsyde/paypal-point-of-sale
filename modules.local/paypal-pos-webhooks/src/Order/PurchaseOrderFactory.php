@@ -34,13 +34,16 @@ class PurchaseOrderFactory
 
     private LoggerInterface $logger;
 
+    private string $status;
+
     public function __construct(
         OneToManyMapInterface $variantIdMap,
         OrderDefaults $defaults,
         OrderTaxes $taxes,
         OrderSideEffects $sideEffects,
         OrderRepository $orders,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        string $status
     ) {
 
         $this->variantIdMap = $variantIdMap;
@@ -49,6 +52,7 @@ class PurchaseOrderFactory
         $this->sideEffects = $sideEffects;
         $this->orders = $orders;
         $this->logger = $logger;
+        $this->status = $status;
     }
 
     public function orderExists(string $purchaseUuid): bool
@@ -92,10 +96,12 @@ class PurchaseOrderFactory
             // Mirror Zettle's own totals; never let WC recompute and diverge.
             $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
             $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
-            $order->set_status('completed');
-            // set_status() stamps both dates with the current time; use the sale's time instead.
+            $order->set_status($this->status);
+            // set_status() stamps the dates with the current time; use the sale's time instead.
             $order->set_date_paid($purchase->timestamp()->getTimestamp());
-            $order->set_date_completed($purchase->timestamp()->getTimestamp());
+            if ($this->status === 'completed') {
+                $order->set_date_completed($purchase->timestamp()->getTimestamp());
+            }
             $order->save();
 
             $order->add_order_note(

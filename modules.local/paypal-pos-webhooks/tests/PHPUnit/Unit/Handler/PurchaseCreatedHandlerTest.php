@@ -28,13 +28,21 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
         return $payload;
     }
 
-    public function testAcceptsOnlyPurchaseCreated(): void
+    public function testAcceptsOnlyPurchaseCreatedWhenEnabled(): void
     {
         $handler = new PurchaseCreatedHandler(static function (): void {
-        }, $this->logger());
+        }, $this->logger(), true);
 
         self::assertTrue($handler->accepts($this->payload(EventName::PURCHASE_CREATED)));
         self::assertFalse($handler->accepts($this->payload('InventoryBalanceChanged')));
+    }
+
+    public function testDoesNotAcceptWhenDisabled(): void
+    {
+        $handler = new PurchaseCreatedHandler(static function (): void {
+        }, $this->logger(), false);
+
+        self::assertFalse($handler->accepts($this->payload(EventName::PURCHASE_CREATED)));
     }
 
     /**
@@ -47,7 +55,7 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
             $captured = [$type, $args];
         };
 
-        $handler = new PurchaseCreatedHandler($enqueue, $this->logger());
+        $handler = new PurchaseCreatedHandler($enqueue, $this->logger(), true);
         $handler->handle($this->payload(EventName::PURCHASE_CREATED, [$key => 'abc']));
 
         self::assertSame([CreateOrderJob::TYPE, ['purchaseUuid' => 'abc']], $captured);
@@ -65,7 +73,7 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
             $called = true;
         };
 
-        $handler = new PurchaseCreatedHandler($enqueue, $this->logger());
+        $handler = new PurchaseCreatedHandler($enqueue, $this->logger(), true);
         $handler->handle($this->payload(EventName::PURCHASE_CREATED, []));
 
         self::assertFalse($called);

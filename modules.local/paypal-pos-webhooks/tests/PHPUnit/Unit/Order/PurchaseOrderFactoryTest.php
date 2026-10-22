@@ -80,7 +80,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         );
     }
 
-    private function factory(OneToManyMapInterface $variants): PurchaseOrderFactory
+    private function factory(OneToManyMapInterface $variants, string $status = 'completed'): PurchaseOrderFactory
     {
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldIgnoreMissing();
@@ -91,15 +91,26 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
             new OrderTaxes(),
             new OrderSideEffects(),
             Mockery::mock(OrderRepository::class),
-            $logger
+            $logger,
+            $status
         );
+    }
+
+    private function matchedVariants(): OneToManyMapInterface
+    {
+        $variants = Mockery::mock(OneToManyMapInterface::class);
+        $variants->shouldReceive('localId')->with('variant-uuid')->andReturn(10);
+        when('wc_get_product')->justReturn(Mockery::mock('WC_Product'));
+
+        return $variants;
     }
 
     private function orderExpectingTotals(
         string $discount,
         string $discountTax,
         string $total = '6.72',
-        string $tax = '1.12'
+        string $tax = '1.12',
+        string $status = 'completed'
     ): object
     {
         $soldAt = (new DateTime(self::SOLD_AT))->getTimestamp();
@@ -108,9 +119,9 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $order->shouldReceive('set_discount_tax')->once()->with($discountTax);
         $order->shouldReceive('set_cart_tax')->once()->with($tax);
         $order->shouldReceive('set_total')->once()->with($total);
-        $order->shouldReceive('set_status')->once()->with('completed')->ordered();
+        $order->shouldReceive('set_status')->once()->with($status)->ordered();
         $order->shouldReceive('set_date_paid')->once()->with($soldAt)->ordered();
-        $order->shouldReceive('set_date_completed')->once()->with($soldAt)->ordered();
+        $order->shouldReceive('set_date_completed')->times($status === 'completed' ? 1 : 0)->with($soldAt);
         $order->shouldReceive('save')->once()->ordered();
         $order->shouldReceive('get_id')->andReturn(5);
         $order->shouldIgnoreMissing();
@@ -204,5 +215,13 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $variants->shouldReceive('localId')->andReturn(10);
 
         $this->factory($variants)->createOrder($this->discountedSale('1', 672, [], 111));
+    }
+
+    public function testUsesTheConfiguredStatusAndOnlyStampsCompletionWhenCompleted(): void
+    {
+        $this->orderExpectingTotals('1.4', '0.28', '6.72', '1.12', 'processing');
+        Mockery::mock('overload:WC_Order_Item_Product')->shouldIgnoreMissing();
+
+        $this->factory($this->matchedVariants(), 'processing')->createOrder($this->discountedSale());
     }
 }
