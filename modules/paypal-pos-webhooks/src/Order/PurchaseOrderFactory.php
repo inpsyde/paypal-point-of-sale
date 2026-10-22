@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order;
 
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\MinorUnits;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
@@ -12,6 +13,7 @@ use WC_Order_Item_Fee;
 use WC_Order_Item_Product;
 use WC_Order_Item_Tax;
 use WC_Product;
+use WC_Tax;
 /**
  * Creates anonymous WooCommerce orders from Zettle POS purchases.
  */
@@ -22,33 +24,36 @@ class PurchaseOrderFactory
     private const KEY_UNIT_PRICE = 'unitPrice';
     private const KEY_NAME = 'name';
     public const CREATED_VIA = 'paypal_pos';
-    public const DEFAULT_LINE_NAME = 'PayPal POS item';
-    private const FILTER_PRIORITY = 1000;
-    private const SUPPRESSED_EMAILS = ['new_order', 'customer_completed_order', 'customer_processing_order', 'customer_on_hold_order', 'customer_invoice'];
     private OneToManyMapInterface $variantIdMap;
     private PaymentLabels $paymentLabels;
+    private OrderSideEffects $sideEffects;
     private LoggerInterface $logger;
-    public function __construct(OneToManyMapInterface $variantIdMap, PaymentLabels $paymentLabels, LoggerInterface $logger)
+    public function __construct(OneToManyMapInterface $variantIdMap, PaymentLabels $paymentLabels, OrderSideEffects $sideEffects, LoggerInterface $logger)
     {
         $this->variantIdMap = $variantIdMap;
         $this->paymentLabels = $paymentLabels;
+        $this->sideEffects = $sideEffects;
         $this->logger = $logger;
     }
     public function orderExists(string $purchaseUuid): bool
     {
+        if ($purchaseUuid === '') {
+            return \false;
+        }
         $ids = wc_get_orders([
             'limit' => 1,
             'return' => 'ids',
             // 'any' excludes trash; an explicit list including 'trash' is required.
             'status' => array_merge(array_keys(wc_get_order_statuses()), ['trash']),
-            'meta_query' => [['key' => OrderMeta::PURCHASE_UUID, 'value' => $purchaseUuid]],
+            // meta_key/meta_value, not meta_query: the legacy post order store ignores meta_query.
+            'meta_key' => OrderMeta::PURCHASE_UUID,
+            'meta_value' => $purchaseUuid,
         ]);
         return !empty($ids);
     }
     public function createOrder(Purchase $purchase): int
     {
-        $this->blockStockReduction(\true);
-        try {
+        return $this->sideEffects->withoutStockReduction(function () use ($purchase): int {
             // Built in memory and saved once, so a failure leaves no half-created order behind.
             $order = new WC_Order();
             $currency = $purchase->currency();
@@ -90,11 +95,12 @@ class PurchaseOrderFactory
             $order->set_date_paid($purchase->timestamp()->getTimestamp());
             $order->set_date_completed($purchase->timestamp()->getTimestamp());
             $order->save();
-            $order->add_order_note(sprintf('Cashier: %s', $purchase->user()->displayName()));
+            $order->add_order_note(
+                /* translators: %s: name of the cashier who made the sale */
+                sprintf(__('Cashier: %s', 'paypal-point-of-sale'), $purchase->user()->displayName())
+            );
             return $order->get_id();
-        } finally {
-            $this->blockStockReduction(\false);
-        }
+        });
     }
     /**
      * @param array<string, mixed> $line
@@ -121,8 +127,7 @@ class PurchaseOrderFactory
         }
         $item = new WC_Order_Item_Product();
         $item->set_product($product);
-        // WC rounds this via `woocommerce_stock_amount` unless the store allows fractions; keep
-        // fractions under 1 visible as 1 and the real quantity in meta.
+        // WC rounds quantities to whole numbers by default; the real one is kept in meta.
         $quantity = wc_stock_amount($amounts->quantity()) > 0 ? $amounts->quantity() : 1;
         $item->set_quantity($quantity);
         // @phpstan-ignore argument.type
@@ -146,7 +151,7 @@ class PurchaseOrderFactory
     {
         $net = (string) MinorUnits::toMajor($amounts->netMinor(), $currency);
         $fee = new WC_Order_Item_Fee();
-        $fee->set_name((string) ($line[self::KEY_NAME] ?? '') ?: self::DEFAULT_LINE_NAME);
+        $fee->set_name((string) ($line[self::KEY_NAME] ?? '') ?: self::defaultLineName());
         $fee->set_amount($net);
         $fee->set_total($net);
         if ($rateId > 0) {
@@ -165,7 +170,8 @@ class PurchaseOrderFactory
             $tax = new WC_Order_Item_Tax();
             $tax->set_rate_id($taxTotal['rateId']);
             $tax->set_rate_code(sprintf('PAYPAL-POS-TAX-%s', $percentage));
-            $tax->set_label(sprintf('Tax %s%%', $percentage));
+            /* translators: %s: tax rate percentage, e.g. 20 */
+            $tax->set_label(sprintf(__('Tax %s%%', 'paypal-point-of-sale'), $percentage));
             $tax->set_rate_percent($taxTotal['percentage']);
             $tax->set_compound(\false);
             $tax->set_tax_total((string) MinorUnits::toMajor($taxTotal['taxMinor'], $currency));
@@ -174,13 +180,20 @@ class PurchaseOrderFactory
         }
     }
     /**
-     * Finds a WC tax rate with the same percentage, preferring the purchase country.
+     * Finds the WC tax rate with the same percentage for the purchase country, in the standard
+     * tax class first.
      */
     private function taxRateId(float $percentage, string $country): int
     {
-        global $wpdb;
-        $rateId = $wpdb->get_var($wpdb->prepare("SELECT tax_rate_id FROM {$wpdb->prefix}woocommerce_tax_rates\n                WHERE tax_rate = %f AND tax_rate_country IN (%s, '')\n                ORDER BY tax_rate_country DESC, tax_rate_order ASC LIMIT 1", $percentage, strtoupper($country)));
-        return (int) $rateId;
+        foreach (array_merge([''], WC_Tax::get_tax_class_slugs()) as $taxClass) {
+            $rates = WC_Tax::find_rates(['country' => strtoupper($country), 'tax_class' => $taxClass]);
+            foreach ($rates as $rateId => $rate) {
+                if (abs((float) $rate['rate'] - $percentage) < 0.0001) {
+                    return (int) $rateId;
+                }
+            }
+        }
+        return 0;
     }
     private function matchProduct(string $variantUuid): ?int
     {
@@ -214,43 +227,11 @@ class PurchaseOrderFactory
         }
     }
     /**
-     * Keeps WC from sending order emails for POS orders. Registered for the whole request,
-     * not just during creation, because stores that defer emails send them later.
+     * Name for sold items Zettle sends without one, e.g. custom amounts.
      */
-    public static function suppressEmails(): void
+    public static function defaultLineName(): string
     {
-        foreach (self::SUPPRESSED_EMAILS as $emailId) {
-            add_filter("woocommerce_email_enabled_{$emailId}", [self::class, 'emailEnabled'], 10, 2);
-        }
-    }
-    /**
-     * @internal Filter callback for suppressEmails().
-     *
-     * @param mixed $enabled
-     * @param mixed $object
-     */
-    public static function emailEnabled($enabled, $object = null): bool
-    {
-        return !($object instanceof WC_Order && $object->get_created_via() === self::CREATED_VIA) && (bool) $enabled;
-    }
-    /**
-     * Stock is owned by the InventoryBalanceChanged path. Our own callback, so removing it never
-     * touches an identical filter added by others.
-     */
-    private function blockStockReduction(bool $block): void
-    {
-        if ($block) {
-            add_filter('woocommerce_can_reduce_order_stock', [self::class, 'disable'], self::FILTER_PRIORITY);
-            return;
-        }
-        remove_filter('woocommerce_can_reduce_order_stock', [self::class, 'disable'], self::FILTER_PRIORITY);
-    }
-    /**
-     * @internal Filter callback for blockStockReduction().
-     */
-    public static function disable(): bool
-    {
-        return \false;
+        return __('PayPal POS item', 'paypal-point-of-sale');
     }
     /**
      * Moves the cent Zettle's VAT total and the rounded line taxes can differ by onto the last

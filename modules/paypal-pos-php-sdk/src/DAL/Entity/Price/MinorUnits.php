@@ -1,14 +1,15 @@
 <?php
 
 declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order;
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price;
 
 /**
- * Converts Zettle minor-unit amounts (e.g. cents) to WooCommerce major units.
+ * Converts between Zettle's minor-unit amounts (e.g. cents) and major units, using the
+ * currency's ISO 4217 exponent.
  */
 final class MinorUnits
 {
-    private const ZERO_DECIMAL = ['JPY', 'KRW', 'ISK', 'HUF', 'CLP', 'VND'];
+    private const ZERO_DECIMAL = ['CLP', 'ISK', 'JPY', 'KRW', 'VND'];
     public static function exponent(string $currency): int
     {
         return in_array(strtoupper($currency), self::ZERO_DECIMAL, \true) ? 0 : 2;

@@ -26,14 +26,13 @@ class Price
         return $this->amount;
     }
     /**
-     * Convert Integer Price to Float amount
-     * Note: Converting from hundreth-based integer to float
+     * Convert the minor-unit integer price to a float amount in major units.
      *
      * @return float
      */
     public function amountToFloat(): float
     {
-        return (float) $this->amount / 100;
+        return MinorUnits::toMajor($this->amount, $this->currencyId);
     }
     /**
      * @param int $amount

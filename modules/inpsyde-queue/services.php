@@ -150,6 +150,9 @@ return [
     'inpsyde.queue.runner.wp-cron' => static function (C $container): Runner {
         return new WpCronRunner($container->get('inpsyde.queue.namespace'));
     },
+    'inpsyde.queue.runner.wp-cron.hook' => static function (C $container): string {
+        return WpCronRunner::hook($container->get('inpsyde.queue.namespace'));
+    },
     'inpsyde.queue.runner.async' => static function (C $container): Runner {
         $namespace = $container->get('inpsyde.queue.rest.namespace');
         $endpoint = $container->get('inpsyde.queue.rest.v1.endpoint.process');

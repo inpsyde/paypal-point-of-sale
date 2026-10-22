@@ -12,7 +12,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFacto
 use Throwable;
 class CreateOrderJob implements Job
 {
-    public const TYPE = 'create-order';
+    public const TYPE = 'webhook-purchase-created';
     private Purchases $purchases;
     private PurchaseOrderFactory $orderFactory;
     public function __construct(Purchases $purchases, PurchaseOrderFactory $orderFactory)
@@ -36,7 +36,7 @@ class CreateOrderJob implements Job
         }
         try {
             $purchase = $this->purchases->read($uuid);
-            // Refunds are handled separately; a refund would create a negative-total order.
+            // Refund purchases aren't synced as orders.
             if ($purchase->isRefund()) {
                 return \true;
             }

@@ -20,6 +20,7 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
@@ -92,9 +93,11 @@ return [$job(InventoryBalanceChangedJob::TYPE) => static function (C $container)
 }, 'paypal-pos.webhook.handlers.inventory-balance-changed' => static function (C $container) use ($job): WebhookHandler {
     return new InventoryBalanceChangedHandler($container->get($job(InventoryBalanceChangedJob::TYPE)), $container->get('paypal-pos.webhook.logger'), $container->get('paypal-pos.sdk.id-map.variant'), $container->get('paypal-pos.sdk.integration-id'));
 }, 'paypal-pos.webhook.order-factory' => static function (C $container): PurchaseOrderFactory {
-    return new PurchaseOrderFactory($container->get('paypal-pos.sdk.id-map.variant'), new PaymentLabels(), $container->get('paypal-pos.webhook.logger'));
+    return new PurchaseOrderFactory($container->get('paypal-pos.sdk.id-map.variant'), new PaymentLabels(), $container->get('paypal-pos.webhook.order-side-effects'), $container->get('paypal-pos.webhook.logger'));
+}, 'paypal-pos.webhook.order-side-effects' => static function (): OrderSideEffects {
+    return new OrderSideEffects();
 }, 'paypal-pos.webhook.handlers.purchase-created' => static function (C $container): WebhookHandler {
-    return new PurchaseCreatedHandler($container->get('inpsyde.queue.enqueue-job'), $container->get('inpsyde.queue.namespace') . '.queue.cron');
+    return new PurchaseCreatedHandler($container->get('inpsyde.queue.enqueue-job'), $container->get('inpsyde.queue.runner.wp-cron.hook'), $container->get('paypal-pos.webhook.logger'));
 }, 'paypal-pos.webhook.handlers' => static function (C $container): array {
     return [new LogHandler($container->get('paypal-pos.webhook.logger')), new InventoryTrackingStartedHandler(), new InventoryTrackingStoppedHandler(), $container->get('paypal-pos.webhook.handlers.inventory-balance-changed'), $container->get('paypal-pos.webhook.handlers.purchase-created')];
 }, 'paypal-pos.webhook.register' => static function (C $container): callable {

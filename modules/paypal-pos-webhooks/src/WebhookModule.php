@@ -8,6 +8,7 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
 use WP_CLI;
@@ -30,7 +31,9 @@ class WebhookModule implements ServiceModule, ExecutableModule
             $this->registerRestRoute($container);
             $this->registerCliCommand($container);
         });
-        Order\PurchaseOrderFactory::suppressEmails();
+        $sideEffects = $container->get('paypal-pos.webhook.order-side-effects');
+        assert($sideEffects instanceof OrderSideEffects);
+        $sideEffects->suppressEmails();
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
         // Re-register on update too, so existing installs subscribe to newly added events.
