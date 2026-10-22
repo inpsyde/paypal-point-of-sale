@@ -110,6 +110,25 @@ class PurchaseBuilder implements PurchaseBuilderInterface
     }
 
     /**
+     * @param array<string, mixed> $data
+     */
+    private function timestamp(array $data): DateTime
+    {
+        try {
+            return new DateTime((string) $data['timestamp']);
+        } catch (Exception $exception) {
+            // phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            throw new InvalidBuilderPayloadException(
+                Purchase::class,
+                $data,
+                [ValidationErrorCodes::INVALID_FIELD],
+                $exception
+            );
+            // phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+        }
+    }
+
+    /**
      * @param array $data
      *
      * @return Purchase
@@ -128,6 +147,7 @@ class PurchaseBuilder implements PurchaseBuilderInterface
             );
             // phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
+        $timestamp = $this->timestamp($data);
 
         $coordinates = $this->coordinates($data['gpsCoordinates'] ?? null);
 
@@ -142,7 +162,7 @@ class PurchaseBuilder implements PurchaseBuilderInterface
 
         return $this->purchaseFactory->create(
             $uuid,
-            new DateTime($data['timestamp']),
+            $timestamp,
             $data['country'] ?? '',
             $data['currency'] ?? '',
             $this->userBuilder->buildFromArray($data),

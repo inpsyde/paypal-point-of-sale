@@ -103,6 +103,15 @@ class PurchaseBuilderTest extends BrainMonkeyWpTestCase
         return [['purchaseUUID'], ['timestamp']];
     }
 
+    public function testRejectsAnUnreadableTimestamp(): void
+    {
+        $data = $this->fixture('purchase-created.json');
+        $data['timestamp'] = 'not a date';
+
+        $this->expectException(InvalidBuilderPayloadException::class);
+        $this->builder()->buildFromArray($data);
+    }
+
     public function testIgnoresUnknownSource(): void
     {
         $data = $this->fixture('purchase-created.json');

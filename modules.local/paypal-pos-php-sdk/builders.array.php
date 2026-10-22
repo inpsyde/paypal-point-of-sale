@@ -9,10 +9,7 @@ use Psr\Container\ContainerInterface as C;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface as B;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\CallbackBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\ImageBuilder;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase\PurchaseBuilder;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilder;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\CoordinatesFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Image\ImageInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Inventory\Inventory;
@@ -29,9 +26,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\Product;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Product\ProductInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Tax\TaxRate;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\Variant;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Variant\VariantInterface;
@@ -40,7 +35,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantInventoryState\VariantInven
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOption;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\VariantOption\VariantOptionCollection;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Vat\Vat;
-use Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
 
 $key = static function (string $className): string {
     return "paypal-pos.sdk.builder.array.{$className}";
@@ -376,12 +370,9 @@ return [
         }
     ),
     $key(Purchase::class) => $builder(
-        static function (array $payload, B $builder): Purchase {
-            $purchaseBuilder = new PurchaseBuilder(
-                new PurchaseFactory(),
-                new UserBuilder(new UserFactory()),
-                new CoordinatesBuilder(new CoordinatesFactory(new CoordinatesValidator()))
-            );
+        static function (array $payload, B $builder, C $container): Purchase {
+            $purchaseBuilder = $container->get('paypal-pos.sdk.builder.purchase');
+            assert($purchaseBuilder instanceof PurchaseBuilder);
 
             return $purchaseBuilder->buildFromArray($payload);
         }

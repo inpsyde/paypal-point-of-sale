@@ -30,9 +30,15 @@ use Syde\PayPal\PointOfSale\PhpSdk\Builder\TypeDelegatingBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\ValidatableBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\WooCommerceBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\Config\WooCommerceConfigContainer;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Coordinates\CoordinatesBuilder;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Purchase\PurchaseBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Repository\Variant\VariantBuilderRepository;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\Repository\Variant\VariantBuilderRepositoryInterface;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Builder\User\UserBuilder;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Connection\ConnectionType;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Coordinates\CoordinatesFactory;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image\PlaceholderUrlProvider;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image\UrlProviderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Image\WordPressFilePathProvider;
@@ -42,6 +48,7 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\RestOrganizationPro
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Organization\TransientCachingOrganizationProvider;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\VatProvider;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Provider\Vat\WooCommerceVatProvider;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Validator\Coordinates\CoordinatesValidator;
 use Syde\PayPal\PointOfSale\PhpSdk\DB\DataMappingTable;
 use Syde\PayPal\PointOfSale\PhpSdk\DB\Table;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
@@ -465,6 +472,13 @@ return array_merge(
                 $container->get('paypal-pos.sdk.serializer'),
                 $container->get('paypal-pos.sdk.api.products.listener.delete'),
                 $container->get('paypal-pos.sdk.api.products.listener.update')
+            );
+        },
+        'paypal-pos.sdk.builder.purchase' => static function (): PurchaseBuilder {
+            return new PurchaseBuilder(
+                new PurchaseFactory(),
+                new UserBuilder(new UserFactory()),
+                new CoordinatesBuilder(new CoordinatesFactory(new CoordinatesValidator()))
             );
         },
         'paypal-pos.sdk.api.purchases' => static function (C $container): Purchases {
