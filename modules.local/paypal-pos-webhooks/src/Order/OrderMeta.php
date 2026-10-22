@@ -21,4 +21,9 @@ final class OrderMeta
     public const ITEM_PRODUCT_UUID = '_zettle_product_uuid';
     public const ITEM_UNIT_PRICE_MINOR = '_zettle_unit_price_minor';
     public const ITEM_QUANTITY = '_zettle_quantity';
+
+    public const REFUND_PURCHASE_UUID = '_zettle_refund_purchase_uuid';
+    public const REFUND_PAYMENTS = '_zettle_refund_payments';
+    public const ORPHAN_REFUND = '_zettle_orphan_refund';
+    public const ORPHAN_REFUNDS_PURCHASE_UUID = '_zettle_orphan_refunds_purchase_uuid';
 }

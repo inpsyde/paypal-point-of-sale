@@ -14,6 +14,19 @@ class OrderRepository
         return $this->findIdByMeta(OrderMeta::PURCHASE_UUID, $purchaseUuid);
     }
 
+    public function findIdByRefundPurchaseUuid(string $refundPurchaseUuid): ?int
+    {
+        return $this->findIdByMeta(OrderMeta::REFUND_PURCHASE_UUID, $refundPurchaseUuid);
+    }
+
+    /**
+     * @return int[] Orphan refund orders recorded for a purchase before it was synced.
+     */
+    public function findOrphanIdsForPurchaseUuid(string $purchaseUuid): array
+    {
+        return $this->findIdsByMeta(OrderMeta::ORPHAN_REFUNDS_PURCHASE_UUID, $purchaseUuid, -1);
+    }
+
     public function existsForPurchaseUuid(string $purchaseUuid): bool
     {
         return $this->findIdByPurchaseUuid($purchaseUuid) !== null;

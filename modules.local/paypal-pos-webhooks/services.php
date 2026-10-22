@@ -27,6 +27,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
 use Symfony\Component\Uid\Uuid;
@@ -51,7 +52,8 @@ return [
     $job(CreateOrderJob::TYPE) => static function (C $container): Job {
         return new CreateOrderJob(
             $container->get('paypal-pos.sdk.api.purchases'),
-            $container->get('paypal-pos.webhook.order-factory')
+            $container->get('paypal-pos.webhook.order-factory'),
+            $container->get('paypal-pos.webhook.refund-factory')
         );
     },
     'paypal-pos.webhook.config' => static function (C $container): array {
@@ -202,6 +204,16 @@ return [
             $container->get('paypal-pos.webhook.order-taxes'),
             $container->get('paypal-pos.webhook.order-side-effects'),
             $container->get('paypal-pos.webhook.order-repository'),
+            $container->get('paypal-pos.webhook.logger')
+        );
+    },
+    'paypal-pos.webhook.refund-factory' => static function (C $container): PurchaseRefundFactory {
+        return new PurchaseRefundFactory(
+            $container->get('paypal-pos.webhook.order-repository'),
+            $container->get('paypal-pos.webhook.order-defaults'),
+            $container->get('paypal-pos.webhook.order-taxes'),
+            $container->get('paypal-pos.webhook.order-side-effects'),
+            $container->get('paypal-pos.webhook.payment-labels'),
             $container->get('paypal-pos.webhook.logger')
         );
     },
