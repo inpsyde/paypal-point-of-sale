@@ -47,7 +47,7 @@ class DelayedRetry
     /**
      * @param array<string, mixed> $args
      */
-    public function later(string $type, array $args, int $delaySeconds): void
+    private function later(string $type, array $args, int $delaySeconds): void
     {
         wp_schedule_single_event(time() + $delaySeconds, self::HOOK, [$type, $args]);
     }

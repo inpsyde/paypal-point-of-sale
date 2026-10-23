@@ -80,7 +80,7 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         );
         $this->registerRecovery($container);
         $this->registerDelayedJobs($container);
-        $this->registerSetupImportChoice();
+        add_action('paypal-pos.onboarding.sync-params.after', [Backfill\SetupImportChoice::class, 'render']);
 
         $this->registerBackfillTools($container);
 
@@ -131,6 +131,8 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         add_action(
             'paypal-point-of-sale.deactivate',
             static function () use ($backfill) {
+                // Nothing handles these while the plugin is inactive; the recovery re-imports.
+                wp_clear_scheduled_hook(Job\DelayedRetry::HOOK);
                 $backfill()->rememberDeactivation();
             }
         );
@@ -156,110 +158,17 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         );
     }
 
-    /**
-     * Asks on the last onboarding settings step whether to import past sales once setup completes.
-     */
-    private function registerSetupImportChoice(): void
-    {
-        add_action(
-            'paypal-pos.onboarding.sync-params.after',
-            static function (): void {
-                ?>
-                <p>
-                    <input type="hidden" name="woocommerce_zettle_order_sync_import_on_setup" value="no">
-                    <label>
-                        <input type="checkbox" name="woocommerce_zettle_order_sync_import_on_setup" value="yes" checked>
-                        <?php esc_html_e(
-                            'Import past PayPal POS sales as WooCommerce orders when the setup is completed',
-                            'paypal-point-of-sale'
-                        ); ?>
-                    </label>
-                </p>
-                <?php
-            }
-        );
-    }
-
     private function registerBackfillTools(ContainerInterface $container): void
     {
         add_filter(
             'woocommerce_debug_tools',
             static function (array $tools) use ($container): array {
-                $backfill = $container->get('paypal-pos.webhook.backfill');
-                assert($backfill instanceof Backfill\PurchaseBackfill);
+                $backfillTools = $container->get('paypal-pos.webhook.backfill-tools');
+                assert($backfillTools instanceof Backfill\BackfillTools);
 
-                $tools['zettle_import_orders'] = [
-                    'name' => __('Import PayPal POS orders', 'paypal-point-of-sale'),
-                    'button' => __('Import historical orders', 'paypal-point-of-sale'),
-                    'desc' => __(
-                        'Fetches all past PayPal POS sales and refunds in the background and creates any that are not yet in WooCommerce.',
-                        'paypal-point-of-sale'
-                    ) . self::backfillStatus($backfill),
-                    'callback' => static function () use ($backfill): string {
-                        return self::startMessage($backfill, static fn (): bool => $backfill->start());
-                    },
-                ];
-                $tools['zettle_sync_missed_orders'] = [
-                    'name' => __('Sync missed PayPal POS orders', 'paypal-point-of-sale'),
-                    'button' => __('Sync missed orders', 'paypal-point-of-sale'),
-                    'desc' => __(
-                        'Fetches PayPal POS sales and refunds from the last 30 days in the background and creates any that are missing.',
-                        'paypal-point-of-sale'
-                    ),
-                    'callback' => static function () use ($backfill): string {
-                        return self::startMessage($backfill, static fn (): bool => $backfill->startMissed());
-                    },
-                ];
-
-                return $tools;
+                return $backfillTools->addTools($tools);
             }
         );
-    }
-
-    /**
-     * @param callable(): bool $start
-     */
-    private static function startMessage(Backfill\PurchaseBackfill $backfill, callable $start): string
-    {
-        if (!$backfill->isEnabled()) {
-            return __('POS order creation is disabled in the PayPal POS settings.', 'paypal-point-of-sale');
-        }
-        if (!$start()) {
-            return __('A PayPal POS import is already running. Try again when it has finished.', 'paypal-point-of-sale');
-        }
-
-        return __('PayPal POS sales are being imported in the background.', 'paypal-point-of-sale');
-    }
-
-    private static function backfillStatus(Backfill\PurchaseBackfill $backfill): string
-    {
-        $status = $backfill->status();
-        if ($status['state'] === '') {
-            return '';
-        }
-
-        $states = [
-            'running' => __('running', 'paypal-point-of-sale'),
-            'done' => __('done', 'paypal-point-of-sale'),
-            'failed' => __('failed', 'paypal-point-of-sale'),
-        ];
-        $summary = sprintf(
-            /* translators: 1: import state (running, done or failed), 2: number of sales and refunds queued */
-            _n(
-                'Last import: %1$s, %2$d sale or refund queued.',
-                'Last import: %1$s, %2$d sales and refunds queued.',
-                $status['queued'],
-                'paypal-point-of-sale'
-            ),
-            $states[$status['state']] ?? $status['state'],
-            $status['queued']
-        );
-        if ($status['error'] !== '') {
-            /* translators: %s: error message */
-            $summary .= ' ' . sprintf(__('Last error: %s', 'paypal-point-of-sale'), $status['error']);
-        }
-
-        return '<br><em>' . esc_html($summary) . '</em>';
     }
 
     private function registerCliCommand(ContainerInterface $container): void

@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
+use Syde\PayPal\PointOfSale\Webhooks\Backfill\BackfillTools;
 use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Cli\WebhookCommand;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryBalanceChangedHandler;
@@ -254,6 +255,9 @@ return [
             $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_auto_recovery'),
             $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_import_on_setup')
         );
+    },
+    'paypal-pos.webhook.backfill-tools' => static function (C $container): BackfillTools {
+        return new BackfillTools($container->get('paypal-pos.webhook.backfill'));
     },
     'paypal-pos.webhook.order-sync-setting.yes' => static function (C $container): callable {
         $settings = $container->get('paypal-pos.settings');

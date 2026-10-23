@@ -4,12 +4,28 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Webhooks;
 
+use Exception;
 use Inpsyde\StateMachine\Event\PostTransition;
 use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingTransition as T;
 use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
+use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 
 return [
+    'inpsyde.wc-status-report.items' => static function (array $items, ContainerInterface $container): array {
+        try {
+            $items[] = $container->get('inpsyde.wc-status-report.item-factory')->createReportItem(
+                __('Pending POS order jobs', 'paypal-point-of-sale'),
+                'Pending POS order jobs',
+                $container->get('inpsyde.queue.repository')->count([CreateOrderJob::TYPE])
+            );
+        } catch (Exception $exc) {
+            $container->get('paypal-pos.webhook.logger')
+                ->warning(sprintf('Failed to load pending POS order jobs: %1$s', $exc->getMessage()));
+        }
+
+        return $items;
+    },
     // Disconnecting or uninstalling forgets backfill state, so a reinstall doesn't replay it.
     'paypal-pos.onboarding.resettable.options' => static function (array $previous): array {
         return array_merge(

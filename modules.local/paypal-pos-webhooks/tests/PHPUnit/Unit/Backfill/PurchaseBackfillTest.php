@@ -6,6 +6,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use function Brain\Monkey\Functions\expect;
+use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
 
 class PurchaseBackfillTest extends BrainMonkeyWpTestCase
@@ -23,6 +24,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        stubTranslationFunctions();
         when('get_option')->alias(fn (string $name, $default = false) => $this->options[$name] ?? $default);
         when('update_option')->alias(function (string $name, $value): bool {
             $this->options[$name] = $value;
@@ -131,6 +133,26 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
     {
         self::assertFalse($this->backfill(true, true, true, false)->startSetupImport());
         self::assertSame([], $this->enqueued);
+    }
+
+    public function testSetupImportStaysPendingWhileItCannotStart(): void
+    {
+        $backfill = $this->backfill();
+        $backfill->start();
+
+        self::assertFalse($backfill->startSetupImport());
+        self::assertArrayNotHasKey(PurchaseBackfill::SETUP_IMPORT_OPTION, $this->options);
+    }
+
+    public function testDeactivationStopsARunningImport(): void
+    {
+        $backfill = $this->backfill();
+        $backfill->start();
+
+        $backfill->rememberDeactivation();
+
+        self::assertSame('failed', $backfill->status()['state']);
+        self::assertFalse($backfill->isRunning());
     }
 
     public function testFirstActivationImportsNothing(): void

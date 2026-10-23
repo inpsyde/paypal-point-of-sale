@@ -70,6 +70,7 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
     {
         $backfill = Mockery::mock(PurchaseBackfill::class);
         $backfill->shouldReceive('isEnabled')->andReturn($enabled);
+        $backfill->shouldReceive('isCurrent')->andReturnTrue();
         $backfill->shouldIgnoreMissing();
 
         return $backfill;
@@ -160,38 +161,51 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
         );
     }
 
-    public function testSchedulesTheNextPageAfterAPause(): void
+    public function testQueuesTheNextPage(): void
     {
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldReceive('list')
             ->once()
             ->with('HASH1', BackfillJob::PAGE_SIZE, Mockery::type(DateTimeImmutable::class))
             ->andReturn($this->fullPage('HASH2'));
-        $retry = Mockery::mock(DelayedRetry::class);
-        $retry->shouldReceive('later')->once()->with(
-            BackfillJob::TYPE,
-            ['run' => 'run-1', 'startDate' => '2026-10-20T10:00:00+00:00', 'cursor' => 'HASH2', 'page' => 4],
-            BackfillJob::PAGE_DELAY_SECONDS
-        );
         $backfill = $this->backfill();
         $backfill->shouldNotReceive('finish');
 
         $this->executeJob(
-            $this->job($purchases, $backfill, $retry),
+            $this->job($purchases, $backfill),
             ['run' => 'run-1', 'cursor' => 'HASH1', 'startDate' => '2026-10-20T10:00:00+00:00', 'page' => 3]
         );
+
+        self::assertSame(
+            [
+                BackfillJob::TYPE,
+                ['run' => 'run-1', 'startDate' => '2026-10-20T10:00:00+00:00', 'cursor' => 'HASH2', 'page' => 4],
+            ],
+            end($this->enqueued)
+        );
+    }
+
+    public function testAReplacedRunStops(): void
+    {
+        $purchases = Mockery::mock(Purchases::class);
+        $purchases->shouldNotReceive('list');
+        $backfill = Mockery::mock(PurchaseBackfill::class);
+        $backfill->shouldReceive('isCurrent')->with('old-run')->andReturnFalse();
+        $backfill->shouldNotReceive('finish');
+
+        self::assertTrue($this->executeJob($this->job($purchases, $backfill), ['run' => 'old-run']));
     }
 
     public function testStopsWhenTheCursorDoesNotAdvance(): void
     {
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldReceive('list')->once()->andReturn($this->fullPage('HASH1'));
-        $retry = Mockery::mock(DelayedRetry::class);
-        $retry->shouldNotReceive('later');
         $backfill = $this->backfill();
         $backfill->shouldReceive('finish')->once()->with('run-1');
 
-        $this->executeJob($this->job($purchases, $backfill, $retry), ['run' => 'run-1', 'cursor' => 'HASH1']);
+        $this->executeJob($this->job($purchases, $backfill), ['run' => 'run-1', 'cursor' => 'HASH1']);
+
+        self::assertNotContains(BackfillJob::TYPE, array_column($this->enqueued, 0));
     }
 
     public function testBacksOffAndKeepsTheRunGoingOnAnApiError(): void

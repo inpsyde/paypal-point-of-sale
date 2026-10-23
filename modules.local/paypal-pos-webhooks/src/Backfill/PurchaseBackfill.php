@@ -68,7 +68,7 @@ class PurchaseBackfill
 
     /**
      * Queues an import of every purchase made at or after $since, or of the whole history.
-     * $replaceRunning supersedes a running import; its later updates are then ignored.
+     * $replaceRunning supersedes a running import, which stops at its next page.
      */
     public function start(?DateTimeInterface $since = null, bool $replaceRunning = false): bool
     {
@@ -96,9 +96,19 @@ class PurchaseBackfill
         return $this->start(new DateTimeImmutable(sprintf('-%d days', self::MISSED_WINDOW_DAYS)));
     }
 
+    /**
+     * Remembers when the plugin was deactivated, and stops a running import: its pending pages
+     * are dropped with the plugin's cron events.
+     */
     public function rememberDeactivation(): void
     {
         update_option(self::DEACTIVATED_AT_OPTION, time(), false);
+        if ($this->isRunning()) {
+            $this->finish(
+                $this->status()['run'],
+                __('Stopped because the plugin was deactivated.', 'paypal-point-of-sale')
+            );
+        }
     }
 
     /**
@@ -106,13 +116,13 @@ class PurchaseBackfill
      */
     public function startSetupImport(): bool
     {
-        if (!$this->importOnSetup || get_option(self::SETUP_IMPORT_OPTION)) {
+        if (!$this->importOnSetup || get_option(self::SETUP_IMPORT_OPTION) || !$this->start()) {
             return false;
         }
 
         update_option(self::SETUP_IMPORT_OPTION, time(), false);
 
-        return $this->start();
+        return true;
     }
 
     /**
@@ -131,13 +141,21 @@ class PurchaseBackfill
         return $this->start(new DateTimeImmutable('@' . ($deactivatedAt - self::OVERLAP_SECONDS)), true);
     }
 
+    /**
+     * Whether $run is still the import to report on; a replaced run stops at its next page.
+     */
+    public function isCurrent(string $run): bool
+    {
+        return $this->status()['run'] === $run;
+    }
+
     public function recordPage(string $run, int $queued): void
     {
-        $status = $this->status();
-        if ($status['run'] !== $run) {
+        if (!$this->isCurrent($run)) {
             return;
         }
 
+        $status = $this->status();
         // A page that succeeds after a retry clears the earlier error.
         $status['state'] = 'running';
         $status['error'] = '';
@@ -151,22 +169,22 @@ class PurchaseBackfill
      */
     public function recordError(string $run, string $error): void
     {
-        $status = $this->status();
-        if ($status['run'] !== $run) {
+        if (!$this->isCurrent($run)) {
             return;
         }
 
+        $status = $this->status();
         $status['error'] = $error;
         $this->saveStatus($status);
     }
 
     public function finish(string $run, string $error = ''): void
     {
-        $status = $this->status();
-        if ($status['run'] !== $run) {
+        if (!$this->isCurrent($run)) {
             return;
         }
 
+        $status = $this->status();
         $status['state'] = $error === '' ? 'done' : 'failed';
         $status['error'] = $error;
         $this->saveStatus($status);

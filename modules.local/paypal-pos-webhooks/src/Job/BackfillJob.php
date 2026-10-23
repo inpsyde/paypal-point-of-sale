@@ -18,14 +18,12 @@ use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use Throwable;
 
 /**
- * Imports one page of Zettle purchase history, then schedules itself for the next page.
+ * Imports one page of Zettle purchase history, then queues itself for the next page.
  */
 class BackfillJob implements Job
 {
     public const TYPE = 'purchase-backfill';
     public const PAGE_SIZE = 100;
-    // Spaces pages out so the order jobs of one page don't run into the next page's reads.
-    public const PAGE_DELAY_SECONDS = 10;
 
     private Purchases $purchases;
 
@@ -83,6 +81,9 @@ class BackfillJob implements Job
         $run = (string) ($args['run'] ?? '');
         $page = (int) ($args['page'] ?? 0);
 
+        if (!$this->backfill->isCurrent($run)) {
+            return true;
+        }
         if (!$this->backfill->isEnabled()) {
             $this->backfill->finish($run);
 
@@ -126,10 +127,9 @@ class BackfillJob implements Job
             return;
         }
 
-        $this->retry->later(
+        ($this->enqueueJob)(
             self::TYPE,
-            ['run' => $run, 'startDate' => $startDate, 'cursor' => $nextCursor, 'page' => $page + 1],
-            self::PAGE_DELAY_SECONDS
+            ['run' => $run, 'startDate' => $startDate, 'cursor' => $nextCursor, 'page' => $page + 1]
         );
     }
 

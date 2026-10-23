@@ -11,7 +11,6 @@ use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\Organization;
 use Syde\PayPal\PointOfSale\PhpSdk\Psr18RestClient;
-use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 use Throwable;
 
 return [
@@ -170,17 +169,6 @@ return [
         } catch (Exception $exc) {
             $container->get('paypal-pos.logger')
                 ->warning(sprintf('Failed to load PayPal Point of Sale account info: %1$s', $exc->getMessage()));
-        }
-
-        try {
-            $items[] = $factory->createReportItem(
-                __('Pending POS order jobs', 'paypal-point-of-sale'),
-                'Pending POS order jobs',
-                $container->get('inpsyde.queue.repository')->count([CreateOrderJob::TYPE])
-            );
-        } catch (Exception $exc) {
-            $container->get('paypal-pos.logger')
-                ->warning(sprintf('Failed to load pending POS order jobs: %1$s', $exc->getMessage()));
         }
 
         return $items;
