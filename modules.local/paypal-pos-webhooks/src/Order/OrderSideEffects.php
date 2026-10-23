@@ -20,6 +20,9 @@ class OrderSideEffects
         'customer_processing_order',
         'customer_on_hold_order',
         'customer_invoice',
+        'customer_refunded_order',
+        // WC switches the refund email to this id for partial refunds.
+        'customer_partially_refunded_order',
     ];
 
     /**

@@ -57,6 +57,27 @@ class PurchaseBuilderTest extends BrainMonkeyWpTestCase
 
         self::assertTrue($purchase->isRefund());
         self::assertSame(-10000.0, $purchase->amount());
+        self::assertSame('WJwt5j7kEeuecKKsB1sX_Q', $purchase->refundsPurchaseUuid());
+    }
+
+    public function testReadsRefundsPurchaseUuidFromReferences(): void
+    {
+        $purchase = $this->builder()->buildFromArray([
+            'purchaseUUID' => 'r1',
+            'timestamp' => '2021-01-01T00:00:00.000+0000',
+            'currency' => 'SEK',
+            'refund' => true,
+            'references' => ['refundsPurchaseUUID' => 'original-uuid'],
+        ]);
+
+        self::assertSame('original-uuid', $purchase->refundsPurchaseUuid());
+    }
+
+    public function testNonRefundHasNoRefundReference(): void
+    {
+        $purchase = $this->builder()->buildFromArray($this->fixture('purchase-created.json'));
+
+        self::assertNull($purchase->refundsPurchaseUuid());
     }
 
     public function testBuildsWithOptionalFieldsMissing(): void

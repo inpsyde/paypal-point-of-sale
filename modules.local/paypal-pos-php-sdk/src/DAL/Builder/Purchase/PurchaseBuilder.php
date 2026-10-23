@@ -160,7 +160,7 @@ class PurchaseBuilder implements PurchaseBuilderInterface
         // v2 exposes `groupedVatAmounts`; the entity mirrors the `vatAmounts` array.
         $vatAmounts = $data['vatAmounts'] ?? $data['groupedVatAmounts'] ?? [];
 
-        return $this->purchaseFactory->create(
+        $purchase = $this->purchaseFactory->create(
             $uuid,
             $timestamp,
             $data['country'] ?? '',
@@ -179,6 +179,12 @@ class PurchaseBuilder implements PurchaseBuilderInterface
             $coordinates,
             $sourceType,
             $published
+        );
+
+        return $purchase->setRefundsPurchaseUuid(
+            $data['refundsPurchaseUUID']
+            ?? $data['references']['refundsPurchaseUUID']
+            ?? null
         );
     }
 }

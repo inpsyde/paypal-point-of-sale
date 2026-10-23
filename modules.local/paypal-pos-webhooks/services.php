@@ -21,9 +21,13 @@ use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderDefaults;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderRepository;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
 use Symfony\Component\Uid\Uuid;
@@ -48,7 +52,8 @@ return [
     $job(CreateOrderJob::TYPE) => static function (C $container): Job {
         return new CreateOrderJob(
             $container->get('paypal-pos.sdk.api.purchases'),
-            $container->get('paypal-pos.webhook.order-factory')
+            $container->get('paypal-pos.webhook.order-factory'),
+            $container->get('paypal-pos.webhook.refund-factory')
         );
     },
     'paypal-pos.webhook.config' => static function (C $container): array {
@@ -180,11 +185,35 @@ return [
                 $container->get('paypal-pos.sdk.integration-id')
             );
         },
+    'paypal-pos.webhook.payment-labels' => static function (): PaymentLabels {
+        return new PaymentLabels();
+    },
+    'paypal-pos.webhook.order-repository' => static function (): OrderRepository {
+        return new OrderRepository();
+    },
+    'paypal-pos.webhook.order-defaults' => static function (C $container): OrderDefaults {
+        return new OrderDefaults($container->get('paypal-pos.webhook.payment-labels'));
+    },
+    'paypal-pos.webhook.order-taxes' => static function (): OrderTaxes {
+        return new OrderTaxes();
+    },
     'paypal-pos.webhook.order-factory' => static function (C $container): PurchaseOrderFactory {
         return new PurchaseOrderFactory(
             $container->get('paypal-pos.sdk.id-map.variant'),
-            new PaymentLabels(),
+            $container->get('paypal-pos.webhook.order-defaults'),
+            $container->get('paypal-pos.webhook.order-taxes'),
             $container->get('paypal-pos.webhook.order-side-effects'),
+            $container->get('paypal-pos.webhook.order-repository'),
+            $container->get('paypal-pos.webhook.logger')
+        );
+    },
+    'paypal-pos.webhook.refund-factory' => static function (C $container): PurchaseRefundFactory {
+        return new PurchaseRefundFactory(
+            $container->get('paypal-pos.webhook.order-repository'),
+            $container->get('paypal-pos.webhook.order-defaults'),
+            $container->get('paypal-pos.webhook.order-taxes'),
+            $container->get('paypal-pos.webhook.order-side-effects'),
+            $container->get('paypal-pos.webhook.payment-labels'),
             $container->get('paypal-pos.webhook.logger')
         );
     },
