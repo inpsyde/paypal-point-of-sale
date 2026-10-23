@@ -18,15 +18,18 @@ class PurchaseCreatedHandler implements WebhookHandler
 
     private LoggerInterface $logger;
 
-    public function __construct(callable $enqueueJob, LoggerInterface $logger)
+    private bool $enabled;
+
+    public function __construct(callable $enqueueJob, LoggerInterface $logger, bool $enabled)
     {
         $this->enqueueJob = $enqueueJob;
         $this->logger = $logger;
+        $this->enabled = $enabled;
     }
 
     public function accepts(Payload $payload): bool
     {
-        return $payload->eventName() === EventName::PURCHASE_CREATED;
+        return $this->enabled && $payload->eventName() === EventName::PURCHASE_CREATED;
     }
 
     public function handle(Payload $payload): void

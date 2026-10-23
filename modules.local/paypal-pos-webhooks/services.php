@@ -10,6 +10,8 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
+use Syde\PayPal\PointOfSale\Webhooks\Backfill\BackfillTools;
+use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Cli\WebhookCommand;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryBalanceChangedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryTrackingStartedHandler;
@@ -18,7 +20,9 @@ use Syde\PayPal\PointOfSale\Webhooks\Handler\LogHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\ProductDeletedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\PurchaseCreatedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
+use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
+use Syde\PayPal\PointOfSale\Webhooks\Job\DelayedRetry;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderDefaults;
@@ -26,6 +30,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Order\OrderRepository;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseFilter;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
@@ -53,7 +58,21 @@ return [
         return new CreateOrderJob(
             $container->get('paypal-pos.sdk.api.purchases'),
             $container->get('paypal-pos.webhook.order-factory'),
-            $container->get('paypal-pos.webhook.refund-factory')
+            $container->get('paypal-pos.webhook.refund-factory'),
+            $container->get('paypal-pos.webhook.order-sync-enabled'),
+            $container->get('paypal-pos.webhook.purchase-filter'),
+            $container->get('paypal-pos.webhook.delayed-retry')
+        );
+    },
+    $job(BackfillJob::TYPE) => static function (C $container): Job {
+        return new BackfillJob(
+            $container->get('paypal-pos.sdk.api.purchases'),
+            $container->get('paypal-pos.webhook.order-factory'),
+            $container->get('paypal-pos.webhook.refund-factory'),
+            $container->get('paypal-pos.webhook.backfill'),
+            $container->get('paypal-pos.webhook.purchase-filter'),
+            $container->get('paypal-pos.webhook.delayed-retry'),
+            $container->get('inpsyde.queue.enqueue-job')
         );
     },
     'paypal-pos.webhook.config' => static function (C $container): array {
@@ -204,7 +223,8 @@ return [
             $container->get('paypal-pos.webhook.order-taxes'),
             $container->get('paypal-pos.webhook.order-side-effects'),
             $container->get('paypal-pos.webhook.order-repository'),
-            $container->get('paypal-pos.webhook.logger')
+            $container->get('paypal-pos.webhook.logger'),
+            $container->get('paypal-pos.webhook.order-status')
         );
     },
     'paypal-pos.webhook.refund-factory' => static function (C $container): PurchaseRefundFactory {
@@ -220,11 +240,58 @@ return [
     'paypal-pos.webhook.order-side-effects' => static function (): OrderSideEffects {
         return new OrderSideEffects();
     },
+    'paypal-pos.webhook.order-status' => static function (C $container): string {
+        $settings = $container->get('paypal-pos.settings');
+        $status = $settings->has('order_sync_status') ? (string) $settings->get('order_sync_status') : '';
+        $status = (string) preg_replace('/^wc-/', '', $status);
+
+        return array_key_exists("wc-{$status}", wc_get_order_statuses()) ? $status : 'completed';
+    },
+    'paypal-pos.webhook.backfill' => static function (C $container): PurchaseBackfill {
+        return new PurchaseBackfill(
+            $container->get('inpsyde.queue.enqueue-job'),
+            $container->get('paypal-pos.webhook.order-sync-enabled'),
+            $container->get('paypal-pos.webhook.can-register'),
+            $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_auto_recovery'),
+            $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_import_on_setup')
+        );
+    },
+    'paypal-pos.webhook.backfill-tools' => static function (C $container): BackfillTools {
+        return new BackfillTools($container->get('paypal-pos.webhook.backfill'));
+    },
+    'paypal-pos.webhook.order-sync-setting.yes' => static function (C $container): callable {
+        $settings = $container->get('paypal-pos.settings');
+
+        // Yes/no settings default to yes until saved.
+        return static fn (string $key): bool => !$settings->has($key) || $settings->get($key) !== 'no';
+    },
+    'paypal-pos.webhook.order-sync-payment-types' => static function (C $container): array {
+        $settings = $container->get('paypal-pos.settings');
+        $types = $settings->has('order_sync_payment_types') ? (array) $settings->get('order_sync_payment_types') : [];
+
+        return array_values(array_filter(array_map('strval', $types), static fn (string $type): bool => $type !== ''));
+    },
+    'paypal-pos.webhook.purchase-filter' => static function (C $container): PurchaseFilter {
+        return new PurchaseFilter(
+            $container->get('paypal-pos.webhook.payment-labels'),
+            $container->get('paypal-pos.webhook.order-sync-payment-types')
+        );
+    },
+    'paypal-pos.webhook.delayed-retry' => static function (C $container): DelayedRetry {
+        return new DelayedRetry($container->get('inpsyde.queue.enqueue-job'));
+    },
+    'paypal-pos.webhook.order-sync-enabled' => static function (C $container): bool {
+        $settings = $container->get('paypal-pos.settings');
+
+        return !$settings->has('order_sync_enabled')
+            || $settings->get('order_sync_enabled') === OrderSyncMode::ENABLED;
+    },
     'paypal-pos.webhook.handlers.purchase-created' =>
         static function (C $container): WebhookHandler {
             return new PurchaseCreatedHandler(
                 $container->get('inpsyde.queue.enqueue-job'),
-                $container->get('paypal-pos.webhook.logger')
+                $container->get('paypal-pos.webhook.logger'),
+                $container->get('paypal-pos.webhook.order-sync-enabled')
             );
         },
     'paypal-pos.webhook.handlers' => static function (C $container): array {

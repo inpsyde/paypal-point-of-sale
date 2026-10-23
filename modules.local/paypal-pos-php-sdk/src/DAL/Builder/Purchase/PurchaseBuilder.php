@@ -178,7 +178,9 @@ class PurchaseBuilder implements PurchaseBuilderInterface
             (bool) ($data['refunded'] ?? false),
             $coordinates,
             $sourceType,
-            $published
+            $published,
+            // The dashed UUID the webhook sends; the short one also reads fine from the API.
+            (string) ($data['purchaseUUID1'] ?? $data['purchaseUUID'] ?? '') ?: null
         );
 
         return $purchase->setRefundsPurchaseUuid(

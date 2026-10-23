@@ -6,6 +6,7 @@ namespace Syde\PayPal\PointOfSale\Webhooks;
 
 use Exception;
 use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
@@ -17,7 +18,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
 use Throwable;
 use WP_CLI;
 
-class WebhookModule implements ServiceModule, ExecutableModule
+class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
 
@@ -32,6 +33,11 @@ class WebhookModule implements ServiceModule, ExecutableModule
     /**
      * @inheritDoc
      */
+    public function extensions(): array
+    {
+        return require __DIR__ . '/../extensions.php';
+    }
+
     public function run(ContainerInterface $container): bool
     {
         add_action(
@@ -72,6 +78,16 @@ class WebhookModule implements ServiceModule, ExecutableModule
                 $bootstrap->deactivate();
             }
         );
+        $this->registerRecovery($container);
+        $this->registerDelayedJobs($container);
+        add_action('paypal-pos.onboarding.sync-params.after', [Backfill\SetupImportChoice::class, 'render']);
+
+        $this->registerBackfillTools($container);
+
+        add_filter(
+            'woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'),
+            [new OrderSyncSettingsFilter(), 'filterSettingsValues']
+        );
 
         add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);
 
@@ -105,6 +121,66 @@ class WebhookModule implements ServiceModule, ExecutableModule
         }
 
         return $label;
+    }
+
+    private function registerRecovery(ContainerInterface $container): void
+    {
+        $backfill = static function () use ($container): Backfill\PurchaseBackfill {
+            $backfill = $container->get('paypal-pos.webhook.backfill');
+            assert($backfill instanceof Backfill\PurchaseBackfill);
+
+            return $backfill;
+        };
+
+        // Import what was sold while the plugin was inactive.
+        add_action(
+            'paypal-point-of-sale.deactivate',
+            static function () use ($backfill) {
+                // Nothing handles these while the plugin is inactive; the recovery re-imports.
+                wp_unschedule_hook(Job\DelayedRetry::HOOK);
+                $backfill()->rememberDeactivation();
+            }
+        );
+        add_action(
+            'paypal-point-of-sale.activate',
+            static function () use ($backfill) {
+                $backfill()->recoverAfterReactivation();
+            }
+        );
+        // Imports past sales once, if the merchant kept that onboarding choice on.
+        add_action(
+            'paypal-pos.onboarding.completed',
+            static function () use ($backfill) {
+                $backfill()->startSetupImport();
+            }
+        );
+    }
+
+    private function registerDelayedJobs(ContainerInterface $container): void
+    {
+        add_action(
+            Job\DelayedRetry::HOOK,
+            static function (string $type, array $args) use ($container): void {
+                $retry = $container->get('paypal-pos.webhook.delayed-retry');
+                assert($retry instanceof Job\DelayedRetry);
+                $retry->enqueue($type, $args);
+            },
+            10,
+            2
+        );
+    }
+
+    private function registerBackfillTools(ContainerInterface $container): void
+    {
+        add_filter(
+            'woocommerce_debug_tools',
+            static function (array $tools) use ($container): array {
+                $backfillTools = $container->get('paypal-pos.webhook.backfill-tools');
+                assert($backfillTools instanceof Backfill\BackfillTools);
+
+                return $backfillTools->addTools($tools);
+            }
+        );
     }
 
     private function registerCliCommand(ContainerInterface $container): void

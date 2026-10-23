@@ -88,6 +88,21 @@ class PurchaseRefundFactory
     }
 
     /**
+     * Whether the refund is already recorded, on its sale's order or as an orphan refund order.
+     */
+    public function isRecorded(Purchase $refund): bool
+    {
+        if ($this->orders->findIdByRefundPurchaseUuid($refund->uuid()) !== null) {
+            return true;
+        }
+
+        $orderId = $this->orders->findIdByPurchaseUuid((string) $refund->refundsPurchaseUuid());
+        $order = $orderId !== null ? wc_get_order($orderId) : null;
+
+        return $order instanceof WC_Order && $this->alreadyHandled($order, $refund->uuid());
+    }
+
+    /**
      * Notes the link between a just-synced sale and refunds recorded as orphans before it.
      */
     public function linkOrphanRefunds(string $purchaseUuid, int $orderId): void

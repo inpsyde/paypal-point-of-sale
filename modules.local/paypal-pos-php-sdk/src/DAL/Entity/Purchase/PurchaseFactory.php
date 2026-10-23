@@ -55,12 +55,13 @@ final class PurchaseFactory
         bool $refunded,
         ?Coordinates $coordinates = null,
         ?SourceType $sourceType = null,
-        ?bool $published = null
+        ?bool $published = null,
+        ?string $uuid1 = null
     ): Purchase {
 
         return new Purchase(
             $uuid,
-            (string) Uuid::v1(),
+            $uuid1 ?? (string) Uuid::v1(),
             $timestamp,
             $country,
             $currency,

@@ -399,6 +399,11 @@ return [
                         wp_kses_post($container->get('paypal-pos.onboarding.error.message.webhooks'))
                     );
                 }
+
+                /**
+                 * Lets other modules act once the setup is completed.
+                 */
+                do_action('paypal-pos.onboarding.completed');
             },
             /**
              * Destroy everything when we disconnect the account

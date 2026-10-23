@@ -9,6 +9,9 @@ use Syde\PayPal\PointOfSale\PhpSdk\API\Purchases\Purchases;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
+use Syde\PayPal\PointOfSale\Webhooks\Job\DelayedRetry;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseFilter;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
@@ -53,13 +56,19 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
     private function job(
         Purchases $purchases,
         ?PurchaseOrderFactory $orderFactory = null,
-        ?PurchaseRefundFactory $refundFactory = null
+        ?PurchaseRefundFactory $refundFactory = null,
+        bool $enabled = true,
+        ?PurchaseFilter $filter = null,
+        ?DelayedRetry $retry = null
     ): CreateOrderJob {
 
         return new CreateOrderJob(
             $purchases,
             $orderFactory ?? Mockery::mock(PurchaseOrderFactory::class),
-            $refundFactory ?? Mockery::mock(PurchaseRefundFactory::class)
+            $refundFactory ?? Mockery::mock(PurchaseRefundFactory::class),
+            $enabled,
+            $filter ?? new PurchaseFilter(new PaymentLabels(), []),
+            $retry ?? Mockery::mock(DelayedRetry::class)
         );
     }
 
@@ -82,6 +91,16 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         $job = $this->job($purchases, $orderFactory);
 
         self::assertTrue($this->executeJob($job, null));
+    }
+
+    public function testDropsJobsWhenOrderSyncIsDisabled(): void
+    {
+        $purchases = Mockery::mock(Purchases::class);
+        $purchases->shouldNotReceive('read');
+        $factory = Mockery::mock(PurchaseOrderFactory::class);
+        $factory->shouldNotReceive('createOrder');
+
+        self::assertTrue($this->executeJob($this->job($purchases, $factory, null, false), 'webhook-uuid'));
     }
 
     public function testSkipsWhenOrderAlreadyExists(): void
@@ -130,15 +149,41 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         self::assertTrue($this->executeJob($job, 'abc'));
     }
 
-    public function testReturnsFalseToRetryOnFailure(): void
+    public function testSkipsSalesOfUnselectedPaymentTypes(): void
     {
         $purchases = Mockery::mock(Purchases::class);
-        $purchases->shouldReceive('read')->once()->andThrow(new RuntimeException('boom'));
+        $purchases->shouldReceive('read')->andReturn($this->purchase());
+        $factory = Mockery::mock(PurchaseOrderFactory::class);
+        $factory->shouldNotReceive('createOrder');
+        $filter = new PurchaseFilter(new PaymentLabels(), ['IZETTLE_CARD']);
+
+        self::assertTrue($this->executeJob($this->job($purchases, $factory, null, true, $filter), 'webhook-uuid'));
+    }
+
+    public function testSkipsRefundsOfUnselectedPaymentTypes(): void
+    {
+        $purchases = Mockery::mock(Purchases::class);
+        $purchases->shouldReceive('read')->andReturn($this->purchase(true));
+        $refundFactory = Mockery::mock(PurchaseRefundFactory::class);
+        $refundFactory->shouldNotReceive('createRefund');
+        $filter = new PurchaseFilter(new PaymentLabels(), ['IZETTLE_CARD']);
+
+        self::assertTrue($this->executeJob($this->job($purchases, null, $refundFactory, true, $filter), 'abc'));
+    }
+
+    public function testBacksOffInsteadOfRetryingRightAway(): void
+    {
+        $purchases = Mockery::mock(Purchases::class);
+        $purchases->shouldReceive('read')->andThrow(new RuntimeException('429 Too Many Requests'));
+        $retry = Mockery::mock(DelayedRetry::class);
+        $retry->shouldReceive('retry')
+            ->once()
+            ->with(CreateOrderJob::TYPE, ['purchaseUuid' => 'webhook-uuid', 'attempt' => 0])
+            ->andReturn(60);
         $logger = Mockery::mock(LoggerInterface::class);
-        $logger->shouldReceive('error')->once();
+        $logger->shouldReceive('error')->once()->with(Mockery::pattern('/Retrying in 60s/'));
+        $job = $this->job($purchases, null, null, true, null, $retry);
 
-        $job = $this->job($purchases);
-
-        self::assertFalse($this->executeJob($job, 'abc', $logger));
+        self::assertTrue($this->executeJob($job, 'webhook-uuid', $logger));
     }
 }

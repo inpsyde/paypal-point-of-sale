@@ -141,6 +141,20 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $this->factory($this->orders(null, 7))->createRefund($this->refund());
     }
 
+    public function testKnowsWhetherARefundIsRecorded(): void
+    {
+        self::assertTrue($this->factory($this->orders(99, 7))->isRecorded($this->refund()));
+
+        $existing = Mockery::mock('WC_Order_Refund');
+        $existing->shouldReceive('get_meta')->andReturn('refund-uuid');
+        $this->order('0.00', [$existing]);
+        self::assertTrue($this->factory($this->orders(null, 7))->isRecorded($this->refund()));
+
+        $this->order('8.40');
+        self::assertFalse($this->factory($this->orders(null, 7))->isRecorded($this->refund()));
+        self::assertFalse($this->factory($this->orders(null, null))->isRecorded($this->refund()));
+    }
+
     public function testNotesRefundLargerThanWhatIsLeftInsteadOfFailing(): void
     {
         $order = $this->order('0.00');
