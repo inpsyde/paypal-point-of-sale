@@ -49,6 +49,7 @@ class OrderSyncSettingsTest extends BrainMonkeyWpTestCase
 
         self::assertSame(['IZETTLE_CARD'], $this->service('paypal-pos.webhook.order-sync-payment-types', $values));
         self::assertSame([], $this->service('paypal-pos.webhook.order-sync-payment-types', []));
+        self::assertSame([], $this->service('paypal-pos.webhook.order-sync-payment-types', ['order_sync_payment_types' => '']));
         $isYes = $this->service('paypal-pos.webhook.order-sync-setting.yes', $values);
         self::assertFalse($isYes('order_sync_auto_recovery'));
         self::assertTrue($isYes('order_sync_import_on_setup'));

@@ -269,7 +269,7 @@ return [
         $settings = $container->get('paypal-pos.settings');
         $types = $settings->has('order_sync_payment_types') ? (array) $settings->get('order_sync_payment_types') : [];
 
-        return array_values(array_map('strval', $types));
+        return array_values(array_filter(array_map('strval', $types), static fn (string $type): bool => $type !== ''));
     },
     'paypal-pos.webhook.purchase-filter' => static function (C $container): PurchaseFilter {
         return new PurchaseFilter(

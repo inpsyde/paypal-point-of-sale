@@ -70,7 +70,7 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
     {
         $backfill = Mockery::mock(PurchaseBackfill::class);
         $backfill->shouldReceive('isEnabled')->andReturn($enabled);
-        $backfill->shouldReceive('isCurrent')->andReturnTrue();
+        $backfill->shouldReceive('isActive')->andReturnTrue();
         $backfill->shouldIgnoreMissing();
 
         return $backfill;
@@ -185,12 +185,12 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
         );
     }
 
-    public function testAReplacedRunStops(): void
+    public function testAReplacedOrStoppedRunStops(): void
     {
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldNotReceive('list');
         $backfill = Mockery::mock(PurchaseBackfill::class);
-        $backfill->shouldReceive('isCurrent')->with('old-run')->andReturnFalse();
+        $backfill->shouldReceive('isActive')->with('old-run')->andReturnFalse();
         $backfill->shouldNotReceive('finish');
 
         self::assertTrue($this->executeJob($this->job($purchases, $backfill), ['run' => 'old-run']));

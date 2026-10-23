@@ -84,6 +84,11 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
 
         $this->registerBackfillTools($container);
 
+        add_filter(
+            'woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'),
+            [new OrderSyncSettingsFilter(), 'filterSettingsValues']
+        );
+
         add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);
 
         return true;
@@ -132,7 +137,7 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
             'paypal-point-of-sale.deactivate',
             static function () use ($backfill) {
                 // Nothing handles these while the plugin is inactive; the recovery re-imports.
-                wp_clear_scheduled_hook(Job\DelayedRetry::HOOK);
+                wp_unschedule_hook(Job\DelayedRetry::HOOK);
                 $backfill()->rememberDeactivation();
             }
         );

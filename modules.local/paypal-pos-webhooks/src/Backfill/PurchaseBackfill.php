@@ -20,8 +20,8 @@ class PurchaseBackfill
     // Purchases can reach the API a little after their timestamp; re-scan a margin.
     private const OVERLAP_SECONDS = 3600;
     private const MISSED_WINDOW_DAYS = 30;
-    // A run that hasn't reported for this long is treated as gone.
-    private const STALE_SECONDS = 86400;
+    // A run that hasn't reported for this long is treated as gone; retries span half an hour.
+    private const STALE_SECONDS = 3600;
 
     /**
      * @var callable
@@ -97,8 +97,8 @@ class PurchaseBackfill
     }
 
     /**
-     * Remembers when the plugin was deactivated, and stops a running import: its pending pages
-     * are dropped with the plugin's cron events.
+     * Remembers when the plugin was deactivated, and stops a running import; its queued page
+     * stops when it runs.
      */
     public function rememberDeactivation(): void
     {
@@ -112,11 +112,12 @@ class PurchaseBackfill
     }
 
     /**
-     * Imports the whole history once, when onboarding completes for the first time.
+     * Imports the whole history once, when onboarding completes for the first time. It replaces
+     * a running import, which the whole history covers.
      */
     public function startSetupImport(): bool
     {
-        if (!$this->importOnSetup || get_option(self::SETUP_IMPORT_OPTION) || !$this->start()) {
+        if (!$this->importOnSetup || get_option(self::SETUP_IMPORT_OPTION) || !$this->start(null, true)) {
             return false;
         }
 
@@ -142,11 +143,11 @@ class PurchaseBackfill
     }
 
     /**
-     * Whether $run is still the import to report on; a replaced run stops at its next page.
+     * Whether $run should import its next page: it's the current import and wasn't stopped.
      */
-    public function isCurrent(string $run): bool
+    public function isActive(string $run): bool
     {
-        return $this->status()['run'] === $run;
+        return $this->isCurrent($run) && $this->status()['state'] === 'running';
     }
 
     public function recordPage(string $run, int $queued): void
@@ -205,6 +206,11 @@ class PurchaseBackfill
             'error' => (string) ($status['error'] ?? ''),
             'updated' => (int) ($status['updated'] ?? 0),
         ];
+    }
+
+    private function isCurrent(string $run): bool
+    {
+        return $this->status()['run'] === $run;
     }
 
     /**

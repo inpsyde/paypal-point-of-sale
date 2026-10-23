@@ -104,9 +104,12 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         $backfill->start();
         $this->options[PurchaseBackfill::DEACTIVATED_AT_OPTION] = time();
 
+        $replaced = $backfill->status()['run'];
+
         self::assertTrue($backfill->recoverAfterReactivation());
         self::assertCount(2, $this->enqueued);
         self::assertSame($this->enqueued[1][1]['run'], $backfill->status()['run']);
+        self::assertFalse($backfill->isActive($replaced));
     }
 
     public function testRecoveryCanBeSwitchedOff(): void
@@ -135,12 +138,19 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         self::assertSame([], $this->enqueued);
     }
 
-    public function testSetupImportStaysPendingWhileItCannotStart(): void
+    public function testSetupImportReplacesARunningImport(): void
     {
         $backfill = $this->backfill();
-        $backfill->start();
+        $backfill->start(new DateTimeImmutable('-30 days'));
 
-        self::assertFalse($backfill->startSetupImport());
+        self::assertTrue($backfill->startSetupImport());
+        self::assertSame('', $this->enqueued[1][1]['startDate']);
+        self::assertSame($this->enqueued[1][1]['run'], $backfill->status()['run']);
+    }
+
+    public function testSetupImportStaysPendingWhileOrderSyncIsDisabled(): void
+    {
+        self::assertFalse($this->backfill(false)->startSetupImport());
         self::assertArrayNotHasKey(PurchaseBackfill::SETUP_IMPORT_OPTION, $this->options);
     }
 
@@ -149,10 +159,13 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         $backfill = $this->backfill();
         $backfill->start();
 
+        $run = $backfill->status()['run'];
+
         $backfill->rememberDeactivation();
 
         self::assertSame('failed', $backfill->status()['state']);
         self::assertFalse($backfill->isRunning());
+        self::assertFalse($backfill->isActive($run));
     }
 
     public function testFirstActivationImportsNothing(): void

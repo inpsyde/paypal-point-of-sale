@@ -81,7 +81,7 @@ class BackfillJob implements Job
         $run = (string) ($args['run'] ?? '');
         $page = (int) ($args['page'] ?? 0);
 
-        if (!$this->backfill->isCurrent($run)) {
+        if (!$this->backfill->isActive($run)) {
             return true;
         }
         if (!$this->backfill->isEnabled()) {
