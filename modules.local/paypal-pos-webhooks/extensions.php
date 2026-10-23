@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks;
 
 use Exception;
-use Inpsyde\StateMachine\Event\PostTransition;
 use Psr\Container\ContainerInterface;
-use Syde\PayPal\PointOfSale\Onboarding\OnboardingTransition as T;
 use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 
@@ -38,22 +36,6 @@ return [
             ]
         );
     },
-    // Imports past sales once onboarding completes, if the merchant kept that setting on.
-    'paypal-pos.onboarding.state-machine.transition-events' =>
-        static function (array $previous, ContainerInterface $container): array {
-            $previous[T::TO_ONBOARDING_COMPLETED] = array_merge(
-                (array) ($previous[T::TO_ONBOARDING_COMPLETED] ?? []),
-                [
-                    static function (PostTransition $event) use ($container): void {
-                        $backfill = $container->get('paypal-pos.webhook.backfill');
-                        assert($backfill instanceof PurchaseBackfill);
-                        $backfill->startSetupImport();
-                    },
-                ]
-            );
-
-            return $previous;
-        },
     'paypal-pos.settings.fields.registry' =>
         static function (array $previous, ContainerInterface $container): array {
             return array_merge(

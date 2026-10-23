@@ -147,6 +147,13 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
                 $backfill()->recoverAfterReactivation();
             }
         );
+        // Imports past sales once, if the merchant kept that onboarding choice on.
+        add_action(
+            'paypal-pos.onboarding.completed',
+            static function () use ($backfill) {
+                $backfill()->startSetupImport();
+            }
+        );
     }
 
     private function registerDelayedJobs(ContainerInterface $container): void
