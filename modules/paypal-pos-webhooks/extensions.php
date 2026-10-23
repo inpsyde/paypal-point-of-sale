@@ -4,9 +4,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks;
 
 use Exception;
-use Syde\Vendor\Zettle\Inpsyde\StateMachine\Event\PostTransition;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingTransition as T;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 return [
@@ -22,15 +20,6 @@ return [
     // history again; only sales and refunds missing in WooCommerce are created.
     'paypal-pos.onboarding.resettable.options' => static function (array $previous): array {
         return array_merge($previous, [PurchaseBackfill::STATUS_OPTION, PurchaseBackfill::DEACTIVATED_AT_OPTION, PurchaseBackfill::SETUP_IMPORT_OPTION]);
-    },
-    // Imports past sales once onboarding completes, if the merchant kept that setting on.
-    'paypal-pos.onboarding.state-machine.transition-events' => static function (array $previous, ContainerInterface $container): array {
-        $previous[T::TO_ONBOARDING_COMPLETED] = array_merge((array) ($previous[T::TO_ONBOARDING_COMPLETED] ?? []), [static function (PostTransition $event) use ($container): void {
-            $backfill = $container->get('paypal-pos.webhook.backfill');
-            assert($backfill instanceof PurchaseBackfill);
-            $backfill->startSetupImport();
-        }]);
-        return $previous;
     },
     'paypal-pos.settings.fields.registry' => static function (array $previous, ContainerInterface $container): array {
         return array_merge($previous, ['order_sync_title' => ['zettle_visible_after_onboarding' => \true, 'title' => __('POS order sync', 'paypal-point-of-sale'), 'type' => 'title', 'description' => __('Controls how PayPal POS sales appear as WooCommerce orders', 'paypal-point-of-sale')], 'order_sync_enabled' => ['zettle_visible_after_onboarding' => \true, 'title' => __('Create orders from POS sales', 'paypal-point-of-sale'), 'type' => 'select', 'default' => OrderSyncMode::ENABLED, 'description' => __('Whether PayPal POS sales are synced to WooCommerce as orders', 'paypal-point-of-sale'), 'options' => [OrderSyncMode::ENABLED => __('Create orders', 'paypal-point-of-sale'), OrderSyncMode::DISABLED => __('Don\'t create orders', 'paypal-point-of-sale')]], 'order_sync_status' => [
