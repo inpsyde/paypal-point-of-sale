@@ -1,0 +1,64 @@
+<?php
+
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price;
+
+class Price
+{
+    private int $amount;
+    private string $currencyId;
+    /**
+     * Price constructor.
+     *
+     * @param int $amount
+     * @param string $currencyId
+     */
+    public function __construct(int $amount, string $currencyId)
+    {
+        $this->amount = $amount;
+        $this->currencyId = $currencyId;
+    }
+    /**
+     * @return int
+     */
+    public function amount(): int
+    {
+        return $this->amount;
+    }
+    /**
+     * Convert the minor-unit integer price to a float amount in major units.
+     *
+     * @return float
+     */
+    public function amountToFloat(): float
+    {
+        return MinorUnits::toMajor($this->amount, $this->currencyId);
+    }
+    /**
+     * @param int $amount
+     *
+     * @return Price
+     */
+    public function setAmount(int $amount): Price
+    {
+        $this->amount = $amount;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function currencyId(): string
+    {
+        return $this->currencyId;
+    }
+    /**
+     * @param string $currencyId
+     *
+     * @return Price
+     */
+    public function setCurrencyId(string $currencyId): Price
+    {
+        $this->currencyId = $currencyId;
+        return $this;
+    }
+}
