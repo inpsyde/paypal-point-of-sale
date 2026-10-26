@@ -29,7 +29,7 @@ jobs:
 
   publish:
     needs: validate
-    uses: inpsyde/reusable-workflows/.github/workflows/wordpress-org-release.yml@main
+    uses: inpsyde/reusable-workflows/.github/workflows/wordpress-org-release.yml@47877d3342b79def152fb5e800c5ee6fef48dc67 # main as of 2026-10-26
     with:
       DRY_RUN: ${{ inputs.DRY_RUN }}
       SVN_PLUGIN_SLUG: zettle-pos-integration
