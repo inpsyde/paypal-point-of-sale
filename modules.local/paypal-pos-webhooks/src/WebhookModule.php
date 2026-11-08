@@ -9,10 +9,10 @@ use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
-use Throwable;
 use WP_CLI;
 
 class WebhookModule implements ServiceModule, ExecutableModule
@@ -78,14 +78,19 @@ class WebhookModule implements ServiceModule, ExecutableModule
      */
     private function missingWebhookEvents(ContainerInterface $container): array
     {
-        $configured = (array) $container->get('paypal-pos.webhook.config.events');
-        try {
-            $storage = $container->get('paypal-pos.webhook.storage');
-            assert($storage instanceof WebhookStorageInterface);
-            $subscribed = $storage->fetch()->eventNames();
-        } catch (Throwable $exception) {
-            return $configured;
+        // Read the option directly: the storage resolves the listener URL through rest_url(),
+        // which throws this early when pretty permalinks are on.
+        $options = $container->get('paypal-pos.webhook.storage.container');
+        assert($options instanceof WritableContainerInterface);
+        $key = (string) $container->get('paypal-pos.webhook.storage.option');
+        // Nothing stored yet: onboarding registers the webhook with the configured events.
+        if (!$options->has($key)) {
+            return [];
         }
+
+        $stored = (array) $options->get($key);
+        $subscribed = array_map('strval', (array) ($stored['eventNames'] ?? []));
+        $configured = (array) $container->get('paypal-pos.webhook.config.events');
 
         return array_values(array_diff($configured, $subscribed));
     }
