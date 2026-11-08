@@ -12,6 +12,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Functions\stubEscapeFunctions;
 use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
 
@@ -23,13 +24,21 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
 {
     private const SOLD_AT = '2026-10-20 16:52:56';
 
+    /**
+     * @var int[] Order ids the stored-order check finds.
+     */
+    private array $storedOrderIds = [5];
+
     protected function setUp(): void
     {
         parent::setUp();
         stubTranslationFunctions();
+        stubEscapeFunctions();
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
         when('wc_stock_amount')->alias('intval');
+        when('wc_get_order_statuses')->justReturn([]);
+        when('wc_get_orders')->alias(fn (): array => $this->storedOrderIds);
 
         $tax = Mockery::mock('alias:WC_Tax');
         $tax->shouldReceive('get_tax_class_slugs')->andReturn(['reduced-rate']);
@@ -193,5 +202,23 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $variants->shouldReceive('localId')->andReturn(10);
 
         $this->factory($variants)->createOrder($this->discountedSale('1', 672, [], 111));
+    }
+
+    public function testThrowsWhenTheOrderWasNotStored(): void
+    {
+        $order = Mockery::mock('overload:WC_Order');
+        $order->shouldReceive('add_order_note')->never();
+        $order->shouldIgnoreMissing();
+        $item = Mockery::mock('overload:WC_Order_Item_Product');
+        $item->shouldIgnoreMissing();
+        Mockery::mock('overload:WC_Order_Item_Tax')->shouldIgnoreMissing();
+        when('wc_get_product')->justReturn(Mockery::mock('WC_Product'));
+        $variants = Mockery::mock(OneToManyMapInterface::class);
+        $variants->shouldReceive('localId')->andReturn(10);
+        $this->storedOrderIds = [];
+
+        $this->expectException(RuntimeException::class);
+
+        $this->factory($variants)->createOrder($this->discountedSale());
     }
 }

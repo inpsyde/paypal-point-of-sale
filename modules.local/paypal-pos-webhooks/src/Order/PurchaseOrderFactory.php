@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\MinorUnits;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
@@ -125,6 +126,7 @@ class PurchaseOrderFactory
         $order->set_date_paid($purchase->timestamp()->getTimestamp());
         $order->set_date_completed($purchase->timestamp()->getTimestamp());
         $order->save();
+        $this->assertStored($purchase);
 
         $order->add_order_note(
             /* translators: %s: name of the cashier who made the sale */
@@ -132,6 +134,21 @@ class PurchaseOrderFactory
         );
 
         return $order->get_id();
+    }
+
+    /**
+     * WC_Order::save() logs storage failures instead of throwing, so this confirms the order is
+     * there; throwing lets the caller's retry pick the purchase up again.
+     *
+     * @throws RuntimeException
+     */
+    private function assertStored(Purchase $purchase): void
+    {
+        if (!$this->orderExists($purchase->uuid())) {
+            throw new RuntimeException(
+                sprintf('Could not store the order for purchase %s', esc_html($purchase->uuid()))
+            );
+        }
     }
 
     /**
