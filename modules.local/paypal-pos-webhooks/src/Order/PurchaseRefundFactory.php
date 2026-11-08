@@ -80,7 +80,7 @@ class PurchaseRefundFactory
             return;
         }
 
-        $this->recordRefund($order, $refund, $originalUuid, $amount);
+        $this->recordRefund($order, $refund, $originalUuid, $amount, $remaining);
     }
 
     /**
@@ -116,8 +116,14 @@ class PurchaseRefundFactory
         }
     }
 
-    private function recordRefund(WC_Order $order, Purchase $refund, string $originalUuid, float $amount): void
-    {
+    private function recordRefund(
+        WC_Order $order,
+        Purchase $refund,
+        string $originalUuid,
+        float $amount,
+        float $remaining
+    ): void {
+
         // Meta for lookups; the reason already carries the UUID from the refund's first save.
         $tag = static function (WC_Order_Refund $record, array $args): void {
             if (!isset($args[self::ARG_REFUND_PURCHASE_UUID])) {
@@ -127,10 +133,19 @@ class PurchaseRefundFactory
             $record->update_meta_data(OrderMeta::REFUND_PAYMENTS, $args[self::ARG_REFUND_PAYMENTS]);
         };
         add_action('woocommerce_create_refund', $tag, 10, 2);
+        // WC counts a free line left out of the refund as unrefunded, so a full refund of a sale
+        // with a free item would stay partial. The refunded amount alone decides instead.
+        $orderId = $order->get_id();
+        $partially = static function (mixed $isPartial, mixed $refundedOrderId = 0) use ($orderId, $remaining, $amount): bool {
+            return (int) $refundedOrderId === $orderId
+                ? $remaining - $amount > self::AMOUNT_TOLERANCE
+                : (bool) $isPartial;
+        };
+        add_filter('woocommerce_order_is_partially_refunded', $partially, 10, 2);
 
         try {
             $result = wc_create_refund([
-                'order_id' => $order->get_id(),
+                'order_id' => $orderId,
                 'amount' => (string) $amount,
                 'date_created' => $refund->timestamp()->getTimestamp(),
                 'reason' => $this->reason($refund, $originalUuid),
@@ -142,6 +157,7 @@ class PurchaseRefundFactory
             ]);
         } finally {
             remove_action('woocommerce_create_refund', $tag, 10);
+            remove_filter('woocommerce_order_is_partially_refunded', $partially, 10);
         }
 
         if ($result instanceof WP_Error) {
