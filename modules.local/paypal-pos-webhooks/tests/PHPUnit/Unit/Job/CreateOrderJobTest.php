@@ -9,7 +9,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\API\Purchases\Purchases;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
-use Syde\PayPal\PointOfSale\Webhooks\Job\DelayedRetry;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseFilter;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
@@ -58,8 +57,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         ?PurchaseOrderFactory $orderFactory = null,
         ?PurchaseRefundFactory $refundFactory = null,
         bool $enabled = true,
-        ?PurchaseFilter $filter = null,
-        ?DelayedRetry $retry = null
+        ?PurchaseFilter $filter = null
     ): CreateOrderJob {
 
         return new CreateOrderJob(
@@ -67,8 +65,7 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
             $orderFactory ?? Mockery::mock(PurchaseOrderFactory::class),
             $refundFactory ?? Mockery::mock(PurchaseRefundFactory::class),
             $enabled,
-            $filter ?? new PurchaseFilter(new PaymentLabels(), []),
-            $retry ?? Mockery::mock(DelayedRetry::class)
+            $filter ?? new PurchaseFilter(new PaymentLabels(), [])
         );
     }
 
@@ -171,19 +168,13 @@ class CreateOrderJobTest extends BrainMonkeyWpTestCase
         self::assertTrue($this->executeJob($this->job($purchases, null, $refundFactory, true, $filter), 'abc'));
     }
 
-    public function testBacksOffInsteadOfRetryingRightAway(): void
+    public function testLeavesFailuresToTheQueueRetry(): void
     {
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldReceive('read')->andThrow(new RuntimeException('429 Too Many Requests'));
-        $retry = Mockery::mock(DelayedRetry::class);
-        $retry->shouldReceive('retry')
-            ->once()
-            ->with(CreateOrderJob::TYPE, ['purchaseUuid' => 'webhook-uuid', 'attempt' => 0])
-            ->andReturn(60);
         $logger = Mockery::mock(LoggerInterface::class);
-        $logger->shouldReceive('error')->once()->with(Mockery::pattern('/Retrying in 60s/'));
-        $job = $this->job($purchases, null, null, true, null, $retry);
+        $logger->shouldReceive('error')->once()->with(Mockery::pattern('/429 Too Many Requests/'));
 
-        self::assertTrue($this->executeJob($job, 'webhook-uuid', $logger));
+        self::assertFalse($this->executeJob($this->job($purchases), 'webhook-uuid', $logger));
     }
 }

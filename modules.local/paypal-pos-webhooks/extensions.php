@@ -5,11 +5,25 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks;
 
 use Exception;
+use Inpsyde\Queue\Queue\Job\JobRecord;
 use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
+use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
+use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 
 return [
+    // These jobs call the PayPal POS API, so immediate retries don't help against rate limits or
+    // short outages. With the queue's 3 retries this backs off 2, 8 and 32 minutes.
+    'inpsyde.queue.failed.retry.delay' => static function (callable $previous): callable {
+        return static function (JobRecord $record) use ($previous): int {
+            $backedOff = [CreateOrderJob::TYPE, BackfillJob::TYPE, WebhookRegistrationJob::TYPE];
+
+            return in_array($record->job()->type(), $backedOff, true)
+                ? 120 * 4 ** $record->context()->retryCount()
+                : (int) $previous($record);
+        };
+    },
     'inpsyde.wc-status-report.items' => static function (array $items, ContainerInterface $container): array {
         try {
             $items[] = $container->get('inpsyde.wc-status-report.item-factory')->createReportItem(

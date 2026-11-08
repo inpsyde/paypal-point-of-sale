@@ -80,7 +80,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
             }
         );
         $this->registerRecovery($container);
-        $this->registerDelayedJobs($container);
         add_action('paypal-pos.onboarding.sync-params.after', [Backfill\SetupImportChoice::class, 'render']);
 
         $this->registerBackfillTools($container);
@@ -142,8 +141,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         add_action(
             'paypal-point-of-sale.deactivate',
             static function () use ($backfill) {
-                // Nothing handles these while the plugin is inactive; the recovery re-imports.
-                wp_unschedule_hook(Job\DelayedRetry::HOOK);
                 $backfill()->rememberDeactivation();
             }
         );
@@ -159,20 +156,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
             static function () use ($backfill) {
                 $backfill()->startSetupImport();
             }
-        );
-    }
-
-    private function registerDelayedJobs(ContainerInterface $container): void
-    {
-        add_action(
-            Job\DelayedRetry::HOOK,
-            static function (string $type, array $args) use ($container): void {
-                $retry = $container->get('paypal-pos.webhook.delayed-retry');
-                assert($retry instanceof Job\DelayedRetry);
-                $retry->enqueue($type, $args);
-            },
-            10,
-            2
         );
     }
 

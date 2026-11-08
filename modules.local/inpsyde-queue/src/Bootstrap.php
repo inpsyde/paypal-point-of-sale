@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Inpsyde\Queue;
 
 use Inpsyde\Queue\Db\Table;
+use Inpsyde\Queue\Db\UpgradableTable;
 
 class Bootstrap
 {
@@ -28,6 +29,24 @@ class Bootstrap
             $sql = "CREATE TABLE IF NOT EXISTS {$prefix}{$table->name()} ({$table->schema()}) $charset_collate;";
             // phpcs:ignore WordPress.DB.PreparedSQL
             $wpdb->query($sql);
+            if ($table instanceof UpgradableTable) {
+                $this->addMissingColumns("{$prefix}{$table->name()}", $table);
+            }
+        }
+    }
+
+    /**
+     * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+     */
+    private function addMissingColumns(string $tableName, UpgradableTable $table): void
+    {
+        global $wpdb;
+
+        foreach ($table->addedColumns() as $column => $clause) {
+            $exists = $wpdb->get_var($wpdb->prepare("SHOW COLUMNS FROM {$tableName} LIKE %s", $column));
+            if ($exists === null) {
+                $wpdb->query("ALTER TABLE {$tableName} {$clause}");
+            }
         }
     }
 

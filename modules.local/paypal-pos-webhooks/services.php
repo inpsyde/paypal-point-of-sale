@@ -22,7 +22,6 @@ use Syde\PayPal\PointOfSale\Webhooks\Handler\PurchaseCreatedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
-use Syde\PayPal\PointOfSale\Webhooks\Job\DelayedRetry;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderDefaults;
@@ -60,8 +59,7 @@ return [
             $container->get('paypal-pos.webhook.order-factory'),
             $container->get('paypal-pos.webhook.refund-factory'),
             $container->get('paypal-pos.webhook.order-sync-enabled'),
-            $container->get('paypal-pos.webhook.purchase-filter'),
-            $container->get('paypal-pos.webhook.delayed-retry')
+            $container->get('paypal-pos.webhook.purchase-filter')
         );
     },
     $job(BackfillJob::TYPE) => static function (C $container): Job {
@@ -71,7 +69,7 @@ return [
             $container->get('paypal-pos.webhook.refund-factory'),
             $container->get('paypal-pos.webhook.backfill'),
             $container->get('paypal-pos.webhook.purchase-filter'),
-            $container->get('paypal-pos.webhook.delayed-retry'),
+            $container->get('inpsyde.queue.failed.retry.count'),
             $container->get('inpsyde.queue.enqueue-job')
         );
     },
@@ -278,9 +276,6 @@ return [
             $container->get('paypal-pos.webhook.payment-labels'),
             $container->get('paypal-pos.webhook.order-sync-payment-types')
         );
-    },
-    'paypal-pos.webhook.delayed-retry' => static function (C $container): DelayedRetry {
-        return new DelayedRetry($container->get('inpsyde.queue.enqueue-job'));
     },
     'paypal-pos.webhook.order-sync-enabled' => static function (C $container): bool {
         $settings = $container->get('paypal-pos.settings');

@@ -35,7 +35,7 @@ class BackfillJob implements Job
 
     private PurchaseFilter $filter;
 
-    private DelayedRetry $retry;
+    private int $maxRetries;
 
     /**
      * @var callable
@@ -48,7 +48,7 @@ class BackfillJob implements Job
         PurchaseRefundFactory $refundFactory,
         PurchaseBackfill $backfill,
         PurchaseFilter $filter,
-        DelayedRetry $retry,
+        int $maxRetries,
         callable $enqueueJob
     ) {
 
@@ -57,7 +57,7 @@ class BackfillJob implements Job
         $this->refundFactory = $refundFactory;
         $this->backfill = $backfill;
         $this->filter = $filter;
-        $this->retry = $retry;
+        $this->maxRetries = $maxRetries;
         $this->enqueueJob = $enqueueJob;
     }
 
@@ -93,7 +93,7 @@ class BackfillJob implements Job
         try {
             $this->importPage($run, (string) ($args['cursor'] ?? ''), (string) ($args['startDate'] ?? ''), $page);
         } catch (Throwable $throwable) {
-            $this->retryLater($args, $throwable, $logger);
+            return $this->failPage($run, $page, $context->retryCount(), $throwable, $logger);
         }
 
         return true;
@@ -141,27 +141,27 @@ class BackfillJob implements Job
     }
 
     /**
-     * @param array<string, mixed> $args
+     * @return bool False while retries are left, so the queue retries the page with its backoff.
      */
-    private function retryLater(array $args, Throwable $throwable, LoggerInterface $logger): void
+    private function failPage(string $run, int $page, int $retryCount, Throwable $throwable, LoggerInterface $logger): bool
     {
-        $run = (string) ($args['run'] ?? '');
         $error = $throwable->getMessage();
-        $delay = $this->retry->retry(self::TYPE, $args);
-
+        $retriesLeft = $retryCount < $this->maxRetries;
         $logger->error(sprintf(
             'Backfill failed on purchase page %d: %s %s',
-            (int) ($args['page'] ?? 0),
+            $page,
             $error,
-            $delay !== null ? "Retrying in {$delay}s." : 'Giving up.'
+            $retriesLeft ? 'Retrying.' : 'Giving up.'
         ));
 
         // Shown on the Tools page; the run only fails once no retries are left.
-        if ($delay === null) {
+        if (!$retriesLeft) {
             $this->backfill->finish($run, $error);
 
-            return;
+            return true;
         }
         $this->backfill->recordError($run, $error);
+
+        return false;
     }
 }

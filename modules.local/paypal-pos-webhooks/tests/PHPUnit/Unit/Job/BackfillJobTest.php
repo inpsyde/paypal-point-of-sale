@@ -14,7 +14,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
-use Syde\PayPal\PointOfSale\Webhooks\Job\DelayedRetry;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseFilter;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
@@ -82,7 +81,6 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
     private function job(
         Purchases $purchases,
         PurchaseBackfill $backfill,
-        ?DelayedRetry $retry = null,
         ?PurchaseOrderFactory $orders = null,
         array $paymentTypes = [],
         ?PurchaseRefundFactory $refunds = null
@@ -103,17 +101,23 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
             $refunds,
             $backfill,
             new PurchaseFilter(new PaymentLabels(), $paymentTypes),
-            $retry ?? Mockery::mock(DelayedRetry::class)->shouldIgnoreMissing(),
+            3,
             function (string $type, array $args): void {
                 $this->enqueued[] = [$type, $args];
             }
         );
     }
 
-    private function executeJob(BackfillJob $job, array $args = ['run' => 'run-1'], ?LoggerInterface $logger = null): bool
-    {
+    private function executeJob(
+        BackfillJob $job,
+        array $args = ['run' => 'run-1'],
+        ?LoggerInterface $logger = null,
+        int $retryCount = 0
+    ): bool {
+
         $context = Mockery::mock(ContextInterface::class);
         $context->shouldReceive('args')->andReturn((object) $args);
+        $context->shouldReceive('retryCount')->andReturn($retryCount);
 
         return $job->execute($context, Mockery::mock(JobRepository::class), $logger ?? Mockery::mock(LoggerInterface::class));
     }
@@ -150,7 +154,7 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
         $backfill->shouldReceive('recordPage')->once()->with('run-1', 2);
         $backfill->shouldReceive('finish')->once()->with('run-1');
 
-        $this->executeJob($this->job($purchases, $backfill, null, $orders, ['IZETTLE_CASH'], $refunds));
+        $this->executeJob($this->job($purchases, $backfill, $orders, ['IZETTLE_CASH'], $refunds));
 
         self::assertSame(
             [
@@ -212,15 +216,14 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
     {
         $purchases = Mockery::mock(Purchases::class);
         $purchases->shouldReceive('list')->andThrow(new RuntimeException('429 Too Many Requests'));
-        $retry = Mockery::mock(DelayedRetry::class);
-        $retry->shouldReceive('retry')->once()->with(BackfillJob::TYPE, ['run' => 'run-1'])->andReturn(60);
         $backfill = $this->backfill();
         $backfill->shouldReceive('recordError')->once()->with('run-1', '429 Too Many Requests');
         $backfill->shouldNotReceive('finish');
         $logger = Mockery::mock(LoggerInterface::class);
-        $logger->shouldReceive('error')->once();
+        $logger->shouldReceive('error')->once()->with(Mockery::pattern('/Retrying/'));
 
-        self::assertTrue($this->executeJob($this->job($purchases, $backfill, $retry), ['run' => 'run-1'], $logger));
+        // False hands the page to the queue's backed-off retry.
+        self::assertFalse($this->executeJob($this->job($purchases, $backfill), ['run' => 'run-1'], $logger, 2));
     }
 
     public function testFailsTheRunWhenNoRetriesAreLeft(): void
@@ -229,13 +232,11 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
         $purchases->shouldReceive('list')->andReturn($this->page([$this->purchase('new')], ''));
         $orders = Mockery::mock(PurchaseOrderFactory::class);
         $orders->shouldReceive('orderExists')->andThrow(new RuntimeException('DB gone'));
-        $retry = Mockery::mock(DelayedRetry::class);
-        $retry->shouldReceive('retry')->once()->andReturnNull();
         $backfill = $this->backfill();
         $backfill->shouldReceive('finish')->once()->with('run-1', 'DB gone');
         $logger = Mockery::mock(LoggerInterface::class);
-        $logger->shouldReceive('error')->once();
+        $logger->shouldReceive('error')->once()->with(Mockery::pattern('/Giving up/'));
 
-        $this->executeJob($this->job($purchases, $backfill, $retry, $orders), ['run' => 'run-1'], $logger);
+        self::assertTrue($this->executeJob($this->job($purchases, $backfill, $orders), ['run' => 'run-1'], $logger, 3));
     }
 }

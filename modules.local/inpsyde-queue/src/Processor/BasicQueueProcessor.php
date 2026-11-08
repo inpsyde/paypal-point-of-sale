@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\Queue\Processor;
 
+use DateTime;
 use Inpsyde\Queue\Exception\InvalidJobException;
 use Inpsyde\Queue\Exception\QueueLockedException;
 use Inpsyde\Queue\Exception\QueueRuntimeException;
@@ -42,13 +43,23 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
 
     private int $maxRetriesCount;
 
+    /**
+     * @var callable(JobRecord): int
+     */
+    private $retryDelay;
+
+    /**
+     * @param callable(JobRecord): int|null $retryDelay Seconds to wait before retrying the failed
+     *                                                  job record it receives. 0 retries right away.
+     */
     public function __construct(
         JobRepository $jobRepository,
         JobRecordFactoryInterface $recordFactory,
         QueueWalker $walker,
         LoggerInterface $logger,
         int $maxRetriesCount,
-        ?callable $exceptionHandler = null
+        ?callable $exceptionHandler = null,
+        ?callable $retryDelay = null
     ) {
 
         $this->jobRepository = $jobRepository;
@@ -58,6 +69,7 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
         $this->maxRetriesCount = $maxRetriesCount;
         $this->exceptionHandler = $exceptionHandler ?? static function (): void {
         };
+        $this->retryDelay = $retryDelay ?? static fn (): int => 0;
     }
 
     /**
@@ -167,12 +179,17 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
      */
     private function createRetry(JobRecord $record): JobRecord
     {
+        $delay = max(0, (int) ($this->retryDelay)($record));
+
         return $this->recordFactory->fromData(
             $record->job()->type(),
             Context::fromArray(
                 (array) $record->context()->args(),
                 $record->context()->forSite(),
-                $record->context()->retryCount() + 1
+                $record->context()->retryCount() + 1,
+                null,
+                0,
+                $delay > 0 ? new DateTime('@' . (time() + $delay)) : null
             )
         );
     }
