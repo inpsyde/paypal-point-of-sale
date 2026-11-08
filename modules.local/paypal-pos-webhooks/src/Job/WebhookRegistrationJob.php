@@ -8,6 +8,7 @@ use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class WebhookRegistrationJob implements Job
 {
@@ -42,8 +43,15 @@ class WebhookRegistrationJob implements Job
             return true;
         }
 
-        ($this->webhookRegistration)();
-        // looks like errors are already logged inside, so no need to duplicate logging
+        try {
+            ($this->webhookRegistration)();
+        } catch (Throwable $throwable) {
+            // Registration deletes the remote webhook first, so a failure leaves none behind.
+            // Returning false lets the queue retry; a throw would drop the job.
+            $logger->error(sprintf('Webhook registration failed: %s', $throwable->getMessage()));
+
+            return false;
+        }
 
         return true;
     }

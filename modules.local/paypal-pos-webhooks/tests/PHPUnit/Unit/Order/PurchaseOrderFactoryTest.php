@@ -11,11 +11,11 @@ use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderDefaults;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderRepository;
-use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Functions\stubEscapeFunctions;
 use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
 
@@ -27,10 +27,13 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
 {
     private const SOLD_AT = '2026-10-20 16:52:56';
 
+    private bool $orderStored = true;
+
     protected function setUp(): void
     {
         parent::setUp();
         stubTranslationFunctions();
+        stubEscapeFunctions();
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
         when('wc_stock_amount')->alias('intval');
@@ -84,13 +87,14 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
     {
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldIgnoreMissing();
+        $orders = Mockery::mock(OrderRepository::class);
+        $orders->shouldReceive('existsForPurchaseUuid')->andReturnUsing(fn (): bool => $this->orderStored);
 
         return new PurchaseOrderFactory(
             $variants,
             new OrderDefaults(new PaymentLabels()),
             new OrderTaxes(),
-            new OrderSideEffects(),
-            Mockery::mock(OrderRepository::class),
+            $orders,
             $logger
         );
     }
@@ -204,5 +208,23 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $variants->shouldReceive('localId')->andReturn(10);
 
         $this->factory($variants)->createOrder($this->discountedSale('1', 672, [], 111));
+    }
+
+    public function testThrowsWhenTheOrderWasNotStored(): void
+    {
+        $order = Mockery::mock('overload:WC_Order');
+        $order->shouldReceive('add_order_note')->never();
+        $order->shouldIgnoreMissing();
+        $item = Mockery::mock('overload:WC_Order_Item_Product');
+        $item->shouldIgnoreMissing();
+        Mockery::mock('overload:WC_Order_Item_Tax')->shouldIgnoreMissing();
+        when('wc_get_product')->justReturn(Mockery::mock('WC_Product'));
+        $variants = Mockery::mock(OneToManyMapInterface::class);
+        $variants->shouldReceive('localId')->andReturn(10);
+        $this->orderStored = false;
+
+        $this->expectException(RuntimeException::class);
+
+        $this->factory($variants)->createOrder($this->discountedSale());
     }
 }

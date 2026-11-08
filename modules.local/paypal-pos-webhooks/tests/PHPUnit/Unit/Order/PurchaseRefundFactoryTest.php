@@ -9,7 +9,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderDefaults;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderRepository;
-use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
@@ -81,7 +80,6 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
             $orders,
             new OrderDefaults(new PaymentLabels()),
             new OrderTaxes(),
-            new OrderSideEffects(),
             new PaymentLabels(),
             $logger
         );

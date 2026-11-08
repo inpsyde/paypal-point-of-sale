@@ -28,8 +28,6 @@ class PurchaseRefundFactory
 
     private OrderTaxes $taxes;
 
-    private OrderSideEffects $sideEffects;
-
     private PaymentLabels $paymentLabels;
 
     private LoggerInterface $logger;
@@ -38,7 +36,6 @@ class PurchaseRefundFactory
         OrderRepository $orders,
         OrderDefaults $defaults,
         OrderTaxes $taxes,
-        OrderSideEffects $sideEffects,
         PaymentLabels $paymentLabels,
         LoggerInterface $logger
     ) {
@@ -46,7 +43,6 @@ class PurchaseRefundFactory
         $this->orders = $orders;
         $this->defaults = $defaults;
         $this->taxes = $taxes;
-        $this->sideEffects = $sideEffects;
         $this->paymentLabels = $paymentLabels;
         $this->logger = $logger;
     }
@@ -202,36 +198,34 @@ class PurchaseRefundFactory
             $originalUuid !== '' ? $originalUuid : '(unknown)'
         ));
 
-        $this->sideEffects->withoutStockReduction(function () use ($refund, $originalUuid): void {
-            $order = new WC_Order();
-            $currency = $refund->currency();
+        $order = new WC_Order();
+        $currency = $refund->currency();
 
-            $taxTotals = [];
-            $linesMinor = 0;
-            foreach ($refund->products() as $line) {
-                $linesMinor += $this->addOrphanLine($order, (array) $line, $currency, $refund->country(), $taxTotals);
-            }
-            $this->taxes->alignToPurchaseVat($order, $taxTotals, -(int) abs($refund->vatAmount()), $currency);
-            $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
-            OrderFees::addUnlistedCharges($order, $refund, (int) abs($refund->amount()) - $linesMinor, -1);
+        $taxTotals = [];
+        $linesMinor = 0;
+        foreach ($refund->products() as $line) {
+            $linesMinor += $this->addOrphanLine($order, (array) $line, $currency, $refund->country(), $taxTotals);
+        }
+        $this->taxes->alignToPurchaseVat($order, $taxTotals, -(int) abs($refund->vatAmount()), $currency);
+        $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
+        OrderFees::addUnlistedCharges($order, $refund, (int) abs($refund->amount()) - $linesMinor, -1);
 
-            $this->defaults->apply($order, $refund);
-            $order->update_meta_data(OrderMeta::REFUND_PURCHASE_UUID, $refund->uuid());
-            $order->update_meta_data(OrderMeta::ORPHAN_REFUND, 'yes');
-            $order->update_meta_data(OrderMeta::ORPHAN_REFUNDS_PURCHASE_UUID, $originalUuid);
-            $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
-            $order->set_total((string) MinorUnits::toMajor($refund->amount(), $currency));
-            $order->set_status('completed');
-            $order->set_date_paid($refund->timestamp()->getTimestamp());
-            $order->set_date_completed($refund->timestamp()->getTimestamp());
-            $order->save();
+        $this->defaults->apply($order, $refund);
+        $order->update_meta_data(OrderMeta::REFUND_PURCHASE_UUID, $refund->uuid());
+        $order->update_meta_data(OrderMeta::ORPHAN_REFUND, 'yes');
+        $order->update_meta_data(OrderMeta::ORPHAN_REFUNDS_PURCHASE_UUID, $originalUuid);
+        $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
+        $order->set_total((string) MinorUnits::toMajor($refund->amount(), $currency));
+        $order->set_status('completed');
+        $order->set_date_paid($refund->timestamp()->getTimestamp());
+        $order->set_date_completed($refund->timestamp()->getTimestamp());
+        $order->save();
 
-            $order->add_order_note(sprintf(
-                /* translators: %s: refund description */
-                __('%s (original order not found)', 'paypal-point-of-sale'),
-                $this->reason($refund, $originalUuid)
-            ));
-        });
+        $order->add_order_note(sprintf(
+            /* translators: %s: refund description */
+            __('%s (original order not found)', 'paypal-point-of-sale'),
+            $this->reason($refund, $originalUuid)
+        ));
     }
 
     /**

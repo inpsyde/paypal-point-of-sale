@@ -21,15 +21,35 @@ class OrderSideEffectsTest extends BrainMonkeyWpTestCase
         self::assertFalse($sideEffects->emailEnabled(false, $web));
     }
 
-    public function testBlocksStockReductionOnlyWhileCreating(): void
+    public function testBlocksStockChangesOnlyForPosOrders(): void
+    {
+        $pos = Mockery::mock('WC_Order');
+        $pos->shouldReceive('get_created_via')->andReturn(PurchaseOrderFactory::CREATED_VIA);
+        $web = Mockery::mock('WC_Order');
+        $web->shouldReceive('get_created_via')->andReturn('checkout');
+        $posLine = Mockery::mock('WC_Order_Item');
+        $posLine->shouldReceive('get_order')->andReturn($pos);
+        $webLine = Mockery::mock('WC_Order_Item');
+        $webLine->shouldReceive('get_order')->andReturn($web);
+        $sideEffects = new OrderSideEffects();
+
+        self::assertFalse($sideEffects->canReduceOrderStock(true, $pos));
+        self::assertTrue($sideEffects->canReduceOrderStock(true, $web));
+        self::assertFalse($sideEffects->canReduceOrderStock(false, $web));
+        self::assertTrue($sideEffects->preventLineItemStockAdjustment(false, $posLine));
+        self::assertFalse($sideEffects->preventLineItemStockAdjustment(false, $webLine));
+        self::assertTrue($sideEffects->preventLineItemStockAdjustment(true, $webLine));
+    }
+
+    public function testRegistersStockFiltersForTheWholeRequest(): void
     {
         $sideEffects = new OrderSideEffects();
 
-        $during = $sideEffects->withoutStockReduction(
-            static fn () => has_filter('woocommerce_can_reduce_order_stock', [$sideEffects, 'disable'])
-        );
+        $sideEffects->preventStockChanges();
 
-        self::assertNotFalse($during);
-        self::assertFalse(has_filter('woocommerce_can_reduce_order_stock', [$sideEffects, 'disable']));
+        self::assertNotFalse(has_filter('woocommerce_can_reduce_order_stock', [$sideEffects, 'canReduceOrderStock']));
+        self::assertNotFalse(
+            has_filter('woocommerce_prevent_adjust_line_item_product_stock', [$sideEffects, 'preventLineItemStockAdjustment'])
+        );
     }
 }
