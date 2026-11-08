@@ -144,9 +144,13 @@ return [
     'paypal-pos.webhook.registration' => static function (C $container): WebhookRegistration {
         $storage = $container->get('paypal-pos.webhook.storage');
         assert($storage instanceof WebhookStorageInterface);
+        // Keep the stored webhook, but subscribe it to the events this version handles, so
+        // re-registering after an update adds new events instead of re-sending the old list.
+        $webhook = $storage->fetch();
+        $webhook->changeEventNames($container->get('paypal-pos.webhook.config.events'));
 
         return new WebhookRegistration(
-            $storage->fetch(),
+            $webhook,
             $container->get('paypal-pos.sdk.api.webhooks'),
             $container->get('paypal-pos.webhook.deletion'),
             $container->get('paypal-pos.webhook.logger')
@@ -221,7 +225,6 @@ return [
             $container->get('paypal-pos.sdk.id-map.variant'),
             $container->get('paypal-pos.webhook.order-defaults'),
             $container->get('paypal-pos.webhook.order-taxes'),
-            $container->get('paypal-pos.webhook.order-side-effects'),
             $container->get('paypal-pos.webhook.order-repository'),
             $container->get('paypal-pos.webhook.logger'),
             $container->get('paypal-pos.webhook.order-status')
@@ -232,7 +235,6 @@ return [
             $container->get('paypal-pos.webhook.order-repository'),
             $container->get('paypal-pos.webhook.order-defaults'),
             $container->get('paypal-pos.webhook.order-taxes'),
-            $container->get('paypal-pos.webhook.order-side-effects'),
             $container->get('paypal-pos.webhook.payment-labels'),
             $container->get('paypal-pos.webhook.logger')
         );

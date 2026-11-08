@@ -19,16 +19,16 @@ class OrderScreenPaymentMethodTest extends BrainMonkeyWpTestCase
 
     public function testPosOrdersGetAStandInForTheirPaymentMethod(): void
     {
-        self::assertTrue(OrderScreenPaymentMethod::needsStandIn($this->order(PurchaseOrderFactory::CREATED_VIA), ['bacs' => 1]));
+        self::assertTrue(OrderScreenPaymentMethod::lacksRegisteredGateway($this->order(PurchaseOrderFactory::CREATED_VIA), ['bacs' => 1]));
     }
 
     public function testOtherOrdersAndRegisteredGatewaysAreLeftAlone(): void
     {
-        self::assertFalse(OrderScreenPaymentMethod::needsStandIn($this->order('checkout'), []));
-        self::assertFalse(OrderScreenPaymentMethod::needsStandIn(
+        self::assertFalse(OrderScreenPaymentMethod::lacksRegisteredGateway($this->order('checkout'), []));
+        self::assertFalse(OrderScreenPaymentMethod::lacksRegisteredGateway(
             $this->order(PurchaseOrderFactory::CREATED_VIA),
             ['paypal_pos_cash' => 1]
         ));
-        self::assertFalse(OrderScreenPaymentMethod::needsStandIn($this->order(PurchaseOrderFactory::CREATED_VIA, ''), []));
+        self::assertFalse(OrderScreenPaymentMethod::lacksRegisteredGateway($this->order(PurchaseOrderFactory::CREATED_VIA, ''), []));
     }
 }

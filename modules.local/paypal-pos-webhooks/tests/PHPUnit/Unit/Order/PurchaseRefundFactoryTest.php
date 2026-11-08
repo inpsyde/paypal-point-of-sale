@@ -9,12 +9,12 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderDefaults;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderRepository;
-use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use function Brain\Monkey\Actions\expectAdded;
+use function Brain\Monkey\Filters\expectAdded as expectFilterAdded;
 use function Brain\Monkey\Functions\expect;
 use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
@@ -81,7 +81,6 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
             $orders,
             new OrderDefaults(new PaymentLabels()),
             new OrderTaxes(),
-            new OrderSideEffects(),
             new PaymentLabels(),
             $logger
         );
@@ -203,6 +202,44 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         );
 
         $this->factory($this->orders(null, 7))->createRefund($this->refund());
+    }
+
+    /**
+     * @dataProvider refundedAmountProvider
+     */
+    public function testRefundedAmountAloneDecidesWhetherTheOrderIsPartiallyRefunded(
+        string $remaining,
+        bool $expectedPartial
+    ): void {
+
+        $this->order($remaining);
+        $partially = null;
+        expectFilterAdded('woocommerce_order_is_partially_refunded')->once()->whenHappen(
+            static function (callable $callback) use (&$partially): void {
+                $partially = $callback;
+            }
+        );
+        $results = [];
+        expect('wc_create_refund')->once()->andReturnUsing(
+            static function () use (&$partially, &$results) {
+                // WC says partial because of a free line left out; another order keeps WC's answer.
+                $results = [$partially(true, 7, 99), $partially(true, 8, 99)];
+
+                return Mockery::mock('WC_Order_Refund')->shouldIgnoreMissing();
+            }
+        );
+
+        $this->factory($this->orders(null, 7))->createRefund($this->refund());
+
+        self::assertSame([$expectedPartial, true], $results);
+    }
+
+    public function refundedAmountProvider(): array
+    {
+        return [
+            'whole remaining amount' => ['8.40', false],
+            'part of the remaining amount' => ['20.00', true],
+        ];
     }
 
     public function testLinksOrphanRefundsToTheSaleOnceItSyncs(): void

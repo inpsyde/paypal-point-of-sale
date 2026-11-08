@@ -28,8 +28,6 @@ class PurchaseRefundFactory
 
     private OrderTaxes $taxes;
 
-    private OrderSideEffects $sideEffects;
-
     private PaymentLabels $paymentLabels;
 
     private LoggerInterface $logger;
@@ -38,7 +36,6 @@ class PurchaseRefundFactory
         OrderRepository $orders,
         OrderDefaults $defaults,
         OrderTaxes $taxes,
-        OrderSideEffects $sideEffects,
         PaymentLabels $paymentLabels,
         LoggerInterface $logger
     ) {
@@ -46,7 +43,6 @@ class PurchaseRefundFactory
         $this->orders = $orders;
         $this->defaults = $defaults;
         $this->taxes = $taxes;
-        $this->sideEffects = $sideEffects;
         $this->paymentLabels = $paymentLabels;
         $this->logger = $logger;
     }
@@ -84,7 +80,7 @@ class PurchaseRefundFactory
             return;
         }
 
-        $this->recordRefund($order, $refund, $originalUuid, $amount);
+        $this->recordRefund($order, $refund, $originalUuid, $amount, $remaining);
     }
 
     /**
@@ -135,8 +131,14 @@ class PurchaseRefundFactory
         }
     }
 
-    private function recordRefund(WC_Order $order, Purchase $refund, string $originalUuid, float $amount): void
-    {
+    private function recordRefund(
+        WC_Order $order,
+        Purchase $refund,
+        string $originalUuid,
+        float $amount,
+        float $remaining
+    ): void {
+
         // Meta for lookups; the reason already carries the UUID from the refund's first save.
         $tag = static function (WC_Order_Refund $record, array $args): void {
             if (!isset($args[self::ARG_REFUND_PURCHASE_UUID])) {
@@ -146,10 +148,19 @@ class PurchaseRefundFactory
             $record->update_meta_data(OrderMeta::REFUND_PAYMENTS, $args[self::ARG_REFUND_PAYMENTS]);
         };
         add_action('woocommerce_create_refund', $tag, 10, 2);
+        // WC counts a free line left out of the refund as unrefunded, so a full refund of a sale
+        // with a free item would stay partial. The refunded amount alone decides instead.
+        $orderId = $order->get_id();
+        $partially = static function (mixed $isPartial, mixed $refundedOrderId = 0) use ($orderId, $remaining, $amount): bool {
+            return (int) $refundedOrderId === $orderId
+                ? $remaining - $amount > self::AMOUNT_TOLERANCE
+                : (bool) $isPartial;
+        };
+        add_filter('woocommerce_order_is_partially_refunded', $partially, 10, 2);
 
         try {
             $result = wc_create_refund([
-                'order_id' => $order->get_id(),
+                'order_id' => $orderId,
                 'amount' => (string) $amount,
                 'date_created' => $refund->timestamp()->getTimestamp(),
                 'reason' => $this->reason($refund, $originalUuid),
@@ -161,6 +172,7 @@ class PurchaseRefundFactory
             ]);
         } finally {
             remove_action('woocommerce_create_refund', $tag, 10);
+            remove_filter('woocommerce_order_is_partially_refunded', $partially, 10);
         }
 
         if ($result instanceof WP_Error) {
@@ -217,36 +229,34 @@ class PurchaseRefundFactory
             $originalUuid !== '' ? $originalUuid : '(unknown)'
         ));
 
-        $this->sideEffects->withoutStockReduction(function () use ($refund, $originalUuid): void {
-            $order = new WC_Order();
-            $currency = $refund->currency();
+        $order = new WC_Order();
+        $currency = $refund->currency();
 
-            $taxTotals = [];
-            $linesMinor = 0;
-            foreach ($refund->products() as $line) {
-                $linesMinor += $this->addOrphanLine($order, (array) $line, $currency, $refund->country(), $taxTotals);
-            }
-            $this->taxes->alignToPurchaseVat($order, $taxTotals, -(int) abs($refund->vatAmount()), $currency);
-            $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
-            OrderFees::addUnlistedCharges($order, $refund, (int) abs($refund->amount()) - $linesMinor, -1);
+        $taxTotals = [];
+        $linesMinor = 0;
+        foreach ($refund->products() as $line) {
+            $linesMinor += $this->addOrphanLine($order, (array) $line, $currency, $refund->country(), $taxTotals);
+        }
+        $this->taxes->alignToPurchaseVat($order, $taxTotals, -(int) abs($refund->vatAmount()), $currency);
+        $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
+        OrderFees::addUnlistedCharges($order, $refund, (int) abs($refund->amount()) - $linesMinor, -1);
 
-            $this->defaults->apply($order, $refund);
-            $order->update_meta_data(OrderMeta::REFUND_PURCHASE_UUID, $refund->uuid());
-            $order->update_meta_data(OrderMeta::ORPHAN_REFUND, 'yes');
-            $order->update_meta_data(OrderMeta::ORPHAN_REFUNDS_PURCHASE_UUID, $originalUuid);
-            $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
-            $order->set_total((string) MinorUnits::toMajor($refund->amount(), $currency));
-            $order->set_status('completed');
-            $order->set_date_paid($refund->timestamp()->getTimestamp());
-            $order->set_date_completed($refund->timestamp()->getTimestamp());
-            $order->save();
+        $this->defaults->apply($order, $refund);
+        $order->update_meta_data(OrderMeta::REFUND_PURCHASE_UUID, $refund->uuid());
+        $order->update_meta_data(OrderMeta::ORPHAN_REFUND, 'yes');
+        $order->update_meta_data(OrderMeta::ORPHAN_REFUNDS_PURCHASE_UUID, $originalUuid);
+        $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
+        $order->set_total((string) MinorUnits::toMajor($refund->amount(), $currency));
+        $order->set_status('completed');
+        $order->set_date_paid($refund->timestamp()->getTimestamp());
+        $order->set_date_completed($refund->timestamp()->getTimestamp());
+        $order->save();
 
-            $order->add_order_note(sprintf(
-                /* translators: %s: refund description */
-                __('%s (original order not found)', 'paypal-point-of-sale'),
-                $this->reason($refund, $originalUuid)
-            ));
-        });
+        $order->add_order_note(sprintf(
+            /* translators: %s: refund description */
+            __('%s (original order not found)', 'paypal-point-of-sale'),
+            $this->reason($refund, $originalUuid)
+        ));
     }
 
     /**
