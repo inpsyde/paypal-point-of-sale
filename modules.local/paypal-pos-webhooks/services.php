@@ -188,7 +188,6 @@ return [
         return new PurchaseOrderFactory(
             $container->get('paypal-pos.sdk.id-map.variant'),
             new PaymentLabels(),
-            $container->get('paypal-pos.webhook.order-side-effects'),
             $container->get('paypal-pos.webhook.logger')
         );
     },

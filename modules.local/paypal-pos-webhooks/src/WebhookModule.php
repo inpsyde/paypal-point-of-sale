@@ -43,6 +43,7 @@ class WebhookModule implements ServiceModule, ExecutableModule
         $sideEffects = $container->get('paypal-pos.webhook.order-side-effects');
         assert($sideEffects instanceof OrderSideEffects);
         $sideEffects->suppressEmails();
+        $sideEffects->preventStockChanges();
 
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);

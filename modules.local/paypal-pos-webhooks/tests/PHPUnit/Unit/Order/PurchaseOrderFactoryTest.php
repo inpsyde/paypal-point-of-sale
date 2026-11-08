@@ -9,7 +9,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
-use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
@@ -82,7 +81,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldIgnoreMissing();
 
-        return new PurchaseOrderFactory($variants, new PaymentLabels(), new OrderSideEffects(), $logger);
+        return new PurchaseOrderFactory($variants, new PaymentLabels(), $logger);
     }
 
     private function orderExpectingTotals(
