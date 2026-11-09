@@ -57,7 +57,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
 
     private function backfill(
         bool $enabled = true,
-        bool $connected = true,
+        bool $onboarded = true,
         bool $autoRecovery = true,
         bool $importOnSetup = true
     ): PurchaseBackfill {
@@ -67,7 +67,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
                 $this->enqueued[] = [$type, $args];
             },
             $enabled,
-            static fn (): bool => $connected,
+            static fn (): bool => $onboarded,
             $this->setupInfo,
             $autoRecovery,
             $importOnSetup
@@ -196,6 +196,31 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         self::assertArrayNotHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
     }
 
+    public function testWebhookGapReplacesARunningImportThatStartedAfterIt(): void
+    {
+        $firstFailure = time() - 7200;
+        $this->options[PurchaseBackfill::WEBHOOK_GAP_OPTION] = $firstFailure;
+        $backfill = $this->backfill();
+        $backfill->start(new DateTimeImmutable('-30 minutes'));
+        $replaced = $backfill->status()['run'];
+
+        self::assertTrue($backfill->recoverWebhookGap());
+        self::assertFalse($backfill->isActive($replaced));
+        $since = new DateTimeImmutable($this->enqueued[1][1]['startDate']);
+        self::assertSame($firstFailure - 3600, $since->getTimestamp());
+    }
+
+    public function testWebhookGapIsIgnoredUntilOnboardingIsCompleted(): void
+    {
+        $this->backfill(true, false)->rememberWebhookGap();
+        self::assertArrayNotHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
+
+        $this->options[PurchaseBackfill::WEBHOOK_GAP_OPTION] = time();
+        self::assertFalse($this->backfill(true, false)->recoverWebhookGap());
+        self::assertArrayHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
+        self::assertSame([], $this->enqueued);
+    }
+
     public function testDeactivationStopsARunningImport(): void
     {
         $backfill = $this->backfill();
@@ -216,7 +241,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         self::assertSame([], $this->enqueued);
     }
 
-    public function testReactivationWithoutAConnectedAccountForgetsTheGap(): void
+    public function testReactivationBeforeOnboardingIsCompletedForgetsTheGap(): void
     {
         $this->setupInfo->set(PurchaseBackfill::DEACTIVATED_AT_KEY, time());
 

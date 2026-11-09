@@ -37,7 +37,7 @@ class PurchaseBackfill
     /**
      * @var callable(): bool
      */
-    private $isConnected;
+    private $isOnboarded;
 
     private WritableContainerInterface $setupInfo;
 
@@ -48,7 +48,7 @@ class PurchaseBackfill
     public function __construct(
         callable $enqueueJob,
         bool $enabled,
-        callable $isConnected,
+        callable $isOnboarded,
         WritableContainerInterface $setupInfo,
         bool $autoRecovery = true,
         bool $importOnSetup = true
@@ -56,7 +56,7 @@ class PurchaseBackfill
 
         $this->enqueueJob = $enqueueJob;
         $this->enabled = $enabled;
-        $this->isConnected = $isConnected;
+        $this->isOnboarded = $isOnboarded;
         $this->setupInfo = $setupInfo;
         $this->autoRecovery = $autoRecovery;
         $this->importOnSetup = $importOnSetup;
@@ -85,10 +85,13 @@ class PurchaseBackfill
         }
 
         $run = uniqid('', true);
-        $this->saveStatus(['run' => $run, 'state' => 'running', 'queued' => 0, 'pages' => 0, 'error' => '']);
+        $startDate = $since !== null ? $since->format(DateTimeInterface::ATOM) : '';
+        $this->saveStatus(
+            ['run' => $run, 'state' => 'running', 'since' => $startDate, 'queued' => 0, 'pages' => 0, 'error' => '']
+        );
         ($this->enqueueJob)(BackfillJob::TYPE, [
             'run' => $run,
-            'startDate' => $since !== null ? $since->format(DateTimeInterface::ATOM) : '',
+            'startDate' => $startDate,
             'cursor' => '',
             'page' => 0,
         ]);
@@ -136,7 +139,7 @@ class PurchaseBackfill
 
     /**
      * Imports what was sold while the plugin was inactive. Does nothing on first activation,
-     * when switched off in the settings, or when the account was disconnected meanwhile.
+     * when switched off in the settings, or before onboarding is completed again.
      */
     public function recoverAfterReactivation(): bool
     {
@@ -145,7 +148,7 @@ class PurchaseBackfill
         }
         $deactivatedAt = (int) $this->setupInfo->get(self::DEACTIVATED_AT_KEY);
         $this->setupInfo->unset(self::DEACTIVATED_AT_KEY);
-        if ($deactivatedAt <= 0 || !$this->autoRecovery || !($this->isConnected)()) {
+        if ($deactivatedAt <= 0 || !$this->autoRecovery || !($this->isOnboarded)()) {
             return false;
         }
 
@@ -154,27 +157,35 @@ class PurchaseBackfill
     }
 
     /**
-     * Keeps the first failure, so the import covers the whole time without a webhook.
+     * Keeps the first failure, so the import covers the whole time without a webhook. During
+     * onboarding there is nothing to recover: the setup import choice covers past sales.
      */
     public function rememberWebhookGap(): void
     {
-        if (!get_option(self::WEBHOOK_GAP_OPTION)) {
+        if (($this->isOnboarded)() && !get_option(self::WEBHOOK_GAP_OPTION)) {
             update_option(self::WEBHOOK_GAP_OPTION, time(), false);
         }
     }
 
     /**
-     * A running import pages up to the present, so it covers the gap already.
+     * A running import pages up to the present, so it covers the gap if it started before it;
+     * otherwise it's replaced by one starting at the gap, which covers both.
      */
     public function recoverWebhookGap(): bool
     {
-        $since = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
-        if ($since <= 0) {
+        $gapStart = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
+        if ($gapStart <= 0 || !($this->isOnboarded)()) {
             return false;
         }
         delete_option(self::WEBHOOK_GAP_OPTION);
 
-        return $this->start(new DateTimeImmutable('@' . ($since - self::OVERLAP_SECONDS)));
+        $since = new DateTimeImmutable('@' . ($gapStart - self::OVERLAP_SECONDS));
+        $running = $this->isRunning() ? $this->status()['since'] : null;
+        if ($running === '' || ($running !== null && new DateTimeImmutable($running) <= $since)) {
+            return false;
+        }
+
+        return $this->start($since, $running !== null);
     }
 
     /**
@@ -227,7 +238,15 @@ class PurchaseBackfill
     }
 
     /**
-     * @return array{run: string, state: string, queued: int, pages: int, error: string, updated: int}
+     * @return array{
+     *     run: string,
+     *     state: string,
+     *     since: string,
+     *     queued: int,
+     *     pages: int,
+     *     error: string,
+     *     updated: int
+     * } `since` is the run's start date, empty for the whole history.
      */
     public function status(): array
     {
@@ -236,6 +255,7 @@ class PurchaseBackfill
         return [
             'run' => (string) ($status['run'] ?? ''),
             'state' => (string) ($status['state'] ?? ''),
+            'since' => (string) ($status['since'] ?? ''),
             'queued' => (int) ($status['queued'] ?? 0),
             'pages' => (int) ($status['pages'] ?? 0),
             'error' => (string) ($status['error'] ?? ''),

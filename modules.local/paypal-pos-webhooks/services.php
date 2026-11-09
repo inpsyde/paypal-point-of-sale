@@ -8,6 +8,7 @@ use Inpsyde\Queue\Queue\Job\Job;
 use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
 use Syde\PayPal\PointOfSale\Webhooks\Backfill\BackfillTools;
@@ -252,7 +253,7 @@ return [
         return new PurchaseBackfill(
             $container->get('inpsyde.queue.enqueue-job'),
             $container->get('paypal-pos.webhook.order-sync-enabled'),
-            $container->get('paypal-pos.webhook.can-register'),
+            $container->get('paypal-pos.webhook.is-onboarded'),
             $container->get('paypal-pos.setup-info'),
             $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_auto_recovery'),
             $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_import_on_setup')
@@ -327,6 +328,12 @@ return [
             $noAuthStates = $container->get('paypal-pos.onboarding.no-auth-states');
             $stateMachine = $container->get('inpsyde.state-machine');
             return !in_array($stateMachine->currentState()->name(), $noAuthStates, true);
+        };
+    },
+    'paypal-pos.webhook.is-onboarded' => static function (C $container): callable {
+        return static function () use ($container): bool {
+            return $container->get('inpsyde.state-machine')->currentState()->name()
+                === OnboardingState::ONBOARDING_COMPLETED;
         };
     },
     'paypal-pos.webhook.cli' => static function (C $container): WebhookCommand {
