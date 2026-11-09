@@ -65,6 +65,7 @@ final class PaymentLabels
             PaymentType::STORE_CREDIT => __('Store Credit (PayPal POS)', 'paypal-point-of-sale'),
             PaymentType::SWISH => __('Swish (PayPal POS)', 'paypal-point-of-sale'),
             PaymentType::VIPPS => __('Vipps (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::CUSTOM => __('Custom Payment (PayPal POS)', 'paypal-point-of-sale'),
         ];
     }
 
