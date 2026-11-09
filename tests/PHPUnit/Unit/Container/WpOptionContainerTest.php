@@ -27,11 +27,22 @@ class WpOptionContainerTest extends MonkeryTestCase
         parent::setUp();
         when('get_option')->alias(fn (string $name, $default = false) => $this->cached[$name] ?? $default);
         when('update_option')->alias(function (string $name, $value): bool {
+            // Like WP: no write when the value equals the cached copy, or the table on a cache miss.
+            $old = array_key_exists($name, $this->cached) ? $this->cached[$name] : ($this->stored[$name] ?? null);
+            if ($value === $old) {
+                return false;
+            }
             $this->stored[$name] = $value;
             $this->cached[$name] = $value;
 
             return true;
         });
+        when('wp_cache_delete')->alias(function (string $name): bool {
+            unset($this->cached[$name]);
+
+            return true;
+        });
+        when('wp_load_alloptions')->justReturn([]);
         when('maybe_unserialize')->alias('unserialize');
 
         global $wpdb;
@@ -57,6 +68,18 @@ class WpOptionContainerTest extends MonkeryTestCase
         self::assertSame(['order_sync_status' => 'wc-processing', 'webhook' => 'listener'], $this->stored['settings']);
         self::assertSame('listener', $container->get('webhook'));
         self::assertFalse($container->has('api_key'));
+    }
+
+    public function testWritesEvenWhenTheResultMatchesTheStaleCache(): void
+    {
+        $this->stored['settings'] = [];
+        $this->cached = $this->stored;
+        $container = new WpOptionContainer('settings');
+        $this->stored['settings'] = ['api_key' => 'key'];
+
+        $container->unset('api_key');
+
+        self::assertSame([], $this->stored['settings']);
     }
 
     public function testClearEmptiesTheContainerToo(): void

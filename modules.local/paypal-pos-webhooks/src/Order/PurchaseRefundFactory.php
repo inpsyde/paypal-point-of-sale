@@ -159,7 +159,7 @@ class PurchaseRefundFactory
         add_filter('woocommerce_order_is_partially_refunded', $partially, 10, 2);
 
         try {
-            $this->createWcRefund([
+            $this->createWcRefund($order, [
                 'order_id' => $orderId,
                 'amount' => (string) $amount,
                 'date_created' => $refund->timestamp()->getTimestamp(),
@@ -177,27 +177,43 @@ class PurchaseRefundFactory
     }
 
     /**
+     * WC saves the refund several times before the final save that stores its amount and our
+     * meta, so it only counts once it can be found by that meta.
+     *
      * @param array<string, mixed> $args
      */
-    private function createWcRefund(array $args): void
+    private function createWcRefund(WC_Order $order, array $args): void
     {
+        $uuid = (string) $args[self::ARG_REFUND_PURCHASE_UUID];
+        $statusBefore = $order->get_status();
         $refundId = 0;
-        ConfirmedSave::run(
-            'order_refund',
-            static function () use ($args, &$refundId): WC_Order_Refund {
-                $result = wc_create_refund($args);
-                if ($result instanceof WP_Error) {
-                    throw new RuntimeException(esc_html($result->get_error_message()));
-                }
-                $refundId = $result->get_id();
+        try {
+            ConfirmedSave::run(
+                'order_refund',
+                static function () use ($args, &$refundId): WC_Order_Refund {
+                    $result = wc_create_refund($args);
+                    if ($result instanceof WP_Error) {
+                        throw new RuntimeException(esc_html($result->get_error_message()));
+                    }
+                    $refundId = $result->get_id();
 
-                return $result;
-            },
-            static function () use (&$refundId): bool {
-                return wc_get_order($refundId) instanceof WC_Order_Refund;
-            },
-            sprintf('Could not store the refund for refund %s', esc_html((string) $args[self::ARG_REFUND_PURCHASE_UUID]))
-        );
+                    return $result;
+                },
+                function () use ($uuid, &$refundId): bool {
+                    return $this->orders->findRefundIdByRefundPurchaseUuid($uuid) === $refundId;
+                },
+                sprintf('Could not store the refund for refund %s', esc_html($uuid))
+            );
+        } catch (RuntimeException $exception) {
+            // WC may already have marked the order refunded for the refund that was deleted.
+            $parent = wc_get_order($order->get_id());
+            if ($parent instanceof WC_Order && $parent->get_status() !== $statusBefore) {
+                $parent->set_status($statusBefore);
+                $parent->save();
+            }
+
+            throw $exception;
+        }
     }
 
     private function alreadyHandled(WC_Order $order, string $refundPurchaseUuid): bool
