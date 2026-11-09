@@ -173,8 +173,8 @@ class PurchaseBackfill
     }
 
     /**
-     * A running import pages up to the present: one that started before the gap covers it, and the
-     * gap is kept until it finishes (see finish()); a later one is replaced by an import from the gap.
+     * A running import pages up to the present: one that started before the gap covers it, so the
+     * gap is kept until that import finishes; a later one is replaced by an import from the gap.
      */
     public function recoverWebhookGap(): bool
     {
@@ -239,7 +239,7 @@ class PurchaseBackfill
         $status['error'] = $error;
         $this->saveStatus($status);
 
-        // A gap left to this import is imported on its own if the import failed.
+        // A gap this import covered is imported on its own when the import failed.
         $gapSince = $this->webhookGapSince();
         if ($error !== '') {
             $this->recoverWebhookGap();

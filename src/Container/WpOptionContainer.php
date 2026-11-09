@@ -76,8 +76,8 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
     }
 
     /**
-     * update_option() skips the write when the value equals its cached copy, which may be as
-     * stale as the one reload() bypasses; dropping it makes the comparison use the table.
+     * update_option() skips a value equal to its cached copy, which can be stale; dropping the
+     * cache makes it compare against the table.
      */
     private function save(): void
     {
