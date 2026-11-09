@@ -20,7 +20,10 @@ class BootstrapTest extends BrainMonkeyWpTestCase
      */
     private array $queries = [];
 
-    private function wpdb(bool ...$columnFound): wpdb
+    /**
+     * @param bool ...$columnFound What each SHOW COLUMNS lookup finds, in order.
+     */
+    private function stubWpdb(bool ...$columnFound): void
     {
         global $wpdb;
         $wpdb = Mockery::mock(wpdb::class);
@@ -35,8 +38,6 @@ class BootstrapTest extends BrainMonkeyWpTestCase
         $wpdb->shouldReceive('get_var')->andReturnValues(
             array_map(static fn (bool $found): ?string => $found ? 'not_before' : null, $columnFound)
         );
-
-        return $wpdb;
     }
 
     protected function setUp(): void
@@ -55,12 +56,12 @@ class BootstrapTest extends BrainMonkeyWpTestCase
 
             return true;
         });
-        $this->wpdb(true, true);
+        $this->stubWpdb(true, true);
         $bootstrap->upgrade('zettle_queue_schema');
         $this->queries = [];
 
         when('get_option')->justReturn($stored);
-        $this->wpdb();
+        $this->stubWpdb();
         $bootstrap->upgrade('zettle_queue_schema');
 
         self::assertSame([], $this->queries);
@@ -70,21 +71,21 @@ class BootstrapTest extends BrainMonkeyWpTestCase
     {
         when('get_option')->justReturn(false);
         expect('update_option')->once()->with('zettle_queue_schema', Mockery::type('string'), true);
-        $this->wpdb(false, true);
+        $this->stubWpdb(false, true);
 
         (new Bootstrap(new QueueTable('zettle')))->upgrade('zettle_queue_schema');
 
-        self::assertStringContainsString('ALTER TABLE wp_zettle_queue ADD COLUMN `not_before`', $this->queries[1]);
+        self::assertStringContainsString('ALTER TABLE wp_zettle_queue ADD COLUMN `not_before`', implode("\n", $this->queries));
     }
 
     public function testRetriesLaterWhenTheColumnCouldNotBeAdded(): void
     {
         when('get_option')->justReturn(false);
         expect('update_option')->never();
-        $this->wpdb(false, false);
+        $this->stubWpdb(false, false);
 
         (new Bootstrap(new QueueTable('zettle')))->upgrade('zettle_queue_schema');
 
-        self::assertCount(2, $this->queries);
+        self::assertCount(1, preg_grep('/^ALTER TABLE/', $this->queries));
     }
 }

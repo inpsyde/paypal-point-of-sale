@@ -139,7 +139,7 @@ class PurchaseBackfill
 
     /**
      * Imports what was sold while the plugin was inactive. Does nothing on first activation,
-     * when switched off in the settings, or before onboarding is completed again.
+     * when switched off in the settings, or before onboarding is completed.
      */
     public function recoverAfterReactivation(): bool
     {

@@ -36,9 +36,8 @@ class Bootstrap
     }
 
     /**
-     * Brings the tables up to date once per schema change. $schemaOption only records the schema
-     * once all columns exist, so a failed upgrade, e.g. without ALTER rights, is retried on the
-     * next request instead of leaving the queue writing to columns that don't exist.
+     * Records the schema in $schemaOption only once all columns exist, so a failed upgrade, e.g.
+     * without ALTER rights, is retried on the next request.
      */
     public function upgrade(string $schemaOption): void
     {
