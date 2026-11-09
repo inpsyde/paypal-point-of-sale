@@ -221,6 +221,39 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         self::assertSame([], $this->enqueued);
     }
 
+    public function testReactivationResumesAnInterruptedSetupImport(): void
+    {
+        $backfill = $this->backfill();
+        $backfill->startSetupImport();
+        $backfill->rememberDeactivation();
+
+        self::assertTrue($backfill->recoverAfterReactivation());
+        self::assertSame('', $this->enqueued[1][1]['startDate']);
+    }
+
+    public function testAFinishedImportsRangeIsNotTakenOver(): void
+    {
+        $backfill = $this->backfill();
+        $backfill->start();
+        $backfill->finish($backfill->status()['run']);
+
+        $backfill->startMissed();
+
+        self::assertNotSame('', $this->enqueued[1][1]['startDate']);
+    }
+
+    public function testAFailedImportsEarlierRangeIsTakenOver(): void
+    {
+        $backfill = $this->backfill();
+        $backfill->start(new DateTimeImmutable('-60 days'));
+        $failed = $this->enqueued[0][1]['startDate'];
+        $backfill->finish($backfill->status()['run'], 'API down');
+
+        $backfill->startMissed();
+
+        self::assertSame($failed, $this->enqueued[1][1]['startDate']);
+    }
+
     public function testDeactivationStopsARunningImport(): void
     {
         $backfill = $this->backfill();

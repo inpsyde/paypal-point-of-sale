@@ -76,7 +76,8 @@ class PurchaseBackfill
 
     /**
      * Queues an import of every purchase made at or after $since, or of the whole history.
-     * $replaceRunning supersedes a running import, which stops at its next page.
+     * $replaceRunning supersedes a running import, which stops at its next page. An unfinished
+     * import's range is taken over, e.g. a setup import stopped by deactivation.
      */
     public function start(?DateTimeInterface $since = null, bool $replaceRunning = false): bool
     {
@@ -86,6 +87,10 @@ class PurchaseBackfill
 
         $run = uniqid('', true);
         $startDate = $since !== null ? $since->format(DateTimeInterface::ATOM) : '';
+        $last = $this->status();
+        if ($last['run'] !== '' && $last['state'] !== 'done') {
+            $startDate = self::earlier($startDate, $last['since']);
+        }
         $this->saveStatus(
             ['run' => $run, 'state' => 'running', 'since' => $startDate, 'queued' => 0, 'pages' => 0, 'error' => '']
         );
@@ -261,6 +266,18 @@ class PurchaseBackfill
             'error' => (string) ($status['error'] ?? ''),
             'updated' => (int) ($status['updated'] ?? 0),
         ];
+    }
+
+    /**
+     * @param string $startDate ATOM date, or empty for the whole history.
+     */
+    private static function earlier(string $startDate, string $other): string
+    {
+        if ($startDate === '' || $other === '') {
+            return '';
+        }
+
+        return new DateTimeImmutable($other) < new DateTimeImmutable($startDate) ? $other : $startDate;
     }
 
     private function isCurrent(string $run): bool
