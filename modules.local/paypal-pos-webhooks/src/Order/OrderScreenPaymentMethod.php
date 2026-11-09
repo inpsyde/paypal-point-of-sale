@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
+use Automattic\WooCommerce\Utilities\OrderUtil;
 use WC_Order;
 
 /**
@@ -50,19 +51,15 @@ class OrderScreenPaymentMethod
 
     private static function editedOrder(): ?WC_Order
     {
-        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only screen detection
-        $page = sanitize_key(wp_unslash($_GET['page'] ?? ''));
-        $action = sanitize_key(wp_unslash($_GET['action'] ?? ''));
-        $isHposEditScreen = $page === 'wc-orders' && $action === 'edit';
-        $isPostEditScreen = ($GLOBALS['pagenow'] ?? '') === 'post.php';
-        $id = absint(wp_unslash($isHposEditScreen ? ($_GET['id'] ?? 0) : ($_GET['post'] ?? 0)));
-        // phpcs:enable WordPress.Security.NonceVerification.Recommended
-
-        if (!is_admin() || (!$isHposEditScreen && !$isPostEditScreen) || $id <= 0) {
+        if (!OrderUtil::is_order_edit_screen()) {
             return null;
         }
 
-        $order = wc_get_order($id);
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only screen detection
+        // HPOS edit screens pass the order as `id`, the legacy post screen as `post`.
+        $id = absint(wp_unslash($_GET['id'] ?? $_GET['post'] ?? 0));
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
+        $order = $id > 0 ? wc_get_order($id) : null;
 
         return $order instanceof WC_Order ? $order : null;
     }
