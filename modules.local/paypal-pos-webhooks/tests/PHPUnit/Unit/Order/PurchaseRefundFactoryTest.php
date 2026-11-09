@@ -27,6 +27,12 @@ use function Brain\Monkey\Functions\when;
 class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 {
     private const REFUNDED_AT = '2026-10-20 17:48:43';
+    private const REFUND_ID = 99;
+
+    /**
+     * @var array<string, callable> ConfirmedSave's listeners by WC object type.
+     */
+    private array $recordSave = [];
 
     protected function setUp(): void
     {
@@ -36,6 +42,23 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
         when('wc_format_decimal')->returnArg();
+        foreach (['order', 'order_refund'] as $type) {
+            expectAdded("woocommerce_after_{$type}_object_save")->zeroOrMoreTimes()->whenHappen(
+                function (callable $recordSave) use ($type): void {
+                    $this->recordSave[$type] = $recordSave;
+                }
+            );
+        }
+    }
+
+    /**
+     * Lets ConfirmedSave see that the save got through to its last hook.
+     */
+    private function saved(string $type, int $id): void
+    {
+        $record = Mockery::mock('WC_Data');
+        $record->shouldReceive('get_id')->andReturn($id);
+        ($this->recordSave[$type])($record);
     }
 
     /**
@@ -109,8 +132,13 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         return $orders;
     }
 
-    private function order(string $remaining, array $refunds = [], array $unapplied = []): object
-    {
+    private function order(
+        string $remaining,
+        array $refunds = [],
+        array $unapplied = [],
+        ?object $storedRefund = null
+    ): object {
+
         $order = Mockery::mock('WC_Order');
         $order->shouldReceive('get_id')->andReturn(7);
         $order->shouldReceive('get_meta')->with(OrderMeta::UNAPPLIED_REFUND_UUID, false)->andReturn($unapplied);
@@ -118,7 +146,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $order->shouldReceive('get_remaining_refund_amount')->andReturn($remaining);
         $order->shouldReceive('get_items')->andReturn([]);
         $order->shouldReceive('get_item')->andReturnNull();
-        when('wc_get_order')->justReturn($order);
+        when('wc_get_order')->alias(static fn (int $id) => $id === self::REFUND_ID ? $storedRefund : $order);
 
         return $order;
     }
@@ -192,7 +220,9 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testTagsTheRefundWithItsZettleUuid(): void
     {
-        $this->order('8.40');
+        $record = Mockery::mock('WC_Order_Refund');
+        $record->shouldReceive('get_id')->andReturn(self::REFUND_ID);
+        $this->order('8.40', [], [], $record);
         $tag = null;
         expectAdded('woocommerce_create_refund')->once()->whenHappen(
             static function (callable $callback) use (&$tag): void {
@@ -200,16 +230,16 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
             }
         );
 
-        $record = Mockery::mock('WC_Order_Refund');
         $record->shouldReceive('update_meta_data')->once()->with(OrderMeta::REFUND_PURCHASE_UUID, 'refund-uuid');
         $record->shouldReceive('update_meta_data')->once()->with(OrderMeta::REFUND_PAYMENTS, Mockery::type('string'));
         $record->shouldNotReceive('save');
         expect('wc_create_refund')->once()->andReturnUsing(
-            static function (array $args) use (&$tag, $record) {
+            function (array $args) use (&$tag, $record) {
                 self::assertSame('8.4', $args['amount']);
                 self::assertSame((new DateTime(self::REFUNDED_AT))->getTimestamp(), $args['date_created']);
                 self::assertStringContainsString('refund-uuid', $args['reason']);
                 $tag($record, $args);
+                $this->saved('order_refund', self::REFUND_ID);
 
                 return $record;
             }
@@ -226,7 +256,10 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         bool $expectedPartial
     ): void {
 
-        $this->order($remaining);
+        $record = Mockery::mock('WC_Order_Refund');
+        $record->shouldReceive('get_id')->andReturn(self::REFUND_ID);
+        $record->shouldIgnoreMissing();
+        $this->order($remaining, [], [], $record);
         $partially = null;
         expectFilterAdded('woocommerce_order_is_partially_refunded')->once()->whenHappen(
             static function (callable $callback) use (&$partially): void {
@@ -235,17 +268,32 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         );
         $results = [];
         expect('wc_create_refund')->once()->andReturnUsing(
-            static function () use (&$partially, &$results) {
+            function () use (&$partially, &$results, $record) {
                 // WC says partial because of a free line left out; another order keeps WC's answer.
                 $results = [$partially(true, 7, 99), $partially(true, 8, 99)];
+                $this->saved('order_refund', self::REFUND_ID);
 
-                return Mockery::mock('WC_Order_Refund')->shouldIgnoreMissing();
+                return $record;
             }
         );
 
         $this->factory($this->orders(null, 7))->createRefund($this->refund());
 
         self::assertSame([$expectedPartial, true], $results);
+    }
+
+    public function testDeletesARefundWhoseSaveDidNotFinishAndThrows(): void
+    {
+        $record = Mockery::mock('WC_Order_Refund');
+        $record->shouldReceive('get_id')->andReturn(self::REFUND_ID);
+        $record->shouldReceive('delete')->once()->with(true);
+        $record->shouldIgnoreMissing();
+        $this->order('8.40', [], [], $record);
+        expect('wc_create_refund')->once()->andReturn($record);
+
+        $this->expectException(RuntimeException::class);
+
+        $this->factory($this->orders(null, 7))->createRefund($this->refund());
     }
 
     public function refundedAmountProvider(): array
@@ -281,7 +329,8 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $order->shouldReceive('set_cart_tax')->once()->with('-1.4');
         $order->shouldReceive('set_total')->once()->with('-8.4');
         $order->shouldReceive('set_date_paid')->once()->with($refundedAt);
-        $order->shouldReceive('save')->once();
+        $order->shouldReceive('get_id')->andReturn(9);
+        $order->shouldReceive('save')->once()->andReturnUsing(fn () => $this->saved('order', 9));
         $order->shouldIgnoreMissing();
         $fee = Mockery::mock('overload:WC_Order_Item_Fee');
         $fee->shouldReceive('set_total')->once()->with('-7');
@@ -313,7 +362,10 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
     public function testOrphanRefundOfATipGetsANegativeTipLine(): void
     {
         $this->stubTwentyPercentVat();
-        Mockery::mock('overload:WC_Order')->shouldIgnoreMissing();
+        $order = Mockery::mock('overload:WC_Order');
+        $order->shouldReceive('get_id')->andReturn(9);
+        $order->shouldReceive('save')->andReturnUsing(fn () => $this->saved('order', 9));
+        $order->shouldIgnoreMissing();
         Mockery::mock('overload:WC_Order_Item_Tax')->shouldIgnoreMissing();
         $fees = [];
         $fee = Mockery::mock('overload:WC_Order_Item_Fee');
