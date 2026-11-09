@@ -50,7 +50,8 @@ return [
     $job(WebhookRegistrationJob::TYPE) => static function (C $container): Job {
         return new WebhookRegistrationJob(
             $container->get('paypal-pos.webhook.register'),
-            $container->get('paypal-pos.webhook.can-register')
+            $container->get('paypal-pos.webhook.can-register'),
+            $container->get('paypal-pos.webhook.backfill')
         );
     },
     $job(CreateOrderJob::TYPE) => static function (C $container): Job {

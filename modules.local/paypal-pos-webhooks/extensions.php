@@ -40,7 +40,7 @@ return [
     },
     // Onboarding again re-imports the history; already synced sales and refunds are skipped.
     'paypal-pos.onboarding.resettable.options' => static function (array $previous): array {
-        return array_merge($previous, [PurchaseBackfill::STATUS_OPTION]);
+        return array_merge($previous, [PurchaseBackfill::STATUS_OPTION, PurchaseBackfill::WEBHOOK_GAP_OPTION]);
     },
     'paypal-pos.settings.fields.registry' =>
         static function (array $previous, ContainerInterface $container): array {

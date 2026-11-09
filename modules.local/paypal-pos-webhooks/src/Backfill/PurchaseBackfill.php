@@ -15,9 +15,10 @@ use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
  */
 class PurchaseBackfill
 {
-    // Its own option, not setup info: queue runs rewrite it every page and would save over
-    // setup info written meanwhile.
+    // Own options, not setup info: queue runs write them and would save over setup info
+    // written meanwhile.
     public const STATUS_OPTION = 'paypal-pos.backfill.status';
+    public const WEBHOOK_GAP_OPTION = 'paypal-pos.backfill.webhook-gap-since';
     public const DEACTIVATED_AT_KEY = 'order_sync_deactivated_at';
     public const SETUP_IMPORT_KEY = 'order_sync_setup_import_at';
     // Purchases can reach the API a little after their timestamp; re-scan a margin.
@@ -150,6 +151,32 @@ class PurchaseBackfill
 
         // The inactive period must be imported even if an older import is still running.
         return $this->start(new DateTimeImmutable('@' . ($deactivatedAt - self::OVERLAP_SECONDS)), true);
+    }
+
+    /**
+     * Remembers when the webhook went missing: registration deletes it before creating the new
+     * one, so a failed registration leaves the store without one until a retry succeeds.
+     */
+    public function rememberWebhookGap(): void
+    {
+        if (!get_option(self::WEBHOOK_GAP_OPTION)) {
+            update_option(self::WEBHOOK_GAP_OPTION, time(), false);
+        }
+    }
+
+    /**
+     * Imports what was sold while the webhook was missing. A running import pages up to the
+     * present, so it covers the gap already.
+     */
+    public function recoverWebhookGap(): bool
+    {
+        $since = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
+        if ($since <= 0) {
+            return false;
+        }
+        delete_option(self::WEBHOOK_GAP_OPTION);
+
+        return $this->start(new DateTimeImmutable('@' . ($since - self::OVERLAP_SECONDS)));
     }
 
     /**
