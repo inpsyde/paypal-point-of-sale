@@ -121,6 +121,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
             ->with('refund-uuid')
             ->andReturn($orphanId, $storedOrphanId ?? $orphanId);
         $orders->shouldReceive('findIdByPurchaseUuid')->with('original-uuid')->andReturn($orderId);
+        $orders->shouldReceive('findRefundIdByRefundPurchaseUuid')->with('refund-uuid')->andReturn(self::REFUND_ID);
 
         return $orders;
     }
@@ -137,6 +138,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $order->shouldReceive('get_meta')->with(OrderMeta::UNAPPLIED_REFUND_UUID, false)->andReturn($unapplied);
         $order->shouldReceive('get_refunds')->andReturn($refunds);
         $order->shouldReceive('get_remaining_refund_amount')->andReturn($remaining);
+        $order->shouldReceive('get_status')->andReturn('completed')->byDefault();
         $order->shouldReceive('get_items')->andReturn([]);
         $order->shouldReceive('get_item')->andReturnNull();
         when('wc_get_order')->alias(static fn (int $id) => $id === self::REFUND_ID ? $storedRefund : $order);
@@ -261,13 +263,17 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         self::assertSame([$expectedPartial, true], $results);
     }
 
-    public function testDeletesARefundWhoseSaveDidNotFinishAndThrows(): void
+    public function testDeletesARefundWhoseSaveDidNotFinishAndRestoresTheOrderStatus(): void
     {
         $record = Mockery::mock('WC_Order_Refund');
         $record->shouldReceive('get_id')->andReturn(self::REFUND_ID);
         $record->shouldReceive('delete')->once()->with(true);
         $record->shouldIgnoreMissing();
-        $this->order('8.40', [], [], $record);
+        $order = $this->order('8.40', [], [], $record);
+        // WC marks the order refunded inside wc_create_refund(), before the refund is confirmed.
+        $order->shouldReceive('get_status')->andReturn('completed', 'refunded');
+        $order->shouldReceive('set_status')->once()->with('completed');
+        $order->shouldReceive('save')->once();
         expect('wc_create_refund')->once()->andReturn($record);
 
         $this->expectException(RuntimeException::class);
