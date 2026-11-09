@@ -28,21 +28,24 @@ class PurchaseCreatedHandlerTest extends BrainMonkeyWpTestCase
         return $payload;
     }
 
-    public function testAcceptsOnlyPurchaseCreatedWhenEnabled(): void
+    /**
+     * @dataProvider acceptance
+     */
+    public function testAcceptsOnlyPurchaseCreatedWhenEnabled(bool $enabled, string $event, bool $expected): void
     {
         $handler = new PurchaseCreatedHandler(static function (): void {
-        }, $this->logger(), true);
+        }, $this->logger(), $enabled);
 
-        self::assertTrue($handler->accepts($this->payload(EventName::PURCHASE_CREATED)));
-        self::assertFalse($handler->accepts($this->payload('InventoryBalanceChanged')));
+        self::assertSame($expected, $handler->accepts($this->payload($event)));
     }
 
-    public function testDoesNotAcceptWhenDisabled(): void
+    public function acceptance(): array
     {
-        $handler = new PurchaseCreatedHandler(static function (): void {
-        }, $this->logger(), false);
-
-        self::assertFalse($handler->accepts($this->payload(EventName::PURCHASE_CREATED)));
+        return [
+            'purchase created' => [true, EventName::PURCHASE_CREATED, true],
+            'other event' => [true, EventName::INVENTORY_BALANCE_CHANGED, false],
+            'order sync disabled' => [false, EventName::PURCHASE_CREATED, false],
+        ];
     }
 
     /**

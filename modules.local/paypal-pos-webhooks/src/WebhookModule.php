@@ -30,9 +30,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         return require __DIR__ . '/../services.php';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function extensions(): array
     {
         return require __DIR__ . '/../extensions.php';

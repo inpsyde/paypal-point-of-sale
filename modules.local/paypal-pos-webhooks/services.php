@@ -96,7 +96,7 @@ return [
             'InventoryBalanceChanged',
             'InventoryTrackingStarted',
             'InventoryTrackingStopped',
-            'PurchaseCreated',
+            EventName::PURCHASE_CREATED,
         ];
     },
     'paypal-pos.webhook.listener.namespace' => static function (): string {

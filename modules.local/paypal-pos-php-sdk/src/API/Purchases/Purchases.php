@@ -19,8 +19,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
  * Read-only client for the Zettle Purchase API.
  *
  * @see https://developer.zettle.com/docs/api/purchase
- *
- * @package Syde\PayPal\PointOfSale\PhpSdk\API\Purchases
  */
 class Purchases
 {
@@ -35,12 +33,6 @@ class Purchases
      */
     private array $listeners;
 
-    /**
-     * @param UriInterface $uri
-     * @param RestClientInterface $restClient
-     * @param BuilderInterface $builder
-     * @param callable ...$listeners
-     */
     public function __construct(
         UriInterface $uri,
         RestClientInterface $restClient,
@@ -96,11 +88,6 @@ class Purchases
     }
 
     /**
-     * @param string $uuid
-     * @param bool $withListeners
-     *
-     * @return Purchase
-     *
      * @throws ZettleRestException
      */
     public function read(string $uuid, bool $withListeners = true): Purchase

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Payment\Type\PaymentType;
+
 /**
  * Resolves a WooCommerce payment method slug and title for a PayPal POS purchase.
  *
@@ -13,7 +15,6 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 final class PaymentLabels
 {
     private const SLUG_PREFIX = 'paypal_pos';
-    private const GIFT_CARD = 'GIFTCARD';
 
     /**
      * @param array<int, mixed> $payments
@@ -23,7 +24,7 @@ final class PaymentLabels
         $payments = array_map(static fn (mixed $payment): array => (array) $payment, $payments);
         $nonGiftCard = array_filter(
             $payments,
-            static fn (array $payment): bool => ($payment['type'] ?? '') !== self::GIFT_CARD
+            static fn (array $payment): bool => ($payment['type'] ?? '') !== PaymentType::GIFTCARD
         );
 
         return $this->highestAmountType($nonGiftCard !== [] ? $nonGiftCard : $payments);
@@ -53,17 +54,17 @@ final class PaymentLabels
     public function types(): array
     {
         return [
-            'IZETTLE_CARD' => __('PayPal POS Card', 'paypal-point-of-sale'),
-            'IZETTLE_CARD_ONLINE' => __('PayPal POS Card Online', 'paypal-point-of-sale'),
-            'IZETTLE_CASH' => __('PayPal POS Cash', 'paypal-point-of-sale'),
-            'GIFTCARD' => __('Gift Card (PayPal POS)', 'paypal-point-of-sale'),
-            'IZETTLE_INVOICE' => __('PayPal POS Invoice', 'paypal-point-of-sale'),
-            'MOBILE_PAY' => __('MobilePay (PayPal POS)', 'paypal-point-of-sale'),
-            'KLARNA' => __('Klarna (PayPal POS)', 'paypal-point-of-sale'),
-            'PAYPAL' => __('PayPal (PayPal POS)', 'paypal-point-of-sale'),
-            'STORE_CREDIT' => __('Store Credit (PayPal POS)', 'paypal-point-of-sale'),
-            'SWISH' => __('Swish (PayPal POS)', 'paypal-point-of-sale'),
-            'VIPPS' => __('Vipps (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::CARD => __('PayPal POS Card', 'paypal-point-of-sale'),
+            PaymentType::CARD_ONLINE => __('PayPal POS Card Online', 'paypal-point-of-sale'),
+            PaymentType::CASH => __('PayPal POS Cash', 'paypal-point-of-sale'),
+            PaymentType::GIFTCARD => __('Gift Card (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::INVOICE => __('PayPal POS Invoice', 'paypal-point-of-sale'),
+            PaymentType::MOBILE => __('MobilePay (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::KLARNA => __('Klarna (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::PAYPAL => __('PayPal (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::STORE_CREDIT => __('Store Credit (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::SWISH => __('Swish (PayPal POS)', 'paypal-point-of-sale'),
+            PaymentType::VIPPS => __('Vipps (PayPal POS)', 'paypal-point-of-sale'),
         ];
     }
 

@@ -54,9 +54,6 @@ class QueueTable implements UpgradableTable
         ';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function addedColumns(): array
     {
         return [

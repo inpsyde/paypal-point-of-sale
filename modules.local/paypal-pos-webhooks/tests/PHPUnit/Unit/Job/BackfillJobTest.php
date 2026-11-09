@@ -222,7 +222,6 @@ class BackfillJobTest extends BrainMonkeyWpTestCase
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldReceive('error')->once()->with(Mockery::pattern('/Retrying/'));
 
-        // False hands the page to the queue's backed-off retry.
         self::assertFalse($this->executeJob($this->job($purchases, $backfill), ['run' => 'run-1'], $logger, 2));
     }
 

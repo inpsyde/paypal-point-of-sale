@@ -39,11 +39,8 @@ class OrderSideEffects
 
     /**
      * @internal Filter callback for suppressEmails().
-     *
-     * @param mixed $enabled
-     * @param mixed $object
      */
-    public function emailEnabled($enabled, $object = null): bool
+    public function emailEnabled(mixed $enabled, mixed $object = null): bool
     {
         return !$this->isPosOrder($object) && (bool) $enabled;
     }
@@ -66,30 +63,21 @@ class OrderSideEffects
 
     /**
      * @internal Filter callback for preventStockChanges().
-     *
-     * @param mixed $canReduce
-     * @param mixed $order
      */
-    public function canReduceOrderStock($canReduce, $order = null): bool
+    public function canReduceOrderStock(mixed $canReduce, mixed $order = null): bool
     {
         return !$this->isPosOrder($order) && (bool) $canReduce;
     }
 
     /**
      * @internal Filter callback for preventStockChanges().
-     *
-     * @param mixed $prevent
-     * @param mixed $item
      */
-    public function preventLineItemStockAdjustment($prevent, $item = null): bool
+    public function preventLineItemStockAdjustment(mixed $prevent, mixed $item = null): bool
     {
         return (bool) $prevent || ($item instanceof WC_Order_Item && $this->isPosOrder($item->get_order()));
     }
 
-    /**
-     * @param mixed $order
-     */
-    private function isPosOrder($order): bool
+    private function isPosOrder(mixed $order): bool
     {
         return $order instanceof WC_Order && $order->get_created_via() === PurchaseOrderFactory::CREATED_VIA;
     }
