@@ -26,17 +26,15 @@ class PurchaseOrderFactory
     public const CREATED_VIA = 'paypal_pos';
     private OneToManyMapInterface $variantIdMap;
     private PaymentLabels $paymentLabels;
-    private OrderSideEffects $sideEffects;
     private LoggerInterface $logger;
     /**
      * @var array<string, int> WC tax rate ids by country and percentage.
      */
     private array $taxRateIds = [];
-    public function __construct(OneToManyMapInterface $variantIdMap, PaymentLabels $paymentLabels, OrderSideEffects $sideEffects, LoggerInterface $logger)
+    public function __construct(OneToManyMapInterface $variantIdMap, PaymentLabels $paymentLabels, LoggerInterface $logger)
     {
         $this->variantIdMap = $variantIdMap;
         $this->paymentLabels = $paymentLabels;
-        $this->sideEffects = $sideEffects;
         $this->logger = $logger;
     }
     public function orderExists(string $purchaseUuid): bool
@@ -57,59 +55,64 @@ class PurchaseOrderFactory
     }
     public function createOrder(Purchase $purchase): int
     {
-        return $this->sideEffects->withoutStockReduction(function () use ($purchase): int {
-            // Built in memory and saved once, so a failure leaves no half-created order behind.
-            $order = new WC_Order();
-            $currency = $purchase->currency();
-            $taxTotals = [];
-            $discountMinor = 0;
-            $discountTaxMinor = 0;
-            $linesMinor = 0;
-            foreach ($purchase->products() as $line) {
-                $amounts = LineAmounts::fromLine((array) $line);
-                $linesMinor += $amounts->netMinor() + $amounts->taxMinor();
-                // Only product lines carry a subtotal, so only they contribute to the order discount.
-                if ($this->addLineItem($order, (array) $line, $amounts, $currency, $purchase->country(), $taxTotals)) {
-                    $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
-                    $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
-                }
+        // Built in memory and saved once, so a failure leaves no half-created order behind.
+        $order = new WC_Order();
+        $currency = $purchase->currency();
+        $taxTotals = [];
+        $discountMinor = 0;
+        $discountTaxMinor = 0;
+        $linesMinor = 0;
+        foreach ($purchase->products() as $line) {
+            $amounts = LineAmounts::fromLine((array) $line);
+            $linesMinor += $amounts->netMinor() + $amounts->taxMinor();
+            // Only product lines carry a subtotal, so only they contribute to the order discount.
+            if ($this->addLineItem($order, (array) $line, $amounts, $currency, $purchase->country(), $taxTotals)) {
+                $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
+                $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
             }
-            // With a single rate, use Zettle's purchase VAT so per-line rounding can't drift.
-            if (count($taxTotals) === 1) {
-                $key = array_key_first($taxTotals);
-                $vatMinor = (int) abs($purchase->vatAmount());
-                // The cent moved onto a line's tax comes off the discount tax, which is subtotal minus total.
-                $discountTaxMinor -= $this->alignLineTaxes($order, $taxTotals[$key]['rateId'], $vatMinor - $taxTotals[$key]['taxMinor'], $currency);
-                $taxTotals[$key]['taxMinor'] = $vatMinor;
-            }
-            $this->addTaxItems($order, $taxTotals, $currency);
-            $taxMinor = (int) array_sum(array_column($taxTotals, 'taxMinor'));
-            // Against the lines as sent, so the rounding cent moved onto a line's tax isn't a charge.
-            $this->addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesMinor);
-            $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
-            $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
-            $order->set_currency($currency);
-            $order->set_prices_include_tax(\false);
-            $order->set_date_created($purchase->timestamp()->getTimestamp());
-            $order->set_created_via(self::CREATED_VIA);
-            // Record the order as already stock-reduced so later transitions don't reduce it.
-            $order->set_order_stock_reduced(\true);
-            $this->applyPayment($order, $purchase->payments());
-            $this->applyMeta($order, $purchase);
-            // Mirror Zettle's own totals; never let WC recompute and diverge.
-            $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
-            $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
-            $order->set_status('completed');
-            // set_status() stamps both dates with the current time; use the sale's time instead.
-            $order->set_date_paid($purchase->timestamp()->getTimestamp());
-            $order->set_date_completed($purchase->timestamp()->getTimestamp());
+        }
+        // With a single rate, use Zettle's purchase VAT so per-line rounding can't drift.
+        if (count($taxTotals) === 1) {
+            $key = array_key_first($taxTotals);
+            $vatMinor = (int) abs($purchase->vatAmount());
+            // The cent moved onto a line's tax comes off the discount tax, which is subtotal minus total.
+            $discountTaxMinor -= $this->alignLineTaxes($order, $taxTotals[$key]['rateId'], $vatMinor - $taxTotals[$key]['taxMinor'], $currency);
+            $taxTotals[$key]['taxMinor'] = $vatMinor;
+        }
+        $this->addTaxItems($order, $taxTotals, $currency);
+        $taxMinor = (int) array_sum(array_column($taxTotals, 'taxMinor'));
+        // Against the lines as sent, so the rounding cent moved onto a line's tax isn't a charge.
+        $this->addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesMinor);
+        $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
+        $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
+        $order->set_currency($currency);
+        $order->set_prices_include_tax(\false);
+        $order->set_date_created($purchase->timestamp()->getTimestamp());
+        $order->set_created_via(self::CREATED_VIA);
+        // Record the order as already stock-reduced so later transitions don't reduce it.
+        $order->set_order_stock_reduced(\true);
+        $this->applyPayment($order, $purchase->payments());
+        $this->applyMeta($order, $purchase);
+        // Mirror Zettle's own totals; never let WC recompute and diverge.
+        $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
+        $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
+        $order->set_status('completed');
+        // set_status() stamps both dates with the current time; use the sale's time instead.
+        $order->set_date_paid($purchase->timestamp()->getTimestamp());
+        $order->set_date_completed($purchase->timestamp()->getTimestamp());
+        $this->save($order, $purchase);
+        $order->add_order_note(
+            /* translators: %s: name of the cashier who made the sale */
+            sprintf(__('Cashier: %s', 'paypal-point-of-sale'), $purchase->user()->displayName())
+        );
+        return $order->get_id();
+    }
+    private function save(WC_Order $order, Purchase $purchase): void
+    {
+        ConfirmedSave::run('order', static function () use ($order): WC_Order {
             $order->save();
-            $order->add_order_note(
-                /* translators: %s: name of the cashier who made the sale */
-                sprintf(__('Cashier: %s', 'paypal-point-of-sale'), $purchase->user()->displayName())
-            );
-            return $order->get_id();
-        });
+            return $order;
+        }, fn(): bool => $this->orderExists($purchase->uuid()), sprintf('Could not store the order for purchase %s', esc_html($purchase->uuid())));
     }
     /**
      * @param array<string, mixed> $line

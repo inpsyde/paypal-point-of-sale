@@ -69,7 +69,11 @@ return [$job(InventoryBalanceChangedJob::TYPE) => static function (C $container)
 }, 'paypal-pos.webhook.registration' => static function (C $container): WebhookRegistration {
     $storage = $container->get('paypal-pos.webhook.storage');
     assert($storage instanceof WebhookStorageInterface);
-    return new WebhookRegistration($storage->fetch(), $container->get('paypal-pos.sdk.api.webhooks'), $container->get('paypal-pos.webhook.deletion'), $container->get('paypal-pos.webhook.logger'));
+    // Keep the stored webhook, but subscribe it to the events this version handles, so
+    // re-registering after an update adds new events instead of re-sending the old list.
+    $webhook = $storage->fetch();
+    $webhook->changeEventNames($container->get('paypal-pos.webhook.config.events'));
+    return new WebhookRegistration($webhook, $container->get('paypal-pos.sdk.api.webhooks'), $container->get('paypal-pos.webhook.deletion'), $container->get('paypal-pos.webhook.logger'));
 }, 'paypal-pos.webhook.deletion' => static function (C $container): WebhookDeletion {
     $storage = $container->get('paypal-pos.webhook.storage');
     assert($storage instanceof WebhookStorageInterface);
@@ -93,7 +97,7 @@ return [$job(InventoryBalanceChangedJob::TYPE) => static function (C $container)
 }, 'paypal-pos.webhook.handlers.inventory-balance-changed' => static function (C $container) use ($job): WebhookHandler {
     return new InventoryBalanceChangedHandler($container->get($job(InventoryBalanceChangedJob::TYPE)), $container->get('paypal-pos.webhook.logger'), $container->get('paypal-pos.sdk.id-map.variant'), $container->get('paypal-pos.sdk.integration-id'));
 }, 'paypal-pos.webhook.order-factory' => static function (C $container): PurchaseOrderFactory {
-    return new PurchaseOrderFactory($container->get('paypal-pos.sdk.id-map.variant'), new PaymentLabels(), $container->get('paypal-pos.webhook.order-side-effects'), $container->get('paypal-pos.webhook.logger'));
+    return new PurchaseOrderFactory($container->get('paypal-pos.sdk.id-map.variant'), new PaymentLabels(), $container->get('paypal-pos.webhook.logger'));
 }, 'paypal-pos.webhook.order-side-effects' => static function (): OrderSideEffects {
     return new OrderSideEffects();
 }, 'paypal-pos.webhook.handlers.purchase-created' => static function (C $container): WebhookHandler {

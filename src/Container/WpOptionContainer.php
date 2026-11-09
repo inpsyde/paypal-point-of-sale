@@ -17,6 +17,7 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
     }
     public function clear(): void
     {
+        $this->options = [];
         update_option($this->optionKey, []);
     }
     public function get(string $id)
@@ -36,12 +37,40 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
     }
     public function set(string $key, mixed $value): void
     {
+        $this->reload();
         $this->options[$key] = $value;
-        update_option($this->optionKey, $this->options);
+        $this->save();
     }
     public function unset(string $key): void
     {
+        $this->reload();
         unset($this->options[$key]);
+        $this->save();
+    }
+    /**
+     * Writes save the whole array, so they start from the stored option: keys saved since this
+     * copy was read, e.g. by the settings form in another request, would otherwise be reverted.
+     * Read from the table, as get_option() returns the copy cached when this request started.
+     */
+    private function reload(): void
+    {
+        global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- the cached copy is what must be bypassed.
+        $stored = $wpdb->get_var($wpdb->prepare("SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1", $this->optionKey));
+        $this->options = $stored === null ? [] : (array) maybe_unserialize($stored);
+    }
+    /**
+     * update_option() skips the write when the value equals its cached copy, which may be as
+     * stale as the one reload() bypasses; dropping it makes the comparison use the table.
+     */
+    private function save(): void
+    {
+        wp_cache_delete($this->optionKey, 'options');
+        $alloptions = wp_load_alloptions();
+        if (isset($alloptions[$this->optionKey])) {
+            unset($alloptions[$this->optionKey]);
+            wp_cache_set('alloptions', $alloptions, 'options');
+        }
         update_option($this->optionKey, $this->options);
     }
 }
