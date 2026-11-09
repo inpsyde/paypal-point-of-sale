@@ -58,10 +58,11 @@ class Bootstrap
         $suppressed = $wpdb->suppress_errors();
         try {
             $this->activate();
+            $upToDate = $this->isUpToDate();
         } finally {
             $wpdb->suppress_errors($suppressed);
         }
-        if ($this->isUpToDate()) {
+        if ($upToDate) {
             update_option($schemaOption, $schema, true);
             delete_transient($retryLock);
         }
