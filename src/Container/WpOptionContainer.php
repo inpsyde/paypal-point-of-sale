@@ -22,6 +22,7 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
 
     public function clear(): void
     {
+        $this->options = [];
         update_option($this->optionKey, []);
     }
 
@@ -47,13 +48,24 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
 
     public function set(string $key, mixed $value): void
     {
+        $this->reload();
         $this->options[$key] = $value;
         update_option($this->optionKey, $this->options);
     }
 
     public function unset(string $key): void
     {
+        $this->reload();
         unset($this->options[$key]);
         update_option($this->optionKey, $this->options);
+    }
+
+    /**
+     * Writes save the whole array, so they start from the stored option: keys saved since this
+     * copy was read, e.g. by the settings form, would otherwise be reverted.
+     */
+    private function reload(): void
+    {
+        $this->options = (array) get_option($this->optionKey, []);
     }
 }
