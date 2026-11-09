@@ -293,7 +293,11 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $order = $this->order('8.40', [], [], $record);
         // WC marks the order refunded inside wc_create_refund(), before the refund is confirmed.
         $order->shouldReceive('get_status')->andReturn('completed', 'refunded');
-        $order->shouldReceive('set_status')->once()->with('completed');
+        $saleTime = Mockery::mock('WC_DateTime');
+        $saleTime->shouldReceive('getTimestamp')->andReturn(1234);
+        $order->shouldReceive('get_date_completed')->andReturn($saleTime);
+        $order->shouldReceive('set_status')->once()->with('completed')->ordered();
+        $order->shouldReceive('set_date_completed')->once()->with(1234)->ordered();
         $order->shouldReceive('save')->once();
         expect('wc_create_refund')->once()->andReturn($record);
 

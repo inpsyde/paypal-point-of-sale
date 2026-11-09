@@ -208,7 +208,10 @@ class PurchaseRefundFactory
             // WC may already have marked the order refunded for the refund that was deleted.
             $parent = wc_get_order($order->get_id());
             if ($parent instanceof WC_Order && $parent->get_status() !== $statusBefore) {
+                // set_status() stamps a completed order with the current time.
+                $completedAt = $parent->get_date_completed();
                 $parent->set_status($statusBefore);
+                $parent->set_date_completed($completedAt?->getTimestamp());
                 $parent->save();
             }
 
