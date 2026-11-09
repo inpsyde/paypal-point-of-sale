@@ -173,7 +173,7 @@ class PurchaseBackfill
     }
 
     /**
-     * Only called once registration works again. A running import is replaced; start() keeps its range.
+     * Requires a working webhook registration. start() keeps the range of an import this replaces.
      */
     public function recoverWebhookGap(): bool
     {
