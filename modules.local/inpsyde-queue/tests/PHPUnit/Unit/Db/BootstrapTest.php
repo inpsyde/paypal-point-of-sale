@@ -21,6 +21,11 @@ class BootstrapTest extends BrainMonkeyWpTestCase
     private array $queries = [];
 
     /**
+     * @var array<string, mixed>
+     */
+    private array $transients = [];
+
+    /**
      * @param bool ...$columnFound What each SHOW COLUMNS lookup finds, in order.
      */
     private function stubWpdb(bool ...$columnFound): void
@@ -28,6 +33,7 @@ class BootstrapTest extends BrainMonkeyWpTestCase
         global $wpdb;
         $wpdb = Mockery::mock(wpdb::class);
         $wpdb->shouldReceive('get_charset_collate')->andReturn('');
+        $wpdb->shouldReceive('suppress_errors')->andReturn(false);
         $wpdb->shouldReceive('get_blog_prefix')->andReturn('wp_');
         $wpdb->shouldReceive('prepare')->andReturnUsing(static fn (string $sql): string => $sql);
         $wpdb->shouldReceive('query')->andReturnUsing(function (string $sql): bool {
@@ -43,7 +49,21 @@ class BootstrapTest extends BrainMonkeyWpTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        if (!defined('HOUR_IN_SECONDS')) {
+            define('HOUR_IN_SECONDS', 3600);
+        }
         when('wp_json_encode')->alias('json_encode');
+        when('get_transient')->alias(fn (string $name) => $this->transients[$name] ?? false);
+        when('set_transient')->alias(function (string $name, $value): bool {
+            $this->transients[$name] = $value;
+
+            return true;
+        });
+        when('delete_transient')->alias(function (string $name): bool {
+            unset($this->transients[$name]);
+
+            return true;
+        });
     }
 
     public function testDoesNothingWhileTheSchemaIsCurrent(): void
@@ -78,14 +98,17 @@ class BootstrapTest extends BrainMonkeyWpTestCase
         self::assertStringContainsString('ALTER TABLE wp_zettle_queue ADD COLUMN `not_before`', implode("\n", $this->queries));
     }
 
-    public function testRetriesLaterWhenTheColumnCouldNotBeAdded(): void
+    public function testRetriesAnHourLaterWhenTheColumnCouldNotBeAdded(): void
     {
         when('get_option')->justReturn(false);
         expect('update_option')->never();
         $this->stubWpdb(false, false);
+        $bootstrap = new Bootstrap(new QueueTable('zettle'));
 
-        (new Bootstrap(new QueueTable('zettle')))->upgrade('zettle_queue_schema');
+        $bootstrap->upgrade('zettle_queue_schema');
+        $bootstrap->upgrade('zettle_queue_schema');
 
         self::assertCount(1, preg_grep('/^ALTER TABLE/', $this->queries));
+        self::assertArrayHasKey('zettle_queue_schema_retry', $this->transients);
     }
 }

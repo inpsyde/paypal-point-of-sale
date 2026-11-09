@@ -36,40 +36,41 @@ class Bootstrap
     }
 
     /**
-     * Records the schema in $schemaOption only once all columns exist, so a failed upgrade, e.g.
-     * without ALTER rights, is retried on the next request.
+     * Records the schema in $schemaOption only once all columns exist. A failed upgrade, e.g.
+     * without ALTER rights, is retried hourly; see isUpToDate().
      */
     public function upgrade(string $schemaOption): void
     {
+        global $wpdb;
+
         $schema = md5((string) wp_json_encode(array_map(
             static fn (Table $table): array => [$table->name(), $table->schema()],
             $this->tables
         )));
-        if (get_option($schemaOption) === $schema) {
+        $retryLock = "{$schemaOption}_retry";
+        if (get_option($schemaOption) === $schema || get_transient($retryLock)) {
             return;
         }
+        // Also keeps concurrent requests from running the same ALTER.
+        set_transient($retryLock, 1, HOUR_IN_SECONDS);
 
-        $this->activate();
-        if ($this->hasAddedColumns()) {
+        // A failing statement mustn't print a database error into the response.
+        $suppressed = $wpdb->suppress_errors();
+        try {
+            $this->activate();
+        } finally {
+            $wpdb->suppress_errors($suppressed);
+        }
+        if ($this->isUpToDate()) {
             update_option($schemaOption, $schema, true);
+            delete_transient($retryLock);
         }
     }
 
     /**
-     * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+     * Whether all columns added since the tables' first release exist.
      */
-    private function addMissingColumns(string $tableName, UpgradableTable $table): void
-    {
-        global $wpdb;
-
-        foreach ($table->addedColumns() as $column => $clause) {
-            if (!$this->hasColumn($tableName, $column)) {
-                $wpdb->query("ALTER TABLE {$tableName} {$clause}");
-            }
-        }
-    }
-
-    private function hasAddedColumns(): bool
+    public function isUpToDate(): bool
     {
         global $wpdb;
 
@@ -86,6 +87,20 @@ class Bootstrap
         }
 
         return true;
+    }
+
+    /**
+     * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+     */
+    private function addMissingColumns(string $tableName, UpgradableTable $table): void
+    {
+        global $wpdb;
+
+        foreach ($table->addedColumns() as $column => $clause) {
+            if (!$this->hasColumn($tableName, $column)) {
+                $wpdb->query("ALTER TABLE {$tableName} {$clause}");
+            }
+        }
     }
 
     /**
