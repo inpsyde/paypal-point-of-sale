@@ -1001,6 +1001,7 @@ return array(
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\CreateOrderJob' => $baseDir . '/modules/paypal-pos-webhooks/src/Job/CreateOrderJob.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\InventoryBalanceChangedJob' => $baseDir . '/modules/paypal-pos-webhooks/src/Job/InventoryBalanceChangedJob.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\WebhookRegistrationJob' => $baseDir . '/modules/paypal-pos-webhooks/src/Job/WebhookRegistrationJob.php',
+    'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\ConfirmedSave' => $baseDir . '/modules/paypal-pos-webhooks/src/Order/ConfirmedSave.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\LineAmounts' => $baseDir . '/modules/paypal-pos-webhooks/src/Order/LineAmounts.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\OrderDefaults' => $baseDir . '/modules/paypal-pos-webhooks/src/Order/OrderDefaults.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\OrderFees' => $baseDir . '/modules/paypal-pos-webhooks/src/Order/OrderFees.php',

@@ -22,15 +22,13 @@ class PurchaseOrderFactory
     private OneToManyMapInterface $variantIdMap;
     private OrderDefaults $defaults;
     private OrderTaxes $taxes;
-    private OrderSideEffects $sideEffects;
     private OrderRepository $orders;
     private LoggerInterface $logger;
-    public function __construct(OneToManyMapInterface $variantIdMap, OrderDefaults $defaults, OrderTaxes $taxes, OrderSideEffects $sideEffects, OrderRepository $orders, LoggerInterface $logger)
+    public function __construct(OneToManyMapInterface $variantIdMap, OrderDefaults $defaults, OrderTaxes $taxes, OrderRepository $orders, LoggerInterface $logger)
     {
         $this->variantIdMap = $variantIdMap;
         $this->defaults = $defaults;
         $this->taxes = $taxes;
-        $this->sideEffects = $sideEffects;
         $this->orders = $orders;
         $this->logger = $logger;
     }
@@ -40,48 +38,53 @@ class PurchaseOrderFactory
     }
     public function createOrder(Purchase $purchase): int
     {
-        return $this->sideEffects->withoutStockReduction(function () use ($purchase): int {
-            // Built in memory and saved once, so a failure leaves no half-created order behind.
-            $order = new WC_Order();
-            $currency = $purchase->currency();
-            $taxTotals = [];
-            $discountMinor = 0;
-            $discountTaxMinor = 0;
-            $linesMinor = 0;
-            foreach ($purchase->products() as $line) {
-                $amounts = LineAmounts::fromLine((array) $line);
-                $linesMinor += $amounts->netMinor() + $amounts->taxMinor();
-                $rateId = $this->taxes->addLineTax($taxTotals, $amounts, $purchase->country());
-                // Only product lines carry a subtotal, so only they contribute to the order discount.
-                if ($this->addLineItem($order, (array) $line, $amounts, $rateId, $currency)) {
-                    $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
-                    $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
-                }
+        // Built in memory and saved once, so a failure leaves no half-created order behind.
+        $order = new WC_Order();
+        $currency = $purchase->currency();
+        $taxTotals = [];
+        $discountMinor = 0;
+        $discountTaxMinor = 0;
+        $linesMinor = 0;
+        foreach ($purchase->products() as $line) {
+            $amounts = LineAmounts::fromLine((array) $line);
+            $linesMinor += $amounts->netMinor() + $amounts->taxMinor();
+            $rateId = $this->taxes->addLineTax($taxTotals, $amounts, $purchase->country());
+            // Only product lines carry a subtotal, so only they contribute to the order discount.
+            if ($this->addLineItem($order, (array) $line, $amounts, $rateId, $currency)) {
+                $discountMinor += $amounts->subtotalNetMinor() - $amounts->netMinor();
+                $discountTaxMinor += $amounts->subtotalTaxMinor() - $amounts->taxMinor();
             }
-            // The cent moved onto a line's tax comes off the discount tax, which is subtotal minus total.
-            $vatMinor = (int) abs($purchase->vatAmount());
-            $discountTaxMinor -= $this->taxes->alignToPurchaseVat($order, $taxTotals, $vatMinor, $currency);
-            $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
-            // Against the lines as sent, so the rounding cent moved onto a line's tax isn't a charge.
-            OrderFees::addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesMinor);
-            $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
-            $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
-            $this->defaults->apply($order, $purchase);
-            $this->applyMeta($order, $purchase);
-            // Mirror Zettle's own totals; never let WC recompute and diverge.
-            $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
-            $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
-            $order->set_status('completed');
-            // set_status() stamps both dates with the current time; use the sale's time instead.
-            $order->set_date_paid($purchase->timestamp()->getTimestamp());
-            $order->set_date_completed($purchase->timestamp()->getTimestamp());
+        }
+        // The cent moved onto a line's tax comes off the discount tax, which is subtotal minus total.
+        $vatMinor = (int) abs($purchase->vatAmount());
+        $discountTaxMinor -= $this->taxes->alignToPurchaseVat($order, $taxTotals, $vatMinor, $currency);
+        $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
+        // Against the lines as sent, so the rounding cent moved onto a line's tax isn't a charge.
+        OrderFees::addUnlistedCharges($order, $purchase, (int) abs($purchase->amount()) - $linesMinor);
+        $order->set_discount_total((string) MinorUnits::toMajor($discountMinor, $currency));
+        $order->set_discount_tax((string) MinorUnits::toMajor($discountTaxMinor, $currency));
+        $this->defaults->apply($order, $purchase);
+        $this->applyMeta($order, $purchase);
+        // Mirror Zettle's own totals; never let WC recompute and diverge.
+        $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
+        $order->set_total((string) MinorUnits::toMajor($purchase->amount(), $currency));
+        $order->set_status('completed');
+        // set_status() stamps both dates with the current time; use the sale's time instead.
+        $order->set_date_paid($purchase->timestamp()->getTimestamp());
+        $order->set_date_completed($purchase->timestamp()->getTimestamp());
+        $this->save($order, $purchase);
+        $order->add_order_note(
+            /* translators: %s: name of the cashier who made the sale */
+            sprintf(__('Cashier: %s', 'paypal-point-of-sale'), $purchase->user()->displayName())
+        );
+        return $order->get_id();
+    }
+    private function save(WC_Order $order, Purchase $purchase): void
+    {
+        ConfirmedSave::run('order', static function () use ($order): WC_Order {
             $order->save();
-            $order->add_order_note(
-                /* translators: %s: name of the cashier who made the sale */
-                sprintf(__('Cashier: %s', 'paypal-point-of-sale'), $purchase->user()->displayName())
-            );
-            return $order->get_id();
-        });
+            return $order;
+        }, fn(): bool => $this->orderExists($purchase->uuid()), sprintf('Could not store the order for purchase %s', esc_html($purchase->uuid())));
     }
     /**
      * Name for sold items Zettle sends without one, e.g. custom amounts.

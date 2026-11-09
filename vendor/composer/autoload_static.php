@@ -1270,6 +1270,7 @@ class ComposerStaticInit90f41f063576f9e0b2fc8af17b0983fd
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\CreateOrderJob' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Job/CreateOrderJob.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\InventoryBalanceChangedJob' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Job/InventoryBalanceChangedJob.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\WebhookRegistrationJob' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Job/WebhookRegistrationJob.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\ConfirmedSave' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Order/ConfirmedSave.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\LineAmounts' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Order/LineAmounts.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\OrderDefaults' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Order/OrderDefaults.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Order\\OrderFees' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Order/OrderFees.php',

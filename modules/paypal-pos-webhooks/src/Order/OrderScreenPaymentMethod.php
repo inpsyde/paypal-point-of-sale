@@ -20,15 +20,18 @@ class OrderScreenPaymentMethod
             return;
         }
         $gateways = WC()->payment_gateways();
-        if (!self::needsStandIn($order, $gateways->payment_gateways())) {
+        if (!self::lacksRegisteredGateway($order, $gateways->payment_gateways())) {
             return;
         }
         $gateways->payment_gateways[] = new PosPaymentMethod($order->get_payment_method(), $order->get_payment_method_title());
     }
     /**
+     * Whether a POS order's payment method has no loaded gateway, so WC would show its raw id
+     * (e.g. paypal_pos_card) instead of the title. Such orders get a stand-in gateway.
+     *
      * @param array<string, mixed> $gateways Loaded gateways by id.
      */
-    public static function needsStandIn(WC_Order $order, array $gateways): bool
+    public static function lacksRegisteredGateway(WC_Order $order, array $gateways): bool
     {
         $id = $order->get_payment_method();
         return $order->get_created_via() === PurchaseOrderFactory::CREATED_VIA && $id !== '' && !isset($gateways[$id]);
