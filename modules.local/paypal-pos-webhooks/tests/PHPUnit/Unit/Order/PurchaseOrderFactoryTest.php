@@ -229,10 +229,12 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $this->factory($this->matchedVariants(), 'processing')->createOrder($this->discountedSale());
     }
 
-    public function testThrowsWhenTheOrderWasNotStored(): void
+    public function testDeletesAPartlyStoredOrderAndThrows(): void
     {
         $order = Mockery::mock('overload:WC_Order');
         $order->shouldReceive('add_order_note')->never();
+        $order->shouldReceive('get_id')->andReturn(5);
+        $order->shouldReceive('delete')->once()->with(true);
         $order->shouldIgnoreMissing();
         $item = Mockery::mock('overload:WC_Order_Item_Product');
         $item->shouldIgnoreMissing();
