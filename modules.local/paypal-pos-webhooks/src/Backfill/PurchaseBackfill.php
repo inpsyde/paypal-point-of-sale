@@ -154,8 +154,7 @@ class PurchaseBackfill
     }
 
     /**
-     * Remembers when the webhook went missing: registration deletes it before creating the new
-     * one, so a failed registration leaves the store without one until a retry succeeds.
+     * Keeps the first failure, so the import covers the whole time without a webhook.
      */
     public function rememberWebhookGap(): void
     {
@@ -165,8 +164,7 @@ class PurchaseBackfill
     }
 
     /**
-     * Imports what was sold while the webhook was missing. A running import pages up to the
-     * present, so it covers the gap already.
+     * A running import pages up to the present, so it covers the gap already.
      */
     public function recoverWebhookGap(): bool
     {

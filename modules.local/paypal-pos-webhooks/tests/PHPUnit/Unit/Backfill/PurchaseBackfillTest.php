@@ -172,17 +172,16 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         self::assertFalse($this->setupInfo->has(PurchaseBackfill::SETUP_IMPORT_KEY));
     }
 
-    public function testWebhookGapIsImportedFromAnHourBeforeItsFirstFailure(): void
+    public function testWebhookGapIsImportedFromAnHourBeforeTheFirstFailure(): void
     {
+        $firstFailure = time() - 600;
+        $this->options[PurchaseBackfill::WEBHOOK_GAP_OPTION] = $firstFailure;
         $backfill = $this->backfill();
-        $backfill->rememberWebhookGap();
-        $firstFailure = $this->options[PurchaseBackfill::WEBHOOK_GAP_OPTION];
-        $this->options[PurchaseBackfill::WEBHOOK_GAP_OPTION] = $firstFailure - 600;
         $backfill->rememberWebhookGap();
 
         self::assertTrue($backfill->recoverWebhookGap());
         $since = new DateTimeImmutable($this->enqueued[0][1]['startDate']);
-        self::assertSame($firstFailure - 600 - 3600, $since->getTimestamp());
+        self::assertSame($firstFailure - 3600, $since->getTimestamp());
         self::assertFalse($backfill->recoverWebhookGap());
     }
 

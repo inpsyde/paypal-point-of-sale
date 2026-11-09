@@ -88,6 +88,13 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         );
     }
 
+    private function stubTwentyPercentVat(): void
+    {
+        $taxes = Mockery::mock('alias:WC_Tax');
+        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
+        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+    }
+
     /**
      * @param int|null $storedOrphanId What the lookup finds once an orphan refund order was saved.
      */
@@ -265,9 +272,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testOrphanRefundRecordsNegativeNetAndVatAtTheRefundTime(): void
     {
-        $taxes = Mockery::mock('alias:WC_Tax');
-        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
-        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        $this->stubTwentyPercentVat();
 
         $refundedAt = (new DateTime(self::REFUNDED_AT))->getTimestamp();
         $order = Mockery::mock('overload:WC_Order');
@@ -291,9 +296,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testDeletesAPartlyStoredOrphanRefundOrderAndThrows(): void
     {
-        $taxes = Mockery::mock('alias:WC_Tax');
-        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
-        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        $this->stubTwentyPercentVat();
         $order = Mockery::mock('overload:WC_Order');
         $order->shouldReceive('get_id')->andReturn(9);
         $order->shouldReceive('delete')->once()->with(true);
@@ -309,9 +312,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testOrphanRefundOfATipGetsANegativeTipLine(): void
     {
-        $taxes = Mockery::mock('alias:WC_Tax');
-        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
-        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        $this->stubTwentyPercentVat();
         Mockery::mock('overload:WC_Order')->shouldIgnoreMissing();
         Mockery::mock('overload:WC_Order_Item_Tax')->shouldIgnoreMissing();
         $fees = [];
