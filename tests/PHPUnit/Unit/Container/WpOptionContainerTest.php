@@ -22,6 +22,11 @@ class WpOptionContainerTest extends MonkeryTestCase
      */
     private array $cached = [];
 
+    /**
+     * @var array<string, mixed>
+     */
+    private array $alloptions = [];
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -42,7 +47,12 @@ class WpOptionContainerTest extends MonkeryTestCase
 
             return true;
         });
-        when('wp_load_alloptions')->justReturn([]);
+        when('wp_load_alloptions')->alias(fn (): array => $this->alloptions);
+        when('wp_cache_set')->alias(function (string $key, array $value): bool {
+            $this->alloptions = $value;
+
+            return true;
+        });
         when('maybe_unserialize')->alias('unserialize');
 
         global $wpdb;
@@ -80,6 +90,17 @@ class WpOptionContainerTest extends MonkeryTestCase
         $container->unset('api_key');
 
         self::assertSame([], $this->stored['settings']);
+    }
+
+    public function testDropsAnAutoloadedOptionFromTheCacheBeforeWriting(): void
+    {
+        $this->stored['settings'] = [];
+        $this->alloptions = ['settings' => 'stale', 'other' => 'kept'];
+
+        (new WpOptionContainer('settings'))->set('webhook', 'listener');
+
+        self::assertSame(['other' => 'kept'], $this->alloptions);
+        self::assertSame(['webhook' => 'listener'], $this->stored['settings']);
     }
 
     public function testClearEmptiesTheContainerToo(): void
