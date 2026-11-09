@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Tests\Unit\Container;
 
+use Mockery;
 use Syde\PayPal\PointOfSale\Container\WpOptionContainer;
 use Syde\PayPal\PointOfSale\Test\MonkeryTestCase;
 
@@ -12,25 +13,42 @@ use function Brain\Monkey\Functions\when;
 class WpOptionContainerTest extends MonkeryTestCase
 {
     /**
-     * @var array<string, mixed>
+     * @var array<string, mixed> Option rows in the table.
      */
     private array $stored = [];
+
+    /**
+     * @var array<string, mixed> What get_option() returns: this request's cached copy.
+     */
+    private array $cached = [];
 
     protected function setUp(): void
     {
         parent::setUp();
-        when('get_option')->alias(fn (string $name, $default = false) => $this->stored[$name] ?? $default);
+        when('get_option')->alias(fn (string $name, $default = false) => $this->cached[$name] ?? $default);
         when('update_option')->alias(function (string $name, $value): bool {
             $this->stored[$name] = $value;
+            $this->cached[$name] = $value;
 
             return true;
         });
+        when('maybe_unserialize')->alias('unserialize');
+
+        global $wpdb;
+        $wpdb = Mockery::mock('wpdb');
+        $wpdb->options = 'wp_options';
+        $wpdb->shouldReceive('prepare')->andReturnUsing(static fn (string $sql, string $name): string => $name);
+        $wpdb->shouldReceive('get_var')->andReturnUsing(
+            fn (string $name): ?string => isset($this->stored[$name]) ? serialize($this->stored[$name]) : null
+        );
     }
 
     public function testWritesKeepKeysSavedSinceTheContainerWasCreated(): void
     {
         $this->stored['settings'] = ['order_sync_status' => 'wc-completed'];
+        $this->cached = $this->stored;
         $container = new WpOptionContainer('settings');
+        // Saved by another request: only the table has it, this request's option cache doesn't.
         $this->stored['settings'] = ['order_sync_status' => 'wc-processing', 'api_key' => 'key'];
 
         $container->set('webhook', 'listener');
@@ -44,6 +62,7 @@ class WpOptionContainerTest extends MonkeryTestCase
     public function testClearEmptiesTheContainerToo(): void
     {
         $this->stored['settings'] = ['webhook' => 'listener'];
+        $this->cached = $this->stored;
         $container = new WpOptionContainer('settings');
 
         $container->clear();

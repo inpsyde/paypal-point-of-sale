@@ -15,6 +15,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
+use function Brain\Monkey\Actions\expectAdded;
 use function Brain\Monkey\Functions\stubEscapeFunctions;
 use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
@@ -29,6 +30,11 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
 
     private bool $orderStored = true;
 
+    /**
+     * @var callable|null The factory's woocommerce_after_order_object_save listener.
+     */
+    private $recordSave = null;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -37,6 +43,11 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
         when('wc_stock_amount')->alias('intval');
+        expectAdded('woocommerce_after_order_object_save')->zeroOrMoreTimes()->whenHappen(
+            function (callable $recordSave): void {
+                $this->recordSave = $recordSave;
+            }
+        );
 
         $tax = Mockery::mock('alias:WC_Tax');
         $tax->shouldReceive('get_tax_class_slugs')->andReturn(['reduced-rate']);
@@ -115,7 +126,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $order->shouldReceive('set_status')->once()->with('completed')->ordered();
         $order->shouldReceive('set_date_paid')->once()->with($soldAt)->ordered();
         $order->shouldReceive('set_date_completed')->once()->with($soldAt)->ordered();
-        $order->shouldReceive('save')->once()->ordered();
+        $order->shouldReceive('save')->once()->ordered()->andReturnUsing($this->saveThroughItsLastHook());
         $order->shouldReceive('get_id')->andReturn(5);
         $order->shouldIgnoreMissing();
 
@@ -210,9 +221,15 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         $this->factory($variants)->createOrder($this->discountedSale('1', 672, [], 111));
     }
 
-    public function testDeletesAPartlyStoredOrderAndThrows(): void
+    /**
+     * @dataProvider partlySavedOrders
+     */
+    public function testDeletesAPartlySavedOrderAndThrows(bool $reachedLastHook, bool $found): void
     {
         $order = Mockery::mock('overload:WC_Order');
+        if ($reachedLastHook) {
+            $order->shouldReceive('save')->andReturnUsing($this->saveThroughItsLastHook());
+        }
         $order->shouldReceive('add_order_note')->never();
         $order->shouldReceive('get_id')->andReturn(5);
         $order->shouldReceive('delete')->once()->with(true);
@@ -223,10 +240,27 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         when('wc_get_product')->justReturn(Mockery::mock('WC_Product'));
         $variants = Mockery::mock(OneToManyMapInterface::class);
         $variants->shouldReceive('localId')->andReturn(10);
-        $this->orderStored = false;
+        $this->orderStored = $found;
 
         $this->expectException(RuntimeException::class);
 
         $this->factory($variants)->createOrder($this->discountedSale());
+    }
+
+    public function partlySavedOrders(): array
+    {
+        return [
+            'an order hook threw before the save finished' => [false, true],
+            'saved but not found' => [true, false],
+        ];
+    }
+
+    private function saveThroughItsLastHook(): callable
+    {
+        return function (): void {
+            $saved = Mockery::mock('WC_Data');
+            $saved->shouldReceive('get_id')->andReturn(5);
+            ($this->recordSave)($saved);
+        };
     }
 }
