@@ -236,6 +236,16 @@ class PurchaseRefundFactory
         $order->set_date_paid($refund->timestamp()->getTimestamp());
         $order->set_date_completed($refund->timestamp()->getTimestamp());
         $order->save();
+        // As for sales: save() logs storage failures instead of throwing, and a retry must not
+        // find a partly saved order next to the new one.
+        if ($this->orders->findIdByRefundPurchaseUuid($refund->uuid()) === null) {
+            if ($order->get_id() > 0) {
+                $order->delete(true);
+            }
+            throw new RuntimeException(
+                sprintf('Could not store the orphan refund order for refund %s', esc_html($refund->uuid()))
+            );
+        }
 
         $order->add_order_note(sprintf(
             /* translators: %s: refund description */

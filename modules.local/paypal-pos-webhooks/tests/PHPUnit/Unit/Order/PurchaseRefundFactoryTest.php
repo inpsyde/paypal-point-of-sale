@@ -16,6 +16,7 @@ use MonkeryTestCase\BrainMonkeyWpTestCase;
 use function Brain\Monkey\Actions\expectAdded;
 use function Brain\Monkey\Filters\expectAdded as expectFilterAdded;
 use function Brain\Monkey\Functions\expect;
+use function Brain\Monkey\Functions\stubEscapeFunctions;
 use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
 
@@ -31,6 +32,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
     {
         parent::setUp();
         stubTranslationFunctions();
+        stubEscapeFunctions();
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
         when('wc_format_decimal')->returnArg();
@@ -86,10 +88,15 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         );
     }
 
-    private function orders(?int $orphanId, ?int $orderId): OrderRepository
+    /**
+     * @param int|null $storedOrphanId What the lookup finds once an orphan refund order was saved.
+     */
+    private function orders(?int $orphanId, ?int $orderId, ?int $storedOrphanId = null): OrderRepository
     {
         $orders = Mockery::mock(OrderRepository::class);
-        $orders->shouldReceive('findIdByRefundPurchaseUuid')->with('refund-uuid')->andReturn($orphanId);
+        $orders->shouldReceive('findIdByRefundPurchaseUuid')
+            ->with('refund-uuid')
+            ->andReturn($orphanId, $storedOrphanId ?? $orphanId);
         $orders->shouldReceive('findIdByPurchaseUuid')->with('original-uuid')->andReturn($orderId);
 
         return $orders;
@@ -265,6 +272,24 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         $tax->shouldReceive('set_tax_total')->once()->with('-1.4');
         $tax->shouldIgnoreMissing();
 
+        $this->factory($this->orders(null, null, 9))->createRefund($this->refund());
+    }
+
+    public function testDeletesAPartlyStoredOrphanRefundOrderAndThrows(): void
+    {
+        $taxes = Mockery::mock('alias:WC_Tax');
+        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
+        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        $order = Mockery::mock('overload:WC_Order');
+        $order->shouldReceive('get_id')->andReturn(9);
+        $order->shouldReceive('delete')->once()->with(true);
+        $order->shouldReceive('add_order_note')->never();
+        $order->shouldIgnoreMissing();
+        Mockery::mock('overload:WC_Order_Item_Fee')->shouldIgnoreMissing();
+        Mockery::mock('overload:WC_Order_Item_Tax')->shouldIgnoreMissing();
+
+        $this->expectException(RuntimeException::class);
+
         $this->factory($this->orders(null, null))->createRefund($this->refund());
     }
 
@@ -285,7 +310,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         });
         $fee->shouldIgnoreMissing();
 
-        $this->factory($this->orders(null, null))->createRefund(
+        $this->factory($this->orders(null, null, 9))->createRefund(
             $this->refund(-1040, [['type' => 'IZETTLE_CARD', 'amount' => -1040, 'gratuityAmount' => -200]])
         );
 
