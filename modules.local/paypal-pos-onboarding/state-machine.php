@@ -27,10 +27,12 @@ use Syde\PayPal\PointOfSale\Onboarding\Event\UnhandledError;
 use Syde\PayPal\PointOfSale\Onboarding\Job\ResetOnboardingJob;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState as S;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingTransition as T;
+use Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
 use Syde\PayPal\PointOfSale\Sync\PriceSyncMode;
+use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use Throwable;
 
 return [
@@ -387,7 +389,7 @@ return [
 
                 try {
                     $webhookRegistration();
-                } catch (ZettleRestException $exception) {
+                } catch (ZettleRestException | WebhookException $exception) {
                     $logger = $container->get('paypal-pos.logger.woocommerce');
                     assert($logger instanceof LoggerInterface);
 
@@ -398,6 +400,11 @@ return [
                     $addErrorMessageCallback(
                         wp_kses_post($container->get('paypal-pos.onboarding.error.message.webhooks'))
                     );
+
+                    // Without a webhook no sales sync, so keep trying with the queue's backoff and
+                    // import what was sold meanwhile once it works.
+                    $container->get('paypal-pos.webhook.backfill')->rememberWebhookGap();
+                    $container->get('inpsyde.queue.enqueue-job')(WebhookRegistrationJob::TYPE);
                 }
 
                 /**
