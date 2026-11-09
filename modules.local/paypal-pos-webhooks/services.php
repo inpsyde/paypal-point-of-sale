@@ -346,7 +346,8 @@ return [
     'paypal-pos.webhook.bootstrap' => static function (C $container): Bootstrap {
         return new Bootstrap(
             $container->get('inpsyde.queue.enqueue-job'),
-            $container->get('paypal-pos.webhook.delete')
+            $container->get('paypal-pos.webhook.delete'),
+            $container->get('paypal-pos.webhook.is-onboarded')
         );
     },
 ];

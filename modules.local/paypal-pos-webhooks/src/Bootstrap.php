@@ -20,18 +20,31 @@ class Bootstrap
      */
     private $webhookDeletion;
 
+    /**
+     * @var callable(): bool
+     */
+    private $isOnboarded;
+
     public function __construct(
         callable $createJob,
-        callable $webhookDeletion
+        callable $webhookDeletion,
+        callable $isOnboarded
     ) {
 
         $this->createJob = $createJob;
         $this->webhookDeletion = $webhookDeletion;
+        $this->isOnboarded = $isOnboarded;
     }
 
+    /**
+     * Before onboarding is completed there is nothing to register yet: onboarding registers the
+     * webhook itself, and a queued registration would replace it right afterwards.
+     */
     public function activate(): void
     {
-        ($this->createJob)(WebhookRegistrationJob::TYPE);
+        if (($this->isOnboarded)()) {
+            ($this->createJob)(WebhookRegistrationJob::TYPE);
+        }
     }
 
     public function deactivate(): void
