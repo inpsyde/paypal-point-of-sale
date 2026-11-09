@@ -12,6 +12,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
 use DateTime;
+use DateTimeZone;
 use Exception;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Db\Table;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\InvalidJobException;
@@ -64,9 +65,11 @@ class WpDbJobRepository implements JobRepository
             }
             $hash = $this->jobHash($jobRecord);
             $rowSql .= !empty($rowSql) ? ', ' : '';
-            $rowSql .= $this->database->prepare('(%s,%s,%s,%d,%s,%d)', $hash, $job->type(), wp_json_encode($context->args()), $context->forSite(), $context->created()->format('Y-m-d H:i:s'), $context->retryCount());
+            $notBefore = $context->notBefore();
+            $rowSql .= $this->database->prepare('(%s,%s,%s,%d,%s,%d,', $hash, $job->type(), wp_json_encode($context->args()), $context->forSite(), $context->created()->format('Y-m-d H:i:s'), $context->retryCount());
+            $rowSql .= $notBefore !== null ? $this->database->prepare('%s)', $this->utc($notBefore)) : 'NULL)';
         });
-        $sql = "\n            INSERT INTO {$this->database->prefix}{$this->queueTable->name()}\n            (`hash`,`type`, `args`, `site_id`, `created`, `retry_count`) VALUES\n            " . $rowSql;
+        $sql = "\n            INSERT INTO {$this->database->prefix}{$this->queueTable->name()}\n            (`hash`,`type`, `args`, `site_id`, `created`, `retry_count`, `not_before`) VALUES\n            " . $rowSql;
         $result = $this->database->query($sql);
         $this->logger->debug(sprintf('Added %d jobs to the queue', $result));
         return (bool) $result;
@@ -120,7 +123,7 @@ class WpDbJobRepository implements JobRepository
         $sanitizedHashes = array_map(function (string $hash): string {
             return (string) $this->database->prepare('%s', $hash);
         }, $hashes);
-        $sql = "SELECT `ID` as `id`, `type`, `args`, `site_id`, `created`, `retry_count`\n          FROM {$this->database->prefix}{$this->queueTable->name()}\n           WHERE hash IN (" . implode(',', $sanitizedHashes) . ")";
+        $sql = "SELECT `ID` as `id`, `type`, `args`, `site_id`, `created`, `retry_count`, `not_before`\n          FROM {$this->database->prefix}{$this->queueTable->name()}\n           WHERE hash IN (" . implode(',', $sanitizedHashes) . ")";
         $result = $this->database->get_results($sql);
         $result = is_array($result) ? $result : [];
         /** @psalm-suppress PossiblyInvalidArgument */
@@ -148,8 +151,10 @@ class WpDbJobRepository implements JobRepository
     {
         $where = $this->whereTypes($types);
         /** @lang sql */
-        $sql = "\n            SELECT\n                `ID` as `id`,\n                `type`,\n                `args`,\n                `site_id`,\n                `created`,\n                `retry_count`\n            FROM\n                {$this->database->prefix}{$this->queueTable->name()}\n            WHERE\n                {$where}\n            LIMIT 0,%d\n        ";
-        $result = $this->database->get_results($this->database->prepare($sql, $limit));
+        $sql = "\n            SELECT\n                `ID` as `id`,\n                `type`,\n                `args`,\n                `site_id`,\n                `created`,\n                `retry_count`,\n                `not_before`\n            FROM\n                {$this->database->prefix}{$this->queueTable->name()}\n            WHERE\n                {$where}\n                AND (`not_before` IS NULL OR `not_before` <= %s)\n            LIMIT 0,%d\n        ";
+        // Jobs that aren't due yet are left out here, not skipped while walking: a batch of
+        // only delayed jobs would otherwise stop the walk before the due ones behind them.
+        $result = $this->database->get_results($this->database->prepare($sql, gmdate('Y-m-d H:i:s'), $limit));
         if (!is_array($result) || $result === []) {
             return [];
         }
@@ -196,8 +201,12 @@ class WpDbJobRepository implements JobRepository
      */
     private function castJobRecord(stdClass $row): JobRecord
     {
-        $context = new Context(json_decode($row->args), new DateTime($row->created), (int) $row->site_id, (int) $row->retry_count, (int) $row->id);
+        $context = new Context(json_decode($row->args), new DateTime($row->created), (int) $row->site_id, (int) $row->retry_count, (int) $row->id, !empty($row->not_before) ? new DateTime($row->not_before, new DateTimeZone('UTC')) : null);
         return $this->jobRecordFactory->fromData($row->type, $context);
+    }
+    private function utc(DateTime $time): string
+    {
+        return (clone $time)->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
     }
     /**
      * Empty the queue table

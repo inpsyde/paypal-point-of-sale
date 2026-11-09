@@ -20,15 +20,13 @@ class CreateOrderJob implements Job
     private PurchaseRefundFactory $refundFactory;
     private bool $enabled;
     private PurchaseFilter $filter;
-    private DelayedRetry $retry;
-    public function __construct(Purchases $purchases, PurchaseOrderFactory $orderFactory, PurchaseRefundFactory $refundFactory, bool $enabled, PurchaseFilter $filter, DelayedRetry $retry)
+    public function __construct(Purchases $purchases, PurchaseOrderFactory $orderFactory, PurchaseRefundFactory $refundFactory, bool $enabled, PurchaseFilter $filter)
     {
         $this->purchases = $purchases;
         $this->orderFactory = $orderFactory;
         $this->refundFactory = $refundFactory;
         $this->enabled = $enabled;
         $this->filter = $filter;
-        $this->retry = $retry;
     }
     public function type(): string
     {
@@ -62,14 +60,9 @@ class CreateOrderJob implements Job
             }
             return \true;
         } catch (Throwable $throwable) {
-            return $this->retryLater($uuid, (int) ($args->attempt ?? 0), $throwable, $logger);
+            // Returning false lets the queue retry with its backoff; a throw would drop the job.
+            $logger->error(sprintf('CreateOrderJob failed for purchase %s: %s', $uuid, $throwable->getMessage()));
+            return \false;
         }
-    }
-    private function retryLater(string $uuid, int $attempt, Throwable $throwable, LoggerInterface $logger): bool
-    {
-        $message = sprintf('CreateOrderJob failed for purchase %s: %s', $uuid, $throwable->getMessage());
-        $delay = $this->retry->retry(self::TYPE, ['purchaseUuid' => $uuid, 'attempt' => $attempt]);
-        $logger->error($delay !== null ? "{$message} Retrying in {$delay}s." : "{$message} Giving up.");
-        return \true;
     }
 }

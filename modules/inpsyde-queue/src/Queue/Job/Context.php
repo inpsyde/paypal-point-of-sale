@@ -12,13 +12,15 @@ class Context implements ContextInterface
     private int $siteId;
     private int $id;
     private int $retryCount;
-    public function __construct(stdClass $args, DateTime $created, int $siteId, int $retryCount = 0, int $id = 0)
+    private ?DateTime $notBefore;
+    public function __construct(stdClass $args, DateTime $created, int $siteId, int $retryCount = 0, int $id = 0, ?DateTime $notBefore = null)
     {
         $this->args = $args;
         $this->created = $created;
         $this->siteId = $siteId;
         $this->retryCount = $retryCount;
         $this->id = $id;
+        $this->notBefore = $notBefore;
     }
     public function id(): int
     {
@@ -40,9 +42,13 @@ class Context implements ContextInterface
     {
         return $this->retryCount;
     }
-    public static function fromArray(array $data, ?int $siteId = null, int $retryCount = 0, ?DateTime $created = null, int $id = 0): ContextInterface
+    public function notBefore(): ?DateTime
     {
-        return new self((object) $data, $created ?? new DateTime(), $siteId ?? get_current_blog_id(), $retryCount, $id);
+        return $this->notBefore;
+    }
+    public static function fromArray(array $data, ?int $siteId = null, int $retryCount = 0, ?DateTime $created = null, int $id = 0, ?DateTime $notBefore = null): ContextInterface
+    {
+        return new self((object) $data, $created ?? new DateTime(), $siteId ?? get_current_blog_id(), $retryCount, $id, $notBefore);
     }
     public function withIncrementedRetryCount(): ContextInterface
     {

@@ -22,15 +22,13 @@ class PurchaseRefundFactory
     private OrderRepository $orders;
     private OrderDefaults $defaults;
     private OrderTaxes $taxes;
-    private OrderSideEffects $sideEffects;
     private PaymentLabels $paymentLabels;
     private LoggerInterface $logger;
-    public function __construct(OrderRepository $orders, OrderDefaults $defaults, OrderTaxes $taxes, OrderSideEffects $sideEffects, PaymentLabels $paymentLabels, LoggerInterface $logger)
+    public function __construct(OrderRepository $orders, OrderDefaults $defaults, OrderTaxes $taxes, PaymentLabels $paymentLabels, LoggerInterface $logger)
     {
         $this->orders = $orders;
         $this->defaults = $defaults;
         $this->taxes = $taxes;
-        $this->sideEffects = $sideEffects;
         $this->paymentLabels = $paymentLabels;
         $this->logger = $logger;
     }
@@ -60,7 +58,7 @@ class PurchaseRefundFactory
             $this->skipUnappliableRefund($order, $refund, $amount, $remaining);
             return;
         }
-        $this->recordRefund($order, $refund, $originalUuid, $amount);
+        $this->recordRefund($order, $refund, $originalUuid, $amount, $remaining);
     }
     /**
      * Whether the refund is already recorded, on its sale's order or as an orphan refund order.
@@ -101,7 +99,7 @@ class PurchaseRefundFactory
             ));
         }
     }
-    private function recordRefund(WC_Order $order, Purchase $refund, string $originalUuid, float $amount): void
+    private function recordRefund(WC_Order $order, Purchase $refund, string $originalUuid, float $amount, float $remaining): void
     {
         // Meta for lookups; the reason already carries the UUID from the refund's first save.
         $tag = static function (WC_Order_Refund $record, array $args): void {
@@ -112,13 +110,53 @@ class PurchaseRefundFactory
             $record->update_meta_data(OrderMeta::REFUND_PAYMENTS, $args[self::ARG_REFUND_PAYMENTS]);
         };
         add_action('woocommerce_create_refund', $tag, 10, 2);
+        // WC counts a free line left out of the refund as unrefunded, so a full refund of a sale
+        // with a free item would stay partial. The refunded amount alone decides instead.
+        $orderId = $order->get_id();
+        $partially = static function (mixed $isPartial, mixed $refundedOrderId = 0) use ($orderId, $remaining, $amount): bool {
+            return (int) $refundedOrderId === $orderId ? $remaining - $amount > self::AMOUNT_TOLERANCE : (bool) $isPartial;
+        };
+        add_filter('woocommerce_order_is_partially_refunded', $partially, 10, 2);
         try {
-            $result = wc_create_refund(['order_id' => $order->get_id(), 'amount' => (string) $amount, 'date_created' => $refund->timestamp()->getTimestamp(), 'reason' => $this->reason($refund, $originalUuid), 'line_items' => RefundLines::forRefund($order, $refund->products(), $refund->currency()), 'refund_payment' => \false, 'restock_items' => \false, self::ARG_REFUND_PURCHASE_UUID => $refund->uuid(), self::ARG_REFUND_PAYMENTS => (string) wp_json_encode(array_values($refund->payments()))]);
+            $this->createWcRefund($order, ['order_id' => $orderId, 'amount' => (string) $amount, 'date_created' => $refund->timestamp()->getTimestamp(), 'reason' => $this->reason($refund, $originalUuid), 'line_items' => RefundLines::forRefund($order, $refund->products(), $refund->currency()), 'refund_payment' => \false, 'restock_items' => \false, self::ARG_REFUND_PURCHASE_UUID => $refund->uuid(), self::ARG_REFUND_PAYMENTS => (string) wp_json_encode(array_values($refund->payments()))]);
         } finally {
             remove_action('woocommerce_create_refund', $tag, 10);
+            remove_filter('woocommerce_order_is_partially_refunded', $partially, 10);
         }
-        if ($result instanceof WP_Error) {
-            throw new RuntimeException(esc_html($result->get_error_message()));
+    }
+    /**
+     * WC saves the refund several times before the final save that stores its amount and our
+     * meta, so it only counts once it can be found by that meta.
+     *
+     * @param array<string, mixed> $args
+     */
+    private function createWcRefund(WC_Order $order, array $args): void
+    {
+        $uuid = (string) $args[self::ARG_REFUND_PURCHASE_UUID];
+        $statusBefore = $order->get_status();
+        $refundId = 0;
+        try {
+            ConfirmedSave::run('order_refund', static function () use ($args, &$refundId): WC_Order_Refund {
+                $result = wc_create_refund($args);
+                if ($result instanceof WP_Error) {
+                    throw new RuntimeException(esc_html($result->get_error_message()));
+                }
+                $refundId = $result->get_id();
+                return $result;
+            }, function () use ($uuid, &$refundId): bool {
+                return $this->orders->findRefundIdByRefundPurchaseUuid($uuid) === $refundId;
+            }, sprintf('Could not store the refund for refund %s', esc_html($uuid)));
+        } catch (RuntimeException $exception) {
+            // WC may already have marked the order refunded for the refund that was deleted.
+            $parent = wc_get_order($order->get_id());
+            if ($parent instanceof WC_Order && $parent->get_status() !== $statusBefore) {
+                // set_status() stamps a completed order with the current time.
+                $completedAt = $parent->get_date_completed();
+                $parent->set_status($statusBefore);
+                $parent->set_date_completed($completedAt?->getTimestamp());
+                $parent->save();
+            }
+            throw $exception;
         }
     }
     private function alreadyHandled(WC_Order $order, string $refundPurchaseUuid): bool
@@ -154,33 +192,34 @@ class PurchaseRefundFactory
     private function createOrphanRefund(Purchase $refund, string $originalUuid): void
     {
         $this->logger->warning(sprintf('Refund %s references purchase %s which has no synced order; creating an orphan refund order.', $refund->uuid(), $originalUuid !== '' ? $originalUuid : '(unknown)'));
-        $this->sideEffects->withoutStockReduction(function () use ($refund, $originalUuid): void {
-            $order = new WC_Order();
-            $currency = $refund->currency();
-            $taxTotals = [];
-            $linesMinor = 0;
-            foreach ($refund->products() as $line) {
-                $linesMinor += $this->addOrphanLine($order, (array) $line, $currency, $refund->country(), $taxTotals);
-            }
-            $this->taxes->alignToPurchaseVat($order, $taxTotals, -(int) abs($refund->vatAmount()), $currency);
-            $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
-            OrderFees::addUnlistedCharges($order, $refund, (int) abs($refund->amount()) - $linesMinor, -1);
-            $this->defaults->apply($order, $refund);
-            $order->update_meta_data(OrderMeta::REFUND_PURCHASE_UUID, $refund->uuid());
-            $order->update_meta_data(OrderMeta::ORPHAN_REFUND, 'yes');
-            $order->update_meta_data(OrderMeta::ORPHAN_REFUNDS_PURCHASE_UUID, $originalUuid);
-            $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
-            $order->set_total((string) MinorUnits::toMajor($refund->amount(), $currency));
-            $order->set_status('completed');
-            $order->set_date_paid($refund->timestamp()->getTimestamp());
-            $order->set_date_completed($refund->timestamp()->getTimestamp());
+        $order = new WC_Order();
+        $currency = $refund->currency();
+        $taxTotals = [];
+        $linesMinor = 0;
+        foreach ($refund->products() as $line) {
+            $linesMinor += $this->addOrphanLine($order, (array) $line, $currency, $refund->country(), $taxTotals);
+        }
+        $this->taxes->alignToPurchaseVat($order, $taxTotals, -(int) abs($refund->vatAmount()), $currency);
+        $taxMinor = $this->taxes->addTaxItems($order, $taxTotals, $currency);
+        OrderFees::addUnlistedCharges($order, $refund, (int) abs($refund->amount()) - $linesMinor, -1);
+        $this->defaults->apply($order, $refund);
+        $order->update_meta_data(OrderMeta::REFUND_PURCHASE_UUID, $refund->uuid());
+        $order->update_meta_data(OrderMeta::ORPHAN_REFUND, 'yes');
+        $order->update_meta_data(OrderMeta::ORPHAN_REFUNDS_PURCHASE_UUID, $originalUuid);
+        $order->set_cart_tax((string) MinorUnits::toMajor($taxMinor, $currency));
+        $order->set_total((string) MinorUnits::toMajor($refund->amount(), $currency));
+        $order->set_status('completed');
+        $order->set_date_paid($refund->timestamp()->getTimestamp());
+        $order->set_date_completed($refund->timestamp()->getTimestamp());
+        ConfirmedSave::run('order', static function () use ($order): WC_Order {
             $order->save();
-            $order->add_order_note(sprintf(
-                /* translators: %s: refund description */
-                __('%s (original order not found)', 'paypal-point-of-sale'),
-                $this->reason($refund, $originalUuid)
-            ));
-        });
+            return $order;
+        }, fn(): bool => $this->orders->findIdByRefundPurchaseUuid($refund->uuid()) !== null, sprintf('Could not store the orphan refund order for refund %s', esc_html($refund->uuid())));
+        $order->add_order_note(sprintf(
+            /* translators: %s: refund description */
+            __('%s (original order not found)', 'paypal-point-of-sale'),
+            $this->reason($refund, $originalUuid)
+        ));
     }
     /**
      * @param array<string, mixed> $line

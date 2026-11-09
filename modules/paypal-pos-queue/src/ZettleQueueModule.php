@@ -27,9 +27,8 @@ class ZettleQueueModule implements ServiceModule, ExtendingModule, ExecutableMod
         }
         /** @var Bootstrap $bootstrap */
         $bootstrap = $container->get('inpsyde.queue.bootstrap');
-        add_action('paypal-point-of-sale.migrate', static function () use ($bootstrap) {
-            $bootstrap->activate();
-        });
+        // On every request, not just on migrate: while up to date it's one autoloaded option read.
+        $bootstrap->upgrade($container->get('inpsyde.queue.schema.option'));
         add_action('paypal-point-of-sale.activate', static function () use ($bootstrap) {
             $bootstrap->activate();
         }, 5);

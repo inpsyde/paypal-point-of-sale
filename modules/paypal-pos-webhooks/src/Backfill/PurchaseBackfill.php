@@ -5,6 +5,7 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Backfill;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 /**
  * Starts and tracks imports of Zettle purchase history. The paging itself runs in
@@ -12,13 +13,16 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
  */
 class PurchaseBackfill
 {
+    // Own options, not setup info: queue runs write them often, and setup info is rewritten as a
+    // whole on every write.
     public const STATUS_OPTION = 'paypal-pos.backfill.status';
-    public const DEACTIVATED_AT_OPTION = 'paypal-pos.order-sync.deactivated-at';
-    public const SETUP_IMPORT_OPTION = 'paypal-pos.backfill.setup-import';
+    public const WEBHOOK_GAP_OPTION = 'paypal-pos.backfill.webhook-gap-since';
+    public const DEACTIVATED_AT_KEY = 'order_sync_deactivated_at';
+    public const SETUP_IMPORT_KEY = 'order_sync_setup_import_at';
     // Purchases can reach the API a little after their timestamp; re-scan a margin.
     private const OVERLAP_SECONDS = 3600;
     private const MISSED_WINDOW_DAYS = 30;
-    // A run that hasn't reported for this long is treated as gone; retries span half an hour.
+    // A run that hasn't reported for this long is treated as gone; retries span about 40 minutes.
     private const STALE_SECONDS = 3600;
     /**
      * @var callable
@@ -28,14 +32,16 @@ class PurchaseBackfill
     /**
      * @var callable(): bool
      */
-    private $isConnected;
+    private $isOnboarded;
+    private WritableContainerInterface $setupInfo;
     private bool $autoRecovery;
     private bool $importOnSetup;
-    public function __construct(callable $enqueueJob, bool $enabled, callable $isConnected, bool $autoRecovery = \true, bool $importOnSetup = \true)
+    public function __construct(callable $enqueueJob, bool $enabled, callable $isOnboarded, WritableContainerInterface $setupInfo, bool $autoRecovery = \true, bool $importOnSetup = \true)
     {
         $this->enqueueJob = $enqueueJob;
         $this->enabled = $enabled;
-        $this->isConnected = $isConnected;
+        $this->isOnboarded = $isOnboarded;
+        $this->setupInfo = $setupInfo;
         $this->autoRecovery = $autoRecovery;
         $this->importOnSetup = $importOnSetup;
     }
@@ -50,7 +56,8 @@ class PurchaseBackfill
     }
     /**
      * Queues an import of every purchase made at or after $since, or of the whole history.
-     * $replaceRunning supersedes a running import, which stops at its next page.
+     * $replaceRunning supersedes a running import, which stops at its next page. An interrupted or
+     * superseded import's range is taken over; a failed one's isn't, as it would fail again.
      */
     public function start(?DateTimeInterface $since = null, bool $replaceRunning = \false): bool
     {
@@ -58,8 +65,13 @@ class PurchaseBackfill
             return \false;
         }
         $run = uniqid('', \true);
-        $this->saveStatus(['run' => $run, 'state' => 'running', 'queued' => 0, 'pages' => 0, 'error' => '']);
-        ($this->enqueueJob)(BackfillJob::TYPE, ['run' => $run, 'startDate' => $since !== null ? $since->format(DateTimeInterface::ATOM) : '', 'cursor' => '', 'page' => 0]);
+        $startDate = $since !== null ? $since->format(DateTimeInterface::ATOM) : '';
+        $last = $this->status();
+        if (in_array($last['state'], ['running', 'interrupted'], \true)) {
+            $startDate = self::earlier($startDate, $last['since']);
+        }
+        $this->saveStatus(['run' => $run, 'state' => 'running', 'since' => $startDate, 'queued' => 0, 'pages' => 0, 'error' => '']);
+        ($this->enqueueJob)(BackfillJob::TYPE, ['run' => $run, 'startDate' => $startDate, 'cursor' => '', 'page' => 0]);
         return \true;
     }
     /**
@@ -75,9 +87,12 @@ class PurchaseBackfill
      */
     public function rememberDeactivation(): void
     {
-        update_option(self::DEACTIVATED_AT_OPTION, time(), \false);
+        $this->setupInfo->set(self::DEACTIVATED_AT_KEY, time());
         if ($this->isRunning()) {
-            $this->finish($this->status()['run'], __('Stopped because the plugin was deactivated.', 'paypal-point-of-sale'));
+            $status = $this->status();
+            $status['state'] = 'interrupted';
+            $status['error'] = __('Stopped because the plugin was deactivated.', 'paypal-point-of-sale');
+            $this->saveStatus($status);
         }
     }
     /**
@@ -86,25 +101,50 @@ class PurchaseBackfill
      */
     public function startSetupImport(): bool
     {
-        if (!$this->importOnSetup || get_option(self::SETUP_IMPORT_OPTION) || !$this->start(null, \true)) {
+        if (!$this->importOnSetup || $this->setupInfo->has(self::SETUP_IMPORT_KEY) || !$this->start(null, \true)) {
             return \false;
         }
-        update_option(self::SETUP_IMPORT_OPTION, time(), \false);
+        $this->setupInfo->set(self::SETUP_IMPORT_KEY, time());
         return \true;
     }
     /**
      * Imports what was sold while the plugin was inactive. Does nothing on first activation,
-     * when switched off in the settings, or when the account was disconnected meanwhile.
+     * when switched off in the settings, or before onboarding is completed.
      */
     public function recoverAfterReactivation(): bool
     {
-        $deactivatedAt = (int) get_option(self::DEACTIVATED_AT_OPTION, 0);
-        delete_option(self::DEACTIVATED_AT_OPTION);
-        if ($deactivatedAt <= 0 || !$this->autoRecovery || !($this->isConnected)()) {
+        if (!$this->setupInfo->has(self::DEACTIVATED_AT_KEY)) {
+            return \false;
+        }
+        $deactivatedAt = (int) $this->setupInfo->get(self::DEACTIVATED_AT_KEY);
+        $this->setupInfo->unset(self::DEACTIVATED_AT_KEY);
+        if ($deactivatedAt <= 0 || !$this->autoRecovery || !($this->isOnboarded)()) {
             return \false;
         }
         // The inactive period must be imported even if an older import is still running.
         return $this->start(new DateTimeImmutable('@' . ($deactivatedAt - self::OVERLAP_SECONDS)), \true);
+    }
+    /**
+     * Keeps the first failure. Skipped during onboarding, where the setup import choice decides
+     * about past sales.
+     */
+    public function rememberWebhookGap(): void
+    {
+        if (($this->isOnboarded)() && !get_option(self::WEBHOOK_GAP_OPTION)) {
+            update_option(self::WEBHOOK_GAP_OPTION, time(), \false);
+        }
+    }
+    /**
+     * Requires a working webhook registration. start() keeps the range of an import this replaces.
+     */
+    public function recoverWebhookGap(): bool
+    {
+        $gapStart = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
+        if ($gapStart <= 0 || !($this->isOnboarded)()) {
+            return \false;
+        }
+        delete_option(self::WEBHOOK_GAP_OPTION);
+        return $this->start(new DateTimeImmutable('@' . ($gapStart - self::OVERLAP_SECONDS)), \true);
     }
     /**
      * Whether $run should import its next page: it's the current import and wasn't stopped.
@@ -149,12 +189,30 @@ class PurchaseBackfill
         $this->saveStatus($status);
     }
     /**
-     * @return array{run: string, state: string, queued: int, pages: int, error: string, updated: int}
+     * @return array{
+     *     run: string,
+     *     state: string,
+     *     since: string,
+     *     queued: int,
+     *     pages: int,
+     *     error: string,
+     *     updated: int
+     * } `since` is the run's start date, empty for the whole history.
      */
     public function status(): array
     {
         $status = (array) get_option(self::STATUS_OPTION, []);
-        return ['run' => (string) ($status['run'] ?? ''), 'state' => (string) ($status['state'] ?? ''), 'queued' => (int) ($status['queued'] ?? 0), 'pages' => (int) ($status['pages'] ?? 0), 'error' => (string) ($status['error'] ?? ''), 'updated' => (int) ($status['updated'] ?? 0)];
+        return ['run' => (string) ($status['run'] ?? ''), 'state' => (string) ($status['state'] ?? ''), 'since' => (string) ($status['since'] ?? ''), 'queued' => (int) ($status['queued'] ?? 0), 'pages' => (int) ($status['pages'] ?? 0), 'error' => (string) ($status['error'] ?? ''), 'updated' => (int) ($status['updated'] ?? 0)];
+    }
+    /**
+     * @param string $startDate ATOM date, or empty for the whole history.
+     */
+    private static function earlier(string $startDate, string $other): string
+    {
+        if ($startDate === '' || $other === '') {
+            return '';
+        }
+        return new DateTimeImmutable($other) < new DateTimeImmutable($startDate) ? $other : $startDate;
     }
     private function isCurrent(string $run): bool
     {

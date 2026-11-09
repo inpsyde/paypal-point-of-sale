@@ -27,19 +27,19 @@ class BackfillJob implements Job
     private PurchaseRefundFactory $refundFactory;
     private PurchaseBackfill $backfill;
     private PurchaseFilter $filter;
-    private DelayedRetry $retry;
+    private int $maxRetries;
     /**
      * @var callable
      */
     private $enqueueJob;
-    public function __construct(Purchases $purchases, PurchaseOrderFactory $orderFactory, PurchaseRefundFactory $refundFactory, PurchaseBackfill $backfill, PurchaseFilter $filter, DelayedRetry $retry, callable $enqueueJob)
+    public function __construct(Purchases $purchases, PurchaseOrderFactory $orderFactory, PurchaseRefundFactory $refundFactory, PurchaseBackfill $backfill, PurchaseFilter $filter, int $maxRetries, callable $enqueueJob)
     {
         $this->purchases = $purchases;
         $this->orderFactory = $orderFactory;
         $this->refundFactory = $refundFactory;
         $this->backfill = $backfill;
         $this->filter = $filter;
-        $this->retry = $retry;
+        $this->maxRetries = $maxRetries;
         $this->enqueueJob = $enqueueJob;
     }
     public function type(): string
@@ -65,7 +65,7 @@ class BackfillJob implements Job
         try {
             $this->importPage($run, (string) ($args['cursor'] ?? ''), (string) ($args['startDate'] ?? ''), $page);
         } catch (Throwable $throwable) {
-            $this->retryLater($args, $throwable, $logger);
+            return $this->failPage($run, $page, $context->retryCount(), $throwable, $logger);
         }
         return \true;
     }
@@ -96,19 +96,19 @@ class BackfillJob implements Job
         return $purchase->isRefund() ? $this->refundFactory->isRecorded($purchase) : $this->orderFactory->orderExists($purchase->uuid());
     }
     /**
-     * @param array<string, mixed> $args
+     * @return bool False while retries are left, so the queue retries the page with its backoff.
      */
-    private function retryLater(array $args, Throwable $throwable, LoggerInterface $logger): void
+    private function failPage(string $run, int $page, int $retryCount, Throwable $throwable, LoggerInterface $logger): bool
     {
-        $run = (string) ($args['run'] ?? '');
         $error = $throwable->getMessage();
-        $delay = $this->retry->retry(self::TYPE, $args);
-        $logger->error(sprintf('Backfill failed on purchase page %d: %s %s', (int) ($args['page'] ?? 0), $error, $delay !== null ? "Retrying in {$delay}s." : 'Giving up.'));
+        $retriesLeft = $retryCount < $this->maxRetries;
+        $logger->error(sprintf('Backfill failed on purchase page %d: %s %s', $page, $error, $retriesLeft ? 'Retrying.' : 'Giving up.'));
         // Shown on the Tools page; the run only fails once no retries are left.
-        if ($delay === null) {
+        if (!$retriesLeft) {
             $this->backfill->finish($run, $error);
-            return;
+            return \true;
         }
         $this->backfill->recordError($run, $error);
+        return \false;
     }
 }

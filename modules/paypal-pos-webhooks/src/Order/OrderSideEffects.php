@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order;
 
 use WC_Order;
+use WC_Order_Item;
 /**
  * Keeps POS orders from triggering WooCommerce side effects: order emails and stock
  * reduction. Stock is owned by the InventoryBalanceChanged path.
@@ -33,36 +34,37 @@ class OrderSideEffects
     }
     /**
      * @internal Filter callback for suppressEmails().
-     *
-     * @param mixed $enabled
-     * @param mixed $object
      */
-    public function emailEnabled($enabled, $object = null): bool
+    public function emailEnabled(mixed $enabled, mixed $object = null): bool
     {
-        return !($object instanceof WC_Order && $object->get_created_via() === PurchaseOrderFactory::CREATED_VIA) && (bool) $enabled;
+        return !$this->isPosOrder($object) && (bool) $enabled;
     }
     /**
-     * Runs $create with stock reduction blocked.
-     *
-     * @template T
-     * @param callable(): T $create
-     * @return T
+     * Registered for the whole request, not just during creation: saving a POS order's items or
+     * moving it back to a paid status would otherwise reduce stock again. Lines get no
+     * _reduced_stock meta either, so cancelling or restocking refunds doesn't add stock back.
      */
-    public function withoutStockReduction(callable $create): mixed
+    public function preventStockChanges(): void
     {
-        // Our own callback, so removing it never touches an identical filter added by others.
-        add_filter('woocommerce_can_reduce_order_stock', [$this, 'disable'], self::FILTER_PRIORITY);
-        try {
-            return $create();
-        } finally {
-            remove_filter('woocommerce_can_reduce_order_stock', [$this, 'disable'], self::FILTER_PRIORITY);
-        }
+        add_filter('woocommerce_can_reduce_order_stock', [$this, 'canReduceOrderStock'], self::FILTER_PRIORITY, 2);
+        add_filter('woocommerce_prevent_adjust_line_item_product_stock', [$this, 'preventLineItemStockAdjustment'], self::FILTER_PRIORITY, 2);
     }
     /**
-     * @internal Filter callback for withoutStockReduction().
+     * @internal Filter callback for preventStockChanges().
      */
-    public function disable(): bool
+    public function canReduceOrderStock(mixed $canReduce, mixed $order = null): bool
     {
-        return \false;
+        return !$this->isPosOrder($order) && (bool) $canReduce;
+    }
+    /**
+     * @internal Filter callback for preventStockChanges().
+     */
+    public function preventLineItemStockAdjustment(mixed $prevent, mixed $item = null): bool
+    {
+        return (bool) $prevent || $item instanceof WC_Order_Item && $this->isPosOrder($item->get_order());
+    }
+    private function isPosOrder(mixed $order): bool
+    {
+        return $order instanceof WC_Order && $order->get_created_via() === PurchaseOrderFactory::CREATED_VIA;
     }
 }

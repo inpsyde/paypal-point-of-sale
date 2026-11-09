@@ -9,12 +9,12 @@ use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\OrderScreenPaymentMethod;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
-use Throwable;
 use WP_CLI;
 class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
@@ -26,9 +26,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
     {
         return require __DIR__ . '/../services.php';
     }
-    /**
-     * @inheritDoc
-     */
     public function extensions(): array
     {
         return require __DIR__ . '/../extensions.php';
@@ -42,6 +39,7 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         $sideEffects = $container->get('paypal-pos.webhook.order-side-effects');
         assert($sideEffects instanceof OrderSideEffects);
         $sideEffects->suppressEmails();
+        $sideEffects->preventStockChanges();
         add_action('current_screen', [OrderScreenPaymentMethod::class, 'register']);
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
@@ -59,10 +57,11 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
             $bootstrap->deactivate();
         });
         $this->registerRecovery($container);
-        $this->registerDelayedJobs($container);
         add_action('paypal-pos.onboarding.sync-params.after', [Backfill\SetupImportChoice::class, 'render']);
         $this->registerBackfillTools($container);
-        add_filter('woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'), [new OrderSyncSettingsFilter(), 'filterSettingsValues']);
+        $settingsFilter = $container->get('paypal-pos.webhook.order-sync-settings-filter');
+        assert($settingsFilter instanceof OrderSyncSettingsFilter);
+        add_filter('woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'), [$settingsFilter, 'filterSettingsValues']);
         add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);
         return \true;
     }
@@ -71,14 +70,18 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
      */
     private function missingWebhookEvents(ContainerInterface $container): array
     {
-        $configured = (array) $container->get('paypal-pos.webhook.config.events');
-        try {
-            $storage = $container->get('paypal-pos.webhook.storage');
-            assert($storage instanceof WebhookStorageInterface);
-            $subscribed = $storage->fetch()->eventNames();
-        } catch (Throwable $exception) {
-            return $configured;
+        // Read the option directly: the storage resolves the listener URL through rest_url(),
+        // which throws this early when pretty permalinks are on.
+        $options = $container->get('paypal-pos.webhook.storage.container');
+        assert($options instanceof WritableContainerInterface);
+        $key = (string) $container->get('paypal-pos.webhook.storage.option');
+        // Nothing stored yet: onboarding registers the webhook with the configured events.
+        if (!$options->has($key)) {
+            return [];
         }
+        $stored = (array) $options->get($key);
+        $subscribed = array_map('strval', (array) ($stored['eventNames'] ?? []));
+        $configured = (array) $container->get('paypal-pos.webhook.config.events');
         return array_values(array_diff($configured, $subscribed));
     }
     /**
@@ -100,8 +103,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         };
         // Import what was sold while the plugin was inactive.
         add_action('paypal-point-of-sale.deactivate', static function () use ($backfill) {
-            // Nothing handles these while the plugin is inactive; the recovery re-imports.
-            wp_unschedule_hook(Job\DelayedRetry::HOOK);
             $backfill()->rememberDeactivation();
         });
         add_action('paypal-point-of-sale.activate', static function () use ($backfill) {
@@ -111,14 +112,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         add_action('paypal-pos.onboarding.completed', static function () use ($backfill) {
             $backfill()->startSetupImport();
         });
-    }
-    private function registerDelayedJobs(ContainerInterface $container): void
-    {
-        add_action(Job\DelayedRetry::HOOK, static function (string $type, array $args) use ($container): void {
-            $retry = $container->get('paypal-pos.webhook.delayed-retry');
-            assert($retry instanceof Job\DelayedRetry);
-            $retry->enqueue($type, $args);
-        }, 10, 2);
     }
     private function registerBackfillTools(ContainerInterface $container): void
     {

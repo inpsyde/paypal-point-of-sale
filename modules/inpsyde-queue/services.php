@@ -52,8 +52,20 @@ $scalar = static function (mixed $thing): callable {
 return [
     'inpsyde.queue.namespace' => $scalar('inpsyde'),
     'inpsyde.queue.failed.retry.count' => $scalar(3),
+    /**
+     * Seconds to wait before retrying the failed JobRecord it receives. Retries run right
+     * away by default; extend this to back off, e.g. against API rate limits.
+     */
+    'inpsyde.queue.failed.retry.delay' => static function (): callable {
+        return static function (JobRecord $record): int {
+            return 0;
+        };
+    },
     'inpsyde.queue.table' => $wire(QueueTable::class, 'inpsyde.queue.namespace'),
     'inpsyde.queue.bootstrap' => $wire(Bootstrap::class, 'inpsyde.queue.table'),
+    'inpsyde.queue.schema.option' => static function (C $container): string {
+        return "{$container->get('inpsyde.queue.namespace')}_queue_schema";
+    },
     'inpsyde.queue.factory' => static function (C $container): JobRecordFactoryInterface {
         $prefix = "{$container->get('inpsyde.queue.namespace')}.job";
         $container = new JobContainer($container, $prefix);
@@ -174,7 +186,7 @@ return [
     },
     'inpsyde.queue.processor' => static function (C $container): QueueProcessor {
         $builder = new ProcessorBuilder($container->get('inpsyde.queue.factory'));
-        return $builder->withRepository($container->get('inpsyde.queue.repository'))->withLocker($container->get('inpsyde.queue.locker'))->withLogger($container->get('inpsyde.queue.logger'))->withNetworkSupport($container->get('inpsyde.is-multisite'))->withExceptionHandler($container->get('inpsyde.queue.exception-handler'))->withMaxRetriesCount($container->get('inpsyde.queue.failed.retry.count'))->build();
+        return $builder->withRepository($container->get('inpsyde.queue.repository'))->withLocker($container->get('inpsyde.queue.locker'))->withLogger($container->get('inpsyde.queue.logger'))->withNetworkSupport($container->get('inpsyde.is-multisite'))->withExceptionHandler($container->get('inpsyde.queue.exception-handler'))->withMaxRetriesCount($container->get('inpsyde.queue.failed.retry.count'))->withRetryDelay($container->get('inpsyde.queue.failed.retry.delay'))->build();
     },
     'inpsyde.queue.create-job-record' => static function (C $container): callable {
         return static function (string $type, array $args = [], ?int $siteId = null) use ($container): JobRecord {
@@ -212,7 +224,7 @@ return [
         };
     },
     'inpsyde.queue.rest.v1.endpoint.process' => static function (C $container): EndpointInterface {
-        return new ProcessEndpoint(new ProcessorBuilder($container->get('inpsyde.queue.factory')), $container->get('inpsyde.queue.repository'), $container->get('inpsyde.queue.locker'), $container->get('inpsyde.queue.logger.array'), $container->get('inpsyde.queue.rest.v1.endpoint.meta-callback'), $container->get('inpsyde.is-multisite'), $container->get('inpsyde.queue.failed.retry.count'));
+        return new ProcessEndpoint(new ProcessorBuilder($container->get('inpsyde.queue.factory')), $container->get('inpsyde.queue.repository'), $container->get('inpsyde.queue.locker'), $container->get('inpsyde.queue.logger.array'), $container->get('inpsyde.queue.rest.v1.endpoint.meta-callback'), $container->get('inpsyde.is-multisite'), $container->get('inpsyde.queue.failed.retry.count'), $container->get('inpsyde.queue.failed.retry.delay'));
     },
     'inpsyde.queue.rest.v1.endpoint.process.url' => static function (C $container): string {
         $processEndpoint = $container->get('inpsyde.queue.rest.v1.endpoint.process');

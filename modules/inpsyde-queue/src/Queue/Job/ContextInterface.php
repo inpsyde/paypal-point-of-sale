@@ -29,6 +29,11 @@ interface ContextInterface
      */
     public function retryCount(): int;
     /**
+     * The earliest time (UTC) the job may run, e.g. to back off before a retry.
+     * Null means right away.
+     */
+    public function notBefore(): ?DateTime;
+    /**
      * Returns a new instance of ContextInterface with the retry count incremented by 1
      * @return static
      */

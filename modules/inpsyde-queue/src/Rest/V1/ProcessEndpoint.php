@@ -33,7 +33,11 @@ class ProcessEndpoint implements EndpointInterface
     private JobRepository $repository;
     private bool $isMultisite;
     private int $maxRetriesCount;
-    public function __construct(ProcessorBuilder $processorBuilder, JobRepository $repository, Locker $locker, LoggerInterface $logger, callable $metaCallback, bool $isMultisite, int $maxRetriesCount)
+    /**
+     * @var callable|null
+     */
+    private $retryDelay;
+    public function __construct(ProcessorBuilder $processorBuilder, JobRepository $repository, Locker $locker, LoggerInterface $logger, callable $metaCallback, bool $isMultisite, int $maxRetriesCount, ?callable $retryDelay = null)
     {
         $this->builder = $processorBuilder;
         $this->logger = $logger;
@@ -42,6 +46,7 @@ class ProcessEndpoint implements EndpointInterface
         $this->repository = $repository;
         $this->isMultisite = $isMultisite;
         $this->maxRetriesCount = $maxRetriesCount;
+        $this->retryDelay = $retryDelay;
     }
     /** @inheritDoc */
     public function methods(): string
@@ -93,7 +98,11 @@ class ProcessEndpoint implements EndpointInterface
         $types = (array) $request->get_param('types');
         $executionTime = (int) $request->get_param('executionTime');
         $meta = (array) $request->get_param('meta');
-        $queueProcessor = $this->builder->withRepository($this->repository)->withLogger($this->logger)->withJobTypes($types)->withStopper(new TimeStopper((float) $executionTime))->withLocker($this->locker)->withNetworkSupport($this->isMultisite)->withMaxRetriesCount($this->maxRetriesCount)->build();
+        $this->builder->withRepository($this->repository)->withLogger($this->logger)->withJobTypes($types)->withStopper(new TimeStopper((float) $executionTime))->withLocker($this->locker)->withNetworkSupport($this->isMultisite)->withMaxRetriesCount($this->maxRetriesCount);
+        if ($this->retryDelay !== null) {
+            $this->builder->withRetryDelay($this->retryDelay);
+        }
+        $queueProcessor = $this->builder->build();
         $responseStatus = 200;
         try {
             $processedJobs = $queueProcessor->process();

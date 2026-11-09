@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Order;
 
+use Automattic\WooCommerce\Utilities\OrderUtil;
 use WC_Order;
 /**
  * Shows a POS order's payment method title, not its id, on the order edit screen. Only
@@ -20,32 +21,32 @@ class OrderScreenPaymentMethod
             return;
         }
         $gateways = WC()->payment_gateways();
-        if (!self::needsStandIn($order, $gateways->payment_gateways())) {
+        if (!self::lacksRegisteredGateway($order, $gateways->payment_gateways())) {
             return;
         }
         $gateways->payment_gateways[] = new PosPaymentMethod($order->get_payment_method(), $order->get_payment_method_title());
     }
     /**
+     * Whether a POS order's payment method has no loaded gateway, so WC would show its raw id
+     * (e.g. paypal_pos_card) instead of the title. Such orders get a stand-in gateway.
+     *
      * @param array<string, mixed> $gateways Loaded gateways by id.
      */
-    public static function needsStandIn(WC_Order $order, array $gateways): bool
+    public static function lacksRegisteredGateway(WC_Order $order, array $gateways): bool
     {
         $id = $order->get_payment_method();
         return $order->get_created_via() === PurchaseOrderFactory::CREATED_VIA && $id !== '' && !isset($gateways[$id]);
     }
     private static function editedOrder(): ?WC_Order
     {
-        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only screen detection
-        $page = sanitize_key(wp_unslash($_GET['page'] ?? ''));
-        $action = sanitize_key(wp_unslash($_GET['action'] ?? ''));
-        $isHposEditScreen = $page === 'wc-orders' && $action === 'edit';
-        $isPostEditScreen = ($GLOBALS['pagenow'] ?? '') === 'post.php';
-        $id = absint(wp_unslash($isHposEditScreen ? $_GET['id'] ?? 0 : $_GET['post'] ?? 0));
-        // phpcs:enable WordPress.Security.NonceVerification.Recommended
-        if (!is_admin() || !$isHposEditScreen && !$isPostEditScreen || $id <= 0) {
+        if (!OrderUtil::is_order_edit_screen()) {
             return null;
         }
-        $order = wc_get_order($id);
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only screen detection
+        // HPOS edit screens pass the order as `id`, the legacy post screen as `post`.
+        $id = absint(wp_unslash($_GET['id'] ?? $_GET['post'] ?? 0));
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
+        $order = $id > 0 ? wc_get_order($id) : null;
         return $order instanceof WC_Order ? $order : null;
     }
 }

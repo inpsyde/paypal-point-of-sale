@@ -15,7 +15,7 @@ namespace Syde\Vendor\Zettle\Inpsyde\Queue\Db;
  * Class QueueTable
  * @package Inpsyde\OneStock\Db
  */
-class QueueTable implements Table
+class QueueTable implements UpgradableTable
 {
     private string $namespace;
     public function __construct(string $namespace)
@@ -42,7 +42,13 @@ class QueueTable implements Table
         `site_id` BIGINT(20) NOT NULL,
         `created` DATETIME NOT NULL,
         `retry_count` BIGINT(20) NOT NULL,
-        KEY hash (hash(' . self::MAX_INDEX_LENGTH . '))
+        `not_before` DATETIME NULL DEFAULT NULL,
+        KEY hash (hash(' . self::MAX_INDEX_LENGTH . ')),
+        KEY not_before (not_before)
         ';
+    }
+    public function addedColumns(): array
+    {
+        return ['not_before' => 'ADD COLUMN `not_before` DATETIME NULL DEFAULT NULL, ADD KEY not_before (not_before)'];
     }
 }

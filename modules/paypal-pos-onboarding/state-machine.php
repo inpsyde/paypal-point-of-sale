@@ -26,10 +26,12 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Event\UnhandledError;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\Job\ResetOnboardingJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingState as S;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingTransition as T;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\WebhookException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\EnqueueProductSyncJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\Job\WipeRemoteProductsJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\PriceSyncMode;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use Throwable;
 return [
     /**
@@ -253,12 +255,15 @@ return [
                 assert(is_callable($webhookRegistration));
                 try {
                     $webhookRegistration();
-                } catch (ZettleRestException $exception) {
+                } catch (ZettleRestException|WebhookException $exception) {
                     $logger = $container->get('paypal-pos.logger.woocommerce');
                     assert($logger instanceof LoggerInterface);
                     $logger->error($exception->getMessage());
                     $addErrorMessageCallback = $container->get('paypal-pos.onboarding.message.add.error');
                     $addErrorMessageCallback(wp_kses_post($container->get('paypal-pos.onboarding.error.message.webhooks')));
+                    // No webhook means no synced sales: retry, and import the gap once it works.
+                    $container->get('paypal-pos.webhook.backfill')->rememberWebhookGap();
+                    $container->get('inpsyde.queue.enqueue-job')(WebhookRegistrationJob::TYPE);
                 }
                 /**
                  * Lets other modules act once the setup is completed.
