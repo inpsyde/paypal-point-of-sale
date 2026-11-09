@@ -6,6 +6,7 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Backfill;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 
 /**
@@ -14,9 +15,11 @@ use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
  */
 class PurchaseBackfill
 {
+    // Its own option, not setup info: queue runs rewrite it every page and would save over
+    // setup info written meanwhile.
     public const STATUS_OPTION = 'paypal-pos.backfill.status';
-    public const DEACTIVATED_AT_OPTION = 'paypal-pos.order-sync.deactivated-at';
-    public const SETUP_IMPORT_OPTION = 'paypal-pos.backfill.setup-import';
+    public const DEACTIVATED_AT_KEY = 'order_sync_deactivated_at';
+    public const SETUP_IMPORT_KEY = 'order_sync_setup_import_at';
     // Purchases can reach the API a little after their timestamp; re-scan a margin.
     private const OVERLAP_SECONDS = 3600;
     private const MISSED_WINDOW_DAYS = 30;
@@ -35,6 +38,8 @@ class PurchaseBackfill
      */
     private $isConnected;
 
+    private WritableContainerInterface $setupInfo;
+
     private bool $autoRecovery;
 
     private bool $importOnSetup;
@@ -43,6 +48,7 @@ class PurchaseBackfill
         callable $enqueueJob,
         bool $enabled,
         callable $isConnected,
+        WritableContainerInterface $setupInfo,
         bool $autoRecovery = true,
         bool $importOnSetup = true
     ) {
@@ -50,6 +56,7 @@ class PurchaseBackfill
         $this->enqueueJob = $enqueueJob;
         $this->enabled = $enabled;
         $this->isConnected = $isConnected;
+        $this->setupInfo = $setupInfo;
         $this->autoRecovery = $autoRecovery;
         $this->importOnSetup = $importOnSetup;
     }
@@ -102,7 +109,7 @@ class PurchaseBackfill
      */
     public function rememberDeactivation(): void
     {
-        update_option(self::DEACTIVATED_AT_OPTION, time(), false);
+        $this->setupInfo->set(self::DEACTIVATED_AT_KEY, time());
         if ($this->isRunning()) {
             $this->finish(
                 $this->status()['run'],
@@ -117,11 +124,11 @@ class PurchaseBackfill
      */
     public function startSetupImport(): bool
     {
-        if (!$this->importOnSetup || get_option(self::SETUP_IMPORT_OPTION) || !$this->start(null, true)) {
+        if (!$this->importOnSetup || $this->setupInfo->has(self::SETUP_IMPORT_KEY) || !$this->start(null, true)) {
             return false;
         }
 
-        update_option(self::SETUP_IMPORT_OPTION, time(), false);
+        $this->setupInfo->set(self::SETUP_IMPORT_KEY, time());
 
         return true;
     }
@@ -132,8 +139,11 @@ class PurchaseBackfill
      */
     public function recoverAfterReactivation(): bool
     {
-        $deactivatedAt = (int) get_option(self::DEACTIVATED_AT_OPTION, 0);
-        delete_option(self::DEACTIVATED_AT_OPTION);
+        if (!$this->setupInfo->has(self::DEACTIVATED_AT_KEY)) {
+            return false;
+        }
+        $deactivatedAt = (int) $this->setupInfo->get(self::DEACTIVATED_AT_KEY);
+        $this->setupInfo->unset(self::DEACTIVATED_AT_KEY);
         if ($deactivatedAt <= 0 || !$this->autoRecovery || !($this->isConnected)()) {
             return false;
         }

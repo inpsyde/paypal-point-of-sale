@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
@@ -21,18 +22,29 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
      */
     private array $options = [];
 
+    /**
+     * @var array<string, mixed>
+     */
+    private array $setupInfoValues = [];
+
+    private WritableContainerInterface $setupInfo;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->setupInfo = Mockery::mock(WritableContainerInterface::class);
+        $this->setupInfo->shouldReceive('has')->andReturnUsing(fn (string $key): bool => isset($this->setupInfoValues[$key]));
+        $this->setupInfo->shouldReceive('get')->andReturnUsing(fn (string $key) => $this->setupInfoValues[$key]);
+        $this->setupInfo->shouldReceive('set')->andReturnUsing(function (string $key, $value): void {
+            $this->setupInfoValues[$key] = $value;
+        });
+        $this->setupInfo->shouldReceive('unset')->andReturnUsing(function (string $key): void {
+            unset($this->setupInfoValues[$key]);
+        });
         stubTranslationFunctions();
         when('get_option')->alias(fn (string $name, $default = false) => $this->options[$name] ?? $default);
         when('update_option')->alias(function (string $name, $value): bool {
             $this->options[$name] = $value;
-
-            return true;
-        });
-        when('delete_option')->alias(function (string $name): bool {
-            unset($this->options[$name]);
 
             return true;
         });
@@ -51,6 +63,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
             },
             $enabled,
             static fn (): bool => $connected,
+            $this->setupInfo,
             $autoRecovery,
             $importOnSetup
         );
@@ -91,18 +104,18 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
 
     public function testReactivationImportsFromAnHourBeforeDeactivation(): void
     {
-        $this->options[PurchaseBackfill::DEACTIVATED_AT_OPTION] = strtotime('2026-10-20T17:00:00+00:00');
+        $this->setupInfo->set(PurchaseBackfill::DEACTIVATED_AT_KEY, strtotime('2026-10-20T17:00:00+00:00'));
 
         self::assertTrue($this->backfill()->recoverAfterReactivation());
         self::assertSame('2026-10-20T16:00:00+00:00', $this->enqueued[0][1]['startDate']);
-        self::assertArrayNotHasKey(PurchaseBackfill::DEACTIVATED_AT_OPTION, $this->options);
+        self::assertFalse($this->setupInfo->has(PurchaseBackfill::DEACTIVATED_AT_KEY));
     }
 
     public function testReactivationRecoveryReplacesARunningImport(): void
     {
         $backfill = $this->backfill();
         $backfill->start();
-        $this->options[PurchaseBackfill::DEACTIVATED_AT_OPTION] = time();
+        $this->setupInfo->set(PurchaseBackfill::DEACTIVATED_AT_KEY, time());
 
         $replaced = $backfill->status()['run'];
 
@@ -114,7 +127,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
 
     public function testRecoveryCanBeSwitchedOff(): void
     {
-        $this->options[PurchaseBackfill::DEACTIVATED_AT_OPTION] = time();
+        $this->setupInfo->set(PurchaseBackfill::DEACTIVATED_AT_KEY, time());
 
         self::assertFalse($this->backfill(true, true, false)->recoverAfterReactivation());
         self::assertSame([], $this->enqueued);
@@ -151,7 +164,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
     public function testSetupImportStaysPendingWhileOrderSyncIsDisabled(): void
     {
         self::assertFalse($this->backfill(false)->startSetupImport());
-        self::assertArrayNotHasKey(PurchaseBackfill::SETUP_IMPORT_OPTION, $this->options);
+        self::assertFalse($this->setupInfo->has(PurchaseBackfill::SETUP_IMPORT_KEY));
     }
 
     public function testDeactivationStopsARunningImport(): void
@@ -176,11 +189,11 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
 
     public function testReactivationWithoutAConnectedAccountForgetsTheGap(): void
     {
-        $this->options[PurchaseBackfill::DEACTIVATED_AT_OPTION] = time();
+        $this->setupInfo->set(PurchaseBackfill::DEACTIVATED_AT_KEY, time());
 
         self::assertFalse($this->backfill(true, false)->recoverAfterReactivation());
         self::assertSame([], $this->enqueued);
-        self::assertArrayNotHasKey(PurchaseBackfill::DEACTIVATED_AT_OPTION, $this->options);
+        self::assertFalse($this->setupInfo->has(PurchaseBackfill::DEACTIVATED_AT_KEY));
     }
 
     public function testASuccessfulRetryClearsTheErrorAndOtherRunsAreIgnored(): void

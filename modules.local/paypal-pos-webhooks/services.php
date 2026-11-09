@@ -252,6 +252,7 @@ return [
             $container->get('inpsyde.queue.enqueue-job'),
             $container->get('paypal-pos.webhook.order-sync-enabled'),
             $container->get('paypal-pos.webhook.can-register'),
+            $container->get('paypal-pos.setup-info'),
             $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_auto_recovery'),
             $container->get('paypal-pos.webhook.order-sync-setting.yes')('order_sync_import_on_setup')
         );

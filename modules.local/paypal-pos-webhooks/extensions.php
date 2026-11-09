@@ -38,17 +38,11 @@ return [
 
         return $items;
     },
-    // Disconnecting or uninstalling forgets backfill state, so onboarding again imports the
-    // history again; only sales and refunds missing in WooCommerce are created.
+    // Disconnecting or uninstalling forgets backfill state (the rest lives in the reset setup
+    // info), so onboarding again imports the history again; only sales and refunds missing in
+    // WooCommerce are created.
     'paypal-pos.onboarding.resettable.options' => static function (array $previous): array {
-        return array_merge(
-            $previous,
-            [
-                PurchaseBackfill::STATUS_OPTION,
-                PurchaseBackfill::DEACTIVATED_AT_OPTION,
-                PurchaseBackfill::SETUP_IMPORT_OPTION,
-            ]
-        );
+        return array_merge($previous, [PurchaseBackfill::STATUS_OPTION]);
     },
     'paypal-pos.settings.fields.registry' =>
         static function (array $previous, ContainerInterface $container): array {
