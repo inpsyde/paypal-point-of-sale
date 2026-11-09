@@ -73,6 +73,9 @@ return [
     },
     'inpsyde.queue.table' => $wire(QueueTable::class, 'inpsyde.queue.namespace'),
     'inpsyde.queue.bootstrap' => $wire(Bootstrap::class, 'inpsyde.queue.table'),
+    'inpsyde.queue.schema.option' => static function (C $container): string {
+        return "{$container->get('inpsyde.queue.namespace')}_queue_schema";
+    },
     'inpsyde.queue.factory' => static function (C $container): JobRecordFactoryInterface {
         $prefix = "{$container->get('inpsyde.queue.namespace')}.job";
         $container = new JobContainer($container, $prefix);

@@ -36,6 +36,27 @@ class Bootstrap
     }
 
     /**
+     * Brings the tables up to date once per schema change. $schemaOption only records the schema
+     * once all columns exist, so a failed upgrade, e.g. without ALTER rights, is retried on the
+     * next request instead of leaving the queue writing to columns that don't exist.
+     */
+    public function upgrade(string $schemaOption): void
+    {
+        $schema = md5((string) wp_json_encode(array_map(
+            static fn (Table $table): array => [$table->name(), $table->schema()],
+            $this->tables
+        )));
+        if (get_option($schemaOption) === $schema) {
+            return;
+        }
+
+        $this->activate();
+        if ($this->hasAddedColumns()) {
+            update_option($schemaOption, $schema, true);
+        }
+    }
+
+    /**
      * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
      */
     private function addMissingColumns(string $tableName, UpgradableTable $table): void
@@ -43,11 +64,39 @@ class Bootstrap
         global $wpdb;
 
         foreach ($table->addedColumns() as $column => $clause) {
-            $exists = $wpdb->get_var($wpdb->prepare("SHOW COLUMNS FROM {$tableName} LIKE %s", $column));
-            if ($exists === null) {
+            if (!$this->hasColumn($tableName, $column)) {
                 $wpdb->query("ALTER TABLE {$tableName} {$clause}");
             }
         }
+    }
+
+    private function hasAddedColumns(): bool
+    {
+        global $wpdb;
+
+        $prefix = $wpdb->get_blog_prefix();
+        foreach ($this->tables as $table) {
+            if (!$table instanceof UpgradableTable) {
+                continue;
+            }
+            foreach (array_keys($table->addedColumns()) as $column) {
+                if (!$this->hasColumn("{$prefix}{$table->name()}", $column)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+     */
+    private function hasColumn(string $tableName, string $column): bool
+    {
+        global $wpdb;
+
+        return $wpdb->get_var($wpdb->prepare("SHOW COLUMNS FROM {$tableName} LIKE %s", $column)) !== null;
     }
 
     /**
