@@ -144,7 +144,7 @@ class PurchaseRefundFactory
         add_filter('woocommerce_order_is_partially_refunded', $partially, 10, 2);
 
         try {
-            $result = wc_create_refund([
+            $this->createWcRefund([
                 'order_id' => $orderId,
                 'amount' => (string) $amount,
                 'date_created' => $refund->timestamp()->getTimestamp(),
@@ -159,10 +159,30 @@ class PurchaseRefundFactory
             remove_action('woocommerce_create_refund', $tag, 10);
             remove_filter('woocommerce_order_is_partially_refunded', $partially, 10);
         }
+    }
 
-        if ($result instanceof WP_Error) {
-            throw new RuntimeException(esc_html($result->get_error_message()));
-        }
+    /**
+     * @param array<string, mixed> $args
+     */
+    private function createWcRefund(array $args): void
+    {
+        $refundId = 0;
+        ConfirmedSave::run(
+            'order_refund',
+            static function () use ($args, &$refundId): WC_Order_Refund {
+                $result = wc_create_refund($args);
+                if ($result instanceof WP_Error) {
+                    throw new RuntimeException(esc_html($result->get_error_message()));
+                }
+                $refundId = $result->get_id();
+
+                return $result;
+            },
+            static function () use (&$refundId): bool {
+                return wc_get_order($refundId) instanceof WC_Order_Refund;
+            },
+            sprintf('Could not store the refund for refund %s', esc_html((string) $args[self::ARG_REFUND_PURCHASE_UUID]))
+        );
     }
 
     private function alreadyHandled(WC_Order $order, string $refundPurchaseUuid): bool
@@ -235,17 +255,16 @@ class PurchaseRefundFactory
         $order->set_status('completed');
         $order->set_date_paid($refund->timestamp()->getTimestamp());
         $order->set_date_completed($refund->timestamp()->getTimestamp());
-        $order->save();
-        // As for sales: save() logs storage failures instead of throwing, and a retry must not
-        // find a partly saved order next to the new one.
-        if ($this->orders->findIdByRefundPurchaseUuid($refund->uuid()) === null) {
-            if ($order->get_id() > 0) {
-                $order->delete(true);
-            }
-            throw new RuntimeException(
-                sprintf('Could not store the orphan refund order for refund %s', esc_html($refund->uuid()))
-            );
-        }
+        ConfirmedSave::run(
+            'order',
+            static function () use ($order): WC_Order {
+                $order->save();
+
+                return $order;
+            },
+            fn (): bool => $this->orders->findIdByRefundPurchaseUuid($refund->uuid()) !== null,
+            sprintf('Could not store the orphan refund order for refund %s', esc_html($refund->uuid()))
+        );
 
         $order->add_order_note(sprintf(
             /* translators: %s: refund description */
