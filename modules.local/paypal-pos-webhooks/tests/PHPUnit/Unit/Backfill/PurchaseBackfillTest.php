@@ -185,31 +185,38 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         self::assertFalse($backfill->recoverWebhookGap());
     }
 
-    public function testRunningImportCoversTheWebhookGap(): void
+    public function testWebhookGapRestartsARunningImportThatCoversIt(): void
     {
         $backfill = $this->backfill();
         $backfill->start();
         $backfill->rememberWebhookGap();
 
-        self::assertFalse($backfill->recoverWebhookGap());
-        self::assertCount(1, $this->enqueued);
-
-        $backfill->finish($backfill->status()['run']);
+        self::assertTrue($backfill->recoverWebhookGap());
+        self::assertSame('', $this->enqueued[1][1]['startDate']);
         self::assertArrayNotHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
     }
 
-    public function testWebhookGapIsImportedOnItsOwnWhenTheImportCoveringItFails(): void
+    /**
+     * @dataProvider importResults
+     */
+    public function testAnImportFinishingLeavesTheGapUntilRegistrationWorks(string $error): void
     {
         $backfill = $this->backfill();
-        $backfill->start();
+        $backfill->startSetupImport();
         $backfill->rememberWebhookGap();
-        $backfill->recoverWebhookGap();
 
-        $backfill->finish($backfill->status()['run'], 'Malformed purchase');
+        $backfill->finish($backfill->status()['run'], $error);
 
-        self::assertCount(2, $this->enqueued);
+        self::assertArrayHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
+        self::assertCount(1, $this->enqueued);
+
+        self::assertTrue($backfill->recoverWebhookGap());
         self::assertNotSame('', $this->enqueued[1][1]['startDate']);
-        self::assertArrayNotHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
+    }
+
+    public function importResults(): array
+    {
+        return ['succeeded' => [''], 'failed' => ['Malformed purchase']];
     }
 
     public function testWebhookGapReplacesARunningImportThatStartedAfterIt(): void

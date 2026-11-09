@@ -173,22 +173,17 @@ class PurchaseBackfill
     }
 
     /**
-     * A running import pages up to the present: one that started before the gap covers it, so the
-     * gap is kept until that import finishes; a later one is replaced by an import from the gap.
+     * Only called once registration works again. A running import is replaced; start() keeps its range.
      */
     public function recoverWebhookGap(): bool
     {
-        $since = $this->webhookGapSince();
-        if ($since === null || !($this->isOnboarded)()) {
-            return false;
-        }
-        $running = $this->isRunning() ? $this->status()['since'] : null;
-        if ($running !== null && self::covers($running, $since)) {
+        $gapStart = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
+        if ($gapStart <= 0 || !($this->isOnboarded)()) {
             return false;
         }
         delete_option(self::WEBHOOK_GAP_OPTION);
 
-        return $this->start($since, $running !== null);
+        return $this->start(new DateTimeImmutable('@' . ($gapStart - self::OVERLAP_SECONDS)), true);
     }
 
     /**
@@ -238,29 +233,6 @@ class PurchaseBackfill
         $status['state'] = $error === '' ? 'done' : 'failed';
         $status['error'] = $error;
         $this->saveStatus($status);
-
-        // A gap this import covered is imported on its own when the import failed.
-        $gapSince = $this->webhookGapSince();
-        if ($error !== '') {
-            $this->recoverWebhookGap();
-        } elseif ($gapSince !== null && self::covers($status['since'], $gapSince)) {
-            delete_option(self::WEBHOOK_GAP_OPTION);
-        }
-    }
-
-    private function webhookGapSince(): ?DateTimeImmutable
-    {
-        $gapStart = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
-
-        return $gapStart > 0 ? new DateTimeImmutable('@' . ($gapStart - self::OVERLAP_SECONDS)) : null;
-    }
-
-    /**
-     * @param string $startDate An import's ATOM start date, or empty for the whole history.
-     */
-    private static function covers(string $startDate, DateTimeImmutable $since): bool
-    {
-        return $startDate === '' || new DateTimeImmutable($startDate) <= $since;
     }
 
     /**
