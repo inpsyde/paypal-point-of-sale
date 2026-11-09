@@ -76,8 +76,8 @@ class PurchaseBackfill
 
     /**
      * Queues an import of every purchase made at or after $since, or of the whole history.
-     * $replaceRunning supersedes a running import, which stops at its next page. An unfinished
-     * import's range is taken over, e.g. a setup import stopped by deactivation.
+     * $replaceRunning supersedes a running import, which stops at its next page. An interrupted or
+     * superseded import's range is taken over; a failed one's isn't, as it would fail again.
      */
     public function start(?DateTimeInterface $since = null, bool $replaceRunning = false): bool
     {
@@ -88,7 +88,7 @@ class PurchaseBackfill
         $run = uniqid('', true);
         $startDate = $since !== null ? $since->format(DateTimeInterface::ATOM) : '';
         $last = $this->status();
-        if ($last['run'] !== '' && $last['state'] !== 'done') {
+        if (in_array($last['state'], ['running', 'interrupted'], true)) {
             $startDate = self::earlier($startDate, $last['since']);
         }
         $this->saveStatus(
@@ -120,10 +120,10 @@ class PurchaseBackfill
     {
         $this->setupInfo->set(self::DEACTIVATED_AT_KEY, time());
         if ($this->isRunning()) {
-            $this->finish(
-                $this->status()['run'],
-                __('Stopped because the plugin was deactivated.', 'paypal-point-of-sale')
-            );
+            $status = $this->status();
+            $status['state'] = 'interrupted';
+            $status['error'] = __('Stopped because the plugin was deactivated.', 'paypal-point-of-sale');
+            $this->saveStatus($status);
         }
     }
 
@@ -173,22 +173,20 @@ class PurchaseBackfill
     }
 
     /**
-     * A running import pages up to the present: one that started before the gap covers it, a later
-     * one is replaced by an import from the gap.
+     * A running import pages up to the present: one that started before the gap covers it, and the
+     * gap is kept until it finishes (see finish()); a later one is replaced by an import from the gap.
      */
     public function recoverWebhookGap(): bool
     {
-        $gapStart = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
-        if ($gapStart <= 0 || !($this->isOnboarded)()) {
+        $since = $this->webhookGapSince();
+        if ($since === null || !($this->isOnboarded)()) {
+            return false;
+        }
+        $running = $this->isRunning() ? $this->status()['since'] : null;
+        if ($running !== null && self::covers($running, $since)) {
             return false;
         }
         delete_option(self::WEBHOOK_GAP_OPTION);
-
-        $since = new DateTimeImmutable('@' . ($gapStart - self::OVERLAP_SECONDS));
-        $running = $this->isRunning() ? $this->status()['since'] : null;
-        if ($running === '' || ($running !== null && new DateTimeImmutable($running) <= $since)) {
-            return false;
-        }
 
         return $this->start($since, $running !== null);
     }
@@ -240,6 +238,29 @@ class PurchaseBackfill
         $status['state'] = $error === '' ? 'done' : 'failed';
         $status['error'] = $error;
         $this->saveStatus($status);
+
+        // A gap left to this import is imported on its own if the import failed.
+        $gapSince = $this->webhookGapSince();
+        if ($error !== '') {
+            $this->recoverWebhookGap();
+        } elseif ($gapSince !== null && self::covers($status['since'], $gapSince)) {
+            delete_option(self::WEBHOOK_GAP_OPTION);
+        }
+    }
+
+    private function webhookGapSince(): ?DateTimeImmutable
+    {
+        $gapStart = (int) get_option(self::WEBHOOK_GAP_OPTION, 0);
+
+        return $gapStart > 0 ? new DateTimeImmutable('@' . ($gapStart - self::OVERLAP_SECONDS)) : null;
+    }
+
+    /**
+     * @param string $startDate An import's ATOM start date, or empty for the whole history.
+     */
+    private static function covers(string $startDate, DateTimeImmutable $since): bool
+    {
+        return $startDate === '' || new DateTimeImmutable($startDate) <= $since;
     }
 
     /**

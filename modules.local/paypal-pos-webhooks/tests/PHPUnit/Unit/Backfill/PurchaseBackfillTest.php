@@ -193,6 +193,22 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
 
         self::assertFalse($backfill->recoverWebhookGap());
         self::assertCount(1, $this->enqueued);
+
+        $backfill->finish($backfill->status()['run']);
+        self::assertArrayNotHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
+    }
+
+    public function testWebhookGapIsImportedOnItsOwnWhenTheImportCoveringItFails(): void
+    {
+        $backfill = $this->backfill();
+        $backfill->start();
+        $backfill->rememberWebhookGap();
+        $backfill->recoverWebhookGap();
+
+        $backfill->finish($backfill->status()['run'], 'Malformed purchase');
+
+        self::assertCount(2, $this->enqueued);
+        self::assertNotSame('', $this->enqueued[1][1]['startDate']);
         self::assertArrayNotHasKey(PurchaseBackfill::WEBHOOK_GAP_OPTION, $this->options);
     }
 
@@ -242,16 +258,15 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
         self::assertNotSame('', $this->enqueued[1][1]['startDate']);
     }
 
-    public function testAFailedImportsEarlierRangeIsTakenOver(): void
+    public function testAFailedImportsRangeIsNotTakenOverAsItWouldFailAgain(): void
     {
         $backfill = $this->backfill();
-        $backfill->start(new DateTimeImmutable('-60 days'));
-        $failed = $this->enqueued[0][1]['startDate'];
-        $backfill->finish($backfill->status()['run'], 'API down');
+        $backfill->start();
+        $backfill->finish($backfill->status()['run'], 'Malformed purchase');
 
         $backfill->startMissed();
 
-        self::assertSame($failed, $this->enqueued[1][1]['startDate']);
+        self::assertNotSame('', $this->enqueued[1][1]['startDate']);
     }
 
     public function testDeactivationStopsARunningImport(): void
@@ -263,7 +278,7 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
 
         $backfill->rememberDeactivation();
 
-        self::assertSame('failed', $backfill->status()['state']);
+        self::assertSame('interrupted', $backfill->status()['state']);
         self::assertFalse($backfill->isRunning());
         self::assertFalse($backfill->isActive($run));
     }
