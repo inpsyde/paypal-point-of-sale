@@ -23,7 +23,7 @@ class PurchaseBackfill
     // Purchases can reach the API a little after their timestamp; re-scan a margin.
     private const OVERLAP_SECONDS = 3600;
     private const MISSED_WINDOW_DAYS = 30;
-    // A run that hasn't reported for this long is treated as gone; retries span half an hour.
+    // A run that hasn't reported for this long is treated as gone; retries span about 40 minutes.
     private const STALE_SECONDS = 3600;
 
     /**
