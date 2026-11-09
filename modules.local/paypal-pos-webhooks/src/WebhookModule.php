@@ -81,9 +81,11 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
 
         $this->registerBackfillTools($container);
 
+        $settingsFilter = $container->get('paypal-pos.webhook.order-sync-settings-filter');
+        assert($settingsFilter instanceof OrderSyncSettingsFilter);
         add_filter(
             'woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'),
-            [new OrderSyncSettingsFilter(), 'filterSettingsValues']
+            [$settingsFilter, 'filterSettingsValues']
         );
 
         add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);

@@ -265,6 +265,9 @@ return [
         // Yes/no settings default to yes until saved.
         return static fn (string $key): bool => !$settings->has($key) || $settings->get($key) !== 'no';
     },
+    'paypal-pos.webhook.order-sync-settings-filter' => static function (): OrderSyncSettingsFilter {
+        return new OrderSyncSettingsFilter();
+    },
     'paypal-pos.webhook.order-sync-payment-types' => static function (C $container): array {
         $settings = $container->get('paypal-pos.settings');
         $types = $settings->has('order_sync_payment_types') ? (array) $settings->get('order_sync_payment_types') : [];
