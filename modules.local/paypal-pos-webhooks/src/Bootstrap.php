@@ -37,8 +37,8 @@ class Bootstrap
     }
 
     /**
-     * Before onboarding is completed there is nothing to register yet: onboarding registers the
-     * webhook itself, and a queued registration would replace it right afterwards.
+     * Onboarding registers the webhook itself; a registration queued before it completes would
+     * replace that webhook again.
      */
     public function activate(): void
     {

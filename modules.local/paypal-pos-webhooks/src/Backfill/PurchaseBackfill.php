@@ -15,8 +15,8 @@ use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
  */
 class PurchaseBackfill
 {
-    // Own options, not setup info: queue runs write them and would save over setup info
-    // written meanwhile.
+    // Own options, not setup info: queue runs write them often, and setup info is rewritten as a
+    // whole on every write.
     public const STATUS_OPTION = 'paypal-pos.backfill.status';
     public const WEBHOOK_GAP_OPTION = 'paypal-pos.backfill.webhook-gap-since';
     public const DEACTIVATED_AT_KEY = 'order_sync_deactivated_at';
@@ -162,8 +162,8 @@ class PurchaseBackfill
     }
 
     /**
-     * Keeps the first failure, so the import covers the whole time without a webhook. During
-     * onboarding there is nothing to recover: the setup import choice covers past sales.
+     * Keeps the first failure. Skipped during onboarding, where the setup import choice decides
+     * about past sales.
      */
     public function rememberWebhookGap(): void
     {
@@ -173,8 +173,8 @@ class PurchaseBackfill
     }
 
     /**
-     * A running import pages up to the present, so it covers the gap if it started before it;
-     * otherwise it's replaced by one starting at the gap, which covers both.
+     * A running import pages up to the present: one that started before the gap covers it, a later
+     * one is replaced by an import from the gap.
      */
     public function recoverWebhookGap(): bool
     {

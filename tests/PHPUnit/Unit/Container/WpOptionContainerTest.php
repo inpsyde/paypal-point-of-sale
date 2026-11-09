@@ -48,7 +48,7 @@ class WpOptionContainerTest extends MonkeryTestCase
         $this->stored['settings'] = ['order_sync_status' => 'wc-completed'];
         $this->cached = $this->stored;
         $container = new WpOptionContainer('settings');
-        // Saved by another request: only the table has it, this request's option cache doesn't.
+        // Saved by another request: in the table, not in this request's cache.
         $this->stored['settings'] = ['order_sync_status' => 'wc-processing', 'api_key' => 'key'];
 
         $container->set('webhook', 'listener');
