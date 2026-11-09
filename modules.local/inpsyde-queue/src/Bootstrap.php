@@ -37,7 +37,7 @@ class Bootstrap
 
     /**
      * Records the schema in $schemaOption only once all columns exist. A failed upgrade, e.g.
-     * without ALTER rights, is retried hourly; see isUpToDate().
+     * without ALTER rights, is retried at most hourly.
      */
     public function upgrade(string $schemaOption): void
     {

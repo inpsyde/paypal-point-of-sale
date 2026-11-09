@@ -11,8 +11,7 @@ use Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
 use Psr\Container\ContainerInterface as C;
 
 return [
-    // Jobs can't be queued or run while columns are missing, e.g. when the database user may not
-    // ALTER tables; this makes that visible.
+    // Jobs can't be queued or run while columns are missing, e.g. without ALTER rights.
     'inpsyde.wc-status-report.items' => static function (array $items, C $container): array {
         $bootstrap = $container->get('inpsyde.queue.bootstrap');
         assert($bootstrap instanceof Bootstrap);
