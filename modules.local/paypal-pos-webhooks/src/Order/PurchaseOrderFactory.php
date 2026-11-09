@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\MinorUnits;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
-use WC_Data;
 use WC_Order;
 use WC_Order_Item_Product;
 use WC_Product;
@@ -93,7 +91,7 @@ class PurchaseOrderFactory
         // set_status() stamps both dates with the current time; use the sale's time instead.
         $order->set_date_paid($purchase->timestamp()->getTimestamp());
         $order->set_date_completed($purchase->timestamp()->getTimestamp());
-        $this->saveConfirmed($order, $purchase);
+        $this->save($order, $purchase);
 
         $order->add_order_note(
             /* translators: %s: name of the cashier who made the sale */
@@ -103,36 +101,16 @@ class PurchaseOrderFactory
         return $order->get_id();
     }
 
-    /**
-     * WC_Order::save() logs storage failures, and exceptions from other plugins' order hooks,
-     * instead of throwing. The order only counts as saved once the save got through to its last
-     * hook and the order can be found; otherwise a partly saved order is deleted, or the retry
-     * would create a second one next to it, and throwing lets the caller retry the purchase.
-     *
-     * @throws RuntimeException
-     */
-    private function saveConfirmed(WC_Order $order, Purchase $purchase): void
+    private function save(WC_Order $order, Purchase $purchase): void
     {
-        $savedIds = [];
-        $recordSave = static function (WC_Data $saved) use (&$savedIds): void {
-            $savedIds[] = $saved->get_id();
-        };
-        // First of all listeners, so a later one throwing can't hide a completed save.
-        // phpcs:ignore Syde.WordPress.HookPriority.PHP_INT_MIN -- removed again right below.
-        add_action('woocommerce_after_order_object_save', $recordSave, PHP_INT_MIN);
-        try {
-            $order->save();
-        } finally {
-            remove_action('woocommerce_after_order_object_save', $recordSave, PHP_INT_MIN);
-        }
+        ConfirmedSave::run(
+            'order',
+            static function () use ($order): WC_Order {
+                $order->save();
 
-        if (in_array($order->get_id(), $savedIds, true) && $this->orderExists($purchase->uuid())) {
-            return;
-        }
-        if ($order->get_id() > 0) {
-            $order->delete(true);
-        }
-        throw new RuntimeException(
+                return $order;
+            },
+            fn (): bool => $this->orderExists($purchase->uuid()),
             sprintf('Could not store the order for purchase %s', esc_html($purchase->uuid()))
         );
     }
