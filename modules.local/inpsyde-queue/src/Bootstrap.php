@@ -9,6 +9,8 @@ use Inpsyde\Queue\Db\UpgradableTable;
 
 class Bootstrap
 {
+    public const RETRY_LOCK_SUFFIX = '_retry';
+
     /**
      * @var Table[]
      */
@@ -47,7 +49,7 @@ class Bootstrap
             static fn (Table $table): array => [$table->name(), $table->schema()],
             $this->tables
         )));
-        $retryLock = "{$schemaOption}_retry";
+        $retryLock = $schemaOption . self::RETRY_LOCK_SUFFIX;
         if (get_option($schemaOption) === $schema || get_transient($retryLock)) {
             return;
         }

@@ -11,6 +11,15 @@ use Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
 use Psr\Container\ContainerInterface as C;
 
 return [
+    'paypal-pos.onboarding.resettable.options' => static function (array $previous, C $container): array {
+        return array_merge($previous, [$container->get('inpsyde.queue.schema.option')]);
+    },
+    'paypal-pos.onboarding.resettable.transients' => static function (array $previous, C $container): array {
+        return array_merge(
+            $previous,
+            [$container->get('inpsyde.queue.schema.option') . Bootstrap::RETRY_LOCK_SUFFIX]
+        );
+    },
     // Jobs can't be queued or run while columns are missing, e.g. without ALTER rights.
     'inpsyde.wc-status-report.items' => static function (array $items, C $container): array {
         $bootstrap = $container->get('inpsyde.queue.bootstrap');
