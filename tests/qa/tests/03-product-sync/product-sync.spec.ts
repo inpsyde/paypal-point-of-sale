@@ -178,6 +178,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	test( 'POS-583 | Simple product name and price update syncs to POS; regression;', async ( {
 		wcProducts,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
@@ -189,6 +190,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			);
 			return;
 		}
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			process.env.PAYPAL_POS_API_KEY
+		);
 
 		const product = await createProduct(
 			requestUtils,
@@ -217,6 +224,19 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'synced',
 				product.id
 			);
+
+			const remoteProduct = await zettleApi.findProductByName(
+				'POS-583 Updated Name'
+			);
+			expect(
+				remoteProduct,
+				'Assert renamed product exists in the PayPal POS product library'
+			).toBeDefined();
+			// PayPal POS stores amounts in minor units (29.99 → 2999).
+			expect(
+				remoteProduct?.variants?.[ 0 ]?.price?.amount,
+				'Assert updated price was synced to the PayPal POS product library'
+			).toBe( 2999 );
 
 			await assertDeletionUnsyncsFromPos(
 				requestUtils,
@@ -815,6 +835,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		);
 
 		const originalCurrency = await getCurrency( wooCommerceApi );
+		const originalPriceSyncStrategy = await getPriceSyncStrategy( cli );
 		const product = await createProduct(
 			requestUtils,
 			posCurrencyMismatchProduct
@@ -866,6 +887,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			).toBeFalsy();
 		} finally {
 			await setCurrency( wooCommerceApi, originalCurrency );
+			// The plugin persisted DISABLED while the currency mismatched and never re-enables
+			// it. Restore only after the currency, or the next admin request re-forces it.
+			await setPriceSyncStrategy( cli, originalPriceSyncStrategy );
 			await deleteProduct( cli, product.id );
 			await zettleApi.deleteProductByName( PRODUCT_NAME );
 		}

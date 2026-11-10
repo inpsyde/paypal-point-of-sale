@@ -93,6 +93,24 @@ export async function setPriceSyncStrategy(
 	);
 }
 
+/**
+ * Make sure price sync is enabled. The plugin force-persists DISABLED whenever a
+ * wp-admin request sees a currency/country/tax mismatch and never re-enables it, so a
+ * run that was aborted mid-mismatch (or a manual change) would otherwise leave every
+ * later price-dependent test running against a disabled strategy.
+ * Call after the store settings are restored, or the next admin request re-forces it.
+ * @param cli
+ */
+export async function ensurePriceSyncEnabled( cli: AnyCli ): Promise< void > {
+	if ( ! process.env.PAYPAL_POS_API_KEY ) {
+		return;
+	}
+
+	if ( ( await getPriceSyncStrategy( cli ) ) !== PriceSyncMode.ENABLED ) {
+		await setPriceSyncStrategy( cli, PriceSyncMode.ENABLED );
+	}
+}
+
 export async function ensurePosConnected(
 	posSettings: PosSettingsPage,
 	cli: AnyCli
@@ -128,4 +146,5 @@ export async function ensurePosTestReady( fixtures: {
 		fixtures.wooCommerceApi
 	);
 	await ensurePosConnected( fixtures.posSettings, fixtures.cli );
+	await ensurePriceSyncEnabled( fixtures.cli );
 }
