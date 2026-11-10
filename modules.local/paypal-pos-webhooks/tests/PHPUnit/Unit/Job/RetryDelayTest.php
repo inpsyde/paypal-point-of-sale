@@ -5,8 +5,6 @@ declare(strict_types=1);
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRecord;
-use Syde\PayPal\PointOfSale\Webhooks\Job\BackfillJob;
-use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 
@@ -37,8 +35,6 @@ class RetryDelayTest extends BrainMonkeyWpTestCase
     public function apiJobs(): array
     {
         return [
-            'order' => [CreateOrderJob::TYPE],
-            'backfill' => [BackfillJob::TYPE],
             'webhook registration' => [WebhookRegistrationJob::TYPE],
         ];
     }

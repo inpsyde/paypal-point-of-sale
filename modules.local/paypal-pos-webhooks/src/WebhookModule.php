@@ -11,9 +11,6 @@ use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
-use Syde\PayPal\PointOfSale\Webhooks\Order\OrderScreenPaymentMethod;
-use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
-use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
 use WP_CLI;
@@ -45,12 +42,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
             }
         );
 
-        $sideEffects = $container->get('paypal-pos.webhook.order-side-effects');
-        assert($sideEffects instanceof OrderSideEffects);
-        $sideEffects->suppressEmails();
-        $sideEffects->preventStockChanges();
-        add_action('current_screen', [OrderScreenPaymentMethod::class, 'register']);
-
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
 
@@ -76,19 +67,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
                 $bootstrap->deactivate();
             }
         );
-        $this->registerRecovery($container);
-        add_action('paypal-pos.onboarding.sync-params.after', [Backfill\SetupImportChoice::class, 'render']);
-
-        $this->registerBackfillTools($container);
-
-        $settingsFilter = $container->get('paypal-pos.webhook.order-sync-settings-filter');
-        assert($settingsFilter instanceof OrderSyncSettingsFilter);
-        add_filter(
-            'woocommerce_settings_api_sanitized_fields_' . $container->get('paypal-pos.settings.wc-integration.id'),
-            [$settingsFilter, 'filterSettingsValues']
-        );
-
-        add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);
 
         return true;
     }
@@ -113,62 +91,6 @@ class WebhookModule implements ServiceModule, ExtendingModule, ExecutableModule
         $configured = (array) $container->get('paypal-pos.webhook.config.events');
 
         return array_values(array_diff($configured, $subscribed));
-    }
-
-    /**
-     * Show POS orders' Origin as "PayPal POS" instead of "Source: PayPal POS".
-     */
-    public static function filterOriginLabel(string $label, string $sourceType, string $source): string
-    {
-        if ($sourceType === PurchaseOrderFactory::ORIGIN_SOURCE_TYPE && $source === PurchaseOrderFactory::ORIGIN_SOURCE) {
-            return '';
-        }
-
-        return $label;
-    }
-
-    private function registerRecovery(ContainerInterface $container): void
-    {
-        $backfill = static function () use ($container): Backfill\PurchaseBackfill {
-            $backfill = $container->get('paypal-pos.webhook.backfill');
-            assert($backfill instanceof Backfill\PurchaseBackfill);
-
-            return $backfill;
-        };
-
-        // Import what was sold while the plugin was inactive.
-        add_action(
-            'paypal-point-of-sale.deactivate',
-            static function () use ($backfill) {
-                $backfill()->rememberDeactivation();
-            }
-        );
-        add_action(
-            'paypal-point-of-sale.activate',
-            static function () use ($backfill) {
-                $backfill()->recoverAfterReactivation();
-            }
-        );
-        // Imports past sales once, if the merchant kept that onboarding choice on.
-        add_action(
-            'paypal-pos.onboarding.completed',
-            static function () use ($backfill) {
-                $backfill()->startSetupImport();
-            }
-        );
-    }
-
-    private function registerBackfillTools(ContainerInterface $container): void
-    {
-        add_filter(
-            'woocommerce_debug_tools',
-            static function (array $tools) use ($container): array {
-                $backfillTools = $container->get('paypal-pos.webhook.backfill-tools');
-                assert($backfillTools instanceof Backfill\BackfillTools);
-
-                return $backfillTools->addTools($tools);
-            }
-        );
     }
 
     private function registerCliCommand(ContainerInterface $container): void

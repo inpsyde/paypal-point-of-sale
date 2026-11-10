@@ -402,7 +402,7 @@ return [
                     );
 
                     // No webhook means no synced sales: retry, and import the gap once it works.
-                    $container->get('paypal-pos.webhook.backfill')->rememberWebhookGap();
+                    $container->get('paypal-pos.order-sync.backfill')->rememberWebhookGap();
                     $container->get('inpsyde.queue.enqueue-job')(WebhookRegistrationJob::TYPE);
                 }
 
