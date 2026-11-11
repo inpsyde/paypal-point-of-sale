@@ -10,6 +10,8 @@ use Inpsyde\FeatureFlags\Adapter\Unleash\RegistrationMode;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Inpsyde\Modularity\Package;
 use Inpsyde\Modularity\Properties\Properties;
+use Inpsyde\WcStatusReport\ReportItemFactory;
+use Inpsyde\WcStatusReport\ReportItemInterface;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -221,6 +223,39 @@ class ServicesTest extends TestCase
     }
 
     /**
+     * The items are shown before onboarding too, and other modules' items are kept.
+     */
+    public function testTheStatusReportGetsTheFeatureFlagItems(): void
+    {
+        Functions\stubTranslationFunctions();
+        $extensions = require __DIR__ . '/../../../extensions.php';
+        $container = $this->container([
+            'inpsyde.wc-status-report.item-factory' => new ReportItemFactory(),
+            'paypal-pos.feature-flags.url' => '',
+            'paypal-pos.feature-flags.token' => '',
+        ]);
+        $previous = (new ReportItemFactory())->createReportItem('Onboarding state', 'Onboarding state', '');
+
+        $items = $extensions['inpsyde.wc-status-report.items']([$previous], $container);
+
+        self::assertSame($previous, $items[0]);
+        self::assertSame(
+            [
+                'Feature flags site ID',
+                'Feature flags configuration',
+                'Feature flags source',
+                'Feature flags last successful fetch',
+                'Feature flags last error',
+                'Feature flags',
+            ],
+            array_map(
+                static fn (ReportItemInterface $item): string => $item->getExportedLabel(),
+                array_slice($items, 1)
+            )
+        );
+    }
+
+    /**
      * @dataProvider qaSiteValues
      */
     public function testAnEnvironmentVariableMarksQaSites(string $value, bool $expected): void
@@ -255,7 +290,8 @@ class ServicesTest extends TestCase
         $services = require __DIR__ . '/../../../services.php';
         $extensions = require __DIR__ . '/../../../extensions.php';
         foreach ($extensions as $id => $extension) {
-            $factory = $services[$id];
+            // The status report items of other modules start empty.
+            $factory = $services[$id] ?? static fn (): array => [];
             $services[$id] = static fn (ContainerInterface $container): mixed
                 => $extension($factory($container), $container);
         }

@@ -909,11 +909,12 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-feature-flags",
-                "reference": "aa9f9053ba69115db300af7829adf4543e7d2e0b"
+                "reference": "b0061158734e75066c32162b036fab193a349dd2"
             },
             "require": {
                 "inpsyde/feature-flags": "^2.1",
                 "inpsyde/modularity": "^1.7",
+                "inpsyde/wc-status-report": "*",
                 "php": "^8.2",
                 "psr/container": "^1.1 || ^2.0",
                 "psr/http-client": "^1.0",

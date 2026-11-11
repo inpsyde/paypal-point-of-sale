@@ -118,7 +118,12 @@ Modules add further properties for targeting groups of sites by extending the se
 `paypal-pos.feature-flags.properties`.
 
 The flag configuration is fetched about twice a day and cached in `wp_options`, so a flag change takes up to about
-14 hours to reach all sites.
+14 hours to reach all sites. Uninstalling the plugin deletes the cached configuration.
+
+The PayPal POS section of the WooCommerce status report (WooCommerce → Status) shows the site ID, whether the
+connection is built-in or overridden, where the flags come from (fresh from Unleash, a stale copy or the code
+defaults), the last successful fetch, the last error and each flag's state, including overrides. It is shown before
+onboarding too, and never contains the token.
 
 These settings override the connection, e.g. for QA and staging sites or local development. Set them as constants
 in `wp-config.php` or as environment variables; a constant wins over an environment variable of the same name. The

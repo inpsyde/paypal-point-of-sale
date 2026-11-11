@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\FeatureFlags;
 
+use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionSource;
+use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionStatus;
+use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Inpsyde\FeatureFlags\FeatureFlags;
 use Psr\Log\LoggerInterface;
@@ -18,6 +21,10 @@ use Psr\Log\LoggerInterface;
 final class Flags
 {
     private bool $connected = false;
+
+    private ?UnleashProject $registered = null;
+
+    private ?string $configurationError = null;
 
     /**
      * @param UnleashProjectBuilder $builder The request settings and the context. The URL and
@@ -41,6 +48,45 @@ final class Flags
             $default,
             $flag
         );
+    }
+
+    /**
+     * Whether flags come from Unleash, a stale copy or the defaults, and the last error. For
+     * support. Fetches the flags if the cached copy is due, like a check would.
+     */
+    public function connectionStatus(): ConnectionStatus
+    {
+        $this->connect();
+
+        return $this->registered?->connectionStatus() ?? new ConnectionStatus(ConnectionSource::Defaults);
+    }
+
+    /**
+     * Whether each flag of the project is on for this site. For support.
+     *
+     * @return array<string, bool>
+     */
+    public function states(): array
+    {
+        $this->connect();
+
+        $states = [];
+        foreach ($this->registered?->getFeatures() ?? [] as $feature) {
+            // Through the filters, so the state includes overrides by snippets.
+            $states[$feature->getName()] = $this->isOn($feature->getName());
+        }
+
+        return $states;
+    }
+
+    /**
+     * Why the project isn't connected, if the connection settings are invalid.
+     */
+    public function configurationError(): ?string
+    {
+        $this->connect();
+
+        return $this->configurationError;
     }
 
     /**
@@ -91,18 +137,28 @@ final class Flags
         }
         if ($this->url === '' || $this->token === '') {
             // The built-in token must never go to an overridden URL, and vice versa.
-            $this->logOncePerDay('The URL and the token must be set together.');
+            $this->fail('The URL and the token must be set together.');
 
             return;
         }
 
         try {
-            FeatureFlags::registerProject(
-                $this->builder->withAppUrl($this->url)->withApiToken($this->token)->build()
-            );
+            $this->registered = $this->builder
+                ->withAppUrl($this->url)
+                ->withApiToken($this->token)
+                ->build();
         } catch (\InvalidArgumentException $exception) {
-            $this->logOncePerDay($exception->getMessage());
+            $this->fail($exception->getMessage());
+
+            return;
         }
+        FeatureFlags::registerProject($this->registered);
+    }
+
+    private function fail(string $message): void
+    {
+        $this->configurationError = $message;
+        $this->logOncePerDay($message);
     }
 
     /**

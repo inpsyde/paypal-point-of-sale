@@ -7,13 +7,17 @@ namespace Syde\PayPal\PointOfSale\FeatureFlags\Tests\Unit;
 use Brain\Monkey;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
+use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionSource;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Syde\PayPal\PointOfSale\FeatureFlags\Flags;
@@ -51,6 +55,7 @@ class FlagsTest extends TestCase
 
     protected function tearDown(): void
     {
+        unset($GLOBALS['wpdb']);
         Monkey\tearDown();
         parent::tearDown();
     }
@@ -190,6 +195,82 @@ class FlagsTest extends TestCase
         // Two requests.
         $this->flags(self::URL, 'token', $builder, $logger)->isOn('flag');
         $this->flags(self::URL, 'token', $builder, $logger)->isOn('flag');
+    }
+
+    public function testTheStatusWithoutConnection(): void
+    {
+        $flags = $this->flags('', '');
+
+        self::assertSame(ConnectionSource::Defaults, $flags->connectionStatus()->source);
+        self::assertSame([], $flags->states());
+        self::assertNull($flags->configurationError());
+    }
+
+    public function testTheStatusShowsAConfigurationError(): void
+    {
+        $flags = $this->flags(self::URL, '');
+
+        self::assertSame(ConnectionSource::Defaults, $flags->connectionStatus()->source);
+        self::assertSame('The URL and the token must be set together.', $flags->configurationError());
+    }
+
+    /**
+     * The status comes from the project the module registered, including the library's
+     * record of a failed fetch.
+     */
+    public function testTheStatusOfAConnectedProject(): void
+    {
+        $options = [];
+        Functions\when('get_option')->alias(
+            static function (string $name, mixed $default = false) use (&$options): mixed {
+                return $options[$name] ?? $default;
+            }
+        );
+        foreach (['add_option', 'update_option'] as $function) {
+            Functions\when($function)->alias(
+                static function (string $name, mixed $value) use (&$options): bool {
+                    $options[$name] = $value;
+
+                    return true;
+                }
+            );
+        }
+        Functions\when('delete_option')->alias(
+            static function (string $name) use (&$options): bool {
+                unset($options[$name]);
+
+                return true;
+            }
+        );
+        // The cache looks for options of earlier versions on its first read.
+        $wpdb = Mockery::mock();
+        $wpdb->options = 'wp_options';
+        $wpdb->allows('esc_like')->andReturnArg(0);
+        $wpdb->allows('prepare')->andReturn('');
+        $wpdb->allows('get_col')->andReturn([]);
+        $GLOBALS['wpdb'] = $wpdb;
+        $request = Mockery::mock(RequestInterface::class);
+        $request->allows('withHeader')->andReturnSelf();
+        $request->allows('getMethod')->andReturn('GET');
+        $request->allows('getUri')->andReturn(Mockery::mock(UriInterface::class));
+        $requestFactory = Mockery::mock(RequestFactoryInterface::class);
+        $requestFactory->allows('createRequest')->andReturn($request);
+        $client = Mockery::mock(ClientInterface::class);
+        $client->allows('sendRequest')->andThrow(
+            new class ('Unleash is down') extends \RuntimeException implements ClientExceptionInterface {
+            }
+        );
+        $builder = UnleashProject::builder('paypal-pos')
+            ->withTargetingId('site-id')
+            ->withHttpClient($client, $requestFactory);
+
+        $flags = $this->flags(self::URL, 'token', $builder);
+
+        self::assertSame([], $flags->states());
+        $status = $flags->connectionStatus();
+        self::assertSame(ConnectionSource::Defaults, $status->source);
+        self::assertSame('Unleash is down', $status->lastError?->message);
+        self::assertNull($flags->configurationError());
     }
 
     private function flags(

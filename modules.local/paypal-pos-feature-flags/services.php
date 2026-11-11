@@ -10,6 +10,7 @@ use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Inpsyde\FeatureFlags\SiteId;
 use Inpsyde\Modularity\Package;
 use Inpsyde\Modularity\Properties\Properties;
+use Inpsyde\WcStatusReport\ReportItemFactoryInterface;
 use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 
@@ -118,6 +119,19 @@ return [
                 ->withTargetingId($container->get('paypal-pos.feature-flags.site-id'))
                 ->withPackageVersion($container->get('paypal-pos.feature-flags.package-version'))
                 ->withProperties($container->get('paypal-pos.feature-flags.properties'));
+        },
+
+    'paypal-pos.feature-flags.status-report' =>
+        static function (C $container): StatusReportItems {
+            $factory = $container->get('inpsyde.wc-status-report.item-factory');
+            assert($factory instanceof ReportItemFactoryInterface);
+
+            return new StatusReportItems(
+                $factory,
+                $container->get('paypal-pos.feature-flags.site-id'),
+                $container->get('paypal-pos.feature-flags.overridden'),
+                $container->get('paypal-pos.feature-flags.qa-site')
+            );
         },
 
     'paypal-pos.feature-flags' => static function (C $container): Flags {
