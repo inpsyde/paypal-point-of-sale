@@ -8,6 +8,7 @@ use Inpsyde\WcEvents\WcEventsModule;
 use Inpsyde\WcStatusReport\WcStatusReportModule;
 use Syde\PayPal\PointOfSale\Assets\AssetsModule;
 use Syde\PayPal\PointOfSale\Auth\AuthModule;
+use Syde\PayPal\PointOfSale\FeatureFlags\FeatureFlagsModule;
 use Syde\PayPal\PointOfSale\Logging\ZettleLoggingModule;
 use Syde\PayPal\PointOfSale\Notices\NoticesModule;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingModule;
@@ -28,6 +29,7 @@ return [
     WcEventsModule::class,
     AssetsModule::class,
     AuthModule::class,
+    FeatureFlagsModule::class,
     ZettleLoggingModule::class,
     NoticesModule::class,
     OnboardingModule::class,
