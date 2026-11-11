@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\FeatureFlags;
 
 use Inpsyde\Modularity\Module\ExecutableModule;
+use Inpsyde\Modularity\Module\ExtendingModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
+use Inpsyde\WcStatusReport\ReportItemFactoryInterface;
 use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 
 /**
  * Gives the other modules the flags that the bootstrap connected before loading them.
  */
-class FeatureFlagsModule implements ServiceModule, ExecutableModule
+class FeatureFlagsModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
 
@@ -30,6 +32,44 @@ class FeatureFlagsModule implements ServiceModule, ExecutableModule
 
         return [
             'paypal-pos.feature-flags' => static fn (): Flags => $flags,
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function extensions(): array
+    {
+        $flags = $this->flags;
+
+        return [
+            /*
+             * Shown regardless of the onboarding state, so support can also check sites that
+             * aren't connected to PayPal POS yet.
+             */
+            'inpsyde.wc-status-report.items' =>
+                static function (array $items, C $container) use ($flags): array {
+                    $factory = $container->get('inpsyde.wc-status-report.item-factory');
+                    assert($factory instanceof ReportItemFactoryInterface);
+                    $report = new StatusReportItems(
+                        $factory,
+                        $flags->siteId(),
+                        $flags->settings()->overridden,
+                        $flags->settings()->qaSite
+                    );
+                    // First: reading the states fetches the flags if due, which updates the
+                    // connection status.
+                    $states = $flags->states();
+
+                    return array_merge(
+                        $items,
+                        $report->items(
+                            $flags->connectionStatus(),
+                            $states,
+                            $flags->configurationError()
+                        )
+                    );
+                },
         ];
     }
 

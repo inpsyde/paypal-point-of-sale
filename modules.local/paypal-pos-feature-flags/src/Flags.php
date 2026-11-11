@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Syde\PayPal\PointOfSale\FeatureFlags;
 
 use Inpsyde\FeatureFlags\Adapter\Unleash\RegistrationMode;
+use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionSource;
+use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionStatus;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Inpsyde\FeatureFlags\FeatureFlags;
@@ -33,6 +35,7 @@ final class Flags
     private function __construct(
         private readonly Settings $settings,
         private readonly string $siteId,
+        private readonly ?UnleashProject $project,
         private readonly ?string $configurationError
     ) {
     }
@@ -58,7 +61,7 @@ final class Flags
                 $factory
             );
         } catch (\Throwable $error) {
-            return new self($settings, $siteId, $error->getMessage());
+            return new self($settings, $siteId, null, $error->getMessage());
         }
 
         return self::connect($builder, $settings, $siteId);
@@ -104,21 +107,20 @@ final class Flags
     ): self {
 
         if ($settings->url === '' && $settings->token === '') {
-            return new self($settings, $siteId, null);
+            return new self($settings, $siteId, null, null);
         }
         if ($settings->url === '' || $settings->token === '') {
-            return new self($settings, $siteId, 'The URL and the token must be set together.');
+            return new self($settings, $siteId, null, 'The URL and the token must be set together.');
         }
 
         try {
-            FeatureFlags::registerProject(
-                $builder->withAppUrl($settings->url)->withApiToken($settings->token)->build()
-            );
+            $project = $builder->withAppUrl($settings->url)->withApiToken($settings->token)->build();
+            FeatureFlags::registerProject($project);
         } catch (\Throwable $error) {
-            return new self($settings, $siteId, $error->getMessage());
+            return new self($settings, $siteId, null, $error->getMessage());
         }
 
-        return new self($settings, $siteId, null);
+        return new self($settings, $siteId, $project, null);
     }
 
     public function isOn(string $flag, bool $default = false): bool
@@ -128,6 +130,32 @@ final class Flags
             $default,
             $flag
         );
+    }
+
+    /**
+     * Whether flags come from Unleash, a stale copy or the defaults, and the last error. For
+     * support.
+     */
+    public function connectionStatus(): ConnectionStatus
+    {
+        return $this->project?->connectionStatus() ?? new ConnectionStatus(ConnectionSource::Defaults);
+    }
+
+    /**
+     * Whether each flag of the project is on for this site. For support. Fetches the flags if
+     * the cached copy is due, like a check would.
+     *
+     * @return array<string, bool>
+     */
+    public function states(): array
+    {
+        $states = [];
+        foreach ($this->project?->getFeatures() ?? [] as $feature) {
+            // Through the filters, so the state includes overrides by snippets.
+            $states[$feature->getName()] = $this->isOn($feature->getName());
+        }
+
+        return $states;
     }
 
     public function settings(): Settings

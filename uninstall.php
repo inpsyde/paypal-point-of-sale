@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
+use Inpsyde\FeatureFlags\Adapter\Unleash\Cache\OptionsCache;
 use Inpsyde\Modularity\Package;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\EphemeralJobRepository;
 use Inpsyde\Queue\Queue\Job\Job;
+use Syde\PayPal\PointOfSale\FeatureFlags\Flags;
 use Syde\PayPal\PointOfSale\Onboarding\Job\ResetOnboardingJob;
 
 if (!defined('WP_UNINSTALL_PLUGIN')) {
@@ -35,4 +37,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
         new EphemeralJobRepository(),
         $container->get('inpsyde.queue.logger')
     );
+
+    // Needs no connection to Unleash: only deletes the feature flag options.
+    OptionsCache::purge(Flags::PROJECT);
 })();
