@@ -922,6 +922,7 @@ class ComposerStaticInit2e6c6b46f6940c4b2dc9ad3d2cd1621c
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Container\\WritableContainerInterface' => __DIR__ . '/../..' . '/src/Container/WritableContainerInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\DeprecatedHooks' => __DIR__ . '/../..' . '/src/DeprecatedHooks.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\FeatureFlagsModule' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/FeatureFlagsModule.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\FlaggedModule' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/FlaggedModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Flags' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/Flags.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Settings' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/Settings.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\StatusReportItems' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/StatusReportItems.php',
