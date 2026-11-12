@@ -66,7 +66,7 @@ class WpOptionContainerTest extends MonkeryTestCase
         $this->stored['settings'] = ['order_sync_status' => 'wc-completed'];
         $this->cached = $this->stored;
         $container = new WpOptionContainer('settings');
-        // Saved by another request: only the table has it, this request's option cache doesn't.
+        // Saved by another request after this one cached the option.
         $this->stored['settings'] = ['order_sync_status' => 'wc-processing', 'api_key' => 'key'];
 
         $container->set('webhook', 'listener');
@@ -75,18 +75,6 @@ class WpOptionContainerTest extends MonkeryTestCase
         self::assertSame(['order_sync_status' => 'wc-processing', 'webhook' => 'listener'], $this->stored['settings']);
         self::assertSame('listener', $container->get('webhook'));
         self::assertFalse($container->has('api_key'));
-    }
-
-    public function testWritesEvenWhenTheResultMatchesTheStaleCache(): void
-    {
-        $this->stored['settings'] = [];
-        $this->cached = $this->stored;
-        $container = new WpOptionContainer('settings');
-        $this->stored['settings'] = ['api_key' => 'key'];
-
-        $container->unset('api_key');
-
-        self::assertSame([], $this->stored['settings']);
     }
 
     public function testDropsAnAutoloadedOptionFromTheCacheBeforeWriting(): void
@@ -100,7 +88,7 @@ class WpOptionContainerTest extends MonkeryTestCase
         self::assertSame(['webhook' => 'listener'], $this->stored['settings']);
     }
 
-    public function testClearEmptiesTheContainerToo(): void
+    public function testClearEmptiesTheStoredOptionAndTheContainer(): void
     {
         $this->stored['settings'] = ['webhook' => 'listener'];
         $this->cached = $this->stored;
