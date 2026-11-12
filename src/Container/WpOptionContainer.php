@@ -61,10 +61,9 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
     }
 
     /**
-     * Writes save the whole array, so they start from the stored option: keys saved since this
-     * copy was read, e.g. by the settings form in another request, would otherwise be reverted.
-     * get_option() returns the copy cached when this request started, so that copy is dropped
-     * first, which also keeps update_option() from skipping a write that matches a stale cache.
+     * Writes save the whole array, so they start from the stored option, or keys saved by another
+     * request in the meantime would be reverted. Dropping the cached copy makes get_option() read
+     * the table, and update_option() compare against it.
      */
     private function reload(): void
     {
