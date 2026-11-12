@@ -85,12 +85,13 @@ to execute it only in a single module (after `cd` to its directory inside `modul
 ### Feature flags
 
 Features can be gated behind flags in [Unleash](https://www.getunleash.io/), through
-[`inpsyde/feature-flags`](https://github.com/inpsyde/feature-flags). The `paypal-pos-feature-flags` module connects
-the plugin to the PayPal POS project in Unleash. Flags are evaluated on the site; Unleash only receives the requests
-for the flag configuration, daily usage counts and the project name as instance ID.
+[`inpsyde/feature-flags`](https://github.com/inpsyde/feature-flags). `bootstrap.php` connects the plugin to the
+PayPal POS project in Unleash before it loads the modules, so a flag can decide whether a module is loaded at all.
+Flags are evaluated on the site; Unleash only receives the requests for the flag configuration, daily usage counts and
+the project name as instance ID.
 
-Check a flag from another module through the `paypal-pos.feature-flags` service. It works anywhere from
-`ExecutableModule::run()` on, regardless of the module order in `modules.php`:
+Check a flag from a module through the `paypal-pos.feature-flags` service. It works anywhere, also in service
+definitions:
 
 ```php
 $flags = $container->get('paypal-pos.feature-flags');
@@ -102,9 +103,24 @@ if ($flags->isOn('my-flag')) {
 
 The second argument of `isOn()` is the default, `false` unless given. It is returned for flags that don't exist
 in Unleash, when the plugin has no connection to Unleash, and when Unleash can't be reached and no earlier response is
-cached. Choose the default that is safe for merchants. Snippets and support can also check or override a flag through
-the filter `syde.feature-flags.paypal-pos`, once the feature flags module has run. The connection to Unleash is set
-up on the first check in a request, so requests that check no flag don't pay for it.
+cached. Choose the default that is safe for merchants. Snippets and support can also check a flag through the filter
+`syde.feature-flags.paypal-pos`, and override it with a callback at a priority above 10, after the one that asks
+Unleash. An override that should decide which modules are loaded must be added before `plugins_loaded`, e.g. in a
+must-use plugin.
+
+To load a whole module only while a flag is on, list it with its flag in `modules.php`:
+
+```php
+return [
+    // ...
+    OrderSyncModule::class => 'order-sync',
+];
+```
+
+Nothing else may depend on the services of a gated module, since they don't exist while the flag is off. When the flag
+turns off, the module's hooks are gone from the next request on: queue jobs it scheduled fail as unknown job types, and
+webhook events only it handles are ignored. Its deactivation hooks run only while the flag is on. Uninstalling loads
+every module regardless of its flag, so all modules clean up.
 
 Flags are evaluated against a context that describes the site, not the visitor:
 
@@ -114,16 +130,13 @@ Flags are evaluated against a context that describes the site, not the visitor:
 * `packageVersion`: the plugin version, `0.0.0-dev` in development builds.
 * `qaSite`: `true` on QA sites, see below.
 
-Modules add further properties for targeting groups of sites by extending the service
-`paypal-pos.feature-flags.properties`.
-
 The flag configuration is fetched about twice a day and cached in `wp_options`, so a flag change takes up to about
 14 hours to reach all sites.
 
 These settings override the connection, e.g. for QA and staging sites or local development. Set them as constants
-in `wp-config.php` or as environment variables; a constant wins over an environment variable of the same name. The
-URL and token are overridden together: with only one of them set, flag checks return their default and the error is
-logged once a day.
+in `wp-config.php` or as environment variables; a constant wins over an environment variable of the same name, and
+an empty value counts as not set. The URL and token are overridden together: with only one of them set, flag checks
+return their default and the error is logged once a day.
 
 * `PAYPAL_POS_FEATURE_FLAGS_URL`: the Unleash API URL.
 * `PAYPAL_POS_FEATURE_FLAGS_TOKEN`: a client API token. It selects the Unleash environment.

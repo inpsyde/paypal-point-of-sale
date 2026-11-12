@@ -4,19 +4,34 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale;
 
-use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 use Inpsyde\Modularity\Module\Module;
 use Inpsyde\Modularity\Package;
 use Inpsyde\Modularity\Properties\PluginProperties;
+use Syde\PayPal\PointOfSale\FeatureFlags\FeatureFlagsModule;
+use Syde\PayPal\PointOfSale\FeatureFlags\Flags;
+use Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
 
-return static function (string $pluginFile, bool $validate = false): Package {
+/*
+ * $allModules loads every module regardless of its feature flag, e.g. so uninstalling cleans
+ * up after modules that are off.
+ */
+return static function (
+    string $pluginFile,
+    bool $validate = false,
+    bool $allModules = false
+): Package {
+
     // Must run before any service is resolved: some modules apply the filters from run().
     (new DeprecatedHooks())->register();
 
     $properties = PluginProperties::new($pluginFile);
-    $package = Package::new($properties);
+    // Before the modules, so flags decide which modules are loaded.
+    $flags = Flags::boot($properties->version());
 
-    $classNames = require dirname($pluginFile) . '/modules.php';
+    $package = Package::new($properties);
+    $package->addModule(new FeatureFlagsModule($flags));
+
+    $classNames = $flags->modules(require dirname($pluginFile) . '/modules.php', $allModules);
     foreach ($classNames as $className) {
         $module = new $className();
         assert($module instanceof Module);

@@ -8,7 +8,6 @@ use Inpsyde\WcEvents\WcEventsModule;
 use Inpsyde\WcStatusReport\WcStatusReportModule;
 use Syde\PayPal\PointOfSale\Assets\AssetsModule;
 use Syde\PayPal\PointOfSale\Auth\AuthModule;
-use Syde\PayPal\PointOfSale\FeatureFlags\FeatureFlagsModule;
 use Syde\PayPal\PointOfSale\Logging\ZettleLoggingModule;
 use Syde\PayPal\PointOfSale\Notices\NoticesModule;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingModule;
@@ -21,6 +20,13 @@ use Syde\PayPal\PointOfSale\Settings\SettingsModule;
 use Syde\PayPal\PointOfSale\Sync\SyncModule;
 use Syde\PayPal\PointOfSale\Webhooks\WebhookModule;
 
+/*
+ * The modules in load order. A module listed as `ModuleClass::class => 'flag-name'` is loaded
+ * only while the flag is on (see "Feature flags" in the README). Nothing else may depend on
+ * its services, since they don't exist while the flag is off.
+ *
+ * The feature flags module is added by bootstrap.php, before these.
+ */
 return [
     InpsydeDebugModule::class,
     HttpClientModule::class,
@@ -29,7 +35,6 @@ return [
     WcEventsModule::class,
     AssetsModule::class,
     AuthModule::class,
-    FeatureFlagsModule::class,
     ZettleLoggingModule::class,
     NoticesModule::class,
     OnboardingModule::class,

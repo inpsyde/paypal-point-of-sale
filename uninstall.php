@@ -22,7 +22,12 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
         include_once __DIR__ . '/vendor/autoload.php';
     }
 
-    $package = (require __DIR__ . '/bootstrap.php')(__DIR__ . '/zettle-pos-integration.php');
+    $package = (require __DIR__ . '/bootstrap.php')(
+        __DIR__ . '/zettle-pos-integration.php',
+        false,
+        // Also the modules whose flag is off, so they clean up too.
+        true
+    );
     assert($package instanceof Package);
 
     $container = $package->container();
