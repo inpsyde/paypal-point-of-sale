@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Inpsyde\Queue\Queue\Job;
 
 use DateTime;
+use DateTimeZone;
 use Exception;
 use Inpsyde\Queue\Db\Table;
 use Inpsyde\Queue\Exception\InvalidJobException;
@@ -89,8 +90,9 @@ class WpDbJobRepository implements JobRepository
                     ? ', '
                     : '';
 
+                $notBefore = $context->notBefore();
                 $rowSql .= $this->database->prepare(
-                    '(%s,%s,%s,%d,%s,%d)',
+                    '(%s,%s,%s,%d,%s,%d,',
                     $hash,
                     $job->type(),
                     wp_json_encode($context->args()),
@@ -98,11 +100,14 @@ class WpDbJobRepository implements JobRepository
                     $context->created()->format('Y-m-d H:i:s'),
                     $context->retryCount()
                 );
+                $rowSql .= $notBefore !== null
+                    ? $this->database->prepare('%s)', $this->utc($notBefore))
+                    : 'NULL)';
             }
         );
         $sql = "
             INSERT INTO {$this->database->prefix}{$this->queueTable->name()}
-            (`hash`,`type`, `args`, `site_id`, `created`, `retry_count`) VALUES
+            (`hash`,`type`, `args`, `site_id`, `created`, `retry_count`, `not_before`) VALUES
             " . $rowSql;
 
         $result = $this->database->query($sql);
@@ -182,7 +187,7 @@ class WpDbJobRepository implements JobRepository
             $hashes
         );
 
-        $sql = "SELECT `ID` as `id`, `type`, `args`, `site_id`, `created`, `retry_count`
+        $sql = "SELECT `ID` as `id`, `type`, `args`, `site_id`, `created`, `retry_count`, `not_before`
           FROM {$this->database->prefix}{$this->queueTable->name()}
            WHERE hash IN (" . implode(',', $sanitizedHashes) . ")";
         $result = $this->database->get_results($sql);
@@ -234,17 +239,22 @@ class WpDbJobRepository implements JobRepository
                 `args`,
                 `site_id`,
                 `created`,
-                `retry_count`
+                `retry_count`,
+                `not_before`
             FROM
                 {$this->database->prefix}{$this->queueTable->name()}
             WHERE
                 {$where}
+                AND (`not_before` IS NULL OR `not_before` <= %s)
             LIMIT 0,%d
         ";
 
+        // Jobs that aren't due yet are left out here, not skipped while walking: a batch of
+        // only delayed jobs would otherwise stop the walk before the due ones behind them.
         $result = $this->database->get_results(
             $this->database->prepare(
                 $sql,
+                gmdate('Y-m-d H:i:s'),
                 $limit
             )
         );
@@ -316,13 +326,19 @@ class WpDbJobRepository implements JobRepository
             new DateTime($row->created),
             (int) $row->site_id,
             (int) $row->retry_count,
-            (int) $row->id
+            (int) $row->id,
+            !empty($row->not_before) ? new DateTime($row->not_before, new DateTimeZone('UTC')) : null
         );
 
         return $this->jobRecordFactory->fromData(
             $row->type,
             $context
         );
+    }
+
+    private function utc(DateTime $time): string
+    {
+        return (clone $time)->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
     }
 
     /**

@@ -92,10 +92,8 @@ class PurchaseBuilder implements PurchaseBuilderInterface
 
     /**
      * Optional data: a malformed location must not fail the whole purchase.
-     *
-     * @param mixed $gpsCoordinates
      */
-    private function coordinates($gpsCoordinates): ?Coordinates
+    private function coordinates(mixed $gpsCoordinates): ?Coordinates
     {
         if (empty($gpsCoordinates) || !is_array($gpsCoordinates)) {
             return null;
@@ -178,7 +176,9 @@ class PurchaseBuilder implements PurchaseBuilderInterface
             (bool) ($data['refunded'] ?? false),
             $coordinates,
             $sourceType,
-            $published
+            $published,
+            // The dashed UUID the webhook sends; the short one also reads fine from the API.
+            (string) ($data['purchaseUUID1'] ?? $data['purchaseUUID'] ?? '') ?: null
         );
 
         return $purchase->setRefundsPurchaseUuid(

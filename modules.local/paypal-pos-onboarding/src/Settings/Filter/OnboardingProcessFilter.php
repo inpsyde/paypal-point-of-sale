@@ -81,14 +81,17 @@ class OnboardingProcessFilter implements SettingsFilter
             if (!isset($settings[$key]['custom_attributes'])) {
                 $settings[$key]['custom_attributes'] = [];
             }
-            if (in_array($key, $whitelist, true)) {
+            if (in_array($key, $whitelist, true) || (is_array($config) && $this->isVisibleAfterOnboarding($config))) {
                 continue;
             }
             $settings[$key]['zettle_hide'] = true;
 
+            // Fields kept for after onboarding may be asked for by a step's own input; the
+            // standard input stays disabled so it doesn't post a second value.
             if (
                 in_array($key, $disabled, true)
                     || in_array($this->currentState, $this->settingsResetStates, true)
+                    || !empty($config['zettle_visible_after_onboarding'])
             ) {
                 $settings[$key]['custom_attributes']['readonly'] = '';
                 $settings[$key]['custom_attributes']['disabled'] = '';
@@ -128,6 +131,15 @@ class OnboardingProcessFilter implements SettingsFilter
         }
 
         return $this->authFieldKeys;
+    }
+
+    /**
+     * Fields set `zettle_visible_after_onboarding` to stay editable once onboarding is complete.
+     */
+    private function isVisibleAfterOnboarding(array $config): bool
+    {
+        return $this->currentState === S::ONBOARDING_COMPLETED
+            && !empty($config['zettle_visible_after_onboarding']);
     }
 
     private function isSettingsReviewPage(): bool

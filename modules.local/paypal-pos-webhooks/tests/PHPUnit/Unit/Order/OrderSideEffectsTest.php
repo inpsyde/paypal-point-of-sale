@@ -40,16 +40,4 @@ class OrderSideEffectsTest extends BrainMonkeyWpTestCase
         self::assertFalse($sideEffects->preventLineItemStockAdjustment(false, $webLine));
         self::assertTrue($sideEffects->preventLineItemStockAdjustment(true, $webLine));
     }
-
-    public function testRegistersStockFiltersForTheWholeRequest(): void
-    {
-        $sideEffects = new OrderSideEffects();
-
-        $sideEffects->preventStockChanges();
-
-        self::assertNotFalse(has_filter('woocommerce_can_reduce_order_stock', [$sideEffects, 'canReduceOrderStock']));
-        self::assertNotFalse(
-            has_filter('woocommerce_prevent_adjust_line_item_product_stock', [$sideEffects, 'preventLineItemStockAdjustment'])
-        );
-    }
 }

@@ -9,6 +9,7 @@ use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Purchases\Purchases;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseFilter;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use Throwable;
@@ -23,15 +24,23 @@ class CreateOrderJob implements Job
 
     private PurchaseRefundFactory $refundFactory;
 
+    private bool $enabled;
+
+    private PurchaseFilter $filter;
+
     public function __construct(
         Purchases $purchases,
         PurchaseOrderFactory $orderFactory,
-        PurchaseRefundFactory $refundFactory
+        PurchaseRefundFactory $refundFactory,
+        bool $enabled,
+        PurchaseFilter $filter
     ) {
 
         $this->purchases = $purchases;
         $this->orderFactory = $orderFactory;
         $this->refundFactory = $refundFactory;
+        $this->enabled = $enabled;
+        $this->filter = $filter;
     }
 
     public function type(): string
@@ -50,13 +59,18 @@ class CreateOrderJob implements Job
         LoggerInterface $logger
     ): bool {
 
-        $uuid = (string) ($context->args()->purchaseUuid ?? '');
-        if ($uuid === '') {
+        $args = $context->args();
+        $uuid = (string) ($args->purchaseUuid ?? '');
+        // Also drops jobs queued before order sync was switched off.
+        if ($uuid === '' || !$this->enabled) {
             return true;
         }
 
         try {
             $purchase = $this->purchases->read($uuid);
+            if (!$this->filter->allows($purchase)) {
+                return true;
+            }
 
             if ($purchase->isRefund()) {
                 $this->refundFactory->createRefund($purchase);
@@ -72,10 +86,8 @@ class CreateOrderJob implements Job
 
             return true;
         } catch (Throwable $throwable) {
-            // Returning false lets the queue retry; any other throw would be dropped.
-            $logger->error(
-                sprintf('CreateOrderJob failed for purchase %s: %s', $uuid, $throwable->getMessage())
-            );
+            // Returning false lets the queue retry with its backoff; a throw would drop the job.
+            $logger->error(sprintf('CreateOrderJob failed for purchase %s: %s', $uuid, $throwable->getMessage()));
 
             return false;
         }

@@ -39,3 +39,5 @@ parameters:
         - '#Constant .+LocationType\:\:.+ is unused.#'
         # Real WC_Order method absent from the pinned woocommerce-stubs (v4.9.2).
         - '#Call to an undefined method WC_Order::set_order_stock_reduced\(\).#'
+        # Real WC class absent from the pinned woocommerce-stubs (v4.9.2).
+        - '#on an unknown class Automattic\\WooCommerce\\Utilities\\OrderUtil\.#'

@@ -111,6 +111,13 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         );
     }
 
+    private function stubTwentyPercentVat(): void
+    {
+        $taxes = Mockery::mock('alias:WC_Tax');
+        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
+        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+    }
+
     /**
      * @param int|null $storedOrphanId What the lookup finds once an orphan refund order was saved.
      */
@@ -175,6 +182,20 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
         expect('wc_create_refund')->never();
 
         $this->factory($this->orders(null, 7))->createRefund($this->refund());
+    }
+
+    public function testKnowsWhetherARefundIsRecorded(): void
+    {
+        self::assertTrue($this->factory($this->orders(99, 7))->isRecorded($this->refund()));
+
+        $existing = Mockery::mock('WC_Order_Refund');
+        $existing->shouldReceive('get_meta')->andReturn('refund-uuid');
+        $this->order('0.00', [$existing]);
+        self::assertTrue($this->factory($this->orders(null, 7))->isRecorded($this->refund()));
+
+        $this->order('8.40');
+        self::assertFalse($this->factory($this->orders(null, 7))->isRecorded($this->refund()));
+        self::assertFalse($this->factory($this->orders(null, null))->isRecorded($this->refund()));
     }
 
     public function testNotesRefundLargerThanWhatIsLeftInsteadOfFailing(): void
@@ -309,9 +330,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testOrphanRefundRecordsNegativeNetAndVatAtTheRefundTime(): void
     {
-        $taxes = Mockery::mock('alias:WC_Tax');
-        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
-        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        $this->stubTwentyPercentVat();
 
         $refundedAt = (new DateTime(self::REFUNDED_AT))->getTimestamp();
         $order = Mockery::mock('overload:WC_Order');
@@ -336,9 +355,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testDeletesAPartlyStoredOrphanRefundOrderAndThrows(): void
     {
-        $taxes = Mockery::mock('alias:WC_Tax');
-        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
-        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        $this->stubTwentyPercentVat();
         $order = Mockery::mock('overload:WC_Order');
         $order->shouldReceive('get_id')->andReturn(9);
         $order->shouldReceive('delete')->once()->with(true);
@@ -354,9 +371,7 @@ class PurchaseRefundFactoryTest extends BrainMonkeyWpTestCase
 
     public function testOrphanRefundOfATipGetsANegativeTipLine(): void
     {
-        $taxes = Mockery::mock('alias:WC_Tax');
-        $taxes->shouldReceive('get_tax_class_slugs')->andReturn([]);
-        $taxes->shouldReceive('find_rates')->andReturn([1 => ['rate' => '20.0000']]);
+        $this->stubTwentyPercentVat();
         $order = Mockery::mock('overload:WC_Order');
         $order->shouldReceive('get_id')->andReturn(9);
         $order->shouldReceive('save')->andReturnUsing(fn () => $this->saved('order', 9));

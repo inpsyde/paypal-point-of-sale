@@ -133,6 +133,21 @@ class PurchaseBuilderTest extends BrainMonkeyWpTestCase
         $this->builder()->buildFromArray($data);
     }
 
+    public function testKeepsTheDashedPurchaseUuid(): void
+    {
+        $data = $this->fixture('purchase-created.json');
+
+        self::assertSame($data['purchaseUUID1'], $this->builder()->buildFromArray($data)->uuid1());
+    }
+
+    public function testFallsBackToTheShortUuidWithoutADashedOne(): void
+    {
+        $data = $this->fixture('purchase-created.json');
+        unset($data['purchaseUUID1']);
+
+        self::assertSame($data['purchaseUUID'], $this->builder()->buildFromArray($data)->uuid1());
+    }
+
     public function testIgnoresUnknownSource(): void
     {
         $data = $this->fixture('purchase-created.json');

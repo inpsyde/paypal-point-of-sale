@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\PhpSdk\API\Purchases;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Psr\Http\Message\UriInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Listener\ApiRestListener;
 use Syde\PayPal\PointOfSale\PhpSdk\Builder\BuilderInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\Purchase;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseHistory;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\BuilderException;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\ZettleRestException;
 use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
@@ -16,8 +19,6 @@ use Syde\PayPal\PointOfSale\PhpSdk\RestClientInterface;
  * Read-only client for the Zettle Purchase API.
  *
  * @see https://developer.zettle.com/docs/api/purchase
- *
- * @package Syde\PayPal\PointOfSale\PhpSdk\API\Purchases
  */
 class Purchases
 {
@@ -32,12 +33,6 @@ class Purchases
      */
     private array $listeners;
 
-    /**
-     * @param UriInterface $uri
-     * @param RestClientInterface $restClient
-     * @param BuilderInterface $builder
-     * @param callable ...$listeners
-     */
     public function __construct(
         UriInterface $uri,
         RestClientInterface $restClient,
@@ -52,11 +47,47 @@ class Purchases
     }
 
     /**
-     * @param string $uuid
-     * @param bool $withListeners
+     * Fetches a page of purchase history, oldest first.
      *
-     * @return Purchase
+     * @param string|null $lastPurchaseHash Cursor from a previous page's lastPurchaseHash.
+     * @param int $limit Page size, 1-1000.
+     * @param DateTimeInterface|null $startDate Only purchases made at or after this time.
      *
+     * @throws ZettleRestException
+     */
+    public function list(
+        ?string $lastPurchaseHash = null,
+        int $limit = 100,
+        ?DateTimeInterface $startDate = null
+    ): PurchaseHistory {
+
+        $query = ['limit' => (string) $limit];
+        if ($lastPurchaseHash !== null && $lastPurchaseHash !== '') {
+            $query['lastPurchaseHash'] = $lastPurchaseHash;
+        }
+        if ($startDate !== null) {
+            $query['startDate'] = (new DateTimeImmutable('@' . $startDate->getTimestamp()))->format('Y-m-d\TH:i:s');
+        }
+
+        $url = (string) $this->uri
+            ->withPath('/purchases/v2')
+            ->withQuery(http_build_query($query));
+        $result = $this->restClient->get($url, []);
+
+        try {
+            return $this->builder->build(PurchaseHistory::class, $result);
+        } catch (BuilderException $exception) {
+            throw new ZettleRestException(
+                'Could not read purchase history',
+                0,
+                $result, // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+                [],
+                $exception // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+            );
+        }
+    }
+
+    /**
      * @throws ZettleRestException
      */
     public function read(string $uuid, bool $withListeners = true): Purchase

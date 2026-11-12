@@ -8,10 +8,9 @@ use RuntimeException;
 use WC_Data;
 
 /**
- * WooCommerce logs storage failures, and exceptions other plugins throw from save hooks, instead
- * of throwing them. A save only counts once it got through to its last hook and the record can be
- * found; otherwise the partly saved record is deleted, or the caller's retry would create a second
- * one next to it.
+ * WC's save() swallows storage errors and exceptions from save hooks. A save counts once its last
+ * hook ran and the record is found; otherwise the partial record is deleted so a retry can't
+ * duplicate it.
  */
 final class ConfirmedSave
 {
