@@ -9,6 +9,7 @@ use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionSta
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\FeatureFlags;
+use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Project\Project;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\SiteId;
 use Syde\Vendor\Zettle\Inpsyde\Wp\HttpClient\Client as WpHttpClient;
 use Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory;
@@ -29,7 +30,7 @@ final class Flags
      * option names. The API token selects the Unleash project and environment.
      */
     public const PROJECT = 'paypal-pos';
-    private function __construct(private readonly Settings $settings, private readonly string $siteId, private readonly ?UnleashProject $project, private readonly ?string $configurationError)
+    private function __construct(private readonly Settings $settings, private readonly string $siteId, private readonly ?Project $project, private readonly ?string $configurationError)
     {
     }
     /**
@@ -81,8 +82,10 @@ final class Flags
             return new self($settings, $siteId, null, 'The URL and the token must be set together.');
         }
         try {
-            $project = $builder->withAppUrl($settings->url)->withApiToken($settings->token)->build();
-            FeatureFlags::registerProject($project);
+            FeatureFlags::registerProject($builder->withAppUrl($settings->url)->withApiToken($settings->token)->build());
+            // The registered-project filter may have replaced it, so the status describes the
+            // project that answers the checks.
+            $project = FeatureFlags::hasProject(self::PROJECT) ? FeatureFlags::getProject(self::PROJECT) : null;
         } catch (\Throwable $error) {
             return new self($settings, $siteId, null, $error->getMessage());
         }
@@ -98,7 +101,7 @@ final class Flags
      */
     public function connectionStatus(): ConnectionStatus
     {
-        return $this->project?->connectionStatus() ?? new ConnectionStatus(ConnectionSource::Defaults);
+        return $this->project instanceof UnleashProject ? $this->project->connectionStatus() : new ConnectionStatus(ConnectionSource::Defaults);
     }
     /**
      * Whether each flag of the project is on for this site. For support. Fetches the flags if
