@@ -48,10 +48,11 @@ final class CoordinatesBuilder implements CoordinatesBuilderInterface
      */
     private function build(array $data): Coordinates
     {
+        // Factory is string-typed under strict_types; Zettle sends JSON numbers.
         return $this->coordinatesFactory->create(
-            $data['latitude'],
-            $data['longitude'],
-            $data['accuracyMeters']
+            (string) $data['latitude'],
+            (string) $data['longitude'],
+            (string) ($data['accuracyMeters'] ?? '')
         );
     }
 }

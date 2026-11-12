@@ -9,6 +9,8 @@ use Inpsyde\Modularity\Module\ExecutableModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Endpoint;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\Verifier;
 use WP_CLI;
@@ -38,6 +40,11 @@ class WebhookModule implements ServiceModule, ExecutableModule
             }
         );
 
+        $sideEffects = $container->get('paypal-pos.webhook.order-side-effects');
+        assert($sideEffects instanceof OrderSideEffects);
+        $sideEffects->suppressEmails();
+        $sideEffects->preventStockChanges();
+
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
 
@@ -45,6 +52,16 @@ class WebhookModule implements ServiceModule, ExecutableModule
             'paypal-point-of-sale.activate',
             static function () use ($bootstrap) {
                 $bootstrap->activate();
+            }
+        );
+        // On update, subscribe existing installs to newly added events. Registration replaces the
+        // remote webhook, so it only runs when the stored subscription is missing an event.
+        add_action(
+            'paypal-point-of-sale.migrate',
+            function () use ($bootstrap, $container) {
+                if ($this->missingWebhookEvents($container) !== []) {
+                    $bootstrap->activate();
+                }
             }
         );
         add_action(
@@ -55,6 +72,28 @@ class WebhookModule implements ServiceModule, ExecutableModule
         );
 
         return true;
+    }
+
+    /**
+     * @return string[] Configured events the stored webhook subscription doesn't cover.
+     */
+    private function missingWebhookEvents(ContainerInterface $container): array
+    {
+        // Read the option directly: the storage resolves the listener URL through rest_url(),
+        // which throws this early when pretty permalinks are on.
+        $options = $container->get('paypal-pos.webhook.storage.container');
+        assert($options instanceof WritableContainerInterface);
+        $key = (string) $container->get('paypal-pos.webhook.storage.option');
+        // Nothing stored yet: onboarding registers the webhook with the configured events.
+        if (!$options->has($key)) {
+            return [];
+        }
+
+        $stored = (array) $options->get($key);
+        $subscribed = array_map('strval', (array) ($stored['eventNames'] ?? []));
+        $configured = (array) $container->get('paypal-pos.webhook.config.events');
+
+        return array_values(array_diff($configured, $subscribed));
     }
 
     private function registerCliCommand(ContainerInterface $container): void

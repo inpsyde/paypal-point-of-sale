@@ -1,0 +1,44 @@
+{
+  "source": "POS",
+  "purchaseUUID": "WJwt5j7kEeuecKKsB1sX_Q",
+  "purchaseUUID1": "589c2de6-3ee4-11eb-9e70-a2ac075b17fd",
+  "amount": 70000,
+  "vatAmount": 14000,
+  "country": "SE",
+  "currency": "SEK",
+  "timestamp": "2020-12-15T14:46:43.592+0000",
+  "gpsCoordinates": { "longitude": 19.80452501310729, "latitude": 66.609375, "accuracyMeters": 165 },
+  "purchaseNumber": 1366,
+  "globalPurchaseNumber": 1366,
+  "userId": 22222,
+  "userDisplayName": "Sara Johansson",
+  "organizationId": 11111,
+  "receiptCopyAllowed": true,
+  "refund": false,
+  "refunded": false,
+  "products": [
+    {
+      "quantity": "1",
+      "name": "Haircut",
+      "unitPrice": 70000,
+      "productUuid": "2f2a8d60-9c76-11e5-8a3b-82916dc77adc",
+      "variantUuid": "234ee5f0-b188-11e5-aa17-721c907d3875",
+      "variantName": "1 hour",
+      "comment": "",
+      "discount": { "percentage": 10 },
+      "discountValue": 1000
+    }
+  ],
+  "payments": [
+    {
+      "uuid": "592b82f2-3ee4-11eb-9f71-a3ad065a16fc",
+      "type": "IZETTLE_CARD",
+      "amount": 70000,
+      "attributes": { "cardType": "VISA", "maskedPan": "************1234" }
+    }
+  ],
+  "vatAmounts": [
+    { "vatPercentage": 25.0, "vatAmount": 14000, "totalAmount": 70000 }
+  ],
+  "created": "2020-12-15T14:46:43.592+0000"
+}

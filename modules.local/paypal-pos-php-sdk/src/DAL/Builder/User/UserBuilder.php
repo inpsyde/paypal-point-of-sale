@@ -50,9 +50,10 @@ class UserBuilder implements UserBuilderInterface
      */
     private function build(array $data): User
     {
+        // Factory is string-typed under strict_types; Zettle sends userId as a number.
         return $this->userFactory->create(
-            $data['userId'],
-            $data['userDisplayName']
+            (string) ($data['userId'] ?? ''),
+            (string) ($data['userDisplayName'] ?? '')
         );
     }
 }

@@ -16,9 +16,14 @@ use Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryTrackingStartedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryTrackingStoppedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\LogHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\ProductDeletedHandler;
+use Syde\PayPal\PointOfSale\Webhooks\Handler\PurchaseCreatedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
+use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderSideEffects;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\SignatureVerifier;
 use Syde\PayPal\PointOfSale\Webhooks\Rest\WebhookListenerEndpoint;
 use Symfony\Component\Uid\Uuid;
@@ -38,6 +43,12 @@ return [
         return new WebhookRegistrationJob(
             $container->get('paypal-pos.webhook.register'),
             $container->get('paypal-pos.webhook.can-register')
+        );
+    },
+    $job(CreateOrderJob::TYPE) => static function (C $container): Job {
+        return new CreateOrderJob(
+            $container->get('paypal-pos.sdk.api.purchases'),
+            $container->get('paypal-pos.webhook.order-factory')
         );
     },
     'paypal-pos.webhook.config' => static function (C $container): array {
@@ -63,6 +74,7 @@ return [
             'InventoryBalanceChanged',
             'InventoryTrackingStarted',
             'InventoryTrackingStopped',
+            'PurchaseCreated',
         ];
     },
     'paypal-pos.webhook.listener.namespace' => static function (): string {
@@ -108,9 +120,13 @@ return [
     'paypal-pos.webhook.registration' => static function (C $container): WebhookRegistration {
         $storage = $container->get('paypal-pos.webhook.storage');
         assert($storage instanceof WebhookStorageInterface);
+        // Keep the stored webhook, but subscribe it to the events this version handles, so
+        // re-registering after an update adds new events instead of re-sending the old list.
+        $webhook = $storage->fetch();
+        $webhook->changeEventNames($container->get('paypal-pos.webhook.config.events'));
 
         return new WebhookRegistration(
-            $storage->fetch(),
+            $webhook,
             $container->get('paypal-pos.sdk.api.webhooks'),
             $container->get('paypal-pos.webhook.deletion'),
             $container->get('paypal-pos.webhook.logger')
@@ -168,12 +184,30 @@ return [
                 $container->get('paypal-pos.sdk.integration-id')
             );
         },
+    'paypal-pos.webhook.order-factory' => static function (C $container): PurchaseOrderFactory {
+        return new PurchaseOrderFactory(
+            $container->get('paypal-pos.sdk.id-map.variant'),
+            new PaymentLabels(),
+            $container->get('paypal-pos.webhook.logger')
+        );
+    },
+    'paypal-pos.webhook.order-side-effects' => static function (): OrderSideEffects {
+        return new OrderSideEffects();
+    },
+    'paypal-pos.webhook.handlers.purchase-created' =>
+        static function (C $container): WebhookHandler {
+            return new PurchaseCreatedHandler(
+                $container->get('inpsyde.queue.enqueue-job'),
+                $container->get('paypal-pos.webhook.logger')
+            );
+        },
     'paypal-pos.webhook.handlers' => static function (C $container): array {
         return [
             new LogHandler($container->get('paypal-pos.webhook.logger')),
             new InventoryTrackingStartedHandler(),
             new InventoryTrackingStoppedHandler(),
             $container->get('paypal-pos.webhook.handlers.inventory-balance-changed'),
+            $container->get('paypal-pos.webhook.handlers.purchase-created'),
         ];
     },
     'paypal-pos.webhook.register' => static function (C $container): callable {
