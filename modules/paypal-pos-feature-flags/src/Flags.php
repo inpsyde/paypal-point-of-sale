@@ -3,128 +3,158 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\FeatureFlags;
 
+use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\RegistrationMode;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionSource;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionStatus;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\FeatureFlags;
-use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Inpsyde\FeatureFlags\SiteId;
+use Syde\Vendor\Zettle\Inpsyde\Wp\HttpClient\Client as WpHttpClient;
+use Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory;
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestFactoryInterface;
 /**
- * The PayPal POS feature flags. Checks go through the project's filter, so snippets and
- * support can override a flag with a later callback.
+ * The PayPal POS feature flags. The project is registered before the modules are loaded, so
+ * flags can decide which modules are loaded, and checks work from any code, including other
+ * modules' service definitions.
  *
- * The project is registered with the library on the first check, so requests that check no
- * flag don't pay for it.
+ * Checks go through the project's filter, so snippets and support can override a flag with
+ * a callback at a priority above 10.
  */
 final class Flags
 {
-    private bool $connected = \false;
-    private ?UnleashProject $registered = null;
-    private ?string $configurationError = null;
     /**
-     * @param UnleashProjectBuilder $builder The request settings and the context. The URL and
-     *     token are set here, so they live in one place.
+     * Name of the project in the flag filters (syde.feature-flags.paypal-pos) and in the
+     * option names. The API token selects the Unleash project and environment.
      */
-    public function __construct(private readonly string $project, private readonly string $url, private readonly string $token, private readonly UnleashProjectBuilder $builder, private readonly LoggerInterface $logger)
+    public const PROJECT = 'paypal-pos';
+    private function __construct(private readonly Settings $settings, private readonly string $siteId, private readonly ?UnleashProject $project, private readonly ?string $configurationError)
     {
+    }
+    /**
+     * Connects the plugin to Unleash, with the settings of the site. Never throws: a
+     * configuration error must not take the shop down. Flag checks then return their
+     * default, and the error is kept for the log and the status report.
+     */
+    public static function boot(string $pluginVersion): self
+    {
+        $settings = Settings::fromEnvironment();
+        $siteId = SiteId::forCurrentSite();
+        try {
+            $factory = new Psr17Factory();
+            $builder = self::builder(
+                $siteId,
+                $pluginVersion,
+                $settings->qaSite,
+                // WordPress' HTTP API, so proxy settings and the http_* filters apply.
+                new WpHttpClient(new \WP_Http(), $factory, $factory, $factory),
+                $factory
+            );
+        } catch (\Throwable $error) {
+            return new self($settings, $siteId, null, $error->getMessage());
+        }
+        return self::connect($builder, $settings, $siteId);
+    }
+    /**
+     * The request settings and the context, without the connection. They keep each site
+     * within its share of the Unleash request budget.
+     */
+    public static function builder(string $siteId, string $pluginVersion, bool $qaSite, ClientInterface $client, RequestFactoryInterface $requestFactory): UnleashProjectBuilder
+    {
+        // Development builds keep the placeholder in the plugin header.
+        if ($pluginVersion === '' || str_contains($pluginVersion, '{VERSION}')) {
+            $pluginVersion = '0.0.0-dev';
+        }
+        return UnleashProject::builder(self::PROJECT)->withHttpClient($client, $requestFactory)->withFreshTtl(12 * \HOUR_IN_SECONDS)->withTtlJitter(0.2)->withStaleTtl(7 * \DAY_IN_SECONDS)->withMetrics(\true, \DAY_IN_SECONDS)->withRegistration(RegistrationMode::Off)->withTargetingId($siteId)->withPackageVersion($pluginVersion)->withProperties($qaSite ? ['qaSite' => 'true'] : []);
+    }
+    /**
+     * Registers the project with the library. Without a connection, or with an invalid one,
+     * no project is registered and checks return their default.
+     */
+    public static function connect(UnleashProjectBuilder $builder, Settings $settings, string $siteId): self
+    {
+        if ($settings->url === '' && $settings->token === '') {
+            return new self($settings, $siteId, null, null);
+        }
+        if ($settings->url === '' || $settings->token === '') {
+            return new self($settings, $siteId, null, 'The URL and the token must be set together.');
+        }
+        try {
+            $project = $builder->withAppUrl($settings->url)->withApiToken($settings->token)->build();
+            FeatureFlags::registerProject($project);
+        } catch (\Throwable $error) {
+            return new self($settings, $siteId, null, $error->getMessage());
+        }
+        return new self($settings, $siteId, $project, null);
     }
     public function isOn(string $flag, bool $default = \false): bool
     {
-        $this->connect();
-        return (bool) apply_filters(FeatureFlags::HOOK_BASE . ".{$this->project}", $default, $flag);
+        return (bool) apply_filters(FeatureFlags::HOOK_BASE . '.' . self::PROJECT, $default, $flag);
+    }
+    /**
+     * Which modules to load: a module listed as class name => flag is loaded only while the
+     * flag is on, the others always.
+     *
+     * @param array<int|class-string, class-string|string> $modules
+     * @param bool $all Loads every module regardless of its flag, e.g. so uninstalling cleans
+     *     up after modules that are off.
+     * @return list<class-string>
+     */
+    public function modules(array $modules, bool $all = \false): array
+    {
+        $classNames = [];
+        foreach ($modules as $key => $value) {
+            if (is_int($key)) {
+                $classNames[] = $value;
+                continue;
+            }
+            if ($all || $this->isOn($value)) {
+                $classNames[] = $key;
+            }
+        }
+        /** @var list<class-string> */
+        return $classNames;
     }
     /**
      * Whether flags come from Unleash, a stale copy or the defaults, and the last error. For
-     * support. Fetches the flags if the cached copy is due, like a check would.
+     * support.
      */
     public function connectionStatus(): ConnectionStatus
     {
-        $this->connect();
-        return $this->registered?->connectionStatus() ?? new ConnectionStatus(ConnectionSource::Defaults);
+        return $this->project?->connectionStatus() ?? new ConnectionStatus(ConnectionSource::Defaults);
     }
     /**
-     * Whether each flag of the project is on for this site. For support.
+     * Whether each flag of the project is on for this site. For support. Fetches the flags if
+     * the cached copy is due, like a check would.
      *
      * @return array<string, bool>
      */
     public function states(): array
     {
-        $this->connect();
         $states = [];
-        foreach ($this->registered?->getFeatures() ?? [] as $feature) {
+        foreach ($this->project?->getFeatures() ?? [] as $feature) {
             // Through the filters, so the state includes overrides by snippets.
             $states[$feature->getName()] = $this->isOn($feature->getName());
         }
         return $states;
+    }
+    public function settings(): Settings
+    {
+        return $this->settings;
+    }
+    /**
+     * Identifies the site in Unleash, without being traceable to it.
+     */
+    public function siteId(): string
+    {
+        return $this->siteId;
     }
     /**
      * Why the project isn't connected, if the connection settings are invalid.
      */
     public function configurationError(): ?string
     {
-        $this->connect();
         return $this->configurationError;
-    }
-    /**
-     * Connects on the first check through the filters, for code that doesn't use isOn().
-     */
-    public function initialize(): void
-    {
-        $hookBase = FeatureFlags::HOOK_BASE;
-        // Priority 0: the callbacks the library adds at 10 still run for the same check.
-        add_filter("{$hookBase}.{$this->project}", function (mixed $value): mixed {
-            $this->connect();
-            return $value;
-        }, 0);
-        add_filter($hookBase, function (mixed $value, mixed $flag = null, mixed $project = null): mixed {
-            if ($project === $this->project) {
-                $this->connect();
-            }
-            return $value;
-        }, 0, 3);
-    }
-    /**
-     * Registers the project with the library, once per request. Without a connection, or with
-     * an invalid one, no project is registered and checks return their default. A
-     * configuration error must not take the shop down.
-     */
-    private function connect(): void
-    {
-        if ($this->connected) {
-            return;
-        }
-        $this->connected = \true;
-        if ($this->url === '' && $this->token === '') {
-            return;
-        }
-        if ($this->url === '' || $this->token === '') {
-            // The built-in token must never go to an overridden URL, and vice versa.
-            $this->fail('The URL and the token must be set together.');
-            return;
-        }
-        try {
-            $this->registered = $this->builder->withAppUrl($this->url)->withApiToken($this->token)->build();
-        } catch (\InvalidArgumentException $exception) {
-            $this->fail($exception->getMessage());
-            return;
-        }
-        FeatureFlags::registerProject($this->registered);
-    }
-    private function fail(string $message): void
-    {
-        $this->configurationError = $message;
-        $this->logOncePerDay($message);
-    }
-    /**
-     * A configuration error persists on every request until it is fixed.
-     */
-    private function logOncePerDay(string $message): void
-    {
-        $key = 'paypal_pos_feature_flags_error_' . md5($message);
-        if (get_transient($key) !== \false) {
-            return;
-        }
-        set_transient($key, 1, \DAY_IN_SECONDS);
-        $this->logger->error('Feature flags are not available: {message}', ['message' => $message]);
     }
 }
