@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Syde\PayPal\PointOfSale\Tests\Unit\Container;
 
-use Mockery;
 use Syde\PayPal\PointOfSale\Container\WpOptionContainer;
 use Syde\PayPal\PointOfSale\Test\MonkeryTestCase;
 
@@ -30,7 +29,14 @@ class WpOptionContainerTest extends MonkeryTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        when('get_option')->alias(fn (string $name, $default = false) => $this->cached[$name] ?? $default);
+        when('get_option')->alias(function (string $name, $default = false) {
+            // Like WP: the cached copy, or on a cache miss the table, which is then cached.
+            if (!array_key_exists($name, $this->cached) && array_key_exists($name, $this->stored)) {
+                $this->cached[$name] = $this->stored[$name];
+            }
+
+            return $this->cached[$name] ?? $default;
+        });
         when('update_option')->alias(function (string $name, $value): bool {
             // Like WP: no write when the value equals the cached copy, or the table on a cache miss.
             $old = array_key_exists($name, $this->cached) ? $this->cached[$name] : ($this->stored[$name] ?? null);
@@ -53,15 +59,6 @@ class WpOptionContainerTest extends MonkeryTestCase
 
             return true;
         });
-        when('maybe_unserialize')->alias('unserialize');
-
-        global $wpdb;
-        $wpdb = Mockery::mock('wpdb');
-        $wpdb->options = 'wp_options';
-        $wpdb->shouldReceive('prepare')->andReturnUsing(static fn (string $sql, string $name): string => $name);
-        $wpdb->shouldReceive('get_var')->andReturnUsing(
-            fn (string $name): ?string => isset($this->stored[$name]) ? serialize($this->stored[$name]) : null
-        );
     }
 
     public function testWritesKeepKeysSavedSinceTheContainerWasCreated(): void
