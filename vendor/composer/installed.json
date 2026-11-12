@@ -949,11 +949,13 @@
             "dist": {
                 "type": "path",
                 "url": ".\/modules.local\/paypal-pos-feature-flags",
-                "reference": "aa9f9053ba69115db300af7829adf4543e7d2e0b"
+                "reference": "98dbf35e80988ac1deef9a5e317eae4074975fce"
             },
             "require": {
                 "inpsyde\/feature-flags": "^2.1",
                 "inpsyde\/modularity": "^1.7",
+                "inpsyde\/psr-18-wp-http-client": "^0.1",
+                "nyholm\/psr7": "^1.2",
                 "php": "^8.2",
                 "psr\/container": "^1.1 || ^2.0",
                 "psr\/http-client": "^1.0",

@@ -13,6 +13,8 @@
         "php": "^8.2",
         "inpsyde\/feature-flags": "^2.1",
         "inpsyde\/modularity": "^1.7",
+        "inpsyde\/psr-18-wp-http-client": "^0.1",
+        "nyholm\/psr7": "^1.2",
         "psr\/container": "^1.1 || ^2.0",
         "psr\/http-client": "^1.0",
         "psr\/http-factory": "^1.0",

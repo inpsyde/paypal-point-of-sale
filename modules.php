@@ -10,7 +10,6 @@ use Syde\Vendor\Zettle\Inpsyde\WcEvents\WcEventsModule;
 use Syde\Vendor\Zettle\Inpsyde\WcStatusReport\WcStatusReportModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Assets\AssetsModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\AuthModule;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\FeatureFlags\FeatureFlagsModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Logging\ZettleLoggingModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Notices\NoticesModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingModule;
@@ -22,4 +21,11 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Queue\ZettleQueueModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Settings\SettingsModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Sync\SyncModule;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\WebhookModule;
-return [InpsydeDebugModule::class, HttpClientModule::class, QueueModule::class, StateMachineModule::class, WcEventsModule::class, AssetsModule::class, AuthModule::class, FeatureFlagsModule::class, ZettleLoggingModule::class, NoticesModule::class, OnboardingModule::class, PhpSdkModule::class, ProductDebugModule::class, ProductSettingsModule::class, ZettleQueueModule::class, SettingsModule::class, SyncModule::class, WebhookModule::class, WcStatusReportModule::class, PluginModule::class];
+/*
+ * The modules in load order. A module listed as `ModuleClass::class => 'flag-name'` is loaded
+ * only while the flag is on (see "Feature flags" in the README). Nothing else may depend on
+ * its services, since they don't exist while the flag is off.
+ *
+ * The feature flags module is added by bootstrap.php, before these.
+ */
+return [InpsydeDebugModule::class, HttpClientModule::class, QueueModule::class, StateMachineModule::class, WcEventsModule::class, AssetsModule::class, AuthModule::class, ZettleLoggingModule::class, NoticesModule::class, OnboardingModule::class, PhpSdkModule::class, ProductDebugModule::class, ProductSettingsModule::class, ZettleQueueModule::class, SettingsModule::class, SyncModule::class, WebhookModule::class, WcStatusReportModule::class, PluginModule::class];

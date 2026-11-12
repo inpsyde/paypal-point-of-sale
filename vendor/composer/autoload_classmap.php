@@ -614,6 +614,7 @@ return array(
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\DeprecatedHooks' => $baseDir . '/src/DeprecatedHooks.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\FeatureFlagsModule' => $baseDir . '/modules/paypal-pos-feature-flags/src/FeatureFlagsModule.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Flags' => $baseDir . '/modules/paypal-pos-feature-flags/src/Flags.php',
+    'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Settings' => $baseDir . '/modules/paypal-pos-feature-flags/src/Settings.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloader' => $baseDir . '/src/Http/PageReloader.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloaderInterface' => $baseDir . '/src/Http/PageReloaderInterface.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\CompoundLogger' => $baseDir . '/modules/paypal-pos-logging/src/Logger/CompoundLogger.php',
