@@ -39,30 +39,20 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
     {
         $this->reload();
         $this->options[$key] = $value;
-        $this->save();
+        update_option($this->optionKey, $this->options);
     }
     public function unset(string $key): void
     {
         $this->reload();
         unset($this->options[$key]);
-        $this->save();
+        update_option($this->optionKey, $this->options);
     }
     /**
-     * Writes save the whole array, so they start from the table, not get_option()'s per-request
-     * cache, or keys saved meanwhile by another request would be reverted.
+     * Writes save the whole array, so they start from the stored option, or keys saved by another
+     * request in the meantime would be reverted. Dropping the cached copy makes get_option() read
+     * the table, and update_option() compare against it.
      */
     private function reload(): void
-    {
-        global $wpdb;
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- the cached copy is what must be bypassed.
-        $stored = $wpdb->get_var($wpdb->prepare("SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1", $this->optionKey));
-        $this->options = $stored === null ? [] : (array) maybe_unserialize($stored);
-    }
-    /**
-     * update_option() skips a value equal to its cached copy, which can be stale; dropping the
-     * cache makes it compare against the table.
-     */
-    private function save(): void
     {
         wp_cache_delete($this->optionKey, 'options');
         $alloptions = wp_load_alloptions();
@@ -70,6 +60,6 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
             unset($alloptions[$this->optionKey]);
             wp_cache_set('alloptions', $alloptions, 'options');
         }
-        update_option($this->optionKey, $this->options);
+        $this->options = (array) get_option($this->optionKey, []);
     }
 }
