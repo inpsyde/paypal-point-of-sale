@@ -32,6 +32,12 @@ return [
     ): LoggerInterface {
         return $container->get('paypal-pos.logger')->addLogger($previous);
     },
+    'paypal-pos.order-sync.logger' => static function (
+        LoggerInterface $previous,
+        C $container
+    ): LoggerInterface {
+        return $container->get('paypal-pos.logger')->addLogger($previous);
+    },
     /**
      * Wire up the Zettle Settings module to the Auth module
      * by passing the SettingsContainer into the CredentialsContainer
