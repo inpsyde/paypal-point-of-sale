@@ -3,6 +3,11 @@ name: Testing (sync)
 on:
   push:
 
+# Runs share one test account, so they must not overlap.
+concurrency:
+  group: testing-sync
+  cancel-in-progress: false
+
 jobs:
   test:
     runs-on: ubuntu-latest
