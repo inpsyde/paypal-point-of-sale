@@ -187,32 +187,6 @@ class FlagsTest extends TestCase
         self::assertSame('Broken filter', $this->flags(self::URL, 'token')->configurationError());
     }
 
-    public function testModulesWithoutFlagAreAlwaysLoaded(): void
-    {
-        self::assertSame(['A', 'B'], $this->flags('', '')->modules(['A', 'B']));
-    }
-
-    public function testAGatedModuleIsLoadedWhileItsFlagIsOn(): void
-    {
-        Filters\expectApplied('syde.feature-flags.paypal-pos')
-            ->andReturnUsing(static fn (bool $default, string $flag): bool => $flag === 'b-flag');
-
-        self::assertSame(
-            ['A', 'B'],
-            $this->flags('', '')->modules(['A', 'B' => 'b-flag', 'C' => 'c-flag'])
-        );
-    }
-
-    public function testAllModulesCanBeLoadedRegardlessOfTheirFlag(): void
-    {
-        Filters\expectApplied('syde.feature-flags.paypal-pos')->never();
-
-        self::assertSame(
-            ['A', 'B', 'C'],
-            $this->flags('', '')->modules(['A', 'B' => 'b-flag', 'C' => 'c-flag'], true)
-        );
-    }
-
     private function builder(string $version = '3.1.0', bool $qaSite = false): UnleashProjectBuilder
     {
         return Flags::builder(

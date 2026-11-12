@@ -16,8 +16,8 @@ use Psr\Http\Message\RequestFactoryInterface;
 
 /**
  * The PayPal POS feature flags. The project is registered before the modules are loaded, so
- * flags can decide which modules are loaded, and checks work from any code, including other
- * modules' service definitions.
+ * flags can decide whether a module is active (see FlaggedModule), and checks work from any
+ * code, including other modules' service definitions.
  *
  * Checks go through the project's filter, so snippets and support can override a flag with
  * a callback at a priority above 10.
@@ -128,32 +128,6 @@ final class Flags
             $default,
             $flag
         );
-    }
-
-    /**
-     * Which modules to load: a module listed as class name => flag is loaded only while the
-     * flag is on, the others always.
-     *
-     * @param array<int|class-string, class-string|string> $modules
-     * @param bool $all Loads every module regardless of its flag, e.g. so uninstalling cleans
-     *     up after modules that are off.
-     * @return list<class-string>
-     */
-    public function modules(array $modules, bool $all = false): array
-    {
-        $classNames = [];
-        foreach ($modules as $key => $value) {
-            if (is_int($key)) {
-                $classNames[] = $value;
-                continue;
-            }
-            if ($all || $this->isOn($value)) {
-                $classNames[] = $key;
-            }
-        }
-
-        /** @var list<class-string> */
-        return $classNames;
     }
 
     public function settings(): Settings

@@ -86,7 +86,7 @@ to execute it only in a single module (after `cd` to its directory inside `modul
 
 Features can be gated behind flags in [Unleash](https://www.getunleash.io/), through
 [`inpsyde/feature-flags`](https://github.com/inpsyde/feature-flags). `bootstrap.php` connects the plugin to the
-PayPal POS project in Unleash before it loads the modules, so a flag can decide whether a module is loaded at all.
+PayPal POS project in Unleash before it loads the modules, so a flag can decide whether a module is active at all.
 Flags are evaluated on the site; Unleash only receives the requests for the flag configuration, daily usage counts and
 the project name as instance ID.
 
@@ -108,19 +108,22 @@ cached. Choose the default that is safe for merchants. Snippets and support can 
 Unleash. An override that should decide which modules are loaded must be added before `plugins_loaded`, e.g. in a
 must-use plugin.
 
-To load a whole module only while a flag is on, list it with its flag in `modules.php`:
+To make a whole module active only while a flag is on, wrap it in a `FlaggedModule` in `modules.php`:
 
 ```php
-return [
+return static fn (Flags $flags): array => [
     // ...
-    OrderSyncModule::class => 'order-sync',
+    new FlaggedModule($flags, 'order-sync', new OrderSyncModule()),
 ];
 ```
 
-Nothing else may depend on the services of a gated module, since they don't exist while the flag is off. When the flag
+While the flag is off, the module adds no services, factories or extensions and its `run()` doesn't run, so nothing
+else may depend on its services. Modularity still lists it as added and executed under the module's ID. When the flag
 turns off, the module's hooks are gone from the next request on: queue jobs it scheduled fail as unknown job types, and
-webhook events only it handles are ignored. Its deactivation hooks run only while the flag is on. Uninstalling loads
-every module regardless of its flag, so all modules clean up.
+webhook events only it handles are ignored. Its deactivation hooks run only while the flag is on. Uninstalling
+doesn't activate it either, so its options in the clean-up lists (`paypal-pos.onboarding.resettable.*`) stay behind on
+sites where the flag was on and later turned off. Activating it would run code that may be off for a reason, and an
+error there would stop the clean-up of every module.
 
 Flags are evaluated against a context that describes the site, not the visitor:
 
