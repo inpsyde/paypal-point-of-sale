@@ -6,6 +6,7 @@ namespace Inpsyde\OneStock\UnitTests\Queue;
 use DateTime;
 use DateTimeZone;
 use Inpsyde\Queue\Db\Table;
+use Inpsyde\Queue\Exception\InvalidJobException;
 use Inpsyde\Queue\Queue\Job\Context;
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
@@ -125,6 +126,47 @@ class WpDbJobRepositoryTest extends BrainMonkeyWpTestCase
         (new WpDbJobRepository($wpdb, $table, $recordFactory, new NullLogger()))->fetch(10);
 
         $this->assertSame([strtotime('2026-11-08 10:00:00 UTC'), null], $notBefore);
+    }
+
+    public function testFetchRemovesJobsOfUnknownTypesAndReturnsTheOthers(): void
+    {
+        $wpdb = Mockery::mock(wpdb::class);
+        $wpdb->prefix = 'wp_';
+        $wpdb->shouldReceive('prepare')->andReturnUsing(
+            static fn (string $template, ...$args): string => vsprintf(str_replace('%d', '%s', $template), $args)
+        );
+        $wpdb->shouldReceive('get_results')->once()->andReturn([
+            $this->mockRow(['id' => 1, 'type' => 'create-order']),
+            $this->mockRow(['id' => 2, 'type' => 'sync-product']),
+        ]);
+        $deleted = [];
+        $wpdb->shouldReceive('query')->andReturnUsing(static function (string $sql) use (&$deleted): int {
+            $deleted[] = $sql;
+
+            return 1;
+        });
+        $table = Mockery::mock(Table::class);
+        $table->shouldReceive('name')->andReturn('table');
+        $record = Mockery::mock(JobRecord::class);
+        $recordFactory = Mockery::mock(JobRecordFactoryInterface::class);
+        $recordFactory->shouldReceive('fromData')->andReturnUsing(
+            static function (string $type) use ($record): JobRecord {
+                if ($type === 'create-order') {
+                    throw new InvalidJobException("Job type '{$type}' could not be found");
+                }
+
+                return $record;
+            }
+        );
+        $logger = Mockery::mock(LoggerInterface::class);
+        $logger->shouldReceive('debug');
+        $logger->shouldReceive('warning')->once()->with(Mockery::pattern('/job 1 .*"create-order"/'));
+
+        $records = (new WpDbJobRepository($wpdb, $table, $recordFactory, $logger))->fetch(10);
+
+        $this->assertSame([$record], $records);
+        $this->assertCount(1, $deleted);
+        $this->assertStringEndsWith('WHERE `ID` = 1', $deleted[0]);
     }
 
     public function testStoresNotBeforeInUtcOrNull(): void
