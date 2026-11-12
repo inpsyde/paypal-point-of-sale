@@ -10,11 +10,13 @@ use Inpsyde\WcEvents\WcEventsModule;
 use Inpsyde\WcStatusReport\WcStatusReportModule;
 use Syde\PayPal\PointOfSale\Assets\AssetsModule;
 use Syde\PayPal\PointOfSale\Auth\AuthModule;
+use Syde\PayPal\PointOfSale\FeatureFlags\FlaggedModule;
 use Syde\PayPal\PointOfSale\FeatureFlags\Flags;
 use Syde\PayPal\PointOfSale\Logging\ZettleLoggingModule;
 use Syde\PayPal\PointOfSale\Notices\NoticesModule;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingModule;
 use Syde\PayPal\PointOfSale\OrderSync\OrderSyncModule;
+use Syde\PayPal\PointOfSale\OrderSync\PosOrdersModule;
 use Syde\PayPal\PointOfSale\PhpSdk\PhpSdkModule;
 use Syde\PayPal\PointOfSale\PluginModule;
 use Syde\PayPal\PointOfSale\ProductDebug\ProductDebugModule;
@@ -49,7 +51,9 @@ return static fn (Flags $flags): array => [
     new SettingsModule(),
     new SyncModule(),
     new WebhookModule(),
-    new OrderSyncModule(),
+    new PosOrdersModule(),
+    // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable -- it's the arrow function's parameter
+    new FlaggedModule($flags, 'order-sync', new OrderSyncModule()),
     new WcStatusReportModule(),
     new PluginModule(),
 ];

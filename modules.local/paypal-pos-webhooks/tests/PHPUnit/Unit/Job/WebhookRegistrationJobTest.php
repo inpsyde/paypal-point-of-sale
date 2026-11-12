@@ -5,12 +5,30 @@ declare(strict_types=1);
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Psr\Log\LoggerInterface;
-use Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 
 class WebhookRegistrationJobTest extends BrainMonkeyWpTestCase
 {
+    /**
+     * @var list<string>
+     */
+    private array $calls = [];
+
+    private function job(callable $registration, bool $canRegister = true): WebhookRegistrationJob
+    {
+        return new WebhookRegistrationJob(
+            $registration,
+            static fn (): bool => $canRegister,
+            function (): void {
+                $this->calls[] = 'failed';
+            },
+            function (): void {
+                $this->calls[] = 'registered';
+            }
+        );
+    }
+
     private function executeJob(WebhookRegistrationJob $job, ?LoggerInterface $logger = null): bool
     {
         return $job->execute(
@@ -20,48 +38,39 @@ class WebhookRegistrationJobTest extends BrainMonkeyWpTestCase
         );
     }
 
-    public function testFailedRegistrationRemembersTheGapAndIsRetried(): void
+    public function testFailedRegistrationReportsTheFailureAndIsRetried(): void
     {
-        $backfill = Mockery::mock(PurchaseBackfill::class);
-        $backfill->shouldReceive('rememberWebhookGap')->once();
-        $backfill->shouldNotReceive('recoverWebhookGap');
-        $job = new WebhookRegistrationJob(
-            static function (): void {
-                throw new RuntimeException('Zettle is down');
-            },
-            static fn (): bool => true,
-            $backfill
-        );
+        $job = $this->job(static function (): void {
+            throw new RuntimeException('Zettle is down');
+        });
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldReceive('error')->once()->with(Mockery::pattern('/Zettle is down/'));
 
         self::assertFalse($this->executeJob($job, $logger));
+        self::assertSame(['failed'], $this->calls);
     }
 
-    public function testSuccessfulRegistrationRecoversTheGap(): void
+    public function testSuccessfulRegistrationReportsTheRegistration(): void
     {
-        $backfill = Mockery::mock(PurchaseBackfill::class);
-        $backfill->shouldReceive('recoverWebhookGap')->once();
-        $job = new WebhookRegistrationJob(static function (): void {
-        }, static fn (): bool => true, $backfill);
+        $job = $this->job(static function (): void {
+        });
 
         self::assertTrue($this->executeJob($job));
+        self::assertSame(['registered'], $this->calls);
     }
 
     public function testSkipsWhenNotConnected(): void
     {
         $registered = false;
-        $backfill = Mockery::mock(PurchaseBackfill::class);
-        $backfill->shouldNotReceive('recoverWebhookGap');
-        $job = new WebhookRegistrationJob(
+        $job = $this->job(
             static function () use (&$registered): void {
                 $registered = true;
             },
-            static fn (): bool => false,
-            $backfill
+            false
         );
 
         self::assertTrue($this->executeJob($job));
         self::assertFalse($registered);
+        self::assertSame([], $this->calls);
     }
 }

@@ -401,8 +401,7 @@ return [
                         wp_kses_post($container->get('paypal-pos.onboarding.error.message.webhooks'))
                     );
 
-                    // No webhook means no synced sales: retry, and import the gap once it works.
-                    $container->get('paypal-pos.order-sync.backfill')->rememberWebhookGap();
+                    $container->get('paypal-pos.webhook.on-registration-failed')();
                     $container->get('inpsyde.queue.enqueue-job')(WebhookRegistrationJob::TYPE);
                 }
 

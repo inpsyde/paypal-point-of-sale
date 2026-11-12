@@ -1042,12 +1042,13 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-order-sync",
-                "reference": "cdd6dc2fbd97fcb700c4ffb3577512e4d0d6744e"
+                "reference": "24c0511efa817cec8809ca2c070eeb5714b33372"
             },
             "require": {
                 "inpsyde/inpsyde-queue": "*",
                 "inpsyde/modularity": "^1.7",
-                "inpsyde/paypal-pos-php-sdk": "*"
+                "inpsyde/paypal-pos-php-sdk": "*",
+                "inpsyde/paypal-pos-webhooks": "*"
             },
             "require-dev": {
                 "brianium/paratest": "^4.0 || ^6.0",
