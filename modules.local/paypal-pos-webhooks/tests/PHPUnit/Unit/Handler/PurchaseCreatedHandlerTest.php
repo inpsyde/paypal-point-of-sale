@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\PayPal\PointOfSale\Webhooks\EventName;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\PurchaseCreatedHandler;
-use Syde\PayPal\PointOfSale\Webhooks\Job\CreateOrderJob;
+use Syde\PayPal\PointOfSale\OrderSync\Job\CreateOrderJob;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use Psr\Log\LoggerInterface;
 

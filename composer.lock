@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90f41f063576f9e0b2fc8af17b0983fd",
+    "content-hash": "33be4d7dc1becbba18c4a944078b9a90",
     "packages": [
         {
             "name": "brain/nonces",
@@ -871,6 +871,39 @@
             }
         },
         {
+            "name": "inpsyde/paypal-pos-order-sync",
+            "version": "dev-dev/main",
+            "dist": {
+                "type": "path",
+                "url": "./modules.local/paypal-pos-order-sync",
+                "reference": "19aa6e89b4440d0657f0432ae01df39511caa4d7"
+            },
+            "require": {
+                "inpsyde/inpsyde-queue": "*",
+                "inpsyde/modularity": "^1.7",
+                "inpsyde/paypal-pos-php-sdk": "*"
+            },
+            "require-dev": {
+                "brianium/paratest": "^4.0 || ^6.0",
+                "inpsyde/monkery-test-case": "^6.0.1",
+                "phpunit/phpunit": "^8.0 || ^9.0"
+            },
+            "type": "inpsyde-module",
+            "autoload": {
+                "psr-4": {
+                    "Syde\\PayPal\\PointOfSale\\OrderSync\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Syde\\PayPal\\PointOfSale\\OrderSync\\Test\\": "tests/PHPUnit/Helper"
+                }
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "inpsyde/paypal-pos-php-sdk",
             "version": "dev-dev/main",
             "dist": {
@@ -1022,11 +1055,12 @@
             "dist": {
                 "type": "path",
                 "url": "./modules.local/paypal-pos-webhooks",
-                "reference": "6496b12f39f637e9dacc1707e099602c9a88b01d"
+                "reference": "1d151004d0e1119c2accf8b0493fb6b767d1482c"
             },
             "require": {
                 "inpsyde/inpsyde-queue": "*",
                 "inpsyde/modularity": "^1.7",
+                "inpsyde/paypal-pos-order-sync": "*",
                 "inpsyde/paypal-pos-php-sdk": "*"
             },
             "require-dev": {

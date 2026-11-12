@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Psr\Log\LoggerInterface;
-use Syde\PayPal\PointOfSale\Webhooks\Backfill\PurchaseBackfill;
+use Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 
