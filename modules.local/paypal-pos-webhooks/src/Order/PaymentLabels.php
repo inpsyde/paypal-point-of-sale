@@ -7,21 +7,36 @@ namespace Syde\PayPal\PointOfSale\Webhooks\Order;
 /**
  * Resolves a WooCommerce payment method slug and title for a PayPal POS purchase.
  *
- * Multi-payment purchases are labelled by their highest-amount tender.
+ * Multi-payment purchases are labelled by their highest-amount tender, ignoring gift cards
+ * unless nothing else was used.
  */
 final class PaymentLabels
 {
     private const SLUG_PREFIX = 'paypal_pos';
+    private const GIFT_CARD = 'GIFTCARD';
 
     /**
      * @param array<int, mixed> $payments
      */
     public function primaryType(array $payments): string
     {
+        $payments = array_map(static fn (mixed $payment): array => (array) $payment, $payments);
+        $nonGiftCard = array_filter(
+            $payments,
+            static fn (array $payment): bool => ($payment['type'] ?? '') !== self::GIFT_CARD
+        );
+
+        return $this->highestAmountType($nonGiftCard !== [] ? $nonGiftCard : $payments);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $payments
+     */
+    private function highestAmountType(array $payments): string
+    {
         $type = '';
         $max = null;
         foreach ($payments as $payment) {
-            $payment = (array) $payment;
             $amount = abs((float) ($payment['amount'] ?? 0));
             if ($max === null || $amount > $max) {
                 $max = $amount;

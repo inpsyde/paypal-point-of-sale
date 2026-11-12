@@ -8,7 +8,10 @@ use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Purchase\PurchaseFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\User\UserFactory;
 use Syde\PayPal\PointOfSale\PhpSdk\Exception\IdNotFoundException;
 use Syde\PayPal\PointOfSale\PhpSdk\Map\OneToManyMapInterface;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderDefaults;
 use Syde\PayPal\PointOfSale\Webhooks\Order\OrderMeta;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderRepository;
+use Syde\PayPal\PointOfSale\Webhooks\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
@@ -25,10 +28,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
 {
     private const SOLD_AT = '2026-10-20 16:52:56';
 
-    /**
-     * @var int[] Order ids the stored-order check finds.
-     */
-    private array $storedOrderIds = [5];
+    private bool $orderStored = true;
 
     /**
      * @var callable|null The factory's woocommerce_after_order_object_save listener.
@@ -43,8 +43,6 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         when('sanitize_key')->returnArg();
         when('wp_json_encode')->alias('json_encode');
         when('wc_stock_amount')->alias('intval');
-        when('wc_get_order_statuses')->justReturn([]);
-        when('wc_get_orders')->alias(fn (): array => $this->storedOrderIds);
         expectAdded('woocommerce_after_order_object_save')->zeroOrMoreTimes()->whenHappen(
             function (callable $recordSave): void {
                 $this->recordSave = $recordSave;
@@ -100,8 +98,16 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
     {
         $logger = Mockery::mock(LoggerInterface::class);
         $logger->shouldIgnoreMissing();
+        $orders = Mockery::mock(OrderRepository::class);
+        $orders->shouldReceive('existsForPurchaseUuid')->andReturnUsing(fn (): bool => $this->orderStored);
 
-        return new PurchaseOrderFactory($variants, new PaymentLabels(), $logger);
+        return new PurchaseOrderFactory(
+            $variants,
+            new OrderDefaults(new PaymentLabels()),
+            new OrderTaxes(),
+            $orders,
+            $logger
+        );
     }
 
     private function orderExpectingTotals(
@@ -218,7 +224,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
     /**
      * @dataProvider partlySavedOrders
      */
-    public function testDeletesAPartlySavedOrderAndThrows(bool $reachedLastHook, array $storedOrderIds): void
+    public function testDeletesAPartlySavedOrderAndThrows(bool $reachedLastHook, bool $found): void
     {
         $order = Mockery::mock('overload:WC_Order');
         if ($reachedLastHook) {
@@ -234,7 +240,7 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
         when('wc_get_product')->justReturn(Mockery::mock('WC_Product'));
         $variants = Mockery::mock(OneToManyMapInterface::class);
         $variants->shouldReceive('localId')->andReturn(10);
-        $this->storedOrderIds = $storedOrderIds;
+        $this->orderStored = $found;
 
         $this->expectException(RuntimeException::class);
 
@@ -244,8 +250,8 @@ class PurchaseOrderFactoryTest extends BrainMonkeyWpTestCase
     public function partlySavedOrders(): array
     {
         return [
-            'an order hook threw before the save finished' => [false, [5]],
-            'saved but not found' => [true, []],
+            'an order hook threw before the save finished' => [false, true],
+            'saved but not found' => [true, false],
         ];
     }
 

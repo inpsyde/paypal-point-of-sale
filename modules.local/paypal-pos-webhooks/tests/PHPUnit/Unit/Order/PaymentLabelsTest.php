@@ -26,11 +26,12 @@ class PaymentLabelsTest extends BrainMonkeyWpTestCase
 
     public function payments(): array
     {
+        $cash = ['type' => 'IZETTLE_CASH', 'amount' => 4000];
+
         return [
-            'highest amount wins' => [
-                [['type' => 'IZETTLE_CASH', 'amount' => 4000], ['type' => 'IZETTLE_CARD', 'amount' => 6000]],
-                'IZETTLE_CARD',
-            ],
+            'highest amount wins' => [[$cash, ['type' => 'IZETTLE_CARD', 'amount' => 6000]], 'IZETTLE_CARD'],
+            'gift card loses to other tender' => [[$cash, ['type' => 'GIFTCARD', 'amount' => 6000]], 'IZETTLE_CASH'],
+            'gift card alone' => [[['type' => 'GIFTCARD', 'amount' => 6000]], 'GIFTCARD'],
             'refund uses absolute amounts' => [
                 [['type' => 'IZETTLE_CARD', 'amount' => -10000], ['type' => 'IZETTLE_CASH', 'amount' => -500]],
                 'IZETTLE_CARD',

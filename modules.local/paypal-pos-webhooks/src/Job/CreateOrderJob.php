@@ -10,6 +10,7 @@ use Inpsyde\Queue\Queue\Job\JobRepository;
 use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Purchases\Purchases;
 use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseOrderFactory;
+use Syde\PayPal\PointOfSale\Webhooks\Order\PurchaseRefundFactory;
 use Throwable;
 
 class CreateOrderJob implements Job
@@ -20,10 +21,17 @@ class CreateOrderJob implements Job
 
     private PurchaseOrderFactory $orderFactory;
 
-    public function __construct(Purchases $purchases, PurchaseOrderFactory $orderFactory)
-    {
+    private PurchaseRefundFactory $refundFactory;
+
+    public function __construct(
+        Purchases $purchases,
+        PurchaseOrderFactory $orderFactory,
+        PurchaseRefundFactory $refundFactory
+    ) {
+
         $this->purchases = $purchases;
         $this->orderFactory = $orderFactory;
+        $this->refundFactory = $refundFactory;
     }
 
     public function type(): string
@@ -49,14 +57,17 @@ class CreateOrderJob implements Job
 
         try {
             $purchase = $this->purchases->read($uuid);
-            // Refund purchases aren't synced as orders.
+
             if ($purchase->isRefund()) {
+                $this->refundFactory->createRefund($purchase);
+
                 return true;
             }
 
             // Orders store the purchase's short UUID; the webhook sends the dashed one.
             if (!$this->orderFactory->orderExists($purchase->uuid())) {
-                $this->orderFactory->createOrder($purchase);
+                $orderId = $this->orderFactory->createOrder($purchase);
+                $this->refundFactory->linkOrphanRefunds($purchase->uuid(), $orderId);
             }
 
             return true;
