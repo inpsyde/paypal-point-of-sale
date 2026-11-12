@@ -96,7 +96,7 @@ class FeatureFlagsModuleTest extends TestCase
         $container->allows('get')
             ->with('inpsyde.wc-status-report.item-factory')
             ->andReturn(new ReportItemFactory());
-        $previous = (new ReportItemFactory())->createReportItem('Onboarding state', 'Onboarding state', '');
+        $previous = (new ReportItemFactory())->createReportItem('Earlier item', 'Earlier item', '');
 
         $items = $extensions['inpsyde.wc-status-report.items']([$previous], $container);
 

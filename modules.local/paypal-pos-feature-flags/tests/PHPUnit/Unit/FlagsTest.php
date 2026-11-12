@@ -11,7 +11,9 @@ use Inpsyde\FeatureFlags\Adapter\Unleash\RegistrationMode;
 use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionSource;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
+use Inpsyde\FeatureFlags\Feature\Feature;
 use Inpsyde\FeatureFlags\FeatureFlags;
+use Inpsyde\FeatureFlags\Project\Project;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
@@ -190,6 +192,25 @@ class FlagsTest extends TestCase
             });
 
         self::assertSame('Broken filter', $this->flags(self::URL, 'token')->configurationError());
+    }
+
+    /**
+     * The status describes the project that answers the checks, also if a filter replaced it.
+     */
+    public function testTheStatusDescribesAReplacedProject(): void
+    {
+        $feature = Mockery::mock(Feature::class);
+        $feature->allows('getName')->andReturn('local-flag');
+        $replacement = Mockery::mock(Project::class);
+        $replacement->allows('getName')->andReturn('paypal-pos');
+        $replacement->allows('getFeatures')->andReturn([$feature]);
+        Filters\expectApplied('syde.feature-flags.registered-project')->andReturn($replacement);
+
+        $flags = $this->flags(self::URL, 'token');
+
+        self::assertSame(['local-flag' => false], $flags->states());
+        self::assertSame(ConnectionSource::Defaults, $flags->connectionStatus()->source);
+        self::assertNull($flags->configurationError());
     }
 
     public function testTheStatusWithoutConnection(): void

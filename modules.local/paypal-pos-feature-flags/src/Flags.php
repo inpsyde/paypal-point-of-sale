@@ -10,6 +10,7 @@ use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionStatus;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
 use Inpsyde\FeatureFlags\FeatureFlags;
+use Inpsyde\FeatureFlags\Project\Project;
 use Inpsyde\FeatureFlags\SiteId;
 use Inpsyde\Wp\HttpClient\Client as WpHttpClient;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -35,7 +36,7 @@ final class Flags
     private function __construct(
         private readonly Settings $settings,
         private readonly string $siteId,
-        private readonly ?UnleashProject $project,
+        private readonly ?Project $project,
         private readonly ?string $configurationError
     ) {
     }
@@ -114,8 +115,14 @@ final class Flags
         }
 
         try {
-            $project = $builder->withAppUrl($settings->url)->withApiToken($settings->token)->build();
-            FeatureFlags::registerProject($project);
+            FeatureFlags::registerProject(
+                $builder->withAppUrl($settings->url)->withApiToken($settings->token)->build()
+            );
+            // The registered-project filter may have replaced it, so the status describes the
+            // project that answers the checks.
+            $project = FeatureFlags::hasProject(self::PROJECT)
+                ? FeatureFlags::getProject(self::PROJECT)
+                : null;
         } catch (\Throwable $error) {
             return new self($settings, $siteId, null, $error->getMessage());
         }
@@ -138,7 +145,9 @@ final class Flags
      */
     public function connectionStatus(): ConnectionStatus
     {
-        return $this->project?->connectionStatus() ?? new ConnectionStatus(ConnectionSource::Defaults);
+        return $this->project instanceof UnleashProject
+            ? $this->project->connectionStatus()
+            : new ConnectionStatus(ConnectionSource::Defaults);
     }
 
     /**
