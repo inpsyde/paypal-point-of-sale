@@ -207,7 +207,11 @@ class WpDbJobRepository implements JobRepository
      */
     public function delete(JobRecord $jobRecord): bool
     {
-        $id = $jobRecord->context()->id();
+        return $this->deleteById($jobRecord->context()->id());
+    }
+
+    private function deleteById(int $id): bool
+    {
         if ($id === 0) {
             return false;
         }
@@ -263,11 +267,20 @@ class WpDbJobRepository implements JobRepository
             return [];
         }
 
-        /** @psalm-suppress PossiblyInvalidArgument */
-        return array_map(
-            [$this, 'castJobRecord'],
-            $result
-        );
+        $records = [];
+        foreach ($result as $row) {
+            try {
+                $records[] = $this->castJobRecord($row);
+            } catch (InvalidJobException $exception) {
+                // E.g. a job of a module that is turned off. Kept, it would fail every batch it is in.
+                $this->deleteById((int) $row->id);
+                $this->logger->warning(
+                    sprintf('Removed job %d of the unknown type "%s" from the queue', (int) $row->id, $row->type)
+                );
+            }
+        }
+
+        return $records;
     }
 
     /**

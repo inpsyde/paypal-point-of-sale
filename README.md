@@ -82,6 +82,84 @@ You can also run
 
 to execute it only in a single module (after `cd` to its directory inside `modules.local`).
 
+### Feature flags
+
+Features can be gated behind flags in [Unleash](https://www.getunleash.io/), through
+[`inpsyde/feature-flags`](https://github.com/inpsyde/feature-flags). `bootstrap.php` connects the plugin to the
+PayPal POS project in Unleash before it loads the modules, so a flag can decide whether a module is active at all.
+Flags are evaluated on the site; Unleash only receives the requests for the flag configuration, daily usage counts and
+the project name as instance ID.
+
+Check a flag from a module through the `paypal-pos.feature-flags` service. It works anywhere, also in service
+definitions:
+
+```php
+$flags = $container->get('paypal-pos.feature-flags');
+
+if ($flags->isOn('my-flag')) {
+    // ...
+}
+```
+
+The second argument of `isOn()` is the default, `false` unless given. It is returned for flags that don't exist
+in Unleash, when the plugin has no connection to Unleash, and when Unleash can't be reached and no earlier response is
+cached. Choose the default that is safe for merchants. Snippets and support can also check a flag through the filter
+`syde.feature-flags.paypal-pos`, and override it with a callback at a priority above 10, after the one that asks
+Unleash. An override that should decide which modules are loaded must be added before `plugins_loaded`, e.g. in a
+must-use plugin.
+
+To make a whole module active only while a flag is on, wrap it in a `FlaggedModule` in `modules.php`:
+
+```php
+return static fn (Flags $flags): array => [
+    // ...
+    new FlaggedModule($flags, 'order-sync', new OrderSyncModule()),
+];
+```
+
+While the flag is off, the module adds no services, factories or extensions and its `run()` doesn't run, so nothing
+else may depend on its services. Modularity still lists it as added and executed under the module's ID. When the flag
+turns off, the module's hooks are gone from the next request on: queue jobs it scheduled fail as unknown job types, and
+webhook events only it handles are ignored. Its deactivation hooks run only while the flag is on. Uninstalling
+doesn't activate it either, so its options in the clean-up lists (`paypal-pos.onboarding.resettable.*`) stay behind on
+sites where the flag was on and later turned off. Activating it would run code that may be off for a reason, and an
+error there would stop the clean-up of every module.
+
+Flags are evaluated against a context that describes the site, not the visitor:
+
+* `siteId` (also used as `userId`): an HMAC of the home URL from the settings without its scheme, keyed with
+  `wp_salt('feature_flags')`, so it can't be traced back to the shop. It is the same for every request, also behind
+  language domains, and changes when the home URL's domain or path changes or the salts are regenerated.
+* `packageVersion`: the plugin version, `0.0.0-dev` in development builds.
+* `qaSite`: `true` on QA sites, see below.
+
+The flag configuration is fetched about twice a day and cached in `wp_options`, so a flag change takes up to about
+14 hours to reach all sites.
+
+These settings override the connection, e.g. for QA and staging sites or local development. Set them as constants
+in `wp-config.php` or as environment variables; a constant wins over an environment variable of the same name, and
+an empty value counts as not set. The URL and token are overridden together: with only one of them set, flag checks
+return their default and the error is logged once a day.
+
+* `PAYPAL_POS_FEATURE_FLAGS_URL`: the Unleash API URL.
+* `PAYPAL_POS_FEATURE_FLAGS_TOKEN`: a client API token. It selects the Unleash environment.
+* `PAYPAL_POS_FEATURE_FLAGS_QA_SITE`: `true` marks the site as a QA site (`qaSite` in the context).
+
+To point the DDEV site at the `development` environment, add the URL and a client token of that environment (from
+the team vault) to `.ddev/config.local.yaml`, which is not committed, and run `ddev restart`:
+
+```yaml
+web_environment:
+  - PAYPAL_POS_FEATURE_FLAGS_URL=https://<unleash-host>/api
+  - PAYPAL_POS_FEATURE_FLAGS_TOKEN=<development client token>
+```
+
+The cache is tied to the URL and token, so changing them fetches the flags again.
+
+To test how the plugin behaves when Unleash can't be reached, set the URL to a host that doesn't answer, e.g.
+`https://unleash.invalid/api`, with any token. The cache belongs to the previous URL, so flag checks return their
+defaults.
+
 ### Publishing to WordPress.org
 
 Releases are published via the [`Publish to WordPress.org`](.github/workflows/release.yml) GitHub Action, which wraps

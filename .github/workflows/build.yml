@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build-push:
-    uses: inpsyde/reusable-workflows/.github/workflows/build-and-distribute.yml@main
+    uses: inpsyde/reusable-workflows/.github/workflows/build-and-distribute.yml@47877d3342b79def152fb5e800c5ee6fef48dc67 # main as of 2026-10-26
     secrets:
       GITHUB_USER_EMAIL: ${{ secrets.DEPLOYBOT_EMAIL }}
       GITHUB_USER_NAME: ${{ secrets.DEPLOYBOT_USER }}
