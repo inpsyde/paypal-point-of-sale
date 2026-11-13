@@ -1,0 +1,107 @@
+{
+    "name": "inpsyde\/feature-flags",
+    "description": "Hooks-based high-level API for gating features behind flags.",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Syde GmbH",
+            "homepage": "https:\/\/syde.com\/",
+            "email": "hello@syde.com",
+            "role": "Company"
+        },
+        {
+            "name": "Moritz Mei\u00dfelbach",
+            "email": "m.meisselbach@syde.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "brain\/monkey": "^2.6.2",
+        "nyholm\/psr7": "^1.8",
+        "php-http\/mock-client": "^1.6",
+        "php-stubs\/wordpress-stubs": "^6.9 || ^7.0",
+        "phpstan\/phpstan": "^2.1",
+        "phpunit\/phpunit": "^11.5",
+        "roots\/wordpress": "^6.9",
+        "syde\/phpcs": "^1.0.1",
+        "syde\/wp-phpunit-integration": "^0.4.1",
+        "symfony\/http-client": "^6.4 || ^7.0",
+        "szepeviktor\/phpstan-wordpress": "^2.0",
+        "unleash\/client": "^2.5"
+    },
+    "suggest": {
+        "unleash\/client": "Required by the Unleash adapter (Inpsyde\\FeatureFlags\\Adapter\\Unleash), together with a PSR-18 HTTP client and a PSR-17 request factory."
+    },
+    "conflict": {
+        "psr\/simple-cache": "<2.0",
+        "unleash\/client": "<2.5 || >=3.0"
+    },
+    "provide": {
+        "psr\/simple-cache-implementation": "2.0|3.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-next": "2.x-dev"
+        },
+        "wordpress-install-dir": "vendor\/roots\/wordpress",
+        "installer-paths": {
+            "vendor\/roots\/wordpress\/wp-content\/plugins\/{$name}": [
+                "type:wordpress-plugin"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Tests\\": "tests\/src\/",
+            "Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Tests\\Unit\\": "tests\/unit\/",
+            "Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Tests\\Integration\\": "tests\/integration\/"
+        }
+    },
+    "repositories": [
+        {
+            "name": "wpackagist",
+            "type": "composer",
+            "url": "https:\/\/wpackagist.org",
+            "only": [
+                "wpackagist-plugin\/*",
+                "wpackagist-theme\/*"
+            ]
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer\/installers": true,
+            "dealerdirect\/phpcodesniffer-composer-installer": true,
+            "php-http\/discovery": false,
+            "roots\/wordpress-core-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "cs": "@php .\/vendor\/bin\/phpcs",
+        "phpstan": "@php .\/vendor\/bin\/phpstan analyse --memory-limit=1G",
+        "qa": [
+            "@tests:no-cov",
+            "@tests:integration:no-cov",
+            "@cs",
+            "@phpstan"
+        ],
+        "tests": "@php .\/vendor\/bin\/phpunit",
+        "tests:codecov": "@php .\/vendor\/bin\/phpunit --coverage-clover coverage.xml",
+        "tests:no-cov": "@php .\/vendor\/bin\/phpunit --no-coverage",
+        "tests:integration": "@php .\/vendor\/bin\/phpunit -c phpunit-integration.xml.dist",
+        "tests:integration:no-cov": "@php .\/vendor\/bin\/phpunit -c phpunit-integration.xml.dist --no-coverage"
+    }
+}
