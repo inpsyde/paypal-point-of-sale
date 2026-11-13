@@ -24,7 +24,7 @@ class WebhookRegistrationJobTest extends BrainMonkeyWpTestCase
                 $this->calls[] = 'failed';
             },
             function (): void {
-                $this->calls[] = 'registered';
+                $this->calls[] = 'succeeded';
             }
         );
     }
@@ -50,13 +50,13 @@ class WebhookRegistrationJobTest extends BrainMonkeyWpTestCase
         self::assertSame(['failed'], $this->calls);
     }
 
-    public function testSuccessfulRegistrationReportsTheRegistration(): void
+    public function testSuccessfulRegistrationReportsTheSuccess(): void
     {
         $job = $this->job(static function (): void {
         });
 
         self::assertTrue($this->executeJob($job));
-        self::assertSame(['registered'], $this->calls);
+        self::assertSame(['succeeded'], $this->calls);
     }
 
     public function testSkipsWhenNotConnected(): void
