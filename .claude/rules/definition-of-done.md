@@ -11,4 +11,4 @@ A task is complete when both are true:
    - PHP change: the unit tests of the changed suite (root or module), PHPCS, PHPStan.
    - A change to how the plugin calls the PayPal POS API: name the matching root integration test as optional.
 
-The root integration tests, `make test`, and `./phpunit.sh` hit the live PayPal POS account in `.env.phpunit` (see `AGENTS.md`). Run them only on the developer's explicit go-ahead, after they confirm it is a test account.
+Run the root integration tests only on the developer's explicit go-ahead (see `AGENTS.md`).

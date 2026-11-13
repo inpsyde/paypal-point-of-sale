@@ -14,7 +14,8 @@ Run only the requested suite and reply only with the summary.
 - PHPStan: `ddev exec vendor/bin/phpstan analyze --memory-limit=2G <file-or-dir>`
 - Root PHP unit: `ddev exec vendor/bin/phpunit tests/PHPUnit/Unit [--filter <keyword>]`
 - Module PHP tests: `ddev exec --dir /var/www/html/modules.local/<module> vendor/bin/phpunit [--filter <keyword>]`
-- All unit tests (root and every module): `ddev exec 'vendor/bin/phpunit tests/PHPUnit/Unit && for c in modules.local/*/phpunit.xml.dist; do (cd "$(dirname "$c")" && vendor/bin/phpunit) || exit 1; done'`
+- Module without `vendor/`: first run `ddev composer install --working-dir=modules.local/<module>`.
+- All unit tests (root and every module): `ddev exec 'vendor/bin/phpunit tests/PHPUnit/Unit && for c in modules.local/*/phpunit.xml.dist; do (cd "$(dirname "$c")" && { [ -d vendor ] || composer install -q --no-progress; } && vendor/bin/phpunit) || exit 1; done'`
 - Stop on first failure (TDD): add `--stop-on-failure` to any PHPUnit command.
 - Root integration: `ddev exec vendor/bin/phpunit tests/PHPUnit/Integration --exclude-group sync [--filter <keyword>]`
 - Sync group: `ddev exec vendor/bin/phpunit tests/PHPUnit/Integration --group sync`
@@ -34,7 +35,7 @@ All green: `✔︎ All checks pass` (add counts when available: `✔︎ 123/123 
 Test failures, one line each:  `✘ <file>:<line> - <actual value / assertion message>`
 Lint failures, one line each:  `✘ <file>:<line> - <rule or message>`
 
-Suite did not run (container down, missing `.env.phpunit`, missing module `vendor/`, fatal before the first test, no live-account confirmation). Never report this as a pass:
+Suite did not run (container down, missing `.env.phpunit`, fatal before the first test, no live-account confirmation). Never report this as a pass:
 
 ```
 ⚠︎ Could not run <suite> - <reason>

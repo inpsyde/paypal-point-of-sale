@@ -69,6 +69,7 @@ Run every command through DDEV: `ddev composer`, `ddev npm`, and `ddev exec` for
 | Reinstall dependencies | `make install`                                                              |
 | PHPCS + PHPStan        | `make lint`; auto-fix with `make fix-lint`                                  |
 | Root PHP unit tests    | `ddev exec vendor/bin/phpunit tests/PHPUnit/Unit [--filter <keyword>]`      |
+| Module dependencies    | `ddev composer install --working-dir=modules.local/<module>`                |
 | Module PHP tests       | `ddev exec --dir /var/www/html/modules.local/<module> vendor/bin/phpunit`   |
 
 Always pass `--dir` for a module: `ddev exec bash -c 'cd … && …'` drops the `cd` and runs the root suite instead. Root PHP tests need `.env.phpunit` (copy `.env.phpunit.dist`).
@@ -76,7 +77,7 @@ Always pass `--dir` for a module: `ddev exec bash -c 'cd … && …'` drops the 
 All unit tests, root and every module, without the live API:
 
 ```bash
-ddev exec 'vendor/bin/phpunit tests/PHPUnit/Unit && for c in modules.local/*/phpunit.xml.dist; do (cd "$(dirname "$c")" && vendor/bin/phpunit) || exit 1; done'
+ddev exec 'vendor/bin/phpunit tests/PHPUnit/Unit && for c in modules.local/*/phpunit.xml.dist; do (cd "$(dirname "$c")" && { [ -d vendor ] || composer install -q --no-progress; } && vendor/bin/phpunit) || exit 1; done'
 ```
 
 The root `phpunit.xml.dist` also runs `tests/PHPUnit/Integration/`, which calls the live PayPal POS API with the credentials in `.env.phpunit`. `make test` and `./phpunit.sh` include it, and `--no-sync` only skips the `sync` group, whose tests (`InitialSyncTest`, `InventoryTrackingTest`) delete every product in the account. Run them only against a test account.
