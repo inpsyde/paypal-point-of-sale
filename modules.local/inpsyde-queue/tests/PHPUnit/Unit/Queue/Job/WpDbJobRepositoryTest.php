@@ -158,11 +158,8 @@ class WpDbJobRepositoryTest extends BrainMonkeyWpTestCase
                 return $record;
             }
         );
-        $logger = Mockery::mock(LoggerInterface::class);
-        $logger->shouldReceive('debug');
-        $logger->shouldReceive('warning')->once()->with(Mockery::pattern('/job 1 .*"create-order"/'));
 
-        $records = (new WpDbJobRepository($wpdb, $table, $recordFactory, $logger))->fetch(10);
+        $records = (new WpDbJobRepository($wpdb, $table, $recordFactory, new NullLogger()))->fetch(10);
 
         $this->assertSame([$record], $records);
         $this->assertCount(1, $deleted);

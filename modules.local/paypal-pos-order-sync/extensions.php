@@ -49,7 +49,7 @@ return [
                 $container->get('paypal-pos.order-sync.backfill')->rememberWebhookGap();
             };
         },
-    'paypal-pos.webhook.on-registered' =>
+    'paypal-pos.webhook.on-registration-succeeded' =>
         static function (callable $previous, ContainerInterface $container): callable {
             return static function () use ($previous, $container): void {
                 $previous();

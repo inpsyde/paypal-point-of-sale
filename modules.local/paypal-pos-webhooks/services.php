@@ -40,7 +40,7 @@ return [
             $container->get('paypal-pos.webhook.register'),
             $container->get('paypal-pos.webhook.can-register'),
             $container->get('paypal-pos.webhook.on-registration-failed'),
-            $container->get('paypal-pos.webhook.on-registered')
+            $container->get('paypal-pos.webhook.on-registration-succeeded')
         );
     },
     'paypal-pos.webhook.on-registration-failed' => static function (): callable {
@@ -48,7 +48,7 @@ return [
         return static function (): void {
         };
     },
-    'paypal-pos.webhook.on-registered' => static function (): callable {
+    'paypal-pos.webhook.on-registration-succeeded' => static function (): callable {
         // A no-op that other modules extend.
         return static function (): void {
         };

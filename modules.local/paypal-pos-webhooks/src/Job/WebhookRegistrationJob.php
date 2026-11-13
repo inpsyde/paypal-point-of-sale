@@ -27,24 +27,24 @@ class WebhookRegistrationJob implements Job
     /**
      * @var callable(): void
      */
-    private $onFailed;
+    private $onRegistrationFailed;
 
     /**
      * @var callable(): void
      */
-    private $onRegistered;
+    private $onRegistrationSucceeded;
 
     public function __construct(
         callable $webhookRegistration,
         callable $canRegisterWebhooks,
-        callable $onFailed,
-        callable $onRegistered
+        callable $onRegistrationFailed,
+        callable $onRegistrationSucceeded
     ) {
 
         $this->webhookRegistration = $webhookRegistration;
         $this->canRegisterWebhooks = $canRegisterWebhooks;
-        $this->onFailed = $onFailed;
-        $this->onRegistered = $onRegistered;
+        $this->onRegistrationFailed = $onRegistrationFailed;
+        $this->onRegistrationSucceeded = $onRegistrationSucceeded;
     }
 
     /**
@@ -66,11 +66,11 @@ class WebhookRegistrationJob implements Job
             // Registration deletes the remote webhook first, so a failure leaves none behind.
             // Returning false lets the queue retry; a throw would drop the job.
             $logger->error(sprintf('Webhook registration failed: %s', $throwable->getMessage()));
-            ($this->onFailed)();
+            ($this->onRegistrationFailed)();
 
             return false;
         }
-        ($this->onRegistered)();
+        ($this->onRegistrationSucceeded)();
 
         return true;
     }
