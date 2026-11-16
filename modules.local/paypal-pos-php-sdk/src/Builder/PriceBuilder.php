@@ -6,6 +6,7 @@ namespace Syde\PayPal\PointOfSale\PhpSdk\Builder;
 
 use Psr\Container\ContainerInterface;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Organization\TaxationMode;
+use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\MinorUnits;
 use Syde\PayPal\PointOfSale\PhpSdk\DAL\Entity\Price\Price;
 use WC_Product;
 
@@ -29,10 +30,12 @@ class PriceBuilder implements BuilderInterface
             ? (float) wc_get_price_excluding_tax($payload)
             : (float) wc_get_price_including_tax($payload);
 
+        $currency = (string) $this->wooCommerceConfig->get('currency');
+
         return new Price(
-            /** Zettle requires prices to be a hundreth-based integer */
-            (int) round($price * 100),
-            $this->wooCommerceConfig->get('currency')
+            /** Zettle requires prices as minor-unit integers */
+            MinorUnits::toMinor($price, $currency),
+            $currency
         );
     }
 }

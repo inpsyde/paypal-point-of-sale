@@ -44,6 +44,11 @@ class ProcessEndpoint implements EndpointInterface
 
     private int $maxRetriesCount;
 
+    /**
+     * @var callable|null
+     */
+    private $retryDelay;
+
     public function __construct(
         ProcessorBuilder $processorBuilder,
         JobRepository $repository,
@@ -51,7 +56,8 @@ class ProcessEndpoint implements EndpointInterface
         LoggerInterface $logger,
         callable $metaCallback,
         bool $isMultisite,
-        int $maxRetriesCount
+        int $maxRetriesCount,
+        ?callable $retryDelay = null
     ) {
 
         $this->builder = $processorBuilder;
@@ -61,6 +67,7 @@ class ProcessEndpoint implements EndpointInterface
         $this->repository = $repository;
         $this->isMultisite = $isMultisite;
         $this->maxRetriesCount = $maxRetriesCount;
+        $this->retryDelay = $retryDelay;
     }
 
     /** @inheritDoc */
@@ -140,15 +147,18 @@ class ProcessEndpoint implements EndpointInterface
         $executionTime = (int) $request->get_param('executionTime');
         $meta = (array) $request->get_param('meta');
 
-        $queueProcessor = $this->builder
+        $this->builder
             ->withRepository($this->repository)
             ->withLogger($this->logger)
             ->withJobTypes($types)
             ->withStopper(new TimeStopper((float) $executionTime))
             ->withLocker($this->locker)
             ->withNetworkSupport($this->isMultisite)
-            ->withMaxRetriesCount($this->maxRetriesCount)
-            ->build();
+            ->withMaxRetriesCount($this->maxRetriesCount);
+        if ($this->retryDelay !== null) {
+            $this->builder->withRetryDelay($this->retryDelay);
+        }
+        $queueProcessor = $this->builder->build();
 
         $responseStatus = 200;
         try {

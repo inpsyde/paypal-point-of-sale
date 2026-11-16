@@ -43,6 +43,11 @@ class ProcessorBuilder
 
     private int $maxRetriesCount = 0;
 
+    /**
+     * @var callable|null
+     */
+    private $retryDelay = null;
+
     public function __construct(
         JobRecordFactoryInterface $jobRecordFactory
     ) {
@@ -132,6 +137,17 @@ class ProcessorBuilder
         return $this;
     }
 
+    /**
+     * Delays retries of failed jobs. The callable receives the failed JobRecord and returns
+     * the seconds to wait; 0 retries right away, which is also the default.
+     */
+    public function withRetryDelay(callable $retryDelay): self
+    {
+        $this->retryDelay = $retryDelay;
+
+        return $this;
+    }
+
     public function build(): QueueProcessor
     {
         $jobIterator = new JobIterator($this->repository, $this->types);
@@ -144,7 +160,8 @@ class ProcessorBuilder
             $this->logger ?? new NullLogger(),
             $this->maxRetriesCount,
             $this->exceptionHandler ?? static function (): void {
-            }
+            },
+            $this->retryDelay
         );
 
         if ($this->locker) {

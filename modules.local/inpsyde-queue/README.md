@@ -138,7 +138,19 @@ The queue processor can perform some (very) basic error recovery which will be e
 If the `Job::execute()`-method in your implementation returns `false` or if there is a `QueueRuntimeException` thrown during execution,
 the queue-processor will reschedule the Job up to 3 times. This can be changed by setting `'inpsyde.queue.failed.retry.count'` to the desired value
 
-However, there is currently no delay applied before a retry takes place. PRs welcome.
+Retries run right away by default. To back off instead, extend `'inpsyde.queue.failed.retry.delay'`. It returns a callable that receives the failed `JobRecord` and returns the seconds to wait before the retry:
+
+```php
+'inpsyde.queue.failed.retry.delay' => static function (callable $previous): callable {
+    return static function (JobRecord $record) use ($previous): int {
+        return $record->job()->type() === 'my-job-type'
+            ? 60 * 2 ** $record->context()->retryCount() // 1, 2, 4 minutes
+            : $previous($record);
+    };
+},
+```
+
+A delayed retry stays in the queue table with its `not_before` time, so it still counts as pending, and it isn't fetched before then.
 
 
 ## WP-Cli

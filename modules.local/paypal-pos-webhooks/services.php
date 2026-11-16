@@ -8,6 +8,7 @@ use Inpsyde\Queue\Queue\Job\Job;
 use Psr\Container\ContainerInterface as C;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\RegisteredWebhook;
 use Syde\PayPal\PointOfSale\Sync\Job\UnlinkProductJob;
 use Syde\PayPal\PointOfSale\Webhooks\Cli\WebhookCommand;
@@ -16,6 +17,7 @@ use Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryTrackingStartedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryTrackingStoppedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\LogHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\ProductDeletedHandler;
+use Syde\PayPal\PointOfSale\Webhooks\Handler\PurchaseCreatedHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 use Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
@@ -37,7 +39,8 @@ return [
     $job(WebhookRegistrationJob::TYPE) => static function (C $container): Job {
         return new WebhookRegistrationJob(
             $container->get('paypal-pos.webhook.register'),
-            $container->get('paypal-pos.webhook.can-register')
+            $container->get('paypal-pos.webhook.can-register'),
+            $container->get('paypal-pos.order-sync.backfill')
         );
     },
     'paypal-pos.webhook.config' => static function (C $container): array {
@@ -63,6 +66,7 @@ return [
             'InventoryBalanceChanged',
             'InventoryTrackingStarted',
             'InventoryTrackingStopped',
+            EventName::PURCHASE_CREATED,
         ];
     },
     'paypal-pos.webhook.listener.namespace' => static function (): string {
@@ -108,9 +112,13 @@ return [
     'paypal-pos.webhook.registration' => static function (C $container): WebhookRegistration {
         $storage = $container->get('paypal-pos.webhook.storage');
         assert($storage instanceof WebhookStorageInterface);
+        // Keep the stored webhook, but subscribe it to the events this version handles, so
+        // re-registering after an update adds new events instead of re-sending the old list.
+        $webhook = $storage->fetch();
+        $webhook->changeEventNames($container->get('paypal-pos.webhook.config.events'));
 
         return new WebhookRegistration(
-            $storage->fetch(),
+            $webhook,
             $container->get('paypal-pos.sdk.api.webhooks'),
             $container->get('paypal-pos.webhook.deletion'),
             $container->get('paypal-pos.webhook.logger')
@@ -168,12 +176,21 @@ return [
                 $container->get('paypal-pos.sdk.integration-id')
             );
         },
+    'paypal-pos.webhook.handlers.purchase-created' =>
+        static function (C $container): WebhookHandler {
+            return new PurchaseCreatedHandler(
+                $container->get('inpsyde.queue.enqueue-job'),
+                $container->get('paypal-pos.webhook.logger'),
+                $container->get('paypal-pos.order-sync.enabled')
+            );
+        },
     'paypal-pos.webhook.handlers' => static function (C $container): array {
         return [
             new LogHandler($container->get('paypal-pos.webhook.logger')),
             new InventoryTrackingStartedHandler(),
             new InventoryTrackingStoppedHandler(),
             $container->get('paypal-pos.webhook.handlers.inventory-balance-changed'),
+            $container->get('paypal-pos.webhook.handlers.purchase-created'),
         ];
     },
     'paypal-pos.webhook.register' => static function (C $container): callable {
@@ -200,6 +217,12 @@ return [
             return !in_array($stateMachine->currentState()->name(), $noAuthStates, true);
         };
     },
+    'paypal-pos.webhook.is-onboarded' => static function (C $container): callable {
+        return static function () use ($container): bool {
+            return $container->get('inpsyde.state-machine')->currentState()->name()
+                === OnboardingState::ONBOARDING_COMPLETED;
+        };
+    },
     'paypal-pos.webhook.cli' => static function (C $container): WebhookCommand {
         return new WebhookCommand(
             $container->get('paypal-pos.sdk.api.webhooks'),
@@ -210,7 +233,8 @@ return [
     'paypal-pos.webhook.bootstrap' => static function (C $container): Bootstrap {
         return new Bootstrap(
             $container->get('inpsyde.queue.enqueue-job'),
-            $container->get('paypal-pos.webhook.delete')
+            $container->get('paypal-pos.webhook.delete'),
+            $container->get('paypal-pos.webhook.is-onboarded')
         );
     },
 ];

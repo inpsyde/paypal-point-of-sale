@@ -11,6 +11,7 @@ use Syde\PayPal\PointOfSale\Auth\AuthModule;
 use Syde\PayPal\PointOfSale\Logging\ZettleLoggingModule;
 use Syde\PayPal\PointOfSale\Notices\NoticesModule;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingModule;
+use Syde\PayPal\PointOfSale\OrderSync\OrderSyncModule;
 use Syde\PayPal\PointOfSale\PhpSdk\PhpSdkModule;
 use Syde\PayPal\PointOfSale\PluginModule;
 use Syde\PayPal\PointOfSale\ProductDebug\ProductDebugModule;
@@ -38,6 +39,7 @@ return [
     SettingsModule::class,
     SyncModule::class,
     WebhookModule::class,
+    OrderSyncModule::class,
     WcStatusReportModule::class,
     PluginModule::class,
 ];

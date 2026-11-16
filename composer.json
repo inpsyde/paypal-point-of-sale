@@ -60,6 +60,7 @@
         "inpsyde/paypal-pos-logging": "*",
         "inpsyde/paypal-pos-notices": "*",
         "inpsyde/paypal-pos-onboarding": "*",
+        "inpsyde/paypal-pos-order-sync": "*",
         "inpsyde/paypal-pos-php-sdk": "*",
         "inpsyde/paypal-pos-product-debug": "*",
         "inpsyde/paypal-pos-product-settings": "*",
