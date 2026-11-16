@@ -134,10 +134,7 @@ class WpDbJobRepository implements JobRepository
      */
     public function delete(JobRecord $jobRecord): bool
     {
-        return $this->deleteById($jobRecord->context()->id());
-    }
-    private function deleteById(int $id): bool
-    {
+        $id = $jobRecord->context()->id();
         if ($id === 0) {
             return \false;
         }
@@ -161,17 +158,8 @@ class WpDbJobRepository implements JobRepository
         if (!is_array($result) || $result === []) {
             return [];
         }
-        $records = [];
-        foreach ($result as $row) {
-            try {
-                $records[] = $this->castJobRecord($row);
-            } catch (InvalidJobException $exception) {
-                // E.g. a job of a module that is turned off. Kept, it would fail every batch it is in.
-                $this->deleteById((int) $row->id);
-                $this->logger->warning(sprintf('Removed job %d of the unknown type "%s" from the queue', (int) $row->id, $row->type));
-            }
-        }
-        return $records;
+        /** @psalm-suppress PossiblyInvalidArgument */
+        return array_map([$this, 'castJobRecord'], $result);
     }
     /**
      * Generates the WHERE clause for an array of job types

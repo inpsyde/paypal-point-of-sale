@@ -32,6 +32,6 @@ return [
      * By default, the queue derives the job prefix from inpsyde.queue.namespace;
      */
     'inpsyde.queue.factory' => static function (JobRecordFactoryInterface $previous, C $container): JobRecordFactoryInterface {
-        return new ContainerAwareJobRecordFactory(new JobContainer($container, 'paypal-pos.job'));
+        return new DroppingUnknownTypesFactory(new ContainerAwareJobRecordFactory(new JobContainer($container, 'paypal-pos.job')), $container->get('inpsyde.queue.logger'));
     },
 ];

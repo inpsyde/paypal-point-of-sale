@@ -995,6 +995,7 @@ return array(
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\Provider\\SyncVisibilityTaxonomyProvider' => $baseDir . '/modules/paypal-pos-product-settings/src/Provider/SyncVisibilityTaxonomyProvider.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\Taxonomy\\ZettleSyncVisibilityTaxonomy' => $baseDir . '/modules/paypal-pos-product-settings/src/Taxonomy/ZettleSyncVisibilityTaxonomy.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Provider' => $baseDir . '/src/Provider.php',
+    'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\DroppingUnknownTypesFactory' => $baseDir . '/modules/paypal-pos-queue/src/DroppingUnknownTypesFactory.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\ZettleQueueModule' => $baseDir . '/modules/paypal-pos-queue/src/ZettleQueueModule.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\Exception\\SettingNotFoundException' => $baseDir . '/modules/paypal-pos-settings/src/Exception/SettingNotFoundException.php',
     'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\FieldRenderer\\FieldRendererInterface' => $baseDir . '/modules/paypal-pos-settings/src/FieldRenderer/FieldRendererInterface.php',

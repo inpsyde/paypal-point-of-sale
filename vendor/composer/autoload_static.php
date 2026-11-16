@@ -1309,6 +1309,7 @@ class ComposerStaticInit9923ac96b64fbb51f9d935f4d6d2d483
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\Provider\\SyncVisibilityTaxonomyProvider' => __DIR__ . '/../..' . '/modules/paypal-pos-product-settings/src/Provider/SyncVisibilityTaxonomyProvider.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\Taxonomy\\ZettleSyncVisibilityTaxonomy' => __DIR__ . '/../..' . '/modules/paypal-pos-product-settings/src/Taxonomy/ZettleSyncVisibilityTaxonomy.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Provider' => __DIR__ . '/../..' . '/src/Provider.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\DroppingUnknownTypesFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-queue/src/DroppingUnknownTypesFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\ZettleQueueModule' => __DIR__ . '/../..' . '/modules/paypal-pos-queue/src/ZettleQueueModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\Exception\\SettingNotFoundException' => __DIR__ . '/../..' . '/modules/paypal-pos-settings/src/Exception/SettingNotFoundException.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\FieldRenderer\\FieldRendererInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-settings/src/FieldRenderer/FieldRendererInterface.php',
