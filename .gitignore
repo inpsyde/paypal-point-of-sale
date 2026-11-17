@@ -71,3 +71,10 @@ yarn.lock
 /auth.json
 /.env
 /.idea/
+
+### E2E Tests
+/storage-states/
+/playwright-report/
+/test-results/
+/snapshots/
+/tests/qa/resources/files/*.zip
