@@ -15,16 +15,16 @@ Run only the requested suite and reply only with the summary.
 - Root PHP unit: `ddev exec vendor/bin/phpunit tests/PHPUnit/Unit [--filter <keyword>]`
 - Module PHP tests: `ddev exec --dir /var/www/html/modules.local/<module> vendor/bin/phpunit [--filter <keyword>]`
 - Module without `vendor/`: first run `ddev composer install --working-dir=modules.local/<module>`.
-- All unit tests (root and every module): `ddev exec 'vendor/bin/phpunit tests/PHPUnit/Unit && for c in modules.local/*/phpunit.xml.dist; do (cd "$(dirname "$c")" && { [ -d vendor ] || composer install -q --no-progress; } && vendor/bin/phpunit) || exit 1; done'`
+- All unit tests (root and every module): `make test-unit`
 - Stop on first failure (TDD): add `--stop-on-failure` to any PHPUnit command.
 - Root integration: `ddev exec vendor/bin/phpunit tests/PHPUnit/Integration --exclude-group sync [--filter <keyword>]`
 - Sync group: `ddev exec vendor/bin/phpunit tests/PHPUnit/Integration --group sync`
 
 A test file belongs to the suite of the `phpunit.xml.dist` above it: under `modules.local/<module>/tests/`, run that module's suite; under `tests/PHPUnit/`, the root one. "Everything" or "all tests" means all unit tests.
 
-## Live account
+## Integration tests
 
-The root integration tests call the live PayPal POS account in `.env.phpunit`; the sync group deletes every product in it. Run them only when the caller names them explicitly and states that the account is a test account; otherwise reply `⚠︎ Could not run <suite> - needs confirmation that .env.phpunit is a test account`.
+The root integration tests call the real PayPal POS API (there's no sandbox) with the API key in `.env.phpunit`, and the sync group deletes every product in that account. Run them only when the caller names them explicitly; otherwise reply `⚠︎ Could not run <suite> - integration tests need an explicit request`.
 
 Never run `make test`, `./phpunit.sh`, or `vendor/bin/phpunit` without a path from the project root: all of them include the integration tests. Never wrap a command in `ddev exec bash -c '…'`: ddev drops the script and runs the root suite.
 
@@ -35,7 +35,7 @@ All green: `✔︎ All checks pass` (add counts when available: `✔︎ 123/123 
 Test failures, one line each:  `✘ <file>:<line> - <actual value / assertion message>`
 Lint failures, one line each:  `✘ <file>:<line> - <rule or message>`
 
-Suite did not run (container down, missing `.env.phpunit`, fatal before the first test, no live-account confirmation). Never report this as a pass:
+Suite did not run (container down, missing `.env.phpunit`, fatal before the first test, integration tests not explicitly requested). Never report this as a pass:
 
 ```
 ⚠︎ Could not run <suite> - <reason>
