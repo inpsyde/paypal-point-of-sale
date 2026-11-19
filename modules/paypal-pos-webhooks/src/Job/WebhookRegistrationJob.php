@@ -7,7 +7,6 @@ use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\ContextInterface;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Job;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Throwable;
 class WebhookRegistrationJob implements Job
 {
@@ -20,12 +19,20 @@ class WebhookRegistrationJob implements Job
      * @var callable
      */
     private $canRegisterWebhooks;
-    private PurchaseBackfill $backfill;
-    public function __construct(callable $webhookRegistration, callable $canRegisterWebhooks, PurchaseBackfill $backfill)
+    /**
+     * @var callable(): void
+     */
+    private $onRegistrationFailed;
+    /**
+     * @var callable(): void
+     */
+    private $onRegistrationSucceeded;
+    public function __construct(callable $webhookRegistration, callable $canRegisterWebhooks, callable $onRegistrationFailed, callable $onRegistrationSucceeded)
     {
         $this->webhookRegistration = $webhookRegistration;
         $this->canRegisterWebhooks = $canRegisterWebhooks;
-        $this->backfill = $backfill;
+        $this->onRegistrationFailed = $onRegistrationFailed;
+        $this->onRegistrationSucceeded = $onRegistrationSucceeded;
     }
     /**
      * @inheritDoc
@@ -41,10 +48,10 @@ class WebhookRegistrationJob implements Job
             // Registration deletes the remote webhook first, so a failure leaves none behind.
             // Returning false lets the queue retry; a throw would drop the job.
             $logger->error(sprintf('Webhook registration failed: %s', $throwable->getMessage()));
-            $this->backfill->rememberWebhookGap();
+            ($this->onRegistrationFailed)();
             return \false;
         }
-        $this->backfill->recoverWebhookGap();
+        ($this->onRegistrationSucceeded)();
         return \true;
     }
     public function isUnique(): bool

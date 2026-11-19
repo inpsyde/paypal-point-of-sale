@@ -6,7 +6,6 @@ namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync;
 use Exception;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRecord;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Job\BackfillJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Job\CreateOrderJob;
 return [
@@ -26,9 +25,22 @@ return [
         }
         return $items;
     },
-    // Onboarding again re-imports the history; already synced sales and refunds are skipped.
-    'paypal-pos.onboarding.resettable.options' => static function (array $previous): array {
-        return array_merge($previous, [PurchaseBackfill::STATUS_OPTION, PurchaseBackfill::WEBHOOK_GAP_OPTION]);
+    'paypal-pos.webhook.handlers' => static function (array $handlers, ContainerInterface $container): array {
+        $handlers[] = $container->get('paypal-pos.order-sync.purchase-created-handler');
+        return $handlers;
+    },
+    // No webhook means no synced sales: import the gap once registration works again.
+    'paypal-pos.webhook.on-registration-failed' => static function (callable $previous, ContainerInterface $container): callable {
+        return static function () use ($previous, $container): void {
+            $previous();
+            $container->get('paypal-pos.order-sync.backfill')->rememberWebhookGap();
+        };
+    },
+    'paypal-pos.webhook.on-registration-succeeded' => static function (callable $previous, ContainerInterface $container): callable {
+        return static function () use ($previous, $container): void {
+            $previous();
+            $container->get('paypal-pos.order-sync.backfill')->recoverWebhookGap();
+        };
     },
     'paypal-pos.settings.fields.registry' => static function (array $previous, ContainerInterface $container): array {
         return array_merge($previous, ['order_sync_title' => ['zettle_visible_after_onboarding' => \true, 'title' => __('POS order sync', 'paypal-point-of-sale'), 'type' => 'title', 'description' => __('Controls how PayPal POS sales appear as WooCommerce orders', 'paypal-point-of-sale')], 'order_sync_enabled' => ['zettle_visible_after_onboarding' => \true, 'title' => __('Create orders from POS sales', 'paypal-point-of-sale'), 'type' => 'select', 'default' => OrderSyncMode::ENABLED, 'description' => __('Whether PayPal POS sales are synced to WooCommerce as orders', 'paypal-point-of-sale'), 'options' => [OrderSyncMode::ENABLED => __('Create orders', 'paypal-point-of-sale'), OrderSyncMode::DISABLED => __('Don\'t create orders', 'paypal-point-of-sale')]], 'order_sync_status' => [

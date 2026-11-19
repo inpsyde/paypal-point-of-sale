@@ -16,7 +16,6 @@ use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryTrackin
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\InventoryTrackingStoppedHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\LogHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\ProductDeletedHandler;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\PurchaseCreatedHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\InventoryBalanceChangedJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Job\WebhookRegistrationJob;
@@ -29,7 +28,15 @@ $job = static function (string $type): string {
 return [$job(InventoryBalanceChangedJob::TYPE) => static function (C $container): Job {
     return new InventoryBalanceChangedJob($container->get('inpsyde.wc-lifecycle-events.products.toggle'), $container->get('inpsyde.queue.create-job-record'));
 }, $job(WebhookRegistrationJob::TYPE) => static function (C $container): Job {
-    return new WebhookRegistrationJob($container->get('paypal-pos.webhook.register'), $container->get('paypal-pos.webhook.can-register'), $container->get('paypal-pos.order-sync.backfill'));
+    return new WebhookRegistrationJob($container->get('paypal-pos.webhook.register'), $container->get('paypal-pos.webhook.can-register'), $container->get('paypal-pos.webhook.on-registration-failed'), $container->get('paypal-pos.webhook.on-registration-succeeded'));
+}, 'paypal-pos.webhook.on-registration-failed' => static function (): callable {
+    // A no-op that other modules extend.
+    return static function (): void {
+    };
+}, 'paypal-pos.webhook.on-registration-succeeded' => static function (): callable {
+    // A no-op that other modules extend.
+    return static function (): void {
+    };
 }, 'paypal-pos.webhook.config' => static function (C $container): array {
     return ['uuid' => Uuid::v1(), 'eventNames' => $container->get('paypal-pos.webhook.config.events'), 'destination' => $container->get('paypal-pos.webhook.listener.url'), 'contactEmail' => $container->get('paypal-pos.webhook.config.email')];
 }, 'paypal-pos.webhook.config.email' => static function (C $container): string {
@@ -91,10 +98,8 @@ return [$job(InventoryBalanceChangedJob::TYPE) => static function (C $container)
     return new ProductDeletedHandler($container->get($job(UnlinkProductJob::TYPE)), $container->get('paypal-pos.webhook.logger'));
 }, 'paypal-pos.webhook.handlers.inventory-balance-changed' => static function (C $container) use ($job): WebhookHandler {
     return new InventoryBalanceChangedHandler($container->get($job(InventoryBalanceChangedJob::TYPE)), $container->get('paypal-pos.webhook.logger'), $container->get('paypal-pos.sdk.id-map.variant'), $container->get('paypal-pos.sdk.integration-id'));
-}, 'paypal-pos.webhook.handlers.purchase-created' => static function (C $container): WebhookHandler {
-    return new PurchaseCreatedHandler($container->get('inpsyde.queue.enqueue-job'), $container->get('paypal-pos.webhook.logger'), $container->get('paypal-pos.order-sync.enabled'));
 }, 'paypal-pos.webhook.handlers' => static function (C $container): array {
-    return [new LogHandler($container->get('paypal-pos.webhook.logger')), new InventoryTrackingStartedHandler(), new InventoryTrackingStoppedHandler(), $container->get('paypal-pos.webhook.handlers.inventory-balance-changed'), $container->get('paypal-pos.webhook.handlers.purchase-created')];
+    return [new LogHandler($container->get('paypal-pos.webhook.logger')), new InventoryTrackingStartedHandler(), new InventoryTrackingStoppedHandler(), $container->get('paypal-pos.webhook.handlers.inventory-balance-changed')];
 }, 'paypal-pos.webhook.register' => static function (C $container): callable {
     return static function () use ($container): void {
         $webhookStorage = $container->get('paypal-pos.webhook.storage');

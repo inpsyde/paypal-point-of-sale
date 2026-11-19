@@ -1,0 +1,14 @@
+<?php
+
+namespace Syde\Vendor\Zettle\Unleash\Client\Variant;
+
+use Syde\Vendor\Zettle\Unleash\Client\Configuration\Context;
+use Syde\Vendor\Zettle\Unleash\Client\DTO\Variant;
+interface VariantHandler
+{
+    public function getDefaultVariant(): Variant;
+    /**
+     * @param array<Variant> $variants
+     */
+    public function selectVariant(array $variants, string $groupId, Context $context): ?Variant;
+}

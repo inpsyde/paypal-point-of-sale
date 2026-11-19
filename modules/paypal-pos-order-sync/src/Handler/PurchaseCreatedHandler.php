@@ -1,12 +1,13 @@
 <?php
 
 declare (strict_types=1);
-namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler;
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Handler;
 
 use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Job\CreateOrderJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\EventName;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 class PurchaseCreatedHandler implements WebhookHandler
 {
     /**

@@ -10,11 +10,11 @@ use Syde\Vendor\Zettle\Psr\Log\NullLogger;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Backfill\BackfillTools;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Handler\PurchaseCreatedHandler;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Job\BackfillJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Job\CreateOrderJob;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Order\OrderDefaults;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Order\OrderRepository;
-use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Order\OrderSideEffects;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Order\OrderTaxes;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Order\PaymentLabels;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\OrderSync\Order\PurchaseFilter;
@@ -39,8 +39,6 @@ return [$job(CreateOrderJob::TYPE) => static function (C $container): Job {
     return new PurchaseOrderFactory($container->get('paypal-pos.sdk.id-map.variant'), $container->get('paypal-pos.order-sync.order-defaults'), $container->get('paypal-pos.order-sync.order-taxes'), $container->get('paypal-pos.order-sync.order-repository'), $container->get('paypal-pos.order-sync.logger'), $container->get('paypal-pos.order-sync.order-status'));
 }, 'paypal-pos.order-sync.refund-factory' => static function (C $container): PurchaseRefundFactory {
     return new PurchaseRefundFactory($container->get('paypal-pos.order-sync.order-repository'), $container->get('paypal-pos.order-sync.order-defaults'), $container->get('paypal-pos.order-sync.order-taxes'), $container->get('paypal-pos.order-sync.payment-labels'), $container->get('paypal-pos.order-sync.logger'));
-}, 'paypal-pos.order-sync.order-side-effects' => static function (): OrderSideEffects {
-    return new OrderSideEffects();
 }, 'paypal-pos.order-sync.order-status' => static function (C $container): string {
     $settings = $container->get('paypal-pos.settings');
     $status = $settings->has('order_sync_status') ? (string) $settings->get('order_sync_status') : '';
@@ -65,6 +63,8 @@ return [$job(CreateOrderJob::TYPE) => static function (C $container): Job {
 }, 'paypal-pos.order-sync.enabled' => static function (C $container): bool {
     $settings = $container->get('paypal-pos.settings');
     return !$settings->has('order_sync_enabled') || $settings->get('order_sync_enabled') === OrderSyncMode::ENABLED;
+}, 'paypal-pos.order-sync.purchase-created-handler' => static function (C $container): PurchaseCreatedHandler {
+    return new PurchaseCreatedHandler($container->get('inpsyde.queue.enqueue-job'), $container->get('paypal-pos.order-sync.logger'), $container->get('paypal-pos.order-sync.enabled'));
 }, 'paypal-pos.order-sync.logger' => static function (): LoggerInterface {
     return new NullLogger();
 }, 'paypal-pos.order-sync.is-onboarded' => static function (C $container): callable {

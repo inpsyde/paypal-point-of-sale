@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
+class ComposerStaticInit9923ac96b64fbb51f9d935f4d6d2d483
 {
     public static $files = array (
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -21,10 +21,15 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'S' =>
         array (
             'Symfony\\Polyfill\\Uuid\\' => 22,
+            'Syde\\Vendor\\Zettle\\lastguest\\' => 29,
             'Syde\\Vendor\\Zettle\\Werkspot\\Enum\\' => 33,
+            'Syde\\Vendor\\Zettle\\Unleash\\Client\\PhpstanRules\\' => 47,
+            'Syde\\Vendor\\Zettle\\Unleash\\Client\\' => 34,
             'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\' => 42,
+            'Syde\\Vendor\\Zettle\\Symfony\\Contracts\\EventDispatcher\\' => 53,
             'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\' => 41,
             'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\' => 53,
+            'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\' => 53,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\' => 52,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Sync\\' => 48,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\' => 52,
@@ -36,9 +41,11 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Onboarding\\' => 54,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Notices\\' => 51,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\' => 51,
+            'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\' => 56,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\' => 48,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Assets\\' => 50,
             'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\' => 43,
+            'Syde\\Vendor\\Zettle\\Psr\\SimpleCache\\' => 35,
             'Syde\\Vendor\\Zettle\\Psr\\Log\\' => 27,
             'Syde\\Vendor\\Zettle\\Psr\\Http\\Message\\' => 36,
             'Syde\\Vendor\\Zettle\\Psr\\Http\\Client\\' => 35,
@@ -54,6 +61,7 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
             'Syde\\Vendor\\Zettle\\Inpsyde\\Queue\\' => 33,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\' => 38,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\' => 32,
+            'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\' => 40,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\' => 33,
             'Syde\\Vendor\\Zettle\\Inpsyde\\Assets\\' => 34,
             'Syde\\Vendor\\Zettle\\Inpsyde\\' => 27,
@@ -83,13 +91,29 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-uuid',
         ),
+        'Syde\\Vendor\\Zettle\\lastguest\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/lastguest/murmurhash/src/lastguest',
+        ),
         'Syde\\Vendor\\Zettle\\Werkspot\\Enum\\' =>
         array (
             0 => __DIR__ . '/..' . '/werkspot/enum/src',
         ),
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\PhpstanRules\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/unleash/client/phpstan',
+        ),
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/unleash/client/src',
+        ),
         'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
+        'Syde\\Vendor\\Zettle\\Symfony\\Contracts\\EventDispatcher\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts',
         ),
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\' =>
         array (
@@ -98,6 +122,10 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
+        ),
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
         ),
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\' =>
         array (
@@ -143,6 +171,10 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src',
         ),
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src',
+        ),
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/paypal-pos-auth/src',
@@ -154,6 +186,10 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Syde\\Vendor\\Zettle\\Psr\\SimpleCache\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
         'Syde\\Vendor\\Zettle\\Psr\\Log\\' =>
         array (
@@ -215,6 +251,10 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\' =>
         array (
             0 => __DIR__ . '/../..' . '/modules/inpsyde-http-client/src',
+        ),
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/inpsyde/feature-flags/src',
         ),
         'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\' =>
         array (
@@ -632,6 +672,29 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\LogExceptionHandler' => __DIR__ . '/../..' . '/modules/inpsyde-debug/src/LogExceptionHandler.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\MethodSignature' => __DIR__ . '/../..' . '/modules/inpsyde-debug/src/MethodSignature.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Debug\\TypeDelegatingFormatter' => __DIR__ . '/../..' . '/modules/inpsyde-debug/src/TypeDelegatingFormatter.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Abilities' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Abilities.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Cache\\MetricsBuffer' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Cache/MetricsBuffer.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Cache\\OptionsCache' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Cache/OptionsCache.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\ContextProvider' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/ContextProvider.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Http\\FeatureResponseCheck' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Http/FeatureResponseCheck.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Http\\InvalidFeatureResponse' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Http/InvalidFeatureResponse.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Http\\MetricsNotSent' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Http/MetricsNotSent.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Http\\MetricsSendGate' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Http/MetricsSendGate.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\RegistrationMode' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/RegistrationMode.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Status\\ConnectionError' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Status/ConnectionError.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Status\\ConnectionMonitor' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Status/ConnectionMonitor.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Status\\ConnectionSource' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Status/ConnectionSource.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\Status\\ConnectionStatus' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/Status/ConnectionStatus.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\UnleashFeature' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/UnleashFeature.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\UnleashProject' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/UnleashProject.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Adapter\\Unleash\\UnleashProjectBuilder' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Adapter/Unleash/UnleashProjectBuilder.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\FeatureFlags' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/FeatureFlags.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Feature\\Feature' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Feature/Feature.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Feature\\LocalFeature' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Feature/LocalFeature.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Project\\LocalProject' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Project/LocalProject.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Project\\Project' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Project/Project.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\Project\\ProjectRegistry' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/Project/ProjectRegistry.php',
+        'Syde\\Vendor\\Zettle\\Inpsyde\\FeatureFlags\\SiteId' => __DIR__ . '/..' . '/inpsyde/feature-flags/src/SiteId.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\HttpClientFactory' => __DIR__ . '/../..' . '/modules/inpsyde-http-client/src/HttpClientFactory.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Http\\HttpClientModule' => __DIR__ . '/../..' . '/modules/inpsyde-http-client/src/HttpClientModule.php',
         'Syde\\Vendor\\Zettle\\Inpsyde\\Modularity\\Container\\ContainerConfigurator' => __DIR__ . '/..' . '/inpsyde/modularity/src/Container/ContainerConfigurator.php',
@@ -822,6 +885,9 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/DummyTest.php',
         'Syde\\Vendor\\Zettle\\Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'Syde\\Vendor\\Zettle\\Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
+        'Syde\\Vendor\\Zettle\\Psr\\SimpleCache\\CacheException' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheException.php',
+        'Syde\\Vendor\\Zettle\\Psr\\SimpleCache\\CacheInterface' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheInterface.php',
+        'Syde\\Vendor\\Zettle\\Psr\\SimpleCache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/simple-cache/src/InvalidArgumentException.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Assets\\AssetsModule' => __DIR__ . '/../..' . '/modules/paypal-pos-assets/src/AssetsModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\AuthModule' => __DIR__ . '/../..' . '/modules/paypal-pos-auth/src/AuthModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Auth\\AuthenticatedClientFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-auth/src/AuthenticatedClientFactory.php',
@@ -861,6 +927,10 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Container\\WpOptionContainer' => __DIR__ . '/../..' . '/src/Container/WpOptionContainer.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Container\\WritableContainerInterface' => __DIR__ . '/../..' . '/src/Container/WritableContainerInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\DeprecatedHooks' => __DIR__ . '/../..' . '/src/DeprecatedHooks.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\FeatureFlagsModule' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/FeatureFlagsModule.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\FlaggedModule' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/FlaggedModule.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Flags' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/Flags.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Settings' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/Settings.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloader' => __DIR__ . '/../..' . '/src/Http/PageReloader.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloaderInterface' => __DIR__ . '/../..' . '/src/Http/PageReloaderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\CompoundLogger' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/Logger/CompoundLogger.php',
@@ -927,6 +997,7 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Backfill\\BackfillTools' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Backfill/BackfillTools.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Backfill\\PurchaseBackfill' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Backfill/PurchaseBackfill.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Backfill\\SetupImportChoice' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Backfill/SetupImportChoice.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Handler\\PurchaseCreatedHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Handler/PurchaseCreatedHandler.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Job\\BackfillJob' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Job/BackfillJob.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Job\\CreateOrderJob' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Job/CreateOrderJob.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\OrderSyncMode' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/OrderSyncMode.php',
@@ -948,6 +1019,7 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Order\\PurchaseOrderFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Order/PurchaseOrderFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Order\\PurchaseRefundFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Order/PurchaseRefundFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\Order\\RefundLines' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/Order/RefundLines.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\OrderSync\\PosOrdersModule' => __DIR__ . '/../..' . '/modules/paypal-pos-order-sync/src/PosOrdersModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\API\\Image\\Images' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/API/Image/Images.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\API\\Inventory\\Inventory' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/API/Inventory/Inventory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\PhpSdk\\API\\Inventory\\Locations' => __DIR__ . '/../..' . '/modules/paypal-pos-php-sdk/src/API/Inventory/Locations.php',
@@ -1237,6 +1309,7 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\Provider\\SyncVisibilityTaxonomyProvider' => __DIR__ . '/../..' . '/modules/paypal-pos-product-settings/src/Provider/SyncVisibilityTaxonomyProvider.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\ProductSettings\\Taxonomy\\ZettleSyncVisibilityTaxonomy' => __DIR__ . '/../..' . '/modules/paypal-pos-product-settings/src/Taxonomy/ZettleSyncVisibilityTaxonomy.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Provider' => __DIR__ . '/../..' . '/src/Provider.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\DroppingUnknownTypesFactory' => __DIR__ . '/../..' . '/modules/paypal-pos-queue/src/DroppingUnknownTypesFactory.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Queue\\ZettleQueueModule' => __DIR__ . '/../..' . '/modules/paypal-pos-queue/src/ZettleQueueModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\Exception\\SettingNotFoundException' => __DIR__ . '/../..' . '/modules/paypal-pos-settings/src/Exception/SettingNotFoundException.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Settings\\FieldRenderer\\FieldRendererInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-settings/src/FieldRenderer/FieldRendererInterface.php',
@@ -1295,7 +1368,6 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Handler\\InventoryTrackingStoppedHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Handler/InventoryTrackingStoppedHandler.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Handler\\LogHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Handler/LogHandler.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Handler\\ProductDeletedHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Handler/ProductDeletedHandler.php',
-        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Handler\\PurchaseCreatedHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Handler/PurchaseCreatedHandler.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Handler\\WebhookHandler' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Handler/WebhookHandler.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\InventoryBalanceChangedJob' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Job/InventoryBalanceChangedJob.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\Job\\WebhookRegistrationJob' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/Job/WebhookRegistrationJob.php',
@@ -1308,6 +1380,16 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\WebhookRegistration' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/WebhookRegistration.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\WebhookStorage' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/WebhookStorage.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Webhooks\\WebhookStorageInterface' => __DIR__ . '/../..' . '/modules/paypal-pos-webhooks/src/WebhookStorageInterface.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\Attribute\\AsEventListener' => __DIR__ . '/..' . '/symfony/event-dispatcher/Attribute/AsEventListener.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\Debug\\WrappedListener' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/WrappedListener.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\DependencyInjection\\AddEventAliasesPass' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/AddEventAliasesPass.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\DependencyInjection\\RegisterListenersPass' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/RegisterListenersPass.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\EventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventDispatcher.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventDispatcherInterface.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\EventSubscriberInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventSubscriberInterface.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\GenericEvent' => __DIR__ . '/..' . '/symfony/event-dispatcher/GenericEvent.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Component\\EventDispatcher\\ImmutableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/ImmutableEventDispatcher.php',
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\Debug\\OptionsResolverIntrospector' => __DIR__ . '/..' . '/symfony/options-resolver/Debug/OptionsResolverIntrospector.php',
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\Exception\\AccessException' => __DIR__ . '/..' . '/symfony/options-resolver/Exception/AccessException.php',
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\OptionsResolver\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/options-resolver/Exception/ExceptionInterface.php',
@@ -1341,21 +1423,155 @@ class ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\UuidV4' => __DIR__ . '/..' . '/symfony/uid/UuidV4.php',
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\UuidV5' => __DIR__ . '/..' . '/symfony/uid/UuidV5.php',
         'Syde\\Vendor\\Zettle\\Symfony\\Component\\Uid\\UuidV6' => __DIR__ . '/..' . '/symfony/uid/UuidV6.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Contracts\\EventDispatcher\\Event' => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts/Event.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts/EventDispatcherInterface.php',
+        'Syde\\Vendor\\Zettle\\Symfony\\Contracts\\EventDispatcher\\ListenerIntrospectionInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts/ListenerIntrospectionInterface.php',
         'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\Php80' => __DIR__ . '/..' . '/symfony/polyfill-php80/Php80.php',
         'Syde\\Vendor\\Zettle\\Symfony\\Polyfill\\Php80\\PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/PhpToken.php',
         'Syde\\Vendor\\Zettle\\UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\BootstrapHandler' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/BootstrapHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\BootstrapProvider' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/BootstrapProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\CompoundBootstrapProvider' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/CompoundBootstrapProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\DefaultBootstrapHandler' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/DefaultBootstrapHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\EmptyBootstrapProvider' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/EmptyBootstrapProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\FileBootstrapProvider' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/FileBootstrapProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\JsonBootstrapProvider' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/JsonBootstrapProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Bootstrap\\JsonSerializableBootstrapProvider' => __DIR__ . '/..' . '/unleash/client/src/Bootstrap/JsonSerializableBootstrapProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Client\\DefaultRegistrationService' => __DIR__ . '/..' . '/unleash/client/src/Client/DefaultRegistrationService.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Client\\RegistrationService' => __DIR__ . '/..' . '/unleash/client/src/Client/RegistrationService.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Configuration\\Context' => __DIR__ . '/..' . '/unleash/client/src/Configuration/Context.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Configuration\\UnleashConfiguration' => __DIR__ . '/..' . '/unleash/client/src/Configuration/UnleashConfiguration.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Configuration\\UnleashContext' => __DIR__ . '/..' . '/unleash/client/src/Configuration/UnleashContext.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\ConstraintValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/ConstraintValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\DefaultConstraintValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/DefaultConstraintValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\AbstractOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/AbstractOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Date\\AbstractDateOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Date/AbstractDateOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Date\\DateAfterOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Date/DateAfterOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Date\\DateBeforeOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Date/DateBeforeOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Lists\\AbstractListOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Lists/AbstractListOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Lists\\InListOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Lists/InListOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Lists\\NotInListOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Lists/NotInListOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Number\\AbstractNumberOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Number/AbstractNumberOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Number\\NumberEqualsOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Number/NumberEqualsOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Number\\NumberGreaterThanOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Number/NumberGreaterThanOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Number\\NumberGreaterThanOrEqualsOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Number/NumberGreaterThanOrEqualsOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Number\\NumberLowerThanOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Number/NumberLowerThanOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Number\\NumberLowerThanOrEqualsOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Number/NumberLowerThanOrEqualsOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\OperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/OperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\String\\AbstractStringOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/String/AbstractStringOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\String\\StringContainsOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/String/StringContainsOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\String\\StringEndsWithOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/String/StringEndsWithOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\String\\StringStartsWithOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/String/StringStartsWithOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Version\\AbstractVersionOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Version/AbstractVersionOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Version\\VersionEqualsOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Version/VersionEqualsOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Version\\VersionGreaterThanOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Version/VersionGreaterThanOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Version\\VersionGreaterThanOrEqualsOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Version/VersionGreaterThanOrEqualsOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Version\\VersionLowerThanOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Version/VersionLowerThanOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ConstraintValidator\\Operator\\Version\\VersionLowerThanOrEqualsOperatorValidator' => __DIR__ . '/..' . '/unleash/client/src/ConstraintValidator/Operator/Version/VersionLowerThanOrEqualsOperatorValidator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ContextProvider\\DefaultUnleashContextProvider' => __DIR__ . '/..' . '/unleash/client/src/ContextProvider/DefaultUnleashContextProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\ContextProvider\\UnleashContextProvider' => __DIR__ . '/..' . '/unleash/client/src/ContextProvider/UnleashContextProvider.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Constraint' => __DIR__ . '/..' . '/unleash/client/src/DTO/Constraint.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultConstraint' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultConstraint.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultFeature' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultFeature.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultFeatureDependency' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultFeatureDependency.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultFeatureEnabledResult' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultFeatureEnabledResult.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultProxyFeature' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultProxyFeature.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultSegment' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultSegment.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultStrategy' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultStrategy.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultVariant' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultVariant.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultVariantOverride' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultVariantOverride.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\DefaultVariantPayload' => __DIR__ . '/..' . '/unleash/client/src/DTO/DefaultVariantPayload.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Feature' => __DIR__ . '/..' . '/unleash/client/src/DTO/Feature.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\FeatureDependency' => __DIR__ . '/..' . '/unleash/client/src/DTO/FeatureDependency.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\FeatureEnabledResult' => __DIR__ . '/..' . '/unleash/client/src/DTO/FeatureEnabledResult.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Internal\\UnresolvedFeature' => __DIR__ . '/..' . '/unleash/client/src/DTO/Internal/UnresolvedFeature.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Internal\\UnresolvedFeatureDependency' => __DIR__ . '/..' . '/unleash/client/src/DTO/Internal/UnresolvedFeatureDependency.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Internal\\UnresolvedVariant' => __DIR__ . '/..' . '/unleash/client/src/DTO/Internal/UnresolvedVariant.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\ProxyFeature' => __DIR__ . '/..' . '/unleash/client/src/DTO/ProxyFeature.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Segment' => __DIR__ . '/..' . '/unleash/client/src/DTO/Segment.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Strategy' => __DIR__ . '/..' . '/unleash/client/src/DTO/Strategy.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\Variant' => __DIR__ . '/..' . '/unleash/client/src/DTO/Variant.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\VariantOverride' => __DIR__ . '/..' . '/unleash/client/src/DTO/VariantOverride.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DTO\\VariantPayload' => __DIR__ . '/..' . '/unleash/client/src/DTO/VariantPayload.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DefaultProxyUnleash' => __DIR__ . '/..' . '/unleash/client/src/DefaultProxyUnleash.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\DefaultUnleash' => __DIR__ . '/..' . '/unleash/client/src/DefaultUnleash.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Enum\\CacheKey' => __DIR__ . '/..' . '/unleash/client/src/Enum/CacheKey.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Enum\\ConstraintOperator' => __DIR__ . '/..' . '/unleash/client/src/Enum/ConstraintOperator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Enum\\ContextField' => __DIR__ . '/..' . '/unleash/client/src/Enum/ContextField.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Enum\\ImpressionDataEventType' => __DIR__ . '/..' . '/unleash/client/src/Enum/ImpressionDataEventType.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Enum\\Stickiness' => __DIR__ . '/..' . '/unleash/client/src/Enum/Stickiness.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Enum\\VariantPayloadType' => __DIR__ . '/..' . '/unleash/client/src/Enum/VariantPayloadType.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Event\\AbstractEvent' => __DIR__ . '/..' . '/unleash/client/src/Event/AbstractEvent.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Event\\FeatureToggleDisabledEvent' => __DIR__ . '/..' . '/unleash/client/src/Event/FeatureToggleDisabledEvent.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Event\\FeatureToggleMissingStrategyHandlerEvent' => __DIR__ . '/..' . '/unleash/client/src/Event/FeatureToggleMissingStrategyHandlerEvent.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Event\\FeatureToggleNotFoundEvent' => __DIR__ . '/..' . '/unleash/client/src/Event/FeatureToggleNotFoundEvent.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Event\\FetchingDataFailedEvent' => __DIR__ . '/..' . '/unleash/client/src/Event/FetchingDataFailedEvent.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Event\\ImpressionDataEvent' => __DIR__ . '/..' . '/unleash/client/src/Event/ImpressionDataEvent.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Event\\UnleashEvents' => __DIR__ . '/..' . '/unleash/client/src/Event/UnleashEvents.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\CompoundException' => __DIR__ . '/..' . '/unleash/client/src/Exception/CompoundException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\CyclicDependencyException' => __DIR__ . '/..' . '/unleash/client/src/Exception/CyclicDependencyException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\HttpResponseException' => __DIR__ . '/..' . '/unleash/client/src/Exception/HttpResponseException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\InvalidIpAddressException' => __DIR__ . '/..' . '/unleash/client/src/Exception/InvalidIpAddressException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\InvalidValueException' => __DIR__ . '/..' . '/unleash/client/src/Exception/InvalidValueException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\MissingArgumentException' => __DIR__ . '/..' . '/unleash/client/src/Exception/MissingArgumentException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\OperatorValidatorException' => __DIR__ . '/..' . '/unleash/client/src/Exception/OperatorValidatorException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Exception\\StreamException' => __DIR__ . '/..' . '/unleash/client/src/Exception/StreamException.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Builder\\CacheAware' => __DIR__ . '/..' . '/unleash/client/src/Helper/Builder/CacheAware.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Builder\\ConfigurationAware' => __DIR__ . '/..' . '/unleash/client/src/Helper/Builder/ConfigurationAware.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Builder\\HttpClientAware' => __DIR__ . '/..' . '/unleash/client/src/Helper/Builder/HttpClientAware.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Builder\\MetricsSenderAware' => __DIR__ . '/..' . '/unleash/client/src/Helper/Builder/MetricsSenderAware.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Builder\\RequestFactoryAware' => __DIR__ . '/..' . '/unleash/client/src/Helper/Builder/RequestFactoryAware.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Builder\\StaleCacheAware' => __DIR__ . '/..' . '/unleash/client/src/Helper/Builder/StaleCacheAware.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Builder\\StickinessCalculatorAware' => __DIR__ . '/..' . '/unleash/client/src/Helper/Builder/StickinessCalculatorAware.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\ConstraintValidatorTrait' => __DIR__ . '/..' . '/unleash/client/src/Helper/ConstraintValidatorTrait.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\DefaultImplementationLocator' => __DIR__ . '/..' . '/unleash/client/src/Helper/DefaultImplementationLocator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\NetworkCalculator' => __DIR__ . '/..' . '/unleash/client/src/Helper/NetworkCalculator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\StringStream' => __DIR__ . '/..' . '/unleash/client/src/Helper/StringStream.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\UnleashBuilderContainer' => __DIR__ . '/..' . '/unleash/client/src/Helper/UnleashBuilderContainer.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Url' => __DIR__ . '/..' . '/unleash/client/src/Helper/Url.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Helper\\Uuid' => __DIR__ . '/..' . '/unleash/client/src/Helper/Uuid.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\DefaultMetricsBucketSerializer' => __DIR__ . '/..' . '/unleash/client/src/Metrics/DefaultMetricsBucketSerializer.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\DefaultMetricsHandler' => __DIR__ . '/..' . '/unleash/client/src/Metrics/DefaultMetricsHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\DefaultMetricsSender' => __DIR__ . '/..' . '/unleash/client/src/Metrics/DefaultMetricsSender.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\MetricsBucket' => __DIR__ . '/..' . '/unleash/client/src/Metrics/MetricsBucket.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\MetricsBucketSerializer' => __DIR__ . '/..' . '/unleash/client/src/Metrics/MetricsBucketSerializer.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\MetricsBucketToggle' => __DIR__ . '/..' . '/unleash/client/src/Metrics/MetricsBucketToggle.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\MetricsHandler' => __DIR__ . '/..' . '/unleash/client/src/Metrics/MetricsHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Metrics\\MetricsSender' => __DIR__ . '/..' . '/unleash/client/src/Metrics/MetricsSender.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\PhpstanRules\\NoEmptyFunctionRule' => __DIR__ . '/..' . '/unleash/client/phpstan/NoEmptyFunctionRule.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Repository\\DefaultUnleashProxyRepository' => __DIR__ . '/..' . '/unleash/client/src/Repository/DefaultUnleashProxyRepository.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Repository\\DefaultUnleashRepository' => __DIR__ . '/..' . '/unleash/client/src/Repository/DefaultUnleashRepository.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Repository\\ProxyRepository' => __DIR__ . '/..' . '/unleash/client/src/Repository/ProxyRepository.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Repository\\UnleashRepository' => __DIR__ . '/..' . '/unleash/client/src/Repository/UnleashRepository.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Stickiness\\MurmurHashCalculator' => __DIR__ . '/..' . '/unleash/client/src/Stickiness/MurmurHashCalculator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Stickiness\\StickinessCalculator' => __DIR__ . '/..' . '/unleash/client/src/Stickiness/StickinessCalculator.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\AbstractStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/AbstractStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\ApplicationHostnameStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/ApplicationHostnameStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\DefaultStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/DefaultStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\GradualRolloutRandomStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/GradualRolloutRandomStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\GradualRolloutSessionIdStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/GradualRolloutSessionIdStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\GradualRolloutStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/GradualRolloutStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\GradualRolloutUserIdStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/GradualRolloutUserIdStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\IpAddressStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/IpAddressStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\StrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/StrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Strategy\\UserIdStrategyHandler' => __DIR__ . '/..' . '/unleash/client/src/Strategy/UserIdStrategyHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Unleash' => __DIR__ . '/..' . '/unleash/client/src/Unleash.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\UnleashBuilder' => __DIR__ . '/..' . '/unleash/client/src/UnleashBuilder.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Variant\\DefaultVariantHandler' => __DIR__ . '/..' . '/unleash/client/src/Variant/DefaultVariantHandler.php',
+        'Syde\\Vendor\\Zettle\\Unleash\\Client\\Variant\\VariantHandler' => __DIR__ . '/..' . '/unleash/client/src/Variant/VariantHandler.php',
         'Syde\\Vendor\\Zettle\\ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'Syde\\Vendor\\Zettle\\Werkspot\\Enum\\AbstractEnum' => __DIR__ . '/..' . '/werkspot/enum/src/AbstractEnum.php',
         'Syde\\Vendor\\Zettle\\Werkspot\\Enum\\Util\\ClassNameConverter' => __DIR__ . '/..' . '/werkspot/enum/src/Util/ClassNameConverter.php',
+        'Syde\\Vendor\\Zettle\\lastguest\\Murmur' => __DIR__ . '/..' . '/lastguest/murmurhash/src/lastguest/Murmur.php',
         'Symfony\\Polyfill\\Uuid\\Uuid' => __DIR__ . '/..' . '/symfony/polyfill-uuid/Uuid.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit33be4d7dc1becbba18c4a944078b9a90::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9923ac96b64fbb51f9d935f4d6d2d483::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9923ac96b64fbb51f9d935f4d6d2d483::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit9923ac96b64fbb51f9d935f4d6d2d483::$classMap;
 
         }, null, ClassLoader::class);
     }
