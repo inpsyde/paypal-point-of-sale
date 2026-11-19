@@ -47,16 +47,17 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "inpsyde/assets": "^2.1",
+        "inpsyde/feature-flags": "^2.1",
         "inpsyde/inpsyde-debug": "*",
         "inpsyde/inpsyde-http-client": "*",
         "inpsyde/inpsyde-queue": "*",
         "inpsyde/inpsyde-state-machine": "*",
         "inpsyde/inpsyde-woocommerce-lifecycle-events": "*",
         "inpsyde/metabox-orchestra": "^0.4.3",
-        "inpsyde/wc-product-contracts": "*",
-        "inpsyde/wc-status-report": "*",
+        "inpsyde/modularity": "^1.7",
         "inpsyde/paypal-pos-assets": "*",
         "inpsyde/paypal-pos-auth": "*",
+        "inpsyde/paypal-pos-feature-flags": "*",
         "inpsyde/paypal-pos-logging": "*",
         "inpsyde/paypal-pos-notices": "*",
         "inpsyde/paypal-pos-onboarding": "*",
@@ -67,11 +68,13 @@
         "inpsyde/paypal-pos-settings": "*",
         "inpsyde/paypal-pos-sync": "*",
         "inpsyde/paypal-pos-webhooks": "*",
-        "inpsyde/modularity": "^1.7",
+        "inpsyde/wc-product-contracts": "*",
+        "inpsyde/wc-status-report": "*",
         "oomphinc/composer-installers-extender": "^2.0",
         "psr/container": "^1.1 || ^2.0",
         "psr/event-dispatcher": "^1.0",
-        "sniccowp/php-scoper-wordpress-excludes": "^6.8"
+        "sniccowp/php-scoper-wordpress-excludes": "^6.8",
+        "unleash/client": "^2.5"
     },
     "require-dev": {
         "brain/monkey": "^2.0",
@@ -120,6 +123,9 @@
             "inpsyde/module-ide-helper": true,
             "oomphinc/composer-installers-extender": true,
             "php-http/discovery": false
+        },
+        "platform": {
+            "php": "8.2"
         }
     },
     "extra": {
