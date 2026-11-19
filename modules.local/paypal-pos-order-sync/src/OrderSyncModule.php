@@ -9,9 +9,6 @@ use Inpsyde\Modularity\Module\ExtendingModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
-use Syde\PayPal\PointOfSale\OrderSync\Order\OrderScreenPaymentMethod;
-use Syde\PayPal\PointOfSale\OrderSync\Order\OrderSideEffects;
-use Syde\PayPal\PointOfSale\OrderSync\Order\PurchaseOrderFactory;
 
 class OrderSyncModule implements ServiceModule, ExtendingModule, ExecutableModule
 {
@@ -29,12 +26,6 @@ class OrderSyncModule implements ServiceModule, ExtendingModule, ExecutableModul
 
     public function run(ContainerInterface $container): bool
     {
-        $sideEffects = $container->get('paypal-pos.order-sync.order-side-effects');
-        assert($sideEffects instanceof OrderSideEffects);
-        $sideEffects->suppressEmails();
-        $sideEffects->preventStockChanges();
-        add_action('current_screen', [OrderScreenPaymentMethod::class, 'register']);
-
         $this->registerRecovery($container);
         add_action('paypal-pos.onboarding.sync-params.after', [Backfill\SetupImportChoice::class, 'render']);
 
@@ -47,21 +38,7 @@ class OrderSyncModule implements ServiceModule, ExtendingModule, ExecutableModul
             [$settingsFilter, 'filterSettingsValues']
         );
 
-        add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);
-
         return true;
-    }
-
-    /**
-     * Show POS orders' Origin as "PayPal POS" instead of "Source: PayPal POS".
-     */
-    public static function filterOriginLabel(string $label, string $sourceType, string $source): string
-    {
-        if ($sourceType === PurchaseOrderFactory::ORIGIN_SOURCE_TYPE && $source === PurchaseOrderFactory::ORIGIN_SOURCE) {
-            return '';
-        }
-
-        return $label;
     }
 
     private function registerRecovery(ContainerInterface $container): void

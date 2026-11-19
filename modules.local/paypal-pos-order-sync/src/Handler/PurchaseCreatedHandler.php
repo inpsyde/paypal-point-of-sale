@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Syde\PayPal\PointOfSale\Webhooks\Handler;
+namespace Syde\PayPal\PointOfSale\OrderSync\Handler;
 
 use Psr\Log\LoggerInterface;
 use Syde\PayPal\PointOfSale\OrderSync\Job\CreateOrderJob;
 use Syde\PayPal\PointOfSale\PhpSdk\API\Webhooks\Entity\Payload;
 use Syde\PayPal\PointOfSale\Webhooks\EventName;
+use Syde\PayPal\PointOfSale\Webhooks\Handler\WebhookHandler;
 
 class PurchaseCreatedHandler implements WebhookHandler
 {

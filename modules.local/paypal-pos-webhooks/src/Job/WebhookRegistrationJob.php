@@ -8,7 +8,6 @@ use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Psr\Log\LoggerInterface;
-use Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Throwable;
 
 class WebhookRegistrationJob implements Job
@@ -25,17 +24,27 @@ class WebhookRegistrationJob implements Job
      */
     private $canRegisterWebhooks;
 
-    private PurchaseBackfill $backfill;
+    /**
+     * @var callable(): void
+     */
+    private $onRegistrationFailed;
+
+    /**
+     * @var callable(): void
+     */
+    private $onRegistrationSucceeded;
 
     public function __construct(
         callable $webhookRegistration,
         callable $canRegisterWebhooks,
-        PurchaseBackfill $backfill
+        callable $onRegistrationFailed,
+        callable $onRegistrationSucceeded
     ) {
 
         $this->webhookRegistration = $webhookRegistration;
         $this->canRegisterWebhooks = $canRegisterWebhooks;
-        $this->backfill = $backfill;
+        $this->onRegistrationFailed = $onRegistrationFailed;
+        $this->onRegistrationSucceeded = $onRegistrationSucceeded;
     }
 
     /**
@@ -57,11 +66,11 @@ class WebhookRegistrationJob implements Job
             // Registration deletes the remote webhook first, so a failure leaves none behind.
             // Returning false lets the queue retry; a throw would drop the job.
             $logger->error(sprintf('Webhook registration failed: %s', $throwable->getMessage()));
-            $this->backfill->rememberWebhookGap();
+            ($this->onRegistrationFailed)();
 
             return false;
         }
-        $this->backfill->recoverWebhookGap();
+        ($this->onRegistrationSucceeded)();
 
         return true;
     }

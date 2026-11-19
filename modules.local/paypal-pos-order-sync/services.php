@@ -11,11 +11,11 @@ use Psr\Log\NullLogger;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\PayPal\PointOfSale\OrderSync\Backfill\BackfillTools;
 use Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
+use Syde\PayPal\PointOfSale\OrderSync\Handler\PurchaseCreatedHandler;
 use Syde\PayPal\PointOfSale\OrderSync\Job\BackfillJob;
 use Syde\PayPal\PointOfSale\OrderSync\Job\CreateOrderJob;
 use Syde\PayPal\PointOfSale\OrderSync\Order\OrderDefaults;
 use Syde\PayPal\PointOfSale\OrderSync\Order\OrderRepository;
-use Syde\PayPal\PointOfSale\OrderSync\Order\OrderSideEffects;
 use Syde\PayPal\PointOfSale\OrderSync\Order\OrderTaxes;
 use Syde\PayPal\PointOfSale\OrderSync\Order\PaymentLabels;
 use Syde\PayPal\PointOfSale\OrderSync\Order\PurchaseFilter;
@@ -78,9 +78,6 @@ return [
             $container->get('paypal-pos.order-sync.logger')
         );
     },
-    'paypal-pos.order-sync.order-side-effects' => static function (): OrderSideEffects {
-        return new OrderSideEffects();
-    },
     'paypal-pos.order-sync.order-status' => static function (C $container): string {
         $settings = $container->get('paypal-pos.settings');
         $status = $settings->has('order_sync_status') ? (string) $settings->get('order_sync_status') : '';
@@ -127,6 +124,13 @@ return [
 
         return !$settings->has('order_sync_enabled')
             || $settings->get('order_sync_enabled') === OrderSyncMode::ENABLED;
+    },
+    'paypal-pos.order-sync.purchase-created-handler' => static function (C $container): PurchaseCreatedHandler {
+        return new PurchaseCreatedHandler(
+            $container->get('inpsyde.queue.enqueue-job'),
+            $container->get('paypal-pos.order-sync.logger'),
+            $container->get('paypal-pos.order-sync.enabled')
+        );
     },
     'paypal-pos.order-sync.logger' => static function (): LoggerInterface {
         return new NullLogger();

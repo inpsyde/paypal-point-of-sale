@@ -46,8 +46,9 @@ return [
         JobRecordFactoryInterface $previous,
         C $container
     ): JobRecordFactoryInterface {
-        return new ContainerAwareJobRecordFactory(
-            new JobContainer($container, 'paypal-pos.job')
+        return new DroppingUnknownTypesFactory(
+            new ContainerAwareJobRecordFactory(new JobContainer($container, 'paypal-pos.job')),
+            $container->get('inpsyde.queue.logger')
         );
     },
 ];
