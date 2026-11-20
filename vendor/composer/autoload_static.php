@@ -931,6 +931,7 @@ class ComposerStaticInit9923ac96b64fbb51f9d935f4d6d2d483
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\FlaggedModule' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/FlaggedModule.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Flags' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/Flags.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\Settings' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/Settings.php',
+        'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\FeatureFlags\\StatusReportItems' => __DIR__ . '/../..' . '/modules/paypal-pos-feature-flags/src/StatusReportItems.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloader' => __DIR__ . '/../..' . '/src/Http/PageReloader.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Http\\PageReloaderInterface' => __DIR__ . '/../..' . '/src/Http/PageReloaderInterface.php',
         'Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Logging\\Logger\\CompoundLogger' => __DIR__ . '/../..' . '/modules/paypal-pos-logging/src/Logger/CompoundLogger.php',
