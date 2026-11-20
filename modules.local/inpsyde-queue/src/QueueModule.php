@@ -43,10 +43,16 @@ class QueueModule implements ServiceModule, ExecutableModule
         );
 
         if (defined('WP_CLI') && WP_CLI) {
-            /** @noinspection PhpParamsInspection */
-            WP_CLI::add_command(
-                "{$namespace} queue",
-                new QueueCommand($container->get('inpsyde.queue.processor'))
+            // Resolving a command may translate strings, and WordPress warns about translations loaded before init.
+            add_action(
+                'init',
+                static function () use ($container, $namespace): void {
+                    /** @noinspection PhpParamsInspection */
+                    WP_CLI::add_command(
+                        "{$namespace} queue",
+                        new QueueCommand($container->get('inpsyde.queue.processor'))
+                    );
+                }
             );
         }
 
