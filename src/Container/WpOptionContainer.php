@@ -22,6 +22,7 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
 
     public function clear(): void
     {
+        $this->options = [];
         update_option($this->optionKey, []);
     }
 
@@ -47,13 +48,32 @@ class WpOptionContainer implements ContainerInterface, WritableContainerInterfac
 
     public function set(string $key, mixed $value): void
     {
+        $this->reload();
         $this->options[$key] = $value;
         update_option($this->optionKey, $this->options);
     }
 
     public function unset(string $key): void
     {
+        $this->reload();
         unset($this->options[$key]);
         update_option($this->optionKey, $this->options);
+    }
+
+    /**
+     * Writes save the whole array, so they start from the stored option, or keys saved by another
+     * request in the meantime would be reverted. Dropping the cached copy makes get_option() read
+     * the table, and update_option() compare against it.
+     */
+    private function reload(): void
+    {
+        wp_cache_delete($this->optionKey, 'options');
+        $alloptions = wp_load_alloptions();
+        if (isset($alloptions[$this->optionKey])) {
+            unset($alloptions[$this->optionKey]);
+            wp_cache_set('alloptions', $alloptions, 'options');
+        }
+
+        $this->options = (array) get_option($this->optionKey, []);
     }
 }

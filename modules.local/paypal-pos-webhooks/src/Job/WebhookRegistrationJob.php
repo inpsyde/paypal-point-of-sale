@@ -8,6 +8,7 @@ use Inpsyde\Queue\Queue\Job\ContextInterface;
 use Inpsyde\Queue\Queue\Job\Job;
 use Inpsyde\Queue\Queue\Job\JobRepository;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class WebhookRegistrationJob implements Job
 {
@@ -23,10 +24,27 @@ class WebhookRegistrationJob implements Job
      */
     private $canRegisterWebhooks;
 
-    public function __construct(callable $webhookRegistration, callable $canRegisterWebhooks)
-    {
+    /**
+     * @var callable(): void
+     */
+    private $onRegistrationFailed;
+
+    /**
+     * @var callable(): void
+     */
+    private $onRegistrationSucceeded;
+
+    public function __construct(
+        callable $webhookRegistration,
+        callable $canRegisterWebhooks,
+        callable $onRegistrationFailed,
+        callable $onRegistrationSucceeded
+    ) {
+
         $this->webhookRegistration = $webhookRegistration;
         $this->canRegisterWebhooks = $canRegisterWebhooks;
+        $this->onRegistrationFailed = $onRegistrationFailed;
+        $this->onRegistrationSucceeded = $onRegistrationSucceeded;
     }
 
     /**
@@ -42,8 +60,17 @@ class WebhookRegistrationJob implements Job
             return true;
         }
 
-        ($this->webhookRegistration)();
-        // looks like errors are already logged inside, so no need to duplicate logging
+        try {
+            ($this->webhookRegistration)();
+        } catch (Throwable $throwable) {
+            // Registration deletes the remote webhook first, so a failure leaves none behind.
+            // Returning false lets the queue retry; a throw would drop the job.
+            $logger->error(sprintf('Webhook registration failed: %s', $throwable->getMessage()));
+            ($this->onRegistrationFailed)();
+
+            return false;
+        }
+        ($this->onRegistrationSucceeded)();
 
         return true;
     }
