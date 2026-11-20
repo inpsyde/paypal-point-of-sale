@@ -7,6 +7,10 @@
         {
             "type": "composer",
             "url": "https://repo.packagist.com/inpsyde/"
+        },
+        {
+            "type": "path",
+            "url": "../inpsyde-wc-status-report"
         }
     ],
     "require": {
@@ -14,6 +18,7 @@
         "inpsyde/feature-flags": "^2.1",
         "inpsyde/modularity": "^1.7",
         "inpsyde/psr-18-wp-http-client": "^0.1",
+        "inpsyde/wc-status-report": "*",
         "nyholm/psr7": "^1.2",
         "psr/container": "^1.1 || ^2.0",
         "psr/http-client": "^1.0",

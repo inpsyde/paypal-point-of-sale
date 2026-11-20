@@ -7,6 +7,8 @@ namespace Syde\PayPal\PointOfSale\FeatureFlags\Tests\Unit;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
+use Inpsyde\WcStatusReport\ReportItemFactory;
+use Inpsyde\WcStatusReport\ReportItemInterface;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
@@ -81,6 +83,38 @@ class FeatureFlagsModuleTest extends TestCase
         $logger->expects('error')->never();
 
         (new FeatureFlagsModule($this->flags('', '')))->run($this->container($logger));
+    }
+
+    /**
+     * The items are shown before onboarding too, and other modules' items are kept.
+     */
+    public function testTheStatusReportGetsTheFeatureFlagItems(): void
+    {
+        Functions\stubTranslationFunctions();
+        $extensions = (new FeatureFlagsModule($this->flags('', '')))->extensions();
+        $container = Mockery::mock(ContainerInterface::class);
+        $container->allows('get')
+            ->with('inpsyde.wc-status-report.item-factory')
+            ->andReturn(new ReportItemFactory());
+        $previous = (new ReportItemFactory())->createReportItem('Earlier item', 'Earlier item', '');
+
+        $items = $extensions['inpsyde.wc-status-report.items']([$previous], $container);
+
+        self::assertSame($previous, $items[0]);
+        self::assertSame(
+            [
+                'Feature flags site ID',
+                'Feature flags configuration',
+                'Feature flags source',
+                'Feature flags last successful fetch',
+                'Feature flags last error',
+                'Feature flags',
+            ],
+            array_map(
+                static fn (ReportItemInterface $item): string => $item->getExportedLabel(),
+                array_slice($items, 1)
+            )
+        );
     }
 
     private function flags(string $url, string $token): Flags
