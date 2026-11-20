@@ -8,14 +8,20 @@ use Brain\Monkey;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Inpsyde\FeatureFlags\Adapter\Unleash\RegistrationMode;
+use Inpsyde\FeatureFlags\Adapter\Unleash\Status\ConnectionSource;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProject;
 use Inpsyde\FeatureFlags\Adapter\Unleash\UnleashProjectBuilder;
+use Inpsyde\FeatureFlags\Feature\Feature;
 use Inpsyde\FeatureFlags\FeatureFlags;
+use Inpsyde\FeatureFlags\Project\Project;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 use Syde\PayPal\PointOfSale\FeatureFlags\Flags;
 use Syde\PayPal\PointOfSale\FeatureFlags\Settings;
 
@@ -42,6 +48,7 @@ class FlagsTest extends TestCase
 
     protected function tearDown(): void
     {
+        unset($GLOBALS['wpdb']);
         Monkey\tearDown();
         parent::tearDown();
     }
@@ -185,6 +192,99 @@ class FlagsTest extends TestCase
             });
 
         self::assertSame('Broken filter', $this->flags(self::URL, 'token')->configurationError());
+    }
+
+    /**
+     * The status describes the project that answers the checks, also if a filter replaced it.
+     */
+    public function testTheStatusDescribesAReplacedProject(): void
+    {
+        $feature = Mockery::mock(Feature::class);
+        $feature->allows('getName')->andReturn('local-flag');
+        $replacement = Mockery::mock(Project::class);
+        $replacement->allows('getName')->andReturn('paypal-pos');
+        $replacement->allows('getFeatures')->andReturn([$feature]);
+        Filters\expectApplied('syde.feature-flags.registered-project')->andReturn($replacement);
+
+        $flags = $this->flags(self::URL, 'token');
+
+        self::assertSame(['local-flag' => false], $flags->states());
+        self::assertSame(ConnectionSource::Defaults, $flags->connectionStatus()->source);
+        self::assertNull($flags->configurationError());
+    }
+
+    public function testTheStatusWithoutConnection(): void
+    {
+        $flags = $this->flags('', '');
+
+        self::assertSame(ConnectionSource::Defaults, $flags->connectionStatus()->source);
+        self::assertSame([], $flags->states());
+        self::assertNull($flags->configurationError());
+    }
+
+    public function testTheStatusShowsAConfigurationError(): void
+    {
+        $flags = $this->flags(self::URL, '');
+
+        self::assertSame(ConnectionSource::Defaults, $flags->connectionStatus()->source);
+        self::assertSame('The URL and the token must be set together.', $flags->configurationError());
+    }
+
+    /**
+     * The status comes from the registered project, including the library's record of a
+     * failed fetch.
+     */
+    public function testTheStatusOfAConnectedProject(): void
+    {
+        $options = [];
+        Functions\when('get_option')->alias(
+            static function (string $name, mixed $default = false) use (&$options): mixed {
+                return $options[$name] ?? $default;
+            }
+        );
+        foreach (['add_option', 'update_option'] as $function) {
+            Functions\when($function)->alias(
+                static function (string $name, mixed $value) use (&$options): bool {
+                    $options[$name] = $value;
+
+                    return true;
+                }
+            );
+        }
+        Functions\when('delete_option')->alias(
+            static function (string $name) use (&$options): bool {
+                unset($options[$name]);
+
+                return true;
+            }
+        );
+        // The cache looks for options of earlier versions on its first read.
+        $wpdb = Mockery::mock();
+        $wpdb->options = 'wp_options';
+        $wpdb->allows('esc_like')->andReturnArg(0);
+        $wpdb->allows('prepare')->andReturn('');
+        $wpdb->allows('get_col')->andReturn([]);
+        $GLOBALS['wpdb'] = $wpdb;
+        $request = Mockery::mock(RequestInterface::class);
+        $request->allows('withHeader')->andReturnSelf();
+        $request->allows('getMethod')->andReturn('GET');
+        $request->allows('getUri')->andReturn(Mockery::mock(UriInterface::class));
+        $requestFactory = Mockery::mock(RequestFactoryInterface::class);
+        $requestFactory->allows('createRequest')->andReturn($request);
+        $client = Mockery::mock(ClientInterface::class);
+        $client->allows('sendRequest')->andThrow(
+            new class ('Unleash is down') extends \RuntimeException implements ClientExceptionInterface {
+            }
+        );
+        $builder = Flags::builder('site-id', '3.1.0', false, $client, $requestFactory);
+
+        $flags = Flags::connect($builder, new Settings(self::URL, 'token'), 'site-id');
+
+        self::assertSame([], $flags->states());
+        $status = $flags->connectionStatus();
+        self::assertSame(ConnectionSource::Defaults, $status->source);
+        self::assertSame('Unleash is down', $status->lastError?->message);
+        self::assertNull($flags->configurationError());
     }
 
     private function builder(string $version = '3.1.0', bool $qaSite = false): UnleashProjectBuilder
