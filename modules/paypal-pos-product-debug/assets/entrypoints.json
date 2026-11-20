@@ -1,0 +1,17 @@
+{
+  "entrypoints": {
+    "product-debug-modules": {
+      "js": [
+        "./product-debug-modules.js"
+      ],
+      "php": [
+        "./product-debug-modules.asset.php"
+      ]
+    },
+    "product-debug": {
+      "css": [
+        "./product-debug.css"
+      ]
+    }
+  }
+}
