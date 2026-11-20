@@ -71,3 +71,9 @@ yarn.lock
 /auth.json
 /.env
 /.idea/
+
+# Claude Code: local files (settings.local.json, hooks/config.local.json, CLAUDE.local.md)
+CLAUDE.local.md
+/.claude/**/*.local.*
+/.claude/**/*.local/
+/.claude/worktrees/

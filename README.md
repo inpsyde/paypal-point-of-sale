@@ -57,6 +57,8 @@ Set the API key in `.env.phpunit` and run this to execute all tests in all modul
 make test
 ```
 
+`make test-unit` runs only the unit tests, without calling the PayPal POS API.
+
 You can also run
 
 ```bash
