@@ -1,0 +1,17 @@
+<?php
+
+namespace Syde\Vendor\Zettle\Unleash\Client\ConstraintValidator\Operator;
+
+use Syde\Vendor\Zettle\Unleash\Client\Exception\OperatorValidatorException;
+/**
+ * @internal
+ */
+interface OperatorValidator
+{
+    /**
+     * @param array<mixed>|string|null $allowedValues
+     *
+     * @throws OperatorValidatorException
+     */
+    public function __invoke(string $currentValue, array|string|null $allowedValues): bool;
+}

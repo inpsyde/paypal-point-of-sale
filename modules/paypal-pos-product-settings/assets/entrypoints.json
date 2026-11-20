@@ -1,0 +1,17 @@
+{
+  "entrypoints": {
+    "products-editor": {
+      "js": [
+        "./products-editor.js"
+      ],
+      "php": [
+        "./products-editor.asset.php"
+      ]
+    },
+    "products-style": {
+      "css": [
+        "./products-style.css"
+      ]
+    }
+  }
+}
