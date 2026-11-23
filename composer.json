@@ -141,5 +141,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "2.0.1+pos-653-fix-early-textdomain-notice-in-wp-cli.c8ef1dc"
+    "version": "2.0.1+pos-653-fix-early-textdomain-notice-in-wp-cli.5b3428e"
 }
