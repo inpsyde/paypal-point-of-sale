@@ -12,7 +12,7 @@ use Syde\PayPal\PointOfSale\Onboarding\Provider\ResetCommandProvider;
 use Syde\PayPal\PointOfSale\Test\MonkeryTestCase;
 
 /**
- * Runs in a separate process because it defines the WP_CLI constant and aliases the WP_CLI class.
+ * Runs in a separate process because it aliases the WP_CLI class.
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
@@ -29,15 +29,11 @@ class ResetCommandProviderTest extends MonkeryTestCase
 
     private object $command;
 
-    private ?\Closure $initCallback = null;
+    private ?\Closure $cliInitCallback = null;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        if (!defined('WP_CLI')) {
-            define('WP_CLI', true);
-        }
 
         $this->command = new stdClass();
 
@@ -48,41 +44,41 @@ class ResetCommandProviderTest extends MonkeryTestCase
                 $registeredCommands[] = [$name, $command];
             });
 
-        $initCallback = &$this->initCallback;
-        Actions\expectAdded('init')->whenHappen(
-            static function (callable $callback) use (&$initCallback): void {
-                $initCallback = $callback;
+        $cliInitCallback = &$this->cliInitCallback;
+        Actions\expectAdded('cli_init')->whenHappen(
+            static function (callable $callback) use (&$cliInitCallback): void {
+                $cliInitCallback = $callback;
             }
         );
     }
 
     /**
-     * GIVEN the plugin runs under WP-CLI during plugins_loaded
+     * GIVEN the plugin loads its providers during plugins_loaded
      * WHEN the reset command provider boots
      * THEN the command service is not resolved and no command is registered yet
-     * AND the registration is deferred to the init action
+     * AND the registration is deferred to the cli_init action
      */
-    public function testBootDefersCommandRegistrationUntilInitWhenRunningUnderWpCli(): void
+    public function testBootDefersCommandRegistrationUntilCliInit(): void
     {
         $result = (new ResetCommandProvider())->boot($this->container());
 
         static::assertTrue($result);
         static::assertSame([], $this->resolvedServices);
         static::assertSame([], $this->registeredCommands);
-        static::assertIsCallable($this->initCallback);
+        static::assertIsCallable($this->cliInitCallback);
     }
 
     /**
-     * GIVEN the provider booted under WP-CLI and deferred the command registration to init
-     * WHEN WordPress fires the init action
+     * GIVEN the provider deferred the command registration to cli_init
+     * WHEN WP-CLI fires the cli_init action
      * THEN the "zettle reset onboarding" command is registered with the resolved command service
      */
-    public function testInitRegistersZettleResetOnboardingCommandWithResolvedService(): void
+    public function testCliInitRegistersZettleResetOnboardingCommandWithResolvedService(): void
     {
         (new ResetCommandProvider())->boot($this->container());
-        static::assertIsCallable($this->initCallback);
+        static::assertIsCallable($this->cliInitCallback);
 
-        ($this->initCallback)();
+        ($this->cliInitCallback)();
 
         static::assertSame([['zettle reset onboarding', $this->command]], $this->registeredCommands);
         static::assertSame([self::COMMAND_SERVICE], $this->resolvedServices);

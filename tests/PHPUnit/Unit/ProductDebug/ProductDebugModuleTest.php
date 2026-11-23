@@ -12,7 +12,7 @@ use Syde\PayPal\PointOfSale\ProductDebug\ProductDebugModule;
 use Syde\PayPal\PointOfSale\Test\MonkeryTestCase;
 
 /**
- * Runs in a separate process because it defines the WP_CLI constant and aliases the WP_CLI class.
+ * Runs in a separate process because it aliases the WP_CLI class.
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
@@ -29,15 +29,11 @@ class ProductDebugModuleTest extends MonkeryTestCase
 
     private object $command;
 
-    private ?\Closure $initCallback = null;
+    private ?\Closure $cliInitCallback = null;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        if (!defined('WP_CLI')) {
-            define('WP_CLI', true);
-        }
 
         $this->command = new stdClass();
 
@@ -48,41 +44,41 @@ class ProductDebugModuleTest extends MonkeryTestCase
                 $registeredCommands[] = [$name, $command];
             });
 
-        $initCallback = &$this->initCallback;
-        Actions\expectAdded('init')->whenHappen(
-            static function (callable $callback) use (&$initCallback): void {
-                $initCallback = $callback;
+        $cliInitCallback = &$this->cliInitCallback;
+        Actions\expectAdded('cli_init')->whenHappen(
+            static function (callable $callback) use (&$cliInitCallback): void {
+                $cliInitCallback = $callback;
             }
         );
     }
 
     /**
-     * GIVEN the plugin runs under WP-CLI during plugins_loaded
+     * GIVEN the plugin loads its modules during plugins_loaded
      * WHEN the product debug module runs
      * THEN the CLI command service is not resolved and no command is registered yet
-     * AND the registration is deferred to the init action
+     * AND the registration is deferred to the cli_init action
      */
-    public function testRunDefersCommandRegistrationUntilInitWhenRunningUnderWpCli(): void
+    public function testRunDefersCommandRegistrationUntilCliInit(): void
     {
         $result = (new ProductDebugModule())->run($this->container());
 
         static::assertTrue($result);
         static::assertNotContains(self::COMMAND_SERVICE, $this->resolvedServices);
         static::assertSame([], $this->registeredCommands);
-        static::assertIsCallable($this->initCallback);
+        static::assertIsCallable($this->cliInitCallback);
     }
 
     /**
-     * GIVEN the module ran under WP-CLI and deferred the command registration to init
-     * WHEN WordPress fires the init action
+     * GIVEN the module deferred the command registration to cli_init
+     * WHEN WP-CLI fires the cli_init action
      * THEN the "zettle products" command is registered with the resolved command service
      */
-    public function testInitRegistersZettleProductsCommandWithResolvedService(): void
+    public function testCliInitRegistersZettleProductsCommandWithResolvedService(): void
     {
         (new ProductDebugModule())->run($this->container());
-        static::assertIsCallable($this->initCallback);
+        static::assertIsCallable($this->cliInitCallback);
 
-        ($this->initCallback)();
+        ($this->cliInitCallback)();
 
         static::assertSame([['zettle products', $this->command]], $this->registeredCommands);
     }

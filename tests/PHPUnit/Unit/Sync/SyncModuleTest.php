@@ -13,7 +13,7 @@ use Syde\PayPal\PointOfSale\Sync\SyncModule;
 use Syde\PayPal\PointOfSale\Test\MonkeryTestCase;
 
 /**
- * Runs in a separate process because it defines the WP_CLI constant and aliases the WP_CLI class.
+ * Runs in a separate process because it aliases the WP_CLI class.
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
@@ -37,15 +37,11 @@ class SyncModuleTest extends MonkeryTestCase
     /** @var array<string, object> */
     private array $commands = [];
 
-    private ?\Closure $initCallback = null;
+    private ?\Closure $cliInitCallback = null;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        if (!defined('WP_CLI')) {
-            define('WP_CLI', true);
-        }
 
         Functions\when('is_admin')->justReturn(false);
 
@@ -60,41 +56,41 @@ class SyncModuleTest extends MonkeryTestCase
                 $registeredCommands[] = [$name, $command];
             });
 
-        $initCallback = &$this->initCallback;
-        Actions\expectAdded('init')->whenHappen(
-            static function (callable $callback) use (&$initCallback): void {
-                $initCallback = $callback;
+        $cliInitCallback = &$this->cliInitCallback;
+        Actions\expectAdded('cli_init')->whenHappen(
+            static function (callable $callback) use (&$cliInitCallback): void {
+                $cliInitCallback = $callback;
             }
         );
     }
 
     /**
-     * GIVEN the plugin runs under WP-CLI during plugins_loaded
+     * GIVEN the plugin loads its modules during plugins_loaded
      * WHEN the sync module runs
      * THEN none of the CLI command services is resolved and no command is registered yet
-     * AND the registration is deferred to the init action
+     * AND the registration is deferred to the cli_init action
      */
-    public function testRunDefersCommandRegistrationUntilInitWhenRunningUnderWpCli(): void
+    public function testRunDefersCommandRegistrationUntilCliInit(): void
     {
         $result = (new SyncModule())->run($this->container());
 
         static::assertTrue($result);
         static::assertSame([], array_intersect(self::COMMAND_SERVICES, $this->resolvedServices));
         static::assertSame([], $this->registeredCommands);
-        static::assertIsCallable($this->initCallback);
+        static::assertIsCallable($this->cliInitCallback);
     }
 
     /**
-     * GIVEN the module ran under WP-CLI and deferred the command registration to init
-     * WHEN WordPress fires the init action
+     * GIVEN the module deferred the command registration to cli_init
+     * WHEN WP-CLI fires the cli_init action
      * THEN the sync, unlink, reset, export and exclude commands are registered with their services
      */
-    public function testInitRegistersAllZettleCommandsWithResolvedServices(): void
+    public function testCliInitRegistersAllZettleCommandsWithResolvedServices(): void
     {
         (new SyncModule())->run($this->container());
-        static::assertIsCallable($this->initCallback);
+        static::assertIsCallable($this->cliInitCallback);
 
-        ($this->initCallback)();
+        ($this->cliInitCallback)();
 
         $expected = [];
         foreach (self::COMMAND_SERVICES as $name => $service) {

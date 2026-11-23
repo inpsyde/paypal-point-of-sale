@@ -82,21 +82,18 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
             3
         );
 
-        if (defined('WP_CLI') && WP_CLI) {
-            // Resolving the command translates strings, and WordPress warns about translations loaded before init.
-            add_action(
-                'init',
-                static function () use ($container): void {
-                    try {
-                        WP_CLI::add_command(
-                            "zettle products",
-                            $container->get('paypal-pos.product.debug.cli.products')
-                        );
-                    } catch (Exception $exception) {
-                    }
+        add_action(
+            'cli_init',
+            static function () use ($container): void {
+                try {
+                    WP_CLI::add_command(
+                        "zettle products",
+                        $container->get('paypal-pos.product.debug.cli.products')
+                    );
+                } catch (Exception $exception) {
                 }
-            );
-        }
+            }
+        );
 
         return true;
     }

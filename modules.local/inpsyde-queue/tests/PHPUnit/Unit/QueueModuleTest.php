@@ -14,7 +14,7 @@ use MonkeryTestCase\BrainMonkeyWpTestCase;
 use Psr\Container\ContainerInterface;
 
 /**
- * Runs in a separate process because it defines the WP_CLI constant and aliases the WP_CLI class.
+ * Runs in a separate process because it aliases the WP_CLI class.
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
@@ -29,18 +29,13 @@ class QueueModuleTest extends BrainMonkeyWpTestCase
     /** @var list<array{0: string, 1: object}> */
     private array $registeredCommands = [];
 
-    /** @var list<callable> */
-    private array $initCallbacks = [];
+    private ?\Closure $cliInitCallback = null;
 
     private QueueProcessor $processor;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        if (!defined('WP_CLI')) {
-            define('WP_CLI', true);
-        }
 
         $this->processor = Mockery::mock(QueueProcessor::class);
 
@@ -51,42 +46,41 @@ class QueueModuleTest extends BrainMonkeyWpTestCase
                 $registeredCommands[] = [$name, $command];
             });
 
-        $initCallbacks = &$this->initCallbacks;
-        Actions\expectAdded('init')->whenHappen(
-            static function (callable $callback) use (&$initCallbacks): void {
-                $initCallbacks[] = $callback;
+        $cliInitCallback = &$this->cliInitCallback;
+        Actions\expectAdded('cli_init')->whenHappen(
+            static function (callable $callback) use (&$cliInitCallback): void {
+                $cliInitCallback = $callback;
             }
         );
     }
 
     /**
-     * GIVEN the plugin runs under WP-CLI during plugins_loaded
+     * GIVEN the plugin loads its modules during plugins_loaded
      * WHEN the queue module runs
      * THEN the queue processor is not resolved and no command is registered yet
-     * AND the work is deferred to init callbacks
+     * AND the command registration is deferred to the cli_init action
      */
-    public function testRunDefersQueueCommandRegistrationUntilInitWhenRunningUnderWpCli(): void
+    public function testRunDefersQueueCommandRegistrationUntilCliInit(): void
     {
         $result = (new QueueModule())->run($this->container());
 
         static::assertTrue($result);
         static::assertNotContains('inpsyde.queue.processor', $this->resolvedServices);
         static::assertSame([], $this->registeredCommands);
-        static::assertNotEmpty($this->initCallbacks);
+        static::assertIsCallable($this->cliInitCallback);
     }
 
     /**
-     * GIVEN the module ran under WP-CLI and deferred its work to init
-     * WHEN WordPress fires the init action
+     * GIVEN the module deferred the command registration to cli_init
+     * WHEN WP-CLI fires the cli_init action
      * THEN a queue command is registered under the configured namespace
      */
-    public function testInitRegistersNamespacedQueueCommandWithResolvedProcessor(): void
+    public function testCliInitRegistersNamespacedQueueCommandWithResolvedProcessor(): void
     {
         (new QueueModule())->run($this->container());
+        static::assertIsCallable($this->cliInitCallback);
 
-        foreach ($this->initCallbacks as $callback) {
-            $callback();
-        }
+        ($this->cliInitCallback)();
 
         static::assertCount(1, $this->registeredCommands);
         [$name, $command] = $this->registeredCommands[0];
