@@ -148,5 +148,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "2.0.1+pos-623-order-sync-including-tap-to-pay.2c1d35c"
+    "version": "2.1.0"
 }

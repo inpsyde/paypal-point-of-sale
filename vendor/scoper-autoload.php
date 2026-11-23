@@ -31,9 +31,9 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
 }
 humbug_phpscoper_expose_class('WP_CLI', 'Syde\Vendor\Zettle\WP_CLI');
 humbug_phpscoper_expose_class('Attribute', 'Syde\Vendor\Zettle\Attribute');
-humbug_phpscoper_expose_class('ValueError', 'Syde\Vendor\Zettle\ValueError');
 humbug_phpscoper_expose_class('Stringable', 'Syde\Vendor\Zettle\Stringable');
 humbug_phpscoper_expose_class('PhpToken', 'Syde\Vendor\Zettle\PhpToken');
+humbug_phpscoper_expose_class('ValueError', 'Syde\Vendor\Zettle\ValueError');
 humbug_phpscoper_expose_class('UnhandledMatchError', 'Syde\Vendor\Zettle\UnhandledMatchError');
 
 // Function aliases. For more information see:
