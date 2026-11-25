@@ -210,8 +210,8 @@ return ['paypal-pos.onboarding.wpdb' => static function (C $container): wpdb {
     return new ResetOnboardingCommand($container->get($job(ResetOnboardingJob::TYPE)), $container->get('paypal-pos.is-multisite'), $container->get('paypal-pos.current-site-id'), $container->get('inpsyde.queue.logger'));
 }, 'paypal-pos.onboarding.provider.state-machine' => static function (C $container): Provider {
     return new StateMachineProvider($container->get('inpsyde.state-machine'));
-}, 'paypal-pos.onboarding.provider.cli.command.reset' => static function (C $container): Provider {
-    return new ResetCommandProvider($container->get('paypal-pos.onboarding.cli.reset.onboarding'));
+}, 'paypal-pos.onboarding.provider.cli.command.reset' => static function (): Provider {
+    return new ResetCommandProvider();
 }, 'paypal-pos.onboarding.provider.listener.error' => static function (C $container): Provider {
     return new ErrorListenerProvider($container->get('paypal-pos.onboarding.failure.listener'));
 }, 'paypal-pos.onboarding.provider.render' => static function (C $container): Provider {

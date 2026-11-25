@@ -28,7 +28,12 @@ class WebhookModule implements ServiceModule, ExecutableModule
     {
         add_action('init', function () use ($container) {
             $this->registerRestRoute($container);
-            $this->registerCliCommand($container);
+        });
+        add_action('cli_init', static function () use ($container): void {
+            try {
+                WP_CLI::add_command("zettle webhook", $container->get('paypal-pos.webhook.cli'));
+            } catch (Exception $exception) {
+            }
         });
         $bootstrap = $container->get('paypal-pos.webhook.bootstrap');
         assert($bootstrap instanceof Bootstrap);
@@ -39,16 +44,6 @@ class WebhookModule implements ServiceModule, ExecutableModule
             $bootstrap->deactivate();
         });
         return \true;
-    }
-    private function registerCliCommand(ContainerInterface $container): void
-    {
-        if (defined('WP_CLI') && \WP_CLI) {
-            try {
-                WP_CLI::add_command("zettle webhook", $container->get('paypal-pos.webhook.cli'));
-            } catch (Exception $exception) {
-            }
-            return;
-        }
     }
     /**
      * Register Listener Webhook Endpoint
