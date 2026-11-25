@@ -436,10 +436,8 @@ return [
             $container->get('inpsyde.state-machine')
         );
     },
-    'paypal-pos.onboarding.provider.cli.command.reset' => static function (C $container): Provider {
-        return new ResetCommandProvider(
-            $container->get('paypal-pos.onboarding.cli.reset.onboarding')
-        );
+    'paypal-pos.onboarding.provider.cli.command.reset' => static function (): Provider {
+        return new ResetCommandProvider();
     },
     'paypal-pos.onboarding.provider.listener.error' => static function (C $container): Provider {
         return new ErrorListenerProvider(
