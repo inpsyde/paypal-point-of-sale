@@ -32,8 +32,8 @@ import {
 	posSkuSyncProduct,
 	posPrivateProduct,
 	posCurrencyMismatchProduct,
-} from './_test-data';
-import { testRejectedProductSync } from './_test-scenarios';
+	testRejectedProductSync,
+} from './src';
 
 const ZETTLE_CLIENT_ID = 'de149dc7-44b5-4390-ab64-88e301771f06';
 

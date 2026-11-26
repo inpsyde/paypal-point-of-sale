@@ -1,4 +1,4 @@
-import type { StockManagedProductData } from '../../../resources/types';
+import type { StockManagedProductData } from '../../../../resources/types';
 
 export const posStockUpdateProduct: StockManagedProductData = {
 	name: 'POS-587 Stock Update',

@@ -6,7 +6,7 @@ import {
 	syncAndAssertStatus,
 	type CreateProductData,
 	type ProductSyncStatus,
-} from '../../../utils';
+} from '../../../../utils';
 
 export type RejectedSyncCase = {
 	title: string;

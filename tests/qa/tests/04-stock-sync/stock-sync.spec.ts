@@ -17,7 +17,7 @@ import {
 	posStockMgmtDisableProduct,
 	posOrderStockProduct,
 	posWebhookStockProduct,
-} from './_test-data';
+} from './src';
 
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
 

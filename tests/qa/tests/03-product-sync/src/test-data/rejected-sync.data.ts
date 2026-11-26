@@ -1,4 +1,4 @@
-import type { RejectedSyncCase } from '../_test-scenarios';
+import type { RejectedSyncCase } from '../test-scenarios/rejected-sync.scenario';
 
 const tooManyAttributeNames = [ 'Color', 'Size', 'Material', 'Style' ];
 

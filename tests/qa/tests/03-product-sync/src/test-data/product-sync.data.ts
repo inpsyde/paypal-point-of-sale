@@ -1,8 +1,8 @@
-import type { CreateProductData } from '../../../utils';
+import type { CreateProductData } from '../../../../utils';
 import type {
 	StockManagedProductData,
 	VariableAttributeProductData,
-} from '../../../resources/types';
+} from '../../../../resources/types';
 
 export const posColumnTestProduct: CreateProductData = {
 	name: 'POS-579 Column Test',
