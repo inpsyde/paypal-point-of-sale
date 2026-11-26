@@ -50,7 +50,7 @@ return [$job(CreateOrderJob::TYPE) => static function (C $container): Job {
 }, 'paypal-pos.order-sync.backfill-tools' => static function (C $container): BackfillTools {
     return new BackfillTools($container->get('paypal-pos.order-sync.backfill'), $container->get('paypal-pos.order-sync.past-sales-notice'));
 }, 'paypal-pos.order-sync.past-sales-notice' => static function (C $container): PastSalesNotice {
-    return new PastSalesNotice($container->get('paypal-pos.setup-info'));
+    return new PastSalesNotice($container->get('paypal-pos.setup-info'), $container->get('paypal-pos.order-sync.enabled'));
 }, 'paypal-pos.order-sync.setting.yes' => static function (C $container): callable {
     $settings = $container->get('paypal-pos.settings');
     // Yes/no settings default to yes until saved.

@@ -56,9 +56,8 @@ class OrderSyncModule implements ServiceModule, ExtendingModule, ExecutableModul
         add_action('admin_notices', static function () use ($container) {
             self::pastSalesNotice($container)->render();
         });
-        add_action('admin_post_' . Backfill\PastSalesNotice::DISMISS_ACTION, static function () use ($container) {
-            self::pastSalesNotice($container)->handleDismissRequest();
-            exit;
+        add_action('woocommerce_hide_' . Backfill\PastSalesNotice::WOOCOMMERCE_NOTICE_NAME . '_notice', static function () use ($container) {
+            self::pastSalesNotice($container)->dismiss();
         });
     }
     private static function pastSalesNotice(ContainerInterface $container): Backfill\PastSalesNotice
