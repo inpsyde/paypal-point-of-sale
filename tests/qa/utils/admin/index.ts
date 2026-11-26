@@ -1,6 +1,6 @@
-export { PosSettingsPage } from './PosSettingsPage';
-export { WcProductEditPage } from './WcProductEditPage';
-export type { WcProductType } from './WcProductEditPage';
-export { WcProductsPage } from './WcProductsPage';
-export type { ProductSyncStatus } from './WcProductsPage';
-export { WcStatusLogsPage } from './WcStatusLogsPage';
+export { PosSettingsPage } from './pos-settings.pom';
+export { WcProductEditPage } from './wc-product-edit.pom';
+export type { WcProductType } from './wc-product-edit.pom';
+export { WcProductsPage } from './wc-product-list.pom';
+export type { ProductSyncStatus } from './wc-product-list.pom';
+export { WcStatusLogsPage } from './wc-status-logs.pom';
