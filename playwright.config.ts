@@ -81,27 +81,27 @@ export default defineConfig< BaseExtend >( {
         // Destructive DB reset — run explicitly via `npm run e2e:env:reset`.
         {
             name: 'setup:env',
-            testMatch: /_setup\/env\.setup\.ts/,
+            testMatch: /00-setup\/env\.setup\.ts/,
         },
         // Store-level config (permalinks, visibility, API keys, e-mails, general, tax).
         // Not destructive on its own, but depends on setup:env having just run so it can
         // refresh the admin session the reset invalidated. Runs via `npm run e2e:env:reset`.
         {
             name: 'setup:woocommerce',
-            testMatch: /_setup\/woocommerce\.setup\.ts/,
+            testMatch: /00-setup\/woocommerce\.setup\.ts/,
             dependencies: [ 'setup:env' ],
         },
 
         // ── Setup / teardown — runs AFTER shards that reset onboarding state ──
         {
             name: 'setup:paypal-pos',
-            testMatch: /_setup\/paypal-pos\.setup\.ts/,
+            testMatch: /00-setup\/paypal-pos\.setup\.ts/,
             teardown: 'teardown:paypal-pos',
             dependencies: [ 'shard:plugin-lifecycle', 'shard:onboarding' ],
         },
         {
             name: 'teardown:paypal-pos',
-            testMatch: /_setup\/paypal-pos\.teardown\.ts/,
+            testMatch: /00-setup\/paypal-pos\.teardown\.ts/,
         },
 
         // ── Shards ────────────────────────────────────────────────────────────
