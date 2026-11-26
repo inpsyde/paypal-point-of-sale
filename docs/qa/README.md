@@ -200,6 +200,8 @@ Tests run automatically via `.github/workflows/e2e-tests.yml`:
 
 The wp-env PRE_SCRIPT mirrors `npm run e2e:setup`. The Kinsta job SCPs the zip to Kinsta and pre-installs via SSH before Playwright runs.
 
+**Why Kinsta:** ngrok isn't configured for PayPal POS yet, so the wp-env site in CI can't receive webhooks from PayPal POS. The webhook tests (POS-585, POS-591) skip on wp-env and run only on Kinsta, which is publicly reachable.
+
 **Kinsta CI requires five GitHub secrets** (Settings → Secrets and variables → Actions):
 
 | Secret | Value |
