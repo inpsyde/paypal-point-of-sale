@@ -115,20 +115,26 @@ export class PosSettingsPage extends WpPage {
 		await this.startSyncButton().click();
 		await this.page.waitForLoadState( 'load' );
 
+		// Work the queue in the background while the UI shows the initial sync. The worker
+		// is awaited below, so no `queue process` run outlives connect().
 		let syncComplete = false;
-		void ( async () => {
+		const queueWorker = ( async () => {
 			while ( ! syncComplete ) {
 				await processQueue( cli );
+				// processQueue swallows errors; the pause keeps a failing CLI from spinning.
+				await new Promise( ( resolve ) =>
+					setTimeout( resolve, 1_000 )
+				);
 			}
 		} )();
 
 		try {
-			await this.page.waitForSelector( 'button[name="cancel"]', {
-				state: 'detached',
-				timeout: 180_000,
-			} );
+			await expect(
+				this.page.locator( 'button[name="cancel"]' )
+			).toBeHidden( { timeout: 180_000 } );
 		} finally {
 			syncComplete = true;
+			await queueWorker;
 		}
 
 		await this.page.waitForLoadState( 'load' );
