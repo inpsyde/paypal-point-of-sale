@@ -60,7 +60,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	);
 
-	test( 'POS-579 | Sync status column appears in product list; regression;', async ( {
+	test( 'POS-579 | Sync status column appears in product list @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -77,7 +77,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-573 | Draft product is not synced to POS; regression;', async ( {
+	test( 'POS-573 | Draft product is not synced to POS @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -96,7 +96,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-581 | Simple product created syncs to POS; critical;', async ( {
+	test( 'POS-581 | Simple product created syncs to POS @critical', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -137,7 +137,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-582 | Simple product deleted is removed from POS; regression;', async ( {
+	test( 'POS-582 | Simple product deleted is removed from POS @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -175,7 +175,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-583 | Simple product name and price update syncs to POS; regression;', async ( {
+	test( 'POS-583 | Simple product name and price update syncs to POS @regression', async ( {
 		wcProducts,
 		requestUtils,
 		request,
@@ -250,7 +250,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-578 | Excluded product is removed from POS and shows Excluded status; regression;', async ( {
+	test( 'POS-578 | Excluded product is removed from POS and shows Excluded status @regression', async ( {
 		wcProducts,
 		wcProductEdit,
 		requestUtils,
@@ -297,7 +297,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-580 | Product type changed simple to variable re-syncs to POS; regression;', async ( {
+	test( 'POS-580 | Product type changed simple to variable re-syncs to POS @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -373,7 +373,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-584 | Variable product full lifecycle — create, add variation, delete variation; regression;', async ( {
+	test( 'POS-584 | Variable product full lifecycle — create, add variation, delete variation @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -484,7 +484,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		testRejectedProductSync( rejectedSyncCase );
 	}
 
-	test( 'POS-650 | Product with invalid/unconfigured tax class is not synced; regression;', async ( {
+	test( 'POS-650 | Product With Invalid/Unconfigured Tax Class Is Not Synced @regression', async ( {
 		wcProducts,
 		wcStatusLogs,
 		requestUtils,
@@ -553,7 +553,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( "POS-662 | Deleting a variable product's last variation removes it from PayPal POS; regression;", async ( {
+	test( "POS-662 | Deleting a Variable Product's Last Variation Removes It From PayPal POS (Cleanup) @regression", async ( {
 		wcProducts,
 		requestUtils,
 		request,
@@ -644,7 +644,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-651 | Product with Catalog visibility "Hidden" is not synced; regression;', async ( {
+	test( 'POS-651 | Product With Hidden Catalog Visibility Is Not Synced @regression', async ( {
 		wcProducts,
 		requestUtils,
 		request,
@@ -692,7 +692,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-664 | Product SKU syncs to POS and stays in sync after an update; regression;', async ( {
+	test( 'POS-664 | Product SKU syncs to POS and stays in sync after an update @regression', async ( {
 		wcProducts,
 		requestUtils,
 		request,
@@ -760,7 +760,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-665 | Private product is not synced to POS; regression;', async ( {
+	test( 'POS-665 | Product Set to Private Visibility Is Not Synced @regression', async ( {
 		wcProducts,
 		requestUtils,
 		request,
@@ -805,7 +805,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		}
 	} );
 
-	test( 'POS-590 | Currency mismatch disables price sync and cannot be manually re-enabled; regression;', async ( {
+	test( 'POS-590 | Price Sync After Currency Change @regression', async ( {
 		wcProducts,
 		wcProductEdit,
 		posSettings,

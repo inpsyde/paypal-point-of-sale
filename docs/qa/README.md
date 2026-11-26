@@ -88,7 +88,7 @@ Tests live under `tests/qa/tests/`, one numbered folder per shard:
 | `04-stock-sync/` | WooCommerce ↔ POS stock/inventory sync |
 | `05-webhook/` | Webhook registration with PayPal POS |
 
-Each test's title carries one or more tags (`; smoke;`, `; critical;`, `; regression;`) — that's what `--grep` matches in the `e2e:smoke`/`e2e:critical`/`e2e:regression` scripts above.
+Each test's title ends with one or more tags: `@smoke`, `@critical` or `@regression`. The `e2e:smoke`, `e2e:critical` and `e2e:regression` scripts above select tests by these tags with `--grep`.
 
 ---
 

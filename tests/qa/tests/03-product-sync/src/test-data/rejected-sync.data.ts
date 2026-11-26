@@ -12,7 +12,7 @@ const tooLongTitle = `POS-647 ${ 'A'.repeat( 250 ) }`; // 258 chars total
 
 export const rejectedSyncCases: RejectedSyncCase[] = [
 	{
-		title: 'POS-643 | Unsupported product type shows Unsupported status; regression;',
+		title: 'POS-643 | Unsupported product type shows Unsupported status @regression',
 		productData: {
 			name: 'POS-643 Grouped Product',
 			type: 'grouped',
@@ -20,7 +20,7 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 		expectedStatus: 'unsupported-product-type',
 	},
 	{
-		title: 'POS-644 | Variable product with more than 3 variation attributes is rejected; regression;',
+		title: 'POS-644 | Variable product with more than 3 variation attributes is rejected @regression',
 		productData: {
 			name: 'POS-644 Too Many Attributes',
 			type: 'variable',
@@ -47,7 +47,7 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 		},
 	},
 	{
-		title: 'POS-645 | Variable product with more than 99 variations is rejected; regression;',
+		title: 'POS-645 | Variable product with more than 99 variations is rejected @regression',
 		timeout: 10 * 60_000,
 		productData: {
 			name: 'POS-645 Too Many Variations',
@@ -77,7 +77,7 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 		},
 	},
 	{
-		title: 'POS-647 | Simple product with title exceeding 256 characters is rejected and not synced; regression;',
+		title: 'POS-647 | Simple Product - Title Exceeds 256 Characters Is Rejected and Not Synced @regression',
 		productData: {
 			name: tooLongTitle,
 			regular_price: '10.00',

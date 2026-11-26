@@ -10,7 +10,7 @@ test.describe( 'Onboarding', () => {
 		await resetOnboarding( cli );
 	} );
 
-	test( 'POS-570 | Onboarding — full connect with valid API key; smoke; critical;', async ( {
+	test( 'POS-570 | Onboarding — full connect with valid API key @smoke @critical', async ( {
 		posSettings,
 		cli,
 	} ) => {
@@ -28,7 +28,7 @@ test.describe( 'Onboarding', () => {
 		await posSettings.connect( apiKey, cli );
 	} );
 
-	test( 'POS-571 | Invalid API key shows Authentication failed screen; critical;', async ( {
+	test( 'POS-571 | Invalid API key shows Authentication failed screen @critical', async ( {
 		posSettings,
 	} ) => {
 		await posSettings.visit();
@@ -45,7 +45,7 @@ test.describe( 'Onboarding', () => {
 		await posSettings.assertInvalidCredentialsState();
 	} );
 
-	test( 'POS-646 | Start over after invalid key returns to API credentials screen; regression;', async ( {
+	test( 'POS-646 | Start over after invalid key returns to API credentials screen @regression', async ( {
 		posSettings,
 	} ) => {
 		await posSettings.visit();
@@ -62,7 +62,7 @@ test.describe( 'Onboarding', () => {
 		await posSettings.assertApiCredentialsState();
 	} );
 
-	test( 'POS-572 | Reconnect after disconnect restores connected state; regression;', async ( {
+	test( 'POS-572 | Reconnect after disconnect restores connected state @regression', async ( {
 		posSettings,
 		cli,
 	} ) => {
@@ -84,7 +84,7 @@ test.describe( 'Onboarding', () => {
 		await posSettings.connect( apiKey, cli );
 	} );
 
-	test( 'POS-577 | Disconnect removes connected state and returns to welcome screen; critical;', async ( {
+	test( 'POS-577 | Disconnect removes connected state and returns to welcome screen @critical', async ( {
 		posSettings,
 		cli,
 	} ) => {

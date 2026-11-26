@@ -16,7 +16,7 @@ test.describe( 'Webhooks', () => {
 		await resetOnboarding( cli );
 	} );
 
-	test( 'POS-591 | Registered on Connect; critical;', async ( {
+	test( 'POS-591 | Registered on Connect @critical', async ( {
 		posSettings,
 		cli,
 		request,

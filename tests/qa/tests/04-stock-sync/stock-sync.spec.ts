@@ -48,7 +48,7 @@ test.describe( 'Stock Sync', () => {
 		}
 	);
 
-	test( 'POS-587 | WooCommerce stock update is reflected in POS; regression;', async ( {
+	test( 'POS-587 | WooCommerce Stock Update Reflected in POS @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -85,7 +85,7 @@ test.describe( 'Stock Sync', () => {
 		}
 	} );
 
-	test( 'POS-588 | Disabling stock management updates POS inventory tracking; regression;', async ( {
+	test( 'POS-588 | Disabling stock management updates POS inventory tracking @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -122,7 +122,7 @@ test.describe( 'Stock Sync', () => {
 		}
 	} );
 
-	test( 'POS-586 | WooCommerce order reduces POS stock; regression;', async ( {
+	test( 'POS-586 | WC Order Reduces POS Stock @regression', async ( {
 		wcProducts,
 		requestUtils,
 		cli,
@@ -164,7 +164,7 @@ test.describe( 'Stock Sync', () => {
 		}
 	} );
 
-	test( 'POS-585 | POS sale updates WooCommerce stock via InventoryBalanceChanged webhook; critical;', async ( {
+	test( 'POS-585 | POS sale updates WooCommerce stock via InventoryBalanceChanged webhook @critical', async ( {
 		wcProducts,
 		requestUtils,
 		page,
