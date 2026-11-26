@@ -62,7 +62,7 @@ test.describe( 'Stock Sync', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-587 Stock Update',
+				posStockUpdateProduct.name,
 				'synced',
 				product.id
 			);
@@ -76,7 +76,7 @@ test.describe( 'Stock Sync', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-587 Stock Update',
+				posStockUpdateProduct.name,
 				'synced',
 				product.id
 			);
@@ -99,7 +99,7 @@ test.describe( 'Stock Sync', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-588 Stock Mgmt Disable',
+				posStockMgmtDisableProduct.name,
 				'synced',
 				product.id
 			);
@@ -113,7 +113,7 @@ test.describe( 'Stock Sync', () => {
 			await processQueue( cli );
 			await wcProducts.visit();
 			await wcProducts.assertProductSyncStatus(
-				'POS-588 Stock Mgmt Disable',
+				posStockMgmtDisableProduct.name,
 				'synced',
 				product.id
 			);
@@ -136,7 +136,7 @@ test.describe( 'Stock Sync', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-586 Order Stock',
+				posOrderStockProduct.name,
 				'synced',
 				product.id
 			);
@@ -153,7 +153,7 @@ test.describe( 'Stock Sync', () => {
 			await processQueue( cli );
 			await wcProducts.visit();
 			await wcProducts.assertProductSyncStatus(
-				'POS-586 Order Stock',
+				posOrderStockProduct.name,
 				'synced',
 				product.id
 			);
@@ -179,7 +179,7 @@ test.describe( 'Stock Sync', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-585 Webhook Stock',
+				posWebhookStockProduct.name,
 				'synced',
 				product.id
 			);

@@ -1,3 +1,4 @@
+import { uniqueValue } from '../../../../utils';
 import type { RejectedSyncCase } from '../test-scenarios/rejected-sync.scenario';
 
 const tooManyAttributeNames = [ 'Color', 'Size', 'Material', 'Style' ];
@@ -14,7 +15,7 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 	{
 		title: 'POS-643 | Unsupported product type shows Unsupported status @regression',
 		productData: {
-			name: 'POS-643 Grouped Product',
+			name: uniqueValue( 'POS-643 Grouped Product' ),
 			type: 'grouped',
 		},
 		expectedStatus: 'unsupported-product-type',
@@ -22,7 +23,7 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 	{
 		title: 'POS-644 | Variable product with more than 3 variation attributes is rejected @regression',
 		productData: {
-			name: 'POS-644 Too Many Attributes',
+			name: uniqueValue( 'POS-644 Too Many Attributes' ),
 			type: 'variable',
 			attributes: tooManyAttributeNames.map( ( name ) => ( {
 				name,
@@ -50,7 +51,7 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 		title: 'POS-645 | Variable product with more than 99 variations is rejected @regression',
 		timeout: 10 * 60_000,
 		productData: {
-			name: 'POS-645 Too Many Variations',
+			name: uniqueValue( 'POS-645 Too Many Variations' ),
 			type: 'variable',
 			attributes: [
 				{
@@ -79,7 +80,7 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 	{
 		title: 'POS-647 | Simple Product - Title Exceeds 256 Characters Is Rejected and Not Synced @regression',
 		productData: {
-			name: tooLongTitle,
+			name: uniqueValue( tooLongTitle ),
 			regular_price: '10.00',
 		},
 		expectedStatus: 'not-synced',

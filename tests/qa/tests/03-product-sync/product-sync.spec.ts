@@ -32,6 +32,10 @@ import {
 	posSkuSyncProduct,
 	posPrivateProduct,
 	posCurrencyMismatchProduct,
+	posUpdatedProductName,
+	posNoRatesTaxClassName,
+	posSkuOnCreate,
+	posSkuOnUpdate,
 	testRejectedProductSync,
 } from './src';
 
@@ -87,7 +91,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		try {
 			await wcProducts.visit( 'draft' );
 			await wcProducts.assertProductSyncStatus(
-				'POS-573 Draft Product',
+				posDraftProduct.name,
 				'not-published',
 				product.id
 			);
@@ -120,7 +124,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-581 Simple Product',
+				posSimpleProductLifecycle.name,
 				'synced',
 				product.id
 			);
@@ -130,7 +134,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				cli,
 				wcProducts,
 				product.id,
-				'POS-581 Simple Product'
+				posSimpleProductLifecycle.name
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -158,7 +162,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-582 Delete Me',
+				posDeleteMeProduct.name,
 				'synced',
 				product.id
 			);
@@ -168,7 +172,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				cli,
 				wcProducts,
 				product.id,
-				'POS-582 Delete Me'
+				posDeleteMeProduct.name
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -206,7 +210,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-583 Original Name',
+				posOriginalNameProduct.name,
 				'synced',
 				product.id
 			);
@@ -214,19 +218,19 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await requestUtils.rest( {
 				path: `/wc/v3/products/${ product.id }`,
 				method: 'PUT',
-				data: { name: 'POS-583 Updated Name', regular_price: '29.99' },
+				data: { name: posUpdatedProductName, regular_price: '29.99' },
 			} );
 
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-583 Updated Name',
+				posUpdatedProductName,
 				'synced',
 				product.id
 			);
 
 			const remoteProduct = await zettleApi.findProductByName(
-				'POS-583 Updated Name'
+				posUpdatedProductName
 			);
 			expect(
 				remoteProduct,
@@ -243,7 +247,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				cli,
 				wcProducts,
 				product.id,
-				'POS-583 Updated Name'
+				posUpdatedProductName
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -275,7 +279,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-578 Exclude Me',
+				posExcludeMeProduct.name,
 				'synced',
 				product.id
 			);
@@ -288,7 +292,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 			await wcProducts.visit();
 			await wcProducts.assertProductSyncStatus(
-				'POS-578 Exclude Me',
+				posExcludeMeProduct.name,
 				'excluded',
 				product.id
 			);
@@ -321,7 +325,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-580 Type Change',
+				posTypeChangeProduct.name,
 				'synced',
 				product.id
 			);
@@ -356,7 +360,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-580 Type Change',
+				posTypeChangeProduct.name,
 				'synced',
 				product.id
 			);
@@ -366,7 +370,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				cli,
 				wcProducts,
 				product.id,
-				'POS-580 Type Change'
+				posTypeChangeProduct.name
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -419,7 +423,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-584 T-Shirt',
+				posShirtVariableProduct.name,
 				'synced',
 				product.id
 			);
@@ -438,7 +442,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await syncAndAssertStatus(
 				cli,
 				wcProducts,
-				'POS-584 T-Shirt',
+				posShirtVariableProduct.name,
 				'synced',
 				product.id
 			);
@@ -452,7 +456,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await processQueue( cli );
 			await wcProducts.visit();
 			await wcProducts.assertProductSyncStatus(
-				'POS-584 T-Shirt',
+				posShirtVariableProduct.name,
 				'synced',
 				product.id
 			);
@@ -473,7 +477,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				cli,
 				wcProducts,
 				product.id,
-				'POS-584 T-Shirt'
+				posShirtVariableProduct.name
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
@@ -512,7 +516,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		const taxClass = await requestUtils.rest< { slug: string } >( {
 			path: '/wc/v3/taxes/classes',
 			method: 'POST',
-			data: { name: 'POS-650 No Rates' },
+			data: { name: posNoRatesTaxClassName },
 		} );
 
 		const product = await createProduct( requestUtils, {
@@ -732,12 +736,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			expect(
 				foundAfterCreate?.variants?.[ 0 ]?.sku,
 				'Assert SKU is synced to the PayPal POS product library on create'
-			).toBe( 'WC-SKU-0001' );
+			).toBe( posSkuOnCreate );
 
 			await requestUtils.rest( {
 				path: `/wc/v3/products/${ product.id }`,
 				method: 'PUT',
-				data: { sku: 'WC-SKU-0002' },
+				data: { sku: posSkuOnUpdate },
 			} );
 
 			await syncAndAssertStatus(
@@ -753,7 +757,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			expect(
 				foundAfterUpdate?.variants?.[ 0 ]?.sku,
 				'Assert SKU is updated in the PayPal POS product library after a product update'
-			).toBe( 'WC-SKU-0002' );
+			).toBe( posSkuOnUpdate );
 		} finally {
 			await deleteProduct( cli, product.id );
 			await zettleApi.deleteProductByName( PRODUCT_NAME );

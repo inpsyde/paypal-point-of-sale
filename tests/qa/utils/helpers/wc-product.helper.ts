@@ -9,6 +9,18 @@ import type { WcProductsPage, ProductSyncStatus } from '../admin';
 
 export type CreateProductData = { name: string } & Record< string, unknown >;
 
+// Generated once per worker, so leftovers of an aborted run never collide with this run's data.
+const runSuffix = Date.now().toString( 36 );
+
+/**
+ * Make test data (product names, SKUs, tax class names) unique per run.
+ * @param base
+ * @param separator Use '-' for values that must not contain spaces, like SKUs.
+ */
+export function uniqueValue( base: string, separator = ' ' ): string {
+	return `${ base }${ separator }${ runSuffix }`;
+}
+
 /**
  * Create a WC product for a test; defaults to a published simple product.
  * @param requestUtils
