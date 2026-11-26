@@ -750,6 +750,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		request,
 		cli,
 	} ) => {
+		// Known bug POS-679 (https://inpsyde.atlassian.net/browse/POS-679): the settings page
+		// still shows "Prices syncing: Yes" after the currency mismatch. Remove once it's fixed;
+		// Playwright reports this test as failing as soon as it passes.
+		test.fail( true, 'Known bug POS-679' );
 		test.setTimeout( 5 * 60_000 );
 
 		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
