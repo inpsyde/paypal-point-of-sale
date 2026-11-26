@@ -11,9 +11,12 @@ class BackfillTools
 {
     private PurchaseBackfill $backfill;
 
-    public function __construct(PurchaseBackfill $backfill)
+    private PastSalesNotice $pastSalesNotice;
+
+    public function __construct(PurchaseBackfill $backfill, PastSalesNotice $pastSalesNotice)
     {
         $this->backfill = $backfill;
+        $this->pastSalesNotice = $pastSalesNotice;
     }
 
     /**
@@ -30,7 +33,11 @@ class BackfillTools
                 'Fetches all past PayPal POS sales and refunds in the background and creates any that are not yet in WooCommerce.',
                 'paypal-point-of-sale'
             ) . $this->status(),
-            'callback' => fn (): string => $this->startMessage(fn (): bool => $this->backfill->start()),
+            'callback' => fn (): string => $this->startMessage(
+                fn (): bool => $this->startHistoryImport()
+            ),
+            // Reload the tool list after running, so the status in 'desc' is current.
+            'requires_refresh' => true,
         ];
         $tools['zettle_sync_missed_orders'] = [
             'name' => __('Sync missed PayPal POS orders', 'paypal-point-of-sale'),
@@ -40,9 +47,23 @@ class BackfillTools
                 'paypal-point-of-sale'
             ),
             'callback' => fn (): string => $this->startMessage(fn (): bool => $this->backfill->startMissed()),
+            // Also changes the status shown on the import tool.
+            'requires_refresh' => true,
         ];
 
         return $tools;
+    }
+
+    private function startHistoryImport(): bool
+    {
+        if (!$this->backfill->start()) {
+            return false;
+        }
+
+        // The notice only points to this import, so dismiss it once the import has started.
+        $this->pastSalesNotice->dismiss();
+
+        return true;
     }
 
     /**

@@ -30,6 +30,7 @@ class OrderSyncModule implements ServiceModule, ExtendingModule, ExecutableModul
         add_action('paypal-pos.onboarding.sync-params.after', [Backfill\SetupImportChoice::class, 'render']);
 
         $this->registerBackfillTools($container);
+        $this->registerPastSalesNotice($container);
 
         $settingsFilter = $container->get('paypal-pos.order-sync.settings-filter');
         assert($settingsFilter instanceof OrderSyncSettingsFilter);
@@ -66,10 +67,37 @@ class OrderSyncModule implements ServiceModule, ExtendingModule, ExecutableModul
         // Imports past sales once, if the merchant kept that onboarding choice on.
         add_action(
             'paypal-pos.onboarding.completed',
-            static function () use ($backfill) {
+            static function () use ($backfill, $container) {
                 $backfill()->startSetupImport();
+                // The merchant got the import choice, so the notice isn't needed.
+                self::pastSalesNotice($container)->dismiss();
             }
         );
+    }
+
+    private function registerPastSalesNotice(ContainerInterface $container): void
+    {
+        add_action(
+            'admin_notices',
+            static function () use ($container) {
+                self::pastSalesNotice($container)->render();
+            }
+        );
+        add_action(
+            'admin_post_' . Backfill\PastSalesNotice::DISMISS_ACTION,
+            static function () use ($container) {
+                self::pastSalesNotice($container)->handleDismissRequest();
+                exit;
+            }
+        );
+    }
+
+    private static function pastSalesNotice(ContainerInterface $container): Backfill\PastSalesNotice
+    {
+        $notice = $container->get('paypal-pos.order-sync.past-sales-notice');
+        assert($notice instanceof Backfill\PastSalesNotice);
+
+        return $notice;
     }
 
     private function registerBackfillTools(ContainerInterface $container): void
