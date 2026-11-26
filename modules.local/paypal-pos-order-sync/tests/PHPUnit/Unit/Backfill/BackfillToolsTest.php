@@ -57,7 +57,7 @@ class BackfillToolsTest extends BrainMonkeyWpTestCase
      */
     private function tools(PurchaseBackfill $backfill): array
     {
-        return (new BackfillTools($backfill, new PastSalesNotice($this->setupInfo->container())))->addTools([]);
+        return (new BackfillTools($backfill, new PastSalesNotice($this->setupInfo->container(), true)))->addTools([]);
     }
 
     /**
@@ -97,9 +97,9 @@ class BackfillToolsTest extends BrainMonkeyWpTestCase
     }
 
     /**
-     * GIVEN the order import tools on the WooCommerce status tools page
-     * WHEN the tools list is built
-     * THEN each tool asks WooCommerce to refresh the page after it runs
+     * GIVEN the import tools
+     * WHEN they are added
+     * THEN each asks WooCommerce to reload the tool list after running
      *
      * @dataProvider toolIdProvider
      */

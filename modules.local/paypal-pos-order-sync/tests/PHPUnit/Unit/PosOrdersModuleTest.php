@@ -35,9 +35,8 @@ class PosOrdersModuleTest extends BrainMonkeyWpTestCase
     }
 
     /**
-     * GIVEN the module is running
-     * WHEN the priority 5 onboarding completion listener runs
-     * THEN the past sales notice is stored as pending in the setup info
+     * WHEN onboarding completes
+     * THEN the past sales notice is stored as pending, at priority 5
      */
     public function testOnboardingCompletionStoresThePastSalesNoticeAtPriorityFive(): void
     {

@@ -103,7 +103,10 @@ return [
         );
     },
     'paypal-pos.order-sync.past-sales-notice' => static function (C $container): PastSalesNotice {
-        return new PastSalesNotice($container->get('paypal-pos.setup-info'));
+        return new PastSalesNotice(
+            $container->get('paypal-pos.setup-info'),
+            $container->get('paypal-pos.order-sync.enabled')
+        );
     },
     'paypal-pos.order-sync.setting.yes' => static function (C $container): callable {
         $settings = $container->get('paypal-pos.settings');

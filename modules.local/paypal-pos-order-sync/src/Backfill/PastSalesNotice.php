@@ -14,13 +14,17 @@ class PastSalesNotice
 {
     // Set by PosOrdersModule, which loads even with the order-sync flag off.
     public const PENDING_KEY = 'order_sync_past_sales_notice';
-    public const DISMISS_ACTION = 'paypal_pos_dismiss_past_sales_notice';
+    // Sent as wc-hide-notice; WooCommerce then fires woocommerce_hide_paypal_pos_past_sales_notice.
+    public const WOOCOMMERCE_NOTICE_NAME = 'paypal_pos_past_sales';
 
     private WritableContainerInterface $setupInfo;
 
-    public function __construct(WritableContainerInterface $setupInfo)
+    private bool $orderCreationEnabled;
+
+    public function __construct(WritableContainerInterface $setupInfo, bool $orderCreationEnabled)
     {
         $this->setupInfo = $setupInfo;
+        $this->orderCreationEnabled = $orderCreationEnabled;
     }
 
     public function isPending(): bool
@@ -37,14 +41,19 @@ class PastSalesNotice
 
     public function render(): void
     {
-        if (!$this->isPending() || !current_user_can('manage_woocommerce') || !$this->isShownOnCurrentScreen()) {
+        // Kept pending while order creation is off, so it shows once the merchant turns it on.
+        if (!$this->orderCreationEnabled || !$this->isPending()) {
+            return;
+        }
+        if (!current_user_can('manage_woocommerce') || !$this->isShownOnCurrentScreen()) {
             return;
         }
 
         $toolsUrl = admin_url('admin.php?page=wc-status&tab=tools');
         $dismissUrl = wp_nonce_url(
-            admin_url('admin-post.php?action=' . self::DISMISS_ACTION),
-            self::DISMISS_ACTION
+            add_query_arg('wc-hide-notice', self::WOOCOMMERCE_NOTICE_NAME),
+            'woocommerce_hide_notices_nonce',
+            '_wc_notice_nonce'
         );
         ?>
         <div class="notice notice-info">
@@ -75,19 +84,5 @@ class PastSalesNotice
         }
 
         return in_array($screen->id, [...wc_get_screen_ids(), 'dashboard', 'plugins'], true);
-    }
-
-    /**
-     * Redirects without exiting; the caller must exit.
-     */
-    public function handleDismissRequest(): void
-    {
-        check_admin_referer(self::DISMISS_ACTION);
-        if (current_user_can('manage_woocommerce')) {
-            $this->dismiss();
-        }
-
-        // phpcs:ignore WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit
-        wp_safe_redirect(wp_get_referer() ?: admin_url());
     }
 }

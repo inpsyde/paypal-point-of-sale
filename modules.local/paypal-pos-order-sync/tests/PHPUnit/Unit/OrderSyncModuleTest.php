@@ -58,7 +58,7 @@ class OrderSyncModuleTest extends BrainMonkeyWpTestCase
                 true,
                 true
             ),
-            'paypal-pos.order-sync.past-sales-notice' => new PastSalesNotice($setupInfo->container()),
+            'paypal-pos.order-sync.past-sales-notice' => new PastSalesNotice($setupInfo->container(), true),
             'paypal-pos.order-sync.settings-filter' => new OrderSyncSettingsFilter(),
             'paypal-pos.settings.wc-integration.id' => 'paypal-pos',
         ];
@@ -72,6 +72,37 @@ class OrderSyncModuleTest extends BrainMonkeyWpTestCase
 
         self::assertCount(1, $enqueued);
         self::assertSame('', $enqueued[0][1]['startDate']);
+        self::assertFalse($setupInfo->has(PastSalesNotice::PENDING_KEY));
+    }
+
+    /**
+     * GIVEN a pending past sales notice
+     * WHEN WooCommerce fires its hide-notice action for that notice
+     * THEN the notice is no longer pending
+     */
+    public function testDismissingThePastSalesNoticeInWooCommerceClearsThePendingMarker(): void
+    {
+        $listeners = [];
+        expectAdded('woocommerce_hide_' . PastSalesNotice::WOOCOMMERCE_NOTICE_NAME . '_notice')->zeroOrMoreTimes()->whenHappen(
+            static function (callable $listener) use (&$listeners): void {
+                $listeners[] = $listener;
+            }
+        );
+
+        $setupInfo = new SetupInfoFake([PastSalesNotice::PENDING_KEY => 1700000000]);
+        $services = [
+            'paypal-pos.order-sync.past-sales-notice' => new PastSalesNotice($setupInfo->container(), true),
+            'paypal-pos.order-sync.settings-filter' => new OrderSyncSettingsFilter(),
+            'paypal-pos.settings.wc-integration.id' => 'paypal-pos',
+        ];
+        $container = Mockery::mock(ContainerInterface::class);
+        $container->allows('get')->andReturnUsing(static fn (string $id) => $services[$id]);
+
+        (new OrderSyncModule())->run($container);
+        foreach ($listeners as $listener) {
+            $listener();
+        }
+
         self::assertFalse($setupInfo->has(PastSalesNotice::PENDING_KEY));
     }
 }

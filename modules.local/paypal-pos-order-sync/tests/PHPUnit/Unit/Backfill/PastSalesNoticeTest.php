@@ -5,7 +5,6 @@ declare(strict_types=1);
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use Syde\PayPal\PointOfSale\OrderSync\Backfill\PastSalesNotice;
 use Syde\PayPal\PointOfSale\OrderSync\Test\SetupInfoFake;
-use function Brain\Monkey\Functions\expect;
 use function Brain\Monkey\Functions\stubTranslationFunctions;
 use function Brain\Monkey\Functions\when;
 
@@ -20,19 +19,22 @@ class PastSalesNoticeTest extends BrainMonkeyWpTestCase
         stubTranslationFunctions();
         when('esc_url')->returnArg();
         when('admin_url')->alias(static fn (string $path = ''): string => 'https://example.test/wp-admin/' . $path);
+        when('add_query_arg')->alias(
+            static fn (string $key, string $value): string => 'https://example.test/wp-admin/index.php?' . $key . '=' . $value
+        );
         when('wp_nonce_url')->alias(
-            static fn (string $url, string $action): string => $url . '&_wpnonce=nonce-for-' . $action
+            static fn (string $url, string $action, string $name): string => $url . '&' . $name . '=nonce-for-' . $action
         );
         when('wc_get_screen_ids')->justReturn(['woocommerce_page_wc-status', 'product']);
     }
 
-    private function notice(bool $pending = true): PastSalesNotice
+    private function notice(bool $pending = true, bool $orderCreationEnabled = true): PastSalesNotice
     {
         if ($pending) {
             $this->setupInfo->values[PastSalesNotice::PENDING_KEY] = 1700000000;
         }
 
-        return new PastSalesNotice($this->setupInfo->container());
+        return new PastSalesNotice($this->setupInfo->container(), $orderCreationEnabled);
     }
 
     private function rendered(PastSalesNotice $notice): string
@@ -88,7 +90,7 @@ class PastSalesNoticeTest extends BrainMonkeyWpTestCase
     /**
      * GIVEN a notice that is not pending
      * WHEN it is dismissed
-     * THEN nothing is removed from the setup info, so no option write happens
+     * THEN the setup info isn't written
      */
     public function testDismissWritesNothingWhenNotPending(): void
     {
@@ -101,9 +103,9 @@ class PastSalesNoticeTest extends BrainMonkeyWpTestCase
      * GIVEN a pending notice and a user who manages WooCommerce
      * WHEN the notice is rendered
      * THEN it links to the WooCommerce Tools page
-     * AND it has a nonced dismiss link
+     * AND Dismiss links to WooCommerce's hide-notice handler with its nonce
      */
-    public function testRenderShowsLinksToToolsAndNoncedDismiss(): void
+    public function testRenderShowsLinksToToolsAndWooCommerceDismiss(): void
     {
         when('current_user_can')->justReturn(true);
         $this->currentScreenIs('dashboard');
@@ -115,8 +117,8 @@ class PastSalesNoticeTest extends BrainMonkeyWpTestCase
             $output
         );
         self::assertStringContainsString(
-            'href="https://example.test/wp-admin/admin-post.php?action=' . PastSalesNotice::DISMISS_ACTION
-            . '&_wpnonce=nonce-for-' . PastSalesNotice::DISMISS_ACTION . '"',
+            'href="https://example.test/wp-admin/index.php?wc-hide-notice=' . PastSalesNotice::WOOCOMMERCE_NOTICE_NAME
+            . '&_wc_notice_nonce=nonce-for-woocommerce_hide_notices_nonce"',
             $output
         );
     }
@@ -149,94 +151,40 @@ class PastSalesNoticeTest extends BrainMonkeyWpTestCase
     }
 
     /**
-     * GIVEN a notice, a user and a screen
+     * GIVEN one of the render conditions is not met
      * WHEN the notice is rendered
-     * THEN nothing is output unless it is pending, the user manages WooCommerce and the screen shows notices
+     * THEN nothing is output
+     * AND a pending notice stays pending
      *
      * @dataProvider silentRenderStates
      */
-    public function testRenderOutputsNothing(bool $pending, bool $userCanManage, ?string $screenId): void
-    {
+    public function testRenderOutputsNothing(
+        bool $pending,
+        bool $orderCreationEnabled,
+        bool $userCanManage,
+        ?string $screenId
+    ): void {
         when('current_user_can')->alias(
             static fn (string $capability): bool => $capability === 'manage_woocommerce' && $userCanManage
         );
         $this->currentScreenIs($screenId);
+        $notice = $this->notice($pending, $orderCreationEnabled);
 
-        self::assertSame('', $this->rendered($this->notice($pending)));
+        self::assertSame('', $this->rendered($notice));
+        self::assertSame($pending, $notice->isPending());
     }
 
     /**
-     * @return array<string, array{bool, bool, ?string}>
+     * @return array<string, array{bool, bool, bool, ?string}>
      */
     public function silentRenderStates(): array
     {
         return [
-            'not pending' => [false, true, 'dashboard'],
-            'user cannot manage WooCommerce' => [true, false, 'dashboard'],
-            'unrelated screen' => [true, true, 'edit-post'],
-            'no current screen' => [true, true, null],
+            'not pending' => [false, true, true, 'dashboard'],
+            'order creation disabled' => [true, false, true, 'dashboard'],
+            'user cannot manage WooCommerce' => [true, true, false, 'dashboard'],
+            'unrelated screen' => [true, true, true, 'edit-post'],
+            'no current screen' => [true, true, true, null],
         ];
-    }
-
-    /**
-     * GIVEN a pending notice and a valid dismiss request
-     * WHEN the dismiss link is handled
-     * THEN the key is removed only for a user who manages WooCommerce
-     * AND the user is redirected to the referer, or the admin URL without one
-     *
-     * @dataProvider dismissRequests
-     */
-    public function testHandleDismissRequest(
-        string|false $referer,
-        bool $userCanManage,
-        string $expectedRedirect,
-        bool $expectedPending
-    ): void {
-        $notice = $this->notice();
-        when('check_admin_referer')->justReturn(1);
-        when('current_user_can')->justReturn($userCanManage);
-        when('wp_get_referer')->justReturn($referer);
-        expect('wp_safe_redirect')->once()->with($expectedRedirect);
-
-        $notice->handleDismissRequest();
-
-        self::assertSame($expectedPending, $notice->isPending());
-    }
-
-    /**
-     * @return array<string, array{string|false, bool, string, bool}>
-     */
-    public function dismissRequests(): array
-    {
-        $referer = 'https://example.test/wp-admin/plugins.php';
-
-        return [
-            'manager with referer' => [$referer, true, $referer, false],
-            'manager without referer' => [false, true, 'https://example.test/wp-admin/', false],
-            'user without capability' => [$referer, false, $referer, true],
-        ];
-    }
-
-    /**
-     * GIVEN a pending notice and a dismiss link with an invalid nonce
-     * WHEN the dismiss link is handled
-     * THEN the request stops without a redirect
-     * AND the notice stays pending
-     */
-    public function testHandleDismissRequestKeepsTheNoticeWhenTheNonceIsInvalid(): void
-    {
-        $notice = $this->notice();
-        when('check_admin_referer')->alias(static function (): void {
-            throw new RuntimeException('Invalid nonce');
-        });
-        when('current_user_can')->justReturn(true);
-        expect('wp_safe_redirect')->never();
-
-        try {
-            $notice->handleDismissRequest();
-            self::fail('The invalid nonce must stop the request.');
-        } catch (RuntimeException $exception) {
-            self::assertTrue($notice->isPending());
-        }
     }
 }
