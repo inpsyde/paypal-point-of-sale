@@ -68,6 +68,8 @@ vendor/bin/phpunit
 to execute tests only in a single module (after `cd` to its directory inside `modules.local`),
 or to execute only integration/acceptance tests in the repository root.
 
+The end-to-end (Playwright) tests are documented in [docs/qa/README.md](docs/qa/README.md).
+
 ### Linter
 
 Run this to execute PHP_CodeSniffer and PHPStan, checking code style and quality in all modules:

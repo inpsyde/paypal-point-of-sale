@@ -121,7 +121,7 @@ export default defineConfig< BaseExtend >( {
         // scheduled by readiness, not declaration order. To run a single test
         // without the chain, pass --no-deps (or `npm run e2e:test:single`): each
         // spec's own beforeEach bootstraps what it needs idempotently. See
-        // E2E-TESTS.md "Test Dependency Model".
+        // docs/qa/README.md "Test Dependency Model".
         {
             name: 'shard:product-sync',
             testMatch: /03-product-sync\/.*\.spec\.ts/,
