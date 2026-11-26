@@ -1,5 +1,7 @@
 import * as crypto from 'crypto';
+import { expect } from '@inpsyde/playwright-utils/build';
 import { runWpCli, type AnyCli } from './pos-cli.helper';
+import type { ZettleApiClient, ZettleProduct } from '../api';
 
 export async function getWebhookConfig( cli: AnyCli ): Promise< {
 	signingKey?: string;
@@ -84,6 +86,26 @@ export async function getPosProductUuid(
 	wcProductId: number
 ): Promise< string | null > {
 	return getPosIdMapUuid( cli, wcProductId, 'product' );
+}
+
+/**
+ * Read the PayPal POS product a synced WC product maps to. Looks it up by the UUID in the
+ * ID map, not by name, so a leftover product from an earlier run can never match.
+ * @param cli
+ * @param zettleApi
+ * @param wcProductId
+ */
+export async function getSyncedPosProduct(
+	cli: AnyCli,
+	zettleApi: ZettleApiClient,
+	wcProductId: number
+): Promise< ZettleProduct | undefined > {
+	const uuid = await getPosProductUuid( cli, wcProductId );
+	expect(
+		uuid,
+		`Assert WC product ${ wcProductId } has a PayPal POS UUID in the ID map`
+	).not.toBeNull();
+	return zettleApi.getProduct( uuid as string );
 }
 
 /**

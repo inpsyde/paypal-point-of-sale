@@ -63,6 +63,26 @@ export class ZettleApiClient {
 		return response.json();
 	}
 
+	/**
+	 * Read one product by UUID; undefined when PayPal POS no longer has it.
+	 * @param uuid
+	 */
+	async getProduct( uuid: string ): Promise< ZettleProduct | undefined > {
+		const response = await this.request.get(
+			`https://products.izettle.com/organizations/self/products/${ uuid }`,
+			{ headers: this.authHeaders() }
+		);
+		if ( response.status() === 404 ) {
+			return undefined;
+		}
+		if ( ! response.ok() ) {
+			throw new Error(
+				`ZettleApiClient: GET product ${ uuid } failed with ${ response.status() }: ${ await response.text() }`
+			);
+		}
+		return response.json();
+	}
+
 	async deleteProduct( uuid: string ): Promise< void > {
 		await this.request.delete(
 			`https://products.izettle.com/organizations/self/products/${ uuid }`,
@@ -70,6 +90,7 @@ export class ZettleApiClient {
 		);
 	}
 
+	// Only for products that never synced, so they have no UUID; use getProduct() otherwise.
 	async findProductByName(
 		name: string
 	): Promise< ZettleProduct | undefined > {

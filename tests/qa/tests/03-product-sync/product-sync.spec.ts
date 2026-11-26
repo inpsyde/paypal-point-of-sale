@@ -8,6 +8,7 @@ import {
 	deleteProduct,
 	assertDeletionUnsyncsFromPos,
 	getPosProductUuid,
+	getSyncedPosProduct,
 	getPosVariantUuid,
 	ZettleApiClient,
 	getCurrency,
@@ -229,8 +230,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			const remoteProduct = await zettleApi.findProductByName(
-				posUpdatedProductName
+			const remoteProduct = await getSyncedPosProduct(
+				cli,
+				zettleApi,
+				product.id
 			);
 			expect(
 				remoteProduct,
@@ -624,7 +627,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			await processQueue( cli );
 
 			expect(
-				await zettleApi.findProductByName( PRODUCT_NAME ),
+				await zettleApi.getProduct( productUuidBefore as string ),
 				'Assert product no longer exists in the PayPal POS product library once its last variation is deleted'
 			).toBeUndefined();
 
@@ -731,8 +734,11 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			const foundAfterCreate =
-				await zettleApi.findProductByName( PRODUCT_NAME );
+			const foundAfterCreate = await getSyncedPosProduct(
+				cli,
+				zettleApi,
+				product.id
+			);
 			expect(
 				foundAfterCreate?.variants?.[ 0 ]?.sku,
 				'Assert SKU is synced to the PayPal POS product library on create'
@@ -752,8 +758,11 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			const foundAfterUpdate =
-				await zettleApi.findProductByName( PRODUCT_NAME );
+			const foundAfterUpdate = await getSyncedPosProduct(
+				cli,
+				zettleApi,
+				product.id
+			);
 			expect(
 				foundAfterUpdate?.variants?.[ 0 ]?.sku,
 				'Assert SKU is updated in the PayPal POS product library after a product update'
@@ -879,8 +888,11 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			const remoteProduct =
-				await zettleApi.findProductByName( PRODUCT_NAME );
+			const remoteProduct = await getSyncedPosProduct(
+				cli,
+				zettleApi,
+				product.id
+			);
 			expect(
 				remoteProduct,
 				'Assert product still syncs to the PayPal POS product library'
