@@ -1,6 +1,7 @@
 import { expect } from '@inpsyde/playwright-utils/build';
 import {
 	test,
+	requireEnv,
 	processQueue,
 	syncAndAssertStatus,
 	ensurePosTestReady,
@@ -108,13 +109,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const product = await createProduct(
 			requestUtils,
@@ -149,13 +144,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const product = await createProduct( requestUtils, posDeleteMeProduct );
 
@@ -188,19 +177,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const zettleApi = new ZettleApiClient( request );
-		await zettleApi.authenticate(
-			ZETTLE_CLIENT_ID,
-			process.env.PAYPAL_POS_API_KEY
-		);
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
 			requestUtils,
@@ -265,13 +245,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const product = await createProduct(
 			requestUtils,
@@ -311,13 +285,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const product = await createProduct(
 			requestUtils,
@@ -387,13 +355,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 10 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const product = await createProduct(
 			requestUtils,
@@ -500,21 +462,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const PRODUCT_NAME = posNoTaxRateProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
-		await zettleApi.authenticate(
-			ZETTLE_CLIENT_ID,
-			process.env.PAYPAL_POS_API_KEY
-		);
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const taxClass = await requestUtils.rest< { slug: string } >( {
 			path: '/wc/v3/taxes/classes',
@@ -574,21 +527,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const PRODUCT_NAME = posLastVariationProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
-		await zettleApi.authenticate(
-			ZETTLE_CLIENT_ID,
-			process.env.PAYPAL_POS_API_KEY
-		);
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
 			requestUtils,
@@ -665,21 +609,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const PRODUCT_NAME = posHiddenCatalogProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
-		await zettleApi.authenticate(
-			ZETTLE_CLIENT_ID,
-			process.env.PAYPAL_POS_API_KEY
-		);
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
 			requestUtils,
@@ -713,21 +648,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const PRODUCT_NAME = posSkuSyncProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
-		await zettleApi.authenticate(
-			ZETTLE_CLIENT_ID,
-			process.env.PAYPAL_POS_API_KEY
-		);
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct( requestUtils, posSkuSyncProduct );
 
@@ -787,21 +713,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const PRODUCT_NAME = posPrivateProduct.name;
 
 		const zettleApi = new ZettleApiClient( request );
-		await zettleApi.authenticate(
-			ZETTLE_CLIENT_ID,
-			process.env.PAYPAL_POS_API_KEY
-		);
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct( requestUtils, posPrivateProduct );
 
@@ -835,23 +752,14 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const PRODUCT_NAME = posCurrencyMismatchProduct.name;
 		// Arbitrary currency that won't match the connected PayPal POS sandbox account.
 		const MISMATCHED_CURRENCY = 'JPY';
 
 		const zettleApi = new ZettleApiClient( request );
-		await zettleApi.authenticate(
-			ZETTLE_CLIENT_ID,
-			process.env.PAYPAL_POS_API_KEY
-		);
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const originalCurrency = await getCurrency( wooCommerceApi );
 		const originalPriceSyncStrategy = await getPriceSyncStrategy( cli );

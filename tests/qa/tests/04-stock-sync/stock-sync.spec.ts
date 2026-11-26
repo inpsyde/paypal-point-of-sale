@@ -2,6 +2,7 @@ import * as crypto from 'crypto';
 import { expect } from '@inpsyde/playwright-utils/build';
 import {
 	test,
+	requireEnv,
 	processQueue,
 	syncAndAssertStatus,
 	ensurePosTestReady,
@@ -41,10 +42,7 @@ test.describe( 'Stock Sync', () => {
 				cli,
 			} );
 
-			test.skip(
-				! process.env.PAYPAL_POS_API_KEY,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
+			requireEnv( 'PAYPAL_POS_API_KEY' );
 			test.setTimeout( 5 * 60_000 );
 		}
 	);

@@ -1,6 +1,7 @@
 import { expect } from '@inpsyde/playwright-utils/build';
 import {
 	test,
+	requireEnv,
 	ensurePluginState,
 	resetOnboarding,
 	canReceiveWebhooks,
@@ -24,22 +25,12 @@ test.describe( 'Webhooks', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		const apiKey = process.env.PAYPAL_POS_API_KEY;
-		if ( ! apiKey ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live webhook registration test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
-		if ( ! canReceiveWebhooks() ) {
-			test.skip(
-				true,
-				'WP_BASE_URL is not publicly reachable (no ngrok) — webhook registration cannot succeed'
-			);
-			return;
-		}
+		test.skip(
+			! canReceiveWebhooks(),
+			'WP_BASE_URL is not publicly reachable (no ngrok) — webhook registration cannot succeed'
+		);
 
 		await posSettings.connect( apiKey, cli );
 

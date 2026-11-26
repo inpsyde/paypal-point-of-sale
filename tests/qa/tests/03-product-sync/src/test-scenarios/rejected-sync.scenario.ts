@@ -1,6 +1,7 @@
 import type { RequestUtils } from '@inpsyde/playwright-utils/build';
 import {
 	test,
+	requireEnv,
 	createProduct,
 	deleteProduct,
 	syncAndAssertStatus,
@@ -30,13 +31,7 @@ export const testRejectedProductSync = ( data: RejectedSyncCase ) => {
 	test( data.title, async ( { wcProducts, requestUtils, cli } ) => {
 		test.setTimeout( data.timeout ?? 5 * 60_000 );
 
-		if ( ! process.env.PAYPAL_POS_API_KEY ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live sync test'
-			);
-			return;
-		}
+		requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		const product = await createProduct( requestUtils, data.productData );
 

@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { updateDotenv } from '@inpsyde/playwright-utils/build';
+import { test, updateDotenv } from '@inpsyde/playwright-utils/build';
 import type { AnyCli } from './pos-cli.helper';
 import { runWpCli } from './pos-cli.helper';
 
@@ -13,6 +13,25 @@ const checkEnvVars = ( names: string[] ): void => {
 		);
 	}
 };
+
+/**
+ * Read an env var a test cannot run without. When it is missing, skip the test locally,
+ * but fail it in CI, so a missing secret can never make a CI run look green.
+ * @param name
+ */
+export function requireEnv( name: string ): string {
+	const value = process.env[ name ];
+	if ( value ) {
+		return value;
+	}
+	if ( process.env.CI ) {
+		throw new Error(
+			`${ name } is not set. It is required in CI; check the env file secret.`
+		);
+	}
+	test.skip( true, `${ name } not set — skipping locally` );
+	return '';
+}
 
 async function invalidateApiKeys(): Promise< void > {
 	delete process.env.WC_API_KEY;

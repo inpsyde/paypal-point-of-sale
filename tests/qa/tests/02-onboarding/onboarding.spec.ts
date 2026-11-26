@@ -1,4 +1,9 @@
-import { test, resetOnboarding, ensurePluginState } from '../../utils';
+import {
+	test,
+	resetOnboarding,
+	ensurePluginState,
+	requireEnv,
+} from '../../utils';
 import { e2ePlugins } from '../../resources';
 
 const INVALID_API_KEY =
@@ -16,14 +21,7 @@ test.describe( 'Onboarding', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		const apiKey = process.env.PAYPAL_POS_API_KEY;
-		if ( ! apiKey ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping live onboarding test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		await posSettings.connect( apiKey, cli );
 	} );
@@ -68,14 +66,7 @@ test.describe( 'Onboarding', () => {
 	} ) => {
 		test.setTimeout( 10 * 60_000 );
 
-		const apiKey = process.env.PAYPAL_POS_API_KEY;
-		if ( ! apiKey ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping reconnect test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		await posSettings.connect( apiKey, cli );
 		await posSettings.disconnect();
@@ -90,14 +81,7 @@ test.describe( 'Onboarding', () => {
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		const apiKey = process.env.PAYPAL_POS_API_KEY;
-		if ( ! apiKey ) {
-			test.skip(
-				true,
-				'PAYPAL_POS_API_KEY not set — skipping disconnect test'
-			);
-			return;
-		}
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
 
 		await posSettings.connect( apiKey, cli );
 		await posSettings.disconnect();
