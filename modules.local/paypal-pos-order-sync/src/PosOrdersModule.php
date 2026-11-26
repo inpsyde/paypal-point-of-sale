@@ -9,6 +9,8 @@ use Inpsyde\Modularity\Module\ExtendingModule;
 use Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use Inpsyde\Modularity\Module\ServiceModule;
 use Psr\Container\ContainerInterface;
+use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
+use Syde\PayPal\PointOfSale\OrderSync\Backfill\PastSalesNotice;
 use Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\OrderSync\Order\OrderScreenPaymentMethod;
 use Syde\PayPal\PointOfSale\OrderSync\Order\OrderSideEffects;
@@ -50,6 +52,16 @@ class PosOrdersModule implements ServiceModule, ExtendingModule, ExecutableModul
         $sideEffects->preventStockChanges();
         add_action('current_screen', [OrderScreenPaymentMethod::class, 'register']);
         add_filter('wc_order_attribution_origin_label', [self::class, 'filterOriginLabel'], 10, 3);
+        // Runs before OrderSyncModule's priority-10 callback, which dismisses it.
+        add_action(
+            'paypal-pos.onboarding.completed',
+            static function () use ($container) {
+                $setupInfo = $container->get('paypal-pos.setup-info');
+                assert($setupInfo instanceof WritableContainerInterface);
+                $setupInfo->set(PastSalesNotice::PENDING_KEY, time());
+            },
+            5
+        );
 
         return true;
     }

@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Syde\PayPal\PointOfSale\Onboarding\OnboardingState;
 use Syde\PayPal\PointOfSale\OrderSync\Backfill\BackfillTools;
+use Syde\PayPal\PointOfSale\OrderSync\Backfill\PastSalesNotice;
 use Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\OrderSync\Handler\PurchaseCreatedHandler;
 use Syde\PayPal\PointOfSale\OrderSync\Job\BackfillJob;
@@ -96,7 +97,16 @@ return [
         );
     },
     'paypal-pos.order-sync.backfill-tools' => static function (C $container): BackfillTools {
-        return new BackfillTools($container->get('paypal-pos.order-sync.backfill'));
+        return new BackfillTools(
+            $container->get('paypal-pos.order-sync.backfill'),
+            $container->get('paypal-pos.order-sync.past-sales-notice')
+        );
+    },
+    'paypal-pos.order-sync.past-sales-notice' => static function (C $container): PastSalesNotice {
+        return new PastSalesNotice(
+            $container->get('paypal-pos.setup-info'),
+            $container->get('paypal-pos.order-sync.enabled')
+        );
     },
     'paypal-pos.order-sync.setting.yes' => static function (C $container): callable {
         $settings = $container->get('paypal-pos.settings');

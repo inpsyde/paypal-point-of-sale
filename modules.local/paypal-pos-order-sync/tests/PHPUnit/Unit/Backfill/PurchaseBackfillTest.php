@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Syde\PayPal\PointOfSale\Container\WritableContainerInterface;
 use Syde\PayPal\PointOfSale\OrderSync\Backfill\PurchaseBackfill;
 use Syde\PayPal\PointOfSale\OrderSync\Job\BackfillJob;
+use Syde\PayPal\PointOfSale\OrderSync\Test\SetupInfoFake;
 use MonkeryTestCase\BrainMonkeyWpTestCase;
 use function Brain\Monkey\Functions\expect;
 use function Brain\Monkey\Functions\stubTranslationFunctions;
@@ -22,25 +23,12 @@ class PurchaseBackfillTest extends BrainMonkeyWpTestCase
      */
     private array $options = [];
 
-    /**
-     * @var array<string, mixed>
-     */
-    private array $setupInfoValues = [];
-
     private WritableContainerInterface $setupInfo;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setupInfo = Mockery::mock(WritableContainerInterface::class);
-        $this->setupInfo->shouldReceive('has')->andReturnUsing(fn (string $key): bool => isset($this->setupInfoValues[$key]));
-        $this->setupInfo->shouldReceive('get')->andReturnUsing(fn (string $key) => $this->setupInfoValues[$key]);
-        $this->setupInfo->shouldReceive('set')->andReturnUsing(function (string $key, $value): void {
-            $this->setupInfoValues[$key] = $value;
-        });
-        $this->setupInfo->shouldReceive('unset')->andReturnUsing(function (string $key): void {
-            unset($this->setupInfoValues[$key]);
-        });
+        $this->setupInfo = (new SetupInfoFake())->container();
         stubTranslationFunctions();
         when('get_option')->alias(fn (string $name, $default = false) => $this->options[$name] ?? $default);
         when('update_option')->alias(function (string $name, $value): bool {
