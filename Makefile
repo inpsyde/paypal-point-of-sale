@@ -23,6 +23,9 @@ ngrok:
 test:
 	ddev exec ./phpunit.sh
 
+test-unit:
+	ddev exec 'vendor/bin/phpunit tests/PHPUnit/Unit && for c in modules.local/*/phpunit.xml.dist; do (cd "$$(dirname "$$c")" && { [ -d vendor ] || composer install -q --no-progress; } && vendor/bin/phpunit) || exit 1; done'
+
 lint:
 	ddev exec phpcs --parallel=8 -s --runtime-set ignore_warnings_on_exit 1
 	ddev exec phpstan analyze --memory-limit=2G

@@ -42,13 +42,16 @@ class QueueModule implements ServiceModule, ExecutableModule
             3
         );
 
-        if (defined('WP_CLI') && WP_CLI) {
-            /** @noinspection PhpParamsInspection */
-            WP_CLI::add_command(
-                "{$namespace} queue",
-                new QueueCommand($container->get('inpsyde.queue.processor'))
-            );
-        }
+        add_action(
+            'cli_init',
+            static function () use ($container, $namespace): void {
+                /** @noinspection PhpParamsInspection */
+                WP_CLI::add_command(
+                    "{$namespace} queue",
+                    new QueueCommand($container->get('inpsyde.queue.processor'))
+                );
+            }
+        );
 
         /**
          * Grab the Runner implementation and initialize it.

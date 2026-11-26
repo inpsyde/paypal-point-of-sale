@@ -1,0 +1,5 @@
+# DDEV 1.25.5+ ships WP-CLI only for the wordpress and wp-bedrock project types; this project is php.
+RUN curl --fail -sSL -o /usr/local/bin/wp-cli \
+    https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x /usr/local/bin/wp-cli && \
+    ln -sf /usr/local/bin/wp-cli /usr/local/bin/wp
