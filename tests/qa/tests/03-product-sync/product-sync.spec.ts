@@ -544,10 +544,16 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			const logContent = await wcStatusLogs.viewLatestLogForSource(
 				'paypal-point-of-sale'
 			);
+			// The log file holds the whole day, so match this product's line
+			// (ExportProductJob: "Skipping <class> <id>, not syncable because: ...").
 			expect(
 				logContent,
-				'Assert plugin log records the specific "No tax rate" rejection reason'
-			).toContain( 'No tax rate' );
+				'Assert plugin log records the "No tax rate" rejection reason for this product'
+			).toMatch(
+				new RegExp(
+					`\\b${ product.id }, not syncable because: [^\\n]*No tax rate`
+				)
+			);
 		} finally {
 			await deleteProduct( cli, product.id );
 			await requestUtils.rest( {
