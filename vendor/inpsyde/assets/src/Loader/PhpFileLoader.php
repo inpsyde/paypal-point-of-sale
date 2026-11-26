@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Loader;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Loader;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\Exception\FileNotFoundException;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Exception\FileNotFoundException;
 /**
  * @package Inpsyde\Assets\Loader
  */
-class PhpFileLoader extends \Inpsyde\Assets\Loader\ArrayLoader
+class PhpFileLoader extends ArrayLoader
 {
     /**
      * @param mixed $resource the path to your php-file.

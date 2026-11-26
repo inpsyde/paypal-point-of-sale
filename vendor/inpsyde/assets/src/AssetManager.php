@@ -1,20 +1,20 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\Handler\AssetHandler;
-use Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler;
-use Inpsyde\Assets\Handler\ScriptHandler;
-use Inpsyde\Assets\Handler\ScriptModuleHandler;
-use Inpsyde\Assets\Handler\StyleHandler;
-use Inpsyde\Assets\Util\AssetHookResolver;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\AssetHandler;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\ScriptHandler;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\ScriptModuleHandler;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\StyleHandler;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Util\AssetHookResolver;
 /**
  * @phpstan-import-type AssetExtensionConfig from AssetFactory
  */
 final class AssetManager
 {
-    public const ACTION_SETUP = 'inpsyde.assets.setup';
+    public const ACTION_SETUP = 'paypal-point-of-sale.inpsyde.assets.setup';
     /**
      * Contains the state of the AssetManager, where keys are hook names that are already added
      * to avoid add them more than once.
@@ -33,7 +33,7 @@ final class AssetManager
      * @var array<Style::class|Script::class|ScriptModule::class, array<string, bool>>
      */
     private array $processedAssets = [];
-    private \Inpsyde\Assets\AssetCollection $assets;
+    private AssetCollection $assets;
     /**
      * @var array<AssetHandler>
      */
@@ -46,12 +46,12 @@ final class AssetManager
     public function __construct(?AssetHookResolver $hookResolver = null)
     {
         $this->hookResolver = $hookResolver ?? new AssetHookResolver();
-        $this->assets = new \Inpsyde\Assets\AssetCollection();
+        $this->assets = new AssetCollection();
     }
     /**
      * @return static
      */
-    public function useDefaultHandlers(): \Inpsyde\Assets\AssetManager
+    public function useDefaultHandlers(): AssetManager
     {
         $this->handlers[StyleHandler::class] ??= new StyleHandler(wp_styles());
         $this->handlers[ScriptHandler::class] ??= new ScriptHandler(wp_scripts());
@@ -64,7 +64,7 @@ final class AssetManager
      *
      * @return static
      */
-    public function withHandler(string $name, AssetHandler $handler): \Inpsyde\Assets\AssetManager
+    public function withHandler(string $name, AssetHandler $handler): AssetManager
     {
         $this->handlers[$name] = $handler;
         return $this;
@@ -82,7 +82,7 @@ final class AssetManager
      *
      * @return static
      */
-    public function register(\Inpsyde\Assets\Asset $asset, \Inpsyde\Assets\Asset ...$assets): \Inpsyde\Assets\AssetManager
+    public function register(Asset $asset, Asset ...$assets): AssetManager
     {
         array_unshift($assets, $asset);
         foreach ($assets as $asset) {
@@ -106,7 +106,7 @@ final class AssetManager
      *
      * @return Asset|null
      */
-    public function asset(string $handle, ?string $type = null): ?\Inpsyde\Assets\Asset
+    public function asset(string $handle, ?string $type = null): ?Asset
     {
         $this->ensureSetup();
         if ($type === null) {
@@ -121,7 +121,7 @@ final class AssetManager
      *
      * @return $this
      */
-    public function extendAsset(string $handle, string $type, array $extensions): \Inpsyde\Assets\AssetManager
+    public function extendAsset(string $handle, string $type, array $extensions): AssetManager
     {
         $existingExtension = $this->extensions[$type][$handle] ?? [];
         $extensions = array_merge_recursive($existingExtension, $extensions);
@@ -149,13 +149,13 @@ final class AssetManager
      *
      * @return $this
      */
-    protected function extendAndRegisterAsset(\Inpsyde\Assets\Asset $asset): \Inpsyde\Assets\AssetManager
+    protected function extendAndRegisterAsset(Asset $asset): AssetManager
     {
         $handle = $asset->handle();
         $type = get_class($asset);
         $extensions = $this->assetExtensions($handle, $type);
         if (count($extensions) > 0 && !$this->isAssetProcessed($asset)) {
-            $asset = \Inpsyde\Assets\AssetFactory::configureAsset($asset, $extensions);
+            $asset = AssetFactory::configureAsset($asset, $extensions);
         }
         $this->assets->add($asset);
         return $this;
@@ -223,7 +223,7 @@ final class AssetManager
             return [];
         }
         /** @var int|null $locationId */
-        $locationId = \Inpsyde\Assets\Asset::HOOK_TO_LOCATION[$currentHook] ?? null;
+        $locationId = Asset::HOOK_TO_LOCATION[$currentHook] ?? null;
         if (!$locationId) {
             return [];
         }
@@ -252,7 +252,7 @@ final class AssetManager
         }
         return $found;
     }
-    protected function isAssetProcessed(\Inpsyde\Assets\Asset $asset): bool
+    protected function isAssetProcessed(Asset $asset): bool
     {
         return (bool) ($this->processedAssets[get_class($asset) . '_' . $asset->handle()] ?? \false);
     }
@@ -272,7 +272,7 @@ final class AssetManager
          * @psalm-suppress PossiblyNullArgument
          */
         if (!$lastHook && did_action($lastHook) && !doing_action($lastHook)) {
-            $this->assets = new \Inpsyde\Assets\AssetCollection();
+            $this->assets = new AssetCollection();
             return;
         }
         $this->useDefaultHandlers();

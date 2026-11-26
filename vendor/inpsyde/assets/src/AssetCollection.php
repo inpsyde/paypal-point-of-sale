@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
 /**
  * @phpstan-type Assets array<Style::class|Script::class|ScriptModule::class, array<string, Asset>>
@@ -17,7 +17,7 @@ class AssetCollection
      *
      * @return void
      */
-    public function add(\Inpsyde\Assets\Asset $asset): void
+    public function add(Asset $asset): void
     {
         $type = get_class($asset);
         $handle = $asset->handle();
@@ -29,7 +29,7 @@ class AssetCollection
      *
      * @return Asset|null
      */
-    public function get(string $handle, string $type): ?\Inpsyde\Assets\Asset
+    public function get(string $handle, string $type): ?Asset
     {
         $found = null;
         foreach ($this->assets as $assets) {
@@ -52,7 +52,7 @@ class AssetCollection
      *
      * phpcs:disable Syde.Classes.DisallowGetterSetter.GetterFound
      */
-    public function getFirst(string $handle): ?\Inpsyde\Assets\Asset
+    public function getFirst(string $handle): ?Asset
     {
         $found = null;
         foreach ($this->assets as $assets) {

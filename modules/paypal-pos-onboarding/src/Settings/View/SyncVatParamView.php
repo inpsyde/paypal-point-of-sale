@@ -105,9 +105,11 @@ class SyncVatParamView implements OnboardingView
                     $messages[] = esc_html(sprintf(__('Tax rates not added in WooCommerce.', 'paypal-point-of-sale')));
                 }
             }
+            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '<ul>' . implode('', array_map(static function (string $msg): string {
                 return "<li><strong>{$msg}</strong></li>";
             }, $messages)) . '</ul>';
+            // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
             </p>
         <?php 

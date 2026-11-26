@@ -62,6 +62,7 @@ trait ButtonRendererTrait
         echo esc_attr($value);
         ?>"
                 <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo $attributesHtml;
         ?>>
             <?php 

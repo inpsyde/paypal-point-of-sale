@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
 // Exit early in case multiple Composer autoloaders try to include this file.
 if (function_exists(__NAMESPACE__ . '\assetSuffix')) {

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
 // Exit early in case multiple Composer autoloaders try to include this file.
 if (defined(__NAMESPACE__ . '\BOOTSTRAPPED')) {
@@ -16,7 +16,7 @@ function bootstrap(): bool
         return \false;
     }
     $done = \true;
-    (new \Inpsyde\Assets\AssetManager())->setup();
+    (new AssetManager())->setup();
     return $done;
 }
 /*

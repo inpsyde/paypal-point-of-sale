@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\OutputFilter\AssetOutputFilter;
-use Inpsyde\Assets\OutputFilter\AttributesOutputFilter;
-use Inpsyde\Assets\OutputFilter\InlineAssetOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AssetOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\AttributesOutputFilter;
+use Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter\InlineAssetOutputFilter;
 trait FilterAwareTrait
 {
     /**
@@ -32,7 +32,7 @@ trait FilterAwareTrait
      *
      * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function withFilters(...$filters): \Inpsyde\Assets\Asset
+    public function withFilters(...$filters): Asset
     {
         // phpcs:enable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
         $this->filters = array_merge($this->filters, $filters);
@@ -43,7 +43,7 @@ trait FilterAwareTrait
      *
      * @return static
      */
-    public function useInlineFilter(): \Inpsyde\Assets\Asset
+    public function useInlineFilter(): Asset
     {
         $this->withFilters(InlineAssetOutputFilter::class);
         return $this;
@@ -63,7 +63,7 @@ trait FilterAwareTrait
      *
      * @return static
      */
-    public function withAttributes(array $attributes): \Inpsyde\Assets\Asset
+    public function withAttributes(array $attributes): Asset
     {
         $this->attributes = array_merge($this->attributes, $attributes);
         $this->withFilters(AttributesOutputFilter::class);

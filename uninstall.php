@@ -15,7 +15,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
     if (!class_exists(PluginModule::class) && file_exists(__DIR__ . '/vendor/autoload.php')) {
         include_once __DIR__ . '/vendor/autoload.php';
     }
-    $package = (require __DIR__ . '/bootstrap.php')(__DIR__ . '/paypal-point-of-sale.php');
+    $package = (require __DIR__ . '/bootstrap.php')(__DIR__ . '/zettle-pos-integration.php');
     assert($package instanceof Package);
     $container = $package->container();
     $resetJob = $container->get('paypal-pos.job.' . ResetOnboardingJob::TYPE);

@@ -53,16 +53,16 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         <tr valign="top">
             <th scope="row" class="titledesc">
                 <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderTableHead($fieldKey, $fieldConfig, $settingsApi);
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
             </th>
 
             <td class="forminp">
                 <div class="zettle-settings-onboarding-container">
                     <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->renderTableContent();
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
                 </div>
             </td>
@@ -93,8 +93,8 @@ class OnboardingFieldRenderer implements FieldRendererInterface
             ?>">
                         <?php 
             echo wp_kses_post($fieldConfig['title']);
-            echo $settingsApi->get_tooltip_html($fieldConfig);
             // phpcs:ignore WordPress.Security.EscapeOutput
+            echo $settingsApi->get_tooltip_html($fieldConfig);
             ?>
                     </label>
                 <?php 
@@ -128,15 +128,15 @@ class OnboardingFieldRenderer implements FieldRendererInterface
 
         <div class="zettle-settings-onboarding-header">
             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->view->renderHeader();
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </div>
 
         <div class="zettle-settings-onboarding-content">
             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->view->renderContent();
-        // phpcs:ignore WordPress.Security.EscapeOutput 
         ?>
         </div>
 
@@ -147,10 +147,10 @@ class OnboardingFieldRenderer implements FieldRendererInterface
         ?>">
 
             <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->view->renderProceedButton();
         // phpcs:ignore WordPress.Security.EscapeOutput
         echo $this->view->renderBackButton();
-        // phpcs:ignore WordPress.Security.EscapeOutput
         ?>
         </div>
 

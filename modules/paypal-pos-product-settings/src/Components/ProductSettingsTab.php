@@ -180,14 +180,12 @@ class ProductSettingsTab
     {
         return $state ? 'yes' : 'no';
     }
-    /**
-     * phpcs:disable WordPressVIPMinimum.Security.PHPFilterFunctions.MissingThirdParameter
-     */
     private function parseRequest(): array
     {
-        $barcode = filter_input(\INPUT_POST, $this->barcodeId());
-        $syncExclusion = filter_input(\INPUT_POST, $this->syncExclusionId());
-        return [$this->nonceKey() => $this->sanitizeText((string) filter_input(\INPUT_POST, $this->nonceKey())), $this->syncExclusionId() => $syncExclusion === null ? null : $this->sanitizeText((string) $syncExclusion), $this->barcodeId() => $barcode === null ? null : $this->sanitizeText((string) $barcode)];
+        $nonce = filter_input(\INPUT_POST, $this->nonceKey(), \FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $barcode = filter_input(\INPUT_POST, $this->barcodeId(), \FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $syncExclusion = filter_input(\INPUT_POST, $this->syncExclusionId(), \FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        return [$this->nonceKey() => $this->sanitizeText((string) $nonce), $this->syncExclusionId() => $syncExclusion === null ? null : $this->sanitizeText((string) $syncExclusion), $this->barcodeId() => $barcode === null ? null : $this->sanitizeText((string) $barcode)];
     }
     private function sanitizeText(string $text): string
     {

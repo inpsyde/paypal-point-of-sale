@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings;
 
-use Inpsyde\Assets\BaseAsset;
-use Inpsyde\Assets\Script;
-use Inpsyde\Assets\Style;
+use Syde\Vendor\Zettle\Inpsyde\Assets\BaseAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Script;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Style;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\PhpSdk\Repository\WooCommerce\Product\ProductRepositoryInterface;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\ProductSettings\Components\TermManager;
@@ -25,7 +25,7 @@ return ['paypal-pos.sync.product.sync-active-for-id' => static function (callabl
         return !$excludedFromSync->hasTerm((int) $product->get_id());
     };
 }, 'inpsyde.assets.registry' => static function (array $previous, C $container): array {
-    $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/paypal-point-of-sale.php'), '/\\');
+    $assetUri = rtrim(plugins_url('/assets/', __DIR__ . '/zettle-pos-integration.php'), '/\\');
     $isProductsEditor = $container->get('paypal-pos.product-settings.is-product-editor');
     // Products Editor Style
     $productEditorStyle = (new Style('zettle-product-editor-style', "{$assetUri}/products-style.css", BaseAsset::BACKEND))->canEnqueue($isProductsEditor());

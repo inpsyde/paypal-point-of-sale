@@ -70,8 +70,8 @@ class SettingsPage extends WC_Settings_Page
             ?>
             </h3>
             <?php 
-            echo ob_get_clean();
             // phpcs:ignore WordPress.Security.EscapeOutput
+            echo ob_get_clean();
         }
     }
     /**

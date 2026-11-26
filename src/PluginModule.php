@@ -4,8 +4,8 @@ declare (strict_types=1);
 // phpcs:disable Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\AssetManager;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\AssetManager;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExtendingModule;
 use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;

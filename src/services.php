@@ -73,7 +73,7 @@ return ['paypal-pos.is-debug' => static function (C $container): bool {
 }, 'paypal-pos.logger' => static function (C $container): CompoundLogger {
     return new CompoundLogger($container->get('paypal-pos.logger.woocommerce'), $container->get('paypal-pos.logger.wonolog'));
 }, 'paypal-pos.plugin.properties' => static function (): PluginProperties {
-    return new PluginProperties(__DIR__ . '/../paypal-point-of-sale.php');
+    return new PluginProperties(__DIR__ . '/../zettle-pos-integration.php');
 }, 'paypal-pos.version-option-key' => static function (): string {
     return 'zettle_pos_integration_version';
 }, 'paypal-pos.clear-cache' => static function (C $container): callable {

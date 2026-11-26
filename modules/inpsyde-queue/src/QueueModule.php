@@ -27,10 +27,10 @@ class QueueModule implements ServiceModule, ExecutableModule
         $namespace = $container->get('inpsyde.queue.namespace');
         add_action("{$namespace}.queue.add-job-record", $container->get('inpsyde.queue.add-job-record'));
         add_action("{$namespace}.queue.create-job", $container->get('inpsyde.queue.enqueue-job'), 10, 3);
-        if (defined('WP_CLI') && \WP_CLI) {
+        add_action('cli_init', static function () use ($container, $namespace): void {
             /** @noinspection PhpParamsInspection */
             WP_CLI::add_command("{$namespace} queue", new QueueCommand($container->get('inpsyde.queue.processor')));
-        }
+        });
         /**
          * Grab the Runner implementation and initialize it.
          * There is no need to rush here, so we'll just hook into 'init'

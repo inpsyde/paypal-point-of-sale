@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\Exception\InvalidArgumentException;
-use Inpsyde\Assets\Loader\ArrayLoader;
-use Inpsyde\Assets\Loader\PhpFileLoader;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Exception\InvalidArgumentException;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Loader\ArrayLoader;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Loader\PhpFileLoader;
 /**
  * Class AssetFactory
  *
@@ -48,19 +48,19 @@ final class AssetFactory
      * phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
      * phpcs:disable Syde.Functions.FunctionLength.TooLong
      */
-    public static function create(array $config): \Inpsyde\Assets\Asset
+    public static function create(array $config): Asset
     {
         $config = self::validateConfig($config);
-        $location = $config['location'] ?? \Inpsyde\Assets\Asset::FRONTEND;
+        $location = $config['location'] ?? Asset::FRONTEND;
         $handle = $config['handle'];
         $url = $config['url'];
         $class = (string) $config['type'];
         if (!class_exists($class)) {
-            throw new \Inpsyde\Assets\Exception\InvalidArgumentException(sprintf('The given class "%s" does not exists.', esc_html($class)));
+            throw new Exception\InvalidArgumentException(sprintf('The given class "%s" does not exists.', esc_html($class)));
         }
         $asset = new $class($handle, $url, $location);
-        if (!$asset instanceof \Inpsyde\Assets\Asset) {
-            throw new \Inpsyde\Assets\Exception\InvalidArgumentException(sprintf('The given class "%s" is not implementing %s', esc_html($class), \Inpsyde\Assets\Asset::class));
+        if (!$asset instanceof Asset) {
+            throw new Exception\InvalidArgumentException(sprintf('The given class "%s" is not implementing %s', esc_html($class), Asset::class));
         }
         return self::configureAsset($asset, $config);
     }
@@ -70,9 +70,9 @@ final class AssetFactory
      *
      * @return Asset
      */
-    public static function configureAsset(\Inpsyde\Assets\Asset $asset, array $config): \Inpsyde\Assets\Asset
+    public static function configureAsset(Asset $asset, array $config): Asset
     {
-        if ($asset instanceof \Inpsyde\Assets\Script) {
+        if ($asset instanceof Script) {
             $localize = $config['localize'] ?? [];
             foreach ($localize as $objectName => $data) {
                 $asset->withLocalize((string) $objectName, $data);
@@ -96,7 +96,7 @@ final class AssetFactory
             }
         }
         $propertiesToMethod = self::PROPERTIES_TO_METHOD;
-        if ($asset instanceof \Inpsyde\Assets\Style) {
+        if ($asset instanceof Style) {
             $propertiesToMethod['media'] = 'forMedia';
             $propertiesToMethod['inlineStyles'] = 'withInlineStyles';
         }
@@ -140,7 +140,7 @@ final class AssetFactory
         $requiredFields = ['type', 'url', 'handle'];
         foreach ($requiredFields as $key) {
             if (!isset($config[$key])) {
-                throw new \Inpsyde\Assets\Exception\MissingArgumentException(sprintf('The given config <code>%s</code> is missing.', esc_html($key)));
+                throw new Exception\MissingArgumentException(sprintf('The given config <code>%s</code> is missing.', esc_html($key)));
             }
         }
     }
@@ -177,7 +177,7 @@ final class AssetFactory
             throw new InvalidArgumentException("Config key <code>translation</code> must be of type string or array");
         }
         if (!isset($config['translation']['domain'])) {
-            throw new \Inpsyde\Assets\Exception\MissingArgumentException('Config key <code>translation[domain]</code> is missing.');
+            throw new Exception\MissingArgumentException('Config key <code>translation[domain]</code> is missing.');
         }
         if (!isset($config['translation']['path'])) {
             $config['translation']['path'] = null;

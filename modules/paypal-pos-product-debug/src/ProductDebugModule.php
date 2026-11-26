@@ -49,12 +49,12 @@ class ProductDebugModule implements ServiceModule, ExtendingModule, ExecutableMo
                 echo wp_kses_post($content);
             }
         }, 10, 3);
-        if (defined('WP_CLI') && \WP_CLI) {
+        add_action('cli_init', static function () use ($container): void {
             try {
                 WP_CLI::add_command("zettle products", $container->get('paypal-pos.product.debug.cli.products'));
             } catch (Exception $exception) {
             }
-        }
+        });
         return \true;
     }
 }

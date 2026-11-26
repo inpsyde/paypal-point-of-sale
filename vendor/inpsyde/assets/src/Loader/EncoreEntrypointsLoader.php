@@ -1,16 +1,16 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Loader;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Loader;
 
-use Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
 /**
  * Implementation of Symfony's Encore implementation of entrypoints.json which
  * supports splitEntryChunks and hashing.
  *
  * @package Inpsyde\Assets\Loader
  */
-class EncoreEntrypointsLoader extends \Inpsyde\Assets\Loader\AbstractWebpackLoader implements \Inpsyde\Assets\Loader\LoaderInterface
+class EncoreEntrypointsLoader extends AbstractWebpackLoader implements LoaderInterface
 {
     /**
      * {@inheritDoc}

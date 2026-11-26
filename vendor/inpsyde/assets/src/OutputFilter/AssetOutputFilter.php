@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\OutputFilter;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\OutputFilter;
 
-use Inpsyde\Assets\FilterAwareAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\FilterAwareAsset;
 interface AssetOutputFilter
 {
     /**

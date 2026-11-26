@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
 trait DataAwareTrait
 {
@@ -27,7 +27,7 @@ trait DataAwareTrait
      *
      * @return static
      */
-    public function withData(array $data): \Inpsyde\Assets\Asset
+    public function withData(array $data): Asset
     {
         $this->data = array_merge($this->data, $data);
         return $this;
@@ -39,7 +39,7 @@ trait DataAwareTrait
      *
      * @return static
      */
-    public function withCondition(string $condition): \Inpsyde\Assets\Asset
+    public function withCondition(string $condition): Asset
     {
         $this->withData(['conditional' => $condition]);
         return $this;

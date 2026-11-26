@@ -141,5 +141,5 @@
             "dump-modules": "modules.php"
         }
     },
-    "version": "0.0.0+qa-move-playwright-to-root.4cfcdcd"
+    "version": "2.0.1+qa-move-playwright-to-root.06b3e5e"
 }

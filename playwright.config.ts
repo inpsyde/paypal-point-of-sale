@@ -16,7 +16,7 @@ export default defineConfig< BaseExtend >( {
     expect: { timeout: 20 * 1000 },
     fullyParallel: false,
     forbidOnly: !! process.env.CI,
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 1 : 0,
     workers: 1,
     snapshotDir: './snapshots',
 
@@ -58,9 +58,9 @@ export default defineConfig< BaseExtend >( {
             },
         } ),
 
-        trace: process.env.CI ? 'off' : 'retain-on-failure',
+        trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
         screenshot: { mode: 'only-on-failure', fullPage: true },
-        video: process.env.CI ? 'off' : { mode: 'retain-on-failure', size: { width: 1280, height: 850 } },
+        video: process.env.CI ? 'on-first-retry' : { mode: 'retain-on-failure', size: { width: 1280, height: 850 } },
 
         cliConfig: {
             envType: ( process.env.WPCLI_ENV_TYPE ?? 'wpenv' ) as WpCliEnvType,
@@ -81,40 +81,47 @@ export default defineConfig< BaseExtend >( {
         // Destructive DB reset — run explicitly via `npm run e2e:env:reset`.
         {
             name: 'setup:env',
-            testMatch: /_setup\/env\.setup\.ts/,
+            testMatch: /00-setup\/env\.setup\.ts/,
         },
         // Store-level config (permalinks, visibility, API keys, e-mails, general, tax).
         // Not destructive on its own, but depends on setup:env having just run so it can
         // refresh the admin session the reset invalidated. Runs via `npm run e2e:env:reset`.
         {
             name: 'setup:woocommerce',
-            testMatch: /_setup\/woocommerce\.setup\.ts/,
+            testMatch: /00-setup\/woocommerce\.setup\.ts/,
             dependencies: [ 'setup:env' ],
         },
 
         // ── Setup / teardown — runs AFTER shards that reset onboarding state ──
         {
             name: 'setup:paypal-pos',
-            testMatch: /_setup\/paypal-pos\.setup\.ts/,
+            testMatch: /00-setup\/paypal-pos\.setup\.ts/,
             teardown: 'teardown:paypal-pos',
-            dependencies: [ 'shard:plugin-lifecycle', 'shard:onboarding' ],
+            dependencies: [ 'shard:plugin-foundation', 'shard:onboarding' ],
         },
         {
             name: 'teardown:paypal-pos',
-            testMatch: /_setup\/paypal-pos\.teardown\.ts/,
+            testMatch: /00-setup\/paypal-pos\.teardown\.ts/,
         },
 
         // ── Shards ────────────────────────────────────────────────────────────
         {
-            name: 'shard:plugin-lifecycle',
-            testMatch: /01-plugin-lifecycle\/.*\.spec\.ts/,
+            name: 'shard:plugin-foundation',
+            testMatch: /01-plugin-foundation\/.*\.spec\.ts/,
             dependencies: [ 'setup:env' ],
         },
         {
             name: 'shard:onboarding',
             testMatch: /02-onboarding\/.*\.spec\.ts/,
-            dependencies: [ 'shard:plugin-lifecycle' ],
+            dependencies: [ 'shard:plugin-foundation' ],
         },
+        // These depend on setup:paypal-pos so a full run is ordered mechanically
+        // (01 → 02 → connect → 03 → 04 → 05 → disconnect). `dependencies` is the
+        // only ordering contract Playwright offers — without it, projects are
+        // scheduled by readiness, not declaration order. To run a single test
+        // without the chain, pass --no-deps (or `npm run e2e:test:single`): each
+        // spec's own beforeEach bootstraps what it needs idempotently. See
+        // docs/qa/README.md "Test Dependency Model".
         {
             name: 'shard:product-sync',
             testMatch: /03-product-sync\/.*\.spec\.ts/,

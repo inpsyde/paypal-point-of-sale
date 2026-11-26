@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets\Handler;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets\Handler;
 
-use Inpsyde\Assets\Asset;
-use Inpsyde\Assets\ScriptModule;
-class ScriptModuleHandler implements \Inpsyde\Assets\Handler\AssetHandler
+use Syde\Vendor\Zettle\Inpsyde\Assets\Asset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\ScriptModule;
+class ScriptModuleHandler implements AssetHandler
 {
     public function enqueue(Asset $asset): bool
     {

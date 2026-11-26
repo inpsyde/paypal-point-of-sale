@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace Inpsyde\Assets;
+namespace Syde\Vendor\Zettle\Inpsyde\Assets;
 
-use Inpsyde\Assets\Handler\ScriptHandler;
-class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset, \Inpsyde\Assets\DataAwareAsset, \Inpsyde\Assets\FilterAwareAsset
+use Syde\Vendor\Zettle\Inpsyde\Assets\Handler\ScriptHandler;
+class Script extends BaseAsset implements Asset, DataAwareAsset, FilterAwareAsset
 {
-    use \Inpsyde\Assets\DependencyExtractionTrait;
-    use \Inpsyde\Assets\DataAwareTrait;
-    use \Inpsyde\Assets\FilterAwareTrait;
+    use DependencyExtractionTrait;
+    use DataAwareTrait;
+    use FilterAwareTrait;
     /**
      * @var array<string, mixed>
      */
@@ -23,7 +23,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      */
     protected array $translation = ['domain' => '', 'path' => null];
     protected bool $dependencyExtractionEnabled = \false;
-    public function __construct(string $handle, string $url, int $location = \Inpsyde\Assets\Asset::FRONTEND | \Inpsyde\Assets\Asset::ACTIVATE, bool $dependencyExtractionEnabled = \true)
+    public function __construct(string $handle, string $url, int $location = Asset::FRONTEND | Asset::ACTIVATE, bool $dependencyExtractionEnabled = \true)
     {
         parent::__construct($handle, $url, $location);
         $this->dependencyExtractionEnabled = $dependencyExtractionEnabled;
@@ -47,7 +47,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      *
      * phpcs:disable Syde.Functions.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function withLocalize(string $objectName, $data): \Inpsyde\Assets\Script
+    public function withLocalize(string $objectName, $data): Script
     {
         // phpcs:enable Inpsyde.CodeQuality.ArgumentTypeDeclaration
         $this->localize[$objectName] = $data;
@@ -63,7 +63,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
     /**
      * @return static
      */
-    public function isInFooter(): \Inpsyde\Assets\Script
+    public function isInFooter(): Script
     {
         $this->inFooter = \true;
         return $this;
@@ -71,7 +71,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
     /**
      * @return static
      */
-    public function isInHeader(): \Inpsyde\Assets\Script
+    public function isInHeader(): Script
     {
         $this->inFooter = \false;
         return $this;
@@ -88,7 +88,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      *
      * @return static
      */
-    public function prependInlineScript(string $jsCode): \Inpsyde\Assets\Script
+    public function prependInlineScript(string $jsCode): Script
     {
         $this->inlineScripts['before'][] = $jsCode;
         return $this;
@@ -98,7 +98,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      *
      * @return static
      */
-    public function appendInlineScript(string $jsCode): \Inpsyde\Assets\Script
+    public function appendInlineScript(string $jsCode): Script
     {
         $this->inlineScripts['after'][] = $jsCode;
         return $this;
@@ -116,7 +116,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      *
      * @return static
      */
-    public function withTranslation(string $domain = 'default', ?string $path = null): \Inpsyde\Assets\Script
+    public function withTranslation(string $domain = 'default', ?string $path = null): Script
     {
         $this->translation = ['domain' => $domain, 'path' => $path];
         return $this;
@@ -127,7 +127,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      * @return static
      * @deprecated use Script::withAttributes(['async' => true]);
      */
-    public function useAsyncFilter(): \Inpsyde\Assets\Script
+    public function useAsyncFilter(): Script
     {
         $this->withAttributes(['async' => \true]);
         return $this;
@@ -138,7 +138,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      * @return static
      * @deprecated use Script::withAttributes(['defer' => true]);
      */
-    public function useDeferFilter(): \Inpsyde\Assets\Script
+    public function useDeferFilter(): Script
     {
         $this->withAttributes(['defer' => \true]);
         return $this;
@@ -157,7 +157,7 @@ class Script extends \Inpsyde\Assets\BaseAsset implements \Inpsyde\Assets\Asset,
      *
      * @see https://github.com/WordPress/gutenberg/tree/master/packages/dependency-extraction-webpack-plugin
      */
-    public function useDependencyExtractionPlugin(): \Inpsyde\Assets\Script
+    public function useDependencyExtractionPlugin(): Script
     {
         return $this;
     }

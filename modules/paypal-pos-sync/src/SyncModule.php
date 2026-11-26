@@ -23,7 +23,7 @@ class SyncModule implements ServiceModule, ExtendingModule, ExecutableModule
     }
     public function run(ContainerInterface $container): bool
     {
-        if (defined('WP_CLI') && \WP_CLI) {
+        add_action('cli_init', static function () use ($container): void {
             try {
                 WP_CLI::add_command("zettle sync", $container->get('paypal-pos.sync.cli.sync-product'));
                 WP_CLI::add_command("zettle unlink", $container->get('paypal-pos.sync.cli.unlink-product'));
@@ -32,7 +32,7 @@ class SyncModule implements ServiceModule, ExtendingModule, ExecutableModule
                 WP_CLI::add_command('zettle exclude', $container->get('paypal-pos.sync.cli.exclude'));
             } catch (Exception $exception) {
             }
-        }
+        });
         $logger = $container->get('paypal-pos.logger');
         // without is_admin it triggers multiple time in ajax requests
         // also to avoid performance issues for users

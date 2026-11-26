@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Assets;
 
-use Inpsyde\Assets\BaseAsset;
-use Inpsyde\Assets\Script;
-use Inpsyde\Assets\Style;
+use Syde\Vendor\Zettle\Inpsyde\Assets\BaseAsset;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Script;
+use Syde\Vendor\Zettle\Inpsyde\Assets\Style;
 use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 use Syde\Vendor\Zettle\Psr\Container\ContainerInterface as C;
 use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Auth\Rest\V1\ValidationEndpoint;
