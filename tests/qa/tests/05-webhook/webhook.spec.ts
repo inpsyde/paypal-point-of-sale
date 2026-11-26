@@ -3,6 +3,7 @@ import {
 	test,
 	ensurePluginState,
 	resetOnboarding,
+	canReceiveWebhooks,
 	ZettleApiClient,
 } from '../../utils';
 import { e2ePlugins } from '../../resources';
@@ -32,10 +33,7 @@ test.describe( 'Webhooks', () => {
 			return;
 		}
 
-		const isPubliclyReachable =
-			process.env.NGROK_ENABLED === 'true' ||
-			! /localhost|127\.0\.0\.1/.test( process.env.WP_BASE_URL ?? '' );
-		if ( ! isPubliclyReachable ) {
+		if ( ! canReceiveWebhooks() ) {
 			test.skip(
 				true,
 				'WP_BASE_URL is not publicly reachable (no ngrok) — webhook registration cannot succeed'

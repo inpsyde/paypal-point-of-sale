@@ -28,6 +28,17 @@ export async function getWebhookSigningKey( cli: AnyCli ): Promise< string > {
 	return config?.signingKey ?? '';
 }
 
+/**
+ * Whether PayPal POS can reach this site, which webhook registration needs:
+ * ngrok is on, or the base URL is not a local one.
+ */
+export function canReceiveWebhooks(): boolean {
+	return (
+		process.env.NGROK_ENABLED === 'true' ||
+		! /localhost|127\.0\.0\.1/.test( process.env.WP_BASE_URL ?? '' )
+	);
+}
+
 export async function ensureWebhookRegistered(
 	cli: AnyCli
 ): Promise< string > {

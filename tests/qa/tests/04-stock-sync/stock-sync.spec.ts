@@ -8,6 +8,7 @@ import {
 	createProduct,
 	deleteProduct,
 	deleteOrder,
+	canReceiveWebhooks,
 	ensureWebhookRegistered,
 	getPosVariantUuid,
 	signWebhookPayload,
@@ -170,6 +171,11 @@ test.describe( 'Stock Sync', () => {
 		page,
 		cli,
 	} ) => {
+		test.skip(
+			! canReceiveWebhooks(),
+			'WP_BASE_URL is not publicly reachable (no ngrok) — PayPal POS cannot register the webhook'
+		);
+
 		const product = await createProduct(
 			requestUtils,
 			posWebhookStockProduct
@@ -185,22 +191,16 @@ test.describe( 'Stock Sync', () => {
 			);
 
 			const signingKey = await ensureWebhookRegistered( cli );
-			if ( ! signingKey ) {
-				test.skip(
-					true,
-					'No webhook signing key found — webhook not registered'
-				);
-				return;
-			}
+			expect(
+				signingKey,
+				'Assert webhook is registered and has a signing key'
+			).toBeTruthy();
 
 			const variantUuid = await getPosVariantUuid( cli, product.id );
-			if ( ! variantUuid ) {
-				test.skip(
-					true,
-					'No POS variant UUID found — product not in ID map'
-				);
-				return;
-			}
+			expect(
+				variantUuid,
+				'Assert synced product has a POS variant UUID in the ID map'
+			).not.toBeNull();
 
 			const timestamp = String( Date.now() );
 			const eventPayload = JSON.stringify( {
