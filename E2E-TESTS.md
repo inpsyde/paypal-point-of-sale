@@ -82,7 +82,7 @@ Tests live under `tests/qa/tests/`, one numbered folder per shard:
 
 | Folder | Covers |
 |--------|--------|
-| `01-plugin-lifecycle/` | Install, reinstall, activate, deactivate, delete the plugin |
+| `01-plugin-foundation/` | Install, reinstall, activate, deactivate, delete the plugin |
 | `02-onboarding/` | Connecting to the PayPal POS sandbox via the onboarding wizard |
 | `03-product-sync/` | WooCommerce ↔ POS product sync |
 | `04-stock-sync/` | WooCommerce ↔ POS stock/inventory sync |
@@ -150,7 +150,7 @@ npm run e2e:test                 # or e2e:smoke / e2e:critical / e2e:regression
 
 ## Test Dependency Model
 
-A run always follows this order: plugin lifecycle → onboarding → connect to PayPal POS → product sync → stock sync → webhook → disconnect. PayPal POS is connected once and shared by the last three, rather than each reconnecting on its own.
+A run always follows this order: plugin foundation → onboarding → connect to PayPal POS → product sync → stock sync → webhook → disconnect. PayPal POS is connected once and shared by the last three, rather than each reconnecting on its own.
 
 Every test also sets up what it needs by itself (installs the plugin, connects to POS, etc., only if that isn't already done) — that's what makes `--no-deps` safe when you just want to run one test in isolation.
 

@@ -97,7 +97,7 @@ export default defineConfig< BaseExtend >( {
             name: 'setup:paypal-pos',
             testMatch: /00-setup\/paypal-pos\.setup\.ts/,
             teardown: 'teardown:paypal-pos',
-            dependencies: [ 'shard:plugin-lifecycle', 'shard:onboarding' ],
+            dependencies: [ 'shard:plugin-foundation', 'shard:onboarding' ],
         },
         {
             name: 'teardown:paypal-pos',
@@ -106,14 +106,14 @@ export default defineConfig< BaseExtend >( {
 
         // ── Shards ────────────────────────────────────────────────────────────
         {
-            name: 'shard:plugin-lifecycle',
-            testMatch: /01-plugin-lifecycle\/.*\.spec\.ts/,
+            name: 'shard:plugin-foundation',
+            testMatch: /01-plugin-foundation\/.*\.spec\.ts/,
             dependencies: [ 'setup:env' ],
         },
         {
             name: 'shard:onboarding',
             testMatch: /02-onboarding\/.*\.spec\.ts/,
-            dependencies: [ 'shard:plugin-lifecycle' ],
+            dependencies: [ 'shard:plugin-foundation' ],
         },
         // These depend on setup:paypal-pos so a full run is ordered mechanically
         // (01 → 02 → connect → 03 → 04 → 05 → disconnect). `dependencies` is the
