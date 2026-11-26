@@ -45,21 +45,17 @@ export const PriceSyncMode = {
 } as const;
 
 /**
- * Read the `woocommerce_zettle_settings` option, or {} if it doesn't exist yet.
+ * Read the `woocommerce_zettle_settings` option. Throws when it cannot be read.
  * @param cli
  */
 export async function getZettleSettings(
 	cli: AnyCli
 ): Promise< Record< string, unknown > > {
-	try {
-		const raw = await runWpCli(
-			cli,
-			'option get woocommerce_zettle_settings --format=json'
-		);
-		return JSON.parse( raw );
-	} catch {
-		return {};
-	}
+	const raw = await runWpCli(
+		cli,
+		'option get woocommerce_zettle_settings --format=json'
+	);
+	return JSON.parse( raw );
 }
 
 /**
@@ -76,6 +72,8 @@ export async function getPriceSyncStrategy( cli: AnyCli ): Promise< string > {
 /**
  * Directly set the persisted price-sync strategy, simulating a merchant saving the
  * settings form — without needing to drive the WC_Integration form field in the UI.
+ * Patches only this key, so the connection and webhook settings in the option stay as they are.
+ * `patch insert` also creates the key when it is not set yet; `patch update` would fail then.
  * @param cli
  * @param mode
  */
@@ -83,13 +81,9 @@ export async function setPriceSyncStrategy(
 	cli: AnyCli,
 	mode: string
 ): Promise< void > {
-	const settings = await getZettleSettings( cli );
-	settings.sync_price_strategy = mode;
 	await runWpCli(
 		cli,
-		`option update woocommerce_zettle_settings '${ JSON.stringify(
-			settings
-		) }' --format=json`
+		`option patch insert woocommerce_zettle_settings sync_price_strategy '${ mode }'`
 	);
 }
 
