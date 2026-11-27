@@ -34,6 +34,7 @@ export async function createProduct(
 ): Promise< { id: number } > {
 	return wooCommerceApi.createProduct( {
 		type: 'simple',
+		// @ts-expect-error -- pw-utils CreateProduct has no status and requires regular_price; remove after the pw-utils type change (R2).
 		status: 'publish',
 		...data,
 	} );

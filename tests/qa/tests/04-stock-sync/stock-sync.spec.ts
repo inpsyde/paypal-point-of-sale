@@ -180,6 +180,7 @@ test.describe( 'Stock Sync', () => {
 			);
 
 			const order = await wooCommerceApi.createOrder( {
+				// @ts-expect-error -- pw-utils CreateOrder has no status and requires fields the REST API does not; remove after the pw-utils type change (R2).
 				status: 'processing',
 				line_items: [ { product_id: product.id, quantity: 3 } ],
 			} );

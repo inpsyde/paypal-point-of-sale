@@ -350,6 +350,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				attributes: [ { name: 'Color', option: 'Red' } ],
 				regular_price: '25.00',
 				manage_stock: true,
+				// @ts-expect-error -- pw-utils CreateVariation has no stock_quantity yet; remove after the pw-utils type change (R2).
 				stock_quantity: 5,
 			} );
 
@@ -429,6 +430,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 					attributes: [ { name: 'Size', option: 'S' } ],
 					regular_price: '15.00',
 					manage_stock: true,
+					// @ts-expect-error -- pw-utils CreateVariation has no stock_quantity yet; remove after the pw-utils type change (R2).
 					stock_quantity: 20,
 				}
 			);
@@ -439,6 +441,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 					attributes: [ { name: 'Size', option: 'L' } ],
 					regular_price: '17.00',
 					manage_stock: true,
+					// @ts-expect-error -- pw-utils CreateVariation has no stock_quantity yet; remove after the pw-utils type change (R2).
 					stock_quantity: 15,
 				}
 			);
@@ -462,6 +465,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 					attributes: [ { name: 'Size', option: 'XL' } ],
 					regular_price: '19.00',
 					manage_stock: true,
+					// @ts-expect-error -- pw-utils CreateVariation has no stock_quantity yet; remove after the pw-utils type change (R2).
 					stock_quantity: 10,
 				}
 			);
@@ -638,6 +642,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 					attributes: [ { name: 'Size', option: 'S' } ],
 					regular_price: '12.00',
 					manage_stock: true,
+					// @ts-expect-error -- pw-utils CreateVariation has no stock_quantity yet; remove after the pw-utils type change (R2).
 					stock_quantity: 5,
 				}
 			);
