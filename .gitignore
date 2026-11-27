@@ -72,6 +72,13 @@ yarn.lock
 /.env
 /.idea/
 
+### E2E Tests
+/storage-states/
+/playwright-report/
+/test-results/
+/snapshots/
+/tests/qa/resources/files/*.zip
+
 # Claude Code: local files (settings.local.json, hooks/config.local.json, CLAUDE.local.md)
 CLAUDE.local.md
 /.claude/**/*.local.*
