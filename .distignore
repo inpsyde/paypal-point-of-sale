@@ -1,13 +1,24 @@
-.distignore
-.ddev
+# The build applies this file as git's core.excludesFile, so gitignore syntax and
+# precedence apply: a later pattern overrides an earlier one.
+
+# Plugin root: ship only what WordPress needs, and drop everything else
+# (dev tooling, agent docs, env files, test configs).
+# composer.json stays for the WordPress.org plugin review.
+/*
+!/*.php
+!/readme.txt
+!/LICENSE
+!/composer.json
+!/src/
+!/modules/
+!/vendor/
+
+# Any depth, mostly inside modules/ and vendor/.
 .git*
 .phpstorm*
 .idea
 stubs
 tests/
-modules.local/
-packages.local/
-wordpress_org_assets/
 vendor/**/Log/Test*
 *.lock
 .composer_compiled_assets
