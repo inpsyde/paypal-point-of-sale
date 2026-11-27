@@ -1,0 +1,46 @@
+{
+    "name": "inpsyde\/paypal-pos-onboarding",
+    "type": "inpsyde-module",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "..\/..\/packages.local\/wc-product-contracts"
+        },
+        {
+            "type": "path",
+            "url": "..\/inpsyde-state-machine"
+        },
+        {
+            "type": "path",
+            "url": "..\/paypal-pos-auth"
+        },
+        {
+            "type": "path",
+            "url": "..\/paypal-pos-php-sdk"
+        }
+    ],
+    "require": {
+        "inpsyde\/modularity": "^1.7",
+        "inpsyde\/inpsyde-state-machine": "*",
+        "inpsyde\/paypal-pos-auth": "*",
+        "inpsyde\/paypal-pos-php-sdk": "*",
+        "inpsyde\/wc-product-contracts": "*"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^8.0 || ^9.0",
+        "inpsyde\/monkery-test-case": "^6.0.1",
+        "brianium\/paratest": "^4.0 || ^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Onboarding\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Syde\\Vendor\\Zettle\\Syde\\PayPal\\PointOfSale\\Onboarding\\Test\\": "tests\/PHPUnit\/Helper"
+        }
+    }
+}
