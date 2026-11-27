@@ -1,4 +1,4 @@
-import { expect, type RequestUtils } from '@inpsyde/playwright-utils/build';
+import { expect, type WooCommerceApi } from '@inpsyde/playwright-utils/build';
 import {
 	runWpCli,
 	processQueue,
@@ -25,17 +25,17 @@ export function uniqueValue( base: string, separator = ' ' ): string {
 
 /**
  * Create a WC product for a test; defaults to a published simple product.
- * @param requestUtils
+ * @param wooCommerceApi
  * @param data
  */
 export async function createProduct(
-	requestUtils: RequestUtils,
+	wooCommerceApi: WooCommerceApi,
 	data: CreateProductData
 ): Promise< { id: number } > {
-	return requestUtils.rest< { id: number } >( {
-		path: '/wc/v3/products',
-		method: 'POST',
-		data: { type: 'simple', status: 'publish', ...data },
+	return wooCommerceApi.createProduct( {
+		type: 'simple',
+		status: 'publish',
+		...data,
 	} );
 }
 
@@ -81,7 +81,7 @@ export async function syncAndAssertStatus(
 /**
  * Delete a product and assert the admin list shows it as not-synced afterward, and
  * that PayPal POS no longer has it.
- * @param requestUtils
+ * @param wooCommerceApi
  * @param cli
  * @param wcProducts
  * @param zettleApi
@@ -89,7 +89,7 @@ export async function syncAndAssertStatus(
  * @param productName
  */
 export async function assertDeletionUnsyncsFromPos(
-	requestUtils: RequestUtils,
+	wooCommerceApi: WooCommerceApi,
 	cli: AnyCli,
 	wcProducts: WcProductsPage,
 	zettleApi: ZettleApiClient,
@@ -103,11 +103,7 @@ export async function assertDeletionUnsyncsFromPos(
 		`Assert WC product ${ productId } has a PayPal POS UUID before deletion`
 	).not.toBeNull();
 
-	await requestUtils.rest( {
-		path: `/wc/v3/products/${ productId }`,
-		method: 'DELETE',
-		params: { force: false },
-	} );
+	await wooCommerceApi.deleteProduct( productId );
 	await processQueue( cli );
 	await wcProducts.visit( 'trash' );
 	await wcProducts.assertProductSyncStatus(
@@ -124,16 +120,15 @@ export async function assertDeletionUnsyncsFromPos(
 }
 
 /**
- * Delete a WC order via WP-CLI — same reasoning as deleteProduct.
- * @param cli
+ * Delete a WC order permanently, for test cleanup.
+ * @param wooCommerceApi
  * @param orderId
  */
 export async function deleteOrder(
-	cli: AnyCli,
+	wooCommerceApi: WooCommerceApi,
 	orderId: number
 ): Promise< void > {
-	await runWpCli(
-		cli,
-		`wc shop_order delete ${ orderId } --force=true --user=1`
-	).catch( () => {} );
+	await wooCommerceApi
+		.deleteOrder( orderId, { force: true } )
+		.catch( () => {} );
 }

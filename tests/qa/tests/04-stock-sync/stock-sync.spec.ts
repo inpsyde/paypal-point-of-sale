@@ -53,9 +53,9 @@ test.describe( 'Stock Sync', () => {
 
 	test( 'POS-587 | WooCommerce Stock Update Reflected in POS @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate(
@@ -64,7 +64,7 @@ test.describe( 'Stock Sync', () => {
 		);
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posStockUpdateProduct
 		);
 
@@ -77,10 +77,8 @@ test.describe( 'Stock Sync', () => {
 				product.id
 			);
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'PUT',
-				data: { stock_quantity: 25 },
+			await wooCommerceApi.updateProduct( product.id, {
+				stock_quantity: 25,
 			} );
 
 			await syncAndAssertStatus(
@@ -104,11 +102,11 @@ test.describe( 'Stock Sync', () => {
 	test( 'POS-588 | Disabling stock management updates POS inventory tracking @regression', async ( {
 		wcProducts,
 		wcStatusLogs,
-		requestUtils,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posStockMgmtDisableProduct
 		);
 
@@ -127,10 +125,8 @@ test.describe( 'Stock Sync', () => {
 				'Assert synced product has a PayPal POS UUID in the ID map'
 			).not.toBeNull();
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'PUT',
-				data: { manage_stock: false },
+			await wooCommerceApi.updateProduct( product.id, {
+				manage_stock: false,
 			} );
 
 			await processQueue( cli );
@@ -159,9 +155,9 @@ test.describe( 'Stock Sync', () => {
 
 	test( 'POS-586 | WC Order Reduces POS Stock @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate(
@@ -170,7 +166,7 @@ test.describe( 'Stock Sync', () => {
 		);
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posOrderStockProduct
 		);
 
@@ -183,13 +179,9 @@ test.describe( 'Stock Sync', () => {
 				product.id
 			);
 
-			const order = await requestUtils.rest< { id: number } >( {
-				path: '/wc/v3/orders',
-				method: 'POST',
-				data: {
-					status: 'processing',
-					line_items: [ { product_id: product.id, quantity: 3 } ],
-				},
+			const order = await wooCommerceApi.createOrder( {
+				status: 'processing',
+				line_items: [ { product_id: product.id, quantity: 3 } ],
 			} );
 
 			await processQueue( cli );
@@ -206,7 +198,7 @@ test.describe( 'Stock Sync', () => {
 				} )
 				.toBe( 17 );
 
-			await deleteOrder( cli, order.id );
+			await deleteOrder( wooCommerceApi, order.id );
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
@@ -214,9 +206,9 @@ test.describe( 'Stock Sync', () => {
 
 	test( 'POS-585 | POS sale updates WooCommerce stock via InventoryBalanceChanged webhook @critical', async ( {
 		wcProducts,
-		requestUtils,
 		page,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.skip(
 			! canReceiveWebhooks(),
@@ -224,7 +216,7 @@ test.describe( 'Stock Sync', () => {
 		);
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posWebhookStockProduct
 		);
 
@@ -281,12 +273,9 @@ test.describe( 'Stock Sync', () => {
 			await expect
 				.poll(
 					async () => {
-						const updated = await requestUtils.rest< {
-							stock_quantity: number;
-						} >( {
-							path: `/wc/v3/products/${ product.id }`,
-							method: 'GET',
-						} );
+						const updated = await wooCommerceApi.getProduct(
+							product.id
+						);
 						return updated.stock_quantity;
 					},
 					{

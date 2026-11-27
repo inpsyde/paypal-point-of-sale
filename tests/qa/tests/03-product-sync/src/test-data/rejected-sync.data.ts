@@ -33,17 +33,13 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 			} ) ),
 		},
 		expectedStatus: 'too-many-variant-options',
-		beforeSync: async ( requestUtils, productId ) => {
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ productId }/variations`,
-				method: 'POST',
-				data: {
-					attributes: tooManyAttributeNames.map( ( name ) => ( {
-						name,
-						option: 'A',
-					} ) ),
-					regular_price: '10.00',
-				},
+		beforeSync: async ( { wooCommerceApi }, productId ) => {
+			await wooCommerceApi.createProductVariation( productId, {
+				attributes: tooManyAttributeNames.map( ( name ) => ( {
+					name,
+					option: 'A',
+				} ) ),
+				regular_price: '10.00',
 			} );
 		},
 	},
@@ -63,7 +59,8 @@ export const rejectedSyncCases: RejectedSyncCase[] = [
 			],
 		},
 		expectedStatus: 'too-many-variants',
-		beforeSync: async ( requestUtils, productId ) => {
+		beforeSync: async ( { requestUtils }, productId ) => {
+			// WooCommerceApi has no batch variation call yet (M6).
 			await requestUtils.rest( {
 				path: `/wc/v3/products/${ productId }/variations/batch`,
 				method: 'POST',

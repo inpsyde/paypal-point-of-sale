@@ -1,4 +1,7 @@
-import type { RequestUtils } from '@inpsyde/playwright-utils/build';
+import type {
+	RequestUtils,
+	WooCommerceApi,
+} from '@inpsyde/playwright-utils/build';
 import {
 	test,
 	requireEnv,
@@ -15,7 +18,7 @@ export type RejectedSyncCase = {
 	expectedStatus: ProductSyncStatus;
 	timeout?: number;
 	beforeSync?: (
-		requestUtils: RequestUtils,
+		api: { requestUtils: RequestUtils; wooCommerceApi: WooCommerceApi },
 		productId: number
 	) => Promise< void >;
 };
@@ -28,27 +31,36 @@ export type RejectedSyncCase = {
  * @param data
  */
 export const testRejectedProductSync = ( data: RejectedSyncCase ) => {
-	test( data.title, async ( { wcProducts, requestUtils, cli } ) => {
-		test.setTimeout( data.timeout ?? 5 * 60_000 );
+	test(
+		data.title,
+		async ( { wcProducts, requestUtils, wooCommerceApi, cli } ) => {
+			test.setTimeout( data.timeout ?? 5 * 60_000 );
 
-		requireEnv( 'PAYPAL_POS_API_KEY' );
+			requireEnv( 'PAYPAL_POS_API_KEY' );
 
-		const product = await createProduct( requestUtils, data.productData );
-
-		try {
-			if ( data.beforeSync ) {
-				await data.beforeSync( requestUtils, product.id );
-			}
-
-			await syncAndAssertStatus(
-				cli,
-				wcProducts,
-				data.productData.name,
-				data.expectedStatus,
-				product.id
+			const product = await createProduct(
+				wooCommerceApi,
+				data.productData
 			);
-		} finally {
-			await deleteProduct( cli, product.id );
+
+			try {
+				if ( data.beforeSync ) {
+					await data.beforeSync(
+						{ requestUtils, wooCommerceApi },
+						product.id
+					);
+				}
+
+				await syncAndAssertStatus(
+					cli,
+					wcProducts,
+					data.productData.name,
+					data.expectedStatus,
+					product.id
+				);
+			} finally {
+				await deleteProduct( cli, product.id );
+			}
 		}
-	} );
+	);
 };

@@ -68,11 +68,11 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-579 | Sync status column appears in product list @regression', async ( {
 		wcProducts,
-		requestUtils,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posColumnTestProduct
 		);
 
@@ -85,10 +85,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-573 | Draft product is not synced to POS @regression', async ( {
 		wcProducts,
-		requestUtils,
 		cli,
+		wooCommerceApi,
 	} ) => {
-		const product = await createProduct( requestUtils, posDraftProduct );
+		const product = await createProduct( wooCommerceApi, posDraftProduct );
 
 		try {
 			await wcProducts.visit( 'draft' );
@@ -104,9 +104,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-581 | Simple product created syncs to POS @critical', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -116,7 +116,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posSimpleProductLifecycle
 		);
 
@@ -130,7 +130,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			);
 
 			await assertDeletionUnsyncsFromPos(
-				requestUtils,
+				wooCommerceApi,
 				cli,
 				wcProducts,
 				zettleApi,
@@ -144,9 +144,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-582 | Simple product deleted is removed from POS @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -155,7 +155,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
-		const product = await createProduct( requestUtils, posDeleteMeProduct );
+		const product = await createProduct(
+			wooCommerceApi,
+			posDeleteMeProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -167,7 +170,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			);
 
 			await assertDeletionUnsyncsFromPos(
-				requestUtils,
+				wooCommerceApi,
 				cli,
 				wcProducts,
 				zettleApi,
@@ -181,9 +184,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-583 | Simple product name and price update syncs to POS @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -193,7 +196,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posOriginalNameProduct
 		);
 
@@ -206,10 +209,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'PUT',
-				data: { name: posUpdatedProductName, regular_price: '29.99' },
+			await wooCommerceApi.updateProduct( product.id, {
+				name: posUpdatedProductName,
+				regular_price: '29.99',
 			} );
 
 			await syncAndAssertStatus(
@@ -236,7 +238,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			).toBe( 2999 );
 
 			await assertDeletionUnsyncsFromPos(
-				requestUtils,
+				wooCommerceApi,
 				cli,
 				wcProducts,
 				zettleApi,
@@ -251,9 +253,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	test( 'POS-578 | Excluded product is removed from POS and shows Excluded status @regression', async ( {
 		wcProducts,
 		wcProductEdit,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -263,7 +265,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posExcludeMeProduct
 		);
 
@@ -307,9 +309,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-580 | Product type changed simple to variable re-syncs to POS @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -319,7 +321,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posTypeChangeProduct
 		);
 
@@ -332,31 +334,23 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'PUT',
-				data: {
-					type: 'variable',
-					attributes: [
-						{
-							name: 'Color',
-							variation: true,
-							visible: true,
-							options: [ 'Red', 'Blue' ],
-						},
-					],
-				},
+			await wooCommerceApi.updateProduct( product.id, {
+				type: 'variable',
+				attributes: [
+					{
+						name: 'Color',
+						variation: true,
+						visible: true,
+						options: [ 'Red', 'Blue' ],
+					},
+				],
 			} );
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }/variations`,
-				method: 'POST',
-				data: {
-					attributes: [ { name: 'Color', option: 'Red' } ],
-					regular_price: '25.00',
-					manage_stock: true,
-					stock_quantity: 5,
-				},
+			await wooCommerceApi.createProductVariation( product.id, {
+				attributes: [ { name: 'Color', option: 'Red' } ],
+				regular_price: '25.00',
+				manage_stock: true,
+				stock_quantity: 5,
 			} );
 
 			await syncAndAssertStatus(
@@ -388,7 +382,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				.toEqual( [ 2500 ] );
 
 			await assertDeletionUnsyncsFromPos(
-				requestUtils,
+				wooCommerceApi,
 				cli,
 				wcProducts,
 				zettleApi,
@@ -405,6 +399,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 10 * 60_000 );
 
@@ -414,7 +409,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posShirtVariableProduct
 		);
 
@@ -428,27 +423,25 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				.sort( ( a, b ) => a - b );
 
 		try {
-			const variationS = await requestUtils.rest< { id: number } >( {
-				path: `/wc/v3/products/${ product.id }/variations`,
-				method: 'POST',
-				data: {
+			const variationS = await wooCommerceApi.createProductVariation(
+				product.id,
+				{
 					attributes: [ { name: 'Size', option: 'S' } ],
 					regular_price: '15.00',
 					manage_stock: true,
 					stock_quantity: 20,
-				},
-			} );
+				}
+			);
 
-			const variationL = await requestUtils.rest< { id: number } >( {
-				path: `/wc/v3/products/${ product.id }/variations`,
-				method: 'POST',
-				data: {
+			const variationL = await wooCommerceApi.createProductVariation(
+				product.id,
+				{
 					attributes: [ { name: 'Size', option: 'L' } ],
 					regular_price: '17.00',
 					manage_stock: true,
 					stock_quantity: 15,
-				},
-			} );
+				}
+			);
 
 			await syncAndAssertStatus(
 				cli,
@@ -463,16 +456,15 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				} )
 				.toEqual( [ 1500, 1700 ] );
 
-			const variationXL = await requestUtils.rest< { id: number } >( {
-				path: `/wc/v3/products/${ product.id }/variations`,
-				method: 'POST',
-				data: {
+			const variationXL = await wooCommerceApi.createProductVariation(
+				product.id,
+				{
 					attributes: [ { name: 'Size', option: 'XL' } ],
 					regular_price: '19.00',
 					manage_stock: true,
 					stock_quantity: 10,
-				},
-			} );
+				}
+			);
 
 			await syncAndAssertStatus(
 				cli,
@@ -534,11 +526,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				} )
 				.toBeUndefined();
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'DELETE',
-				params: { force: false },
-			} );
+			await wooCommerceApi.deleteProduct( product.id );
 			await processQueue( cli );
 			await wcProducts.visit( 'trash' );
 			await wcProducts.assertProductSyncStatus(
@@ -561,6 +549,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -577,7 +566,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 			data: { name: posNoRatesTaxClassName },
 		} );
 
-		const product = await createProduct( requestUtils, {
+		const product = await createProduct( wooCommerceApi, {
 			...posNoTaxRateProduct,
 			tax_class: taxClass.slug,
 		} );
@@ -626,6 +615,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -637,21 +627,20 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posLastVariationProduct
 		);
 
 		try {
-			const variation = await requestUtils.rest< { id: number } >( {
-				path: `/wc/v3/products/${ product.id }/variations`,
-				method: 'POST',
-				data: {
+			const variation = await wooCommerceApi.createProductVariation(
+				product.id,
+				{
 					attributes: [ { name: 'Size', option: 'S' } ],
 					regular_price: '12.00',
 					manage_stock: true,
 					stock_quantity: 5,
-				},
-			} );
+				}
+			);
 
 			await syncAndAssertStatus(
 				cli,
@@ -705,9 +694,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-651 | Product With Hidden Catalog Visibility Is Not Synced @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -719,7 +708,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posHiddenCatalogProduct
 		);
 
@@ -744,9 +733,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-664 | Product SKU syncs to POS and stays in sync after an update @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -757,7 +746,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
-		const product = await createProduct( requestUtils, posSkuSyncProduct );
+		const product = await createProduct(
+			wooCommerceApi,
+			posSkuSyncProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -778,10 +770,8 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'Assert SKU is synced to the PayPal POS product library on create'
 			).toBe( posSkuOnCreate );
 
-			await requestUtils.rest( {
-				path: `/wc/v3/products/${ product.id }`,
-				method: 'PUT',
-				data: { sku: posSkuOnUpdate },
+			await wooCommerceApi.updateProduct( product.id, {
+				sku: posSkuOnUpdate,
 			} );
 
 			await syncAndAssertStatus(
@@ -809,9 +799,9 @@ test.describe( 'Product Sync (WC → POS)', () => {
 
 	test( 'POS-665 | Product Set to Private Visibility Is Not Synced @regression', async ( {
 		wcProducts,
-		requestUtils,
 		request,
 		cli,
+		wooCommerceApi,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
@@ -822,7 +812,10 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		const zettleApi = new ZettleApiClient( request );
 		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
-		const product = await createProduct( requestUtils, posPrivateProduct );
+		const product = await createProduct(
+			wooCommerceApi,
+			posPrivateProduct
+		);
 
 		try {
 			await syncAndAssertStatus(
@@ -847,7 +840,6 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		wcProducts,
 		wcProductEdit,
 		posSettings,
-		requestUtils,
 		wooCommerceApi,
 		request,
 		cli,
@@ -870,7 +862,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		const originalCurrency = await getCurrency( wooCommerceApi );
 		const originalPriceSyncStrategy = await getPriceSyncStrategy( cli );
 		const product = await createProduct(
-			requestUtils,
+			wooCommerceApi,
 			posCurrencyMismatchProduct
 		);
 
