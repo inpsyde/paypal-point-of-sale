@@ -109,6 +109,10 @@ export class PosSettingsPage extends WpPage {
 		await this.apiKeyInput().fill( apiKey );
 		await this.authenticateButton().click();
 		await this.page.waitForLoadState( 'load' );
+		// Wait for the next wizard step before checking for the merge option:
+		// `selectMergeStrategyIfOffered()` uses `isVisible()`, which doesn't wait.
+		await expect( this.authenticateButton() ).toBeHidden();
+		await expect( this.nextButton() ).toBeVisible();
 		await this.selectMergeStrategyIfOffered();
 		await this.nextButton().click();
 		await this.page.waitForLoadState( 'load' );
