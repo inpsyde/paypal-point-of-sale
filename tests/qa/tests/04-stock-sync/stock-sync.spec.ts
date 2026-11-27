@@ -12,7 +12,10 @@ import {
 	canReceiveWebhooks,
 	ensureWebhookRegistered,
 	getPosVariantUuid,
+	getPosProductUuid,
+	getPosStockBalance,
 	signWebhookPayload,
+	ZettleApiClient,
 } from '../../utils';
 import {
 	posStockUpdateProduct,
@@ -22,6 +25,7 @@ import {
 } from './src';
 
 const WEBHOOK_ENDPOINT = '/wp-json/zettle/v1/webhook/listen';
+const ZETTLE_CLIENT_ID = 'de149dc7-44b5-4390-ab64-88e301771f06';
 
 test.describe( 'Stock Sync', () => {
 	test.beforeEach(
@@ -50,8 +54,15 @@ test.describe( 'Stock Sync', () => {
 	test( 'POS-587 | WooCommerce Stock Update Reflected in POS @regression', async ( {
 		wcProducts,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			requireEnv( 'PAYPAL_POS_API_KEY' )
+		);
+
 		const product = await createProduct(
 			requestUtils,
 			posStockUpdateProduct
@@ -79,6 +90,12 @@ test.describe( 'Stock Sync', () => {
 				'synced',
 				product.id
 			);
+			await expect
+				.poll( () => getPosStockBalance( cli, zettleApi, product.id ), {
+					message:
+						'Assert PayPal POS stock balance is the updated WooCommerce stock (10 → 25)',
+				} )
+				.toBe( 25 );
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
@@ -86,6 +103,7 @@ test.describe( 'Stock Sync', () => {
 
 	test( 'POS-588 | Disabling stock management updates POS inventory tracking @regression', async ( {
 		wcProducts,
+		wcStatusLogs,
 		requestUtils,
 		cli,
 	} ) => {
@@ -103,6 +121,12 @@ test.describe( 'Stock Sync', () => {
 				product.id
 			);
 
+			const posUuid = await getPosProductUuid( cli, product.id );
+			expect(
+				posUuid,
+				'Assert synced product has a PayPal POS UUID in the ID map'
+			).not.toBeNull();
+
 			await requestUtils.rest( {
 				path: `/wc/v3/products/${ product.id }`,
 				method: 'PUT',
@@ -116,6 +140,18 @@ test.describe( 'Stock Sync', () => {
 				'synced',
 				product.id
 			);
+			// PayPal POS still returns a stock balance after tracking stops, so the API
+			// can't tell whether tracking is on. The plugin logs this line only after
+			// PayPal POS accepted the stop-tracking call (SetInventoryTrackingJob).
+			const logContent = await wcStatusLogs.viewLatestLogForSource(
+				'paypal-point-of-sale'
+			);
+			expect(
+				logContent,
+				'Assert PayPal POS accepted the call to stop tracking this product'
+			).toContain(
+				`Disabled inventory tracking for WC product ${ product.id } with UUID ${ posUuid }`
+			);
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
@@ -124,8 +160,15 @@ test.describe( 'Stock Sync', () => {
 	test( 'POS-586 | WC Order Reduces POS Stock @regression', async ( {
 		wcProducts,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate(
+			ZETTLE_CLIENT_ID,
+			requireEnv( 'PAYPAL_POS_API_KEY' )
+		);
+
 		const product = await createProduct(
 			requestUtils,
 			posOrderStockProduct
@@ -156,6 +199,12 @@ test.describe( 'Stock Sync', () => {
 				'synced',
 				product.id
 			);
+			await expect
+				.poll( () => getPosStockBalance( cli, zettleApi, product.id ), {
+					message:
+						'Assert PayPal POS stock balance dropped by the 3 ordered items (20 → 17)',
+				} )
+				.toBe( 17 );
 
 			await deleteOrder( cli, order.id );
 		} finally {

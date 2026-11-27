@@ -1,11 +1,13 @@
-import type { RequestUtils } from '@inpsyde/playwright-utils/build';
+import { expect, type RequestUtils } from '@inpsyde/playwright-utils/build';
 import {
 	runWpCli,
 	processQueue,
 	syncProduct,
 	type AnyCli,
 } from './pos-cli.helper';
+import { getPosProductUuid } from './webhook.helper';
 import type { WcProductsPage, ProductSyncStatus } from '../admin';
+import type { ZettleApiClient } from '../api';
 
 export type CreateProductData = { name: string } & Record< string, unknown >;
 
@@ -77,10 +79,12 @@ export async function syncAndAssertStatus(
 }
 
 /**
- * Delete a product and assert the admin list shows it as not-synced afterward.
+ * Delete a product and assert the admin list shows it as not-synced afterward, and
+ * that PayPal POS no longer has it.
  * @param requestUtils
  * @param cli
  * @param wcProducts
+ * @param zettleApi
  * @param productId
  * @param productName
  */
@@ -88,9 +92,17 @@ export async function assertDeletionUnsyncsFromPos(
 	requestUtils: RequestUtils,
 	cli: AnyCli,
 	wcProducts: WcProductsPage,
+	zettleApi: ZettleApiClient,
 	productId: number,
 	productName: string
 ): Promise< void > {
+	// Read the UUID first: deleting the product removes it from the ID map.
+	const posUuid = await getPosProductUuid( cli, productId );
+	expect(
+		posUuid,
+		`Assert WC product ${ productId } has a PayPal POS UUID before deletion`
+	).not.toBeNull();
+
 	await requestUtils.rest( {
 		path: `/wc/v3/products/${ productId }`,
 		method: 'DELETE',
@@ -103,6 +115,12 @@ export async function assertDeletionUnsyncsFromPos(
 		'not-synced',
 		productId
 	);
+	await expect
+		.poll( () => zettleApi.getProduct( posUuid as string ), {
+			message:
+				'Assert deleted product is removed from the PayPal POS product library',
+		} )
+		.toBeUndefined();
 }
 
 /**

@@ -18,6 +18,12 @@ export type ZettleProduct = {
 	}[];
 };
 
+export type ZettleVariantStock = {
+	productUuid: string;
+	variantUuid: string;
+	balance: number;
+};
+
 /**
  * API client for Zettle / PayPal POS endpoints.
  *
@@ -113,12 +119,56 @@ export class ZettleApiClient {
 
 	// ── Inventory ─────────────────────────────────────────────────────────────
 
-	async getInventoryBalance( locationUuid: string ): Promise< unknown > {
+	/**
+	 * Stock balance of each variant of a product in the STORE inventory, the same
+	 * endpoint the plugin's SyncStockJob reads. PayPal POS keeps returning the balance
+	 * after tracking stops, so this does not tell whether the stock is tracked.
+	 * @param productUuid
+	 */
+	async getProductStock(
+		productUuid: string
+	): Promise< ZettleVariantStock[] > {
+		const storeUuid = await this.getStoreInventoryUuid();
 		const response = await this.request.get(
-			`https://inventory.izettle.com/organizations/self/inventory/locations/${ locationUuid }`,
+			`https://inventory.izettle.com/v3/stock/${ storeUuid }/products/${ productUuid }`,
 			{ headers: this.authHeaders() }
 		);
-		return response.json();
+		if ( response.status() === 404 ) {
+			return [];
+		}
+		if ( ! response.ok() ) {
+			throw new Error(
+				`ZettleApiClient: GET stock of product ${ productUuid } failed with ${ response.status() }: ${ await response.text() }`
+			);
+		}
+		const stock = ( await response.json() ) as ZettleVariantStock[];
+		return stock.map( ( variant ) => ( {
+			...variant,
+			balance: Number( variant.balance ),
+		} ) );
+	}
+
+	private async getStoreInventoryUuid(): Promise< string > {
+		const response = await this.request.get(
+			'https://inventory.izettle.com/v3/inventories',
+			{ headers: this.authHeaders() }
+		);
+		if ( ! response.ok() ) {
+			throw new Error(
+				`ZettleApiClient: GET inventories failed with ${ response.status() }: ${ await response.text() }`
+			);
+		}
+		const inventories = ( await response.json() ) as {
+			inventoryUuid: string;
+			inventoryType: string;
+		}[];
+		const store = inventories.find(
+			( inventory ) => inventory.inventoryType === 'STORE'
+		);
+		if ( ! store ) {
+			throw new Error( 'ZettleApiClient: no STORE inventory found' );
+		}
+		return store.inventoryUuid;
 	}
 
 	// ── Webhooks ──────────────────────────────────────────────────────────────

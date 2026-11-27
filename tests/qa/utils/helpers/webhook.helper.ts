@@ -120,6 +120,29 @@ export async function getSyncedPosProduct(
 }
 
 /**
+ * Read the PayPal POS stock balance of a synced simple WC product, by the product and
+ * variant UUIDs in the ID map. Undefined when PayPal POS has no balance for the variant.
+ * @param cli
+ * @param zettleApi
+ * @param wcProductId
+ */
+export async function getPosStockBalance(
+	cli: AnyCli,
+	zettleApi: ZettleApiClient,
+	wcProductId: number
+): Promise< number | undefined > {
+	const productUuid = await getPosProductUuid( cli, wcProductId );
+	const variantUuid = await getPosVariantUuid( cli, wcProductId );
+	expect(
+		productUuid && variantUuid,
+		`Assert WC product ${ wcProductId } has PayPal POS product and variant UUIDs in the ID map`
+	).toBeTruthy();
+	const stock = await zettleApi.getProductStock( productUuid as string );
+	return stock.find( ( variant ) => variant.variantUuid === variantUuid )
+		?.balance;
+}
+
+/**
  * Sign a webhook payload the same way PayPal POS/Zettle does, for simulating incoming webhooks.
  * @param timestamp
  * @param payloadString

@@ -105,11 +105,15 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	test( 'POS-581 | Simple product created syncs to POS @critical', async ( {
 		wcProducts,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		requireEnv( 'PAYPAL_POS_API_KEY' );
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
 			requestUtils,
@@ -129,6 +133,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				requestUtils,
 				cli,
 				wcProducts,
+				zettleApi,
 				product.id,
 				posSimpleProductLifecycle.name
 			);
@@ -140,11 +145,15 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	test( 'POS-582 | Simple product deleted is removed from POS @regression', async ( {
 		wcProducts,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		requireEnv( 'PAYPAL_POS_API_KEY' );
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct( requestUtils, posDeleteMeProduct );
 
@@ -161,6 +170,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				requestUtils,
 				cli,
 				wcProducts,
+				zettleApi,
 				product.id,
 				posDeleteMeProduct.name
 			);
@@ -229,6 +239,7 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				requestUtils,
 				cli,
 				wcProducts,
+				zettleApi,
 				product.id,
 				posUpdatedProductName
 			);
@@ -241,11 +252,15 @@ test.describe( 'Product Sync (WC → POS)', () => {
 		wcProducts,
 		wcProductEdit,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		requireEnv( 'PAYPAL_POS_API_KEY' );
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
 			requestUtils,
@@ -261,6 +276,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
+			const posUuid = await getPosProductUuid( cli, product.id );
+			expect(
+				posUuid,
+				'Assert synced product has a PayPal POS UUID in the ID map'
+			).not.toBeNull();
+
 			await wcProductEdit.visitExisting( product.id );
 			await wcProductEdit.setExcludeFromSync( true );
 			await wcProductEdit.update();
@@ -273,6 +294,12 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'excluded',
 				product.id
 			);
+			await expect
+				.poll( () => zettleApi.getProduct( posUuid as string ), {
+					message:
+						'Assert excluded product is removed from the PayPal POS product library',
+				} )
+				.toBeUndefined();
 		} finally {
 			await deleteProduct( cli, product.id );
 		}
@@ -281,11 +308,15 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	test( 'POS-580 | Product type changed simple to variable re-syncs to POS @regression', async ( {
 		wcProducts,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
 		test.setTimeout( 5 * 60_000 );
 
-		requireEnv( 'PAYPAL_POS_API_KEY' );
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
 			requestUtils,
@@ -336,10 +367,31 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				product.id
 			);
 
+			// The simple product cost 20.00; the only variation costs 25.00.
+			await expect
+				.poll(
+					async () =>
+						(
+							await getSyncedPosProduct(
+								cli,
+								zettleApi,
+								product.id
+							)
+						)?.variants?.map(
+							( variant ) => variant.price?.amount
+						),
+					{
+						message:
+							'Assert PayPal POS has the variation (25.00) instead of the simple product (20.00)',
+					}
+				)
+				.toEqual( [ 2500 ] );
+
 			await assertDeletionUnsyncsFromPos(
 				requestUtils,
 				cli,
 				wcProducts,
+				zettleApi,
 				product.id,
 				posTypeChangeProduct.name
 			);
@@ -351,16 +403,29 @@ test.describe( 'Product Sync (WC → POS)', () => {
 	test( 'POS-584 | Variable product full lifecycle — create, add variation, delete variation @regression', async ( {
 		wcProducts,
 		requestUtils,
+		request,
 		cli,
 	} ) => {
 		test.setTimeout( 10 * 60_000 );
 
-		requireEnv( 'PAYPAL_POS_API_KEY' );
+		const apiKey = requireEnv( 'PAYPAL_POS_API_KEY' );
+
+		const zettleApi = new ZettleApiClient( request );
+		await zettleApi.authenticate( ZETTLE_CLIENT_ID, apiKey );
 
 		const product = await createProduct(
 			requestUtils,
 			posShirtVariableProduct
 		);
+
+		// Each size has its own price (S 15.00, L 17.00, XL 19.00), so the prices
+		// tell which variants PayPal POS has.
+		const posVariantPrices = async () =>
+			(
+				await getSyncedPosProduct( cli, zettleApi, product.id )
+			)?.variants
+				?.map( ( variant ) => variant.price?.amount ?? 0 )
+				.sort( ( a, b ) => a - b );
 
 		try {
 			const variationS = await requestUtils.rest< { id: number } >( {
@@ -392,6 +457,11 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'synced',
 				product.id
 			);
+			await expect
+				.poll( posVariantPrices, {
+					message: 'Assert PayPal POS has the S and L variants',
+				} )
+				.toEqual( [ 1500, 1700 ] );
 
 			const variationXL = await requestUtils.rest< { id: number } >( {
 				path: `/wc/v3/products/${ product.id }/variations`,
@@ -411,6 +481,11 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'synced',
 				product.id
 			);
+			await expect
+				.poll( posVariantPrices, {
+					message: 'Assert PayPal POS has the added XL variant',
+				} )
+				.toEqual( [ 1500, 1700, 1900 ] );
 
 			await requestUtils.rest( {
 				path: `/wc/v3/products/${ product.id }/variations/${ variationXL.id }`,
@@ -425,6 +500,20 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				'synced',
 				product.id
 			);
+			await expect
+				.poll( posVariantPrices, {
+					message:
+						'Assert PayPal POS no longer has the deleted XL variant',
+				} )
+				.toEqual( [ 1500, 1700 ] );
+
+			// Read the UUID first: deleting the last variation removes the product
+			// from PayPal POS and from the ID map.
+			const posUuid = await getPosProductUuid( cli, product.id );
+			expect(
+				posUuid,
+				'Assert synced product has a PayPal POS UUID in the ID map'
+			).not.toBeNull();
 
 			await requestUtils.rest( {
 				path: `/wc/v3/products/${ product.id }/variations/${ variationS.id }`,
@@ -437,12 +526,25 @@ test.describe( 'Product Sync (WC → POS)', () => {
 				params: { force: true },
 			} );
 
-			await assertDeletionUnsyncsFromPos(
-				requestUtils,
-				cli,
-				wcProducts,
-				product.id,
-				posShirtVariableProduct.name
+			await processQueue( cli );
+			await expect
+				.poll( () => zettleApi.getProduct( posUuid as string ), {
+					message:
+						'Assert PayPal POS removed the product after its last variation was deleted',
+				} )
+				.toBeUndefined();
+
+			await requestUtils.rest( {
+				path: `/wc/v3/products/${ product.id }`,
+				method: 'DELETE',
+				params: { force: false },
+			} );
+			await processQueue( cli );
+			await wcProducts.visit( 'trash' );
+			await wcProducts.assertProductSyncStatus(
+				posShirtVariableProduct.name,
+				'not-synced',
+				product.id
 			);
 		} finally {
 			await deleteProduct( cli, product.id );
